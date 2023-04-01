@@ -8,7 +8,7 @@
 import Foundation
 
 enum NaverMapKeyConstants {
-  
+  static let clientID = ""
 }
 
 enum NaverBookKeyConstants {
