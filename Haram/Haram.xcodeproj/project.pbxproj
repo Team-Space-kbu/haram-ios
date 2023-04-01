@@ -119,8 +119,8 @@
 		70727A5329D87B25003DE956 /* Haram */ = {
 			isa = PBXGroup;
 			children = (
-				70727A8D29D88928003DE956 /* View */,
 				70727A8629D87DFA003DE956 /* Repository */,
+				70727A8D29D88928003DE956 /* View */,
 				70727A5429D87B25003DE956 /* AppDelegate.swift */,
 				70727A5629D87B25003DE956 /* SceneDelegate.swift */,
 				70727A5D29D87B27003DE956 /* Assets.xcassets */,
@@ -167,8 +167,8 @@
 		70727A8E29D8892C003DE956 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				70727A9329D889BE003DE956 /* CoreTab */,
 				70727A8F29D88935003DE956 /* BaseViewController.swift */,
+				70727A9329D889BE003DE956 /* CoreTab */,
 				70727A9129D889AE003DE956 /* LoginViewController.swift */,
 				70727A9629D889FF003DE956 /* PolicyViewController.swift */,
 				70727A9829D88A22003DE956 /* RegisterViewController.swift */,
