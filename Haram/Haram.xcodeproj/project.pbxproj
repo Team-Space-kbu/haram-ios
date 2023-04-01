@@ -17,6 +17,15 @@
 		70727A8529D87B5F003DE956 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A8429D87B5F003DE956 /* LoginViewController.swift */; };
 		70727A8829D87E0E003DE956 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A8729D87E0E003DE956 /* Config.swift */; };
 		70727A9029D88935003DE956 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A8F29D88935003DE956 /* BaseViewController.swift */; };
+		70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9129D889AE003DE956 /* LoginViewController.swift */; };
+		70727A9529D889C6003DE956 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9429D889C6003DE956 /* HomeViewController.swift */; };
+		70727A9729D889FF003DE956 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9629D889FF003DE956 /* PolicyViewController.swift */; };
+		70727A9929D88A22003DE956 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9829D88A22003DE956 /* RegisterViewController.swift */; };
+		70727A9B29D88A3A003DE956 /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */; };
+		70727A9D29D88A7F003DE956 /* UpdatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */; };
+		70727A9F29D88AAA003DE956 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9E29D88AAA003DE956 /* BoardViewController.swift */; };
+		70727AA129D88AD0003DE956 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727AA029D88AD0003DE956 /* MoreViewController.swift */; };
+		70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727AA229D88AEE003DE956 /* ScheduleViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +60,15 @@
 		70727A8429D87B5F003DE956 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		70727A8729D87E0E003DE956 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		70727A8F29D88935003DE956 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		70727A9129D889AE003DE956 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		70727A9429D889C6003DE956 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		70727A9629D889FF003DE956 /* PolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
+		70727A9829D88A22003DE956 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
+		70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePasswordViewController.swift; sourceTree = "<group>"; };
+		70727A9E29D88AAA003DE956 /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
+		70727AA029D88AD0003DE956 /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
+		70727AA229D88AEE003DE956 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,9 +167,26 @@
 		70727A8E29D8892C003DE956 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				70727A9329D889BE003DE956 /* CoreTab */,
 				70727A8F29D88935003DE956 /* BaseViewController.swift */,
+				70727A9129D889AE003DE956 /* LoginViewController.swift */,
+				70727A9629D889FF003DE956 /* PolicyViewController.swift */,
+				70727A9829D88A22003DE956 /* RegisterViewController.swift */,
+				70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */,
+				70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		70727A9329D889BE003DE956 /* CoreTab */ = {
+			isa = PBXGroup;
+			children = (
+				70727A9429D889C6003DE956 /* HomeViewController.swift */,
+				70727A9E29D88AAA003DE956 /* BoardViewController.swift */,
+				70727AA029D88AD0003DE956 /* MoreViewController.swift */,
+				70727AA229D88AEE003DE956 /* ScheduleViewController.swift */,
+			);
+			path = CoreTab;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,11 +319,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70727A9929D88A22003DE956 /* RegisterViewController.swift in Sources */,
+				70727AA129D88AD0003DE956 /* MoreViewController.swift in Sources */,
+				70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */,
 				70727A9029D88935003DE956 /* BaseViewController.swift in Sources */,
 				70727A8529D87B5F003DE956 /* LoginViewController.swift in Sources */,
+				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
 				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
+				70727A9729D889FF003DE956 /* PolicyViewController.swift in Sources */,
+				70727A9B29D88A3A003DE956 /* FindPasswordViewController.swift in Sources */,
 				70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */,
+				70727A9529D889C6003DE956 /* HomeViewController.swift in Sources */,
 				70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */,
+				70727A9D29D88A7F003DE956 /* UpdatePasswordViewController.swift in Sources */,
+				70727A9F29D88AAA003DE956 /* BoardViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
