@@ -16,6 +16,7 @@
 		70727A7829D87B27003DE956 /* HaramUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A7729D87B27003DE956 /* HaramUITestsLaunchTests.swift */; };
 		70727A8529D87B5F003DE956 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A8429D87B5F003DE956 /* LoginViewController.swift */; };
 		70727A8829D87E0E003DE956 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A8729D87E0E003DE956 /* Config.swift */; };
+		70727A9029D88935003DE956 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A8F29D88935003DE956 /* BaseViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		70727A7729D87B27003DE956 /* HaramUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		70727A8429D87B5F003DE956 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		70727A8729D87E0E003DE956 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		70727A8F29D88935003DE956 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		70727A5329D87B25003DE956 /* Haram */ = {
 			isa = PBXGroup;
 			children = (
+				70727A8D29D88928003DE956 /* View */,
 				70727A8629D87DFA003DE956 /* Repository */,
 				70727A5429D87B25003DE956 /* AppDelegate.swift */,
 				70727A5629D87B25003DE956 /* SceneDelegate.swift */,
@@ -133,6 +136,22 @@
 				70727A8729D87E0E003DE956 /* Config.swift */,
 			);
 			path = Repository;
+			sourceTree = "<group>";
+		};
+		70727A8D29D88928003DE956 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				70727A8E29D8892C003DE956 /* Controller */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		70727A8E29D8892C003DE956 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				70727A8F29D88935003DE956 /* BaseViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70727A9029D88935003DE956 /* BaseViewController.swift in Sources */,
 				70727A8529D87B5F003DE956 /* LoginViewController.swift in Sources */,
 				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
 				70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */,
