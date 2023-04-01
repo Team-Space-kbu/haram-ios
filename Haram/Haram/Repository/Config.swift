@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+enum NaverMapKeyConstants {
+  
+}
+
+enum NaverBookKeyConstants {
+  
+}
