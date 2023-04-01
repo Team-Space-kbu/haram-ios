@@ -14,7 +14,6 @@
 		70727A6C29D87B27003DE956 /* HaramTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A6B29D87B27003DE956 /* HaramTests.swift */; };
 		70727A7629D87B27003DE956 /* HaramUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A7529D87B27003DE956 /* HaramUITests.swift */; };
 		70727A7829D87B27003DE956 /* HaramUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A7729D87B27003DE956 /* HaramUITestsLaunchTests.swift */; };
-		70727A8529D87B5F003DE956 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A8429D87B5F003DE956 /* LoginViewController.swift */; };
 		70727A8829D87E0E003DE956 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A8729D87E0E003DE956 /* Config.swift */; };
 		70727A9029D88935003DE956 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A8F29D88935003DE956 /* BaseViewController.swift */; };
 		70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9129D889AE003DE956 /* LoginViewController.swift */; };
@@ -26,6 +25,9 @@
 		70727A9F29D88AAA003DE956 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9E29D88AAA003DE956 /* BoardViewController.swift */; };
 		70727AA129D88AD0003DE956 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727AA029D88AD0003DE956 /* MoreViewController.swift */; };
 		70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727AA229D88AEE003DE956 /* ScheduleViewController.swift */; };
+		9EEA5185FB04E571E4E1FEB7 /* Pods_Haram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83B4035FED380A20E1159D3C /* Pods_Haram.framework */; };
+		DD1E5673ADE62ABF9AF723F6 /* Pods_HaramTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7FEA5D9A0F2A1046C0BF28F /* Pods_HaramTests.framework */; };
+		E8B0A9AC9430ED1D8BD162F3 /* Pods_Haram_HaramUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D30405AFF5F4E32E40387628 /* Pods_Haram_HaramUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D48F7FCF7A457261670F3EF /* Pods-Haram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram.release.xcconfig"; path = "Target Support Files/Pods-Haram/Pods-Haram.release.xcconfig"; sourceTree = "<group>"; };
+		23197F1456E4AE69A47F19DB /* Pods-Haram-HaramUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.debug.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		53CB8BAC08F9E8A3AAA89FD7 /* Pods-HaramTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaramTests.debug.xcconfig"; path = "Target Support Files/Pods-HaramTests/Pods-HaramTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6CF842086B6AC027A6E61245 /* Pods-HaramTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaramTests.release.xcconfig"; path = "Target Support Files/Pods-HaramTests/Pods-HaramTests.release.xcconfig"; sourceTree = "<group>"; };
 		70727A5129D87B25003DE956 /* Haram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Haram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70727A5429D87B25003DE956 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		70727A5629D87B25003DE956 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,7 +63,6 @@
 		70727A7129D87B27003DE956 /* HaramUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HaramUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		70727A7529D87B27003DE956 /* HaramUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramUITests.swift; sourceTree = "<group>"; };
 		70727A7729D87B27003DE956 /* HaramUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		70727A8429D87B5F003DE956 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		70727A8729D87E0E003DE956 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		70727A8F29D88935003DE956 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		70727A9129D889AE003DE956 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -69,6 +74,11 @@
 		70727A9E29D88AAA003DE956 /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		70727AA029D88AD0003DE956 /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		70727AA229D88AEE003DE956 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
+		83B4035FED380A20E1159D3C /* Pods_Haram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A87CEF560E61B5B5250ECD21 /* Pods-Haram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram.debug.xcconfig"; path = "Target Support Files/Pods-Haram/Pods-Haram.debug.xcconfig"; sourceTree = "<group>"; };
+		B764001493328120B4338461 /* Pods-Haram-HaramUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.release.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.release.xcconfig"; sourceTree = "<group>"; };
+		D30405AFF5F4E32E40387628 /* Pods_Haram_HaramUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram_HaramUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7FEA5D9A0F2A1046C0BF28F /* Pods_HaramTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HaramTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EEA5185FB04E571E4E1FEB7 /* Pods_Haram.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD1E5673ADE62ABF9AF723F6 /* Pods_HaramTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,12 +102,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8B0A9AC9430ED1D8BD162F3 /* Pods_Haram_HaramUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6E09D3E6DC98743DF61C4308 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A87CEF560E61B5B5250ECD21 /* Pods-Haram.debug.xcconfig */,
+				1D48F7FCF7A457261670F3EF /* Pods-Haram.release.xcconfig */,
+				23197F1456E4AE69A47F19DB /* Pods-Haram-HaramUITests.debug.xcconfig */,
+				B764001493328120B4338461 /* Pods-Haram-HaramUITests.release.xcconfig */,
+				53CB8BAC08F9E8A3AAA89FD7 /* Pods-HaramTests.debug.xcconfig */,
+				6CF842086B6AC027A6E61245 /* Pods-HaramTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		70727A4829D87B25003DE956 = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +129,8 @@
 				70727A6A29D87B27003DE956 /* HaramTests */,
 				70727A7429D87B27003DE956 /* HaramUITests */,
 				70727A5229D87B25003DE956 /* Products */,
+				6E09D3E6DC98743DF61C4308 /* Pods */,
+				EDC0E8CE0A814EB12D37950C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -126,7 +154,6 @@
 				70727A5D29D87B27003DE956 /* Assets.xcassets */,
 				70727A5F29D87B27003DE956 /* LaunchScreen.storyboard */,
 				70727A6229D87B27003DE956 /* Info.plist */,
-				70727A8429D87B5F003DE956 /* LoginViewController.swift */,
 			);
 			path = Haram;
 			sourceTree = "<group>";
@@ -189,6 +216,16 @@
 			path = CoreTab;
 			sourceTree = "<group>";
 		};
+		EDC0E8CE0A814EB12D37950C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				83B4035FED380A20E1159D3C /* Pods_Haram.framework */,
+				D30405AFF5F4E32E40387628 /* Pods_Haram_HaramUITests.framework */,
+				D7FEA5D9A0F2A1046C0BF28F /* Pods_HaramTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -196,9 +233,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70727A7B29D87B27003DE956 /* Build configuration list for PBXNativeTarget "Haram" */;
 			buildPhases = (
+				A07211171B766F2FCF22DBE7 /* [CP] Check Pods Manifest.lock */,
 				70727A4D29D87B25003DE956 /* Sources */,
 				70727A4E29D87B25003DE956 /* Frameworks */,
 				70727A4F29D87B25003DE956 /* Resources */,
+				D07AE1776294FE788B2474D4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -213,6 +252,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70727A7E29D87B27003DE956 /* Build configuration list for PBXNativeTarget "HaramTests" */;
 			buildPhases = (
+				26FB4F88B88C2A33901AC10C /* [CP] Check Pods Manifest.lock */,
 				70727A6329D87B27003DE956 /* Sources */,
 				70727A6429D87B27003DE956 /* Frameworks */,
 				70727A6529D87B27003DE956 /* Resources */,
@@ -231,9 +271,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70727A8129D87B27003DE956 /* Build configuration list for PBXNativeTarget "HaramUITests" */;
 			buildPhases = (
+				B693B281461A3D501D4E432A /* [CP] Check Pods Manifest.lock */,
 				70727A6D29D87B27003DE956 /* Sources */,
 				70727A6E29D87B27003DE956 /* Frameworks */,
 				70727A6F29D87B27003DE956 /* Resources */,
+				8B04A0200223458063907514 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -314,6 +356,109 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		26FB4F88B88C2A33901AC10C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HaramTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8B04A0200223458063907514 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A07211171B766F2FCF22DBE7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Haram-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B693B281461A3D501D4E432A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Haram-HaramUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D07AE1776294FE788B2474D4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		70727A4D29D87B25003DE956 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -323,7 +468,6 @@
 				70727AA129D88AD0003DE956 /* MoreViewController.swift in Sources */,
 				70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */,
 				70727A9029D88935003DE956 /* BaseViewController.swift in Sources */,
-				70727A8529D87B5F003DE956 /* LoginViewController.swift in Sources */,
 				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
 				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
 				70727A9729D889FF003DE956 /* PolicyViewController.swift in Sources */,
@@ -496,6 +640,7 @@
 		};
 		70727A7C29D87B27003DE956 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A87CEF560E61B5B5250ECD21 /* Pods-Haram.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -523,6 +668,7 @@
 		};
 		70727A7D29D87B27003DE956 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1D48F7FCF7A457261670F3EF /* Pods-Haram.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -550,6 +696,7 @@
 		};
 		70727A7F29D87B27003DE956 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 53CB8BAC08F9E8A3AAA89FD7 /* Pods-HaramTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -569,6 +716,7 @@
 		};
 		70727A8029D87B27003DE956 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6CF842086B6AC027A6E61245 /* Pods-HaramTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -588,6 +736,7 @@
 		};
 		70727A8229D87B27003DE956 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 23197F1456E4AE69A47F19DB /* Pods-Haram-HaramUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -605,6 +754,7 @@
 		};
 		70727A8329D87B27003DE956 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B764001493328120B4338461 /* Pods-Haram-HaramUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
