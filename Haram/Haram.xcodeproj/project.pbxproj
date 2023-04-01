@@ -15,6 +15,7 @@
 		70727A7629D87B27003DE956 /* HaramUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A7529D87B27003DE956 /* HaramUITests.swift */; };
 		70727A7829D87B27003DE956 /* HaramUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A7729D87B27003DE956 /* HaramUITestsLaunchTests.swift */; };
 		70727A8529D87B5F003DE956 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A8429D87B5F003DE956 /* LoginViewController.swift */; };
+		70727A8829D87E0E003DE956 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A8729D87E0E003DE956 /* Config.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		70727A7529D87B27003DE956 /* HaramUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramUITests.swift; sourceTree = "<group>"; };
 		70727A7729D87B27003DE956 /* HaramUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		70727A8429D87B5F003DE956 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		70727A8729D87E0E003DE956 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 		70727A5329D87B25003DE956 /* Haram */ = {
 			isa = PBXGroup;
 			children = (
+				70727A8629D87DFA003DE956 /* Repository */,
 				70727A5429D87B25003DE956 /* AppDelegate.swift */,
 				70727A5629D87B25003DE956 /* SceneDelegate.swift */,
 				70727A5D29D87B27003DE956 /* Assets.xcassets */,
@@ -122,6 +125,14 @@
 				70727A7729D87B27003DE956 /* HaramUITestsLaunchTests.swift */,
 			);
 			path = HaramUITests;
+			sourceTree = "<group>";
+		};
+		70727A8629D87DFA003DE956 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				70727A8729D87E0E003DE956 /* Config.swift */,
+			);
+			path = Repository;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				70727A8529D87B5F003DE956 /* LoginViewController.swift in Sources */,
+				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
 				70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */,
 				70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */,
 			);
