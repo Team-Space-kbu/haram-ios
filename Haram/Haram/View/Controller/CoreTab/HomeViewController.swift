@@ -13,6 +13,15 @@ import Then
 enum HomeType: CaseIterable {
   case shortcut
   case news
+  
+  var title: String {
+    switch self {
+    case .shortcut:
+      return "바로가기"
+    case .news:
+      return "KBU 뉴스레터"
+    }
+  }
 }
 
 final class HomeViewController: BaseViewController {
@@ -29,6 +38,7 @@ final class HomeViewController: BaseViewController {
     $0.dataSource = self
     $0.register(HomeShortcutCollectionViewCell.self, forCellWithReuseIdentifier: HomeShortcutCollectionViewCell.identifier)
     $0.register(HomeNewsCollectionViewCell.self, forCellWithReuseIdentifier: HomeNewsCollectionViewCell.identifier)
+    $0.register(HomeCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCollectionHeaderView.identifier)
   }
   
   override func setupLayouts() {
@@ -83,7 +93,7 @@ final class HomeViewController: BaseViewController {
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1/4),
-          heightDimension: .fractionalWidth(1/4)),
+          heightDimension: .absolute(200)),
         repeatingSubitem: item,
         count: 1
       )
@@ -132,5 +142,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       cell.configureUI(with: .init(thumbnailName: ""))
       return cell
     }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    let type = HomeType.allCases[indexPath.section]
+    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeCollectionHeaderView.identifier, for: indexPath) as? HomeCollectionHeaderView ?? HomeCollectionHeaderView()
+    header.configureUI(with: HomeType.allCases[indexPath.section].title)
+    return header
   }
 }
