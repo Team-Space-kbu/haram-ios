@@ -27,6 +27,7 @@
 		70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727AA229D88AEE003DE956 /* ScheduleViewController.swift */; };
 		70727AA629D93B43003DE956 /* HomeShortcutCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727AA529D93B42003DE956 /* HomeShortcutCollectionViewCell.swift */; };
 		70727AA829D93F24003DE956 /* HomeNewsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727AA729D93F24003DE956 /* HomeNewsCollectionViewCell.swift */; };
+		70727AAA29D94482003DE956 /* HomeCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727AA929D94482003DE956 /* HomeCollectionHeaderView.swift */; };
 		9EEA5185FB04E571E4E1FEB7 /* Pods_Haram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83B4035FED380A20E1159D3C /* Pods_Haram.framework */; };
 		DD1E5673ADE62ABF9AF723F6 /* Pods_HaramTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7FEA5D9A0F2A1046C0BF28F /* Pods_HaramTests.framework */; };
 		E8B0A9AC9430ED1D8BD162F3 /* Pods_Haram_HaramUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D30405AFF5F4E32E40387628 /* Pods_Haram_HaramUITests.framework */; };
@@ -78,6 +79,7 @@
 		70727AA229D88AEE003DE956 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		70727AA529D93B42003DE956 /* HomeShortcutCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeShortcutCollectionViewCell.swift; sourceTree = "<group>"; };
 		70727AA729D93F24003DE956 /* HomeNewsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNewsCollectionViewCell.swift; sourceTree = "<group>"; };
+		70727AA929D94482003DE956 /* HomeCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionHeaderView.swift; sourceTree = "<group>"; };
 		83B4035FED380A20E1159D3C /* Pods_Haram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A87CEF560E61B5B5250ECD21 /* Pods-Haram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram.debug.xcconfig"; path = "Target Support Files/Pods-Haram/Pods-Haram.debug.xcconfig"; sourceTree = "<group>"; };
 		B764001493328120B4338461 /* Pods-Haram-HaramUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.release.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 			children = (
 				70727AA529D93B42003DE956 /* HomeShortcutCollectionViewCell.swift */,
 				70727AA729D93F24003DE956 /* HomeNewsCollectionViewCell.swift */,
+				70727AA929D94482003DE956 /* HomeCollectionHeaderView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -480,6 +483,7 @@
 			files = (
 				70727A9929D88A22003DE956 /* RegisterViewController.swift in Sources */,
 				70727AA129D88AD0003DE956 /* MoreViewController.swift in Sources */,
+				70727AAA29D94482003DE956 /* HomeCollectionHeaderView.swift in Sources */,
 				70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */,
 				70727A9029D88935003DE956 /* BaseViewController.swift in Sources */,
 				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
