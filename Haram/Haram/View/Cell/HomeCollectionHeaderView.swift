@@ -16,7 +16,7 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
   
   private let titleLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = .thin
+    $0.font = .bold
   }
   
   override init(frame: CGRect) {
