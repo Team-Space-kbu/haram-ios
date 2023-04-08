@@ -12,7 +12,9 @@ import Then
 
 final class HaramSectionView: UIView {
   
-  private let horizontalStackView = UIStackView()
+  private let verticalStackView = UIStackView().then {
+    $0.axis = .vertical
+  }
   
   private let titleLabel = UILabel().then {
     $0.text = "하람"
@@ -34,6 +36,21 @@ final class HaramSectionView: UIView {
   }
   
   private func configureUI() {
+    [homeNoticeView, homeAdvertisementView].forEach { verticalStackView.addArrangedSubview($0) }
+    homeNoticeView.snp.makeConstraints {
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(35)
+    }
     
+    homeAdvertisementView.snp.makeConstraints {
+      $0.top.equalTo(homeNoticeView.snp.bottom)
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(140)
+    }
+    
+    addSubview(verticalStackView)
+    verticalStackView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
   }
 }

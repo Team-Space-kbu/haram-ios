@@ -43,7 +43,7 @@ final class HomeNoticeView: UIView {
     }
     
     noticeLabel.snp.makeConstraints {
-      $0.leading.equalTo(imageView.snp.trailing)
+      $0.leading.equalTo(noticeImageView.snp.trailing)
       $0.centerY.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }

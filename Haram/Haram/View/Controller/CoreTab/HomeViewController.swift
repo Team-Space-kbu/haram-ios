@@ -26,6 +26,18 @@ enum HomeType: CaseIterable {
 
 final class HomeViewController: BaseViewController {
   
+  private let scrollView = UIScrollView().then {
+    $0.backgroundColor = .clear
+    $0.showsVerticalScrollIndicator = true
+    $0.showsHorizontalScrollIndicator = false
+  }
+  
+  private let scrollContainerView = UIView().then {
+    $0.backgroundColor = .clear
+  }
+  
+  private let haramSectionView = HaramSectionView()
+  
   private lazy var collectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
@@ -39,18 +51,39 @@ final class HomeViewController: BaseViewController {
     $0.register(HomeShortcutCollectionViewCell.self, forCellWithReuseIdentifier: HomeShortcutCollectionViewCell.identifier)
     $0.register(HomeNewsCollectionViewCell.self, forCellWithReuseIdentifier: HomeNewsCollectionViewCell.identifier)
     $0.register(HomeCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCollectionHeaderView.identifier)
+    $0.showsVerticalScrollIndicator = false
+    $0.isScrollEnabled = false
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    [collectionView].forEach { view.addSubview($0) }
+    view.addSubview(scrollView)
+    scrollView.addSubview(scrollContainerView)
+    [haramSectionView, collectionView].forEach { scrollContainerView.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
+    scrollView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+    }
+    
+    scrollContainerView.snp.makeConstraints {
+      $0.width.directionalVerticalEdges.equalToSuperview()
+    }
+    
+    haramSectionView.snp.makeConstraints {
+      $0.top.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      $0.height.equalTo(20 + 70 + 20 + 140 + 20 + 35) // bottomInset + 팝업높이 + offset + 광고 뷰 높이 + offset + 공지 뷰
+    }
+    
     collectionView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.top.equalTo(haramSectionView.snp.bottom)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(15)
+      $0.height.equalTo(UIScreen.main.bounds.height - (20 + 70 + 20 + 140 + 20 + 35))
     }
   }
   

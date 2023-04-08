@@ -13,12 +13,14 @@ import Then
 final class HomeAdvertisementView: UIView {
   
   private let advertiseLabel = UILabel().then {
-    $0.textColor = .white
+    $0.textColor = .black
     $0.font = .systemFont(ofSize: 24)
+    $0.text = "안녕하세요 제 이름은 이건준입니다안녕하세요 제 이름은 이건준입니다안녕하세요 제 이름은 이건준입니다안녕하세요 제 이름은 이건준입니다안녕하세요 제 이름은 이건준입니다안녕하세요 제 이름은 이건준입니다안녕하세요 제 이름은 이건준입니다안녕하세요 제 이름은 이건준입니다안녕하세요 제 이름은 이건준입니다안녕하세요 제 이름은 이건준입니다 "
+    $0.numberOfLines = 3
   }
   
   private let advertiseImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFill
+    $0.contentMode = .scaleAspectFit
     $0.image = UIImage(systemName: "person.2.fill")
   }
   
