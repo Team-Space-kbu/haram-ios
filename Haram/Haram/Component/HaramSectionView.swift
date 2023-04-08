@@ -20,6 +20,10 @@ final class HaramSectionView: UIView {
     $0.textColor = .black
   }
   
+  private let homeNoticeView = HomeNoticeView()
+  
+  private let homeAdvertisementView = HomeAdvertisementView()
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()

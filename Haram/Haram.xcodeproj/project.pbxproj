@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		705E70B629E1C7A100156B1F /* HaramSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B529E1C7A100156B1F /* HaramSectionView.swift */; };
 		705E70B829E1C8ED00156B1F /* HomeNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */; };
+		705E70BA29E1CA9900156B1F /* HomeAdvertisementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B929E1CA9900156B1F /* HomeAdvertisementView.swift */; };
 		70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A5429D87B25003DE956 /* AppDelegate.swift */; };
 		70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A5629D87B25003DE956 /* SceneDelegate.swift */; };
 		70727A5E29D87B27003DE956 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70727A5D29D87B27003DE956 /* Assets.xcassets */; };
@@ -65,6 +66,7 @@
 		6CF842086B6AC027A6E61245 /* Pods-HaramTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaramTests.release.xcconfig"; path = "Target Support Files/Pods-HaramTests/Pods-HaramTests.release.xcconfig"; sourceTree = "<group>"; };
 		705E70B529E1C7A100156B1F /* HaramSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramSectionView.swift; sourceTree = "<group>"; };
 		705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNoticeView.swift; sourceTree = "<group>"; };
+		705E70B929E1CA9900156B1F /* HomeAdvertisementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAdvertisementView.swift; sourceTree = "<group>"; };
 		70727A5129D87B25003DE956 /* Haram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Haram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70727A5429D87B25003DE956 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		70727A5629D87B25003DE956 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			children = (
 				705E70B529E1C7A100156B1F /* HaramSectionView.swift */,
 				705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */,
+				705E70B929E1CA9900156B1F /* HomeAdvertisementView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -539,6 +542,7 @@
 				70727AAA29D94482003DE956 /* HomeCollectionHeaderView.swift in Sources */,
 				70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */,
 				70727A9029D88935003DE956 /* BaseViewController.swift in Sources */,
+				705E70BA29E1CA9900156B1F /* HomeAdvertisementView.swift in Sources */,
 				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
 				705E70B629E1C7A100156B1F /* HaramSectionView.swift in Sources */,
 				70727AA829D93F24003DE956 /* HomeNewsCollectionViewCell.swift in Sources */,
