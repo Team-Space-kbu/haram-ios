@@ -77,13 +77,15 @@ final class MoreViewController: BaseViewController {
   
   private let moreLabel = UILabel().then {
     $0.textColor = .hex1A1E27
-    $0.font = .systemFont(ofSize: 26, weight: .bold)
+    $0.font = .bold
+    $0.font = .systemFont(ofSize: 26)
     $0.text = "더보기"
   }
   
   private let settingLabel = UILabel().then {
     $0.textColor = .hex1A1E27
-    $0.font = .systemFont(ofSize: 22, weight: .bold)
+    $0.font = .bold
+    $0.font = .systemFont(ofSize: 22)
     $0.text = "설정"
   }
   
