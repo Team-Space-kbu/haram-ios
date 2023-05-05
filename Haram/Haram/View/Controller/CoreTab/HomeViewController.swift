@@ -107,7 +107,7 @@ final class HomeViewController: BaseViewController {
       let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(50)
+          heightDimension: .absolute(18 + 26 + 32.94)
         ),
         elementKind: UICollectionView.elementKindSectionHeader,
         alignment: .top
@@ -124,10 +124,11 @@ final class HomeViewController: BaseViewController {
           widthDimension: .fractionalWidth(1),
           heightDimension: .fractionalHeight(1))
       )
+      
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1/4),
-          heightDimension: .absolute(200)),
+          widthDimension: .absolute(118),
+          heightDimension: .absolute(165 + 6 + 17)),
         repeatingSubitem: item,
         count: 1
       )
@@ -144,6 +145,7 @@ final class HomeViewController: BaseViewController {
       let section = NSCollectionLayoutSection(group: group)
       section.boundarySupplementaryItems = [header]
       section.orthogonalScrollingBehavior = .groupPaging
+      section.interGroupSpacing = 22
       return section
     }
   }
@@ -158,7 +160,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     let type = HomeType.allCases[section]
     switch type {
     case .shortcut:
-      return 8
+      return ShortcutType.allCases.count
     case .news:
       return 8
     }
@@ -169,11 +171,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     switch type {
     case .shortcut:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeShortcutCollectionViewCell.identifier, for: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
-      cell.configureUI(with: .init(imageName: ""))
+      let type = ShortcutType.allCases[indexPath.row]
+      cell.configureUI(with: .init(title: type.title, imageName: type.imageName))
       return cell
     case .news:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeNewsCollectionViewCell.identifier, for: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
-      cell.configureUI(with: .init(thumbnailName: ""))
+      cell.configureUI(with: .init(title: "", thumbnailName: ""))
       return cell
     }
   }
@@ -184,4 +187,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     header.configureUI(with: HomeType.allCases[indexPath.section].title)
     return header
   }
+  
+  
 }

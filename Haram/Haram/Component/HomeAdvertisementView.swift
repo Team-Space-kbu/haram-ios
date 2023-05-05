@@ -24,13 +24,6 @@ final class HomeAdvertisementView: UIView {
     $0.image = UIImage(systemName: "person.2.fill")
   }
   
-  private let checkImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFill
-    $0.image = UIImage(systemName: "checkmark.circle.fill")
-    $0.layer.cornerRadius = 12
-    $0.layer.masksToBounds = true
-  }
-  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -54,10 +47,5 @@ final class HomeAdvertisementView: UIView {
       $0.trailing.equalTo(advertiseImageView.snp.leading)
     }
     
-    advertiseImageView.addSubview(checkImageView)
-    checkImageView.snp.makeConstraints {
-      $0.top.trailing.equalToSuperview().inset(10)
-      $0.size.equalTo(24)
-    }
   }
 }

@@ -14,6 +14,7 @@ final class HaramSectionView: UIView {
   
   private let verticalStackView = UIStackView().then {
     $0.axis = .vertical
+    $0.spacing = 23
   }
   
   private let titleLabel = UILabel().then {
@@ -24,7 +25,11 @@ final class HaramSectionView: UIView {
   
   private let homeNoticeView = HomeNoticeView()
   
-  private let homeAdvertisementView = HomeAdvertisementView()
+  private let homeAdvertisementView = HomeAdvertisementView().then {
+    $0.layer.cornerRadius = 10
+    $0.layer.masksToBounds = true
+    $0.backgroundColor = .hexA8DBA8
+  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -36,21 +41,20 @@ final class HaramSectionView: UIView {
   }
   
   private func configureUI() {
-    [homeNoticeView, homeAdvertisementView].forEach { verticalStackView.addArrangedSubview($0) }
-    homeNoticeView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo(35)
-    }
-    
-    homeAdvertisementView.snp.makeConstraints {
-      $0.top.equalTo(homeNoticeView.snp.bottom)
-      $0.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo(140)
-    }
-    
     addSubview(verticalStackView)
     verticalStackView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
+    
+    [homeNoticeView, homeAdvertisementView].forEach { verticalStackView.addArrangedSubview($0) }
+    homeNoticeView.snp.makeConstraints {
+      $0.height.equalTo(35)
+    }
+    
+    homeAdvertisementView.snp.makeConstraints {
+      $0.height.equalTo(142)
+    }
+    
+    verticalStackView.setCustomSpacing(20, after: homeNoticeView)
   }
 }

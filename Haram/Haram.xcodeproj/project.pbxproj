@@ -47,6 +47,9 @@
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9B2A03954700BEB5F2 /* MoreListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardListView.swift */; };
+		70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */; };
+		70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */; };
+		70C9CCAC2A05539C00BEB5F2 /* MileageHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCAB2A05539C00BEB5F2 /* MileageHeaderView.swift */; };
 		834B08B1962D3CDB84C2ADC2 /* Pods_Haram_HaramUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA6316BD4726F3D24E78A0A4 /* Pods_Haram_HaramUITests.framework */; };
 		E98EA4FDED9FED00A11BC896 /* Pods_HaramTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6B02BE7826D3E7889F0D9D9 /* Pods_HaramTests.framework */; };
 		FCCD433D7EFC8339111057F0 /* Pods_Haram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F85EB2667B8CE93BB13517 /* Pods_Haram.framework */; };
@@ -112,6 +115,9 @@
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListView.swift; sourceTree = "<group>"; };
+		70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageViewController.swift; sourceTree = "<group>"; };
+		70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageTableViewCell.swift; sourceTree = "<group>"; };
+		70C9CCAB2A05539C00BEB5F2 /* MileageHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageHeaderView.swift; sourceTree = "<group>"; };
 		72F85EB2667B8CE93BB13517 /* Pods_Haram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B68003E184319CE65782DDC2 /* Pods-HaramTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaramTests.debug.xcconfig"; path = "Target Support Files/Pods-HaramTests/Pods-HaramTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CA6316BD4726F3D24E78A0A4 /* Pods_Haram_HaramUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram_HaramUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,6 +181,7 @@
 				70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */,
 				70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */,
 				70C9CC9C2A039DFD00BEB5F2 /* BoardListView.swift */,
+				70C9CCAB2A05539C00BEB5F2 /* MileageHeaderView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -263,6 +270,7 @@
 				70727A9829D88A22003DE956 /* RegisterViewController.swift */,
 				70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */,
 				70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */,
+				70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -284,6 +292,7 @@
 				70727AA529D93B42003DE956 /* HomeShortcutCollectionViewCell.swift */,
 				70727AA729D93F24003DE956 /* HomeNewsCollectionViewCell.swift */,
 				70727AA929D94482003DE956 /* HomeCollectionHeaderView.swift */,
+				70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -581,11 +590,14 @@
 				70727AAA29D94482003DE956 /* HomeCollectionHeaderView.swift in Sources */,
 				70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */,
 				7034AF1A29F0064B009C7676 /* WebViewController.swift in Sources */,
+				70C9CCAC2A05539C00BEB5F2 /* MileageHeaderView.swift in Sources */,
 				70727A9029D88935003DE956 /* BaseViewController.swift in Sources */,
 				705E70BA29E1CA9900156B1F /* HomeAdvertisementView.swift in Sources */,
+				70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */,
 				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
 				705E70B629E1C7A100156B1F /* HaramSectionView.swift in Sources */,
 				70727AA829D93F24003DE956 /* HomeNewsCollectionViewCell.swift in Sources */,
+				70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */,
 				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
 				70727A9729D889FF003DE956 /* PolicyViewController.swift in Sources */,
 				70727A9B29D88A3A003DE956 /* FindPasswordViewController.swift in Sources */,

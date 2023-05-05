@@ -13,15 +13,14 @@ import Then
 final class HomeNoticeView: UIView {
   
   private let noticeImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFill
-    $0.image = UIImage(systemName: "face.smiling")
+    $0.contentMode = .scaleAspectFit
+    $0.image = UIImage(named: "faceGray")
   }
   
   private let noticeLabel = UILabel().then {
-    $0.textColor = .white
+    $0.textColor = .hex1A1E27
     $0.text = "알림 라벨입니다"
-    $0.numberOfLines = 1
-    $0.lineBreakMode = .byTruncatingTail
+    $0.font = .systemFont(ofSize: 16, weight: .regular)
   }
   
   override init(frame: CGRect) {
@@ -34,16 +33,20 @@ final class HomeNoticeView: UIView {
   }
   
   private func configureUI() {
-    backgroundColor = .lightGray
+    backgroundColor = .hexF2F3F5
+    layer.cornerRadius = 10
+    layer.masksToBounds = true
     
     [noticeImageView, noticeLabel].forEach { addSubview($0) }
     noticeImageView.snp.makeConstraints {
-      $0.directionalVerticalEdges.leading.equalToSuperview()
-      $0.width.equalTo(35)
+      $0.leading.equalToSuperview().inset(11.39)
+      $0.centerY.equalToSuperview()
+      $0.width.equalTo(18.59)
+      $0.height.equalTo(16.98)
     }
     
     noticeLabel.snp.makeConstraints {
-      $0.leading.equalTo(noticeImageView.snp.trailing)
+      $0.leading.equalTo(noticeImageView.snp.trailing).offset(10.02)
       $0.centerY.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }
