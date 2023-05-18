@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
+    setupNavigationBarStyle()
     return true
   }
 
@@ -31,6 +32,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
   }
 
-
+  private func setupNavigationBarStyle() {
+    let appearance = UINavigationBarAppearance()
+    
+    appearance.configureWithOpaqueBackground() // 반투명 색상
+    appearance.backgroundColor = .systemBackground // 배경색
+    
+    appearance.titleTextAttributes = [
+      NSAttributedString.Key.foregroundColor: UIColor.black, // 텍스트 색상
+      NSAttributedString.Key.font: UIFont.bold // 폰트
+    ]
+    
+    // 내비바 하단 회색선 제거
+    appearance.shadowColor = .clear
+    appearance.shadowImage = UIImage()
+    
+    UINavigationBar.appearance().tintColor = .black
+    UINavigationBar.appearance().standardAppearance = appearance
+    UINavigationBar.appearance().scrollEdgeAppearance = appearance
+  }
 }
 

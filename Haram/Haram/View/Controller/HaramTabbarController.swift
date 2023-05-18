@@ -21,18 +21,18 @@ final class HaramTabbarController: UITabBarController {
   
   private func setupLayouts() {
     viewControllers = [
-      HomeViewController().then {
+      UINavigationController(rootViewController: HomeViewController().then {
         $0.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "home"), tag: 0)
-      },
-      ScheduleViewController().then {
+      }),
+      UINavigationController(rootViewController: ScheduleViewController().then {
         $0.tabBarItem = UITabBarItem(title: "시간표", image: UIImage(named: "time"), tag: 1)
-      },
-      BoardViewController().then {
+      }),
+      UINavigationController(rootViewController: BoardViewController().then {
         $0.tabBarItem = UITabBarItem(title: "게시판", image: UIImage(named: "board"), tag: 2)
-      },
-      MoreViewController().then {
+      }),
+      UINavigationController(rootViewController: MoreViewController().then {
         $0.tabBarItem = UITabBarItem(title: "더보기", image: UIImage(named: "more"), tag: 3)
-      }
+      } )
     ]
   }
   

@@ -90,13 +90,14 @@ final class LoginViewController: BaseViewController {
       return
     }
     let vc = HaramTabbarController()
-    vc.navigationItem.largeTitleDisplayMode = .never
-    navigationController?.pushViewController(vc, animated: true)
+    vc.modalPresentationStyle = .overFullScreen
+    present(vc, animated: true)
+//    navigationController?.pushViewController(vc, animated: true)
   }
   
   override func setupStyles() {
     super.setupStyles()
-    navigationController?.navigationBar.isHidden = true
+//    navigationController?.navigationBar.isHidden = true
   }
   
   override func bind() {
@@ -106,8 +107,9 @@ final class LoginViewController: BaseViewController {
       .drive(with: self) { owner, accessToken in
         guard accessToken != nil else { return }
         let vc = HaramTabbarController()
-        vc.navigationItem.largeTitleDisplayMode = .never
-        owner.navigationController?.pushViewController(vc, animated: true)
+        vc.modalPresentationStyle = .overFullScreen
+        owner.present(vc, animated: true)
+//        owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
   }

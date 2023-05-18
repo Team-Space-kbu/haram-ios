@@ -36,6 +36,10 @@
 		705FD2A52A15FDB500F353FE /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2A42A15FDB500F353FE /* LoginRequest.swift */; };
 		705FD2A92A16031900F353FE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2A82A16031900F353FE /* LoginViewModel.swift */; };
 		705FD2AB2A160C1800F353FE /* HaramTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */; };
+		705FD2AD2A16160100F353FE /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2AC2A16160100F353FE /* LibraryViewController.swift */; };
+		705FD2AF2A16246F00F353FE /* LibraryResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2AE2A16246F00F353FE /* LibraryResultsViewController.swift */; };
+		705FD2B12A1625EF00F353FE /* LibraryResultsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2B02A1625EF00F353FE /* LibraryResultsCollectionViewCell.swift */; };
+		705FD2B32A16278700F353FE /* LibraryResultsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2B22A16278700F353FE /* LibraryResultsHeaderView.swift */; };
 		706BA0C029E6A26D00AF12D4 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 706BA0BF29E6A26D00AF12D4 /* Then */; };
 		706BA0C329E6A32700AF12D4 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 706BA0C229E6A32700AF12D4 /* RxCocoa */; };
 		706BA0C529E6A32700AF12D4 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 706BA0C429E6A32700AF12D4 /* RxSwift */; };
@@ -130,6 +134,10 @@
 		705FD2A42A15FDB500F353FE /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
 		705FD2A82A16031900F353FE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramTabbarController.swift; sourceTree = "<group>"; };
+		705FD2AC2A16160100F353FE /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
+		705FD2AE2A16246F00F353FE /* LibraryResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryResultsViewController.swift; sourceTree = "<group>"; };
+		705FD2B02A1625EF00F353FE /* LibraryResultsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryResultsCollectionViewCell.swift; sourceTree = "<group>"; };
+		705FD2B22A16278700F353FE /* LibraryResultsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryResultsHeaderView.swift; sourceTree = "<group>"; };
 		70727A5129D87B25003DE956 /* Haram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Haram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70727A5429D87B25003DE956 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		70727A5629D87B25003DE956 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -397,6 +405,8 @@
 				70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */,
 				70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */,
 				705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */,
+				705FD2AC2A16160100F353FE /* LibraryViewController.swift */,
+				705FD2AE2A16246F00F353FE /* LibraryResultsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -421,6 +431,8 @@
 				70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */,
 				70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */,
 				70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */,
+				705FD2B02A1625EF00F353FE /* LibraryResultsCollectionViewCell.swift */,
+				705FD2B22A16278700F353FE /* LibraryResultsHeaderView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -715,10 +727,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				705FD2992A13BC1700F353FE /* RegisterMemberResponse.swift in Sources */,
+				705FD2AD2A16160100F353FE /* LibraryViewController.swift in Sources */,
 				70727A9929D88A22003DE956 /* RegisterViewController.swift in Sources */,
 				70C9CC9D2A039DFD00BEB5F2 /* BoardListView.swift in Sources */,
 				70727AA129D88AD0003DE956 /* MoreViewController.swift in Sources */,
 				70727AAA29D94482003DE956 /* HomeCollectionHeaderView.swift in Sources */,
+				705FD2B32A16278700F353FE /* LibraryResultsHeaderView.swift in Sources */,
 				70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */,
 				7034AF1A29F0064B009C7676 /* WebViewController.swift in Sources */,
 				705FD2AB2A160C1800F353FE /* HaramTabbarController.swift in Sources */,
@@ -732,6 +746,7 @@
 				705FD2792A10D3C500F353FE /* Router.swift in Sources */,
 				70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */,
 				705FD2922A13B9E600F353FE /* AuthService.swift in Sources */,
+				705FD2B12A1625EF00F353FE /* LibraryResultsCollectionViewCell.swift in Sources */,
 				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
 				705FD2822A10E2A800F353FE /* BaseEntity.swift in Sources */,
 				705FD2862A10E58600F353FE /* HeaderType.swift in Sources */,
@@ -768,6 +783,7 @@
 				70727A9F29D88AAA003DE956 /* BoardViewController.swift in Sources */,
 				705E70B829E1C8ED00156B1F /* HomeNoticeView.swift in Sources */,
 				70C9CC9B2A03954700BEB5F2 /* MoreListView.swift in Sources */,
+				705FD2AF2A16246F00F353FE /* LibraryResultsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

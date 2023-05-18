@@ -56,6 +56,16 @@ final class HomeViewController: BaseViewController {
     $0.isScrollEnabled = false
   }
   
+  override func setupStyles() {
+    super.setupStyles()
+    let label = UILabel().then {
+      $0.text = "하람"
+      $0.font = .bold
+      $0.font = .systemFont(ofSize: 26)
+    }
+    navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
@@ -188,5 +198,36 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     return header
   }
   
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let homeSection = HomeType.allCases[indexPath.section]
+    switch homeSection {
+    case .shortcut:
+      let type = ShortcutType.allCases[indexPath.row]
+      switch type {
+      case .mileage:
+        print("잉")
+      case .chapel:
+        print("잉")
+      case .notice:
+        print("잉")
+      case .searchBook:
+        let vc = LibraryViewController()
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.hidesBottomBarWhenPushed = true
+        vc.navigationItem.backButtonTitle = nil
+        navigationController?.pushViewController(vc, animated: true)
+      case .searchBible:
+        print("잉")
+      case .affiliate:
+        print("잉")
+      case .eventSchedule:
+        print("잉")
+      case .readingRoom:
+        print("잉")
+      }
+    case .news:
+      print("잉")
+    }
+  }
   
 }
