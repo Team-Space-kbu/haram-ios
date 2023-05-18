@@ -7,10 +7,14 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
 import SnapKit
 import Then
 
 final class LoginViewController: BaseViewController {
+  
+  private let viewModel: LoginViewModelType
   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
@@ -22,7 +26,6 @@ final class LoginViewController: BaseViewController {
   private let loginImageView = UIImageView().then {
     $0.image = UIImage(named: "login")
     $0.contentMode = .scaleAspectFit
-//    $0.layer.masksToBounds = true
   }
   
   private let loginLabel = UILabel().then {
@@ -65,12 +68,54 @@ final class LoginViewController: BaseViewController {
     $0.leftViewMode = .always
   }
   
-  private let loginButton = LoginButton()
+  private lazy var loginButton = LoginButton().then {
+    $0.delegate = self
+  }
+  
+  private let loginAlertView = LoginAlertView()
+  
+  init(viewModel: LoginViewModelType = LoginViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    UserManager.shared.clearUserInformations()
+    guard let accessToken = UserManager.shared.accessToken else {
+      return
+    }
+    let vc = HaramTabbarController()
+    vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    navigationController?.navigationBar.isHidden = true
+  }
+  
+  override func bind() {
+    super.bind()
+    
+    viewModel.accessToken
+      .drive(with: self) { owner, accessToken in
+        guard accessToken != nil else { return }
+        let vc = HaramTabbarController()
+        vc.navigationItem.largeTitleDisplayMode = .never
+        owner.navigationController?.pushViewController(vc, animated: true)
+      }
+      .disposed(by: disposeBag)
+  }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(containerView)
-    [loginImageView, loginLabel, schoolLabel, emailTextField, passwordTextField, loginButton].forEach { containerView.addArrangedSubview($0) }
+    [loginImageView, loginLabel, schoolLabel, emailTextField, passwordTextField, loginButton, loginAlertView].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -94,6 +139,26 @@ final class LoginViewController: BaseViewController {
     loginButton.snp.makeConstraints {
       $0.height.equalTo(48)
     }
+    
+    loginAlertView.snp.makeConstraints {
+      $0.width.equalTo(216)
+      $0.height.equalTo(16)
+    }
   }
+}
+
+extension LoginViewController: LoginButtonDelegate {
+  func didTappedLoginButton() {
+    print("탭")
+    guard let userID = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+          let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+    viewModel.userID.onNext(userID)
+    viewModel.password.onNext(password)
+  }
+  
+  func didTappedFindPasswordButton() {
+    viewModel.userID.onNext("")
+  }
+  
   
 }

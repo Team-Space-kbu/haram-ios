@@ -21,4 +21,8 @@ extension AuthService {
   func registerMember(request: RegisterMemberRequest) -> Observable<RegisterMemberResponse> {
     service.request(router: AuthRouter.registerMember(request), type: RegisterMemberResponse.self)
   }
+  
+  func loginMember(request: LoginRequest) -> Observable<LoginResponse> {
+    service.request(router: AuthRouter.loginMember(request), type: LoginResponse.self)
+  }
 }

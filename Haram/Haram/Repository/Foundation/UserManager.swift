@@ -86,7 +86,6 @@ extension UserManager {
     refreshToken = nil
     signToken = nil
     fcmToken = nil
-//    socialType = nil
   }
   
   /// 가지고 있는 `refresh token`을 가지고 새로운 `access token`과 `refresh token`을 발급받습니다.

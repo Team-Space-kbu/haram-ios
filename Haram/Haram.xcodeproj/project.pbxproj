@@ -31,6 +31,11 @@
 		705FD2992A13BC1700F353FE /* RegisterMemberResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2982A13BC1700F353FE /* RegisterMemberResponse.swift */; };
 		705FD29B2A13C19A00F353FE /* RegisterMemberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD29A2A13C19A00F353FE /* RegisterMemberRequest.swift */; };
 		705FD29F2A15F21F00F353FE /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD29E2A15F21F00F353FE /* LoginButton.swift */; };
+		705FD2A12A15F75900F353FE /* LoginAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2A02A15F75900F353FE /* LoginAlertView.swift */; };
+		705FD2A32A15FD8100F353FE /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2A22A15FD8100F353FE /* LoginResponse.swift */; };
+		705FD2A52A15FDB500F353FE /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2A42A15FDB500F353FE /* LoginRequest.swift */; };
+		705FD2A92A16031900F353FE /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2A82A16031900F353FE /* LoginViewModel.swift */; };
+		705FD2AB2A160C1800F353FE /* HaramTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */; };
 		706BA0C029E6A26D00AF12D4 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 706BA0BF29E6A26D00AF12D4 /* Then */; };
 		706BA0C329E6A32700AF12D4 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 706BA0C229E6A32700AF12D4 /* RxCocoa */; };
 		706BA0C529E6A32700AF12D4 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 706BA0C429E6A32700AF12D4 /* RxSwift */; };
@@ -120,6 +125,11 @@
 		705FD2982A13BC1700F353FE /* RegisterMemberResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterMemberResponse.swift; sourceTree = "<group>"; };
 		705FD29A2A13C19A00F353FE /* RegisterMemberRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterMemberRequest.swift; sourceTree = "<group>"; };
 		705FD29E2A15F21F00F353FE /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
+		705FD2A02A15F75900F353FE /* LoginAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAlertView.swift; sourceTree = "<group>"; };
+		705FD2A22A15FD8100F353FE /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
+		705FD2A42A15FDB500F353FE /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
+		705FD2A82A16031900F353FE /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramTabbarController.swift; sourceTree = "<group>"; };
 		70727A5129D87B25003DE956 /* Haram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Haram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70727A5429D87B25003DE956 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		70727A5629D87B25003DE956 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -229,6 +239,7 @@
 				70C9CCAD2A066B8F00BEB5F2 /* ChapelInfoView.swift */,
 				70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */,
 				705FD29E2A15F21F00F353FE /* LoginButton.swift */,
+				705FD2A02A15F75900F353FE /* LoginAlertView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -268,6 +279,24 @@
 			children = (
 				705FD2982A13BC1700F353FE /* RegisterMemberResponse.swift */,
 				705FD29A2A13C19A00F353FE /* RegisterMemberRequest.swift */,
+				705FD2A22A15FD8100F353FE /* LoginResponse.swift */,
+				705FD2A42A15FDB500F353FE /* LoginRequest.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		705FD2A62A16030E00F353FE /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				705FD2A72A16031300F353FE /* Auth */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		705FD2A72A16031300F353FE /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				705FD2A82A16031900F353FE /* LoginViewModel.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -347,6 +376,7 @@
 		70727A8D29D88928003DE956 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				705FD2A62A16030E00F353FE /* ViewModel */,
 				70727AA429D93B2A003DE956 /* Cell */,
 				70727A8E29D8892C003DE956 /* Controller */,
 				7034AF1929F0064B009C7676 /* WebViewController.swift */,
@@ -366,6 +396,7 @@
 				70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */,
 				70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */,
 				70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */,
+				705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -690,6 +721,8 @@
 				70727AAA29D94482003DE956 /* HomeCollectionHeaderView.swift in Sources */,
 				70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */,
 				7034AF1A29F0064B009C7676 /* WebViewController.swift in Sources */,
+				705FD2AB2A160C1800F353FE /* HaramTabbarController.swift in Sources */,
+				705FD2A92A16031900F353FE /* LoginViewModel.swift in Sources */,
 				70C9CCAC2A05539C00BEB5F2 /* MileageHeaderView.swift in Sources */,
 				70C9CCAE2A066B8F00BEB5F2 /* ChapelInfoView.swift in Sources */,
 				70727A9029D88935003DE956 /* BaseViewController.swift in Sources */,
@@ -708,12 +741,15 @@
 				70C9CCB42A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift in Sources */,
 				705FD28A2A10F6C300F353FE /* UserDefaultsWrapper.swift in Sources */,
 				70727AA829D93F24003DE956 /* HomeNewsCollectionViewCell.swift in Sources */,
+				705FD2A12A15F75900F353FE /* LoginAlertView.swift in Sources */,
 				705FD27E2A10D77300F353FE /* HomeRepositoryImpl.swift in Sources */,
+				705FD2A52A15FDB500F353FE /* LoginRequest.swift in Sources */,
 				70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */,
 				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
 				70727A9729D889FF003DE956 /* PolicyViewController.swift in Sources */,
 				70C9CCB02A06700400BEB5F2 /* ChapelViewController.swift in Sources */,
 				705FD2902A10FD6D00F353FE /* Interceptor.swift in Sources */,
+				705FD2A32A15FD8100F353FE /* LoginResponse.swift in Sources */,
 				70727A9B29D88A3A003DE956 /* FindPasswordViewController.swift in Sources */,
 				70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */,
 				70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */,

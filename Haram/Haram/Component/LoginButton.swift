@@ -7,10 +7,19 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
+protocol LoginButtonDelegate: AnyObject {
+  func didTappedLoginButton()
+  func didTappedFindPasswordButton()
+}
+
 final class LoginButton: UIView {
+  
+  private let disposeBag = DisposeBag()
+  weak var delegate: LoginButtonDelegate?
   
   private let containerView = UIStackView().then {
     $0.axis = .horizontal
@@ -36,10 +45,25 @@ final class LoginButton: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func bind() {
+    loginButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedLoginButton()
+      }
+      .disposed(by: disposeBag)
+    
+    findPasswordButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedFindPasswordButton()
+      }
+      .disposed(by: disposeBag)
   }
   
   private func configureUI() {
@@ -49,9 +73,6 @@ final class LoginButton: UIView {
     containerView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
-    
-//    findPasswordButton.snp.makeConstraints {
-//      $0.width.equalTo(139)
-//    }
+  
   }
 }

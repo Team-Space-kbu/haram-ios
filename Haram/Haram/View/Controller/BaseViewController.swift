@@ -7,12 +7,12 @@
 
 import UIKit.UIViewController
 
-//import class RxSwift.DisposeBag
+import class RxSwift.DisposeBag
 
 class BaseViewController: UIViewController {
   
   /// A dispose bag. 각 ViewController에 종속적이다.
-//  final let disposeBag = DisposeBag()
+  final let disposeBag = DisposeBag()
   
   override func viewDidLoad() {
     super.viewDidLoad()

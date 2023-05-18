@@ -27,8 +27,6 @@ enum HomeType: CaseIterable {
 
 final class HomeViewController: BaseViewController {
   
-  private let disposeBag = DisposeBag()
-  
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
     $0.showsVerticalScrollIndicator = true
@@ -63,12 +61,6 @@ final class HomeViewController: BaseViewController {
     view.addSubview(scrollView)
     scrollView.addSubview(scrollContainerView)
     [haramSectionView, collectionView].forEach { scrollContainerView.addSubview($0) }
-    
-    AuthService.shared.registerMember(request: .init(userID: "kilee124", email: "kilee125@naver.com", password: "1234", nickname: "건준이에용"))
-      .subscribe(onNext: { response in
-        print("응답 \(response)")
-      })
-      .disposed(by: disposeBag)
   }
   
   override func setupConstraints() {
