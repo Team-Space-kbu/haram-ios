@@ -12,16 +12,16 @@ import Then
 
 final class MileageViewController: BaseViewController {
   
-  private let scrollView = UIScrollView().then {
-    $0.backgroundColor = .clear
-    $0.showsVerticalScrollIndicator = false
-    $0.showsHorizontalScrollIndicator = false
-    $0.isScrollEnabled = true
-  }
-  
-  private let scrollContainerView = UIView().then {
-    $0.backgroundColor = .clear
-  }
+//  private let scrollView = UIScrollView().then {
+//    $0.backgroundColor = .clear
+//    $0.showsVerticalScrollIndicator = false
+//    $0.showsHorizontalScrollIndicator = false
+//    $0.isScrollEnabled = true
+//  }
+//
+//  private let scrollContainerView = UIView().then {
+//    $0.backgroundColor = .clear
+//  }
   
   private let mileageHeaderView = MileageHeaderView()
   
@@ -31,33 +31,35 @@ final class MileageViewController: BaseViewController {
     $0.font = .systemFont(ofSize: 14)
   }
   
-  private lazy var mileageTableView = UITableView(frame: .zero, style: .grouped).then {
+  private lazy var mileageTableView = UITableView(frame: .zero, style: .plain).then {
     $0.register(MileageTableViewCell.self, forCellReuseIdentifier: MileageTableViewCell.identifier)
     $0.separatorStyle = .none
     $0.delegate = self
     $0.dataSource = self
     $0.backgroundColor = .systemBackground
     $0.showsVerticalScrollIndicator = false
+    $0.sectionHeaderHeight = .leastNonzeroMagnitude
+    $0.sectionFooterHeight = .leastNonzeroMagnitude
 //    $0.isScrollEnabled = false
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(scrollView)
-    scrollView.addSubview(scrollContainerView)
-    [mileageHeaderView, spendListLabel, mileageTableView].forEach { scrollContainerView.addSubview($0) }
+//    view.addSubview(scrollView)
+//    scrollView.addSubview(scrollContainerView)
+    [mileageHeaderView, spendListLabel, mileageTableView].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    scrollView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
-    }
-    
-    scrollContainerView.snp.makeConstraints {
-      $0.width.directionalVerticalEdges.equalToSuperview()
-    }
+//    scrollView.snp.makeConstraints {
+//      $0.directionalEdges.equalToSuperview()
+//    }
+//    
+//    scrollContainerView.snp.makeConstraints {
+//      $0.width.directionalVerticalEdges.equalToSuperview()
+//    }
     
     mileageHeaderView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).inset(69)

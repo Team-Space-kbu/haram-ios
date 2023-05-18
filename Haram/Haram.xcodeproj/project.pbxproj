@@ -7,11 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4856F9B65A4833EBF3EF46FE /* Pods_HaramTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33968380172B3189685243E1 /* Pods_HaramTests.framework */; };
+		60BDD76C9FDB0DCBF7AF103E /* Pods_Haram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B6CE79D90CF0C406A9CFCD /* Pods_Haram.framework */; };
 		7034AF1A29F0064B009C7676 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7034AF1929F0064B009C7676 /* WebViewController.swift */; };
 		703C5C0D29E6A1ED00B5D091 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 703C5C0C29E6A1ED00B5D091 /* SnapKit */; };
 		705E70B629E1C7A100156B1F /* HaramSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B529E1C7A100156B1F /* HaramSectionView.swift */; };
 		705E70B829E1C8ED00156B1F /* HomeNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */; };
 		705E70BA29E1CA9900156B1F /* HomeAdvertisementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B929E1CA9900156B1F /* HomeAdvertisementView.swift */; };
+		705FD2792A10D3C500F353FE /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2782A10D3C500F353FE /* Router.swift */; };
+		705FD27C2A10D3EA00F353FE /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 705FD27B2A10D3EA00F353FE /* Alamofire */; };
+		705FD27E2A10D77300F353FE /* HomeRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD27D2A10D77300F353FE /* HomeRepositoryImpl.swift */; };
+		705FD2802A10DE8800F353FE /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD27F2A10DE8800F353FE /* ApiService.swift */; };
+		705FD2822A10E2A800F353FE /* BaseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2812A10E2A800F353FE /* BaseEntity.swift */; };
+		705FD2842A10E47F00F353FE /* HaramError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2832A10E47F00F353FE /* HaramError.swift */; };
+		705FD2862A10E58600F353FE /* HeaderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2852A10E58600F353FE /* HeaderType.swift */; };
+		705FD2882A10E5E500F353FE /* ParameterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2872A10E5E500F353FE /* ParameterType.swift */; };
+		705FD28A2A10F6C300F353FE /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2892A10F6C300F353FE /* UserDefaultsWrapper.swift */; };
+		705FD28C2A10F74D00F353FE /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD28B2A10F74D00F353FE /* UserManager.swift */; };
+		705FD28E2A10FC0200F353FE /* KeyChainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD28D2A10FC0200F353FE /* KeyChainWrapper.swift */; };
+		705FD2902A10FD6D00F353FE /* Interceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD28F2A10FD6D00F353FE /* Interceptor.swift */; };
+		705FD2922A13B9E600F353FE /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2912A13B9E600F353FE /* AuthService.swift */; };
+		705FD2952A13BB4300F353FE /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2942A13BB4300F353FE /* AuthRouter.swift */; };
+		705FD2992A13BC1700F353FE /* RegisterMemberResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2982A13BC1700F353FE /* RegisterMemberResponse.swift */; };
+		705FD29B2A13C19A00F353FE /* RegisterMemberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD29A2A13C19A00F353FE /* RegisterMemberRequest.swift */; };
+		705FD29F2A15F21F00F353FE /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD29E2A15F21F00F353FE /* LoginButton.swift */; };
 		706BA0C029E6A26D00AF12D4 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 706BA0BF29E6A26D00AF12D4 /* Then */; };
 		706BA0C329E6A32700AF12D4 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 706BA0C229E6A32700AF12D4 /* RxCocoa */; };
 		706BA0C529E6A32700AF12D4 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 706BA0C429E6A32700AF12D4 /* RxSwift */; };
@@ -50,9 +69,12 @@
 		70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */; };
 		70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */; };
 		70C9CCAC2A05539C00BEB5F2 /* MileageHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCAB2A05539C00BEB5F2 /* MileageHeaderView.swift */; };
-		834B08B1962D3CDB84C2ADC2 /* Pods_Haram_HaramUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA6316BD4726F3D24E78A0A4 /* Pods_Haram_HaramUITests.framework */; };
-		E98EA4FDED9FED00A11BC896 /* Pods_HaramTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6B02BE7826D3E7889F0D9D9 /* Pods_HaramTests.framework */; };
-		FCCD433D7EFC8339111057F0 /* Pods_Haram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F85EB2667B8CE93BB13517 /* Pods_Haram.framework */; };
+		70C9CCAE2A066B8F00BEB5F2 /* ChapelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCAD2A066B8F00BEB5F2 /* ChapelInfoView.swift */; };
+		70C9CCB02A06700400BEB5F2 /* ChapelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */; };
+		70C9CCB22A067D8000BEB5F2 /* ChapelDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */; };
+		70C9CCB42A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */; };
+		70C9CCB62A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */; };
+		E188B2488722C767A6C4B454 /* Pods_Haram_HaramUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB95587EF40AA811CB76ED3 /* Pods_Haram_HaramUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,13 +95,31 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3FDF9ABEF54ABE7DA69BE265 /* Pods-Haram-HaramUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.release.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.release.xcconfig"; sourceTree = "<group>"; };
-		5B391D34A05953A0293587D4 /* Pods-HaramTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaramTests.release.xcconfig"; path = "Target Support Files/Pods-HaramTests/Pods-HaramTests.release.xcconfig"; sourceTree = "<group>"; };
-		5D5F4A6C6878B3EFC362FFB3 /* Pods-Haram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram.release.xcconfig"; path = "Target Support Files/Pods-Haram/Pods-Haram.release.xcconfig"; sourceTree = "<group>"; };
+		070ADE60609FA76986E8016F /* Pods-Haram-HaramUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.debug.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		24769B52D14AD14E30CE4E41 /* Pods-HaramTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaramTests.debug.xcconfig"; path = "Target Support Files/Pods-HaramTests/Pods-HaramTests.debug.xcconfig"; sourceTree = "<group>"; };
+		33968380172B3189685243E1 /* Pods_HaramTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HaramTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		42315C7848250AAE2583304B /* Pods-HaramTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaramTests.release.xcconfig"; path = "Target Support Files/Pods-HaramTests/Pods-HaramTests.release.xcconfig"; sourceTree = "<group>"; };
+		47E508FEC9EAC2F0532EE347 /* Pods-Haram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram.release.xcconfig"; path = "Target Support Files/Pods-Haram/Pods-Haram.release.xcconfig"; sourceTree = "<group>"; };
 		7034AF1929F0064B009C7676 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		705E70B529E1C7A100156B1F /* HaramSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramSectionView.swift; sourceTree = "<group>"; };
 		705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNoticeView.swift; sourceTree = "<group>"; };
 		705E70B929E1CA9900156B1F /* HomeAdvertisementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAdvertisementView.swift; sourceTree = "<group>"; };
+		705FD2782A10D3C500F353FE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		705FD27D2A10D77300F353FE /* HomeRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRepositoryImpl.swift; sourceTree = "<group>"; };
+		705FD27F2A10DE8800F353FE /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
+		705FD2812A10E2A800F353FE /* BaseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseEntity.swift; sourceTree = "<group>"; };
+		705FD2832A10E47F00F353FE /* HaramError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramError.swift; sourceTree = "<group>"; };
+		705FD2852A10E58600F353FE /* HeaderType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderType.swift; sourceTree = "<group>"; };
+		705FD2872A10E5E500F353FE /* ParameterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterType.swift; sourceTree = "<group>"; };
+		705FD2892A10F6C300F353FE /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
+		705FD28B2A10F74D00F353FE /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		705FD28D2A10FC0200F353FE /* KeyChainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainWrapper.swift; sourceTree = "<group>"; };
+		705FD28F2A10FD6D00F353FE /* Interceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptor.swift; sourceTree = "<group>"; };
+		705FD2912A13B9E600F353FE /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		705FD2942A13BB4300F353FE /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
+		705FD2982A13BC1700F353FE /* RegisterMemberResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterMemberResponse.swift; sourceTree = "<group>"; };
+		705FD29A2A13C19A00F353FE /* RegisterMemberRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterMemberRequest.swift; sourceTree = "<group>"; };
+		705FD29E2A15F21F00F353FE /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
 		70727A5129D87B25003DE956 /* Haram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Haram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70727A5429D87B25003DE956 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		70727A5629D87B25003DE956 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -118,12 +158,15 @@
 		70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageViewController.swift; sourceTree = "<group>"; };
 		70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageTableViewCell.swift; sourceTree = "<group>"; };
 		70C9CCAB2A05539C00BEB5F2 /* MileageHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageHeaderView.swift; sourceTree = "<group>"; };
-		72F85EB2667B8CE93BB13517 /* Pods_Haram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B68003E184319CE65782DDC2 /* Pods-HaramTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaramTests.debug.xcconfig"; path = "Target Support Files/Pods-HaramTests/Pods-HaramTests.debug.xcconfig"; sourceTree = "<group>"; };
-		CA6316BD4726F3D24E78A0A4 /* Pods_Haram_HaramUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram_HaramUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D6B9C84707564B41912F131C /* Pods-Haram-HaramUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.debug.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		DF567D297C53E60E5BE88873 /* Pods-Haram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram.debug.xcconfig"; path = "Target Support Files/Pods-Haram/Pods-Haram.debug.xcconfig"; sourceTree = "<group>"; };
-		F6B02BE7826D3E7889F0D9D9 /* Pods_HaramTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HaramTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		70C9CCAD2A066B8F00BEB5F2 /* ChapelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelInfoView.swift; sourceTree = "<group>"; };
+		70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelViewController.swift; sourceTree = "<group>"; };
+		70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelDayView.swift; sourceTree = "<group>"; };
+		70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelCollectionViewCell.swift; sourceTree = "<group>"; };
+		70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelCollectionHeaderView.swift; sourceTree = "<group>"; };
+		9F0B9624E5A55C67E226A8B4 /* Pods-Haram-HaramUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.release.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.release.xcconfig"; sourceTree = "<group>"; };
+		BBB95587EF40AA811CB76ED3 /* Pods_Haram_HaramUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram_HaramUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAA80E549DA7BAE5111F2F63 /* Pods-Haram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram.debug.xcconfig"; path = "Target Support Files/Pods-Haram/Pods-Haram.debug.xcconfig"; sourceTree = "<group>"; };
+		F2B6CE79D90CF0C406A9CFCD /* Pods_Haram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,11 +175,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				706BA0C329E6A32700AF12D4 /* RxCocoa in Frameworks */,
+				705FD27C2A10D3EA00F353FE /* Alamofire in Frameworks */,
 				706BA0C829E6E51100AF12D4 /* WebRTC in Frameworks */,
 				703C5C0D29E6A1ED00B5D091 /* SnapKit in Frameworks */,
 				706BA0C529E6A32700AF12D4 /* RxSwift in Frameworks */,
 				706BA0C029E6A26D00AF12D4 /* Then in Frameworks */,
-				FCCD433D7EFC8339111057F0 /* Pods_Haram.framework in Frameworks */,
+				60BDD76C9FDB0DCBF7AF103E /* Pods_Haram.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,7 +188,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E98EA4FDED9FED00A11BC896 /* Pods_HaramTests.framework in Frameworks */,
+				4856F9B65A4833EBF3EF46FE /* Pods_HaramTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,7 +196,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				834B08B1962D3CDB84C2ADC2 /* Pods_Haram_HaramUITests.framework in Frameworks */,
+				E188B2488722C767A6C4B454 /* Pods_Haram_HaramUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,12 +206,12 @@
 		6E09D3E6DC98743DF61C4308 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DF567D297C53E60E5BE88873 /* Pods-Haram.debug.xcconfig */,
-				5D5F4A6C6878B3EFC362FFB3 /* Pods-Haram.release.xcconfig */,
-				D6B9C84707564B41912F131C /* Pods-Haram-HaramUITests.debug.xcconfig */,
-				3FDF9ABEF54ABE7DA69BE265 /* Pods-Haram-HaramUITests.release.xcconfig */,
-				B68003E184319CE65782DDC2 /* Pods-HaramTests.debug.xcconfig */,
-				5B391D34A05953A0293587D4 /* Pods-HaramTests.release.xcconfig */,
+				DAA80E549DA7BAE5111F2F63 /* Pods-Haram.debug.xcconfig */,
+				47E508FEC9EAC2F0532EE347 /* Pods-Haram.release.xcconfig */,
+				070ADE60609FA76986E8016F /* Pods-Haram-HaramUITests.debug.xcconfig */,
+				9F0B9624E5A55C67E226A8B4 /* Pods-Haram-HaramUITests.release.xcconfig */,
+				24769B52D14AD14E30CE4E41 /* Pods-HaramTests.debug.xcconfig */,
+				42315C7848250AAE2583304B /* Pods-HaramTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -182,8 +226,50 @@
 				70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */,
 				70C9CC9C2A039DFD00BEB5F2 /* BoardListView.swift */,
 				70C9CCAB2A05539C00BEB5F2 /* MileageHeaderView.swift */,
+				70C9CCAD2A066B8F00BEB5F2 /* ChapelInfoView.swift */,
+				70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */,
+				705FD29E2A15F21F00F353FE /* LoginButton.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		705FD2772A10D3BD00F353FE /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				705FD2782A10D3C500F353FE /* Router.swift */,
+				705FD2852A10E58600F353FE /* HeaderType.swift */,
+				705FD2872A10E5E500F353FE /* ParameterType.swift */,
+				705FD2892A10F6C300F353FE /* UserDefaultsWrapper.swift */,
+				705FD28B2A10F74D00F353FE /* UserManager.swift */,
+				705FD28D2A10FC0200F353FE /* KeyChainWrapper.swift */,
+				705FD28F2A10FD6D00F353FE /* Interceptor.swift */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		705FD2932A13BB3D00F353FE /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				705FD2942A13BB4300F353FE /* AuthRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		705FD2962A13BC0000F353FE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				705FD2972A13BC0800F353FE /* Auth */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		705FD2972A13BC0800F353FE /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				705FD2982A13BC1700F353FE /* RegisterMemberResponse.swift */,
+				705FD29A2A13C19A00F353FE /* RegisterMemberRequest.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		70727A4829D87B25003DE956 = {
@@ -194,7 +280,7 @@
 				70727A7429D87B27003DE956 /* HaramUITests */,
 				70727A5229D87B25003DE956 /* Products */,
 				6E09D3E6DC98743DF61C4308 /* Pods */,
-				D4A0C24572C2C91ECF08E964 /* Frameworks */,
+				DA77DD515B4767C4C2DBA055 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -245,7 +331,15 @@
 		70727A8629D87DFA003DE956 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				705FD2962A13BC0000F353FE /* Model */,
+				705FD2932A13BB3D00F353FE /* Router */,
+				705FD2772A10D3BD00F353FE /* Foundation */,
 				70727A8729D87E0E003DE956 /* Config.swift */,
+				705FD27D2A10D77300F353FE /* HomeRepositoryImpl.swift */,
+				705FD27F2A10DE8800F353FE /* ApiService.swift */,
+				705FD2812A10E2A800F353FE /* BaseEntity.swift */,
+				705FD2832A10E47F00F353FE /* HaramError.swift */,
+				705FD2912A13B9E600F353FE /* AuthService.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -271,6 +365,7 @@
 				70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */,
 				70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */,
 				70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */,
+				70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -293,6 +388,8 @@
 				70727AA729D93F24003DE956 /* HomeNewsCollectionViewCell.swift */,
 				70727AA929D94482003DE956 /* HomeCollectionHeaderView.swift */,
 				70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */,
+				70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */,
+				70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -318,12 +415,12 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		D4A0C24572C2C91ECF08E964 /* Frameworks */ = {
+		DA77DD515B4767C4C2DBA055 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				72F85EB2667B8CE93BB13517 /* Pods_Haram.framework */,
-				CA6316BD4726F3D24E78A0A4 /* Pods_Haram_HaramUITests.framework */,
-				F6B02BE7826D3E7889F0D9D9 /* Pods_HaramTests.framework */,
+				F2B6CE79D90CF0C406A9CFCD /* Pods_Haram.framework */,
+				BBB95587EF40AA811CB76ED3 /* Pods_Haram_HaramUITests.framework */,
+				33968380172B3189685243E1 /* Pods_HaramTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -335,11 +432,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70727A7B29D87B27003DE956 /* Build configuration list for PBXNativeTarget "Haram" */;
 			buildPhases = (
-				06F719F1B94E2DFDAEFE78BA /* [CP] Check Pods Manifest.lock */,
+				911AC5B02968DB86DF628AE8 /* [CP] Check Pods Manifest.lock */,
 				70727A4D29D87B25003DE956 /* Sources */,
 				70727A4E29D87B25003DE956 /* Frameworks */,
 				70727A4F29D87B25003DE956 /* Resources */,
-				FC50D1CE90763F2894FB3E9F /* [CP] Embed Pods Frameworks */,
+				040F3732C1D049B8BA8DA64B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -352,6 +449,7 @@
 				706BA0C229E6A32700AF12D4 /* RxCocoa */,
 				706BA0C429E6A32700AF12D4 /* RxSwift */,
 				706BA0C729E6E51100AF12D4 /* WebRTC */,
+				705FD27B2A10D3EA00F353FE /* Alamofire */,
 			);
 			productName = Haram;
 			productReference = 70727A5129D87B25003DE956 /* Haram.app */;
@@ -361,7 +459,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70727A7E29D87B27003DE956 /* Build configuration list for PBXNativeTarget "HaramTests" */;
 			buildPhases = (
-				56714DD48B644AD02244A8C9 /* [CP] Check Pods Manifest.lock */,
+				08087841D6E3F42523523264 /* [CP] Check Pods Manifest.lock */,
 				70727A6329D87B27003DE956 /* Sources */,
 				70727A6429D87B27003DE956 /* Frameworks */,
 				70727A6529D87B27003DE956 /* Resources */,
@@ -380,11 +478,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70727A8129D87B27003DE956 /* Build configuration list for PBXNativeTarget "HaramUITests" */;
 			buildPhases = (
-				A44E5C4ADE31430DEE5D2D73 /* [CP] Check Pods Manifest.lock */,
+				3E203B5AE6409F6FBB4AFDC9 /* [CP] Check Pods Manifest.lock */,
 				70727A6D29D87B27003DE956 /* Sources */,
 				70727A6E29D87B27003DE956 /* Frameworks */,
 				70727A6F29D87B27003DE956 /* Resources */,
-				5CE18FE7EDE70E85D687EE95 /* [CP] Embed Pods Frameworks */,
+				05A656D1C42C2310F5985487 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -433,6 +531,7 @@
 				706BA0BE29E6A26D00AF12D4 /* XCRemoteSwiftPackageReference "Then" */,
 				706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC" */,
+				705FD27A2A10D3EA00F353FE /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 70727A5229D87B25003DE956 /* Products */;
 			projectDirPath = "";
@@ -477,29 +576,41 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		06F719F1B94E2DFDAEFE78BA /* [CP] Check Pods Manifest.lock */ = {
+		040F3732C1D049B8BA8DA64B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Haram-checkManifestLockResult.txt",
+				"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		56714DD48B644AD02244A8C9 /* [CP] Check Pods Manifest.lock */ = {
+		05A656D1C42C2310F5985487 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		08087841D6E3F42523523264 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -521,24 +632,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5CE18FE7EDE70E85D687EE95 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A44E5C4ADE31430DEE5D2D73 /* [CP] Check Pods Manifest.lock */ = {
+		3E203B5AE6409F6FBB4AFDC9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -560,21 +654,26 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FC50D1CE90763F2894FB3E9F /* [CP] Embed Pods Frameworks */ = {
+		911AC5B02968DB86DF628AE8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Haram-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -584,6 +683,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				705FD2992A13BC1700F353FE /* RegisterMemberResponse.swift in Sources */,
 				70727A9929D88A22003DE956 /* RegisterViewController.swift in Sources */,
 				70C9CC9D2A039DFD00BEB5F2 /* BoardListView.swift in Sources */,
 				70727AA129D88AD0003DE956 /* MoreViewController.swift in Sources */,
@@ -591,22 +691,42 @@
 				70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */,
 				7034AF1A29F0064B009C7676 /* WebViewController.swift in Sources */,
 				70C9CCAC2A05539C00BEB5F2 /* MileageHeaderView.swift in Sources */,
+				70C9CCAE2A066B8F00BEB5F2 /* ChapelInfoView.swift in Sources */,
 				70727A9029D88935003DE956 /* BaseViewController.swift in Sources */,
+				705FD28E2A10FC0200F353FE /* KeyChainWrapper.swift in Sources */,
 				705E70BA29E1CA9900156B1F /* HomeAdvertisementView.swift in Sources */,
+				705FD29B2A13C19A00F353FE /* RegisterMemberRequest.swift in Sources */,
+				705FD2792A10D3C500F353FE /* Router.swift in Sources */,
 				70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */,
+				705FD2922A13B9E600F353FE /* AuthService.swift in Sources */,
 				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
+				705FD2822A10E2A800F353FE /* BaseEntity.swift in Sources */,
+				705FD2862A10E58600F353FE /* HeaderType.swift in Sources */,
 				705E70B629E1C7A100156B1F /* HaramSectionView.swift in Sources */,
+				705FD2802A10DE8800F353FE /* ApiService.swift in Sources */,
+				705FD2882A10E5E500F353FE /* ParameterType.swift in Sources */,
+				70C9CCB42A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift in Sources */,
+				705FD28A2A10F6C300F353FE /* UserDefaultsWrapper.swift in Sources */,
 				70727AA829D93F24003DE956 /* HomeNewsCollectionViewCell.swift in Sources */,
+				705FD27E2A10D77300F353FE /* HomeRepositoryImpl.swift in Sources */,
 				70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */,
 				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
 				70727A9729D889FF003DE956 /* PolicyViewController.swift in Sources */,
+				70C9CCB02A06700400BEB5F2 /* ChapelViewController.swift in Sources */,
+				705FD2902A10FD6D00F353FE /* Interceptor.swift in Sources */,
 				70727A9B29D88A3A003DE956 /* FindPasswordViewController.swift in Sources */,
 				70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */,
 				70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */,
 				70727A9529D889C6003DE956 /* HomeViewController.swift in Sources */,
+				705FD28C2A10F74D00F353FE /* UserManager.swift in Sources */,
 				70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */,
+				705FD29F2A15F21F00F353FE /* LoginButton.swift in Sources */,
+				70C9CCB22A067D8000BEB5F2 /* ChapelDayView.swift in Sources */,
 				70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */,
+				705FD2842A10E47F00F353FE /* HaramError.swift in Sources */,
+				70C9CCB62A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift in Sources */,
 				70727AA629D93B43003DE956 /* HomeShortcutCollectionViewCell.swift in Sources */,
+				705FD2952A13BB4300F353FE /* AuthRouter.swift in Sources */,
 				70727AB829D95E32003DE956 /* Ex + UIFont.swift in Sources */,
 				70727A9D29D88A7F003DE956 /* UpdatePasswordViewController.swift in Sources */,
 				70727A9F29D88AAA003DE956 /* BoardViewController.swift in Sources */,
@@ -775,7 +895,7 @@
 		};
 		70727A7C29D87B27003DE956 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF567D297C53E60E5BE88873 /* Pods-Haram.debug.xcconfig */;
+			baseConfigurationReference = DAA80E549DA7BAE5111F2F63 /* Pods-Haram.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -803,7 +923,7 @@
 		};
 		70727A7D29D87B27003DE956 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D5F4A6C6878B3EFC362FFB3 /* Pods-Haram.release.xcconfig */;
+			baseConfigurationReference = 47E508FEC9EAC2F0532EE347 /* Pods-Haram.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -833,7 +953,7 @@
 		};
 		70727A7F29D87B27003DE956 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B68003E184319CE65782DDC2 /* Pods-HaramTests.debug.xcconfig */;
+			baseConfigurationReference = 24769B52D14AD14E30CE4E41 /* Pods-HaramTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -853,7 +973,7 @@
 		};
 		70727A8029D87B27003DE956 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B391D34A05953A0293587D4 /* Pods-HaramTests.release.xcconfig */;
+			baseConfigurationReference = 42315C7848250AAE2583304B /* Pods-HaramTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -873,7 +993,7 @@
 		};
 		70727A8229D87B27003DE956 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D6B9C84707564B41912F131C /* Pods-Haram-HaramUITests.debug.xcconfig */;
+			baseConfigurationReference = 070ADE60609FA76986E8016F /* Pods-Haram-HaramUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -891,7 +1011,7 @@
 		};
 		70727A8329D87B27003DE956 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3FDF9ABEF54ABE7DA69BE265 /* Pods-Haram-HaramUITests.release.xcconfig */;
+			baseConfigurationReference = 9F0B9624E5A55C67E226A8B4 /* Pods-Haram-HaramUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -957,6 +1077,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		705FD27A2A10D3EA00F353FE /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		706BA0BE29E6A26D00AF12D4 /* XCRemoteSwiftPackageReference "Then" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/devxoul/Then";
@@ -988,6 +1116,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 703C5C0B29E6A1ED00B5D091 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		705FD27B2A10D3EA00F353FE /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 705FD27A2A10D3EA00F353FE /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 		706BA0BF29E6A26D00AF12D4 /* Then */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -28,8 +28,8 @@ final class HomeNewsCollectionViewCell: UICollectionViewCell {
   
   private let titleLabel = UILabel().then {
     $0.textColor = .hex545E6A
-    $0.font = .systemFont(ofSize: 14)
     $0.font = .bold
+    $0.font = .systemFont(ofSize: 14)
     $0.text = "코코스 2022년 4월호"
     $0.sizeToFit()
     
@@ -53,8 +53,8 @@ final class HomeNewsCollectionViewCell: UICollectionViewCell {
     
     titleLabel.snp.makeConstraints {
       $0.top.equalTo(newsImageView.snp.bottom).offset(6)
-      $0.leading.bottom.equalToSuperview()
-      $0.trailing.lessThanOrEqualToSuperview()
+      $0.leading.equalToSuperview()
+      $0.trailing.bottom.lessThanOrEqualToSuperview()
     }
   }
   

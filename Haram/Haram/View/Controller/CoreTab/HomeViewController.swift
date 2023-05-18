@@ -7,9 +7,9 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
-import WebRTC
 
 enum HomeType: CaseIterable {
   case shortcut
@@ -26,6 +26,8 @@ enum HomeType: CaseIterable {
 }
 
 final class HomeViewController: BaseViewController {
+  
+  private let disposeBag = DisposeBag()
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -61,6 +63,12 @@ final class HomeViewController: BaseViewController {
     view.addSubview(scrollView)
     scrollView.addSubview(scrollContainerView)
     [haramSectionView, collectionView].forEach { scrollContainerView.addSubview($0) }
+    
+    AuthService.shared.registerMember(request: .init(userID: "kilee124", email: "kilee125@naver.com", password: "1234", nickname: "건준이에용"))
+      .subscribe(onNext: { response in
+        print("응답 \(response)")
+      })
+      .disposed(by: disposeBag)
   }
   
   override func setupConstraints() {
@@ -128,7 +136,7 @@ final class HomeViewController: BaseViewController {
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .absolute(118),
-          heightDimension: .absolute(165 + 6 + 17)),
+          heightDimension: .absolute(165 + 6 + 18)),
         repeatingSubitem: item,
         count: 1
       )
