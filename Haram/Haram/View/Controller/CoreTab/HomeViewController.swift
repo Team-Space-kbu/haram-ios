@@ -212,7 +212,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         print("잉")
       case .searchBook:
         let vc = LibraryViewController()
-        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.navigationItem.largeTitleDisplayMode = .always
         vc.hidesBottomBarWhenPushed = true
         vc.navigationItem.backButtonTitle = nil
         navigationController?.pushViewController(vc, animated: true)

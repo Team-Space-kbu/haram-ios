@@ -44,7 +44,7 @@ final class LoginViewController: BaseViewController {
     $0.sizeToFit()
   }
   
-  private let emailTextField = UITextField().then {
+  private lazy var emailTextField = UITextField().then {
     $0.placeholder = "Email"
     $0.backgroundColor = .hexF5F5F5
     $0.tintColor = .black
@@ -54,9 +54,10 @@ final class LoginViewController: BaseViewController {
     $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
     $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
     $0.leftViewMode = .always
+    $0.delegate = self
   }
   
-  private let passwordTextField = UITextField().then {
+  private lazy var passwordTextField = UITextField().then {
     $0.placeholder = "Password"
     $0.backgroundColor = .hexF5F5F5
     $0.tintColor = .black
@@ -66,6 +67,7 @@ final class LoginViewController: BaseViewController {
     $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
     $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
     $0.leftViewMode = .always
+    $0.delegate = self
   }
   
   private lazy var loginButton = LoginButton().then {
@@ -92,12 +94,10 @@ final class LoginViewController: BaseViewController {
     let vc = HaramTabbarController()
     vc.modalPresentationStyle = .overFullScreen
     present(vc, animated: true)
-//    navigationController?.pushViewController(vc, animated: true)
   }
   
   override func setupStyles() {
     super.setupStyles()
-//    navigationController?.navigationBar.isHidden = true
   }
   
   override func bind() {
@@ -109,7 +109,6 @@ final class LoginViewController: BaseViewController {
         let vc = HaramTabbarController()
         vc.modalPresentationStyle = .overFullScreen
         owner.present(vc, animated: true)
-//        owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
   }
@@ -161,6 +160,15 @@ extension LoginViewController: LoginButtonDelegate {
   func didTappedFindPasswordButton() {
     viewModel.userID.onNext("")
   }
-  
-  
+}
+
+extension LoginViewController: UITextFieldDelegate {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    if textField == emailTextField {
+      passwordTextField.becomeFirstResponder()
+    } else {
+      passwordTextField.resignFirstResponder()
+    }
+    return true
+  }
 }

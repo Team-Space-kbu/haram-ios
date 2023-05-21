@@ -1,8 +1,8 @@
 //
-//  LibraryResultsHeaderView.swift
+//  LibraryResultsCollectionHeaderView.swift
 //  Haram
 //
-//  Created by 이건준 on 2023/05/18.
+//  Created by 이건준 on 2023/05/21.
 //
 
 import UIKit
@@ -10,15 +10,16 @@ import UIKit
 import SnapKit
 import Then
 
-final class LibraryResultsHeaderView: UICollectionReusableView {
+final class LibraryResultsCollectionHeaderView: UICollectionReusableView {
   
-  static let identifier = "LibraryResultsHeaderView"
+  static let identifier = "LibraryResultsCollectionHeaderView"
   
   private let titleLabel = UILabel().then {
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 20)
     $0.textColor = .black
-    $0.textAlignment = .left
+    $0.font = .regular
+    $0.font = .systemFont(ofSize: 18)
+    $0.text = "검색내역"
+    $0.sizeToFit()
   }
   
   override init(frame: CGRect) {
@@ -33,11 +34,7 @@ final class LibraryResultsHeaderView: UICollectionReusableView {
   private func configureUI() {
     addSubview(titleLabel)
     titleLabel.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.top.leading.equalToSuperview()
     }
-  }
-  
-  func configureUI(with model: String) {
-    titleLabel.text = model
   }
 }

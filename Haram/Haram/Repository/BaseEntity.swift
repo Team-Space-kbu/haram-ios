@@ -11,7 +11,7 @@ struct BaseEntity<T>: Decodable where T: Decodable {
   let code: String
   let description: String
   let dateTime: String
-  let data: T
+  let data: T?
   
   enum CodingKeys: CodingKey {
     case code, description, dateTime, data
@@ -22,6 +22,6 @@ struct BaseEntity<T>: Decodable where T: Decodable {
     self.code = try container.decodeIfPresent(String.self, forKey: .code) ?? ""
     self.description = try container.decodeIfPresent(String.self, forKey: .description) ?? ""
     self.dateTime = try container.decodeIfPresent(String.self, forKey: .dateTime) ?? ""
-    self.data = try container.decode(T.self, forKey: .data)
+    self.data = try container.decodeIfPresent(T.self, forKey: .data)
   }
 }

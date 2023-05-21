@@ -29,7 +29,7 @@ final class ApiService: BaseService {
               let data = try JSONDecoder().decode(BaseEntity<T>.self, from: data) 
               
               print("데이터 \(data.data)")
-              observer(.success(data.data))
+              observer(.success(data.data!))
             } catch {
               observer(.failure(HaramError.decodedError))
             }
