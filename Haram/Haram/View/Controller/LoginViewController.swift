@@ -88,9 +88,10 @@ final class LoginViewController: BaseViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     UserManager.shared.clearUserInformations()
-    guard let accessToken = UserManager.shared.accessToken else {
+    guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else {
       return
     }
+    print("리프레시토큰 \(UserManager.shared.refreshToken)")
     let vc = HaramTabbarController()
     vc.modalPresentationStyle = .overFullScreen
     present(vc, animated: true)
@@ -103,9 +104,11 @@ final class LoginViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    viewModel.accessToken
-      .drive(with: self) { owner, accessToken in
-        guard accessToken != nil else { return }
+    viewModel.loginToken
+      .skip(1)
+      .drive(with: self) { owner, result in
+        guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else { return }
+        print("여기옴이당?")
         let vc = HaramTabbarController()
         vc.modalPresentationStyle = .overFullScreen
         owner.present(vc, animated: true)

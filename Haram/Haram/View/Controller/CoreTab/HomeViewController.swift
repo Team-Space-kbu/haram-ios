@@ -64,6 +64,12 @@ final class HomeViewController: BaseViewController {
       $0.font = .systemFont(ofSize: 26)
     }
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
+    
+//    LibraryService.shared.inquireLibrary()
+//      .subscribe(onNext: { response in
+//        print("응답 \(response)")
+//      })
+//      .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {
@@ -209,10 +215,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       case .chapel:
         print("잉")
       case .notice:
-        print("잉")
+        let vc = NoticeViewController()
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.hidesBottomBarWhenPushed = true
+        vc.navigationItem.backButtonTitle = nil
+        navigationController?.pushViewController(vc, animated: true)
       case .searchBook:
         let vc = LibraryViewController()
-        vc.navigationItem.largeTitleDisplayMode = .always
+        vc.navigationItem.largeTitleDisplayMode = .never
         vc.hidesBottomBarWhenPushed = true
         vc.navigationItem.backButtonTitle = nil
         navigationController?.pushViewController(vc, animated: true)

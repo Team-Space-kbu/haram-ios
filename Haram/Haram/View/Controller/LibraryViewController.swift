@@ -26,9 +26,35 @@ enum LibraryType: CaseIterable {
 
 final class LibraryViewController: BaseViewController {
   
-  private let searchController = UISearchController(searchResultsController: LibraryResultsViewController()).then {
+  private let viewModel: LibraryViewModelType
+  
+  private var newBookModel: [LibraryCollectionViewCellModel] = [] {
+    didSet {
+      collectionView.reloadSections([0])
+    }
+  }
+  
+  private var bestBookModel: [LibraryCollectionViewCellModel] = [] {
+    didSet {
+      collectionView.reloadSections([1])
+    }
+  }
+  
+  init(viewModel: LibraryViewModelType = LibraryViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  private let searchResultsController = LibraryResultsViewController()
+  
+  private lazy var searchController = UISearchController(searchResultsController: searchResultsController).then {
     $0.searchBar.placeholder = "도서검색하기"
     $0.hidesNavigationBarDuringPresentation = false
+    $0.searchResultsUpdater = self
   }
   
   private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
@@ -39,6 +65,25 @@ final class LibraryViewController: BaseViewController {
     $0.register(LibraryCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LibraryCollectionHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
+  }
+  
+  override func bind() {
+    super.bind()
+    viewModel.initialData.onNext(())
+    
+    viewModel.newBookModel
+      .drive(rx.newBookModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.bestBookModel
+      .drive(rx.bestBookModel)
+      .disposed(by: disposeBag)
+    
+    searchController.searchBar.rx.text
+      .subscribe(onNext: { txt in
+        print("글자 \(txt)")
+      })
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -105,12 +150,27 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    let type = LibraryType.allCases[section]
+    switch type {
+    case .new:
+      return newBookModel.count
+    case .popular:
+      return bestBookModel.count
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
-    return cell
+    let type = LibraryType.allCases[indexPath.section]
+    switch type {
+    case .new:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
+      cell.configureUI(with: newBookModel[indexPath.row])
+      return cell
+    case .popular:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
+      cell.configureUI(with: bestBookModel[indexPath.row])
+      return cell
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -128,3 +188,8 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
   }
 }
   
+extension LibraryViewController: UISearchResultsUpdating {
+  func updateSearchResults(for searchController: UISearchController) {
+    
+  }
+}

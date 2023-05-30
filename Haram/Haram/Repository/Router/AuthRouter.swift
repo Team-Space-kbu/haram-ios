@@ -10,6 +10,7 @@ import Alamofire
 enum AuthRouter {
   case registerMember(RegisterMemberRequest)
   case loginMember(LoginRequest)
+  case reissuanceAccessToken
 }
 
 extension AuthRouter: Router {
@@ -18,6 +19,8 @@ extension AuthRouter: Router {
     switch self {
     case .registerMember, .loginMember:
       return .post
+    case .reissuanceAccessToken:
+      return .get
     }
   }
   
@@ -27,6 +30,8 @@ extension AuthRouter: Router {
       return "/v1/signup"
     case .loginMember:
       return "/v1/login"
+    case .reissuanceAccessToken:
+      return "/v1/refresh"
     }
   }
   
@@ -36,6 +41,8 @@ extension AuthRouter: Router {
       return .body(request)
     case .loginMember(let request):
       return .body(request)
+    case .reissuanceAccessToken:
+      return .plain
     }
   }
   
@@ -43,6 +50,8 @@ extension AuthRouter: Router {
     switch self {
     case .registerMember, .loginMember:
       return .default
+    case .reissuanceAccessToken:
+      return .withAccessAndRefresh
     }
   }
 }

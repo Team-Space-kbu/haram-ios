@@ -21,20 +21,48 @@ final class ApiService: BaseService {
   func request<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Observable<T> where T : Codable {
     Single.create { observer in
       self.session.request(router)
+        .validate({ request, response, data in
+          if response.statusCode != 401 {
+            print("오잉...")
+            return .success(Void())
+          }
+          print("오잉...1 \(response.statusCode)")
+          let reason = AFError.ResponseValidationFailureReason.unacceptableStatusCode(code: response.statusCode)
+          return .failure(AFError.responseValidationFailed(reason: reason))
+        })
         .responseData { response in
           switch response.result {
           case .success(let data):
-            print("디비 \(data)")
-            do {
-              let data = try JSONDecoder().decode(BaseEntity<T>.self, from: data) 
-              
-              print("데이터 \(data.data)")
-              observer(.success(data.data!))
-            } catch {
-              observer(.failure(HaramError.decodedError))
+            guard let statusCode = response.response?.statusCode
+            else {
+              print("알 수 없는 에러")
+              observer(.failure(HaramError.unknownedError))
+              return
             }
+            guard let decodedData = try? JSONDecoder().decode(BaseEntity<T>.self, from: data) else {
+              print("디코딩에러")
+              return observer(.failure(HaramError.decodedError))
+            }
+            
+            switch statusCode {
+            case 200..<300:
+              if decodedData.data != nil {
+                print("성공")
+                return observer(.success(decodedData.data!))
+              }
+            case 400..<500:
+              print("리퀘스트 에러발생")
+              return observer(.failure(HaramError.requestError))
+            case 500..<600:
+              print("서버 에러발생")
+              return observer(.failure(HaramError.serverError))
+            default:
+              print("알 수 없는 에러발생")
+              return observer(.failure(HaramError.unknownedError))
+            }
+            
           case .failure(let error):
-            print("리퀘스트 에러 \(error)")
+            print("응답 에러발생")
             observer(.failure(error))
           }
         }

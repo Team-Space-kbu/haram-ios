@@ -11,6 +11,13 @@ import SnapKit
 import Then
 
 final class LibraryResultsViewController: BaseViewController {
+  
+  private var model: [LibraryResultsCollectionViewCellModel] = [] {
+    didSet {
+      collectionView.reloadData()
+    }
+  }
+  
   private lazy var collectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout()
@@ -33,6 +40,10 @@ final class LibraryResultsViewController: BaseViewController {
       $0.directionalEdges.equalToSuperview()
     }
   }
+  
+  func updateData(model: [LibraryResultsCollectionViewCellModel]) {
+    self.model = model
+  }
 }
 
 extension LibraryResultsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -41,11 +52,12 @@ extension LibraryResultsViewController: UICollectionViewDelegate, UICollectionVi
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    return model.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryResultsCollectionViewCell.identifier, for: indexPath) as? LibraryResultsCollectionViewCell ?? LibraryResultsCollectionViewCell()
+    cell.configureUI(with: model[indexPath.row])
     return cell
   }
   
@@ -63,5 +75,12 @@ extension LibraryResultsViewController: UICollectionViewDelegate, UICollectionVi
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
     return CGSize(width: collectionView.frame.width - 30, height: 23 + 15)
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    print("탭")
+    let vc = LibraryDetailViewController()
+    vc.navigationItem.largeTitleDisplayMode = .never
+    present(vc, animated: true)
   }
 }

@@ -9,4 +9,7 @@ import Foundation
 
 enum HaramError: Error {
   case decodedError
+  case unknownedError
+  case requestError
+  case serverError
 }

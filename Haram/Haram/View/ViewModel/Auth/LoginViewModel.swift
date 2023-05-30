@@ -12,7 +12,7 @@ protocol LoginViewModelType {
   var userID: AnyObserver<String> { get }
   var password: AnyObserver<String> { get }
   
-  var accessToken: Driver<String?> { get }
+  var loginToken: Driver<(String?, String?)> { get }
 }
 
 final class LoginViewModel: LoginViewModelType {
@@ -22,37 +22,42 @@ final class LoginViewModel: LoginViewModelType {
   var userID: AnyObserver<String>
   var password: AnyObserver<String>
   
-  var accessToken: Driver<String?>
+  var loginToken: Driver<(String?, String?)>
   
   init() {
     let userIDForLogin = PublishSubject<String>()
     let passwordForLogin = PublishSubject<String>()
     let tokenForLogin = BehaviorSubject<String?>(value: UserManager.shared.accessToken)
+    let refreshTokenForLogin = BehaviorSubject<String?>(value: UserManager.shared.refreshToken)
     
     userID = userIDForLogin.asObserver()
     password = passwordForLogin.asObserver()
     
-    Observable.zip(
+    Observable.combineLatest(
       userIDForLogin,
       passwordForLogin
     )
     .flatMapLatest {
       AuthService.shared.loginMember(
         request: .init(
-        userID: $0,
-        password: $1
+          userID: $0,
+          password: $1
         )
       )
     }
-    .map { $0.accessToken }
-    .subscribe(onNext: { accessToken in
-      print("토큰 1 \(accessToken)")
-      UserManager.shared.updatePLUBToken(accessToken: accessToken, refreshToken: "")
+    .subscribe(onNext: { response in
+      print("엥 \(response)")
+      UserManager.shared.updatePLUBToken(accessToken: response.accessToken, refreshToken: response.refreshToken)
       tokenForLogin.onNext(UserManager.shared.accessToken)
+      refreshTokenForLogin.onNext(UserManager.shared.refreshToken)
+    }, onError: { error in
+      print("에러 \(error)")
     })
     .disposed(by: disposeBag)
     
-    accessToken = tokenForLogin
-      .asDriver(onErrorJustReturn: nil)
+    loginToken = Observable.combineLatest(
+      tokenForLogin, refreshTokenForLogin
+    )
+    .asDriver(onErrorDriveWith: .empty())
   }
 }

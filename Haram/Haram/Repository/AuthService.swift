@@ -25,4 +25,8 @@ extension AuthService {
   func loginMember(request: LoginRequest) -> Observable<LoginResponse> {
     service.request(router: AuthRouter.loginMember(request), type: LoginResponse.self)
   }
+  
+  func reissuanceAccessToken() -> Observable<LoginResponse> {
+    service.request(router: AuthRouter.reissuanceAccessToken, type: LoginResponse.self)
+  }
 }

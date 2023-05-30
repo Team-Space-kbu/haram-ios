@@ -52,7 +52,8 @@ extension Router {
     
     // headers값 동봉
     request.headers = headers.toHTTPHeader
-    
+    print("헤더 \(request.headers)")
+    print("리퀘스트 \(request)")
     // parameters 값 동봉
     
     switch parameters {

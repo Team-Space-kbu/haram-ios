@@ -13,7 +13,7 @@ enum HeaderType {
   case `default`
   case withAccessToken
   case withRefreshToken
-//  case withKakaoLocationKey
+  case withAccessAndRefresh
   case formData
 }
 
@@ -32,7 +32,8 @@ extension HeaderType {
       
       // default 헤더 값에 `Authorization token` 및 `Content-Type` 추가
       var defaultHeaders = HTTPHeaders.default
-      defaultHeaders.add(.authorization(bearerToken: token))
+      defaultHeaders.add(name: "accessToken", value: token)
+//      defaultHeaders.add(.authorization(bearerToken: token))
       defaultHeaders.add(.contentType("application/json"))
       return defaultHeaders
       
@@ -48,6 +49,14 @@ extension HeaderType {
       defaultHeaders.add(.contentType("application/json"))
       return defaultHeaders
       
+    case .withAccessAndRefresh:
+      guard let accessToken = UserManager.shared.accessToken,
+            let refreshToken = UserManager.shared.refreshToken else { return HeaderType.default.toHTTPHeader }
+      var defaultHeaders = HTTPHeaders.default
+      defaultHeaders.add(name: "accessToken", value: accessToken)
+      defaultHeaders.add(name: "refreshToken", value: refreshToken)
+      return defaultHeaders
+    
     case .formData:
       // default 헤더 값에 `multipart/form-data` 추가
       var defaultHeaders = HTTPHeaders.default

@@ -7,8 +7,15 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 import Then
+
+struct LibraryResultsCollectionViewCellModel {
+  let imageName: String
+  let title: String
+  let description: String
+}
 
 final class LibraryResultsCollectionViewCell: UICollectionViewCell {
   
@@ -25,14 +32,16 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
     $0.textColor = .hex1A1E27
     $0.font = .bold
     $0.font = .systemFont(ofSize: 16)
-    $0.text = "Lorem ipsum dolor sit amet,\nconsetetur sadipscing elitr, sed"
+    $0.numberOfLines = 2
+    $0.text = "Lorem ipsum dolor sit amet,\nconsetetur sadipscing elitr, sedLorem ipsum dolor sit amet"
   }
   
   private let subLabel = UILabel().then {
     $0.textColor = .hex545E6A
     $0.font = .regular
     $0.font = .systemFont(ofSize: 14)
-    $0.text = "박유성자유아카데미, 2020,"
+    $0.numberOfLines = 1
+    $0.text = "박유성자유아카데미, 2020"
   }
   
   private let bottomLineView = UIView().then {
@@ -73,5 +82,12 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
       $0.height.equalTo(1)
       $0.bottom.directionalHorizontalEdges.equalToSuperview()
     }
+  }
+  
+  func configureUI(with model: LibraryResultsCollectionViewCellModel) {
+    guard let url = URL(string: model.imageName) else { return }
+    bookImageView.kf.setImage(with: url)
+    mainLabel.text = model.title
+    subLabel.text = model.description
   }
 }
