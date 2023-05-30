@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
@@ -80,9 +81,18 @@ final class LibraryViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     searchController.searchBar.rx.text
-      .subscribe(onNext: { txt in
-        print("글자 \(txt)")
-      })
+      .orEmpty
+      .skip(1)
+      .debounce(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
+      .subscribe(with: self) { owner, text in
+        owner.viewModel.whichSearchText.onNext(text)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.searchResults
+      .drive(with: self) { owner, result in
+        owner.searchResultsController.updateData(model: result)
+      }
       .disposed(by: disposeBag)
   }
   

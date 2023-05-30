@@ -15,6 +15,12 @@ struct LibraryResultsCollectionViewCellModel {
   let imageName: String
   let title: String
   let description: String
+  
+  init(response: SearchBookResponse) {
+    imageName = response.imageName
+    title = response.title
+    description = response.description
+  }
 }
 
 final class LibraryResultsCollectionViewCell: UICollectionViewCell {
@@ -22,10 +28,9 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
   static let identifier = "LibraryResultsCollectionViewCell"
   
   private let bookImageView = UIImageView().then {
-    $0.backgroundColor = .gray
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
-    $0.contentMode = .scaleAspectFill
+    $0.contentMode = .scaleAspectFit
   }
   
   private let mainLabel = UILabel().then {
@@ -85,8 +90,8 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: LibraryResultsCollectionViewCellModel) {
-    guard let url = URL(string: model.imageName) else { return }
-    bookImageView.kf.setImage(with: url)
+    let url = URL(string: model.imageName)
+    bookImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "book"))
     mainLabel.text = model.title
     subLabel.text = model.description
   }

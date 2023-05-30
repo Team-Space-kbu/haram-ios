@@ -9,7 +9,7 @@ import Foundation
 
 struct SearchBookResponse: Codable {
   let title: String
-  let etc: String
+  let description: String
   let imageName: String
   let bookInfo: String
   let isbn: String
@@ -17,6 +17,7 @@ struct SearchBookResponse: Codable {
   enum CodingKeys: String, CodingKey {
     case imageName = "image"
     case bookInfo = "info"
-    case title, etc, isbn
+    case description = "etc"
+    case title, isbn
   }
 }

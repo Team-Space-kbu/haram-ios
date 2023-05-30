@@ -22,8 +22,8 @@ extension LibraryService {
     service.request(router: LibraryRouter.inquireLibrary, type: InquireLibraryResponse.self)
   }
   
-  func searchBook(text: String) -> Observable<SearchBookResponse> {
-    service.request(router: LibraryRouter.searchBook(text), type: SearchBookResponse.self)
+  func searchBook(text: String) -> Observable<[SearchBookResponse]> {
+    service.request(router: LibraryRouter.searchBook(text), type: [SearchBookResponse].self)
   }
   
 }
