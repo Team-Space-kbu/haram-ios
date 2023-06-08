@@ -91,7 +91,7 @@ final class LoginViewController: BaseViewController {
     guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else {
       return
     }
-    print("리프레시토큰 \(UserManager.shared.refreshToken)")
+    
     let vc = HaramTabbarController()
     vc.modalPresentationStyle = .overFullScreen
     present(vc, animated: true)
@@ -108,7 +108,7 @@ final class LoginViewController: BaseViewController {
       .skip(1)
       .drive(with: self) { owner, result in
         guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else { return }
-        print("여기옴이당?")
+        
         let vc = HaramTabbarController()
         vc.modalPresentationStyle = .overFullScreen
         owner.present(vc, animated: true)

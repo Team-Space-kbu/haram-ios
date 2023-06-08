@@ -10,6 +10,16 @@ import UIKit
 import SnapKit
 import Then
 
+struct ChapelCollectionViewCellModel {
+  let title: String
+  let subTitle: String
+  
+  init(response: InquireChapelListResponse) {
+    title = response.attendanceDays
+    subTitle = response.attendance
+  }
+}
+
 final class ChapelCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "ChapelCollectionViewCell"
@@ -51,7 +61,8 @@ final class ChapelCollectionViewCell: UICollectionViewCell {
     
     chapelImageView.snp.makeConstraints {
       $0.size.equalTo(44)
-      $0.leading.directionalVerticalEdges.equalToSuperview()
+      $0.directionalVerticalEdges.equalToSuperview()
+      $0.leading.equalToSuperview().inset(15)
     }
     
     chapelTitleLabel.snp.makeConstraints {
@@ -62,7 +73,12 @@ final class ChapelCollectionViewCell: UICollectionViewCell {
     chapelSubTitleLabel.snp.makeConstraints {
       $0.leading.equalTo(chapelImageView.snp.trailing).offset(15)
       $0.top.equalTo(chapelImageView.snp.centerY)
+      $0.trailing.lessThanOrEqualToSuperview()
     }
-    
+  }
+  
+  func configureUI(with model: ChapelCollectionViewCellModel) {
+    chapelTitleLabel.text = model.title
+    chapelSubTitleLabel.text = model.subTitle
   }
 }

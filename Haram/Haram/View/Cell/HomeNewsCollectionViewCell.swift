@@ -7,12 +7,18 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 import Then
 
 struct HomeNewsCollectionViewCellModel {
   let title: String
   let thumbnailName: String
+  
+  init(kbuNews: KbuNews) {
+    title = kbuNews.title
+    thumbnailName = kbuNews.filePath
+  }
 }
 
 final class HomeNewsCollectionViewCell: UICollectionViewCell {
@@ -23,16 +29,14 @@ final class HomeNewsCollectionViewCell: UICollectionViewCell {
     $0.contentMode = .scaleAspectFill
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
-    $0.backgroundColor = .lightGray
   }
   
   private let titleLabel = UILabel().then {
     $0.textColor = .hex545E6A
     $0.font = .bold
     $0.font = .systemFont(ofSize: 14)
-    $0.text = "코코스 2022년 4월호"
     $0.sizeToFit()
-    
+    $0.numberOfLines = 0
   }
   
   override init(frame: CGRect) {
@@ -59,6 +63,8 @@ final class HomeNewsCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: HomeNewsCollectionViewCellModel) {
-//    newsImageView.image = UIImage(systemName: "heart.fill")
+    let url = URL(string: model.thumbnailName)
+    newsImageView.kf.setImage(with: url)
+    titleLabel.text = model.title
   }
 }

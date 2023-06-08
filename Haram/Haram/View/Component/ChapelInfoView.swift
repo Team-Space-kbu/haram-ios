@@ -27,6 +27,12 @@ enum ChapelViewType: CaseIterable {
   }
 }
 
+struct ChapelInfoViewModel {
+  let attendanceDays: String
+  let remainDays: String
+  let lateDays: String
+}
+
 final class ChapelView: UIView {
   
   private let type: ChapelViewType
@@ -41,7 +47,6 @@ final class ChapelView: UIView {
     $0.textColor = .hex1A1E27
     $0.font = .systemFont(ofSize: 18)
     $0.sizeToFit()
-    $0.text = "53일"
   }
   
   init(type: ChapelViewType) {
@@ -67,8 +72,8 @@ final class ChapelView: UIView {
     }
   }
   
-  func configureUI(with model: Int) {
-    dayLabel.text = "\(model)명"
+  func configureUI(with model: String) {
+    dayLabel.text = "\(model)일"
   }
 }
 
@@ -76,7 +81,6 @@ final class ChapelInfoView: UIView {
   private let contentStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.distribution = .equalSpacing
-//    $0.spacing = 37.11
   }
   
   private let attendanceView = ChapelView(type: .attendance)
@@ -115,5 +119,11 @@ final class ChapelInfoView: UIView {
     lineView1.snp.makeConstraints {
       $0.width.equalTo(1)
     }
+  }
+  
+  func configureUI(with model: ChapelInfoViewModel) {
+    attendanceView.configureUI(with: model.attendanceDays)
+    remainView.configureUI(with: model.remainDays)
+    tardyView.configureUI(with: model.lateDays)
   }
 }

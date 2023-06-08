@@ -12,22 +12,17 @@ import Then
 
 final class ChapelViewController: BaseViewController {
   
-  private let containerStackView = UIStackView().then {
-    $0.axis = .vertical
-    $0.spacing = 19.5
+  private var chapelHeaderModel: ChapelCollectionHeaderViewModel? {
+    didSet {
+      chapelCollectionView.reloadData()
+    }
   }
   
-  private let lineView = UIView().then {
-    $0.backgroundColor = .hex9F9FA4
+  private var chapelListModel: [ChapelCollectionViewCellModel] = [] {
+    didSet {
+      chapelCollectionView.reloadData()
+    }
   }
-  
-  private let lineView1 = UIView().then {
-    $0.backgroundColor = .hex9F9FA4
-  }
-  
-  private let chapelDayView = ChapelDayView()
-  
-  private let chapelInfoView = ChapelInfoView()
   
   private lazy var chapelCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
     $0.minimumLineSpacing = 20
@@ -40,71 +35,107 @@ final class ChapelViewController: BaseViewController {
     $0.contentInset = .init(top: .zero, left: 15, bottom: .zero, right: 15)
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    if !UserManager.shared.hasIntranetToken {
+      let vc = IntranetLoginViewController()
+      navigationController?.pushViewController(vc, animated: true)
+    }
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(containerStackView)
-    [chapelDayView, lineView, chapelInfoView, lineView1, chapelCollectionView].forEach { containerStackView.addArrangedSubview($0) }
+    view.addSubview(chapelCollectionView)
   }
   
   override func setupConstraints() {
-    super.setupConstraints()
-    
-    containerStackView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.directionalHorizontalEdges.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
-    }
-    
-    chapelInfoView.snp.makeConstraints {
-      $0.directionalHorizontalEdges.equalToSuperview().inset(57)
-      $0.height.equalTo(46)
-    }
-    
-    lineView.snp.makeConstraints {
-      $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
-    }
-    
-    lineView1.snp.makeConstraints {
-      $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
-    }
-    
+    super.setupConstraints()  
     chapelCollectionView.snp.makeConstraints {
-      $0.height.equalTo(UIScreen.main.bounds.height - 320)
+      $0.directionalEdges.equalToSuperview()
     }
-    
-    containerStackView.setCustomSpacing(72, after: chapelDayView)
   }
   
   override func setupStyles() {
     super.setupStyles()
-    chapelDayView.configureUI(with: 50)
+    title = "채플조회"
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "back"),
+      style: .done,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
+    
+    if UserManager.shared.hasIntranetToken {
+      ChapelService.shared.inquireChapelList(
+        request: .init(
+          intranetToken: UserManager.shared.intranetToken!,
+          xsrfToken: UserManager.shared.xsrfToken!,
+          laravelSession: UserManager.shared.laravelSession!
+        )
+      )
+      .subscribe(with: self) { owner, response in
+        let chapelListModel = response.map { ChapelCollectionViewCellModel(response: $0) }
+        print("리스트조회 \(chapelListModel)")
+        owner.chapelListModel = chapelListModel
+      }
+      .disposed(by: disposeBag)
+      
+      ChapelService.shared.inquireChapelInfo(
+        request: .init(
+          intranetToken: UserManager.shared.intranetToken!,
+          xsrfToken: UserManager.shared.xsrfToken!,
+          laravelSession: UserManager.shared.laravelSession!
+        )
+      )
+      .subscribe(with: self) { owner, response in
+        print("채플인포조회 \(response)")
+        guard let entireDays = Int(response.entireDays),
+              let confirmationDays = Int(response.confirmationDays) else { return }
+        owner.chapelHeaderModel = ChapelCollectionHeaderViewModel(
+          chapelDayViewModel: response.confirmationDays,
+          chapelInfoViewModel: .init(
+            attendanceDays: response.attendanceDays,
+            remainDays: "\(entireDays - confirmationDays)",
+            lateDays: response.lateDays)
+        )
+      }
+      .disposed(by: disposeBag)
+    }
+  }
+  
+  @objc private func didTappedBackButton() {
+    self.navigationController?.popViewController(animated: true)
   }
 }
 
 extension ChapelViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 1
+  }
+  
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    return chapelListModel.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChapelCollectionViewCell.identifier, for: indexPath) as? ChapelCollectionViewCell ?? ChapelCollectionViewCell()
+    cell.configureUI(with: chapelListModel[indexPath.row])
     return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ChapelCollectionHeaderView.identifier, for: indexPath) as? ChapelCollectionHeaderView ?? ChapelCollectionHeaderView()
+    header.configureUI(with: chapelHeaderModel)
     return header
   }
 }
 
 extension ChapelViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: collectionView.bounds.width - 30, height: 44)
+    return CGSize(width: collectionView.bounds.width, height: 44)
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    return CGSize(width: collectionView.bounds.width, height: 28 + 14)
+    return CGSize(width: collectionView.bounds.width, height: 28 + 14 + 320)
   }
 }

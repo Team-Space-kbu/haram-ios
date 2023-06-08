@@ -29,4 +29,12 @@ extension AuthService {
   func reissuanceAccessToken() -> Observable<LoginResponse> {
     service.request(router: AuthRouter.reissuanceAccessToken, type: LoginResponse.self)
   }
+  
+  func loginIntranet(request: IntranetLoginRequest) -> Observable<String> {
+    service.intranetRequest(router: AuthRouter.loginIntranet(request))
+  }
+  
+  func requestIntranetToken() -> Observable<RequestIntranetTokenResponse> {
+    service.request(router: AuthRouter.requestIntranetToken, type: RequestIntranetTokenResponse.self)
+  }
 }

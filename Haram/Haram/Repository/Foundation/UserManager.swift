@@ -35,10 +35,17 @@ final class UserManager {
   @KeyChainWrapper<String>(key: "fcmToken")
   private(set) var fcmToken
   
-//  // MARK: - Social Login Type
-//  
-//  @UserDefaultsWrapper<SocialType>(key: "socialType")
-//  private(set) var socialType
+  // MARK: - Intranet Token
+  @KeyChainWrapper<String>(key: "intranetToken")
+  private(set) var intranetToken
+  
+  @KeyChainWrapper<String>(key: "xsrfToken")
+  private(set) var xsrfToken
+  
+  @KeyChainWrapper<String>(key: "laravelSession")
+  private(set) var laravelSession
+  
+  var hasIntranetToken: Bool { return intranetToken != nil && xsrfToken != nil && laravelSession != nil }
   
   var hasAccessToken: Bool { return accessToken != nil }
   var hasRefreshToken: Bool { return refreshToken != nil }
@@ -69,12 +76,13 @@ extension UserManager {
     self.fcmToken = fcmToken
   }
   
-  /// 소셜로그인 타입을 세팅합니다.
-  /// - Parameter socialType: 소셜로그인 타입(애플, 구글, 카카오)
-//  func set(socialType: SocialType) {
-//    self.socialType = socialType
-//  }
-//
+  /// 인트라넷 관련 API를 위한 토큰값을 세팅합니다.
+  func set(intranetToken: String, xsrfToken: String, laravelSession: String) {
+    self.intranetToken = intranetToken
+    self.xsrfToken = xsrfToken
+    self.laravelSession = laravelSession
+  }
+  
   /// 최초 실행 여부를 세팅합니다.
   func set(isLaunchedBefore: Bool) {
     self.isLaunchedBefore = isLaunchedBefore
@@ -84,8 +92,10 @@ extension UserManager {
   func clearUserInformations() {
     accessToken = nil
     refreshToken = nil
-    signToken = nil
-    fcmToken = nil
+    
+    intranetToken = nil
+    xsrfToken = nil
+    laravelSession = nil
   }
   
   /// 가지고 있는 `refresh token`을 가지고 새로운 `access token`과 `refresh token`을 발급받습니다.
@@ -96,5 +106,5 @@ extension UserManager {
       }
   }
   
- 
+  
 }

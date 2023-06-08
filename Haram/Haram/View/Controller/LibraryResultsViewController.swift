@@ -80,7 +80,7 @@ extension LibraryResultsViewController: UICollectionViewDelegate, UICollectionVi
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     print("탭")
     let vc = LibraryDetailViewController()
-    vc.navigationItem.largeTitleDisplayMode = .never
+    vc.modalPresentationStyle = .overFullScreen
     present(vc, animated: true)
   }
 }

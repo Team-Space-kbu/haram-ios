@@ -10,13 +10,14 @@ import Alamofire
 enum LibraryRouter {
   case inquireLibrary
   case searchBook(String)
+  case requestBookInfo(String)
 }
 
 extension LibraryRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .inquireLibrary, .searchBook:
+    case .inquireLibrary, .searchBook, .requestBookInfo:
       return .get
     }
   }
@@ -27,6 +28,8 @@ extension LibraryRouter: Router {
       return "/v1/function/library"
     case .searchBook:
       return "/v1/function/library/search"
+    case .requestBookInfo:
+      return "/v1/function/library/info"
     }
   }
   
@@ -36,12 +39,14 @@ extension LibraryRouter: Router {
       return .plain
     case .searchBook(let text):
       return .query(["text": text])
+    case .requestBookInfo(let text):
+      return .query(["text": text])
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireLibrary, .searchBook:
+    case .inquireLibrary, .searchBook, .requestBookInfo:
       return .withAccessToken
     }
   }

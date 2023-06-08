@@ -11,15 +11,26 @@ enum AuthRouter {
   case registerMember(RegisterMemberRequest)
   case loginMember(LoginRequest)
   case reissuanceAccessToken
+  case loginIntranet(IntranetLoginRequest)
+  case requestIntranetToken
 }
 
 extension AuthRouter: Router {
   
+  var baseURL: String {
+    switch self {
+    case .registerMember, .loginMember, .reissuanceAccessToken, .requestIntranetToken:
+      return URLConstants.baseURL
+    case .loginIntranet:
+      return URLConstants.intranetBaseURL
+    }
+  }
+  
   var method: HTTPMethod {
     switch self {
-    case .registerMember, .loginMember:
+    case .registerMember, .loginMember, .loginIntranet:
       return .post
-    case .reissuanceAccessToken:
+    case .reissuanceAccessToken, .requestIntranetToken:
       return .get
     }
   }
@@ -32,6 +43,10 @@ extension AuthRouter: Router {
       return "/v1/login"
     case .reissuanceAccessToken:
       return "/v1/refresh"
+    case .loginIntranet:
+      return "/loginApp"
+    case .requestIntranetToken:
+      return "/v1/function/intranet/token"
     }
   }
   
@@ -43,6 +58,10 @@ extension AuthRouter: Router {
       return .body(request)
     case .reissuanceAccessToken:
       return .plain
+    case .requestIntranetToken:
+      return .plain
+    case .loginIntranet(let request):
+      return .body(request)
     }
   }
   
@@ -52,6 +71,10 @@ extension AuthRouter: Router {
       return .default
     case .reissuanceAccessToken:
       return .withAccessAndRefresh
+    case .requestIntranetToken:
+      return .withAccessToken
+    case .loginIntranet:
+      return .withCookieForIntranet
     }
   }
 }

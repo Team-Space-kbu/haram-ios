@@ -25,3 +25,5 @@ struct BaseEntity<T>: Decodable where T: Decodable {
     self.data = try container.decodeIfPresent(T.self, forKey: .data)
   }
 }
+
+struct EmptyModel: Codable { }

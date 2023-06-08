@@ -7,16 +7,20 @@
 
 import UIKit
 
+import Alamofire
 import RxSwift
 import SnapKit
 import Then
 
 enum HomeType: CaseIterable {
+  case banner
   case shortcut
   case news
   
   var title: String {
     switch self {
+    case .banner:
+      return "배너"
     case .shortcut:
       return "바로가기"
     case .news:
@@ -26,6 +30,18 @@ enum HomeType: CaseIterable {
 }
 
 final class HomeViewController: BaseViewController {
+  
+  private var bannerModel: [HomebannerCollectionViewCellModel] = [] {
+    didSet {
+      collectionView.reloadSections([0])
+    }
+  }
+  
+  private var newsModel: [HomeNewsCollectionViewCellModel] = [] {
+    didSet {
+      collectionView.reloadSections([2])
+    }
+  }
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -37,7 +53,9 @@ final class HomeViewController: BaseViewController {
     $0.backgroundColor = .clear
   }
   
-  private let haramSectionView = HaramSectionView()
+  private let homeNoticeView = HomeNoticeView()
+  
+//  private let haramSectionView = HaramSectionView()
   
   private lazy var collectionView = UICollectionView(
     frame: .zero,
@@ -51,6 +69,7 @@ final class HomeViewController: BaseViewController {
     $0.dataSource = self
     $0.register(HomeShortcutCollectionViewCell.self, forCellWithReuseIdentifier: HomeShortcutCollectionViewCell.identifier)
     $0.register(HomeNewsCollectionViewCell.self, forCellWithReuseIdentifier: HomeNewsCollectionViewCell.identifier)
+    $0.register(HomeBannerCollectionViewCell.self, forCellWithReuseIdentifier: HomeBannerCollectionViewCell.identifier)
     $0.register(HomeCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCollectionHeaderView.identifier)
     $0.showsVerticalScrollIndicator = false
     $0.isScrollEnabled = false
@@ -65,18 +84,13 @@ final class HomeViewController: BaseViewController {
     }
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
     
-//    LibraryService.shared.inquireLibrary()
-//      .subscribe(onNext: { response in
-//        print("응답 \(response)")
-//      })
-//      .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(scrollContainerView)
-    [haramSectionView, collectionView].forEach { scrollContainerView.addSubview($0) }
+    [homeNoticeView, collectionView].forEach { scrollContainerView.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -91,21 +105,49 @@ final class HomeViewController: BaseViewController {
       $0.width.directionalVerticalEdges.equalToSuperview()
     }
     
-    haramSectionView.snp.makeConstraints {
+    homeNoticeView.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-      $0.height.equalTo(20 + 70 + 20 + 140 + 20 + 35) // bottomInset + 팝업높이 + offset + 광고 뷰 높이 + offset + 공지 뷰
+      $0.height.equalTo(35) //공지 뷰
     }
     
     collectionView.snp.makeConstraints {
-      $0.top.equalTo(haramSectionView.snp.bottom)
+      $0.top.equalTo(homeNoticeView.snp.bottom).offset(20)
       $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(15)
-      $0.height.equalTo(UIScreen.main.bounds.height - (20 + 70 + 20 + 140 + 20 + 35))
+      $0.height.equalTo(UIScreen.main.bounds.height - (20 + 70 + 20 + 35))
     }
+  }
+  
+  override func bind() {
+    super.bind()
+    HomeService.shared.inquireHomeInfo()
+      .subscribe(with: self) { owner, response in
+        owner.newsModel = response.kokkoks.kbuNews.map { HomeNewsCollectionViewCellModel(kbuNews: $0) }
+        
+        owner.bannerModel = response.banner.banners.map { HomebannerCollectionViewCellModel(subBanner: $0) }
+      }
+      .disposed(by: disposeBag)
   }
   
   private func createSection(type: HomeType) -> NSCollectionLayoutSection? {
     switch type {
+    case .banner:
+      let item = NSCollectionLayoutItem(
+        layoutSize: NSCollectionLayoutSize(
+          widthDimension: .fractionalWidth(1),
+          heightDimension: .fractionalHeight(1))
+      )
+      let group = NSCollectionLayoutGroup.horizontal(
+        layoutSize: NSCollectionLayoutSize(
+          widthDimension: .fractionalWidth(1),
+          heightDimension: .absolute(142)),
+        repeatingSubitem: item,
+        count: 1
+      )
+      
+      let section = NSCollectionLayoutSection(group: group)
+      section.orthogonalScrollingBehavior = .groupPaging
+      return section
     case .shortcut:
       let item = NSCollectionLayoutItem(
         layoutSize: NSCollectionLayoutSize(
@@ -143,8 +185,8 @@ final class HomeViewController: BaseViewController {
       
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
-          widthDimension: .absolute(118),
-          heightDimension: .absolute(165 + 6 + 18)),
+          widthDimension: .absolute(119),
+          heightDimension: .absolute(206)),
         repeatingSubitem: item,
         count: 1
       )
@@ -175,16 +217,22 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     let type = HomeType.allCases[section]
     switch type {
+    case .banner:
+      return bannerModel.count
     case .shortcut:
       return ShortcutType.allCases.count
     case .news:
-      return 8
+      return newsModel.count
     }
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let type = HomeType.allCases[indexPath.section]
     switch type {
+    case .banner:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeBannerCollectionViewCell.identifier, for: indexPath) as? HomeBannerCollectionViewCell ?? HomeBannerCollectionViewCell()
+      cell.configureUI(with: bannerModel[indexPath.row])
+      return cell
     case .shortcut:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeShortcutCollectionViewCell.identifier, for: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
       let type = ShortcutType.allCases[indexPath.row]
@@ -192,7 +240,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       return cell
     case .news:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeNewsCollectionViewCell.identifier, for: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
-      cell.configureUI(with: .init(title: "", thumbnailName: ""))
+      cell.configureUI(with: newsModel[indexPath.row])
       return cell
     }
   }
@@ -207,13 +255,19 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let homeSection = HomeType.allCases[indexPath.section]
     switch homeSection {
+    case .banner:
+      print("배너클릭")
     case .shortcut:
       let type = ShortcutType.allCases[indexPath.row]
       switch type {
       case .mileage:
         print("잉")
       case .chapel:
-        print("잉")
+        let vc = ChapelViewController()
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.hidesBottomBarWhenPushed = true
+        vc.navigationItem.backButtonTitle = nil
+        navigationController?.pushViewController(vc, animated: true)
       case .notice:
         let vc = NoticeViewController()
         vc.navigationItem.largeTitleDisplayMode = .never

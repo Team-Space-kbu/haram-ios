@@ -47,7 +47,7 @@ final class ChapelDayView: UIView {
     }
   }
   
-  func configureUI(with model: Int) {
+  func configureUI(with model: String) {
     dayLabel.text = "\(model)일"
   }
 }
