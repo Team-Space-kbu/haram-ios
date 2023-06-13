@@ -12,6 +12,22 @@ import Then
 
 final class HaramTabbarController: UITabBarController {
   
+  private lazy var homeViewController = UINavigationController(rootViewController: HomeViewController().then {
+    $0.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "home"), tag: 0)
+  })
+  
+  private lazy var scheduleViewController = UINavigationController(rootViewController: ScheduleViewController().then {
+    $0.tabBarItem = UITabBarItem(title: "시간표", image: UIImage(named: "time"), tag: 1)
+  })
+  
+  private lazy var boardViewController = UINavigationController(rootViewController: BoardViewController().then {
+    $0.tabBarItem = UITabBarItem(title: "게시판", image: UIImage(named: "board"), tag: 2)
+  })
+  
+  private lazy var moreViewController = UINavigationController(rootViewController: MoreViewController().then {
+    $0.tabBarItem = UITabBarItem(title: "더보기", image: UIImage(named: "more"), tag: 3)
+  } )
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupLayouts()
@@ -21,18 +37,10 @@ final class HaramTabbarController: UITabBarController {
   
   private func setupLayouts() {
     viewControllers = [
-      UINavigationController(rootViewController: HomeViewController().then {
-        $0.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "home"), tag: 0)
-      }),
-      UINavigationController(rootViewController: ScheduleViewController().then {
-        $0.tabBarItem = UITabBarItem(title: "시간표", image: UIImage(named: "time"), tag: 1)
-      }),
-      UINavigationController(rootViewController: BoardViewController().then {
-        $0.tabBarItem = UITabBarItem(title: "게시판", image: UIImage(named: "board"), tag: 2)
-      }),
-      UINavigationController(rootViewController: MoreViewController().then {
-        $0.tabBarItem = UITabBarItem(title: "더보기", image: UIImage(named: "more"), tag: 3)
-      } )
+      homeViewController,
+      scheduleViewController,
+      boardViewController,
+      moreViewController
     ]
   }
   
@@ -54,5 +62,18 @@ final class HaramTabbarController: UITabBarController {
         $0.selected.titleTextAttributes = [.font: UIFont.regular]
       }
     }
+//    delegate = self
   }
 }
+
+//extension HaramTabbarController: UITabBarControllerDelegate {
+//  func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+//    if viewController == scheduleViewController {
+//      guard !UserManager.shared.hasIntranetToken else { return }
+//      let vc = IntranetLoginViewController()
+//      vc.navigationItem.largeTitleDisplayMode = .never
+//      print("시발 \(scheduleViewController.navigationController)")
+//      self.navigationController?.pushViewController(vc, animated: true)
+//    }
+//  }
+//}

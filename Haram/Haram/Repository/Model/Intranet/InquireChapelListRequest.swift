@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireChapelListRequest: Codable {
+struct IntranetRequest: Codable {
   let intranetToken: String
   let xsrfToken: String
   let laravelSession: String

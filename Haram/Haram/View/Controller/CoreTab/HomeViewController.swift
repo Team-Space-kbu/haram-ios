@@ -31,6 +31,8 @@ enum HomeType: CaseIterable {
 
 final class HomeViewController: BaseViewController {
   
+  private let currentBannerPage = PublishSubject<Int>()
+  
   private var bannerModel: [HomebannerCollectionViewCellModel] = [] {
     didSet {
       collectionView.reloadSections([0])
@@ -55,8 +57,6 @@ final class HomeViewController: BaseViewController {
   
   private let homeNoticeView = HomeNoticeView()
   
-//  private let haramSectionView = HaramSectionView()
-  
   private lazy var collectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
@@ -71,6 +71,8 @@ final class HomeViewController: BaseViewController {
     $0.register(HomeNewsCollectionViewCell.self, forCellWithReuseIdentifier: HomeNewsCollectionViewCell.identifier)
     $0.register(HomeBannerCollectionViewCell.self, forCellWithReuseIdentifier: HomeBannerCollectionViewCell.identifier)
     $0.register(HomeCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCollectionHeaderView.identifier)
+    $0.register(PagingSectionFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: PagingSectionFooterView.identifier)
+    
     $0.showsVerticalScrollIndicator = false
     $0.isScrollEnabled = false
   }
@@ -145,8 +147,25 @@ final class HomeViewController: BaseViewController {
         count: 1
       )
       
+      let footerSize = NSCollectionLayoutSize(
+        widthDimension: .fractionalWidth(1.0),
+        heightDimension: .absolute(20)
+      )
+      
+      let pagingFooterElement = NSCollectionLayoutBoundarySupplementaryItem(
+        layoutSize: footerSize,
+        elementKind: UICollectionView.elementKindSectionFooter,
+        alignment: .bottom
+      )
+      
       let section = NSCollectionLayoutSection(group: group)
       section.orthogonalScrollingBehavior = .groupPaging
+      section.boundarySupplementaryItems = [pagingFooterElement]
+      section.visibleItemsInvalidationHandler = { [weak self] _, contentOffset, environment in
+        let bannerIndex = Int(max(0, round(contentOffset.x / environment.container.contentSize.width)))
+          self?.currentBannerPage.onNext(bannerIndex)
+     }
+      
       return section
     case .shortcut:
       let item = NSCollectionLayoutItem(
@@ -246,7 +265,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    let type = HomeType.allCases[indexPath.section]
+    if kind == UICollectionView.elementKindSectionFooter && indexPath.section == 0 {
+      let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: PagingSectionFooterView.identifier, for: indexPath) as? PagingSectionFooterView ?? PagingSectionFooterView()
+      footer.setPageControl(subBanners: bannerModel, currentPage: currentBannerPage)
+      return footer
+    }
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeCollectionHeaderView.identifier, for: indexPath) as? HomeCollectionHeaderView ?? HomeCollectionHeaderView()
     header.configureUI(with: HomeType.allCases[indexPath.section].title)
     return header
@@ -263,11 +286,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       case .mileage:
         print("잉")
       case .chapel:
-        let vc = ChapelViewController()
-        vc.navigationItem.largeTitleDisplayMode = .never
-        vc.hidesBottomBarWhenPushed = true
-        vc.navigationItem.backButtonTitle = nil
-        navigationController?.pushViewController(vc, animated: true)
+        if !UserManager.shared.hasIntranetToken {
+          let vc = IntranetLoginViewController()
+          vc.modalPresentationStyle = .overFullScreen
+          present(vc, animated: true)
+        } else {
+          let vc = ChapelViewController()
+          vc.navigationItem.largeTitleDisplayMode = .never
+          vc.hidesBottomBarWhenPushed = true
+          vc.navigationItem.backButtonTitle = nil
+          navigationController?.pushViewController(vc, animated: true)
+        }
       case .notice:
         let vc = NoticeViewController()
         vc.navigationItem.largeTitleDisplayMode = .never

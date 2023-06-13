@@ -6,6 +6,7 @@ target 'Haram' do
   use_frameworks!
 pod 'NMapsMap'
   pod 'Starscream', '~> 4.0.4'
+  pod 'Elliotable'
   # Pods for Haram
 
   target 'HaramTests' do

@@ -48,6 +48,11 @@ final class IntranetLoginViewController: BaseViewController {
     $0.setTitle("로그인", for: .normal)
   }
   
+  override func setupStyles() {
+    super.setupStyles()
+    navigationController?.navigationBar.isHidden = true
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(containerStackView)
@@ -88,7 +93,7 @@ final class IntranetLoginViewController: BaseViewController {
         )
         .subscribe(with: self) { owner, response in
           print("인트라넷 로그인 성공 !! \(response)")
-          owner.navigationController?.popToRootViewController(animated: true)
+          owner.navigationController?.popViewController(animated: true)
         }
         .disposed(by: owner.disposeBag)
       }

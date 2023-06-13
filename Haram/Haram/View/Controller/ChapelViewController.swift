@@ -35,14 +35,6 @@ final class ChapelViewController: BaseViewController {
     $0.contentInset = .init(top: .zero, left: 15, bottom: .zero, right: 15)
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    if !UserManager.shared.hasIntranetToken {
-      let vc = IntranetLoginViewController()
-      navigationController?.pushViewController(vc, animated: true)
-    }
-  }
-  
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(chapelCollectionView)
@@ -66,7 +58,7 @@ final class ChapelViewController: BaseViewController {
     )
     
     if UserManager.shared.hasIntranetToken {
-      ChapelService.shared.inquireChapelList(
+      IntranetService.shared.inquireChapelList(
         request: .init(
           intranetToken: UserManager.shared.intranetToken!,
           xsrfToken: UserManager.shared.xsrfToken!,
@@ -80,7 +72,7 @@ final class ChapelViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
       
-      ChapelService.shared.inquireChapelInfo(
+      IntranetService.shared.inquireChapelInfo(
         request: .init(
           intranetToken: UserManager.shared.intranetToken!,
           xsrfToken: UserManager.shared.xsrfToken!,

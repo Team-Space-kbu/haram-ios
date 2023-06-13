@@ -81,7 +81,7 @@ final class LibraryDetailInfoView: UIView {
   private let containerView = UIStackView().then {
     $0.axis = .horizontal
     $0.distribution = .equalSpacing
-    $0.spacing = 17
+//    $0.spacing = 30
   }
   
   private let authorInfoView = LibraryInfoView()
@@ -114,7 +114,8 @@ final class LibraryDetailInfoView: UIView {
     addSubview(containerView)
     [authorInfoView, lineView, publisherInfoView, lineView1, pubDateInfoView, lineView2, discountInfoView].forEach { containerView.addArrangedSubview($0) }
     containerView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.centerX.width.equalToSuperview()
+      $0.width.lessThanOrEqualTo(UIScreen.main.bounds.width)
     }
     
     [lineView, lineView1, lineView2].forEach {

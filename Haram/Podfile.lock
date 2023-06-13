@@ -1,20 +1,24 @@
 PODS:
+  - Elliotable (1.2.5)
   - NMapsMap (3.16.0)
   - Starscream (4.0.4)
 
 DEPENDENCIES:
+  - Elliotable
   - NMapsMap
   - Starscream (~> 4.0.4)
 
 SPEC REPOS:
   trunk:
+    - Elliotable
     - NMapsMap
     - Starscream
 
 SPEC CHECKSUMS:
+  Elliotable: e669fa7a974658c4e0ee4be4b335f6a561f1b2cb
   NMapsMap: a2593320fca2bb09e521c05b4dffee4da42e96ed
   Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
 
-PODFILE CHECKSUM: e5e9e44ffa847afabad8d62f0c3f0190535422a4
+PODFILE CHECKSUM: 701ddf2436577786374e80d49b7f18c94305621a
 
 COCOAPODS: 1.11.3

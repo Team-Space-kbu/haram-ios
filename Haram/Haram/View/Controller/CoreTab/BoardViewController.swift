@@ -83,11 +83,15 @@ enum NormalBoardType: CaseIterable {
 
 final class BoardViewController: BaseViewController {
   
+  private let scrollView = UIScrollView().then {
+    $0.alwaysBounceVertical = true
+  }
+  
   private let contentStackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 10
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: 64, left: 15, bottom: .zero, right: 15)
+    $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
   }
   
   private let boardLabel = UILabel().then {
@@ -113,7 +117,8 @@ final class BoardViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(contentStackView)
+    view.addSubview(scrollView)
+    scrollView.addSubview(contentStackView)
     [boardLabel, schoolLabel].forEach { contentStackView.addArrangedSubview($0)
     }
     for type in SchoolBoardType.allCases {
@@ -136,8 +141,13 @@ final class BoardViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
+    
+    scrollView.snp.makeConstraints {
+      $0.directionalEdges.width.equalToSuperview()
+    }
+    
     contentStackView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.top.width.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
     contentStackView.setCustomSpacing(22, after: boardLabel)

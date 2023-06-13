@@ -7,16 +7,17 @@
 
 import Alamofire
 
-enum ChapelRouter {
-  case inquireChapelList(InquireChapelListRequest)
-  case inquireChapelInfo(InquireChapelListRequest)
+enum IntranetRouter {
+  case inquireChapelList(IntranetRequest)
+  case inquireChapelInfo(IntranetRequest)
+  case inquireScheduleInfo(IntranetRequest)
 }
 
-extension ChapelRouter: Router {
+extension IntranetRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .inquireChapelList, .inquireChapelInfo:
+    case .inquireChapelList, .inquireChapelInfo, .inquireScheduleInfo:
       return .post
     }
   }
@@ -27,6 +28,8 @@ extension ChapelRouter: Router {
       return "/v1/function/chapel/list"
     case .inquireChapelInfo:
       return "/v1/function/chapel/info"
+    case .inquireScheduleInfo:
+      return "/v1/function/schedule"
     }
   }
   
@@ -36,12 +39,14 @@ extension ChapelRouter: Router {
       return .body(request)
     case .inquireChapelInfo(let request):
       return .body(request)
+    case .inquireScheduleInfo(let request):
+      return .body(request)
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireChapelList, .inquireChapelInfo:
+    case .inquireChapelList, .inquireChapelInfo, .inquireScheduleInfo:
       return .withAccessToken
     }
   }

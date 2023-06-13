@@ -55,7 +55,7 @@ final class LibraryDetailViewController: BaseViewController {
     }
     
     libraryDetailInfoView.snp.makeConstraints {
-      $0.directionalHorizontalEdges.width.equalToSuperview()
+      $0.width.equalToSuperview()
       $0.height.equalTo(18 + 51 + 1)
     }
   }
@@ -65,10 +65,8 @@ final class LibraryDetailViewController: BaseViewController {
     backButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.navigationController?.popViewController(animated: true)
+        owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
-    
-//    LibraryService.shared.
   }
 }

@@ -68,6 +68,10 @@ enum SettingType: CaseIterable {
 
 final class MoreViewController: BaseViewController {
   
+  private let scrollView = UIScrollView().then {
+    $0.alwaysBounceVertical = true
+  }
+  
   private let contentStackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 19
@@ -103,7 +107,8 @@ final class MoreViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(contentStackView)
+    view.addSubview(scrollView)
+    scrollView.addSubview(contentStackView)
     [moreLabel, profileInfoView].forEach { contentStackView.addArrangedSubview($0) }
     
     for type in MoreType.allCases {
@@ -124,8 +129,12 @@ final class MoreViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     
+    scrollView.snp.makeConstraints {
+      $0.directionalEdges.width.equalToSuperview()
+    }
+    
     contentStackView.snp.makeConstraints {
-      $0.directionalHorizontalEdges.top.equalToSuperview()
+      $0.width.top.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
