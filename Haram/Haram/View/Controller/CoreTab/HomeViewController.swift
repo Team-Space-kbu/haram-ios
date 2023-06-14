@@ -288,8 +288,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       case .chapel:
         if !UserManager.shared.hasIntranetToken {
           let vc = IntranetLoginViewController()
-          vc.modalPresentationStyle = .overFullScreen
-          present(vc, animated: true)
+          vc.navigationItem.largeTitleDisplayMode = .never
+          navigationController?.pushViewController(vc, animated: true)
         } else {
           let vc = ChapelViewController()
           vc.navigationItem.largeTitleDisplayMode = .never

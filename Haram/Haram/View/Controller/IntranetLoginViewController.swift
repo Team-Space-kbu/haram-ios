@@ -50,7 +50,8 @@ final class IntranetLoginViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    navigationController?.navigationBar.isHidden = true
+//    navigationController?.navigationBar.isHidden = true
+    navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
   }
   
   override func setupLayouts() {
@@ -93,10 +94,15 @@ final class IntranetLoginViewController: BaseViewController {
         )
         .subscribe(with: self) { owner, response in
           print("인트라넷 로그인 성공 !! \(response)")
+//          owner.dismiss(animated: true)
           owner.navigationController?.popViewController(animated: true)
         }
         .disposed(by: owner.disposeBag)
       }
       .disposed(by: disposeBag)
+  }
+  
+  @objc private func didTappedBackButton() {
+    navigationController?.popViewController(animated: true)
   }
 }

@@ -15,11 +15,13 @@ struct LibraryResultsCollectionViewCellModel {
   let imageName: String
   let title: String
   let description: String
+  let bookInfo: String
   
   init(response: SearchBookResponse) {
     imageName = response.imageName
     title = response.title
     description = response.description
+    bookInfo = response.bookInfo
   }
 }
 

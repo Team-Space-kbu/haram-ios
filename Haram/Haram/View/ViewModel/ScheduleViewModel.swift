@@ -38,6 +38,7 @@ final class ScheduleViewModel: ScheduleViewModelType {
     self.inquireSchedule = inquiringSchedule.asObserver()
     
     inquiringSchedule
+      .take(1)
       .withLatestFrom(
         Observable.combineLatest(
           currentIntranetToken,

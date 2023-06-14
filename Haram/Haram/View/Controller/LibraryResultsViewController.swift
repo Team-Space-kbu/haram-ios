@@ -41,6 +41,7 @@ final class LibraryResultsViewController: BaseViewController {
     }
   }
   
+  
   func updateData(model: [LibraryResultsCollectionViewCellModel]) {
     self.model = model
   }
@@ -78,8 +79,9 @@ extension LibraryResultsViewController: UICollectionViewDelegate, UICollectionVi
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    print("탭")
-    let vc = LibraryDetailViewController()
+    let bookInfo = model[indexPath.row].bookInfo
+    print("도서관응답타이틀 \(title)")
+    let vc = LibraryDetailViewController(bookInfo: bookInfo)
     vc.modalPresentationStyle = .overFullScreen
     present(vc, animated: true)
   }

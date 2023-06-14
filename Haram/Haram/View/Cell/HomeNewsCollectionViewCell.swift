@@ -36,7 +36,7 @@ final class HomeNewsCollectionViewCell: UICollectionViewCell {
     $0.font = .bold
     $0.font = .systemFont(ofSize: 14)
     $0.sizeToFit()
-    $0.numberOfLines = 0
+    $0.numberOfLines = 1
   }
   
   override init(frame: CGRect) {

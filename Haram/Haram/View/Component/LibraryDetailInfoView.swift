@@ -47,6 +47,7 @@ final class LibraryInfoView: UIView {
     $0.textColor = .hex1A1E27
     $0.font = .bold
     $0.font = .systemFont(ofSize: 18)
+    $0.numberOfLines = 0
   }
   
   override init(frame: CGRect) {
@@ -66,7 +67,8 @@ final class LibraryInfoView: UIView {
     
     contentLabel.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-      $0.centerX.bottom.equalToSuperview()
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+//      $0.bottom.lessThanOrEqualToSuperview()
     }
   }
   
@@ -81,7 +83,6 @@ final class LibraryDetailInfoView: UIView {
   private let containerView = UIStackView().then {
     $0.axis = .horizontal
     $0.distribution = .equalSpacing
-//    $0.spacing = 30
   }
   
   private let authorInfoView = LibraryInfoView()
@@ -101,6 +102,10 @@ final class LibraryDetailInfoView: UIView {
     $0.backgroundColor = .hexD8D8DA
   }
   
+  private let horizontalLineView = UIView().then {
+    $0.backgroundColor = .hexD8D8DA
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -111,11 +116,11 @@ final class LibraryDetailInfoView: UIView {
   }
   
   private func configureUI() {
-    addSubview(containerView)
+    [containerView, horizontalLineView].forEach { addSubview($0) }
     [authorInfoView, lineView, publisherInfoView, lineView1, pubDateInfoView, lineView2, discountInfoView].forEach { containerView.addArrangedSubview($0) }
     containerView.snp.makeConstraints {
-      $0.centerX.width.equalToSuperview()
-      $0.width.lessThanOrEqualTo(UIScreen.main.bounds.width)
+      $0.centerX.equalToSuperview()
+      $0.directionalHorizontalEdges.width.equalToSuperview().inset(30)
     }
     
     [lineView, lineView1, lineView2].forEach {
@@ -123,19 +128,24 @@ final class LibraryDetailInfoView: UIView {
         $0.width.equalTo(1)
       }
     }
-  }
-  
-  func configureUI(with model: String) {
-    [authorInfoView, publisherInfoView, pubDateInfoView, discountInfoView].enumerated().forEach { index, vw in
-      vw.configureUI(with: .init(title: LibraryDetailInfoViewType.allCases[index].title, content: "이기주"))
+    
+    horizontalLineView.snp.makeConstraints {
+      $0.top.equalTo(containerView.snp.bottom).offset(18)
+      $0.height.equalTo(1)
+      $0.directionalHorizontalEdges.equalToSuperview()
     }
     
+//    authorInfoView.configureUI(with: .init(title: "저자", content: ""))
+//    publisherInfoView.configureUI(with: .init(title: "출판사", content: ""))
+//    pubDateInfoView.configureUI(with: .init(title: "출간일", content: ""))
+//    discountInfoView.configureUI(with: .init(title: "판매가격", content: ""))
+  }
+  
+  func configureUI(with model: [LibraryInfoViewModel]) {
+    guard LibraryDetailInfoViewType.allCases.count == model.count else { return }
     
-//    LibraryDetailInfoViewType.allCases.enumerated().forEach { index, type in
-//      let infoView = LibraryInfoView()
-//      infoView.configureUI(with: .init(title: type.title, content: ""))
-//      containerView.addArrangedSubview(infoView)
-//      containerView.addArrangedSubview(lineView)
-//    }
+    [authorInfoView, publisherInfoView, pubDateInfoView, discountInfoView].enumerated().forEach { index, vw in
+      vw.configureUI(with: .init(title: LibraryDetailInfoViewType.allCases[index].title, content: model[index].content))
+    }
   }
 }

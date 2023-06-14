@@ -10,6 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
+struct LibraryDetailSubViewModel {
+  let title: String
+  let description: String
+}
+
 final class LibraryDetailSubView: UIView {
   
   private let titleLabel = UILabel().then {
@@ -58,7 +63,9 @@ final class LibraryDetailSubView: UIView {
     }
   }
   
-  func configureUI(with model: String) {
-    descriptionLabel.text = model
+  func configureUI(with model: LibraryDetailSubViewModel?) {
+    guard let model = model else { return }
+    titleLabel.text = model.title
+    descriptionLabel.text = model.description
   }
 }

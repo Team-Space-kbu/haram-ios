@@ -7,8 +7,15 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 import Then
+
+struct LibraryDetailMainViewModel {
+  let bookImage: String
+  let title: String
+  let subTitle: String
+}
 
 final class LibraryDetailMainView: UIView {
   
@@ -68,9 +75,17 @@ final class LibraryDetailMainView: UIView {
     
     bottomLineView.snp.makeConstraints {
       $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.width.equalTo(UIScreen.main.bounds.width)
     }
     
     containerView.setCustomSpacing(31, after: subLabel)
+  }
+  
+  func configureUI(with model: LibraryDetailMainViewModel?) {
+    guard let model = model else { return }
+    let url = URL(string: model.bookImage)
+    bookImageView.kf.setImage(with: url)
+    titleLabel.text = model.title
+    subLabel.text = model.subTitle
   }
 }
