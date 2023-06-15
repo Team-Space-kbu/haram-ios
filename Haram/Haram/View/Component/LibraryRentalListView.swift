@@ -25,7 +25,7 @@ final class LibraryRentalListView: UIView {
   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
-    $0.backgroundColor = .hexD6D4D6
+    $0.backgroundColor = .hexF2F3F5
   }
   
   private let lineView = UIView().then {
