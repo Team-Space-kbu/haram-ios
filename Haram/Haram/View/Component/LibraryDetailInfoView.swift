@@ -41,13 +41,20 @@ final class LibraryInfoView: UIView {
     $0.textColor = .hex9F9FA4
     $0.font = .regular
     $0.font = .systemFont(ofSize: 14)
+    $0.textAlignment = .center
+    $0.sizeToFit()
+    $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
   }
   
   private let contentLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold
     $0.font = .systemFont(ofSize: 18)
-    $0.numberOfLines = 0
+    $0.numberOfLines = 1
+    $0.textAlignment = .center
+    $0.setContentHuggingPriority(.required, for: .vertical)
+    $0.lineBreakMode = .byWordWrapping
+    $0.sizeToFit()
   }
   
   override init(frame: CGRect) {
@@ -62,7 +69,7 @@ final class LibraryInfoView: UIView {
   private func configureUI() {
     [titleLabel, contentLabel].forEach { addSubview($0) }
     titleLabel.snp.makeConstraints {
-      $0.top.centerX.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
     }
     
     contentLabel.snp.makeConstraints {
@@ -102,7 +109,11 @@ final class LibraryDetailInfoView: UIView {
     $0.backgroundColor = .hexD8D8DA
   }
   
-  private let horizontalLineView = UIView().then {
+  private lazy var lineView3 = UIView().then {
+    $0.backgroundColor = .hexD8D8DA
+  }
+  
+  private lazy var lineView4 = UIView().then {
     $0.backgroundColor = .hexD8D8DA
   }
   
@@ -116,29 +127,34 @@ final class LibraryDetailInfoView: UIView {
   }
   
   private func configureUI() {
-    [containerView, horizontalLineView].forEach { addSubview($0) }
+    [lineView4, containerView, lineView3].forEach { addSubview($0) }
     [authorInfoView, lineView, publisherInfoView, lineView1, pubDateInfoView, lineView2, discountInfoView].forEach { containerView.addArrangedSubview($0) }
+    
+    lineView4.snp.makeConstraints {
+      $0.top.equalToSuperview()
+      $0.height.equalTo(1)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
+    }
+    
     containerView.snp.makeConstraints {
-      $0.centerX.equalToSuperview()
-      $0.directionalHorizontalEdges.width.equalToSuperview().inset(30)
+      $0.top.equalTo(lineView4.snp.bottom).offset(20)
+      $0.height.equalTo(49)
+      $0.directionalHorizontalEdges.equalToSuperview()
     }
     
     [lineView, lineView1, lineView2].forEach {
       $0.snp.makeConstraints {
         $0.width.equalTo(1)
+        $0.height.equalTo(47.5)
       }
     }
     
-    horizontalLineView.snp.makeConstraints {
-      $0.top.equalTo(containerView.snp.bottom).offset(18)
+    lineView3.snp.makeConstraints {
+      $0.top.equalTo(containerView.snp.bottom).offset(20)
       $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
+      $0.bottom.lessThanOrEqualToSuperview()
     }
-    
-//    authorInfoView.configureUI(with: .init(title: "저자", content: ""))
-//    publisherInfoView.configureUI(with: .init(title: "출판사", content: ""))
-//    pubDateInfoView.configureUI(with: .init(title: "출간일", content: ""))
-//    discountInfoView.configureUI(with: .init(title: "판매가격", content: ""))
   }
   
   func configureUI(with model: [LibraryInfoViewModel]) {

@@ -16,6 +16,7 @@ protocol LibraryDetailViewModelType {
   var detailSubModel: Driver<LibraryDetailSubViewModel> { get }
   var detailInfoModel: Driver<[LibraryInfoViewModel]> { get }
   var detailRentalModel: Driver<[LibraryRentalViewModel]> { get }
+  var relatedBookModel: Driver<[LibraryRelatedBookCollectionViewCellModel]> { get }
 }
 
 final class LibraryDetailViewModel: LibraryDetailViewModelType {
@@ -29,6 +30,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
   let detailSubModel: Driver<LibraryDetailSubViewModel>
   let detailInfoModel: Driver<[LibraryInfoViewModel]>
   let detailRentalModel: Driver<[LibraryRentalViewModel]>
+  let relatedBookModel: Driver<[LibraryRelatedBookCollectionViewCellModel]>
   
   init() {
     let whichRequestingBookText = PublishSubject<String>()
@@ -37,6 +39,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     let currentDetailSubModel = PublishRelay<LibraryDetailSubViewModel>()
     let currentDetailInfoModel = BehaviorRelay<[LibraryInfoViewModel]>(value: [])
     let currentDetailRentalModel = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
+    let currentRelatedBookModel = BehaviorRelay<[LibraryRelatedBookCollectionViewCellModel]>(value: [])
     
     whichRequestBookText = whichRequestingBookText.asObserver()
     detailBookInfo = currentDetailBookInfo.asDriver()
@@ -44,6 +47,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     detailSubModel = currentDetailSubModel.asDriver(onErrorJustReturn: .init(title: "", description: ""))
     detailInfoModel = currentDetailInfoModel.asDriver()
     detailRentalModel = currentDetailRentalModel.asDriver()
+    relatedBookModel = currentRelatedBookModel.asDriver()
     
     whichRequestingBookText
       .flatMapLatest(LibraryService.shared.requestBookInfo(text: ))
@@ -73,6 +77,10 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
             loanStatus: $0.loanStatus
           ) }
         )
+        
+//        currentRelatedBookModel.accept(
+//        
+//        )
       })
       .disposed(by: disposeBag)
   }

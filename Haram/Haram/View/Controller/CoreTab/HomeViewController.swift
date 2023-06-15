@@ -289,6 +289,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if !UserManager.shared.hasIntranetToken {
           let vc = IntranetLoginViewController()
           vc.navigationItem.largeTitleDisplayMode = .never
+          vc.hidesBottomBarWhenPushed = true
           navigationController?.pushViewController(vc, animated: true)
         } else {
           let vc = ChapelViewController()

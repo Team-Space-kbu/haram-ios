@@ -14,6 +14,26 @@ import Then
 final class IntranetLoginViewController: BaseViewController {
   private let containerStackView = UIStackView().then {
     $0.axis = .vertical
+    $0.spacing = 10
+    $0.isLayoutMarginsRelativeArrangement = true
+    $0.layoutMargins = .init(top: 40, left: 20, bottom: .zero, right: 20)
+  }
+  
+  private let logoImageView = UIImageView().then {
+    $0.image = UIImage(named: "intranetLoginLogo")
+    $0.contentMode = .scaleAspectFit
+  }
+  
+  private let loginLabel = UILabel().then {
+    $0.text = "로그인"
+    $0.font = .regular
+    $0.font = .systemFont(ofSize: 24)
+  }
+  
+  private let intranetLabel = UILabel().then {
+    $0.text = "한국성서대학교인트라넷"
+    $0.font = .regular
+    $0.font = .systemFont(ofSize: 14)
   }
   
   private let idTextField = UITextField().then {
@@ -48,16 +68,27 @@ final class IntranetLoginViewController: BaseViewController {
     $0.setTitle("로그인", for: .normal)
   }
   
+  private let lastAuthButton = UIButton().then {
+    $0.setTitle("나중에인증하기", for: .normal)
+    $0.setTitleColor(.label, for: .normal)
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+      super.viewWillDisappear(animated)
+    navigationController?.navigationBar.isHidden = false
+  }
+  
   override func setupStyles() {
     super.setupStyles()
-//    navigationController?.navigationBar.isHidden = true
-    navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
+    navigationController?.navigationBar.isHidden = true
+//    navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(containerStackView)
-    [idTextField, pwTextField, loginButton].forEach { containerStackView.addArrangedSubview($0) }
+    view.addSubview(lastAuthButton)
+    [logoImageView, loginLabel, intranetLabel, idTextField, pwTextField, loginButton].forEach { containerStackView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -67,6 +98,28 @@ final class IntranetLoginViewController: BaseViewController {
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
+    
+    logoImageView.snp.makeConstraints {
+      $0.width.equalTo(238)
+      $0.height.equalTo(248)
+    }
+    
+    [idTextField, pwTextField].forEach {
+      $0.snp.makeConstraints {
+        $0.height.equalTo(55)
+      }
+    }
+    
+    loginButton.snp.makeConstraints {
+      $0.height.equalTo(48)
+    }
+    
+    lastAuthButton.snp.makeConstraints {
+      $0.centerX.equalToSuperview()
+      $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+    }
+    
+    containerStackView.setCustomSpacing(28, after: intranetLabel)
   }
   
   override func bind() {
@@ -98,6 +151,13 @@ final class IntranetLoginViewController: BaseViewController {
           owner.navigationController?.popViewController(animated: true)
         }
         .disposed(by: owner.disposeBag)
+      }
+      .disposed(by: disposeBag)
+    
+    lastAuthButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
   }

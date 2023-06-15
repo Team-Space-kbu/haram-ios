@@ -37,4 +37,8 @@ final class LibraryResultsCollectionHeaderView: UICollectionReusableView {
       $0.top.leading.equalToSuperview()
     }
   }
+  
+  func configureUI(with model: String) {
+    titleLabel.text = model
+  }
 }

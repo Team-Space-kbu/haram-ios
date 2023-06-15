@@ -86,6 +86,7 @@ final class ScheduleViewController: BaseViewController {
     } else {
       let vc = IntranetLoginViewController()
       vc.navigationItem.largeTitleDisplayMode = .never
+      vc.hidesBottomBarWhenPushed = true
       navigationController?.pushViewController(vc, animated: true)
     }
   }

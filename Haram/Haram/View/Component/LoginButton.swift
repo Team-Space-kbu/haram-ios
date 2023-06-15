@@ -29,6 +29,8 @@ final class LoginButton: UIView {
   
   private let loginButton = UIButton().then {
     $0.backgroundColor = .hex79BD9A
+    $0.titleLabel?.font = .bold
+    $0.titleLabel?.font = .systemFont(ofSize: 14)
     $0.tintColor = .white
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
@@ -37,6 +39,8 @@ final class LoginButton: UIView {
   
   private let findPasswordButton = UIButton().then {
     $0.setTitleColor(.label, for: .normal)
+    $0.titleLabel?.font = .regular
+    $0.titleLabel?.font = .systemFont(ofSize: 14)
     $0.setTitle("비밀번호를 잊으셨나요?", for: .normal)
     $0.titleLabel?.numberOfLines = 1
     $0.sizeToFit()
@@ -72,6 +76,14 @@ final class LoginButton: UIView {
     
     containerView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
+    }
+    
+    loginButton.snp.makeConstraints {
+      $0.width.equalTo(148)
+    }
+    
+    findPasswordButton.snp.makeConstraints {
+      $0.trailing.equalToSuperview().inset(41)
     }
   
   }
