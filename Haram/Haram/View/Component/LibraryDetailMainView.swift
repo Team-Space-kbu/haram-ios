@@ -37,6 +37,7 @@ final class LibraryDetailMainView: UIView {
     $0.font = .systemFont(ofSize: 22)
     $0.textColor = .black
     $0.text = "텐서플로케라스를이용한딥러닝"
+    $0.numberOfLines = 0
   }
   
   private let subLabel = UILabel().then {
@@ -63,7 +64,8 @@ final class LibraryDetailMainView: UIView {
     addSubview(containerView)
     [bookImageView, titleLabel, subLabel, bottomLineView].forEach { containerView.addArrangedSubview($0) }
     containerView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
     }
     
     bookImageView.snp.makeConstraints {
