@@ -26,13 +26,13 @@ struct InquireLibraryResponse: Codable {
 }
 
 struct NewBook: Codable {
-  let url: String
+  let path: Int
   let image: String
   let title: String
 }
 
 struct BestBook: Codable {
-  let url: String
+  let path: Int
   let image: String
   let title: String
 }

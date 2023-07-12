@@ -41,24 +41,34 @@ final class LibraryViewController: BaseViewController {
     }
   }
   
-  init(viewModel: LibraryViewModelType = LibraryViewModel()) {
-    self.viewModel = viewModel
-    super.init(nibName: nil, bundle: nil)
+  private let scrollView = UIScrollView().then {
+    $0.backgroundColor = .clear
+    $0.alwaysBounceVertical = true
   }
   
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+  private let containerView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 18
+    $0.backgroundColor = .clear
+    $0.isLayoutMarginsRelativeArrangement = true
+    $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
   }
   
-  private let searchResultsController = LibraryResultsViewController()
-  
-  private lazy var searchController = UISearchController(searchResultsController: searchResultsController).then {
-    $0.searchBar.placeholder = "도서검색하기"
-    $0.hidesNavigationBarDuringPresentation = false
-    $0.searchResultsUpdater = self
+  private let searchBar = UISearchBar().then {
+    $0.placeholder = "도서검색하기"
+    $0.searchBarStyle = .minimal
   }
   
-  private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
+  private let bannerImageView = UIImageView().then {
+    $0.image = UIImage(named: "banner")
+    $0.contentMode = .scaleAspectFill
+    $0.layer.cornerRadius = 10
+    $0.layer.masksToBounds = true
+  }
+  
+  private lazy var collectionView = UICollectionView(
+    frame: .zero,
+    collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
     guard let self = self else { return nil }
     return self.createCollectionViewSection()
   }).then {
@@ -68,9 +78,20 @@ final class LibraryViewController: BaseViewController {
     $0.dataSource = self
   }
   
+  private let tapGesture = UITapGestureRecognizer(target: LibraryViewController.self, action: nil)
+  
+  init(viewModel: LibraryViewModelType = LibraryViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func bind() {
     super.bind()
-    viewModel.initialData.onNext(())
+//    viewModel.initialData.onNext(())
     
     viewModel.newBookModel
       .drive(rx.newBookModel)
@@ -80,42 +101,80 @@ final class LibraryViewController: BaseViewController {
       .drive(rx.bestBookModel)
       .disposed(by: disposeBag)
     
-    searchController.searchBar.rx.text
-      .orEmpty
-      .skip(1)
-      .debounce(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
-      .subscribe(with: self) { owner, text in
+    searchBar.rx.searchButtonClicked
+      .do(onNext: { [weak self] _ in
+        self?.searchBar.resignFirstResponder()
+      })
+      .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
+      .withLatestFrom(searchBar.rx.text.orEmpty)
+      .filter { $0.count != 0 }
+      .withUnretained(self)
+      .subscribe(onNext: { owner, text in
         owner.viewModel.whichSearchText.onNext(text)
-      }
+      })
       .disposed(by: disposeBag)
     
     viewModel.searchResults
       .drive(with: self) { owner, result in
-        owner.searchResultsController.updateData(model: result)
+        let vc = LibraryResultsViewController(model: result)
+        vc.title = owner.searchBar.text
+        vc.navigationItem.largeTitleDisplayMode = .never
+        owner.navigationController?.pushViewController(vc, animated: true)
+      }
+      .disposed(by: disposeBag)
+    
+    tapGesture.rx.event
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.view.endEditing(true)
       }
       .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
     super.setupStyles()
-    navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
+    navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "back"),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
     title = "도서검색"
-    navigationItem.searchController = searchController
-    searchController.searchBar.becomeFirstResponder()
+    view.addGestureRecognizer(tapGesture)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(collectionView)
+    view.addSubview(scrollView)
+    scrollView.addSubview(containerView)
+    [searchBar, bannerImageView, collectionView].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
-    collectionView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.bottom.equalToSuperview()
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+    
+    scrollView.snp.makeConstraints {
+      $0.width.directionalEdges.equalToSuperview()
     }
+    
+    containerView.snp.makeConstraints {
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
+    }
+    
+    searchBar.snp.makeConstraints {
+      $0.height.equalTo(45)
+    }
+    
+    bannerImageView.snp.makeConstraints {
+      $0.height.equalTo(183.661)
+    }
+
+    collectionView.snp.makeConstraints {
+      $0.height.equalTo(282 + 165)
+    }
+    
+    containerView.setCustomSpacing(25, after: searchBar)
   }
   
   private func createCollectionViewSection() -> NSCollectionLayoutSection? {
@@ -195,11 +254,5 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
       header.configureUI(with: type.title)
       return header
     }
-  }
-}
-  
-extension LibraryViewController: UISearchResultsUpdating {
-  func updateSearchResults(for searchController: UISearchController) {
-    
   }
 }

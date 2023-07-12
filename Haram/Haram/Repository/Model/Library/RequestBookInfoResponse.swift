@@ -8,11 +8,6 @@
 import Foundation
 
 struct RequestBookInfoResponse: Codable {
-  let bookInfoRes: BookInfoRes
-  let bookKeep: [BookKeep]
-}
-
-struct BookInfoRes: Codable {
   let title: String
   let image: String
   let isbn: String
@@ -21,7 +16,7 @@ struct BookInfoRes: Codable {
   let author: String
   let discount: String
   let publisher: String
-  let pubdate: String
+  let pubDate: String
   let description: String
 }
 

@@ -45,17 +45,6 @@ final class LibraryDetailViewController: BaseViewController {
     }
   }
   
-  private let backButton = UIButton().then {
-    $0.setImage(UIImage(named: "back"), for: .normal)
-  }
-  
-  private let titleLabel = UILabel().then {
-    $0.textColor = .black
-    $0.text = "도서검색"
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 20)
-  }
-  
   private let scrollView = UIScrollView().then {
     $0.alwaysBounceVertical = true
     $0.backgroundColor = .clear
@@ -102,20 +91,28 @@ final class LibraryDetailViewController: BaseViewController {
     $0.isPagingEnabled = true
   }
   
-  init(viewModel: LibraryDetailViewModelType = LibraryDetailViewModel(), bookInfo: String) {
+  init(viewModel: LibraryDetailViewModelType = LibraryDetailViewModel(), path: Int) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    bind(bookInfo: bookInfo)
+    bind(bookInfo: path)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func setupStyles() {
+    super.setupStyles()
+    navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "back"),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(backButton)
-    view.addSubview(titleLabel)
     view.addSubview(scrollView)
     [containerView].forEach { scrollView.addSubview($0) }
     [libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, collectionView].forEach { containerView.addArrangedSubview($0) }
@@ -124,18 +121,8 @@ final class LibraryDetailViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     
-    backButton.snp.makeConstraints {
-      $0.top.leading.equalTo(view.safeAreaLayoutGuide).inset(16)
-      $0.size.equalTo(24)
-    }
-    
-    titleLabel.snp.makeConstraints {
-      $0.centerY.equalTo(backButton)
-      $0.centerX.equalToSuperview()
-    }
-    
     scrollView.snp.makeConstraints {
-      $0.top.equalTo(backButton.snp.bottom)
+      $0.top.equalToSuperview()
       $0.directionalHorizontalEdges.bottom.width.equalToSuperview()
     }
     
@@ -146,7 +133,7 @@ final class LibraryDetailViewController: BaseViewController {
     
     libraryDetailInfoView.snp.makeConstraints {
       $0.width.equalToSuperview().inset(30)
-      $0.height.equalTo(1 + 88 + 1)
+      $0.height.equalTo(47.5 + 20)
     }
     
     relatedBookLabel.snp.makeConstraints {
@@ -159,41 +146,38 @@ final class LibraryDetailViewController: BaseViewController {
       $0.directionalHorizontalEdges.width.equalToSuperview()
     }
     
-    containerView.setCustomSpacing(21, after: libraryDetailInfoView)
+    containerView.setCustomSpacing(0, after: libraryDetailInfoView)
     containerView.setCustomSpacing(15, after: relatedBookLabel)
   }
   
-  func bind(bookInfo: String) {
+  func bind(bookInfo: Int) {
     super.bind()
     
     viewModel.whichRequestBookText.onNext(bookInfo)
     
-    backButton.rx.tap
-      .asDriver()
-      .drive(with: self) { owner, _ in
-        owner.dismiss(animated: true)
-      }
-      .disposed(by: disposeBag)
-    
     viewModel.detailMainModel
       .do(onNext: { print("메이모델 \($0)") })
-        .drive(rx.mainModel)
-        .disposed(by: disposeBag)
+      .drive(rx.mainModel)
+      .disposed(by: disposeBag)
         
-        viewModel.detailSubModel
-        .do(onNext: { print("서브모델 \($0)") })
-          .drive(rx.subModel)
-          .disposed(by: disposeBag)
+    viewModel.detailSubModel
+      .do(onNext: { print("서브모델 \($0)") })
+      .drive(rx.subModel)
+      .disposed(by: disposeBag)
           
-          viewModel.detailInfoModel
-          .drive(rx.infoModel)
-          .disposed(by: disposeBag)
-          
-          viewModel.detailRentalModel
-          .do(onNext: { print("렌탈모델 \($0)") })
-          .drive(rx.rentalModel)
-          .disposed(by: disposeBag)
-          }
+    viewModel.detailInfoModel
+      .drive(rx.infoModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.detailRentalModel
+      .do(onNext: { print("렌탈모델 \($0)") })
+      .drive(rx.rentalModel)
+      .disposed(by: disposeBag)
+  }
+  
+  @objc private func didTappedBackButton() {
+    navigationController?.popViewController(animated: true)
+  }
 }
 
 extension LibraryDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {

@@ -325,3 +325,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   }
   
 }
+
+enum Example {
+  var a: Int {
+    0
+  }
+}

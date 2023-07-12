@@ -42,19 +42,18 @@ final class LibraryInfoView: UIView {
     $0.font = .regular
     $0.font = .systemFont(ofSize: 14)
     $0.textAlignment = .center
-    $0.sizeToFit()
-    $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
+//    $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }
   
   private let contentLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold
     $0.font = .systemFont(ofSize: 18)
-    $0.numberOfLines = 1
+    $0.numberOfLines = 0
     $0.textAlignment = .center
-    $0.setContentHuggingPriority(.required, for: .vertical)
+    $0.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
     $0.lineBreakMode = .byWordWrapping
-    $0.sizeToFit()
+    
   }
   
   override init(frame: CGRect) {
@@ -74,7 +73,8 @@ final class LibraryInfoView: UIView {
     
     contentLabel.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(18)
 //      $0.bottom.lessThanOrEqualToSuperview()
     }
   }
@@ -127,19 +127,14 @@ final class LibraryDetailInfoView: UIView {
   }
   
   private func configureUI() {
-    [lineView4, containerView, lineView3].forEach { addSubview($0) }
+    [containerView].forEach { addSubview($0) }
     [authorInfoView, lineView, publisherInfoView, lineView1, pubDateInfoView, lineView2, discountInfoView].forEach { containerView.addArrangedSubview($0) }
     
-    lineView4.snp.makeConstraints {
-      $0.top.equalToSuperview()
-      $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
-    }
-    
     containerView.snp.makeConstraints {
-      $0.top.equalTo(lineView4.snp.bottom).offset(20)
-      $0.height.equalTo(49)
+      $0.top.equalToSuperview()
+      $0.height.equalTo(47.5)
       $0.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
     }
     
     [lineView, lineView1, lineView2].forEach {
@@ -147,13 +142,6 @@ final class LibraryDetailInfoView: UIView {
         $0.width.equalTo(1)
         $0.height.equalTo(47.5)
       }
-    }
-    
-    lineView3.snp.makeConstraints {
-      $0.top.equalTo(containerView.snp.bottom).offset(20)
-      $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
-      $0.bottom.lessThanOrEqualToSuperview()
     }
   }
   

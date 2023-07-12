@@ -12,9 +12,9 @@ import Then
 
 final class LibraryRentalListView: UIView {
   
-//  private let lineView1 = UIView().then {
-//    $0.backgroundColor = .hexD8D8DA
-//  }
+  private let lineView1 = UIView().then {
+    $0.backgroundColor = .hexD8D8DA
+  }
   
   private let rentalInfoLabel = UILabel().then {
     $0.text = "대여정보"
@@ -42,12 +42,18 @@ final class LibraryRentalListView: UIView {
   }
   
   private func configureUI() {
+    addSubview(lineView1)
     addSubview(rentalInfoLabel)
     addSubview(containerView)
     addSubview(lineView)
     
+    lineView1.snp.makeConstraints {
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(1)
+    }
+    
     rentalInfoLabel.snp.makeConstraints {
-      $0.top.equalToSuperview()
+      $0.top.equalTo(lineView1.snp.bottom).offset(21)
       $0.leading.equalToSuperview()
     }
     

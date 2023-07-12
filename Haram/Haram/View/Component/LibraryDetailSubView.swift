@@ -45,7 +45,7 @@ final class LibraryDetailSubView: UIView {
   }
   
   private func configureUI() {
-    [titleLabel, descriptionLabel].forEach { addSubview($0) }
+    [titleLabel, descriptionLabel, bottomLineView].forEach { addSubview($0) }
     titleLabel.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
     }
@@ -56,12 +56,11 @@ final class LibraryDetailSubView: UIView {
       $0.bottom.equalToSuperview().inset(28)
     }
     
-//    bottomLineView.snp.makeConstraints {
-//      $0.top.equalTo(descriptionLabel.snp.bottom).offset(28)
-//      $0.directionalHorizontalEdges.width.equalToSuperview()
-//      $0.bottom.equalToSuperview()
-//      $0.height.equalTo(1)
-//    }
+    bottomLineView.snp.makeConstraints {
+      $0.top.equalTo(descriptionLabel.snp.bottom).offset(28)
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(1)
+    }
   }
   
   func configureUI(with model: LibraryDetailSubViewModel?) {

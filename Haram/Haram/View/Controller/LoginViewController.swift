@@ -54,6 +54,7 @@ final class LoginViewController: BaseViewController {
     $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
     $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
     $0.leftViewMode = .always
+    $0.returnKeyType = .next
     $0.delegate = self
   }
   
@@ -67,6 +68,8 @@ final class LoginViewController: BaseViewController {
     $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
     $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
     $0.leftViewMode = .always
+    $0.returnKeyType = .join
+    $0.isSecureTextEntry = true
     $0.delegate = self
   }
   
@@ -87,6 +90,7 @@ final class LoginViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    registerKeyboardNotification()
     UserManager.shared.clearUserInformations()
     guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else {
       return
@@ -95,6 +99,11 @@ final class LoginViewController: BaseViewController {
     let vc = HaramTabbarController()
     vc.modalPresentationStyle = .overFullScreen
     present(vc, animated: true)
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeKeyboardNotification()
   }
   
   override func setupStyles() {
@@ -129,15 +138,23 @@ final class LoginViewController: BaseViewController {
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
-    loginImageView.snp.makeConstraints {
-      $0.width.equalTo(238)
-      $0.height.equalTo(248)
-    }
+//    loginImageView.snp.makeConstraints {
+//      $0.width.equalTo(238)
+//      $0.height.equalTo(248)
+//    }
     
     [emailTextField, passwordTextField].forEach {
       $0.snp.makeConstraints {
         $0.height.equalTo(55)
       }
+    }
+    
+    loginLabel.snp.makeConstraints {
+      $0.height.equalTo(30)
+    }
+    
+    schoolLabel.snp.makeConstraints {
+      $0.height.equalTo(18)
     }
     
     loginButton.snp.makeConstraints {
@@ -148,12 +165,14 @@ final class LoginViewController: BaseViewController {
       $0.width.equalTo(216)
       $0.height.equalTo(16)
     }
+    containerView.setCustomSpacing(37, after: loginImageView)
+    containerView.setCustomSpacing(30, after: schoolLabel)
+    containerView.setCustomSpacing(83, after: loginButton)
   }
 }
 
 extension LoginViewController: LoginButtonDelegate {
   func didTappedLoginButton() {
-    print("탭")
     guard let userID = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
           let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
     viewModel.userID.onNext(userID)
@@ -173,5 +192,50 @@ extension LoginViewController: UITextFieldDelegate {
       passwordTextField.resignFirstResponder()
     }
     return true
+  }
+}
+
+extension LoginViewController {
+  func registerKeyboardNotification() {
+    NotificationCenter.default.addObserver(
+      self, selector: #selector(keyboardWillShow(_:)),
+      name: UIResponder.keyboardWillShowNotification,
+      object: nil
+    )
+    
+    NotificationCenter.default.addObserver(
+      self, selector: #selector(keyboardWillHide(_:)),
+      name: UIResponder.keyboardWillHideNotification,
+      object: nil
+    )
+  }
+  
+  func removeKeyboardNotification() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  func keyboardWillShow(_ sender: Notification) {
+    guard let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+      return
+    }
+    
+    let keyboardHeight = keyboardSize.height
+    
+    self.view.window?.frame.origin.y -= keyboardHeight
+
+    
+    UIView.animate(withDuration: 1) {
+      self.view.layoutIfNeeded()
+    }
+  }
+  
+  @objc
+  func keyboardWillHide(_ sender: Notification) {
+
+    self.view.window?.frame.origin.y = 0
+    UIView.animate(withDuration: 1) {
+      self.view.layoutIfNeeded()
+    }
   }
 }

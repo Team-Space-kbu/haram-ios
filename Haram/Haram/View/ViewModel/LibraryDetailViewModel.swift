@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol LibraryDetailViewModelType {
-  var whichRequestBookText: AnyObserver<String> { get }
+  var whichRequestBookText: AnyObserver<Int> { get }
   
   var detailBookInfo: Driver<[LibraryRentalViewModel]> { get }
   var detailMainModel: Driver<LibraryDetailMainViewModel> { get }
@@ -23,7 +23,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
   
   private let disposeBag = DisposeBag()
   
-  let whichRequestBookText: AnyObserver<String>
+  let whichRequestBookText: AnyObserver<Int>
   
   let detailBookInfo: Driver<[LibraryRentalViewModel]>
   let detailMainModel: Driver<LibraryDetailMainViewModel>
@@ -33,7 +33,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
   let relatedBookModel: Driver<[LibraryRelatedBookCollectionViewCellModel]>
   
   init() {
-    let whichRequestingBookText = PublishSubject<String>()
+    let whichRequestingBookText = PublishSubject<Int>()
     let currentDetailBookInfo = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
     let currentDetailMainModel = PublishRelay<LibraryDetailMainViewModel>()
     let currentDetailSubModel = PublishRelay<LibraryDetailSubViewModel>()
@@ -52,31 +52,31 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     whichRequestingBookText
       .flatMapLatest(LibraryService.shared.requestBookInfo(text: ))
       .subscribe(onNext: { response in
-        currentDetailMainModel.accept(LibraryDetailMainViewModel(bookImage: response.bookInfoRes.image, title: response.bookInfoRes.title, subTitle: response.bookInfoRes.publisher))
+        currentDetailMainModel.accept(LibraryDetailMainViewModel(bookImage: response.image, title: response.title, subTitle: response.publisher))
         
-        currentDetailSubModel.accept(LibraryDetailSubViewModel(title: "책 설명", description: response.bookInfoRes.description))
+        currentDetailSubModel.accept(LibraryDetailSubViewModel(title: "책 설명", description: response.description))
         
         currentDetailInfoModel.accept(LibraryDetailInfoViewType.allCases.map { type in
           switch type {
           case .author:
-            return LibraryInfoViewModel(title: type.title, content: response.bookInfoRes.author)
+            return LibraryInfoViewModel(title: type.title, content: response.author)
           case .publisher:
-            return LibraryInfoViewModel(title: type.title, content: response.bookInfoRes.publisher)
+            return LibraryInfoViewModel(title: type.title, content: response.publisher)
           case .publishDate:
-            return LibraryInfoViewModel(title: type.title, content: response.bookInfoRes.pubdate)
+            return LibraryInfoViewModel(title: type.title, content: response.pubDate)
           case .discount:
-            return LibraryInfoViewModel(title: type.title, content: response.bookInfoRes.discount)
+            return LibraryInfoViewModel(title: type.title, content: response.discount)
           }
         })
         
-        currentDetailRentalModel.accept(
-          response.bookKeep.map { LibraryRentalViewModel(
-            register: $0.register,
-            number: $0.number,
-            holdingInstitution: $0.holdingInstitution,
-            loanStatus: $0.loanStatus
-          ) }
-        )
+//        currentDetailRentalModel.accept(
+//          response.map { LibraryRentalViewModel(
+//            register: $0.register,
+//            number: $0.number,
+//            holdingInstitution: $0.holdingInstitution,
+//            loanStatus: $0.loanStatus
+//          ) }
+//        )
         
 //        currentRelatedBookModel.accept(
 //        

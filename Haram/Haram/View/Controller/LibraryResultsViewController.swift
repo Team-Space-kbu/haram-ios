@@ -12,11 +12,7 @@ import Then
 
 final class LibraryResultsViewController: BaseViewController {
   
-  private var model: [LibraryResultsCollectionViewCellModel] = [] {
-    didSet {
-      collectionView.reloadData()
-    }
-  }
+  private let model: [LibraryResultsCollectionViewCellModel]
   
   private lazy var collectionView = UICollectionView(
     frame: .zero,
@@ -26,7 +22,26 @@ final class LibraryResultsViewController: BaseViewController {
     $0.register(LibraryResultsCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LibraryResultsCollectionHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
-    $0.contentInset = .init(top: .zero, left: 15, bottom: .zero, right: 15)
+    $0.contentInset = .init(top: 21.97, left: 15, bottom: .zero, right: 15)
+  }
+  
+  init(model: [LibraryResultsCollectionViewCellModel]) {
+    self.model = model
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "back"),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
   }
   
   override func setupLayouts() {
@@ -41,9 +56,8 @@ final class LibraryResultsViewController: BaseViewController {
     }
   }
   
-  
-  func updateData(model: [LibraryResultsCollectionViewCellModel]) {
-    self.model = model
+  @objc private func didTappedBackButton() {
+    navigationController?.popViewController(animated: true)
   }
 }
 
@@ -79,10 +93,11 @@ extension LibraryResultsViewController: UICollectionViewDelegate, UICollectionVi
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let bookInfo = model[indexPath.row].bookInfo
-    print("도서관응답타이틀 \(title)")
-    let vc = LibraryDetailViewController(bookInfo: bookInfo)
-    vc.modalPresentationStyle = .overFullScreen
-    present(vc, animated: true)
+    let path = model[indexPath.row].path
+    let title = model[indexPath.row].title
+    let vc = LibraryDetailViewController(path: path)
+    vc.title = title
+    vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
   }
 }

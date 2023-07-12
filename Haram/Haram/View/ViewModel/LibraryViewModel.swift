@@ -32,7 +32,7 @@ final class LibraryViewModel: LibraryViewModelType {
     
     let currentNewBookModel = BehaviorRelay<[LibraryCollectionViewCellModel]>(value: [])
     let currentBestBookModel = BehaviorRelay<[LibraryCollectionViewCellModel]>(value: [])
-    let searchBookResults = BehaviorRelay<[LibraryResultsCollectionViewCellModel]>(value: [])
+    let searchBookResults = PublishRelay<[LibraryResultsCollectionViewCellModel]>()
     let initializingData = PublishSubject<Void>()
     let whichSearchingText = PublishSubject<String>()
     
@@ -48,7 +48,6 @@ final class LibraryViewModel: LibraryViewModelType {
     .disposed(by: disposeBag)
     
     let requestSearchBook = whichSearchingText
-//      .filter { !$0.isEmpty }
       .flatMapLatest(LibraryService.shared.searchBook)
     
     requestSearchBook.subscribe(onNext: { response in

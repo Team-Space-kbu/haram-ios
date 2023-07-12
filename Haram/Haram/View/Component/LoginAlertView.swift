@@ -9,7 +9,6 @@ import UIKit
 
 import SnapKit
 import Then
-
 final class LoginAlertView: UIView {
   
   private let alertLabel = UILabel().then {
