@@ -16,7 +16,7 @@ final class IntranetLoginViewController: BaseViewController {
     $0.axis = .vertical
     $0.spacing = 10
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: 40, left: 20, bottom: .zero, right: 20)
+    $0.layoutMargins = .init(top: 95, left: 20, bottom: .zero, right: 20)
   }
   
   private let logoImageView = UIImageView().then {
@@ -58,6 +58,7 @@ final class IntranetLoginViewController: BaseViewController {
     $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
     $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
     $0.leftViewMode = .always
+    $0.isSecureTextEntry = true
   }
   
   private let loginButton = UIButton().then {
@@ -65,23 +66,36 @@ final class IntranetLoginViewController: BaseViewController {
     $0.tintColor = .white
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
-    $0.setTitle("로그인", for: .normal)
+    
+    let attributedString = NSAttributedString(
+      string: "로그인",
+      attributes: [
+        .font:UIFont.regular,
+        .foregroundColor:UIColor.white
+      ]
+    )
+    $0.setAttributedTitle(attributedString, for: .normal)
   }
   
   private let lastAuthButton = UIButton().then {
-    $0.setTitle("나중에인증하기", for: .normal)
+    let attributedString = NSAttributedString(
+      string: "나중에인증하기",
+      attributes: [.font:UIFont.regular]
+    )
+    $0.setAttributedTitle(attributedString, for: .normal)
     $0.setTitleColor(.label, for: .normal)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
-      super.viewWillDisappear(animated)
+    super.viewWillDisappear(animated)
     navigationController?.navigationBar.isHidden = false
+    removeKeyboardNotification()
   }
   
   override func setupStyles() {
     super.setupStyles()
     navigationController?.navigationBar.isHidden = true
-//    navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(didTappedBackButton))
+    registerKeyboardNotification()
   }
   
   override func setupLayouts() {
@@ -100,8 +114,8 @@ final class IntranetLoginViewController: BaseViewController {
     }
     
     logoImageView.snp.makeConstraints {
-      $0.width.equalTo(238)
-      $0.height.equalTo(248)
+      $0.width.equalTo(300)
+      $0.height.equalTo(210)
     }
     
     [idTextField, pwTextField].forEach {
@@ -164,5 +178,52 @@ final class IntranetLoginViewController: BaseViewController {
   
   @objc private func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
+  }
+}
+
+extension IntranetLoginViewController {
+  func registerKeyboardNotification() {
+    NotificationCenter.default.addObserver(
+      self, selector: #selector(keyboardWillShow(_:)),
+      name: UIResponder.keyboardWillShowNotification,
+      object: nil
+    )
+    
+    NotificationCenter.default.addObserver(
+      self, selector: #selector(keyboardWillHide(_:)),
+      name: UIResponder.keyboardWillHideNotification,
+      object: nil
+    )
+  }
+  
+  func removeKeyboardNotification() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  func keyboardWillShow(_ sender: Notification) {
+    guard let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+      return
+    }
+    
+    let keyboardHeight = keyboardSize.height
+    
+    if self.view.window?.frame.origin.y == 0 {
+      self.view.window?.frame.origin.y -= keyboardHeight
+    }
+
+    
+    UIView.animate(withDuration: 1) {
+      self.view.layoutIfNeeded()
+    }
+  }
+  
+  @objc
+  func keyboardWillHide(_ sender: Notification) {
+
+    self.view.window?.frame.origin.y = 0
+    UIView.animate(withDuration: 1) {
+      self.view.layoutIfNeeded()
+    }
   }
 }

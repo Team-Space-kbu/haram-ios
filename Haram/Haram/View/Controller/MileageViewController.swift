@@ -23,31 +23,45 @@ final class MileageViewController: BaseViewController {
 //    $0.backgroundColor = .clear
 //  }
   
-  private let mileageHeaderView = MileageHeaderView()
+//  private let mileageHeaderView = MileageHeaderView().then {
+//    $0.backgroundColor = .red
+//  }
+//
+//  private let spendListLabel = UILabel().then {
+//    $0.text = "소비내역"
+//    $0.textColor = .black
+//    $0.font = .systemFont(ofSize: 14)
+//  }
   
-  private let spendListLabel = UILabel().then {
-    $0.text = "소비내역"
-    $0.textColor = .black
-    $0.font = .systemFont(ofSize: 14)
-  }
-  
-  private lazy var mileageTableView = UITableView(frame: .zero, style: .plain).then {
+  private lazy var mileageTableView = UITableView(frame: .zero, style: .grouped).then {
     $0.register(MileageTableViewCell.self, forCellReuseIdentifier: MileageTableViewCell.identifier)
+    $0.register(MileageTableHeaderView.self, forHeaderFooterViewReuseIdentifier: MileageTableHeaderView.identifier)
     $0.separatorStyle = .none
     $0.delegate = self
     $0.dataSource = self
     $0.backgroundColor = .systemBackground
     $0.showsVerticalScrollIndicator = false
-    $0.sectionHeaderHeight = .leastNonzeroMagnitude
+    $0.sectionHeaderHeight = 279.97 - 10
     $0.sectionFooterHeight = .leastNonzeroMagnitude
 //    $0.isScrollEnabled = false
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: "back"),
+      style: .done,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
   }
   
   override func setupLayouts() {
     super.setupLayouts()
 //    view.addSubview(scrollView)
 //    scrollView.addSubview(scrollContainerView)
-    [mileageHeaderView, spendListLabel, mileageTableView].forEach { view.addSubview($0) }
+    view.addSubview(mileageTableView)
+//    [mileageHeaderView, spendListLabel, mileageTableView].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -61,22 +75,24 @@ final class MileageViewController: BaseViewController {
 //      $0.width.directionalVerticalEdges.equalToSuperview()
 //    }
     
-    mileageHeaderView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).inset(69)
-      $0.leading.equalToSuperview().inset(15)
-    }
-    
-    spendListLabel.snp.makeConstraints {
-      $0.top.equalTo(mileageHeaderView.snp.bottom).offset(96)
-      $0.leading.equalToSuperview().inset(15)
-    }
+//    mileageHeaderView.snp.makeConstraints {
+//      $0.top.equalTo(view.safeAreaLayoutGuide).offset(69)
+//      $0.leading.equalToSuperview().inset(15)
+//    }
+//
+//    spendListLabel.snp.makeConstraints {
+//      $0.top.equalTo(mileageHeaderView.snp.bottom).offset(96)
+//      $0.leading.equalToSuperview().inset(15)
+//    }
     
     mileageTableView.snp.makeConstraints {
-      $0.top.equalTo(spendListLabel.snp.bottom).offset(14)
+      $0.directionalVerticalEdges.equalToSuperview()
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-      $0.height.equalTo(UIScreen.main.bounds.height - 279)
-      $0.bottom.equalToSuperview()
     }
+  }
+  
+  @objc private func didTappedBackButton() {
+    self.navigationController?.popViewController(animated: true)
   }
 }
 
@@ -93,5 +109,14 @@ extension MileageViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
     
+  }
+  
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return 64
+  }
+  
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MileageTableHeaderView.identifier) as? MileageTableHeaderView ?? MileageTableHeaderView()
+    return header
   }
 }

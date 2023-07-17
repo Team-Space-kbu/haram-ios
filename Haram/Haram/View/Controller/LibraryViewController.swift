@@ -76,6 +76,7 @@ final class LibraryViewController: BaseViewController {
     $0.register(LibraryCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LibraryCollectionHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
+    $0.bounces = false
   }
   
   private let tapGesture = UITapGestureRecognizer(target: LibraryViewController.self, action: nil)
@@ -117,7 +118,7 @@ final class LibraryViewController: BaseViewController {
     viewModel.searchResults
       .drive(with: self) { owner, result in
         let vc = LibraryResultsViewController(model: result)
-        vc.title = owner.searchBar.text
+        vc.title = "도서 검색"
         vc.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)
       }
@@ -139,7 +140,7 @@ final class LibraryViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
-    title = "도서검색"
+    title = "도서"
     view.addGestureRecognizer(tapGesture)
   }
   

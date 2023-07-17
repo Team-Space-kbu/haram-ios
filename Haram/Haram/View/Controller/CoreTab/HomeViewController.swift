@@ -284,7 +284,19 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       let type = ShortcutType.allCases[indexPath.row]
       switch type {
       case .mileage:
-        print("잉")
+        if !UserManager.shared.hasIntranetToken {
+          let vc = IntranetLoginViewController()
+          vc.navigationItem.largeTitleDisplayMode = .never
+          vc.hidesBottomBarWhenPushed = true
+          navigationController?.pushViewController(vc, animated: true)
+        } else {
+          let vc = MileageViewController()
+          vc.title = "마일리지"
+          vc.navigationItem.largeTitleDisplayMode = .never
+          vc.hidesBottomBarWhenPushed = true
+          vc.navigationItem.backButtonTitle = nil
+          navigationController?.pushViewController(vc, animated: true)
+        }
       case .chapel:
         if !UserManager.shared.hasIntranetToken {
           let vc = IntranetLoginViewController()

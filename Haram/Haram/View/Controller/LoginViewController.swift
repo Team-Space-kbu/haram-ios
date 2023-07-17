@@ -55,6 +55,7 @@ final class LoginViewController: BaseViewController {
     $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
     $0.leftViewMode = .always
     $0.returnKeyType = .next
+    $0.autocapitalizationType = .none
     $0.delegate = self
   }
   
@@ -70,6 +71,7 @@ final class LoginViewController: BaseViewController {
     $0.leftViewMode = .always
     $0.returnKeyType = .join
     $0.isSecureTextEntry = true
+    $0.autocapitalizationType = .none
     $0.delegate = self
   }
   
@@ -88,6 +90,11 @@ final class LoginViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+//  deinit {
+//    print("디이닛")
+//    removeKeyboardNotification()
+//  }
+  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     registerKeyboardNotification()
@@ -98,12 +105,9 @@ final class LoginViewController: BaseViewController {
     
     let vc = HaramTabbarController()
     vc.modalPresentationStyle = .overFullScreen
-    present(vc, animated: true)
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeKeyboardNotification()
+    present(vc, animated: true) { [weak self] in
+      self?.removeKeyboardNotification()
+    }
   }
   
   override func setupStyles() {
@@ -120,7 +124,9 @@ final class LoginViewController: BaseViewController {
         
         let vc = HaramTabbarController()
         vc.modalPresentationStyle = .overFullScreen
-        owner.present(vc, animated: true)
+        owner.present(vc, animated: true) { [weak self] in
+          self?.removeKeyboardNotification()
+        }
       }
       .disposed(by: disposeBag)
   }
@@ -137,11 +143,6 @@ final class LoginViewController: BaseViewController {
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
-    
-//    loginImageView.snp.makeConstraints {
-//      $0.width.equalTo(238)
-//      $0.height.equalTo(248)
-//    }
     
     [emailTextField, passwordTextField].forEach {
       $0.snp.makeConstraints {
@@ -222,7 +223,9 @@ extension LoginViewController {
     
     let keyboardHeight = keyboardSize.height
     
-    self.view.window?.frame.origin.y -= keyboardHeight
+    if self.view.window?.frame.origin.y == 0 {
+      self.view.window?.frame.origin.y -= keyboardHeight
+    }
 
     
     UIView.animate(withDuration: 1) {

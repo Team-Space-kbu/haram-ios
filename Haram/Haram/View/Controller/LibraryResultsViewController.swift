@@ -96,7 +96,7 @@ extension LibraryResultsViewController: UICollectionViewDelegate, UICollectionVi
     let path = model[indexPath.row].path
     let title = model[indexPath.row].title
     let vc = LibraryDetailViewController(path: path)
-    vc.title = title
+    vc.title = "도서 상세"
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }
