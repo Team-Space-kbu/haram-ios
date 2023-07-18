@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
@@ -68,6 +69,8 @@ enum SettingType: CaseIterable {
 
 final class MoreViewController: BaseViewController {
   
+  private let viewModel: MoreViewModelType
+  
   private let scrollView = UIScrollView().then {
     $0.alwaysBounceVertical = true
   }
@@ -103,6 +106,28 @@ final class MoreViewController: BaseViewController {
   
   private let lineView = UIView().then {
     $0.backgroundColor = .hexD8D8DA
+  }
+  
+  init(userID: String, viewModel: MoreViewModelType = MoreViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+    bind(userID: userID)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  func bind(userID: String) {
+    super.bind()
+    viewModel.currentUserID.onNext(userID)
+    
+    viewModel.currentUserInfo
+      .compactMap { $0 }
+      .drive(with: self) { owner, profileInfoViewModel in
+        owner.profileInfoView.configureUI(with: profileInfoViewModel!)
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {

@@ -99,11 +99,12 @@ final class LoginViewController: BaseViewController {
     super.viewWillAppear(animated)
     registerKeyboardNotification()
     UserManager.shared.clearUserInformations()
-    guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else {
+    guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken,
+          let userID = emailTextField.text else {
       return
     }
     
-    let vc = HaramTabbarController()
+    let vc = HaramTabbarController(userID: userID)
     vc.modalPresentationStyle = .overFullScreen
     present(vc, animated: true) { [weak self] in
       self?.removeKeyboardNotification()
@@ -120,9 +121,10 @@ final class LoginViewController: BaseViewController {
     viewModel.loginToken
       .skip(1)
       .drive(with: self) { owner, result in
-        guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else { return }
+        guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken,
+              let userID = owner.emailTextField.text else { return }
         
-        let vc = HaramTabbarController()
+        let vc = HaramTabbarController(userID: userID)
         vc.modalPresentationStyle = .overFullScreen
         owner.present(vc, animated: true) { [weak self] in
           self?.removeKeyboardNotification()

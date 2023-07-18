@@ -106,6 +106,10 @@
 		7083126A2A39DEF300F7E283 /* LibraryRelatedBookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312692A39DEF300F7E283 /* LibraryRelatedBookCollectionViewCell.swift */; };
 		708312882A6540E900F7E283 /* Ex+Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312872A6540E900F7E283 /* Ex+Notification.Name.swift */; };
 		7083128A2A655BD900F7E283 /* MileageTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312892A655BD900F7E283 /* MileageTableHeaderView.swift */; };
+		7083128C2A6561CD00F7E283 /* MyPageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083128B2A6561CD00F7E283 /* MyPageRouter.swift */; };
+		7083128E2A65626E00F7E283 /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083128D2A65626E00F7E283 /* MyPageService.swift */; };
+		708312912A6562D100F7E283 /* InquireUserInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312902A6562D100F7E283 /* InquireUserInfoResponse.swift */; };
+		708312932A65638200F7E283 /* MoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312922A65638200F7E283 /* MoreViewModel.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9B2A03954700BEB5F2 /* MoreListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */; };
@@ -237,6 +241,10 @@
 		708312692A39DEF300F7E283 /* LibraryRelatedBookCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRelatedBookCollectionViewCell.swift; sourceTree = "<group>"; };
 		708312872A6540E900F7E283 /* Ex+Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Notification.Name.swift"; sourceTree = "<group>"; };
 		708312892A655BD900F7E283 /* MileageTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageTableHeaderView.swift; sourceTree = "<group>"; };
+		7083128B2A6561CD00F7E283 /* MyPageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageRouter.swift; sourceTree = "<group>"; };
+		7083128D2A65626E00F7E283 /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
+		708312902A6562D100F7E283 /* InquireUserInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireUserInfoResponse.swift; sourceTree = "<group>"; };
+		708312922A65638200F7E283 /* MoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewModel.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListView.swift; sourceTree = "<group>"; };
@@ -358,6 +366,7 @@
 				705FD2C62A23B9AD00F353FE /* LibraryRouter.swift */,
 				708312362A2CA50300F7E283 /* IntranetRouter.swift */,
 				7083124E2A31927600F7E283 /* HomeRouter.swift */,
+				7083128B2A6561CD00F7E283 /* MyPageRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -365,7 +374,8 @@
 		705FD2962A13BC0000F353FE /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				708312522A3192FB00F7E283 /* Homw */,
+				7083128F2A6562C500F7E283 /* MyPage */,
+				708312522A3192FB00F7E283 /* Home */,
 				708312382A2CA58B00F7E283 /* Intranet */,
 				705FD2CA2A23BA5E00F353FE /* Library */,
 				705FD2972A13BC0800F353FE /* Auth */,
@@ -393,6 +403,7 @@
 				705FD2D02A24DEFC00F353FE /* LibraryViewModel.swift */,
 				7083125F2A388D8B00F7E283 /* ScheduleViewModel.swift */,
 				708312632A3977B500F7E283 /* LibraryDetailViewModel.swift */,
+				708312922A65638200F7E283 /* MoreViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -484,6 +495,7 @@
 				705FD2C82A23BA3000F353FE /* LibraryService.swift */,
 				7083123B2A2CA5E500F7E283 /* IntranetService.swift */,
 				708312502A3192D900F7E283 /* HomeService.swift */,
+				7083128D2A65626E00F7E283 /* MyPageService.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -588,12 +600,20 @@
 			path = Intranet;
 			sourceTree = "<group>";
 		};
-		708312522A3192FB00F7E283 /* Homw */ = {
+		708312522A3192FB00F7E283 /* Home */ = {
 			isa = PBXGroup;
 			children = (
 				708312532A31930300F7E283 /* InquireHomeInfoResponse.swift */,
 			);
-			path = Homw;
+			path = Home;
+			sourceTree = "<group>";
+		};
+		7083128F2A6562C500F7E283 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				708312902A6562D100F7E283 /* InquireUserInfoResponse.swift */,
+			);
+			path = MyPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -888,6 +908,7 @@
 				708312512A3192D900F7E283 /* HomeService.swift in Sources */,
 				708312602A388D8B00F7E283 /* ScheduleViewModel.swift in Sources */,
 				7083128A2A655BD900F7E283 /* MileageTableHeaderView.swift in Sources */,
+				7083128C2A6561CD00F7E283 /* MyPageRouter.swift in Sources */,
 				705FD29B2A13C19A00F353FE /* RegisterMemberRequest.swift in Sources */,
 				708312882A6540E900F7E283 /* Ex+Notification.Name.swift in Sources */,
 				708312422A2CAA1800F7E283 /* RequestIntranetTokenResponse.swift in Sources */,
@@ -900,6 +921,7 @@
 				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
 				705FD2BB2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift in Sources */,
 				705FD2822A10E2A800F353FE /* BaseEntity.swift in Sources */,
+				708312932A65638200F7E283 /* MoreViewModel.swift in Sources */,
 				705FD2862A10E58600F353FE /* HeaderType.swift in Sources */,
 				705E70B629E1C7A100156B1F /* HaramSectionView.swift in Sources */,
 				705FD2802A10DE8800F353FE /* ApiService.swift in Sources */,
@@ -911,6 +933,7 @@
 				705FD2A12A15F75900F353FE /* LoginAlertView.swift in Sources */,
 				705FD2A52A15FDB500F353FE /* LoginRequest.swift in Sources */,
 				7083123C2A2CA5E500F7E283 /* IntranetService.swift in Sources */,
+				708312912A6562D100F7E283 /* InquireUserInfoResponse.swift in Sources */,
 				708312462A2F34DB00F7E283 /* IntranetLoginViewController.swift in Sources */,
 				70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */,
 				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
@@ -923,6 +946,7 @@
 				70727A9B29D88A3A003DE956 /* FindPasswordViewController.swift in Sources */,
 				70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */,
 				70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */,
+				7083128E2A65626E00F7E283 /* MyPageService.swift in Sources */,
 				70727A9529D889C6003DE956 /* HomeViewController.swift in Sources */,
 				708312662A398C0D00F7E283 /* LibraryRentalListView.swift in Sources */,
 				705FD28C2A10F74D00F353FE /* UserManager.swift in Sources */,

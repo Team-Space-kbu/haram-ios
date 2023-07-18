@@ -10,6 +10,16 @@ import UIKit
 import SnapKit
 import Then
 
+struct ProfileInfoViewModel {
+  let name: String
+  let email: String
+  
+  init(response: InquireUserInfoResponse) {
+    name = response.nickname
+    email = response.email
+  }
+}
+
 final class ProfileInfoView: UIView {
   
   private let nameLabel = UILabel().then {
@@ -78,5 +88,10 @@ final class ProfileInfoView: UIView {
       $0.centerY.equalTo(moreLabel)
       $0.trailing.equalToSuperview().inset(16)
     }
+  }
+  
+  func configureUI(with model: ProfileInfoViewModel) {
+    nameLabel.text = model.name
+    emailLabel.text = model.email
   }
 }

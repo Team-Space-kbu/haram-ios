@@ -12,6 +12,8 @@ import Then
 
 final class HaramTabbarController: UITabBarController {
   
+  private let userID: String
+  
   private lazy var homeViewController = UINavigationController(rootViewController: HomeViewController().then {
     $0.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "home"), tag: 0)
   })
@@ -24,9 +26,18 @@ final class HaramTabbarController: UITabBarController {
     $0.tabBarItem = UITabBarItem(title: "게시판", image: UIImage(named: "board"), tag: 2)
   })
   
-  private lazy var moreViewController = UINavigationController(rootViewController: MoreViewController().then {
+  private lazy var moreViewController = UINavigationController(rootViewController: MoreViewController(userID: userID).then {
     $0.tabBarItem = UITabBarItem(title: "더보기", image: UIImage(named: "more"), tag: 3)
   } )
+  
+  init(userID: String) {
+    self.userID = userID
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
