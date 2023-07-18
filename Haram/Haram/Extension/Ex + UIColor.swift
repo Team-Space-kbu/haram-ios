@@ -64,6 +64,6 @@ extension UIColor {
   static let hexD0D0D0          = UIColor(hex: 0xD0D0D0)
   static let hexD6D4D6          = UIColor(hex: 0xD6D4D6)
   static let hex4B81EE          = UIColor(hex: 0x4B81EE)
-
+  static let hex1477F9          = UIColor(hex: 0x1477F9)
 }
 

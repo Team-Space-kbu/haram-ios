@@ -70,7 +70,7 @@ final class HaramTabbarController: UITabBarController {
         $0.normal.titleTextAttributes = [.font: UIFont.medium]
         
         // Selected State
-        $0.selected.titleTextAttributes = [.font: UIFont.regular]
+        $0.selected.titleTextAttributes = [.font: UIFont.regular10]
       }
     }
 //    delegate = self

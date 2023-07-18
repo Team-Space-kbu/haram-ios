@@ -286,9 +286,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       case .mileage:
         if !UserManager.shared.hasIntranetToken {
           let vc = IntranetLoginViewController()
-          vc.navigationItem.largeTitleDisplayMode = .never
-          vc.hidesBottomBarWhenPushed = true
-          navigationController?.pushViewController(vc, animated: true)
+          vc.modalPresentationStyle = .overFullScreen
+          present(vc, animated: true)
         } else {
           let vc = MileageViewController()
           vc.title = "마일리지"
@@ -300,9 +299,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       case .chapel:
         if !UserManager.shared.hasIntranetToken {
           let vc = IntranetLoginViewController()
-          vc.navigationItem.largeTitleDisplayMode = .never
-          vc.hidesBottomBarWhenPushed = true
-          navigationController?.pushViewController(vc, animated: true)
+          vc.modalPresentationStyle = .overFullScreen
+          present(vc, animated: true)
         } else {
           let vc = ChapelViewController()
           vc.navigationItem.largeTitleDisplayMode = .never
@@ -336,10 +334,4 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
   }
   
-}
-
-enum Example {
-  var a: Int {
-    0
-  }
 }

@@ -70,7 +70,7 @@ final class IntranetLoginViewController: BaseViewController {
     let attributedString = NSAttributedString(
       string: "로그인",
       attributes: [
-        .font:UIFont.regular,
+        .font:UIFont.bold14,
         .foregroundColor:UIColor.white
       ]
     )
@@ -171,13 +171,9 @@ final class IntranetLoginViewController: BaseViewController {
     lastAuthButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.navigationController?.popViewController(animated: true)
+        owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
-  }
-  
-  @objc private func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
   }
 }
 

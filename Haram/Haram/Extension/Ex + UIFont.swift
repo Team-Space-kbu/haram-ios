@@ -28,8 +28,10 @@ extension UIFont {
 
 extension UIFont {
   static let bold = UIFont(name: SpoqaHanSansNeo.bold.rawValue, size: 20)!
+  static let bold14 = UIFont(name: SpoqaHanSansNeo.bold.rawValue, size: 14)!
   static let medium = UIFont(name: SpoqaHanSansNeo.medium.rawValue, size: 10)!
   static let regular = UIFont(name: SpoqaHanSansNeo.regular.rawValue, size: 14)!
+  static let regular10 = UIFont(name: SpoqaHanSansNeo.regular.rawValue, size: 10)!
   static let light = UIFont(name: SpoqaHanSansNeo.light.rawValue, size: 12)!
   static let thin = UIFont(name: SpoqaHanSansNeo.thin.rawValue, size: 10)!
 }
