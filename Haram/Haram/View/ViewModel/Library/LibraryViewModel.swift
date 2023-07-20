@@ -15,6 +15,7 @@ protocol LibraryViewModelType {
   var newBookModel: Driver<[LibraryCollectionViewCellModel]> { get }
   var bestBookModel: Driver<[LibraryCollectionViewCellModel]> { get }
   var searchResults:Driver<[LibraryResultsCollectionViewCellModel]> { get }
+  var isLoading: Driver<Bool> { get }
 }
 
 final class LibraryViewModel: LibraryViewModelType {
@@ -27,6 +28,7 @@ final class LibraryViewModel: LibraryViewModelType {
   let newBookModel: Driver<[LibraryCollectionViewCellModel]>
   let bestBookModel: Driver<[LibraryCollectionViewCellModel]>
   let searchResults: Driver<[LibraryResultsCollectionViewCellModel]>
+  let isLoading: Driver<Bool>
   
   init() {
     
@@ -35,9 +37,11 @@ final class LibraryViewModel: LibraryViewModelType {
     let searchBookResults = PublishRelay<[LibraryResultsCollectionViewCellModel]>()
     let initializingData = PublishSubject<Void>()
     let whichSearchingText = PublishSubject<String>()
+    let isLoadingSubject = BehaviorSubject<Bool>(value: false)
     
     initialData = initializingData.asObserver()
     whichSearchText = whichSearchingText.asObserver()
+    isLoading = isLoadingSubject.asDriver(onErrorJustReturn: false)
     
     let inquireLibrary = LibraryService.shared.inquireLibrary()
     
@@ -48,11 +52,14 @@ final class LibraryViewModel: LibraryViewModelType {
     .disposed(by: disposeBag)
     
     let requestSearchBook = whichSearchingText
+      .do(onNext: { _ in isLoadingSubject.onNext(true) })
       .flatMapLatest(LibraryService.shared.searchBook)
     
     requestSearchBook.subscribe(onNext: { response in
+      print("응답 \(response)")
       let model = response.map { LibraryResultsCollectionViewCellModel(response: $0) }
       searchBookResults.accept(model)
+      isLoadingSubject.onNext(false)
     })
     .disposed(by: disposeBag)
     

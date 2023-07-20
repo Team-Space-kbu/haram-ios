@@ -110,6 +110,8 @@
 		7083128E2A65626E00F7E283 /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083128D2A65626E00F7E283 /* MyPageService.swift */; };
 		708312912A6562D100F7E283 /* InquireUserInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312902A6562D100F7E283 /* InquireUserInfoResponse.swift */; };
 		708312932A65638200F7E283 /* MoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312922A65638200F7E283 /* MoreViewModel.swift */; };
+		708312962A691AAD00F7E283 /* NumberformatterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312952A691AAD00F7E283 /* NumberformatterFactory.swift */; };
+		708312992A691D1700F7E283 /* MileageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312982A691D1700F7E283 /* MileageViewModel.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9B2A03954700BEB5F2 /* MoreListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */; };
@@ -245,6 +247,8 @@
 		7083128D2A65626E00F7E283 /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
 		708312902A6562D100F7E283 /* InquireUserInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireUserInfoResponse.swift; sourceTree = "<group>"; };
 		708312922A65638200F7E283 /* MoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewModel.swift; sourceTree = "<group>"; };
+		708312952A691AAD00F7E283 /* NumberformatterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberformatterFactory.swift; sourceTree = "<group>"; };
+		708312982A691D1700F7E283 /* MileageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageViewModel.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListView.swift; sourceTree = "<group>"; };
@@ -351,9 +355,6 @@
 				705FD2782A10D3C500F353FE /* Router.swift */,
 				705FD2852A10E58600F353FE /* HeaderType.swift */,
 				705FD2872A10E5E500F353FE /* ParameterType.swift */,
-				705FD2892A10F6C300F353FE /* UserDefaultsWrapper.swift */,
-				705FD28B2A10F74D00F353FE /* UserManager.swift */,
-				705FD28D2A10FC0200F353FE /* KeyChainWrapper.swift */,
 				705FD28F2A10FD6D00F353FE /* Interceptor.swift */,
 			);
 			path = Foundation;
@@ -399,11 +400,11 @@
 		705FD2A62A16030E00F353FE /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				708312972A691D0000F7E283 /* Library */,
 				705FD2A72A16031300F353FE /* Auth */,
-				705FD2D02A24DEFC00F353FE /* LibraryViewModel.swift */,
 				7083125F2A388D8B00F7E283 /* ScheduleViewModel.swift */,
-				708312632A3977B500F7E283 /* LibraryDetailViewModel.swift */,
 				708312922A65638200F7E283 /* MoreViewModel.swift */,
+				708312982A691D1700F7E283 /* MileageViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -451,6 +452,7 @@
 		70727A5329D87B25003DE956 /* Haram */ = {
 			isa = PBXGroup;
 			children = (
+				708312942A691A8200F7E283 /* Util */,
 				70727AB629D95E2A003DE956 /* Extension */,
 				70727AAB29D95575003DE956 /* Font */,
 				70727A8629D87DFA003DE956 /* Repository */,
@@ -614,6 +616,26 @@
 				708312902A6562D100F7E283 /* InquireUserInfoResponse.swift */,
 			);
 			path = MyPage;
+			sourceTree = "<group>";
+		};
+		708312942A691A8200F7E283 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				705FD2892A10F6C300F353FE /* UserDefaultsWrapper.swift */,
+				705FD28D2A10FC0200F353FE /* KeyChainWrapper.swift */,
+				705FD28B2A10F74D00F353FE /* UserManager.swift */,
+				708312952A691AAD00F7E283 /* NumberformatterFactory.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		708312972A691D0000F7E283 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				705FD2D02A24DEFC00F353FE /* LibraryViewModel.swift */,
+				708312632A3977B500F7E283 /* LibraryDetailViewModel.swift */,
+			);
+			path = Library;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -885,6 +907,7 @@
 				705FD2C72A23B9AD00F353FE /* LibraryRouter.swift in Sources */,
 				70727AA129D88AD0003DE956 /* MoreViewController.swift in Sources */,
 				708312482A2F7EC300F7E283 /* LibraryDetailSubView.swift in Sources */,
+				708312992A691D1700F7E283 /* MileageViewModel.swift in Sources */,
 				708312402A2CA79D00F7E283 /* IntranetLoginRequest.swift in Sources */,
 				705FD2BD2A1A4CEE00F353FE /* LibraryDetailViewController.swift in Sources */,
 				7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */,
@@ -912,6 +935,7 @@
 				705FD29B2A13C19A00F353FE /* RegisterMemberRequest.swift in Sources */,
 				708312882A6540E900F7E283 /* Ex+Notification.Name.swift in Sources */,
 				708312422A2CAA1800F7E283 /* RequestIntranetTokenResponse.swift in Sources */,
+				708312962A691AAD00F7E283 /* NumberformatterFactory.swift in Sources */,
 				705FD2792A10D3C500F353FE /* Router.swift in Sources */,
 				7083123E2A2CA62A00F7E283 /* InquireChapelListResponse.swift in Sources */,
 				70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */,

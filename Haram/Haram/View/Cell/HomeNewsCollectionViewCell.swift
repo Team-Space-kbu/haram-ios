@@ -33,8 +33,7 @@ final class HomeNewsCollectionViewCell: UICollectionViewCell {
   
   private let titleLabel = UILabel().then {
     $0.textColor = .hex545E6A
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .bold14
     $0.sizeToFit()
     $0.numberOfLines = 1
   }

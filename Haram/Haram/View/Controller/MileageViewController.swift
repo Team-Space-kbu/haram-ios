@@ -12,26 +12,13 @@ import Then
 
 final class MileageViewController: BaseViewController {
   
-//  private let scrollView = UIScrollView().then {
-//    $0.backgroundColor = .clear
-//    $0.showsVerticalScrollIndicator = false
-//    $0.showsHorizontalScrollIndicator = false
-//    $0.isScrollEnabled = true
-//  }
-//
-//  private let scrollContainerView = UIView().then {
-//    $0.backgroundColor = .clear
-//  }
+  private let viewModel: MileageViewModelType
   
-//  private let mileageHeaderView = MileageHeaderView().then {
-//    $0.backgroundColor = .red
-//  }
-//
-//  private let spendListLabel = UILabel().then {
-//    $0.text = "소비내역"
-//    $0.textColor = .black
-//    $0.font = .systemFont(ofSize: 14)
-//  }
+  private var model: [MileageTableViewCellModel] = [] {
+    didSet {
+      mileageTableView.reloadData()
+    }
+  }
   
   private lazy var mileageTableView = UITableView(frame: .zero, style: .grouped).then {
     $0.register(MileageTableViewCell.self, forCellReuseIdentifier: MileageTableViewCell.identifier)
@@ -43,7 +30,23 @@ final class MileageViewController: BaseViewController {
     $0.showsVerticalScrollIndicator = false
     $0.sectionHeaderHeight = 279.97 - 10
     $0.sectionFooterHeight = .leastNonzeroMagnitude
-//    $0.isScrollEnabled = false
+  }
+  
+  init(viewModel: MileageViewModelType = MileageViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func bind() {
+    super.bind()
+    
+    viewModel.currentUserMileageInfo
+      .drive(rx.model)
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -58,32 +61,11 @@ final class MileageViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-//    view.addSubview(scrollView)
-//    scrollView.addSubview(scrollContainerView)
     view.addSubview(mileageTableView)
-//    [mileageHeaderView, spendListLabel, mileageTableView].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
-    
-//    scrollView.snp.makeConstraints {
-//      $0.directionalEdges.equalToSuperview()
-//    }
-//    
-//    scrollContainerView.snp.makeConstraints {
-//      $0.width.directionalVerticalEdges.equalToSuperview()
-//    }
-    
-//    mileageHeaderView.snp.makeConstraints {
-//      $0.top.equalTo(view.safeAreaLayoutGuide).offset(69)
-//      $0.leading.equalToSuperview().inset(15)
-//    }
-//
-//    spendListLabel.snp.makeConstraints {
-//      $0.top.equalTo(mileageHeaderView.snp.bottom).offset(96)
-//      $0.leading.equalToSuperview().inset(15)
-//    }
     
     mileageTableView.snp.makeConstraints {
       $0.directionalVerticalEdges.equalToSuperview()
@@ -98,11 +80,12 @@ final class MileageViewController: BaseViewController {
 
 extension MileageViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 10
+    return model.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: MileageTableViewCell.identifier, for: indexPath) as? MileageTableViewCell ?? MileageTableViewCell()
+    cell.configureUI(with: model[indexPath.row])
     return cell
   }
   

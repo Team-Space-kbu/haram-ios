@@ -79,6 +79,8 @@ final class LibraryViewController: BaseViewController {
     $0.bounces = false
   }
   
+  private let indicatorView = UIActivityIndicatorView(style: .large)
+  
   private let tapGesture = UITapGestureRecognizer(target: LibraryViewController.self, action: nil)
   
   init(viewModel: LibraryViewModelType = LibraryViewModel()) {
@@ -92,7 +94,6 @@ final class LibraryViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-//    viewModel.initialData.onNext(())
     
     viewModel.newBookModel
       .drive(rx.newBookModel)
@@ -130,6 +131,11 @@ final class LibraryViewController: BaseViewController {
         owner.view.endEditing(true)
       }
       .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .map { !$0 }
+      .drive(indicatorView.rx.isHidden)
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -142,11 +148,13 @@ final class LibraryViewController: BaseViewController {
     )
     title = "도서"
     view.addGestureRecognizer(tapGesture)
+    indicatorView.startAnimating()
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
+    view.addSubview(indicatorView)
     scrollView.addSubview(containerView)
     [searchBar, bannerImageView, collectionView].forEach { containerView.addArrangedSubview($0) }
   }
@@ -156,6 +164,10 @@ final class LibraryViewController: BaseViewController {
     
     scrollView.snp.makeConstraints {
       $0.width.directionalEdges.equalToSuperview()
+    }
+    
+    indicatorView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
     containerView.snp.makeConstraints {

@@ -10,14 +10,19 @@ import UIKit
 import SnapKit
 import Then
 
+struct MileageTableHeaderViewModel {
+  let totalMileage: Int
+}
+
 final class MileageTableHeaderView: UITableViewHeaderFooterView {
   
   static let identifier = "MileageTableHeaderView"
   
   private let totalMileageLabel = UILabel().then {
     $0.textColor = .hex1A1E27
+    $0.font = .bold
     $0.font = .systemFont(ofSize: 36)
-    $0.text = "10218원"
+    $0.text = "10,218원"
   }
   
   private let reloadLabel = UILabel().then {
@@ -33,7 +38,7 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
   private let spendListLabel = UILabel().then {
     $0.text = "소비내역"
     $0.textColor = .black
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .bold14
   }
   
   override init(reuseIdentifier: String?) {
@@ -68,5 +73,11 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
       $0.leading.equalToSuperview()
       $0.bottom.equalToSuperview().inset(3)
     }
+  }
+  
+  func configureUI(with model: MileageTableHeaderViewModel) {
+    let formatter = NumberformatterFactory.decimal
+    let decimalTotalMileage = formatter.string(for: model.totalMileage) ?? "0"
+    totalMileageLabel.text = "\(decimalTotalMileage)원"
   }
 }

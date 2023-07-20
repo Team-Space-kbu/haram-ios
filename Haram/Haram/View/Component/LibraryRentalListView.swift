@@ -94,8 +94,7 @@ struct LibraryRentalViewModel {
 final class LibraryRentalView: UIView {
   
   private let registerLabel = UILabel().then {
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .bold14
     $0.textColor = .black
   }
   

@@ -10,6 +10,12 @@ import UIKit
 import SnapKit
 import Then
 
+struct MileageTableViewCellModel {
+  let mainText: String
+  let subText: String
+  let mileage: Int
+}
+
 final class MileageTableViewCell: UITableViewCell {
   static let identifier = "MileageTableViewCell"
   
@@ -21,21 +27,21 @@ final class MileageTableViewCell: UITableViewCell {
   
   private let mainLabel = UILabel().then {
     $0.textColor = .black
+    $0.font = .bold
     $0.font = .systemFont(ofSize: 18)
-    $0.text = "Lorem Ipsums"
     $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
   }
   
   private let subLabel = UILabel().then {
     $0.textColor = .black
+    $0.font = .regular
     $0.font = .systemFont(ofSize: 14)
-    $0.text = "Lorem Ipsums"
   }
   
   private let mileageLabel = UILabel().then {
+    $0.font = .bold
     $0.font = .systemFont(ofSize: 18)
     $0.textColor = .hex545E6A
-    $0.text = "200,000"
     $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }
   
@@ -71,5 +77,18 @@ final class MileageTableViewCell: UITableViewCell {
       $0.trailing.equalToSuperview()
       $0.bottom.equalTo(mileageImageView)
     }
+  }
+  
+  func configureUI(with model: MileageTableViewCellModel) {
+    let mileage = model.mileage
+    if mileage >= 0 {
+      mileageLabel.textColor = .hex4B81EE
+    }
+    let formatter = NumberformatterFactory.decimal
+    let decimalMileage = formatter.string(for: mileage) ?? "0"
+    
+    mainLabel.text = model.mainText
+    subLabel.text = model.subText
+    mileageLabel.text = decimalMileage
   }
 }

@@ -29,8 +29,7 @@ final class LoginButton: UIView {
   
   private let loginButton = UIButton().then {
     $0.backgroundColor = .hex79BD9A
-    $0.titleLabel?.font = .bold
-    $0.titleLabel?.font = .systemFont(ofSize: 14)
+    $0.titleLabel?.font = .bold14
     $0.tintColor = .white
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10

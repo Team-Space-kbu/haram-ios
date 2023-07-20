@@ -138,7 +138,7 @@ final class IntranetLoginViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    
+    print("토큰들어오냐고")
     AuthService.shared.requestIntranetToken()
       .subscribe(onNext: { response in
         UserManager.shared.set(
@@ -146,7 +146,7 @@ final class IntranetLoginViewController: BaseViewController {
           xsrfToken: response.xsrfToken,
           laravelSession: response.laravelSession
         )
-        print("토큰 \(UserManager.shared.hasIntranetToken)")
+        print("토큰있니 \(UserManager.shared.hasIntranetToken)")
       })
       .disposed(by: disposeBag)
     

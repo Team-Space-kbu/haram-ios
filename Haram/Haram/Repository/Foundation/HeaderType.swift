@@ -50,15 +50,6 @@ extension HeaderType {
       defaultHeaders.add(.contentType("application/json"))
       return defaultHeaders
       
-//    case .withAccessAndRefresh:
-//      guard let accessToken = UserManager.shared.accessToken,
-//            let refreshToken = UserManager.shared.refreshToken else { return HeaderType.default.toHTTPHeader }
-//      var defaultHeaders = HTTPHeaders.default
-//      defaultHeaders.add(name: "accessToken", value: accessToken)
-//      defaultHeaders.add(name: "refreshToken", value: refreshToken)
-//      defaultHeaders.add(.contentType("application/json"))
-//      return defaultHeaders
-      
     case .withCookieForIntranet:
       guard let xsrfToken = UserManager.shared.xsrfToken,
             let laravelSession = UserManager.shared.laravelSession else {

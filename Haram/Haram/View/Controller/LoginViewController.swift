@@ -90,11 +90,6 @@ final class LoginViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-//  deinit {
-//    print("디이닛")
-//    removeKeyboardNotification()
-//  }
-  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     registerKeyboardNotification()
