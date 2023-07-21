@@ -162,7 +162,7 @@ final class IntranetLoginViewController: BaseViewController {
         .subscribe(with: self) { owner, response in
           print("인트라넷 로그인 성공 !! \(response)")
 //          owner.dismiss(animated: true)
-          owner.navigationController?.popViewController(animated: true)
+          owner.dismiss(animated: true)
         }
         .disposed(by: owner.disposeBag)
       }

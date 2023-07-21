@@ -12,6 +12,8 @@ import Then
 
 final class ChapelViewController: BaseViewController {
   
+  private let viewModel: ChapelViewModelType
+  
   private var chapelHeaderModel: ChapelCollectionHeaderViewModel? {
     didSet {
       chapelCollectionView.reloadData()
@@ -35,14 +37,48 @@ final class ChapelViewController: BaseViewController {
     $0.contentInset = .init(top: .zero, left: 15, bottom: .zero, right: 15)
   }
   
+  private let indicatorView = UIActivityIndicatorView(style: .large)
+  
+  init(viewModel: ChapelViewModelType = ChapelViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func bind() {
+    super.bind()
+    
+    viewModel.chapelListModel
+      .drive(rx.chapelListModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.chapelHeaderModel
+      .drive(rx.chapelHeaderModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .distinctUntilChanged()
+      .do(onNext: { print("로딩중 \($0)") })
+      .drive(indicatorView.rx.isAnimating)
+      .disposed(by: disposeBag)
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(chapelCollectionView)
+    view.addSubview(indicatorView)
   }
   
   override func setupConstraints() {
     super.setupConstraints()  
     chapelCollectionView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
+    indicatorView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
   }
@@ -56,43 +92,6 @@ final class ChapelViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
-    
-    if UserManager.shared.hasIntranetToken {
-      IntranetService.shared.inquireChapelList(
-        request: .init(
-          intranetToken: UserManager.shared.intranetToken!,
-          xsrfToken: UserManager.shared.xsrfToken!,
-          laravelSession: UserManager.shared.laravelSession!
-        )
-      )
-      .subscribe(with: self) { owner, response in
-        let chapelListModel = response.map { ChapelCollectionViewCellModel(response: $0) }
-        print("리스트조회 \(chapelListModel)")
-        owner.chapelListModel = chapelListModel
-      }
-      .disposed(by: disposeBag)
-      
-      IntranetService.shared.inquireChapelInfo(
-        request: .init(
-          intranetToken: UserManager.shared.intranetToken!,
-          xsrfToken: UserManager.shared.xsrfToken!,
-          laravelSession: UserManager.shared.laravelSession!
-        )
-      )
-      .subscribe(with: self) { owner, response in
-        print("채플인포조회 \(response)")
-        guard let entireDays = Int(response.entireDays),
-              let confirmationDays = Int(response.confirmationDays) else { return }
-        owner.chapelHeaderModel = ChapelCollectionHeaderViewModel(
-          chapelDayViewModel: response.confirmationDays,
-          chapelInfoViewModel: .init(
-            attendanceDays: response.attendanceDays,
-            remainDays: "\(entireDays - confirmationDays)",
-            lateDays: response.lateDays)
-        )
-      }
-      .disposed(by: disposeBag)
-    }
   }
   
   @objc private func didTappedBackButton() {

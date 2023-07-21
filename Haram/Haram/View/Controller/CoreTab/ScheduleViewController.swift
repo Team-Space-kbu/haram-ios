@@ -70,6 +70,8 @@ final class ScheduleViewController: BaseViewController {
     $0.textEdgeInsets = UIEdgeInsets(top: 2, left: 3, bottom: 2, right: 10)
   }
   
+  private let indicatorView = UIActivityIndicatorView(style: .large)
+  
   init(viewModel: ScheduleViewModelType = ScheduleViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -81,23 +83,26 @@ final class ScheduleViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    print("인트라넷있다구!21!")
     if UserManager.shared.hasIntranetToken {
+      print("인트라넷있다구!!")
       viewModel.inquireSchedule.onNext(())
     } else {
+      print("엘스문")
       let vc = IntranetLoginViewController()
-      vc.modalPresentationStyle = .overFullScreen
+      vc.modalPresentationStyle = .fullScreen
       present(vc, animated: true)
     }
   }
   
   override func setupStyles() {
     super.setupStyles()
-//    self.tabBarController?.delegate = self
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(elliotable)
+    view.addSubview(indicatorView)
   }
   
   override func setupConstraints() {
@@ -105,12 +110,22 @@ final class ScheduleViewController: BaseViewController {
     elliotable.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
+    
+    indicatorView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
   }
   
   override func bind() {
     super.bind()
     viewModel.scheduleInfo
+      .do(onNext: { print("스케줄 \($0)") })
       .drive(rx.courseModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .distinctUntilChanged()
+      .drive(indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
   }
 }
@@ -136,16 +151,3 @@ extension ScheduleViewController: ElliotableDelegate, ElliotableDataSource {
     return courseModel
   }
 }
-
-//extension ScheduleViewController: UITabBarControllerDelegate {
-//  func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-//    print("시발1")
-//    if viewController == self {
-//      print("시발")
-//      guard !UserManager.shared.hasIntranetToken else { return }
-//      let vc = IntranetLoginViewController()
-//      vc.navigationItem.largeTitleDisplayMode = .never
-//      navigationController?.pushViewController(vc, animated: true)
-//    }
-//  }
-//}

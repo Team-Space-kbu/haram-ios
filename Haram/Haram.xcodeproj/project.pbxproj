@@ -112,6 +112,7 @@
 		708312932A65638200F7E283 /* MoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312922A65638200F7E283 /* MoreViewModel.swift */; };
 		708312962A691AAD00F7E283 /* NumberformatterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312952A691AAD00F7E283 /* NumberformatterFactory.swift */; };
 		708312992A691D1700F7E283 /* MileageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312982A691D1700F7E283 /* MileageViewModel.swift */; };
+		7083129B2A6A909C00F7E283 /* ChapelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9B2A03954700BEB5F2 /* MoreListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */; };
@@ -249,6 +250,7 @@
 		708312922A65638200F7E283 /* MoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewModel.swift; sourceTree = "<group>"; };
 		708312952A691AAD00F7E283 /* NumberformatterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberformatterFactory.swift; sourceTree = "<group>"; };
 		708312982A691D1700F7E283 /* MileageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageViewModel.swift; sourceTree = "<group>"; };
+		7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelViewModel.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListView.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				7083125F2A388D8B00F7E283 /* ScheduleViewModel.swift */,
 				708312922A65638200F7E283 /* MoreViewModel.swift */,
 				708312982A691D1700F7E283 /* MileageViewModel.swift */,
+				7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -984,6 +987,7 @@
 				705FD2842A10E47F00F353FE /* HaramError.swift in Sources */,
 				70C9CCB62A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift in Sources */,
 				705FD2C32A2337C800F353FE /* NoticeViewController.swift in Sources */,
+				7083129B2A6A909C00F7E283 /* ChapelViewModel.swift in Sources */,
 				705FD2BF2A1A4D2E00F353FE /* LibraryDetailMainView.swift in Sources */,
 				7083124F2A31927600F7E283 /* HomeRouter.swift in Sources */,
 				70727AA629D93B43003DE956 /* HomeShortcutCollectionViewCell.swift in Sources */,

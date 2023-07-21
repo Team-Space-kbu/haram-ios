@@ -69,10 +69,12 @@ extension AuthRouter: Router {
     switch self {
     case .registerMember, .loginMember:
       return .default
-    case .requestIntranetToken, .reissuanceAccessToken:
+    case .requestIntranetToken:
       return .withAccessToken
     case .loginIntranet:
       return .withCookieForIntranet
+    case .reissuanceAccessToken:
+      return .withRefreshToken
     }
   }
 }

@@ -79,6 +79,8 @@ final class HomeViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    print("어세스토큰 \(UserManager.shared.accessToken)")
+    print("리프레시토큰 \(UserManager.shared.refreshToken)")
     let label = UILabel().then {
       $0.text = "하람"
       $0.font = .bold

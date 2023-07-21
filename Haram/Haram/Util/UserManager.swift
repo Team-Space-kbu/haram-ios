@@ -18,8 +18,8 @@ final class UserManager {
   // MARK: - User Options
   
   /// 최초 실행 여부를 확인하는 변수
-  @UserDefaultsWrapper<Bool>(key: "isLaunchedBefore")
-  private(set) var isLaunchedBefore
+  @UserDefaultsWrapper<String>(key: "userID")
+  private(set) var userID
   
   // MARK: - PLUB Token
   
@@ -66,6 +66,10 @@ extension UserManager {
     self.refreshToken = refreshToken
   }
   
+  func set(userID: String) {
+    self.userID = userID
+  }
+  
   /// 플럽 회원가입에 필요한 `SignToken`을 세팅합니다.
   func set(signToken: String) {
     self.signToken = signToken
@@ -83,10 +87,10 @@ extension UserManager {
     self.laravelSession = laravelSession
   }
   
-  /// 최초 실행 여부를 세팅합니다.
-  func set(isLaunchedBefore: Bool) {
-    self.isLaunchedBefore = isLaunchedBefore
-  }
+//  /// 최초 실행 여부를 세팅합니다.
+//  func set(isLaunchedBefore: Bool) {
+//    self.isLaunchedBefore = isLaunchedBefore
+//  }
   
   /// 유저의 정보를 전부 초기화합니다.
   func clearUserInformations() {

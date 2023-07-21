@@ -94,16 +94,15 @@ final class LoginViewController: BaseViewController {
     super.viewWillAppear(animated)
     registerKeyboardNotification()
     UserManager.shared.clearUserInformations()
-    guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken,
-          let userID = emailTextField.text else {
+//    print("어세스토큰1 \(UserManager.shared.accessToken)")
+//    print("리프레시토큰1 \(UserManager.shared.refreshToken)")
+    guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else {
       return
     }
     
-    let vc = HaramTabbarController(userID: userID)
+    let vc = HaramTabbarController(userID: UserManager.shared.userID!)
     vc.modalPresentationStyle = .overFullScreen
-    present(vc, animated: true) { [weak self] in
-      self?.removeKeyboardNotification()
-    }
+    (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
   }
   
   override func setupStyles() {
@@ -119,7 +118,8 @@ final class LoginViewController: BaseViewController {
         guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken,
               let userID = owner.emailTextField.text else { return }
         
-        let vc = HaramTabbarController(userID: userID)
+        UserManager.shared.set(userID: userID)
+        let vc = HaramTabbarController(userID: UserManager.shared.userID!)
         vc.modalPresentationStyle = .overFullScreen
         owner.present(vc, animated: true) { [weak self] in
           self?.removeKeyboardNotification()

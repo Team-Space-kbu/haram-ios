@@ -133,8 +133,8 @@ final class LibraryViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isLoading
-      .map { !$0 }
-      .drive(indicatorView.rx.isHidden)
+      .distinctUntilChanged()
+      .drive(indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
   }
   
