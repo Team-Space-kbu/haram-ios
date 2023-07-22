@@ -39,6 +39,7 @@ final class ScheduleViewModel: ScheduleViewModelType {
     self.isLoading = isLoadingSubject.asDriver(onErrorJustReturn: false)
     
     inquiringSchedule
+      .do(onNext: { _ in isLoadingSubject.onNext(true) })
       .take(1)
       .flatMapLatest { _ in
         return IntranetService.shared.inquireScheduleInfo(request: .init(
@@ -48,7 +49,6 @@ final class ScheduleViewModel: ScheduleViewModelType {
         )
         )
       }
-      .do(onNext: { _ in isLoadingSubject.onNext(true) })
       .subscribe(onNext: { response in
         let scheduleModel = response.compactMap { model -> ElliottEvent? in
           guard let courseDay = ScheduleDay.allCases.filter({ $0.text == model.lectureDay }).first?.elliotDay else { return nil }
