@@ -12,6 +12,8 @@ import Then
 
 final class LibraryResultsViewController: BaseViewController {
   
+//  private let viewModel: Libraryresult
+  
   private let model: [LibraryResultsCollectionViewCellModel]
   
   private lazy var collectionView = UICollectionView(
@@ -24,6 +26,8 @@ final class LibraryResultsViewController: BaseViewController {
     $0.dataSource = self
     $0.contentInset = .init(top: 21.97, left: 15, bottom: .zero, right: 15)
   }
+  
+  private let indicatorView = UIActivityIndicatorView(style: .large)
   
   init(model: [LibraryResultsCollectionViewCellModel]) {
     self.model = model
@@ -47,6 +51,7 @@ final class LibraryResultsViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(collectionView)
+    view.addSubview(indicatorView)
   }
   
   override func setupConstraints() {
@@ -54,6 +59,16 @@ final class LibraryResultsViewController: BaseViewController {
     collectionView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
+    
+    indicatorView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+  }
+  
+  override func bind() {
+    super.bind()
+    
+    
   }
   
   @objc private func didTappedBackButton() {

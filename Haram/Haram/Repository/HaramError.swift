@@ -12,4 +12,6 @@ enum HaramError: Error {
   case unknownedError
   case requestError
   case serverError
+  
+  case naverError // 네이버로 부터 요청 값을 처리할 수 없는 상태입니다
 }

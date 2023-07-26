@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
@@ -17,6 +18,7 @@ struct MileageTableHeaderViewModel {
 final class MileageTableHeaderView: UITableViewHeaderFooterView {
   
   static let identifier = "MileageTableHeaderView"
+  private let disposeBag = DisposeBag()
   
   private let totalMileageLabel = UILabel().then {
     $0.textColor = .hex1A1E27
@@ -25,15 +27,7 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
     $0.text = "10,218원"
   }
   
-  private let reloadLabel = UILabel().then {
-    $0.text = "새로고침"
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 20)
-  }
-  
-  private let reloadButton = UIButton().then {
-    $0.setImage(UIImage(named: "reloadGray"), for: .normal)
-  }
+  private let mileageReloadButton = MileageReloadButton()
   
   private let spendListLabel = UILabel().then {
     $0.text = "소비내역"
@@ -44,32 +38,35 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
   override init(reuseIdentifier: String?) {
     super.init(reuseIdentifier: reuseIdentifier)
     configureUI()
+//    bind()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
+  private func bind() {
+    mileageReloadButton.button.rx.tap
+      .subscribe(onNext: { _ in
+        print("버튼탭")
+      })
+      .disposed(by: disposeBag)
+  }
+  
   private func configureUI() {
-    [totalMileageLabel, reloadLabel, reloadButton, spendListLabel].forEach { addSubview($0) }
+    [totalMileageLabel, mileageReloadButton, spendListLabel].forEach { addSubview($0) }
     totalMileageLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(69.97)
       $0.leading.equalToSuperview()
     }
     
-    reloadLabel.snp.makeConstraints {
+    mileageReloadButton.snp.makeConstraints {
       $0.top.equalTo(totalMileageLabel.snp.bottom).offset(14)
-      $0.leading.equalTo(totalMileageLabel)
-    }
-    
-    reloadButton.snp.makeConstraints {
-      $0.size.equalTo(16)
-      $0.centerY.equalTo(reloadLabel)
-      $0.leading.equalTo(reloadLabel.snp.trailing).offset(4)
+      $0.leading.equalToSuperview()
     }
     
     spendListLabel.snp.makeConstraints {
-      $0.top.equalTo(reloadLabel.snp.bottom).offset(95)
+      $0.top.equalTo(mileageReloadButton.snp.bottom).offset(95)
       $0.leading.equalToSuperview()
       $0.bottom.equalToSuperview().inset(3)
     }

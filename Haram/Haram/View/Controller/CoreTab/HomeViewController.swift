@@ -87,7 +87,6 @@ final class HomeViewController: BaseViewController {
       $0.font = .systemFont(ofSize: 26)
     }
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
-    
   }
   
   override func setupLayouts() {
@@ -287,10 +286,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       switch type {
       case .mileage:
         if !UserManager.shared.hasIntranetToken {
+          print("인트라넷없어")
           let vc = IntranetLoginViewController()
           vc.modalPresentationStyle = .overFullScreen
           present(vc, animated: true)
         } else {
+          print("인트라넷있어")
           let vc = MileageViewController()
           vc.title = "마일리지"
           vc.navigationItem.largeTitleDisplayMode = .never

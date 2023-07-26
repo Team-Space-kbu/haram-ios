@@ -12,6 +12,9 @@ import SnapKit
 import Then
 
 final class IntranetLoginViewController: BaseViewController {
+  
+  private let viewModel: IntranetLoginViewModelType
+  
   private let containerStackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 10
@@ -46,6 +49,7 @@ final class IntranetLoginViewController: BaseViewController {
     $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
     $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
     $0.leftViewMode = .always
+    $0.autocapitalizationType = .none
   }
   
   private let pwTextField = UITextField().then {
@@ -86,15 +90,22 @@ final class IntranetLoginViewController: BaseViewController {
     $0.setTitleColor(.label, for: .normal)
   }
   
+  init(viewModel: IntranetLoginViewModelType = IntranetLoginViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    navigationController?.navigationBar.isHidden = false
     removeKeyboardNotification()
   }
   
   override func setupStyles() {
     super.setupStyles()
-    navigationController?.navigationBar.isHidden = true
     registerKeyboardNotification()
   }
   
@@ -138,40 +149,40 @@ final class IntranetLoginViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    print("토큰들어오냐고")
-    AuthService.shared.requestIntranetToken()
-      .subscribe(onNext: { response in
-        UserManager.shared.set(
-          intranetToken: response.intranetToken,
-          xsrfToken: response.xsrfToken,
-          laravelSession: response.laravelSession
-        )
-        print("토큰있니 \(UserManager.shared.hasIntranetToken)")
-      })
-      .disposed(by: disposeBag)
+    
+    viewModel.intranetLoginButtonTapped.onNext(())
     
     loginButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        AuthService.shared.loginIntranet(
-          request: .init(
-            intranetToken: UserManager.shared.intranetToken!,
-            intranetID: "kilee124",
-            intranetPWD: "dlrjswns135"
-          )
-        )
-        .subscribe(with: self) { owner, response in
-          print("인트라넷 로그인 성공 !! \(response)")
-//          owner.dismiss(animated: true)
-          owner.dismiss(animated: true)
+        guard let intranetID = owner.idTextField.text,
+              let intranetPWD = owner.pwTextField.text,
+              !intranetID.isEmpty && !intranetPWD.isEmpty else {
+          return
         }
-        .disposed(by: owner.disposeBag)
+        owner.viewModel.whichIntranetInfo.onNext((intranetID, intranetPWD))
       }
       .disposed(by: disposeBag)
     
     lastAuthButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.dismiss(animated: true)
+        owner.dismiss(animated: true) {
+          UserManager.shared.clearIntranetInformation()
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successIntranetLogin
+      .compactMap { $0 }
+      .emit(with: self) { owner, message in
+        CrawlManager.getIntranetLoginResult(html: message) { loginResult in
+          switch loginResult {
+          case .successIntranetLogin:
+            owner.dismiss(animated: true)
+          case .failedIntranetLogin:
+            print("인트라넷 로그인 결과 \(loginResult.message)")
+          }
+        }
       }
       .disposed(by: disposeBag)
   }

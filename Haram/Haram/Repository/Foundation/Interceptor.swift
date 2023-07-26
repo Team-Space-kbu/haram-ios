@@ -5,7 +5,7 @@
 //  Created by 이건준 on 2023/05/14.
 //
 
-import Foundation
+import UIKit
 
 import Alamofire
 import RxSwift
@@ -43,6 +43,8 @@ final class Interceptor: RequestInterceptor {
         .disposed(by: disposeBag)
     } else if statusCode == 403 {
       // 상태코드 403은 refreshToken 만료
+      let vc = LoginViewController()
+      (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
     } else {
       completion(.doNotRetryWithError(error))
     }

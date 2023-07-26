@@ -113,6 +113,12 @@
 		708312962A691AAD00F7E283 /* NumberformatterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312952A691AAD00F7E283 /* NumberformatterFactory.swift */; };
 		708312992A691D1700F7E283 /* MileageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312982A691D1700F7E283 /* MileageViewModel.swift */; };
 		7083129B2A6A909C00F7E283 /* ChapelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */; };
+		7083129D2A6D0F7900F7E283 /* MileageReloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083129C2A6D0F7900F7E283 /* MileageReloadButton.swift */; };
+		7083129F2A6D25E100F7E283 /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */; };
+		708312A12A6D263900F7E283 /* TermsOfUseCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312A02A6D263900F7E283 /* TermsOfUseCheckView.swift */; };
+		708312A32A6EC9D700F7E283 /* IntranetLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */; };
+		708312A62A7028B400F7E283 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 708312A52A7028B400F7E283 /* SwiftSoup */; };
+		708312A82A70292000F7E283 /* CrawlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312A72A70292000F7E283 /* CrawlManager.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9B2A03954700BEB5F2 /* MoreListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */; };
@@ -251,6 +257,11 @@
 		708312952A691AAD00F7E283 /* NumberformatterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberformatterFactory.swift; sourceTree = "<group>"; };
 		708312982A691D1700F7E283 /* MileageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageViewModel.swift; sourceTree = "<group>"; };
 		7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelViewModel.swift; sourceTree = "<group>"; };
+		7083129C2A6D0F7900F7E283 /* MileageReloadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageReloadButton.swift; sourceTree = "<group>"; };
+		7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewController.swift; sourceTree = "<group>"; };
+		708312A02A6D263900F7E283 /* TermsOfUseCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseCheckView.swift; sourceTree = "<group>"; };
+		708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetLoginViewModel.swift; sourceTree = "<group>"; };
+		708312A72A70292000F7E283 /* CrawlManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrawlManager.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListView.swift; sourceTree = "<group>"; };
@@ -283,6 +294,7 @@
 				706BA0C529E6A32700AF12D4 /* RxSwift in Frameworks */,
 				706BA0C029E6A26D00AF12D4 /* Then in Frameworks */,
 				76E4C9C9A6C0312E9E700CA7 /* Pods_Haram.framework in Frameworks */,
+				708312A62A7028B400F7E283 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +359,8 @@
 				708312492A2F856700F7E283 /* LibraryDetailInfoView.swift */,
 				708312652A398C0D00F7E283 /* LibraryRentalListView.swift */,
 				708312672A39C4B000F7E283 /* LoginInfoRememberView.swift */,
+				7083129C2A6D0F7900F7E283 /* MileageReloadButton.swift */,
+				708312A02A6D263900F7E283 /* TermsOfUseCheckView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -416,6 +430,7 @@
 			isa = PBXGroup;
 			children = (
 				705FD2A82A16031900F353FE /* LoginViewModel.swift */,
+				708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -535,6 +550,7 @@
 				705FD2BC2A1A4CEE00F353FE /* LibraryDetailViewController.swift */,
 				705FD2C22A2337C800F353FE /* NoticeViewController.swift */,
 				708312452A2F34DB00F7E283 /* IntranetLoginViewController.swift */,
+				7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -628,6 +644,7 @@
 				705FD28D2A10FC0200F353FE /* KeyChainWrapper.swift */,
 				705FD28B2A10F74D00F353FE /* UserManager.swift */,
 				708312952A691AAD00F7E283 /* NumberformatterFactory.swift */,
+				708312A72A70292000F7E283 /* CrawlManager.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -667,6 +684,7 @@
 				706BA0C729E6E51100AF12D4 /* WebRTC */,
 				705FD27B2A10D3EA00F353FE /* Alamofire */,
 				705FD2CE2A24DE5B00F353FE /* Kingfisher */,
+				708312A52A7028B400F7E283 /* SwiftSoup */,
 			);
 			productName = Haram;
 			productReference = 70727A5129D87B25003DE956 /* Haram.app */;
@@ -750,6 +768,7 @@
 				706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC" */,
 				705FD27A2A10D3EA00F353FE /* XCRemoteSwiftPackageReference "Alamofire" */,
 				705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				708312A42A7028B400F7E283 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = 70727A5229D87B25003DE956 /* Products */;
 			projectDirPath = "";
@@ -917,6 +936,7 @@
 				70727AAA29D94482003DE956 /* HomeCollectionHeaderView.swift in Sources */,
 				705FD2B32A16278700F353FE /* LibraryCollectionHeaderView.swift in Sources */,
 				70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */,
+				708312A12A6D263900F7E283 /* TermsOfUseCheckView.swift in Sources */,
 				7034AF1A29F0064B009C7676 /* WebViewController.swift in Sources */,
 				708312542A31930300F7E283 /* InquireHomeInfoResponse.swift in Sources */,
 				7083124C2A2F88EE00F7E283 /* RequestBookInfoResponse.swift in Sources */,
@@ -940,6 +960,8 @@
 				708312422A2CAA1800F7E283 /* RequestIntranetTokenResponse.swift in Sources */,
 				708312962A691AAD00F7E283 /* NumberformatterFactory.swift in Sources */,
 				705FD2792A10D3C500F353FE /* Router.swift in Sources */,
+				7083129F2A6D25E100F7E283 /* TermsOfUseViewController.swift in Sources */,
+				708312A82A70292000F7E283 /* CrawlManager.swift in Sources */,
 				7083123E2A2CA62A00F7E283 /* InquireChapelListResponse.swift in Sources */,
 				70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */,
 				705FD2922A13B9E600F353FE /* AuthService.swift in Sources */,
@@ -964,8 +986,10 @@
 				708312462A2F34DB00F7E283 /* IntranetLoginViewController.swift in Sources */,
 				70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */,
 				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
+				7083129D2A6D0F7900F7E283 /* MileageReloadButton.swift in Sources */,
 				705FD2C92A23BA3000F353FE /* LibraryService.swift in Sources */,
 				70727A9729D889FF003DE956 /* PolicyViewController.swift in Sources */,
+				708312A32A6EC9D700F7E283 /* IntranetLoginViewModel.swift in Sources */,
 				70C9CCB02A06700400BEB5F2 /* ChapelViewController.swift in Sources */,
 				705FD2D12A24DEFC00F353FE /* LibraryViewModel.swift in Sources */,
 				705FD2902A10FD6D00F353FE /* Interceptor.swift in Sources */,
@@ -1385,6 +1409,14 @@
 				minimumVersion = 96.0.0;
 			};
 		};
+		708312A42A7028B400F7E283 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1422,6 +1454,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC" */;
 			productName = WebRTC;
+		};
+		708312A52A7028B400F7E283 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 708312A42A7028B400F7E283 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

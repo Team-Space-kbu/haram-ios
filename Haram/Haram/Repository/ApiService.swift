@@ -22,14 +22,6 @@ final class ApiService: BaseService {
   func request<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Observable<T> where T : Codable {
     Single.create { observer in
       self.session.request(router)
-        .validate({ request, response, data in
-          if response.statusCode != 401 {
-            return .success(Void())
-          }
-          print("오잉...1 \(response.statusCode)")
-          let reason = AFError.ResponseValidationFailureReason.unacceptableStatusCode(code: response.statusCode)
-          return .failure(AFError.responseValidationFailed(reason: reason))
-        })
         .responseData { response in
           switch response.result {
           case .success(let data):
@@ -43,13 +35,14 @@ final class ApiService: BaseService {
               print("디코딩에러")
               return observer(.failure(HaramError.decodedError))
             }
-            
+            print("응답데이트아 \(decodedData)")
             switch statusCode {
             case 200..<300:
               if decodedData.data != nil {
                 print("성공")
                 return observer(.success(decodedData.data!))
               }
+              return observer(.failure(HaramError.naverError))
             case 400..<500:
               print("리퀘스트 에러발생")
               return observer(.failure(HaramError.requestError))

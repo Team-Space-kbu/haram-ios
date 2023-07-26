@@ -17,6 +17,7 @@ protocol LibraryDetailViewModelType {
   var detailInfoModel: Driver<[LibraryInfoViewModel]> { get }
   var detailRentalModel: Driver<[LibraryRentalViewModel]> { get }
   var relatedBookModel: Driver<[LibraryRelatedBookCollectionViewCellModel]> { get }
+  var isLoading: Driver<Bool> { get }
 }
 
 final class LibraryDetailViewModel: LibraryDetailViewModelType {
@@ -31,6 +32,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
   let detailInfoModel: Driver<[LibraryInfoViewModel]>
   let detailRentalModel: Driver<[LibraryRentalViewModel]>
   let relatedBookModel: Driver<[LibraryRelatedBookCollectionViewCellModel]>
+  let isLoading: Driver<Bool>
   
   init() {
     let whichRequestingBookText = PublishSubject<Int>()
@@ -40,6 +42,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     let currentDetailInfoModel = BehaviorRelay<[LibraryInfoViewModel]>(value: [])
     let currentDetailRentalModel = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
     let currentRelatedBookModel = BehaviorRelay<[LibraryRelatedBookCollectionViewCellModel]>(value: [])
+    let isLoadingSubject = BehaviorSubject<Bool>(value: true)
     
     whichRequestBookText = whichRequestingBookText.asObserver()
     detailBookInfo = currentDetailBookInfo.asDriver()
@@ -48,8 +51,10 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     detailInfoModel = currentDetailInfoModel.asDriver()
     detailRentalModel = currentDetailRentalModel.asDriver()
     relatedBookModel = currentRelatedBookModel.asDriver()
+    isLoading = isLoadingSubject.asDriver(onErrorJustReturn: false)
     
     whichRequestingBookText
+      .do(onNext: { _ in isLoadingSubject.onNext(true) })
       .flatMapLatest(LibraryService.shared.requestBookInfo(text: ))
       .subscribe(onNext: { response in
         currentDetailMainModel.accept(LibraryDetailMainViewModel(bookImage: response.image, title: response.title, subTitle: response.publisher))
@@ -57,30 +62,25 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
         currentDetailSubModel.accept(LibraryDetailSubViewModel(title: "책 설명", description: response.description))
         
         currentDetailInfoModel.accept(LibraryDetailInfoViewType.allCases.map { type in
+          let content: String
           switch type {
           case .author:
-            return LibraryInfoViewModel(title: type.title, content: response.author)
+            content = response.author
           case .publisher:
-            return LibraryInfoViewModel(title: type.title, content: response.publisher)
+            content = response.publisher
           case .publishDate:
-            return LibraryInfoViewModel(title: type.title, content: response.pubDate)
+            content = response.pubDate
           case .discount:
-            return LibraryInfoViewModel(title: type.title, content: response.discount)
+            content = response.discount
           }
+          return LibraryInfoViewModel(title: type.title, content: content)
         })
-        
-//        currentDetailRentalModel.accept(
-//          response.map { LibraryRentalViewModel(
-//            register: $0.register,
-//            number: $0.number,
-//            holdingInstitution: $0.holdingInstitution,
-//            loanStatus: $0.loanStatus
-//          ) }
-//        )
-        
-//        currentRelatedBookModel.accept(
-//        
-//        )
+        isLoadingSubject.onNext(false)
+      }, onError: { error in
+        isLoadingSubject.onNext(false)
+        guard let error = error as? HaramError,
+              error == HaramError.naverError else { return }
+        print("네이버오류 ")
       })
       .disposed(by: disposeBag)
   }

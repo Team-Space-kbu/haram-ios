@@ -91,6 +91,8 @@ final class LibraryDetailViewController: BaseViewController {
     $0.isPagingEnabled = true
   }
   
+  private let indicatorView = UIActivityIndicatorView(style: .large)
+  
   init(viewModel: LibraryDetailViewModelType = LibraryDetailViewModel(), path: Int) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -114,6 +116,7 @@ final class LibraryDetailViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
+    view.addSubview(indicatorView)
     [containerView].forEach { scrollView.addSubview($0) }
     [libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, collectionView].forEach { containerView.addArrangedSubview($0) }
   }
@@ -124,6 +127,10 @@ final class LibraryDetailViewController: BaseViewController {
     scrollView.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.directionalHorizontalEdges.bottom.width.equalToSuperview()
+    }
+    
+    indicatorView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
     containerView.snp.makeConstraints {
@@ -156,22 +163,23 @@ final class LibraryDetailViewController: BaseViewController {
     viewModel.whichRequestBookText.onNext(bookInfo)
     
     viewModel.detailMainModel
-      .do(onNext: { print("메이모델 \($0)") })
       .drive(rx.mainModel)
       .disposed(by: disposeBag)
-        
+    
     viewModel.detailSubModel
-      .do(onNext: { print("서브모델 \($0)") })
       .drive(rx.subModel)
       .disposed(by: disposeBag)
-          
+    
     viewModel.detailInfoModel
       .drive(rx.infoModel)
       .disposed(by: disposeBag)
     
     viewModel.detailRentalModel
-      .do(onNext: { print("렌탈모델 \($0)") })
       .drive(rx.rentalModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .drive(indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
   }
   
