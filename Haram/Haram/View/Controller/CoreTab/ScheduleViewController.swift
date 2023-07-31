@@ -83,7 +83,7 @@ final class ScheduleViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-
+    print("스케줄 1 \(UserManager.shared.hasIntranetToken)")
     if UserManager.shared.hasIntranetToken {
       viewModel.inquireSchedule.onNext(())
     } else {

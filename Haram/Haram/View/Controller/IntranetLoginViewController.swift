@@ -166,9 +166,9 @@ final class IntranetLoginViewController: BaseViewController {
     lastAuthButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.dismiss(animated: true) {
-          UserManager.shared.clearIntranetInformation()
-        }
+        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = HaramTabbarController(userID: UserManager.shared.userID!)
+        UserManager.shared.clearIntranetInformation()
+        owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
     

@@ -45,7 +45,9 @@ final class UserManager {
   @KeyChainWrapper<String>(key: "laravelSession")
   private(set) var laravelSession
   
-  var hasIntranetToken: Bool { return intranetToken != nil && xsrfToken != nil && laravelSession != nil }
+  var hasIntranetToken: Bool {
+    return intranetToken != nil && xsrfToken != nil && laravelSession != nil
+  }
   
   var hasAccessToken: Bool { return accessToken != nil }
   var hasRefreshToken: Bool { return refreshToken != nil }
