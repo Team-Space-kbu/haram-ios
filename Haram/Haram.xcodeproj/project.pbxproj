@@ -123,10 +123,13 @@
 		708312AC2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312AB2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		708312AE2A73936E00F7E283 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312AD2A73936E00F7E283 /* CategoryCollectionViewCell.swift */; };
 		708312B02A73E07300F7E283 /* NoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312AF2A73E07300F7E283 /* NoticeViewModel.swift */; };
+		708312B22A76940600F7E283 /* BoardListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B12A76940600F7E283 /* BoardListViewController.swift */; };
+		708312B42A76945000F7E283 /* BoardListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B32A76945000F7E283 /* BoardListCollectionViewCell.swift */; };
+		708312B62A779D1A00F7E283 /* BoardTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B52A779D1A00F7E283 /* BoardTableHeaderView.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9B2A03954700BEB5F2 /* MoreListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */; };
-		70C9CC9D2A039DFD00BEB5F2 /* BoardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardListView.swift */; };
+		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
 		70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */; };
 		70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */; };
 		70C9CCAC2A05539C00BEB5F2 /* MileageHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCAB2A05539C00BEB5F2 /* MileageHeaderView.swift */; };
@@ -270,10 +273,13 @@
 		708312AB2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		708312AD2A73936E00F7E283 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		708312AF2A73E07300F7E283 /* NoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewModel.swift; sourceTree = "<group>"; };
+		708312B12A76940600F7E283 /* BoardListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListViewController.swift; sourceTree = "<group>"; };
+		708312B32A76945000F7E283 /* BoardListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListCollectionViewCell.swift; sourceTree = "<group>"; };
+		708312B52A779D1A00F7E283 /* BoardTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableHeaderView.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListView.swift; sourceTree = "<group>"; };
-		70C9CC9C2A039DFD00BEB5F2 /* BoardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListView.swift; sourceTree = "<group>"; };
+		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
 		70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageViewController.swift; sourceTree = "<group>"; };
 		70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageTableViewCell.swift; sourceTree = "<group>"; };
 		70C9CCAB2A05539C00BEB5F2 /* MileageHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageHeaderView.swift; sourceTree = "<group>"; };
@@ -356,7 +362,6 @@
 				705E70B929E1CA9900156B1F /* HomeAdvertisementView.swift */,
 				70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */,
 				70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */,
-				70C9CC9C2A039DFD00BEB5F2 /* BoardListView.swift */,
 				70C9CCAB2A05539C00BEB5F2 /* MileageHeaderView.swift */,
 				70C9CCAD2A066B8F00BEB5F2 /* ChapelInfoView.swift */,
 				70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */,
@@ -561,6 +566,7 @@
 				705FD2C22A2337C800F353FE /* NoticeViewController.swift */,
 				708312452A2F34DB00F7E283 /* IntranetLoginViewController.swift */,
 				7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */,
+				708312B12A76940600F7E283 /* BoardListViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -579,6 +585,7 @@
 		70727AA429D93B2A003DE956 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */,
 				70727AA529D93B42003DE956 /* HomeShortcutCollectionViewCell.swift */,
 				70727AA729D93F24003DE956 /* HomeNewsCollectionViewCell.swift */,
 				70727AA929D94482003DE956 /* HomeCollectionHeaderView.swift */,
@@ -596,6 +603,8 @@
 				708312892A655BD900F7E283 /* MileageTableHeaderView.swift */,
 				708312A92A723B4D00F7E283 /* NoticeCollectionHeaderView.swift */,
 				708312AD2A73936E00F7E283 /* CategoryCollectionViewCell.swift */,
+				708312B32A76945000F7E283 /* BoardListCollectionViewCell.swift */,
+				708312B52A779D1A00F7E283 /* BoardTableHeaderView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -937,7 +946,7 @@
 				705FD2C52A2338DE00F353FE /* NoticeCollectionViewCell.swift in Sources */,
 				70727A9929D88A22003DE956 /* RegisterViewController.swift in Sources */,
 				708312562A31975C00F7E283 /* HomeBannerCollectionViewCell.swift in Sources */,
-				70C9CC9D2A039DFD00BEB5F2 /* BoardListView.swift in Sources */,
+				70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */,
 				705FD2C72A23B9AD00F353FE /* LibraryRouter.swift in Sources */,
 				70727AA129D88AD0003DE956 /* MoreViewController.swift in Sources */,
 				708312482A2F7EC300F7E283 /* LibraryDetailSubView.swift in Sources */,
@@ -969,8 +978,10 @@
 				7083128A2A655BD900F7E283 /* MileageTableHeaderView.swift in Sources */,
 				7083128C2A6561CD00F7E283 /* MyPageRouter.swift in Sources */,
 				705FD29B2A13C19A00F353FE /* RegisterMemberRequest.swift in Sources */,
+				708312B42A76945000F7E283 /* BoardListCollectionViewCell.swift in Sources */,
 				708312882A6540E900F7E283 /* Ex+Notification.Name.swift in Sources */,
 				708312422A2CAA1800F7E283 /* RequestIntranetTokenResponse.swift in Sources */,
+				708312B62A779D1A00F7E283 /* BoardTableHeaderView.swift in Sources */,
 				708312962A691AAD00F7E283 /* NumberformatterFactory.swift in Sources */,
 				705FD2792A10D3C500F353FE /* Router.swift in Sources */,
 				7083129F2A6D25E100F7E283 /* TermsOfUseViewController.swift in Sources */,
@@ -991,6 +1002,7 @@
 				705FD2882A10E5E500F353FE /* ParameterType.swift in Sources */,
 				70C9CCB42A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift in Sources */,
 				705FD28A2A10F6C300F353FE /* UserDefaultsWrapper.swift in Sources */,
+				708312B22A76940600F7E283 /* BoardListViewController.swift in Sources */,
 				70727AA829D93F24003DE956 /* HomeNewsCollectionViewCell.swift in Sources */,
 				705FD2A12A15F75900F353FE /* LoginAlertView.swift in Sources */,
 				705FD2A52A15FDB500F353FE /* LoginRequest.swift in Sources */,
