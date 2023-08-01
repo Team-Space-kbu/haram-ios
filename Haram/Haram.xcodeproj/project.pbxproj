@@ -126,6 +126,9 @@
 		708312B22A76940600F7E283 /* BoardListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B12A76940600F7E283 /* BoardListViewController.swift */; };
 		708312B42A76945000F7E283 /* BoardListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B32A76945000F7E283 /* BoardListCollectionViewCell.swift */; };
 		708312B62A779D1A00F7E283 /* BoardTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B52A779D1A00F7E283 /* BoardTableHeaderView.swift */; };
+		708312B82A77E36900F7E283 /* RegisterTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B72A77E36900F7E283 /* RegisterTextField.swift */; };
+		708312BA2A78D0A300F7E283 /* HaramButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B92A78D0A300F7E283 /* HaramButton.swift */; };
+		708312BC2A79247500F7E283 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312BB2A79247500F7E283 /* RegisterViewModel.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9B2A03954700BEB5F2 /* MoreListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */; };
@@ -276,6 +279,9 @@
 		708312B12A76940600F7E283 /* BoardListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListViewController.swift; sourceTree = "<group>"; };
 		708312B32A76945000F7E283 /* BoardListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListCollectionViewCell.swift; sourceTree = "<group>"; };
 		708312B52A779D1A00F7E283 /* BoardTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableHeaderView.swift; sourceTree = "<group>"; };
+		708312B72A77E36900F7E283 /* RegisterTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTextField.swift; sourceTree = "<group>"; };
+		708312B92A78D0A300F7E283 /* HaramButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramButton.swift; sourceTree = "<group>"; };
+		708312BB2A79247500F7E283 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListView.swift; sourceTree = "<group>"; };
@@ -375,6 +381,8 @@
 				7083129C2A6D0F7900F7E283 /* MileageReloadButton.swift */,
 				708312A02A6D263900F7E283 /* TermsOfUseCheckView.swift */,
 				708312AB2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift */,
+				708312B72A77E36900F7E283 /* RegisterTextField.swift */,
+				708312B92A78D0A300F7E283 /* HaramButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -437,6 +445,7 @@
 				708312982A691D1700F7E283 /* MileageViewModel.swift */,
 				7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */,
 				708312AF2A73E07300F7E283 /* NoticeViewModel.swift */,
+				708312BB2A79247500F7E283 /* RegisterViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1021,6 +1030,7 @@
 				705FD2902A10FD6D00F353FE /* Interceptor.swift in Sources */,
 				705FD2A32A15FD8100F353FE /* LoginResponse.swift in Sources */,
 				70727A9B29D88A3A003DE956 /* FindPasswordViewController.swift in Sources */,
+				708312B82A77E36900F7E283 /* RegisterTextField.swift in Sources */,
 				70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */,
 				70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */,
 				7083128E2A65626E00F7E283 /* MyPageService.swift in Sources */,
@@ -1032,6 +1042,7 @@
 				705FD2D32A2645D200F353FE /* SearchBookResponse.swift in Sources */,
 				705FD29F2A15F21F00F353FE /* LoginButton.swift in Sources */,
 				7083125E2A3887B700F7E283 /* InquireScheduleInfoResponse.swift in Sources */,
+				708312BA2A78D0A300F7E283 /* HaramButton.swift in Sources */,
 				70C9CCB22A067D8000BEB5F2 /* ChapelDayView.swift in Sources */,
 				70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */,
 				705FD2842A10E47F00F353FE /* HaramError.swift in Sources */,
@@ -1042,6 +1053,7 @@
 				7083124F2A31927600F7E283 /* HomeRouter.swift in Sources */,
 				70727AA629D93B43003DE956 /* HomeShortcutCollectionViewCell.swift in Sources */,
 				7083124A2A2F856700F7E283 /* LibraryDetailInfoView.swift in Sources */,
+				708312BC2A79247500F7E283 /* RegisterViewModel.swift in Sources */,
 				705FD2952A13BB4300F353FE /* AuthRouter.swift in Sources */,
 				70727AB829D95E32003DE956 /* Ex + UIFont.swift in Sources */,
 				70727A9D29D88A7F003DE956 /* UpdatePasswordViewController.swift in Sources */,
