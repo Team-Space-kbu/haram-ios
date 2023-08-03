@@ -46,7 +46,6 @@ final class LoginViewModel: LoginViewModelType {
       )
     }
     .subscribe(onNext: { response in
-      print("엥 \(response)")
       UserManager.shared.updatePLUBToken(accessToken: response.accessToken, refreshToken: response.refreshToken)
       tokenForLogin.onNext(UserManager.shared.accessToken)
       refreshTokenForLogin.onNext(UserManager.shared.refreshToken)

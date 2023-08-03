@@ -7,9 +7,18 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
+
+protocol LoginAlertViewDelegate: AnyObject {
+  func didTappedRegisterButton()
+}
+
 final class LoginAlertView: UIView {
+  
+  weak var delegate: LoginAlertViewDelegate?
+  private let disposeBag = DisposeBag()
   
   private let alertLabel = UILabel().then {
     $0.textColor = .black
@@ -18,7 +27,7 @@ final class LoginAlertView: UIView {
     $0.text = "아직 회원가입하지 않았나요?"
   }
   
-  private let alertButton = UIButton().then {
+  private let registerButton = UIButton().then {
     $0.setTitleColor(.hex3B8686, for: .normal)
     $0.setTitle("회원가입", for: .normal)
     $0.titleLabel?.font = .bold
@@ -28,20 +37,29 @@ final class LoginAlertView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
+  private func bind() {
+    registerButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedRegisterButton()
+      }
+      .disposed(by: disposeBag)
+  }
+  
   private func configureUI() {
-    [alertLabel, alertButton].forEach { addSubview($0) }
+    [alertLabel, registerButton].forEach { addSubview($0) }
     alertLabel.snp.makeConstraints {
       $0.leading.equalToSuperview().inset(90 - 22)
       $0.directionalVerticalEdges.equalToSuperview()
     }
     
-    alertButton.snp.makeConstraints {
+    registerButton.snp.makeConstraints {
       $0.leading.equalTo(alertLabel.snp.trailing).offset(12)
       $0.directionalVerticalEdges.equalToSuperview()
       $0.trailing.equalToSuperview().inset(90 - 22)

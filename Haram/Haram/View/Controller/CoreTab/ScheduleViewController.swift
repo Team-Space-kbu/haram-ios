@@ -83,7 +83,7 @@ final class ScheduleViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    print("스케줄 1 \(UserManager.shared.hasIntranetToken)")
+    
     if UserManager.shared.hasIntranetToken {
       viewModel.inquireSchedule.onNext(())
     } else {
@@ -117,7 +117,6 @@ final class ScheduleViewController: BaseViewController {
   override func bind() {
     super.bind()
     viewModel.scheduleInfo
-      .do(onNext: { print("스케줄 \($0)") })
       .drive(rx.courseModel)
       .disposed(by: disposeBag)
     

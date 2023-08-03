@@ -30,11 +30,10 @@ extension HeaderType {
       guard let token = UserManager.shared.accessToken else {
         return HeaderType.default.toHTTPHeader
       }
-      print("토큰 \(token)")
+
       // default 헤더 값에 `Authorization token` 및 `Content-Type` 추가
       var defaultHeaders = HTTPHeaders.default
       defaultHeaders.add(.authorization(bearerToken: token))
-//      defaultHeaders.add(name: "accessToken", value: token)
       defaultHeaders.add(.contentType("application/json"))
       return defaultHeaders
       

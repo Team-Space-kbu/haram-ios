@@ -42,6 +42,23 @@ final class TermsOfUseViewController: BaseViewController {
   
   private let checkButton = TermsOfUseCheckView()
   
+  override func bind() {
+    super.bind()
+    applyButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let vc = RegisterViewController()
+        vc.navigationItem.largeTitleDisplayMode = .never
+        owner.navigationController?.pushViewController(vc, animated: true)
+      }
+      .disposed(by: disposeBag)
+    
+    cancelButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.dismiss(animated: true)
+      }
+      .disposed(by: disposeBag)
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(containerView)

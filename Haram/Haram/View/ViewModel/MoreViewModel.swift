@@ -35,7 +35,6 @@ final class MoreViewModel: MoreViewModelType {
       .flatMapLatest(MyPageService.shared.inquireUserInfo)
       .subscribe(onNext: { response in
         let profileInfoViewModel = ProfileInfoViewModel(response: response)
-        print("인포 \(profileInfoViewModel)")
         currentUserInfoRelay.accept(profileInfoViewModel)
       })
       .disposed(by: disposeBag)

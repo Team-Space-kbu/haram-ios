@@ -15,7 +15,7 @@ final class RegisterViewController: BaseViewController {
     $0.axis = .vertical
     $0.spacing = 25
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: .zero, left: 15, bottom: .zero, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: 66, left: 15, bottom: .zero, right: 15)
   }
   
   private let titleLabel = UILabel().then {
@@ -28,6 +28,7 @@ final class RegisterViewController: BaseViewController {
   private let alertLabel = UILabel().then {
     $0.text = "사용하실 계정 정보를 작성해주세요\n입력된 정보를 암호화 처리되어 사용자만 볼 수 있습니다."
     $0.textColor = .hex545E6A
+    $0.numberOfLines = 0
   }
   
   private let idTextField = RegisterTextField(
@@ -67,6 +68,7 @@ final class RegisterViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    navigationController?.navigationBar.isHidden = true
   }
   
   override func setupLayouts() {
@@ -85,7 +87,7 @@ final class RegisterViewController: BaseViewController {
     }
     
     registerButton.snp.makeConstraints {
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(65 - 16)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(49)
       $0.height.equalTo(48)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
@@ -105,7 +107,6 @@ final class RegisterViewController: BaseViewController {
       .distinctUntilChanged()
       .skip(1)
       .subscribe(with: self) { owner, ID in
-        print("아이디 \(ID)")
         owner.viewModel.registerID.onNext(ID)
       }
       .disposed(by: disposeBag)
@@ -116,7 +117,6 @@ final class RegisterViewController: BaseViewController {
       .distinctUntilChanged()
       .skip(1)
       .subscribe(with: self) { owner, PWD in
-        print("비밀번호 \(PWD)")
         owner.viewModel.registerPWD.onNext(PWD)
       }
       .disposed(by: disposeBag)
@@ -127,7 +127,6 @@ final class RegisterViewController: BaseViewController {
       .distinctUntilChanged()
       .skip(1)
       .subscribe(with: self) { owner, rePWD in
-        print("비밀번호 확인 \(rePWD)")
         owner.viewModel.registerRePWD.onNext(rePWD)
       }
       .disposed(by: disposeBag)
@@ -138,14 +137,13 @@ final class RegisterViewController: BaseViewController {
       .distinctUntilChanged()
       .skip(1)
       .subscribe(with: self) { owner, email in
-        print("이메일 \(email)")
         owner.viewModel.registerEmail.onNext(email)
       }
       .disposed(by: disposeBag)
     
     registerButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        print("회원가입버튼 탭")
+
       }
       .disposed(by: disposeBag)
     

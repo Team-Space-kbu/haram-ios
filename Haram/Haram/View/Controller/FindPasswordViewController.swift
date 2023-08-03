@@ -42,6 +42,10 @@ final class FindPasswordViewController: BaseViewController {
     $0.setTitleText(title: "계속하기")
   }
   
+  deinit {
+    removeKeyboardNotification()
+  }
+  
   override func setupStyles() {
     super.setupStyles()
     registerKeyboardNotification()

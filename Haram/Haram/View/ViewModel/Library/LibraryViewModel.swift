@@ -56,7 +56,6 @@ final class LibraryViewModel: LibraryViewModelType {
       .flatMapLatest(LibraryService.shared.searchBook)
     
     requestSearchBook.subscribe(onNext: { response in
-      print("응답 \(response)")
       let model = response.map { LibraryResultsCollectionViewCellModel(response: $0) }
       searchBookResults.accept(model)
       isLoadingSubject.onNext(false)

@@ -79,7 +79,9 @@ final class LoginViewController: BaseViewController {
     $0.delegate = self
   }
   
-  private let loginAlertView = LoginAlertView()
+  private lazy var loginAlertView = LoginAlertView().then {
+    $0.delegate = self
+  }
   
   init(viewModel: LoginViewModelType = LoginViewModel()) {
     self.viewModel = viewModel
@@ -92,7 +94,7 @@ final class LoginViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    registerKeyboardNotification()
+//    registerKeyboardNotification()
     UserManager.shared.clearUserInformations()
 //    print("어세스토큰1 \(UserManager.shared.accessToken)")
 //    print("리프레시토큰1 \(UserManager.shared.refreshToken)")
@@ -107,6 +109,7 @@ final class LoginViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    registerKeyboardNotification()
   }
   
   override func bind() {
@@ -178,7 +181,13 @@ extension LoginViewController: LoginButtonDelegate {
   }
   
   func didTappedFindPasswordButton() {
-    viewModel.userID.onNext("")
+//    viewModel.userID.onNext("")
+    let vc = FindPasswordViewController()
+    vc.modalPresentationStyle = .overFullScreen
+    present(vc, animated: true) { [weak self] in
+      self?.removeKeyboardNotification()
+    }
+    
   }
 }
 
@@ -191,6 +200,18 @@ extension LoginViewController: UITextFieldDelegate {
     }
     return true
   }
+}
+
+extension LoginViewController: LoginAlertViewDelegate {
+  func didTappedRegisterButton() {
+    let vc = UINavigationController(rootViewController: TermsOfUseViewController())
+    vc.modalPresentationStyle = .overFullScreen
+    present(vc, animated: true) { [weak self] in
+      self?.removeKeyboardNotification()
+    }
+  }
+  
+  
 }
 
 extension LoginViewController {

@@ -33,25 +33,29 @@ final class IntranetLoginViewModel {
       .flatMapLatest(AuthService.shared.requestIntranetToken)
     
     requestIntranetToken
-      .take(1)
-      .subscribe(with: self) { (owner, response)  in
-        print("한번만들어와")
-        UserManager.shared.set(
-          intranetToken: response.intranetToken,
-          xsrfToken: response.xsrfToken,
-          laravelSession: response.laravelSession
-        )
-      }
+//      .take(1)
+        .subscribe(with: self, onNext: { (owner, response)  in
+          UserManager.shared.set(
+            intranetToken: response.intranetToken,
+            xsrfToken: response.xsrfToken,
+            laravelSession: response.laravelSession
+          )
+        }, onError: { owner, error in
+          print("들어와2 \(error)")
+        })
       .disposed(by: disposeBag)
     
   }
   
   private func tryRequestIntranetLogin() {
     let tryLoginIntranet = intranetInfoSubject
-      .do(onNext: { (intranetID, intranetPWD) in
-        print("인트라넷아이디 \(intranetID)")
-        print("인트라넷비밀번호 \(intranetPWD)")
-      })
+      .filter { _ in
+        if !UserManager.shared.hasIntranetToken {
+          print("인트라넷로그인을 위한 인트라넷토큰이 존재하지않습니다.")
+          return false
+        }
+        return true
+      }
       .flatMapLatest { (intranetID, intranetPWD) in
         AuthService.shared.loginIntranet(
           request: .init(
@@ -64,7 +68,6 @@ final class IntranetLoginViewModel {
     
     tryLoginIntranet
       .subscribe(with: self)  { owner, response in
-        print("인트라넷 응답값 \(response)")
         owner.intranetLoginMessage.onNext(response)
       }
       .disposed(by: disposeBag)

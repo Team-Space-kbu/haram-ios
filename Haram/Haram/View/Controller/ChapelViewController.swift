@@ -61,7 +61,6 @@ final class ChapelViewController: BaseViewController {
     
     viewModel.isLoading
       .distinctUntilChanged()
-      .do(onNext: { print("로딩중 \($0)") })
       .drive(indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
   }
