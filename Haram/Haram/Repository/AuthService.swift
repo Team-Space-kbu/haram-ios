@@ -37,4 +37,8 @@ extension AuthService {
   func requestIntranetToken() -> Observable<RequestIntranetTokenResponse> {
     service.request(router: AuthRouter.requestIntranetToken, type: RequestIntranetTokenResponse.self)
   }
+  
+  func signupMember(request: SignupMemberRequest) -> Observable<SearchBookResponse> {
+    service.request(router: AuthRouter.signupMember(request), type: SearchBookResponse.self)
+  }
 }

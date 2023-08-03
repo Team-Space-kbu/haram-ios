@@ -115,7 +115,6 @@
 		7083129B2A6A909C00F7E283 /* ChapelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */; };
 		7083129D2A6D0F7900F7E283 /* MileageReloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083129C2A6D0F7900F7E283 /* MileageReloadButton.swift */; };
 		7083129F2A6D25E100F7E283 /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */; };
-		708312A12A6D263900F7E283 /* TermsOfUseCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312A02A6D263900F7E283 /* TermsOfUseCheckView.swift */; };
 		708312A32A6EC9D700F7E283 /* IntranetLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */; };
 		708312A62A7028B400F7E283 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 708312A52A7028B400F7E283 /* SwiftSoup */; };
 		708312A82A70292000F7E283 /* CrawlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312A72A70292000F7E283 /* CrawlManager.swift */; };
@@ -129,6 +128,9 @@
 		708312B82A77E36900F7E283 /* RegisterTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B72A77E36900F7E283 /* RegisterTextField.swift */; };
 		708312BA2A78D0A300F7E283 /* HaramButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B92A78D0A300F7E283 /* HaramButton.swift */; };
 		708312BC2A79247500F7E283 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312BB2A79247500F7E283 /* RegisterViewModel.swift */; };
+		708312BE2A7A3C6200F7E283 /* SignupMemberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312BD2A7A3C6200F7E283 /* SignupMemberRequest.swift */; };
+		708312C02A7A448300F7E283 /* TermsOfUseCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312BF2A7A448300F7E283 /* TermsOfUseCheckView.swift */; };
+		708312C22A7A6F2900F7E283 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312C12A7A6F2900F7E283 /* PaddingLabel.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9B2A03954700BEB5F2 /* MoreListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */; };
@@ -269,7 +271,6 @@
 		7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelViewModel.swift; sourceTree = "<group>"; };
 		7083129C2A6D0F7900F7E283 /* MileageReloadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageReloadButton.swift; sourceTree = "<group>"; };
 		7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewController.swift; sourceTree = "<group>"; };
-		708312A02A6D263900F7E283 /* TermsOfUseCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseCheckView.swift; sourceTree = "<group>"; };
 		708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetLoginViewModel.swift; sourceTree = "<group>"; };
 		708312A72A70292000F7E283 /* CrawlManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrawlManager.swift; sourceTree = "<group>"; };
 		708312A92A723B4D00F7E283 /* NoticeCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCollectionHeaderView.swift; sourceTree = "<group>"; };
@@ -282,6 +283,9 @@
 		708312B72A77E36900F7E283 /* RegisterTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTextField.swift; sourceTree = "<group>"; };
 		708312B92A78D0A300F7E283 /* HaramButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramButton.swift; sourceTree = "<group>"; };
 		708312BB2A79247500F7E283 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
+		708312BD2A7A3C6200F7E283 /* SignupMemberRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupMemberRequest.swift; sourceTree = "<group>"; };
+		708312BF2A7A448300F7E283 /* TermsOfUseCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseCheckView.swift; sourceTree = "<group>"; };
+		708312C12A7A6F2900F7E283 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListView.swift; sourceTree = "<group>"; };
@@ -379,10 +383,11 @@
 				708312652A398C0D00F7E283 /* LibraryRentalListView.swift */,
 				708312672A39C4B000F7E283 /* LoginInfoRememberView.swift */,
 				7083129C2A6D0F7900F7E283 /* MileageReloadButton.swift */,
-				708312A02A6D263900F7E283 /* TermsOfUseCheckView.swift */,
 				708312AB2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift */,
 				708312B72A77E36900F7E283 /* RegisterTextField.swift */,
 				708312B92A78D0A300F7E283 /* HaramButton.swift */,
+				708312BF2A7A448300F7E283 /* TermsOfUseCheckView.swift */,
+				708312C12A7A6F2900F7E283 /* PaddingLabel.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -431,6 +436,7 @@
 				705FD2A42A15FDB500F353FE /* LoginRequest.swift */,
 				7083123F2A2CA79D00F7E283 /* IntranetLoginRequest.swift */,
 				708312412A2CAA1800F7E283 /* RequestIntranetTokenResponse.swift */,
+				708312BD2A7A3C6200F7E283 /* SignupMemberRequest.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -966,17 +972,18 @@
 				70727AAA29D94482003DE956 /* HomeCollectionHeaderView.swift in Sources */,
 				705FD2B32A16278700F353FE /* LibraryCollectionHeaderView.swift in Sources */,
 				70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */,
-				708312A12A6D263900F7E283 /* TermsOfUseCheckView.swift in Sources */,
 				708312AE2A73936E00F7E283 /* CategoryCollectionViewCell.swift in Sources */,
 				7034AF1A29F0064B009C7676 /* WebViewController.swift in Sources */,
 				708312542A31930300F7E283 /* InquireHomeInfoResponse.swift in Sources */,
 				7083124C2A2F88EE00F7E283 /* RequestBookInfoResponse.swift in Sources */,
+				708312C22A7A6F2900F7E283 /* PaddingLabel.swift in Sources */,
 				708312642A3977B500F7E283 /* LibraryDetailViewModel.swift in Sources */,
 				7083126A2A39DEF300F7E283 /* LibraryRelatedBookCollectionViewCell.swift in Sources */,
 				705FD2AB2A160C1800F353FE /* HaramTabbarController.swift in Sources */,
 				705FD2A92A16031900F353FE /* LoginViewModel.swift in Sources */,
 				70C9CCAC2A05539C00BEB5F2 /* MileageHeaderView.swift in Sources */,
 				70C9CCAE2A066B8F00BEB5F2 /* ChapelInfoView.swift in Sources */,
+				708312C02A7A448300F7E283 /* TermsOfUseCheckView.swift in Sources */,
 				705FD2CC2A23BA6A00F353FE /* InquireLibraryResponse.swift in Sources */,
 				70727A9029D88935003DE956 /* BaseViewController.swift in Sources */,
 				705FD28E2A10FC0200F353FE /* KeyChainWrapper.swift in Sources */,
@@ -1012,6 +1019,7 @@
 				70C9CCB42A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift in Sources */,
 				705FD28A2A10F6C300F353FE /* UserDefaultsWrapper.swift in Sources */,
 				708312B22A76940600F7E283 /* BoardListViewController.swift in Sources */,
+				708312BE2A7A3C6200F7E283 /* SignupMemberRequest.swift in Sources */,
 				70727AA829D93F24003DE956 /* HomeNewsCollectionViewCell.swift in Sources */,
 				705FD2A12A15F75900F353FE /* LoginAlertView.swift in Sources */,
 				705FD2A52A15FDB500F353FE /* LoginRequest.swift in Sources */,

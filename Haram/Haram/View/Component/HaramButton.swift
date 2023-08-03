@@ -10,9 +10,18 @@ import UIKit
 import SnapKit
 import Then
 
+enum HaramButtonType {
+  case apply
+  case cancel
+}
+
 final class HaramButton: UIButton {
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+
+  private let type: HaramButtonType
+  
+  init(type: HaramButtonType) {
+    self.type = type
+    super.init(frame: .zero)
     configureUI()
   }
   
@@ -21,10 +30,15 @@ final class HaramButton: UIButton {
   }
   
   private func configureUI() {
-    backgroundColor = .hex79BD9A
-    layer.masksToBounds = true
-    layer.cornerRadius = 10
+    switch type {
+      case .apply:
+        backgroundColor = .hex79BD9A
+      case .cancel:
+        backgroundColor = .hex9F9FA4
+    }
     setTitleColor(.white, for: .normal)
+    layer.cornerRadius = 10
+    layer.masksToBounds = true
   }
   
   func setTitleText(title: String) {

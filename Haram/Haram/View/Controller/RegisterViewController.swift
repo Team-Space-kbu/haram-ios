@@ -52,7 +52,7 @@ final class RegisterViewController: BaseViewController {
     options: [.addButton]
   )
   
-  private let registerButton = HaramButton().then {
+  private let registerButton = HaramButton(type: .apply).then {
     $0.setTitleText(title: "회원가입")
   }
   
@@ -67,9 +67,6 @@ final class RegisterViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    [idTextField, pwdTextField, repwdTextField, checkEmailTextField].forEach {
-      $0.delegate = self
-    }
   }
   
   override func setupLayouts() {

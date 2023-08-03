@@ -46,7 +46,7 @@ final class RegisterTextField: UIView {
     $0.textAlignment = .left
   }
   
-  private lazy var haramButton = HaramButton().then {
+  private lazy var haramButton = HaramButton(type: .apply).then {
     $0.setTitleText(title: "확인코드발송")
   }
   

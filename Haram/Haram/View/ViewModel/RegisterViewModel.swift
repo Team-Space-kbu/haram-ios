@@ -19,10 +19,10 @@ protocol RegisterViewModelType {
 
 final class RegisterViewModel {
   private let disposeBag = DisposeBag()
-  private let registerIDSubject = PublishSubject<String>()
-  private let registerPWDSubject = PublishSubject<String>()
-  private let registerRePWDSubject = PublishSubject<String>()
-  private let registerEmailSubject = PublishSubject<String>()
+  private let registerIDSubject = BehaviorSubject<String>(value: "")
+  private let registerPWDSubject = BehaviorSubject<String>(value: "")
+  private let registerRePWDSubject = BehaviorSubject<String>(value: "")
+  private let registerEmailSubject = BehaviorSubject<String>(value: "")
   private let isRegisterButtonEnabledSubject = BehaviorSubject<Bool>(value: false)
   
   init() {
@@ -46,7 +46,9 @@ final class RegisterViewModel {
 
 extension RegisterViewModel: RegisterViewModelType {
   var isRegisterButtonEnabled: RxCocoa.Driver<Bool> {
-    isRegisterButtonEnabledSubject.asDriver(onErrorJustReturn: false)
+    isRegisterButtonEnabledSubject
+      .distinctUntilChanged() 
+      .asDriver(onErrorJustReturn: false)
   }
   
   var registerID: RxSwift.AnyObserver<String> {
