@@ -30,4 +30,7 @@ extension LibraryService {
     service.request(router: LibraryRouter.requestBookInfo(text), type: RequestBookInfoResponse.self)
   }
   
+  func requestBookLoanStatus(path: Int) -> Observable<[RequestBookLoanStatusResponse]> {
+    service.request(router: LibraryRouter.requestBookLoanStatus(path), type: [RequestBookLoanStatusResponse].self)
+  }
 }

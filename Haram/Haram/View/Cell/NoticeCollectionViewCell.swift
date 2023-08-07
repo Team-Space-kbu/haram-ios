@@ -59,7 +59,7 @@ final class NoticeCollectionViewCell: UICollectionViewCell {
     subLabel.snp.makeConstraints {
       $0.top.equalTo(mainLabel.snp.bottom).offset(3)
       $0.leading.equalTo(mainLabel)
-      $0.trailing.lessThanOrEqualToSuperview()
+      $0.bottom.trailing.lessThanOrEqualToSuperview()
     }
     
     indicatorButton.snp.makeConstraints {

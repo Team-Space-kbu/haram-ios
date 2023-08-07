@@ -96,7 +96,7 @@ final class LibraryDetailViewController: BaseViewController {
   init(viewModel: LibraryDetailViewModelType = LibraryDetailViewModel(), path: Int) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    bind(bookInfo: path)
+    bind(path: path)
   }
   
   required init?(coder: NSCoder) {
@@ -157,10 +157,10 @@ final class LibraryDetailViewController: BaseViewController {
     containerView.setCustomSpacing(15, after: relatedBookLabel)
   }
   
-  func bind(bookInfo: Int) {
+  func bind(path: Int) {
     super.bind()
     
-    viewModel.whichRequestBookText.onNext(bookInfo)
+    viewModel.whichRequestBookPath.onNext(path)
     
     viewModel.detailMainModel
       .drive(rx.mainModel)

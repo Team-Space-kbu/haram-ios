@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol LibraryDetailViewModelType {
-  var whichRequestBookText: AnyObserver<Int> { get }
+  var whichRequestBookPath: AnyObserver<Int> { get }
   
   var detailBookInfo: Driver<[LibraryRentalViewModel]> { get }
   var detailMainModel: Driver<LibraryDetailMainViewModel> { get }
@@ -24,7 +24,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
   
   private let disposeBag = DisposeBag()
   
-  let whichRequestBookText: AnyObserver<Int>
+  let whichRequestBookPath: AnyObserver<Int>
   
   let detailBookInfo: Driver<[LibraryRentalViewModel]>
   let detailMainModel: Driver<LibraryDetailMainViewModel>
@@ -35,7 +35,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
   let isLoading: Driver<Bool>
   
   init() {
-    let whichRequestingBookText = PublishSubject<Int>()
+    let whichRequestingBookPath = PublishSubject<Int>()
     let currentDetailBookInfo = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
     let currentDetailMainModel = PublishRelay<LibraryDetailMainViewModel>()
     let currentDetailSubModel = PublishRelay<LibraryDetailSubViewModel>()
@@ -44,7 +44,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     let currentRelatedBookModel = BehaviorRelay<[LibraryRelatedBookCollectionViewCellModel]>(value: [])
     let isLoadingSubject = BehaviorSubject<Bool>(value: true)
     
-    whichRequestBookText = whichRequestingBookText.asObserver()
+    whichRequestBookPath = whichRequestingBookPath.asObserver()
     detailBookInfo = currentDetailBookInfo.asDriver()
     detailMainModel = currentDetailMainModel.asDriver(onErrorJustReturn: .init(bookImage: "", title: "", subTitle: ""))
     detailSubModel = currentDetailSubModel.asDriver(onErrorJustReturn: .init(title: "", description: ""))
@@ -53,7 +53,9 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     relatedBookModel = currentRelatedBookModel.asDriver()
     isLoading = isLoadingSubject.asDriver(onErrorJustReturn: false)
     
-    whichRequestingBookText
+    let shareRequestingBookText = whichRequestingBookPath.share()
+    
+    shareRequestingBookText
       .do(onNext: { _ in isLoadingSubject.onNext(true) })
       .flatMapLatest(LibraryService.shared.requestBookInfo(text: ))
       .subscribe(onNext: { response in
@@ -83,5 +85,15 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
         print("네이버오류 ")
       })
       .disposed(by: disposeBag)
+        
+        shareRequestingBookText
+        .flatMapLatest(LibraryService.shared.requestBookLoanStatus(path: ))
+//        .filter { !$0.isEmpty }
+        .subscribe(onNext: { response in
+          // TODO: - 책에 대한 대여정보가 없을 경우에 대한 처리 해야함
+          print("대여정보응답 \(response)")
+          currentDetailRentalModel.accept(response.map { .init(response: $0) })
+        })
+        .disposed(by: disposeBag)
   }
 }

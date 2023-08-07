@@ -23,8 +23,9 @@ final class LoginButton: UIView {
   
   private let containerView = UIStackView().then {
     $0.axis = .horizontal
-    $0.spacing = 31
-//    $0.distribution = .fill
+    $0.spacing = 26
+    $0.isLayoutMarginsRelativeArrangement = true
+    $0.layoutMargins = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: 41 - 22)
   }
   
   private let loginButton = UIButton().then {
@@ -77,13 +78,13 @@ final class LoginButton: UIView {
       $0.directionalEdges.equalToSuperview()
     }
     
-    loginButton.snp.makeConstraints {
-      $0.width.equalTo(148)
-    }
-    
-    findPasswordButton.snp.makeConstraints {
-      $0.trailing.equalToSuperview().inset(41)
-    }
+//    loginButton.snp.makeConstraints {
+//      $0.width.equalTo(148)
+//    }
+//    
+//    findPasswordButton.snp.makeConstraints {
+//      $0.trailing.equalToSuperview().inset(41)
+//    }
   
   }
 }

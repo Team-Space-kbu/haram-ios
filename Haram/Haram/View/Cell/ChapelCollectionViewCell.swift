@@ -73,7 +73,7 @@ final class ChapelCollectionViewCell: UICollectionViewCell {
     chapelSubTitleLabel.snp.makeConstraints {
       $0.leading.equalTo(chapelImageView.snp.trailing).offset(15)
       $0.top.equalTo(chapelImageView.snp.centerY)
-      $0.trailing.lessThanOrEqualToSuperview()
+      $0.bottom.trailing.lessThanOrEqualToSuperview()
     }
   }
   

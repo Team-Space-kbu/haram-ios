@@ -11,13 +11,14 @@ enum LibraryRouter {
   case inquireLibrary
   case searchBook(String)
   case requestBookInfo(Int)
+  case requestBookLoanStatus(Int)
 }
 
 extension LibraryRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .inquireLibrary, .searchBook, .requestBookInfo:
+    case .inquireLibrary, .searchBook, .requestBookInfo, .requestBookLoanStatus:
       return .get
     }
   }
@@ -30,6 +31,8 @@ extension LibraryRouter: Router {
       return "/v1/function/library/search/\(text)"
     case .requestBookInfo(let detail):
       return "/v1/function/library/detail/info/\(detail)"
+    case .requestBookLoanStatus(let path):
+      return "/v1/function/library/detail/keep/\(path)"
     }
   }
   
@@ -41,12 +44,14 @@ extension LibraryRouter: Router {
       return .plain
     case .requestBookInfo:
       return .plain
+    case .requestBookLoanStatus:
+      return .plain
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireLibrary, .searchBook, .requestBookInfo:
+    case .inquireLibrary, .searchBook, .requestBookInfo, .requestBookLoanStatus:
       return .withAccessToken
     }
   }

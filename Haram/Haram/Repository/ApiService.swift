@@ -72,7 +72,7 @@ final class ApiService: BaseService {
     Single.create { observer in
       self.session.request(router)
         .validate({ request, response, data in
-          if response.statusCode != 401 {
+          if response.statusCode != 401 || response.statusCode != 403 {
             return .success(Void())
           }
           

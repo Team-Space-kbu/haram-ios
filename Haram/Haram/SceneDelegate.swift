@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     window = UIWindow(windowScene: scene)
     window?.rootViewController = LoginViewController()
 //    window?.rootViewController = NoticeViewController()
-    window?.rootViewController = LoginViewController()
+//    window?.rootViewController = LibraryDetailViewController(path: 166181)
     window?.makeKeyAndVisible()
   }
 

@@ -132,6 +132,7 @@
 		708312C02A7A448300F7E283 /* TermsOfUseCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312BF2A7A448300F7E283 /* TermsOfUseCheckView.swift */; };
 		708312C22A7A6F2900F7E283 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312C12A7A6F2900F7E283 /* PaddingLabel.swift */; };
 		708312C42A7BF7BD00F7E283 /* APIEventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312C32A7BF7BD00F7E283 /* APIEventLogger.swift */; };
+		708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9B2A03954700BEB5F2 /* MoreListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */; };
@@ -288,6 +289,8 @@
 		708312BF2A7A448300F7E283 /* TermsOfUseCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseCheckView.swift; sourceTree = "<group>"; };
 		708312C12A7A6F2900F7E283 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		708312C32A7BF7BD00F7E283 /* APIEventLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEventLogger.swift; sourceTree = "<group>"; };
+		708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HaramRelease.entitlements; sourceTree = "<group>"; };
+		708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBookLoanStatusResponse.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListView.swift; sourceTree = "<group>"; };
@@ -474,6 +477,7 @@
 				705FD2CB2A23BA6A00F353FE /* InquireLibraryResponse.swift */,
 				705FD2D22A2645D200F353FE /* SearchBookResponse.swift */,
 				7083124B2A2F88EE00F7E283 /* RequestBookInfoResponse.swift */,
+				708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -503,6 +507,7 @@
 		70727A5329D87B25003DE956 /* Haram */ = {
 			isa = PBXGroup;
 			children = (
+				708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */,
 				708312942A691A8200F7E283 /* Util */,
 				70727AB629D95E2A003DE956 /* Extension */,
 				70727AAB29D95575003DE956 /* Font */,
@@ -1006,6 +1011,7 @@
 				7083129F2A6D25E100F7E283 /* TermsOfUseViewController.swift in Sources */,
 				708312A82A70292000F7E283 /* CrawlManager.swift in Sources */,
 				7083123E2A2CA62A00F7E283 /* InquireChapelListResponse.swift in Sources */,
+				708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */,
 				70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */,
 				705FD2922A13B9E600F353FE /* AuthService.swift in Sources */,
 				705FD2B12A1625EF00F353FE /* LibraryCollectionViewCell.swift in Sources */,
@@ -1271,6 +1277,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Haram/HaramRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";

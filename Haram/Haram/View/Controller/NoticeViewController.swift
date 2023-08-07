@@ -53,6 +53,8 @@ final class NoticeViewController: BaseViewController {
     frame: .zero,
     collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
       guard let self = self else { return nil }
+//      let configuration = UICollectionLayoutListConfiguration(appearance: .grouped)
+//      return NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: env)
       return type(of: self).setCollectionViewSection()
     }
   ).then {

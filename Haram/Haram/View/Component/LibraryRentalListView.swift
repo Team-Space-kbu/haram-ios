@@ -84,11 +84,20 @@ final class LibraryRentalListView: UIView {
   }
 }
 
+// MARK: - LibraryRentalView Model
+
 struct LibraryRentalViewModel {
   let register: String
   let number: String
   let holdingInstitution: String
   let loanStatus: String
+  
+  init(response: RequestBookLoanStatusResponse) {
+    register = response.register
+    number = response.number
+    holdingInstitution = response.holdingInstitution
+    loanStatus = response.loanStatus
+  }
 }
 
 final class LibraryRentalView: UIView {
