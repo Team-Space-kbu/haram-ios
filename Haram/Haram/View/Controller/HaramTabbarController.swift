@@ -67,7 +67,7 @@ final class HaramTabbarController: UITabBarController {
     tabBar.standardAppearance = UITabBarAppearance().then {
       $0.stackedLayoutAppearance = UITabBarItemAppearance().then {
         // Deselected state
-        $0.normal.titleTextAttributes = [.font: UIFont.medium]
+        $0.normal.titleTextAttributes = [.font: UIFont.medium10]
         
         // Selected State
         $0.selected.titleTextAttributes = [.font: UIFont.regular10]

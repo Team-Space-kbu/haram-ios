@@ -115,8 +115,7 @@ final class BoardViewController: BaseViewController {
   private let boardLabel = UILabel().then {
     $0.textColor = .black
     $0.text = "게시판"
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 26)
+    $0.font = .bold26
   }
   
   override func setupLayouts() {

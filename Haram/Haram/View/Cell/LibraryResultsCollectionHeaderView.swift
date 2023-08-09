@@ -16,8 +16,7 @@ final class LibraryResultsCollectionHeaderView: UICollectionReusableView {
   
   private let titleLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 18)
+    $0.font = .regular18
     $0.text = "검색내역"
     $0.sizeToFit()
   }

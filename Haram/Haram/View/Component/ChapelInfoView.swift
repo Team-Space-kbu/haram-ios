@@ -40,13 +40,13 @@ final class ChapelView: UIView {
   private let titleLabel = UILabel().then {
     $0.textColor = .hex9F9FA4
     $0.font = .systemFont(ofSize: 16)
-    $0.sizeToFit()
+    $0.textAlignment = .center
   }
   
   private let dayLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .systemFont(ofSize: 18)
-    $0.sizeToFit()
+    $0.textAlignment = .center
   }
   
   init(type: ChapelViewType) {
@@ -63,12 +63,12 @@ final class ChapelView: UIView {
     titleLabel.text = type.title
     [titleLabel, dayLabel].forEach { addSubview($0) }
     titleLabel.snp.makeConstraints {
-      $0.top.centerX.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
     }
     
     dayLabel.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom)
-      $0.centerX.bottom.equalToSuperview()
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
   }
   
@@ -80,7 +80,7 @@ final class ChapelView: UIView {
 final class ChapelInfoView: UIView {
   private let contentStackView = UIStackView().then {
     $0.axis = .horizontal
-    $0.distribution = .equalSpacing
+    $0.spacing = 42
   }
   
   private let attendanceView = ChapelView(type: .attendance)
@@ -109,7 +109,8 @@ final class ChapelInfoView: UIView {
     [attendanceView, lineView, remainView, lineView1, tardyView].forEach { contentStackView.addArrangedSubview($0) }
     
     contentStackView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.directionalVerticalEdges.leading.equalToSuperview()
+      $0.trailing.lessThanOrEqualToSuperview()
     }
     
     lineView.snp.makeConstraints {

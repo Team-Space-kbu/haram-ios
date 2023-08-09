@@ -74,13 +74,12 @@ final class HomeShortcutCollectionViewCell: UICollectionViewCell {
   
   private let titleLabel = UILabel().then {
     $0.textColor = .hex1A1E27
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 14)
-    $0.sizeToFit()
+    $0.font = .regular14
+    $0.textAlignment = .center
   }
   
   private let shortcutImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFit
+    $0.contentMode = .scaleAspectFill
   }
   
   override init(frame: CGRect) {

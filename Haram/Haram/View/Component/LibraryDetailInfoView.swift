@@ -39,16 +39,14 @@ final class LibraryInfoView: UIView {
   
   private let titleLabel = UILabel().then {
     $0.textColor = .hex9F9FA4
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .regular14
     $0.textAlignment = .center
 //    $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }
   
   private let contentLabel = UILabel().then {
     $0.textColor = .hex1A1E27
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 18)
+    $0.font = .bold18
     $0.numberOfLines = 0
     $0.textAlignment = .center
     $0.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)

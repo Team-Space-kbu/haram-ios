@@ -39,8 +39,7 @@ final class LoginButton: UIView {
   
   private let findPasswordButton = UIButton().then {
     $0.setTitleColor(.label, for: .normal)
-    $0.titleLabel?.font = .regular
-    $0.titleLabel?.font = .systemFont(ofSize: 14)
+    $0.titleLabel?.font = .regular14
     $0.setTitle("비밀번호를 잊으셨나요?", for: .normal)
     $0.titleLabel?.numberOfLines = 1
     $0.sizeToFit()

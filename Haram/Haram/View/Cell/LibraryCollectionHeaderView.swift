@@ -15,8 +15,7 @@ final class LibraryCollectionHeaderView: UICollectionReusableView {
   static let identifier = "LibraryCollectionHeaderView"
   
   private let titleLabel = UILabel().then {
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 20)
+    $0.font = .bold20
     $0.textColor = .black
     $0.textAlignment = .left
   }

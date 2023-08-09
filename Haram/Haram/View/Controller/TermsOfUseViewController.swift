@@ -15,8 +15,7 @@ final class TermsOfUseViewController: BaseViewController {
   private let titleLabel = UILabel().then {
     $0.text = "이용약관📄"
     $0.textColor = .black
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 24)
+    $0.font = .bold24
   }
   
   private let containerView = UIStackView().then {

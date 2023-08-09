@@ -29,8 +29,7 @@ final class LoginViewController: BaseViewController {
   }
   
   private let loginLabel = UILabel().then {
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 24)
+    $0.font = .regular24
     $0.textColor = .black
     $0.text = "로그인"
     $0.sizeToFit()
@@ -38,8 +37,7 @@ final class LoginViewController: BaseViewController {
   
   private let schoolLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .regular14
     $0.text = "한국성서대학교인트라넷"
     $0.sizeToFit()
   }

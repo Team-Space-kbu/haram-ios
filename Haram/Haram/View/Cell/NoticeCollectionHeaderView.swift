@@ -15,8 +15,7 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
   static let identifier = "NoticeCollectionHeaderView"
   
   private let categoryLabel = UILabel().then {
-    $0.font = .medium
-    $0.font = .systemFont(ofSize: 16)
+    $0.font = .medium16
     $0.textColor = .hex02162E
     $0.text = "카테고리"
   }
@@ -37,8 +36,7 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
   }
   
   private let noticeLabel = UILabel().then {
-    $0.font = .medium
-    $0.font = .systemFont(ofSize: 16)
+    $0.font = .medium16
     $0.textColor = .hex02162E
     $0.text = "통합공지사항"
   }
@@ -56,7 +54,8 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
     [categoryLabel, categoryCollectionView, noticeLabel].forEach { addSubview($0) }
     
     categoryLabel.snp.makeConstraints {
-      $0.top.leading.equalToSuperview()
+      $0.top.equalToSuperview().inset(70)
+      $0.leading.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }
     
@@ -92,8 +91,7 @@ extension NoticeCollectionHeaderView: UICollectionViewDelegate, UICollectionView
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     let label = UILabel().then {
-      $0.font = .medium
-      $0.font = .systemFont(ofSize: 18)
+      $0.font = .medium18
       $0.text = CategorySectionType.allCases[indexPath.row].title
       $0.sizeToFit()
     }

@@ -53,6 +53,7 @@ final class LibraryDetailViewController: BaseViewController {
   }
   
   private let containerView = UIStackView().then {
+    $0.backgroundColor = .clear
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = .init(top: 42, left: 30, bottom: .zero, right: 30)
     $0.axis = .vertical
@@ -71,8 +72,7 @@ final class LibraryDetailViewController: BaseViewController {
   
   private let relatedBookLabel = UILabel().then {
     $0.text = "관련도서"
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 18)
+    $0.font = .regular18
     $0.textColor = .black
   }
   

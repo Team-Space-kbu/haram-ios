@@ -18,8 +18,7 @@ final class LibraryRentalListView: UIView {
   
   private let rentalInfoLabel = UILabel().then {
     $0.text = "대여정보"
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 18)
+    $0.font = .bold18
     $0.textColor = .black
   }
   
@@ -108,20 +107,17 @@ final class LibraryRentalView: UIView {
   }
   
   private let numberLabel = UILabel().then {
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .regular14
     $0.textColor = .black
   }
   
   private let holdingInstitutionLabel = UILabel().then {
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .regular14
     $0.textColor = .black
   }
   
   private let loanStatusLabel = UILabel().then {
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 18)
+    $0.font = .bold18
     $0.textColor = .black
   }
   

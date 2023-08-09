@@ -23,8 +23,7 @@ final class RegisterTextField: UIView {
   private let disposeBag = DisposeBag()
   
   private let titleLabel = UILabel().then {
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .regular14
     $0.textColor = .black
   }
   
@@ -39,8 +38,7 @@ final class RegisterTextField: UIView {
   }
   
   private lazy var defaultLabel = UILabel().then {
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .regular14
     $0.textColor = .black
     $0.text = "@bible.ac.kr  "
     $0.textAlignment = .left

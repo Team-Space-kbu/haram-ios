@@ -20,15 +20,13 @@ final class FindPasswordViewController: BaseViewController {
   private let titleLabel = UILabel().then {
     $0.text = "비밀번호 찾기🔐"
     $0.textColor = .black
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 24)
+    $0.font = .bold24
   }
   
   private let alertLabel = UILabel().then {
     $0.text = "비밀번호를 재설정하기 위해 코드를 인증해야합니다.\n사용자 이메일을 입력해주세요"
     $0.textColor = .hex545E6A
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .regular14
     $0.numberOfLines = 0
   }
   

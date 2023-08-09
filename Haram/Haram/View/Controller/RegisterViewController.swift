@@ -21,8 +21,7 @@ final class RegisterViewController: BaseViewController {
   private let titleLabel = UILabel().then {
     $0.text = "회원가입✏️"
     $0.textColor = .black
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 24)
+    $0.font = .bold24
   }
   
   private let alertLabel = UILabel().then {
@@ -85,6 +84,8 @@ final class RegisterViewController: BaseViewController {
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
+    
+    stackView.setCustomSpacing(7, after: titleLabel)
     
     registerButton.snp.makeConstraints {
       $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(49)

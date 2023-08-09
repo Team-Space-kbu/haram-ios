@@ -39,7 +39,7 @@ final class ChapelCollectionHeaderView: UICollectionReusableView {
   
   private let sectionTitleLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = .bold
+    $0.font = .bold22
     $0.sizeToFit()
     $0.text = "채플정보"
   }
@@ -65,22 +65,20 @@ final class ChapelCollectionHeaderView: UICollectionReusableView {
     
     chapelDayView.snp.makeConstraints {
       $0.height.equalTo(82)
-      $0.width.equalTo(93)
     }
     
     chapelInfoView.snp.makeConstraints {
-      $0.directionalHorizontalEdges.equalToSuperview().inset(57)
       $0.height.equalTo(46)
     }
     
     lineView.snp.makeConstraints {
       $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
+      $0.directionalHorizontalEdges.equalToSuperview()
     }
     
     lineView1.snp.makeConstraints {
       $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
+      $0.directionalHorizontalEdges.equalToSuperview()
     }
     
     sectionTitleLabel.snp.makeConstraints {

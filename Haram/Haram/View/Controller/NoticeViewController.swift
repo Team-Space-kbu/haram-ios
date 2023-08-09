@@ -53,8 +53,6 @@ final class NoticeViewController: BaseViewController {
     frame: .zero,
     collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
       guard let self = self else { return nil }
-//      let configuration = UICollectionLayoutListConfiguration(appearance: .grouped)
-//      return NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: env)
       return type(of: self).setCollectionViewSection()
     }
   ).then {
@@ -133,7 +131,7 @@ final class NoticeViewController: BaseViewController {
     let header = NSCollectionLayoutBoundarySupplementaryItem(
       layoutSize: NSCollectionLayoutSize(
         widthDimension: .fractionalWidth(1),
-        heightDimension: .absolute(20 + 200 + 20 + 22)
+        heightDimension: .absolute(20 + 200 + 20 + 22 + 70)
       ),
       elementKind: UICollectionView.elementKindSectionHeader,
       alignment: .top

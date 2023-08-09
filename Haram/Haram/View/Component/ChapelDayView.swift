@@ -21,8 +21,7 @@ final class ChapelDayView: UIView {
   
   private let dayLabel = UILabel().then {
     $0.textColor = .hex4B81EE
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 44)
+    $0.font = .bold44
     $0.sizeToFit()
   }
   

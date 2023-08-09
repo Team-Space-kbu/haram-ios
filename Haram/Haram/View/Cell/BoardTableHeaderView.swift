@@ -15,8 +15,7 @@ final class BoardTableHeaderView: UITableViewHeaderFooterView {
   static let identifier = "BoardTableHeaderView"
   
   private let titleLabel = UILabel().then {
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 18)
+    $0.font = .bold18
     $0.textColor = .hex1A1E27
   }
   

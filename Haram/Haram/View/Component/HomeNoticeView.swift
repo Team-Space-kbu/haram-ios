@@ -20,7 +20,7 @@ final class HomeNoticeView: UIView {
   private let noticeLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.text = "알림 라벨입니다"
-    $0.font = .systemFont(ofSize: 16, weight: .regular)
+    $0.font = .regular16
   }
   
   override init(frame: CGRect) {
@@ -47,7 +47,7 @@ final class HomeNoticeView: UIView {
     
     noticeLabel.snp.makeConstraints {
       $0.leading.equalTo(noticeImageView.snp.trailing).offset(10.02)
-      $0.centerY.equalToSuperview()
+      $0.directionalVerticalEdges.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }
   }

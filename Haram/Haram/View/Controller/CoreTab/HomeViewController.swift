@@ -81,8 +81,7 @@ final class HomeViewController: BaseViewController {
     super.setupStyles()
     let label = UILabel().then {
       $0.text = "하람"
-      $0.font = .bold
-      $0.font = .systemFont(ofSize: 26)
+      $0.font = .bold26
     }
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
   }

@@ -27,20 +27,17 @@ final class MileageTableViewCell: UITableViewCell {
   
   private let mainLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 18)
+    $0.font = .bold18
     $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
   }
   
   private let subLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .regular14
   }
   
   private let mileageLabel = UILabel().then {
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 18)
+    $0.font = .bold18
     $0.textColor = .hex545E6A
     $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }

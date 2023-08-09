@@ -24,8 +24,7 @@ final class MileageReloadButton: UIView {
   
   private let reloadLabel = UILabel().then {
     $0.text = "새로고침"
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 20)
+    $0.font = .regular20
     $0.textColor = .hex707070
   }
   
@@ -66,7 +65,7 @@ final class MileageReloadButton: UIView {
     reloadImageView.snp.makeConstraints {
       $0.size.equalTo(16)
       $0.leading.equalTo(reloadLabel.snp.trailing)
-      $0.directionalVerticalEdges.trailing.equalToSuperview()
+      $0.centerY.trailing.equalToSuperview()
     }
     
     button.snp.makeConstraints {

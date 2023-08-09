@@ -37,16 +37,14 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
   
   private let mainLabel = UILabel().then {
     $0.textColor = .hex1A1E27
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 16)
+    $0.font = .bold16
     $0.numberOfLines = 2
     $0.text = "Lorem ipsum dolor sit amet,\nconsetetur sadipscing elitr, sedLorem ipsum dolor sit amet"
   }
   
   private let subLabel = UILabel().then {
     $0.textColor = .hex545E6A
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .regular14
     $0.numberOfLines = 1
     $0.text = "박유성자유아카데미, 2020"
   }

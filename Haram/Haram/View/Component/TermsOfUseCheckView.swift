@@ -18,8 +18,7 @@ final class TermsOfUseCheckView: UIView {
   
   private let alertLabel = UILabel().then {
     $0.text = "아래 약관에 모두 동의합니다."
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .regular14
     $0.textColor = .hex545E6A
   }
   

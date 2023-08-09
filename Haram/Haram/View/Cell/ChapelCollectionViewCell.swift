@@ -33,16 +33,14 @@ final class ChapelCollectionViewCell: UICollectionViewCell {
   
   private let chapelTitleLabel = UILabel().then {
     $0.textColor = .hex1A1E27
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 18)
+    $0.font = .bold18
     $0.sizeToFit()
     $0.text = "Lorem ipsum"
   }
   
   private let chapelSubTitleLabel = UILabel().then {
     $0.textColor = .hex545E6A
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .regular14
     $0.text = "Lorem ipsum"
   }
   

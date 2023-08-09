@@ -13,7 +13,6 @@
 		703C5C0D29E6A1ED00B5D091 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 703C5C0C29E6A1ED00B5D091 /* SnapKit */; };
 		705E70B629E1C7A100156B1F /* HaramSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B529E1C7A100156B1F /* HaramSectionView.swift */; };
 		705E70B829E1C8ED00156B1F /* HomeNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */; };
-		705E70BA29E1CA9900156B1F /* HomeAdvertisementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B929E1CA9900156B1F /* HomeAdvertisementView.swift */; };
 		705FD2792A10D3C500F353FE /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2782A10D3C500F353FE /* Router.swift */; };
 		705FD27C2A10D3EA00F353FE /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 705FD27B2A10D3EA00F353FE /* Alamofire */; };
 		705FD2802A10DE8800F353FE /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD27F2A10DE8800F353FE /* ApiService.swift */; };
@@ -133,6 +132,8 @@
 		708312C22A7A6F2900F7E283 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312C12A7A6F2900F7E283 /* PaddingLabel.swift */; };
 		708312C42A7BF7BD00F7E283 /* APIEventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312C32A7BF7BD00F7E283 /* APIEventLogger.swift */; };
 		708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */; };
+		708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */; };
+		708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9B2A03954700BEB5F2 /* MoreListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */; };
@@ -173,7 +174,6 @@
 		7034AF1929F0064B009C7676 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		705E70B529E1C7A100156B1F /* HaramSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramSectionView.swift; sourceTree = "<group>"; };
 		705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNoticeView.swift; sourceTree = "<group>"; };
-		705E70B929E1CA9900156B1F /* HomeAdvertisementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAdvertisementView.swift; sourceTree = "<group>"; };
 		705FD2782A10D3C500F353FE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		705FD27F2A10DE8800F353FE /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
 		705FD2812A10E2A800F353FE /* BaseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseEntity.swift; sourceTree = "<group>"; };
@@ -291,6 +291,8 @@
 		708312C32A7BF7BD00F7E283 /* APIEventLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEventLogger.swift; sourceTree = "<group>"; };
 		708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HaramRelease.entitlements; sourceTree = "<group>"; };
 		708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBookLoanStatusResponse.swift; sourceTree = "<group>"; };
+		708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
+		708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListView.swift; sourceTree = "<group>"; };
@@ -374,7 +376,6 @@
 			children = (
 				705E70B529E1C7A100156B1F /* HaramSectionView.swift */,
 				705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */,
-				705E70B929E1CA9900156B1F /* HomeAdvertisementView.swift */,
 				70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */,
 				70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */,
 				70C9CCAB2A05539C00BEB5F2 /* MileageHeaderView.swift */,
@@ -628,6 +629,8 @@
 				708312AD2A73936E00F7E283 /* CategoryCollectionViewCell.swift */,
 				708312B32A76945000F7E283 /* BoardListCollectionViewCell.swift */,
 				708312B52A779D1A00F7E283 /* BoardTableHeaderView.swift */,
+				708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */,
+				708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -995,7 +998,6 @@
 				705FD2CC2A23BA6A00F353FE /* InquireLibraryResponse.swift in Sources */,
 				70727A9029D88935003DE956 /* BaseViewController.swift in Sources */,
 				705FD28E2A10FC0200F353FE /* KeyChainWrapper.swift in Sources */,
-				705E70BA29E1CA9900156B1F /* HomeAdvertisementView.swift in Sources */,
 				708312682A39C4B000F7E283 /* LoginInfoRememberView.swift in Sources */,
 				708312512A3192D900F7E283 /* HomeService.swift in Sources */,
 				708312602A388D8B00F7E283 /* ScheduleViewModel.swift in Sources */,
@@ -1009,6 +1011,7 @@
 				708312962A691AAD00F7E283 /* NumberformatterFactory.swift in Sources */,
 				705FD2792A10D3C500F353FE /* Router.swift in Sources */,
 				7083129F2A6D25E100F7E283 /* TermsOfUseViewController.swift in Sources */,
+				708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */,
 				708312A82A70292000F7E283 /* CrawlManager.swift in Sources */,
 				7083123E2A2CA62A00F7E283 /* InquireChapelListResponse.swift in Sources */,
 				708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */,
@@ -1069,6 +1072,7 @@
 				7083129B2A6A909C00F7E283 /* ChapelViewModel.swift in Sources */,
 				705FD2BF2A1A4D2E00F353FE /* LibraryDetailMainView.swift in Sources */,
 				7083124F2A31927600F7E283 /* HomeRouter.swift in Sources */,
+				708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */,
 				70727AA629D93B43003DE956 /* HomeShortcutCollectionViewCell.swift in Sources */,
 				7083124A2A2F856700F7E283 /* LibraryDetailInfoView.swift in Sources */,
 				708312BC2A79247500F7E283 /* RegisterViewModel.swift in Sources */,

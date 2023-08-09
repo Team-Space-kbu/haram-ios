@@ -22,8 +22,7 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
   
   private let totalMileageLabel = UILabel().then {
     $0.textColor = .hex1A1E27
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 36)
+    $0.font = .bold36
     $0.text = "10,218원"
   }
   
@@ -58,11 +57,13 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
     totalMileageLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(69.97)
       $0.leading.equalToSuperview()
+      $0.trailing.lessThanOrEqualToSuperview()
     }
     
     mileageReloadButton.snp.makeConstraints {
       $0.top.equalTo(totalMileageLabel.snp.bottom).offset(14)
       $0.leading.equalToSuperview()
+      $0.height.equalTo(25)
     }
     
     spendListLabel.snp.makeConstraints {

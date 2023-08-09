@@ -29,14 +29,12 @@ final class IntranetLoginViewController: BaseViewController {
   
   private let loginLabel = UILabel().then {
     $0.text = "로그인"
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 24)
+    $0.font = .regular24
   }
   
   private let intranetLabel = UILabel().then {
     $0.text = "한국성서대학교인트라넷"
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 14)
+    $0.font = .regular14
   }
   
   private let idTextField = UITextField().then {
@@ -84,7 +82,7 @@ final class IntranetLoginViewController: BaseViewController {
   private let lastAuthButton = UIButton().then {
     let attributedString = NSAttributedString(
       string: "나중에인증하기",
-      attributes: [.font:UIFont.regular]
+      attributes: [.font:UIFont.regular14]
     )
     $0.setAttributedTitle(attributedString, for: .normal)
     $0.setTitleColor(.label, for: .normal)

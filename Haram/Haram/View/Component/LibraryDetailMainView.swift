@@ -33,18 +33,15 @@ final class LibraryDetailMainView: UIView {
   }
   
   private let titleLabel = UILabel().then {
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 22)
+    $0.font = .bold22
     $0.textColor = .black
-    $0.text = "텐서플로케라스를이용한딥러닝"
-    $0.numberOfLines = 0
+    $0.numberOfLines = 3
+    $0.lineBreakMode = .byTruncatingTail
   }
   
   private let subLabel = UILabel().then {
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 16)
+    $0.font = .regular16
     $0.textColor = .black
-    $0.text = "박유성자유아카데미 2020"
   }
   
   private let bottomLineView = UIView().then {
@@ -71,6 +68,10 @@ final class LibraryDetailMainView: UIView {
     bookImageView.snp.makeConstraints {
       $0.height.equalTo(210)
       $0.width.equalTo(150)
+    }
+    
+    titleLabel.snp.makeConstraints {
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
     
     containerView.setCustomSpacing(10, after: titleLabel)

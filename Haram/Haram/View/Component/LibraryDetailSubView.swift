@@ -18,16 +18,14 @@ struct LibraryDetailSubViewModel {
 final class LibraryDetailSubView: UIView {
   
   private let titleLabel = UILabel().then {
-    $0.text = "책 설명"
+//    $0.text = "책 설명"
     $0.textColor = .black
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 18)
+    $0.font = .bold18
   }
   
   private let descriptionLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 16)
+    $0.font = .regular16
     $0.numberOfLines = 0
   }
   

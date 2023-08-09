@@ -15,8 +15,7 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
   static let identifier = "CategoryCollectionViewCell"
   
   private let categoryLabel = UILabel().then {
-    $0.font = .medium
-    $0.font = .systemFont(ofSize: 18)
+    $0.font = .medium18
     $0.textColor = .hex02162E
     $0.sizeToFit()
   }

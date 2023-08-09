@@ -71,31 +71,50 @@ final class MoreViewController: BaseViewController {
   
   private let viewModel: MoreViewModelType
   
+  private lazy var moreTableView = UITableView(frame: .zero, style: .plain).then {
+    $0.delegate = self
+    $0.dataSource = self
+    $0.register(MoreTableViewCell.self, forCellReuseIdentifier: MoreTableViewCell.identifier)
+    $0.backgroundColor = .white
+    $0.sectionHeaderHeight = .leastNonzeroMagnitude
+    $0.sectionFooterHeight = .leastNonzeroMagnitude
+    $0.separatorStyle = .none
+    $0.isScrollEnabled = false
+  }
+  
+  private lazy var settingTableView = UITableView(frame: .zero, style: .plain).then {
+    $0.delegate = self
+    $0.dataSource = self
+    $0.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
+    $0.backgroundColor = .white
+    $0.sectionHeaderHeight = .leastNonzeroMagnitude
+    $0.sectionFooterHeight = .leastNonzeroMagnitude
+    $0.separatorStyle = .none
+    $0.isScrollEnabled = false
+  }
+  
   private let scrollView = UIScrollView().then {
     $0.alwaysBounceVertical = true
+    $0.backgroundColor = .clear
+//    $0.contentInsetAdjustmentBehavior = .never
   }
-  
-  private let contentStackView = UIStackView().then {
-    $0.axis = .vertical
-    $0.spacing = 19
-    $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
+
+  private let contentView = UIView().then {
+    $0.backgroundColor = .clear
   }
-  
+//
   private let moreLabel = UILabel().then {
     $0.textColor = .hex1A1E27
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 26)
+    $0.font = .bold26
     $0.text = "더보기"
   }
-  
+
   private let settingLabel = UILabel().then {
     $0.textColor = .hex1A1E27
-    $0.font = .bold
-    $0.font = .systemFont(ofSize: 22)
+    $0.font = .bold22
     $0.text = "설정"
   }
-  
+
   private let profileInfoView = ProfileInfoView().then {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
@@ -103,7 +122,7 @@ final class MoreViewController: BaseViewController {
     $0.layer.borderColor = UIColor.hexD8D8DA.cgColor
     $0.backgroundColor = .hexF8F8F8
   }
-  
+
   private let lineView = UIView().then {
     $0.backgroundColor = .hexD8D8DA
   }
@@ -116,6 +135,11 @@ final class MoreViewController: BaseViewController {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    navigationController?.navigationBar.isHidden = true
   }
   
   func bind(userID: String) {
@@ -133,22 +157,8 @@ final class MoreViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
-    scrollView.addSubview(contentStackView)
-    [moreLabel, profileInfoView].forEach { contentStackView.addArrangedSubview($0) }
-    
-    for type in MoreType.allCases {
-      let listView = MoreListView(type: .image)
-      listView.configureUI(with: .init(imageName: type.imageName, title: type.title))
-      contentStackView.addArrangedSubview(listView)
-    }
-    
-    [lineView, settingLabel].forEach { contentStackView.addArrangedSubview($0) }
-    
-    for type in SettingType.allCases {
-      let listView = MoreListView(type: .noImage)
-      listView.configureUI(with: .init(imageName: nil, title: type.title))
-      contentStackView.addArrangedSubview(listView)
-    }
+    scrollView.addSubview(contentView)
+    [moreLabel, profileInfoView, moreTableView, lineView, settingLabel, settingTableView].forEach { contentView.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -158,21 +168,73 @@ final class MoreViewController: BaseViewController {
       $0.directionalEdges.width.equalToSuperview()
     }
     
-    contentStackView.snp.makeConstraints {
-      $0.width.top.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
+    contentView.snp.makeConstraints {
+      $0.directionalEdges.width.equalToSuperview()
+    }
+    
+    moreLabel.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(64)
+      $0.leading.equalToSuperview().inset(15)
     }
     
     profileInfoView.snp.makeConstraints {
+      $0.top.equalTo(moreLabel.snp.bottom).offset(65)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(131)
     }
     
+    moreTableView.snp.makeConstraints {
+      $0.top.equalTo(profileInfoView.snp.bottom).offset(31.33)
+      $0.leading.equalToSuperview().inset(18.01)
+      $0.trailing.equalToSuperview().inset(28)
+//      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      $0.height.equalTo((23 + 24) * MoreType.allCases.count)
+    }
+    
     lineView.snp.makeConstraints {
+      $0.top.equalTo(moreTableView.snp.bottom).offset(6)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15.5)
       $0.height.equalTo(1)
     }
     
-    contentStackView.setCustomSpacing(67, after: moreLabel)
+    settingLabel.snp.makeConstraints {
+      $0.top.equalTo(lineView.snp.bottom).offset(28)
+      $0.leading.equalToSuperview().inset(15)
+    }
     
-    
+    settingTableView.snp.makeConstraints {
+      $0.top.equalTo(settingLabel.snp.bottom).offset(17)
+      $0.leading.equalToSuperview().inset(15)
+      $0.trailing.equalToSuperview().inset(28)
+      $0.height.equalTo(127 + 23 + 23)
+      $0.bottom.equalToSuperview().inset(23)
+    }
+  }
+}
+
+extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if tableView == moreTableView {
+      return MoreType.allCases.count
+    }
+    return SettingType.allCases.count
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    if tableView == moreTableView {
+      let cell = tableView.dequeueReusableCell(withIdentifier: MoreTableViewCell.identifier, for: indexPath) as? MoreTableViewCell ?? MoreTableViewCell()
+      cell.configureUI(with: .init(imageName: MoreType.allCases[indexPath.row].imageName, title: MoreType.allCases[indexPath.row].title))
+      return cell
+    }
+    let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier, for: indexPath) as? SettingTableViewCell ?? SettingTableViewCell()
+    cell.configureUI(with: .init(title: SettingType.allCases[indexPath.row].title))
+    return cell
+  }
+  
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    if tableView == moreTableView {
+      return 23 + 24
+    }
+    return 23 + 13
   }
 }

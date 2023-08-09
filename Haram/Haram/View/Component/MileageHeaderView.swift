@@ -14,14 +14,13 @@ final class MileageHeaderView: UIView {
   
   private let totalMileageLabel = UILabel().then {
     $0.textColor = .hex1A1E27
-    $0.font = .systemFont(ofSize: 36)
+    $0.font = .bold36
     $0.text = "10218원"
   }
   
   private let reloadLabel = UILabel().then {
     $0.text = "새로고침"
-    $0.font = .regular
-    $0.font = .systemFont(ofSize: 20)
+    $0.font = .regular20
   }
   
   private let reloadButton = UIButton().then {
