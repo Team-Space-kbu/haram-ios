@@ -25,53 +25,47 @@ final class IntranetLoginViewModel {
   
   init() {
     tryRequestIntranetToken()
-    tryRequestIntranetLogin()
   }
   
   private func tryRequestIntranetToken() {
     let requestIntranetToken = intranetLoginButtonTappedSubject
-      .flatMapLatest(AuthService.shared.requestIntranetToken)
-    
-    requestIntranetToken
-//      .take(1)
-        .subscribe(with: self, onNext: { (owner, response)  in
-          UserManager.shared.set(
-            intranetToken: response.intranetToken,
-            xsrfToken: response.xsrfToken,
-            laravelSession: response.laravelSession
-          )
-        }, onError: { owner, error in
-          print("들어와2 \(error)")
-        })
-      .disposed(by: disposeBag)
-    
-  }
-  
-  private func tryRequestIntranetLogin() {
-    let tryLoginIntranet = intranetInfoSubject
-      .filter { _ in
-        if !UserManager.shared.hasIntranetToken {
-          print("인트라넷로그인을 위한 인트라넷토큰이 존재하지않습니다.")
-          return false
-        }
-        return true
-      }
-      .flatMapLatest { (intranetID, intranetPWD) in
-        AuthService.shared.loginIntranet(
-          request: .init(
-            intranetToken: UserManager.shared.intranetToken!,
-            intranetID: intranetID,
-            intranetPWD: intranetPWD
-          )
+      .flatMap(AuthService.shared.requestIntranetToken)
+      .do(onNext: { response in
+        UserManager.shared.set(
+          intranetToken: response.intranetToken,
+          xsrfToken: response.xsrfToken,
+          laravelSession: response.laravelSession
         )
-      }
+      })
+        
+        let tryLoginIntranet = requestIntranetToken
+        .withLatestFrom(intranetInfoSubject)
+        
+        let requestLoginIntranet = tryLoginIntranet
+        .filter { _ in
+          if !UserManager.shared.hasIntranetToken {
+            print("인트라넷로그인을 위한 인트라넷토큰이 존재하지않습니다.")
+            return false
+          }
+          return true
+        }
+        .flatMapLatest { (intranetID, intranetPWD) in
+          AuthService.shared.loginIntranet(
+            request: .init(
+              intranetToken: UserManager.shared.intranetToken!,
+              intranetID: intranetID,
+              intranetPWD: intranetPWD
+            )
+          )
+        }
     
-    tryLoginIntranet
+    requestLoginIntranet
       .subscribe(with: self)  { owner, response in
         owner.intranetLoginMessage.onNext(response)
       }
       .disposed(by: disposeBag)
   }
+  
 }
 
 extension IntranetLoginViewModel: IntranetLoginViewModelType {

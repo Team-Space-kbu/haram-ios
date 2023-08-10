@@ -61,7 +61,7 @@ class BaseViewController: UIViewController {
   /// }
   /// ```
   func setupStyles() {
-    view.backgroundColor = .systemBackground
+    view.backgroundColor = .white
 //    navigationItem.backButtonTitle = ""
 //    navigationItem.title = nil
   }

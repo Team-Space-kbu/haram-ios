@@ -148,8 +148,6 @@ final class IntranetLoginViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    viewModel.intranetLoginButtonTapped.onNext(())
-    
     loginButton.rx.tap
       .subscribe(with: self) { owner, _ in
         guard let intranetID = owner.idTextField.text,
@@ -157,6 +155,7 @@ final class IntranetLoginViewController: BaseViewController {
               !intranetID.isEmpty && !intranetPWD.isEmpty else {
           return
         }
+        owner.viewModel.intranetLoginButtonTapped.onNext(())
         owner.viewModel.whichIntranetInfo.onNext((intranetID, intranetPWD))
       }
       .disposed(by: disposeBag)
@@ -164,9 +163,8 @@ final class IntranetLoginViewController: BaseViewController {
     lastAuthButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = HaramTabbarController(userID: UserManager.shared.userID!)
         UserManager.shared.clearIntranetInformation()
-        owner.dismiss(animated: true)
+        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = HaramTabbarController(userID: UserManager.shared.userID!)
       }
       .disposed(by: disposeBag)
     

@@ -96,18 +96,18 @@ extension UserManager {
   
   /// 유저의 정보를 전부 초기화합니다.
   func clearUserInformations() {
-    accessToken = nil
-    refreshToken = nil
+    self.accessToken = nil
+    self.refreshToken = nil
     
-    intranetToken = nil
-    xsrfToken = nil
-    laravelSession = nil
+    self.intranetToken = nil
+    self.xsrfToken = nil
+    self.laravelSession = nil
   }
   
   func clearIntranetInformation() {
-    intranetToken = nil
-    xsrfToken = nil
-    laravelSession = nil
+    self.intranetToken = nil
+    self.xsrfToken = nil
+    self.laravelSession = nil
   }
   
   /// 가지고 있는 `refresh token`을 가지고 새로운 `access token`과 `refresh token`을 발급받습니다.
