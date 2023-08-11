@@ -13,6 +13,7 @@ protocol IntranetLoginViewModelType {
   var whichIntranetInfo: AnyObserver<(String, String)> { get }
   
   var successIntranetLogin: Signal<String?> { get }
+  var isLoading: Driver<Bool> { get }
 }
 
 final class IntranetLoginViewModel {
@@ -22,6 +23,7 @@ final class IntranetLoginViewModel {
   private let intranetLoginButtonTappedSubject = PublishSubject<Void>()
   private let intranetInfoSubject = PublishSubject<(String, String)>()
   private let intranetLoginMessage = PublishSubject<String?>()
+  private let isLoadingSubject = BehaviorSubject<Bool>(value: false)
   
   init() {
     tryRequestIntranetToken()
@@ -29,6 +31,10 @@ final class IntranetLoginViewModel {
   
   private func tryRequestIntranetToken() {
     let requestIntranetToken = intranetLoginButtonTappedSubject
+      .do(onNext: { [weak self] _ in
+        guard let self = self else { return }
+        self.isLoadingSubject.onNext(true)
+      })
       .flatMap(AuthService.shared.requestIntranetToken)
       .do(onNext: { response in
         UserManager.shared.set(
@@ -62,6 +68,7 @@ final class IntranetLoginViewModel {
     requestLoginIntranet
       .subscribe(with: self)  { owner, response in
         owner.intranetLoginMessage.onNext(response)
+        owner.isLoadingSubject.onNext(false)
       }
       .disposed(by: disposeBag)
   }
@@ -69,6 +76,10 @@ final class IntranetLoginViewModel {
 }
 
 extension IntranetLoginViewModel: IntranetLoginViewModelType {
+  var isLoading: RxCocoa.Driver<Bool> {
+    isLoadingSubject.asDriver(onErrorJustReturn: false)
+  }
+  
   var intranetLoginButtonTapped: AnyObserver<Void> {
     intranetLoginButtonTappedSubject.asObserver()
   }

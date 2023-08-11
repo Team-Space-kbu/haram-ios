@@ -56,8 +56,7 @@ final class HomeNewsCollectionViewCell: UICollectionViewCell {
     
     titleLabel.snp.makeConstraints {
       $0.top.equalTo(newsImageView.snp.bottom).offset(6)
-      $0.leading.equalToSuperview()
-      $0.trailing.bottom.lessThanOrEqualToSuperview()
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
   }
   

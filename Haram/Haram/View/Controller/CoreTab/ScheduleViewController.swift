@@ -84,13 +84,12 @@ final class ScheduleViewController: BaseViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    if UserManager.shared.hasIntranetToken {
-      viewModel.inquireSchedule.onNext(())
-    } else {
+    if !UserManager.shared.hasIntranetToken {
       let vc = IntranetLoginViewController()
       vc.modalPresentationStyle = .fullScreen
       present(vc, animated: true)
     }
+    viewModel.inquireSchedule.onNext(())
   }
   
   override func setupStyles() {

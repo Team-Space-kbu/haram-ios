@@ -49,8 +49,12 @@ final class ApiService: BaseService {
             case 200..<300:
               if decodedData.data != nil {
                 return observer(.success(decodedData.data!))
+              } else {
+                if decodedData.code == HaramError.loginFailed.code {
+                  return observer(.failure(HaramError.loginFailed))
+                }
+                return observer(.failure(HaramError.naverError))
               }
-              return observer(.failure(HaramError.naverError))
             case 400..<500:
               return observer(.failure(HaramError.requestError))
             case 500..<600:

@@ -38,7 +38,10 @@ final class IntranetLoginViewController: BaseViewController {
   }
   
   private let idTextField = UITextField().then {
-    $0.placeholder = "아이디"
+    $0.attributedPlaceholder = NSAttributedString(
+      string: "아이디",
+      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
+    )
     $0.backgroundColor = .hexF5F5F5
     $0.tintColor = .black
     $0.layer.masksToBounds = true
@@ -51,7 +54,10 @@ final class IntranetLoginViewController: BaseViewController {
   }
   
   private let pwTextField = UITextField().then {
-    $0.placeholder = "비밀번호"
+    $0.attributedPlaceholder = NSAttributedString(
+      string: "비밀번호",
+      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
+    )
     $0.backgroundColor = .hexF5F5F5
     $0.tintColor = .black
     $0.layer.masksToBounds = true
@@ -88,6 +94,8 @@ final class IntranetLoginViewController: BaseViewController {
     $0.setTitleColor(.label, for: .normal)
   }
   
+  private let indicatorView = UIActivityIndicatorView(style: .large)
+  
   init(viewModel: IntranetLoginViewModelType = IntranetLoginViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -97,20 +105,19 @@ final class IntranetLoginViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerKeyboardNotification()
+  }
+  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     removeKeyboardNotification()
   }
   
-  override func setupStyles() {
-    super.setupStyles()
-    registerKeyboardNotification()
-  }
-  
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(containerStackView)
-    view.addSubview(lastAuthButton)
+    [containerStackView, lastAuthButton, indicatorView].forEach { view.addSubview($0) }
     [logoImageView, loginLabel, intranetLabel, idTextField, pwTextField, loginButton].forEach { containerStackView.addArrangedSubview($0) }
   }
   
@@ -120,6 +127,10 @@ final class IntranetLoginViewController: BaseViewController {
       $0.top.equalTo(view.safeAreaLayoutGuide)
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
+    }
+    
+    indicatorView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
     logoImageView.snp.makeConstraints {
@@ -155,6 +166,7 @@ final class IntranetLoginViewController: BaseViewController {
               !intranetID.isEmpty && !intranetPWD.isEmpty else {
           return
         }
+        owner.view.endEditing(true)
         owner.viewModel.intranetLoginButtonTapped.onNext(())
         owner.viewModel.whichIntranetInfo.onNext((intranetID, intranetPWD))
       }
@@ -164,7 +176,7 @@ final class IntranetLoginViewController: BaseViewController {
       .asDriver()
       .drive(with: self) { owner, _ in
         UserManager.shared.clearIntranetInformation()
-        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = HaramTabbarController(userID: UserManager.shared.userID!)
+        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = HaramTabbarController()
       }
       .disposed(by: disposeBag)
     
@@ -180,6 +192,10 @@ final class IntranetLoginViewController: BaseViewController {
           }
         }
       }
+      .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .drive(indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
   }
 }

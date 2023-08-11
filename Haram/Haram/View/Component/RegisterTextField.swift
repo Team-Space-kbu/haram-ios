@@ -77,8 +77,11 @@ final class RegisterTextField: UIView {
   }
   
   private func configureUI(title: String, placeholder: String, options: RegisterTextFieldOptions) {
+    textField.attributedPlaceholder = NSAttributedString(
+      string: placeholder,
+      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
+    )
     titleLabel.text = title
-    textField.placeholder = placeholder
     
     [titleLabel, textField].forEach { addSubview($0) }
     titleLabel.snp.makeConstraints {

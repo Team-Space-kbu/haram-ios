@@ -49,6 +49,7 @@ final class HomeViewController: BaseViewController {
     $0.backgroundColor = .clear
     $0.showsVerticalScrollIndicator = true
     $0.showsHorizontalScrollIndicator = false
+    $0.contentInsetAdjustmentBehavior = .always
   }
   
   private let scrollContainerView = UIView().then {
@@ -64,7 +65,7 @@ final class HomeViewController: BaseViewController {
       return self.createSection(type: HomeType.allCases[sec])
     }
   ).then {
-    $0.backgroundColor = .systemBackground
+    $0.backgroundColor = .white
     $0.delegate = self
     $0.dataSource = self
     $0.register(HomeShortcutCollectionViewCell.self, forCellWithReuseIdentifier: HomeShortcutCollectionViewCell.identifier)
@@ -97,8 +98,7 @@ final class HomeViewController: BaseViewController {
     super.setupConstraints()
     
     scrollView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.directionalEdges.width.equalToSuperview()
     }
     
     scrollContainerView.snp.makeConstraints {
@@ -202,8 +202,8 @@ final class HomeViewController: BaseViewController {
       
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
-          widthDimension: .absolute(119),
-          heightDimension: .absolute(206)),
+          widthDimension: .absolute(118),
+          heightDimension: .absolute(18 + 6 + 165)),
         repeatingSubitem: item,
         count: 1
       )

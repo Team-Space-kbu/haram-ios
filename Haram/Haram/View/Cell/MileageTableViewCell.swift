@@ -52,6 +52,7 @@ final class MileageTableViewCell: UITableViewCell {
   }
   
   private func configureUI() {
+    selectionStyle = .none
     [mileageImageView, mainLabel, subLabel, mileageLabel].forEach { addSubview($0) }
     mileageImageView.snp.makeConstraints {
       $0.size.equalTo(44)

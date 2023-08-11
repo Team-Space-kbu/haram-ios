@@ -35,7 +35,7 @@ final class BoardTableViewCell: UITableViewCell {
   }
   
   private let indicatorButton = UIButton().then {
-    $0.setImage(UIImage(named: "rightIndicator"), for: .normal)
+    $0.setImage(UIImage(named: "darkIndicator"), for: .normal)
   }
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

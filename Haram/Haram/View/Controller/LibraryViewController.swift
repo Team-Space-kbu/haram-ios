@@ -55,7 +55,10 @@ final class LibraryViewController: BaseViewController {
   }
   
   private let searchBar = UISearchBar().then {
-    $0.placeholder = "도서검색하기"
+    $0.searchTextField.attributedPlaceholder = NSAttributedString(
+      string: "도서검색하기",
+      attributes: [.font: UIFont.regular18, .foregroundColor: UIColor.hex9F9FA4]
+    )
     $0.searchBarStyle = .minimal
   }
   

@@ -97,7 +97,7 @@ final class BoardViewController: BaseViewController {
     $0.backgroundColor = .clear
     $0.spacing = 20
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: .zero, left: 15, bottom: .zero, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: .zero, left: 15, bottom: 69 - 21, right: 15)
   }
   
   private lazy var boardTableView = UITableView(frame: .zero, style: .grouped).then {
@@ -107,7 +107,7 @@ final class BoardViewController: BaseViewController {
     $0.dataSource = self
     $0.sectionFooterHeight = 21
     $0.sectionHeaderHeight = 28 + 11
-    $0.backgroundColor = .systemBackground
+    $0.backgroundColor = .white
     $0.separatorStyle = .none
     $0.isScrollEnabled = false
   }
@@ -139,7 +139,7 @@ final class BoardViewController: BaseViewController {
     }
 
     boardTableView.snp.makeConstraints {
-      $0.height.equalTo(28 + 509 + 46)
+      $0.height.equalTo(28 + 509 + 46 + 21)
     }
   }
 }

@@ -82,7 +82,7 @@ final class LibraryDetailViewController: BaseViewController {
       $0.scrollDirection = .horizontal
     }
   ).then {
-    $0.backgroundColor = .systemBackground
+    $0.backgroundColor = .white
     $0.register(LibraryRelatedBookCollectionViewCell.self, forCellWithReuseIdentifier: LibraryRelatedBookCollectionViewCell.identifier)
     $0.delegate = self
     $0.dataSource = self

@@ -54,7 +54,7 @@ final class ChapelCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
-    contentView.backgroundColor = .systemBackground
+    contentView.backgroundColor = .white
     [chapelImageView, chapelTitleLabel, chapelSubTitleLabel].forEach { contentView.addSubview($0) }
     
     chapelImageView.snp.makeConstraints {

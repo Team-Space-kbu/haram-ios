@@ -14,13 +14,15 @@ import Then
 final class BoardListViewController: BaseViewController {
   private lazy var boardListCollectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: UICollectionViewFlowLayout()
+    collectionViewLayout: UICollectionViewFlowLayout().then {
+      $0.minimumLineSpacing = 20
+    }
   ).then {
-    $0.backgroundColor = .systemBackground
+    $0.backgroundColor = .clear
     $0.register(BoardListCollectionViewCell.self, forCellWithReuseIdentifier: BoardListCollectionViewCell.identifier)
     $0.delegate = self
     $0.dataSource = self
-    $0.contentInset = UIEdgeInsets(top: .zero, left: 15, bottom: .zero, right: 15)
+    $0.contentInset = UIEdgeInsets(top: 32, left: 15, bottom: .zero, right: 15)
   }
   
   override func setupStyles() {

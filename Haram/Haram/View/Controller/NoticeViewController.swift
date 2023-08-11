@@ -56,7 +56,7 @@ final class NoticeViewController: BaseViewController {
       return type(of: self).setCollectionViewSection()
     }
   ).then {
-    $0.backgroundColor = .systemBackground
+    $0.backgroundColor = .white
     $0.register(NoticeCollectionViewCell.self, forCellWithReuseIdentifier: NoticeCollectionViewCell.identifier)
     $0.register(NoticeCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NoticeCollectionHeaderView.identifier)
     $0.delegate = self

@@ -33,10 +33,12 @@ final class LoginViewModel: LoginViewModelType {
     userID = userIDForLogin.asObserver()
     password = passwordForLogin.asObserver()
     
-    Observable.combineLatest(
-      userIDForLogin,
-      passwordForLogin
+    Observable.zip(
+      userIDForLogin.do(onNext: { print("아디디 \($0)") }),
+      passwordForLogin.do(onNext: { print("비디디 \($0)") })
     )
+    .filter { !$0.isEmpty && !$1.isEmpty }
+    .do(onNext: { print("아이디 \($0)\n비밀번호 \($1)") })
     .flatMapLatest {
       AuthService.shared.loginMember(
         request: .init(
@@ -50,7 +52,10 @@ final class LoginViewModel: LoginViewModelType {
       tokenForLogin.onNext(UserManager.shared.accessToken)
       refreshTokenForLogin.onNext(UserManager.shared.refreshToken)
     }, onError: { error in
-      print("에러 \(error)")
+      guard let error = error as? HaramError,
+      let description = error.description else { return }
+      /// TODO: -로그인 실패 시 처리해야함
+      print("로그인 시도에러 \(description)")
     })
     .disposed(by: disposeBag)
     

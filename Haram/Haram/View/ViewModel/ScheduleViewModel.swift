@@ -39,6 +39,7 @@ final class ScheduleViewModel: ScheduleViewModelType {
     self.isLoading = isLoadingSubject.asDriver(onErrorJustReturn: false)
     
     inquiringSchedule
+      .filter { UserManager.shared.hasIntranetToken }
       .do(onNext: { _ in isLoadingSubject.onNext(true) })
       .take(1)
       .flatMapLatest { _ in

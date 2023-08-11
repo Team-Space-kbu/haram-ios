@@ -33,7 +33,7 @@ final class ChapelViewController: BaseViewController {
     $0.register(ChapelCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ChapelCollectionHeaderView.identifier)
     $0.dataSource = self
     $0.delegate = self
-    $0.backgroundColor = .systemBackground
+    $0.backgroundColor = .white
     $0.contentInset = .init(top: .zero, left: 15, bottom: .zero, right: 15)
   }
   

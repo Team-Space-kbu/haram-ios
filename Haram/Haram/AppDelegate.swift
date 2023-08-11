@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let appearance = UINavigationBarAppearance()
     
     appearance.configureWithOpaqueBackground() // 반투명 색상
-    appearance.backgroundColor = .systemBackground // 배경색
+    appearance.backgroundColor = .white // 배경색
     
     appearance.titleTextAttributes = [
       NSAttributedString.Key.foregroundColor: UIColor.black, // 텍스트 색상

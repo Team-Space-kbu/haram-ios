@@ -96,13 +96,12 @@ final class MoreViewController: BaseViewController {
   private let scrollView = UIScrollView().then {
     $0.alwaysBounceVertical = true
     $0.backgroundColor = .clear
-//    $0.contentInsetAdjustmentBehavior = .never
   }
 
   private let contentView = UIView().then {
     $0.backgroundColor = .clear
   }
-//
+
   private let moreLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold26
@@ -127,10 +126,10 @@ final class MoreViewController: BaseViewController {
     $0.backgroundColor = .hexD8D8DA
   }
   
-  init(userID: String, viewModel: MoreViewModelType = MoreViewModel()) {
+  init(viewModel: MoreViewModelType = MoreViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    bind(userID: userID)
+    bind(userID: UserManager.shared.userID!)
   }
   
   required init?(coder: NSCoder) {

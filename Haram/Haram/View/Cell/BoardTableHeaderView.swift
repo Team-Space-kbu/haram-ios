@@ -15,7 +15,7 @@ final class BoardTableHeaderView: UITableViewHeaderFooterView {
   static let identifier = "BoardTableHeaderView"
   
   private let titleLabel = UILabel().then {
-    $0.font = .bold18
+    $0.font = .bold22
     $0.textColor = .hex1A1E27
   }
   
@@ -32,6 +32,7 @@ final class BoardTableHeaderView: UITableViewHeaderFooterView {
     contentView.addSubview(titleLabel)
     titleLabel.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(11)
     }
   }
   

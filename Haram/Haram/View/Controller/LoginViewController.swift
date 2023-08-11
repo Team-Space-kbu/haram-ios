@@ -43,7 +43,10 @@ final class LoginViewController: BaseViewController {
   }
   
   private lazy var emailTextField = UITextField().then {
-    $0.placeholder = "Email"
+    $0.attributedPlaceholder = NSAttributedString(
+      string: "Email",
+      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
+    )
     $0.backgroundColor = .hexF5F5F5
     $0.tintColor = .black
     $0.layer.masksToBounds = true
@@ -58,7 +61,10 @@ final class LoginViewController: BaseViewController {
   }
   
   private lazy var passwordTextField = UITextField().then {
-    $0.placeholder = "Password"
+    $0.attributedPlaceholder = NSAttributedString(
+      string: "Password",
+      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
+    )
     $0.backgroundColor = .hexF5F5F5
     $0.tintColor = .black
     $0.layer.masksToBounds = true
@@ -92,22 +98,20 @@ final class LoginViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-//    registerKeyboardNotification()
     UserManager.shared.clearUserInformations()
-//    print("어세스토큰1 \(UserManager.shared.accessToken)")
-//    print("리프레시토큰1 \(UserManager.shared.refreshToken)")
+    registerKeyboardNotification()
     guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else {
       return
     }
     
-    let vc = HaramTabbarController(userID: UserManager.shared.userID!)
+    let vc = HaramTabbarController()
     vc.modalPresentationStyle = .overFullScreen
     (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
   }
   
-  override func setupStyles() {
-    super.setupStyles()
-    registerKeyboardNotification()
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeKeyboardNotification()
   }
   
   override func bind() {
@@ -120,7 +124,7 @@ final class LoginViewController: BaseViewController {
               let userID = owner.emailTextField.text else { return }
         
         UserManager.shared.set(userID: userID)
-        let vc = HaramTabbarController(userID: UserManager.shared.userID!)
+        let vc = HaramTabbarController()
         vc.modalPresentationStyle = .overFullScreen
         owner.present(vc, animated: true) { [weak self] in
           self?.removeKeyboardNotification()
@@ -174,18 +178,15 @@ extension LoginViewController: LoginButtonDelegate {
   func didTappedLoginButton() {
     guard let userID = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
           let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+    print("사용자아이디 \(userID), 비밀번호 \(password)")
     viewModel.userID.onNext(userID)
     viewModel.password.onNext(password)
   }
   
   func didTappedFindPasswordButton() {
-//    viewModel.userID.onNext("")
     let vc = FindPasswordViewController()
-    vc.modalPresentationStyle = .overFullScreen
-    present(vc, animated: true) { [weak self] in
-      self?.removeKeyboardNotification()
-    }
-    
+    vc.modalPresentationStyle = .fullScreen
+    present(vc, animated: true)
   }
 }
 
@@ -203,10 +204,8 @@ extension LoginViewController: UITextFieldDelegate {
 extension LoginViewController: LoginAlertViewDelegate {
   func didTappedRegisterButton() {
     let vc = UINavigationController(rootViewController: TermsOfUseViewController())
-    vc.modalPresentationStyle = .overFullScreen
-    present(vc, animated: true) { [weak self] in
-      self?.removeKeyboardNotification()
-    }
+    vc.modalPresentationStyle = .fullScreen
+    present(vc, animated: true)
   }
   
   
