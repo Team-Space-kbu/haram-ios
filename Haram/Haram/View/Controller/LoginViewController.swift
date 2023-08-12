@@ -21,6 +21,7 @@ final class LoginViewController: BaseViewController {
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = .init(top: 118, left: 22, bottom: .zero, right: 22)
     $0.spacing = 15
+    $0.backgroundColor = .clear
   }
   
   private let loginImageView = UIImageView().then {
@@ -48,7 +49,8 @@ final class LoginViewController: BaseViewController {
       attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
     )
     $0.backgroundColor = .hexF5F5F5
-    $0.tintColor = .black
+//    $0.tintColor = .red
+    $0.textColor = .black
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
     $0.layer.borderWidth = 1
@@ -66,7 +68,8 @@ final class LoginViewController: BaseViewController {
       attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
     )
     $0.backgroundColor = .hexF5F5F5
-    $0.tintColor = .black
+//    $0.tintColor = .black
+    $0.textColor = .black
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
     $0.layer.borderWidth = 1
@@ -98,20 +101,24 @@ final class LoginViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    UserManager.shared.clearUserInformations()
-    registerKeyboardNotification()
+//    UserManager.shared.clearUserInformations()
+//    registerKeyboardNotification()
     guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else {
       return
     }
     
-    let vc = HaramTabbarController()
-    vc.modalPresentationStyle = .overFullScreen
-    (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
+    removeKeyboardNotification()
+    (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = HaramTabbarController()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     removeKeyboardNotification()
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    registerKeyboardNotification()
   }
   
   override func bind() {

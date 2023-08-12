@@ -47,6 +47,7 @@ final class MoreTableViewCell: UITableViewCell {
   
   private func configureUI() {
     selectionStyle = .none
+    contentView.backgroundColor = .white
     contentView.addSubview(containerView)
     [moreImageView, titleLabel, indicatorButton].forEach { containerView.addSubview($0) }
     

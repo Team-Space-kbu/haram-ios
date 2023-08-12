@@ -31,6 +31,7 @@ final class MoreViewModel: MoreViewModelType {
     currentUserInfo = currentUserInfoRelay.asDriver(onErrorJustReturn: nil)
     
     currentUserIDSubject
+      .filter { _ in UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken }
       .take(1)
       .flatMapLatest(MyPageService.shared.inquireUserInfo)
       .subscribe(onNext: { response in

@@ -29,11 +29,13 @@ final class IntranetLoginViewController: BaseViewController {
   
   private let loginLabel = UILabel().then {
     $0.text = "로그인"
+    $0.textColor = .black
     $0.font = .regular24
   }
   
   private let intranetLabel = UILabel().then {
     $0.text = "한국성서대학교인트라넷"
+    $0.textColor = .black
     $0.font = .regular14
   }
   
@@ -43,7 +45,7 @@ final class IntranetLoginViewController: BaseViewController {
       attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
     )
     $0.backgroundColor = .hexF5F5F5
-    $0.tintColor = .black
+    $0.textColor = .black
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
     $0.layer.borderWidth = 1
@@ -59,7 +61,7 @@ final class IntranetLoginViewController: BaseViewController {
       attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
     )
     $0.backgroundColor = .hexF5F5F5
-    $0.tintColor = .black
+    $0.textColor = .black
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
     $0.layer.borderWidth = 1
@@ -88,10 +90,10 @@ final class IntranetLoginViewController: BaseViewController {
   private let lastAuthButton = UIButton().then {
     let attributedString = NSAttributedString(
       string: "나중에인증하기",
-      attributes: [.font:UIFont.regular14]
+      attributes: [.font:UIFont.regular14, .foregroundColor:UIColor.black]
     )
     $0.setAttributedTitle(attributedString, for: .normal)
-    $0.setTitleColor(.label, for: .normal)
+    $0.backgroundColor = .clear
   }
   
   private let indicatorView = UIActivityIndicatorView(style: .large)

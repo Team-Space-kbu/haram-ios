@@ -42,6 +42,7 @@ final class SettingTableViewCell: UITableViewCell {
   
   private func configureUI() {
     selectionStyle = .none
+    contentView.backgroundColor = .white
     contentView.addSubview(containerView)
     [titleLabel, indicatorButton].forEach { containerView.addSubview($0) }
     

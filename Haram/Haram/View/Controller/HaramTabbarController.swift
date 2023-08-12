@@ -13,20 +13,36 @@ import Then
 final class HaramTabbarController: UITabBarController {
   
   private lazy var homeViewController = UINavigationController(rootViewController: HomeViewController().then {
-    $0.tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "home"), tag: 0)
+    $0.tabBarItem = UITabBarItem(
+      title: "Home",
+      image: UIImage(named: "home"),
+      tag: 0
+    )
   })
   
   private lazy var scheduleViewController = UINavigationController(rootViewController: ScheduleViewController().then {
-    $0.tabBarItem = UITabBarItem(title: "시간표", image: UIImage(named: "time"), tag: 1)
+    $0.tabBarItem = UITabBarItem(
+      title: "시간표",
+      image: UIImage(named: "time"),
+      tag: 1
+    )
   })
   
   private lazy var boardViewController = UINavigationController(rootViewController: BoardViewController().then {
-    $0.tabBarItem = UITabBarItem(title: "게시판", image: UIImage(named: "board"), tag: 2)
+    $0.tabBarItem = UITabBarItem(
+      title: "게시판",
+      image: UIImage(named: "board"),
+      tag: 2
+    )
   })
   
   private lazy var moreViewController = UINavigationController(rootViewController: MoreViewController().then {
-    $0.tabBarItem = UITabBarItem(title: "더보기", image: UIImage(named: "more"), tag: 3)
-  } )
+    $0.tabBarItem = UITabBarItem(
+      title: "더보기",
+      image: UIImage(named: "more"),
+      tag: 3
+    )
+  })
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -51,15 +67,15 @@ final class HaramTabbarController: UITabBarController {
   private func setupStyles() {
     tabBar.tintColor = .hex79BD9A
     tabBar.backgroundColor = .white
-        
+    
     // tab bar appearance
     tabBar.standardAppearance = UITabBarAppearance().then {
       $0.stackedLayoutAppearance = UITabBarItemAppearance().then {
         // Deselected state
-        $0.normal.titleTextAttributes = [.font: UIFont.medium10]
+        $0.normal.titleTextAttributes = [.font: UIFont.medium10, .foregroundColor: UIColor.hex95989A]
         
         // Selected State
-        $0.selected.titleTextAttributes = [.font: UIFont.regular10]
+        $0.selected.titleTextAttributes = [.font: UIFont.regular10, .foregroundColor: UIColor.hex79BD9A]
       }
     }
     delegate = self
@@ -73,6 +89,10 @@ extension HaramTabbarController: UITabBarControllerDelegate {
       let vc = IntranetLoginViewController()
       vc.modalPresentationStyle = .fullScreen
       present(vc, animated: true)
+    }
+    else if viewController == moreViewController {
+      guard let vc = moreViewController.topViewController as? MoreViewController else { return }
+      vc.bind(userID: UserManager.shared.userID!)
     }
   }
 }

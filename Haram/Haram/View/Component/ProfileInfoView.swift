@@ -24,16 +24,14 @@ final class ProfileInfoView: UIView {
   
   private let nameLabel = UILabel().then {
     $0.textColor = .hex1A1E27
-    $0.font = .systemFont(ofSize: 20, weight: .bold)
+    $0.font = .bold20
     $0.sizeToFit()
-    $0.text = "임성묵"
   }
   
   private let emailLabel = UILabel().then {
     $0.textColor = .lightGray
-    $0.font = .systemFont(ofSize: 20, weight: .regular)
+    $0.font = .regular20
     $0.sizeToFit()
-    $0.text = "Lorem ipsum@gmail.com"
   }
   
   private let lineView = UIView().then {
@@ -42,7 +40,7 @@ final class ProfileInfoView: UIView {
   
   private let moreLabel = UILabel().then {
     $0.textColor = .hex1A1E27
-    $0.font = .systemFont(ofSize: 18, weight: .bold)
+    $0.font = .bold18
     $0.text = "더보기"
     $0.sizeToFit()
   }
@@ -81,7 +79,7 @@ final class ProfileInfoView: UIView {
     
     moreLabel.snp.makeConstraints {
       $0.top.equalTo(lineView.snp.bottom).offset(13)
-      $0.leading.equalTo(emailLabel)
+      $0.leading.bottom.equalToSuperview().inset(15)
     }
     
     indicatorButton.snp.makeConstraints {

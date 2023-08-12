@@ -129,7 +129,6 @@ final class MoreViewController: BaseViewController {
   init(viewModel: MoreViewModelType = MoreViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    bind(userID: UserManager.shared.userID!)
   }
   
   required init?(coder: NSCoder) {

@@ -40,7 +40,7 @@ final class HomeNoticeView: UIView {
     [noticeImageView, noticeLabel].forEach { addSubview($0) }
     noticeImageView.snp.makeConstraints {
       $0.leading.equalToSuperview().inset(11.39)
-      $0.centerY.equalToSuperview()
+      $0.directionalVerticalEdges.equalToSuperview().inset(9)
       $0.width.equalTo(18.59)
       $0.height.equalTo(16.98)
     }

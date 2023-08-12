@@ -39,13 +39,13 @@ final class ChapelView: UIView {
   
   private let titleLabel = UILabel().then {
     $0.textColor = .hex9F9FA4
-    $0.font = .systemFont(ofSize: 16)
+    $0.font = .regular16
     $0.textAlignment = .center
   }
   
   private let dayLabel = UILabel().then {
     $0.textColor = .hex1A1E27
-    $0.font = .systemFont(ofSize: 18)
+    $0.font = .bold18
     $0.textAlignment = .center
   }
   

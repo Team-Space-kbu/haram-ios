@@ -38,11 +38,11 @@ final class LoginButton: UIView {
   }
   
   private let findPasswordButton = UIButton().then {
-    $0.setTitleColor(.label, for: .normal)
+    $0.setTitleColor(.black, for: .normal)
     $0.titleLabel?.font = .regular14
     $0.setTitle("비밀번호를 잊으셨나요?", for: .normal)
     $0.titleLabel?.numberOfLines = 1
-    $0.sizeToFit()
+    $0.backgroundColor = .clear
   }
   
   override init(frame: CGRect) {
@@ -57,6 +57,7 @@ final class LoginButton: UIView {
   
   private func bind() {
     loginButton.rx.tap
+      .throttle(.seconds(1), scheduler: MainScheduler.instance)
       .subscribe(with: self) { owner, _ in
         owner.delegate?.didTappedLoginButton()
       }

@@ -19,10 +19,10 @@ final class LoginViewModel: LoginViewModelType {
   
   private let disposeBag = DisposeBag()
   
-  var userID: AnyObserver<String>
-  var password: AnyObserver<String>
+  let userID: AnyObserver<String>
+  let password: AnyObserver<String>
   
-  var loginToken: Driver<(String?, String?)>
+  let loginToken: Driver<(String?, String?)>
   
   init() {
     let userIDForLogin = PublishSubject<String>()
@@ -33,12 +33,11 @@ final class LoginViewModel: LoginViewModelType {
     userID = userIDForLogin.asObserver()
     password = passwordForLogin.asObserver()
     
-    Observable.zip(
-      userIDForLogin.do(onNext: { print("아디디 \($0)") }),
-      passwordForLogin.do(onNext: { print("비디디 \($0)") })
+    Observable.combineLatest(
+      userIDForLogin,
+      passwordForLogin
     )
     .filter { !$0.isEmpty && !$1.isEmpty }
-    .do(onNext: { print("아이디 \($0)\n비밀번호 \($1)") })
     .flatMapLatest {
       AuthService.shared.loginMember(
         request: .init(
@@ -48,7 +47,10 @@ final class LoginViewModel: LoginViewModelType {
       )
     }
     .subscribe(onNext: { response in
-      UserManager.shared.updatePLUBToken(accessToken: response.accessToken, refreshToken: response.refreshToken)
+      UserManager.shared.updatePLUBToken(
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken
+      )
       tokenForLogin.onNext(UserManager.shared.accessToken)
       refreshTokenForLogin.onNext(UserManager.shared.refreshToken)
     }, onError: { error in

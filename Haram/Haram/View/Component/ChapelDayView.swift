@@ -14,7 +14,7 @@ final class ChapelDayView: UIView {
   
   private let titleLabel = UILabel().then {
     $0.textColor = .black
-    $0.font = .systemFont(ofSize: 16)
+    $0.font = .regular16
     $0.text = "확정일수"
     $0.sizeToFit()
   }

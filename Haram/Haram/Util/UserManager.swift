@@ -89,13 +89,9 @@ extension UserManager {
     self.laravelSession = laravelSession
   }
   
-//  /// 최초 실행 여부를 세팅합니다.
-//  func set(isLaunchedBefore: Bool) {
-//    self.isLaunchedBefore = isLaunchedBefore
-//  }
-  
   /// 유저의 정보를 전부 초기화합니다.
-  func clearUserInformations() {
+  func clearAllInformations() {
+    self.userID = nil
     self.accessToken = nil
     self.refreshToken = nil
     
@@ -104,6 +100,7 @@ extension UserManager {
     self.laravelSession = nil
   }
   
+  /// 인트라넷관련 정보를 초기화합니다.
   func clearIntranetInformation() {
     self.intranetToken = nil
     self.xsrfToken = nil
