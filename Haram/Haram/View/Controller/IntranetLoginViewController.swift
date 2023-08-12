@@ -176,6 +176,7 @@ final class IntranetLoginViewController: BaseViewController {
       .asDriver()
       .drive(with: self) { owner, _ in
         UserManager.shared.clearIntranetInformation()
+        owner.removeKeyboardNotification()
         (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = HaramTabbarController()
       }
       .disposed(by: disposeBag)

@@ -62,18 +62,17 @@ final class HaramTabbarController: UITabBarController {
         $0.selected.titleTextAttributes = [.font: UIFont.regular10]
       }
     }
-//    delegate = self
+    delegate = self
   }
 }
 
-//extension HaramTabbarController: UITabBarControllerDelegate {
-//  func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-//    if viewController == scheduleViewController {
-//      guard !UserManager.shared.hasIntranetToken else { return }
-//      let vc = IntranetLoginViewController()
-//      vc.navigationItem.largeTitleDisplayMode = .never
-//      print("시발 \(scheduleViewController.navigationController)")
-//      self.navigationController?.pushViewController(vc, animated: true)
-//    }
-//  }
-//}
+extension HaramTabbarController: UITabBarControllerDelegate {
+  func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+    if viewController == scheduleViewController {
+      guard !UserManager.shared.hasIntranetToken else { return }
+      let vc = IntranetLoginViewController()
+      vc.modalPresentationStyle = .fullScreen
+      present(vc, animated: true)
+    }
+  }
+}

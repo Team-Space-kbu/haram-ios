@@ -151,7 +151,6 @@ final class LibraryViewController: BaseViewController {
     )
     title = "도서"
     view.addGestureRecognizer(tapGesture)
-    indicatorView.startAnimating()
   }
   
   override func setupLayouts() {
