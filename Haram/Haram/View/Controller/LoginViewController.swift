@@ -14,33 +14,35 @@ import Then
 
 final class LoginViewController: BaseViewController {
   
+  // MARK: - Propoerty
+  
   private let viewModel: LoginViewModelType
+  
+  // MARK: - UI Components
   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: 118, left: 22, bottom: .zero, right: 22)
+    $0.layoutMargins = .init(top: .zero, left: 22, bottom: .zero, right: 22)
     $0.spacing = 15
     $0.backgroundColor = .clear
   }
   
   private let loginImageView = UIImageView().then {
     $0.image = UIImage(named: "login")
-    $0.contentMode = .scaleAspectFit
+    $0.contentMode = .scaleAspectFill
   }
   
   private let loginLabel = UILabel().then {
     $0.font = .regular24
     $0.textColor = .black
     $0.text = "로그인"
-    $0.sizeToFit()
   }
   
   private let schoolLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .regular14
     $0.text = "한국성서대학교인트라넷"
-    $0.sizeToFit()
   }
   
   private lazy var emailTextField = UITextField().then {
@@ -49,7 +51,6 @@ final class LoginViewController: BaseViewController {
       attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
     )
     $0.backgroundColor = .hexF5F5F5
-//    $0.tintColor = .red
     $0.textColor = .black
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
@@ -68,7 +69,6 @@ final class LoginViewController: BaseViewController {
       attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
     )
     $0.backgroundColor = .hexF5F5F5
-//    $0.tintColor = .black
     $0.textColor = .black
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
@@ -90,6 +90,8 @@ final class LoginViewController: BaseViewController {
     $0.delegate = self
   }
   
+  // MARK: - Initializations
+  
   init(viewModel: LoginViewModelType = LoginViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -99,10 +101,12 @@ final class LoginViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  // MARK: - Life Cycle
+  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-//    UserManager.shared.clearUserInformations()
-//    registerKeyboardNotification()
+    UserManager.shared.clearAllInformations()
+
     guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else {
       return
     }
@@ -115,6 +119,8 @@ final class LoginViewController: BaseViewController {
     super.viewWillDisappear(animated)
     removeKeyboardNotification()
   }
+  
+  // MARK: - Configure UI
   
   override func setupStyles() {
     super.setupStyles()
@@ -142,14 +148,23 @@ final class LoginViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
+    view.addSubview(loginImageView)
     view.addSubview(containerView)
-    [loginImageView, loginLabel, schoolLabel, emailTextField, passwordTextField, loginButton, loginAlertView].forEach { containerView.addArrangedSubview($0) }
+    [loginLabel, schoolLabel, emailTextField, passwordTextField, loginButton, loginAlertView].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
+    
+    loginImageView.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(118)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(77.4)
+      $0.height.equalTo(248.669)
+    }
+    
     containerView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.top.equalTo(loginImageView.snp.bottom).offset(37.33)
+      $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
@@ -175,19 +190,21 @@ final class LoginViewController: BaseViewController {
       $0.width.equalTo(216)
       $0.height.equalTo(16)
     }
-    containerView.setCustomSpacing(37, after: loginImageView)
+    
+    containerView.setCustomSpacing(12, after: loginLabel)
     containerView.setCustomSpacing(30, after: schoolLabel)
     containerView.setCustomSpacing(83, after: loginButton)
   }
 }
 
+// MARK: - LoginButtonDelegate
+
 extension LoginViewController: LoginButtonDelegate {
   func didTappedLoginButton() {
     guard let userID = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
           let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
-    print("사용자아이디 \(userID), 비밀번호 \(password)")
-    viewModel.userID.onNext(userID)
-    viewModel.password.onNext(password)
+    
+    viewModel.tryLoginRequest.onNext((userID, password))
   }
   
   func didTappedFindPasswordButton() {
@@ -197,16 +214,24 @@ extension LoginViewController: LoginButtonDelegate {
   }
 }
 
+// MARK: - UITextFieldDelegate
+
 extension LoginViewController: UITextFieldDelegate {
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     if textField == emailTextField {
       passwordTextField.becomeFirstResponder()
-    } else {
+    } else if textField == passwordTextField {
       passwordTextField.resignFirstResponder()
+      guard let userID = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+            let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return true }
+      
+      viewModel.tryLoginRequest.onNext((userID, password))
     }
     return true
   }
 }
+
+// MARK: - LoginAlertViewDelegate
 
 extension LoginViewController: LoginAlertViewDelegate {
   func didTappedRegisterButton() {
@@ -217,6 +242,8 @@ extension LoginViewController: LoginAlertViewDelegate {
   
   
 }
+
+// MARK: - Keyboard Notification
 
 extension LoginViewController {
   func registerKeyboardNotification() {

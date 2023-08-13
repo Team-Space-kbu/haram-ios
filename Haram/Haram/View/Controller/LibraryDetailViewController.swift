@@ -59,6 +59,7 @@ final class LibraryDetailViewController: BaseViewController {
     $0.axis = .vertical
     $0.alignment = .center
     $0.distribution = .fill
+    
     $0.spacing = 18
   }
   
@@ -80,6 +81,7 @@ final class LibraryDetailViewController: BaseViewController {
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
       $0.scrollDirection = .horizontal
+      $0.minimumInteritemSpacing = 20
     }
   ).then {
     $0.backgroundColor = .white
@@ -135,12 +137,23 @@ final class LibraryDetailViewController: BaseViewController {
     
     containerView.snp.makeConstraints {
       $0.top.width.equalToSuperview()
-      $0.bottom.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
+    }
+    
+    libraryDetailMainView.snp.makeConstraints {
+      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
+    }
+    
+    libraryDetailSubView.snp.makeConstraints {
+      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
     }
     
     libraryDetailInfoView.snp.makeConstraints {
-      $0.width.equalToSuperview().inset(30)
-      $0.height.equalTo(47.5 + 20)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
+    }
+    
+    libraryRentalListView.snp.makeConstraints {
+      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
     }
     
     relatedBookLabel.snp.makeConstraints {
@@ -150,10 +163,10 @@ final class LibraryDetailViewController: BaseViewController {
     
     collectionView.snp.makeConstraints {
       $0.height.equalTo(165)
-      $0.directionalHorizontalEdges.width.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview()
     }
     
-    containerView.setCustomSpacing(0, after: libraryDetailInfoView)
+    containerView.setCustomSpacing(20, after: libraryDetailInfoView)
     containerView.setCustomSpacing(15, after: relatedBookLabel)
   }
   

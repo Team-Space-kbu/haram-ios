@@ -29,7 +29,7 @@ final class ProfileInfoView: UIView {
   }
   
   private let emailLabel = UILabel().then {
-    $0.textColor = .lightGray
+    $0.textColor = .hex8B8B8E
     $0.font = .regular20
     $0.sizeToFit()
   }

@@ -136,11 +136,9 @@
 		708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
-		70C9CC9B2A03954700BEB5F2 /* MoreListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
 		70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */; };
 		70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */; };
-		70C9CCAC2A05539C00BEB5F2 /* MileageHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCAB2A05539C00BEB5F2 /* MileageHeaderView.swift */; };
 		70C9CCAE2A066B8F00BEB5F2 /* ChapelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCAD2A066B8F00BEB5F2 /* ChapelInfoView.swift */; };
 		70C9CCB02A06700400BEB5F2 /* ChapelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */; };
 		70C9CCB22A067D8000BEB5F2 /* ChapelDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */; };
@@ -295,11 +293,9 @@
 		708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
-		70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
 		70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageViewController.swift; sourceTree = "<group>"; };
 		70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageTableViewCell.swift; sourceTree = "<group>"; };
-		70C9CCAB2A05539C00BEB5F2 /* MileageHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageHeaderView.swift; sourceTree = "<group>"; };
 		70C9CCAD2A066B8F00BEB5F2 /* ChapelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelInfoView.swift; sourceTree = "<group>"; };
 		70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelViewController.swift; sourceTree = "<group>"; };
 		70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelDayView.swift; sourceTree = "<group>"; };
@@ -377,8 +373,6 @@
 				705E70B529E1C7A100156B1F /* HaramSectionView.swift */,
 				705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */,
 				70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */,
-				70C9CC9A2A03954700BEB5F2 /* MoreListView.swift */,
-				70C9CCAB2A05539C00BEB5F2 /* MileageHeaderView.swift */,
 				70C9CCAD2A066B8F00BEB5F2 /* ChapelInfoView.swift */,
 				70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */,
 				705FD29E2A15F21F00F353FE /* LoginButton.swift */,
@@ -992,7 +986,6 @@
 				7083126A2A39DEF300F7E283 /* LibraryRelatedBookCollectionViewCell.swift in Sources */,
 				705FD2AB2A160C1800F353FE /* HaramTabbarController.swift in Sources */,
 				705FD2A92A16031900F353FE /* LoginViewModel.swift in Sources */,
-				70C9CCAC2A05539C00BEB5F2 /* MileageHeaderView.swift in Sources */,
 				70C9CCAE2A066B8F00BEB5F2 /* ChapelInfoView.swift in Sources */,
 				708312C02A7A448300F7E283 /* TermsOfUseCheckView.swift in Sources */,
 				705FD2CC2A23BA6A00F353FE /* InquireLibraryResponse.swift in Sources */,
@@ -1081,7 +1074,6 @@
 				70727A9D29D88A7F003DE956 /* UpdatePasswordViewController.swift in Sources */,
 				70727A9F29D88AAA003DE956 /* BoardViewController.swift in Sources */,
 				705E70B829E1C8ED00156B1F /* HomeNoticeView.swift in Sources */,
-				70C9CC9B2A03954700BEB5F2 /* MoreListView.swift in Sources */,
 				705FD2B92A1A3CFB00F353FE /* LibraryResultsCollectionViewCell.swift in Sources */,
 				708312AA2A723B4D00F7E283 /* NoticeCollectionHeaderView.swift in Sources */,
 				708312AC2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,

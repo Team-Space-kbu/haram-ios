@@ -41,7 +41,6 @@ final class LibraryInfoView: UIView {
     $0.textColor = .hex9F9FA4
     $0.font = .regular14
     $0.textAlignment = .center
-//    $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }
   
   private let contentLabel = UILabel().then {
@@ -49,9 +48,7 @@ final class LibraryInfoView: UIView {
     $0.font = .bold18
     $0.numberOfLines = 0
     $0.textAlignment = .center
-    $0.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
     $0.lineBreakMode = .byWordWrapping
-    
   }
   
   override init(frame: CGRect) {
@@ -67,13 +64,13 @@ final class LibraryInfoView: UIView {
     [titleLabel, contentLabel].forEach { addSubview($0) }
     titleLabel.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(18)
     }
     
     contentLabel.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(8)
       $0.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo(18)
-//      $0.bottom.lessThanOrEqualToSuperview()
+      $0.bottom.equalToSuperview()
     }
   }
   
@@ -88,6 +85,7 @@ final class LibraryDetailInfoView: UIView {
   private let containerView = UIStackView().then {
     $0.axis = .horizontal
     $0.distribution = .equalSpacing
+    $0.alignment = .top
   }
   
   private let authorInfoView = LibraryInfoView()
@@ -125,20 +123,21 @@ final class LibraryDetailInfoView: UIView {
   }
   
   private func configureUI() {
-    [containerView].forEach { addSubview($0) }
-    [authorInfoView, lineView, publisherInfoView, lineView1, pubDateInfoView, lineView2, discountInfoView].forEach { containerView.addArrangedSubview($0) }
+    addSubview(containerView)
+    [authorInfoView, lineView, publisherInfoView, lineView1, pubDateInfoView, lineView2, discountInfoView].forEach { containerView.addArrangedSubview($0)
+    }
     
     containerView.snp.makeConstraints {
-      $0.top.equalToSuperview()
-      $0.height.equalTo(47.5)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
     [lineView, lineView1, lineView2].forEach {
       $0.snp.makeConstraints {
         $0.width.equalTo(1)
-        $0.height.equalTo(47.5)
+//        $0.height.equalTo(47.5)
+        $0.centerY.height.equalToSuperview()
+//        $0.directionalVerticalEdges.equalToSuperview()
       }
     }
   }
@@ -147,7 +146,11 @@ final class LibraryDetailInfoView: UIView {
     guard LibraryDetailInfoViewType.allCases.count == model.count else { return }
     
     [authorInfoView, publisherInfoView, pubDateInfoView, discountInfoView].enumerated().forEach { index, vw in
-      vw.configureUI(with: .init(title: LibraryDetailInfoViewType.allCases[index].title, content: model[index].content))
+      
+      vw.configureUI(with: .init(
+        title: LibraryDetailInfoViewType.allCases[index].title,
+        content: model[index].content
+      ))
     }
   }
 }

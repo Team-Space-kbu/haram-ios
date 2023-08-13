@@ -50,10 +50,14 @@ final class ApiService: BaseService {
               if decodedData.data != nil {
                 return observer(.success(decodedData.data!))
               } else {
-                if decodedData.code == HaramError.loginFailed.code {
-                  return observer(.failure(HaramError.loginFailed))
+                let code = decodedData.code
+                if code == HaramError.notFindUserError.code {
+                  return observer(.failure(HaramError.notFindUserError))
+                } else if code == HaramError.wrongPasswordError.code {
+                  return observer(.failure(HaramError.wrongPasswordError))
+                } else if code == HaramError.loanInfoEmptyError.code {
+                  return observer(.failure(HaramError.loanInfoEmptyError))
                 }
-                return observer(.failure(HaramError.naverError))
               }
             case 400..<500:
               return observer(.failure(HaramError.requestError))

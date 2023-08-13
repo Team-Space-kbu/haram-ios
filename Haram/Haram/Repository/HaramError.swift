@@ -12,10 +12,15 @@ enum HaramError: Error {
   case unknownedError
   case requestError
   case serverError
-  case loginFailed // 로그인에 실패할 경우 처리하는 상태
-  
-  case naverError // 네이버로 부터 요청 값을 처리할 수 없는 상태입니다
-  
+  case notFindUserError // 사용자를 찾을 수 없는 상태입니다.
+  case wrongPasswordError // 패스워드가 틀렸을 때 발생하는 에러입니다.
+  case loanInfoEmptyError // 대여정보가 비어있어 처리할 수 없는 상태입니다
+
+}
+
+// MARK: - 하람에러에 대한 코드 및 상태메세지
+
+extension HaramError {
   var code: String? { // 하람 서버에서 제공하는 code, Notion 참고
     switch self {
     case .decodedError:
@@ -26,27 +31,31 @@ enum HaramError: Error {
       return nil
     case .serverError:
       return nil
-    case .loginFailed:
+    case .notFindUserError:
       return "USER01"
-    case .naverError:
-      return nil
+    case .loanInfoEmptyError:
+      return "LIB07"
+    case .wrongPasswordError:
+      return "USER02"
     }
   }
   
   var description: String? {
     switch self {
     case .decodedError:
-      return nil
+      return "해당 엔티티로 디코딩할 수 없습니다."
     case .unknownedError:
-      return nil
+      return "에러의 원인을 알 수 없습니다."
     case .requestError:
-      return nil
+      return "하람 요청에러가 발생하였습니다."
     case .serverError:
-      return nil
-    case .loginFailed:
+      return "하람 서버에러가 발생하였습니다"
+    case .notFindUserError:
       return "유저를 찾을 수 없습니다."
-    case .naverError:
-      return "네이버로부터 올바른 형식을 받아올 수 없습니다."
+    case .wrongPasswordError:
+      return "패스워드가 틀렸습니다."
+    case .loanInfoEmptyError:
+      return "대여 정보가 비어 있습니다."
     }
   }
 }

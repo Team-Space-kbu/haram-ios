@@ -77,14 +77,5 @@ final class LoginButton: UIView {
     containerView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
-    
-//    loginButton.snp.makeConstraints {
-//      $0.width.equalTo(148)
-//    }
-//    
-//    findPasswordButton.snp.makeConstraints {
-//      $0.trailing.equalToSuperview().inset(41)
-//    }
-  
   }
 }
