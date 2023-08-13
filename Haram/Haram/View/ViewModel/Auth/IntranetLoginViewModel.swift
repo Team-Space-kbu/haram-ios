@@ -36,7 +36,8 @@ final class IntranetLoginViewModel {
         self.isLoadingSubject.onNext(true)
       })
       .flatMap(AuthService.shared.requestIntranetToken)
-      .do(onNext: { response in
+      .do(onNext: { result in
+        guard case let .success(response) = result else { return }
         UserManager.shared.set(
           intranetToken: response.intranetToken,
           xsrfToken: response.xsrfToken,

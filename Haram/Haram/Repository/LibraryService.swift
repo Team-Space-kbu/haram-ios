@@ -18,19 +18,19 @@ final class LibraryService {
 }
 
 extension LibraryService {
-  func inquireLibrary() -> Observable<InquireLibraryResponse> {
+  func inquireLibrary() -> Observable<Result<InquireLibraryResponse, HaramError>> {
     service.request(router: LibraryRouter.inquireLibrary, type: InquireLibraryResponse.self)
   }
   
-  func searchBook(text: String) -> Observable<[SearchBookResponse]> {
+  func searchBook(text: String) -> Observable<Result<[SearchBookResponse], HaramError>> {
     service.request(router: LibraryRouter.searchBook(text), type: [SearchBookResponse].self)
   }
   
-  func requestBookInfo(text: Int) -> Observable<RequestBookInfoResponse> {
+  func requestBookInfo(text: Int) -> Observable<Result<RequestBookInfoResponse, HaramError>> {
     service.request(router: LibraryRouter.requestBookInfo(text), type: RequestBookInfoResponse.self)
   }
   
-  func requestBookLoanStatus(path: Int) -> Observable<[RequestBookLoanStatusResponse]> {
+  func requestBookLoanStatus(path: Int) -> Observable<Result<[RequestBookLoanStatusResponse], HaramError>> {
     service.request(router: LibraryRouter.requestBookLoanStatus(path), type: [RequestBookLoanStatusResponse].self)
   }
 }

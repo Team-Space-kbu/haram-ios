@@ -50,7 +50,8 @@ final class ScheduleViewModel: ScheduleViewModelType {
         )
         )
       }
-      .subscribe(onNext: { response in
+      .subscribe(onNext: { result in
+        guard case let .success(response) = result else { return }
         let scheduleModel = response.compactMap { model -> ElliottEvent? in
           guard let courseDay = ScheduleDay.allCases.filter({ $0.text == model.lectureDay }).first?.elliotDay else { return nil }
           return ElliottEvent(

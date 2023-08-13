@@ -34,7 +34,8 @@ final class MoreViewModel: MoreViewModelType {
       .filter { _ in UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken }
       .take(1)
       .flatMapLatest(MyPageService.shared.inquireUserInfo)
-      .subscribe(onNext: { response in
+      .subscribe(onNext: { result in
+        guard case let .success(response) = result else { return }
         let profileInfoViewModel = ProfileInfoViewModel(response: response)
         currentUserInfoRelay.accept(profileInfoViewModel)
       })

@@ -41,7 +41,8 @@ final class ChapelViewModel: ChapelViewModelType {
       .do(onNext: { _ in isLoadingSubject.onNext(true) })
         
         inquireChapelList
-        .subscribe(onNext: { response in
+        .subscribe(onNext: { result in
+          guard case let .success(response) = result else { return }
           let chapelListModel = response.map { ChapelCollectionViewCellModel(response: $0) }
           chapelListModelRelay.accept(chapelListModel)
           isLoadingSubject.onNext(false)
@@ -58,7 +59,8 @@ final class ChapelViewModel: ChapelViewModelType {
         .do(onNext: { _ in isLoadingSubject.onNext(true) })
           
           inquireChapelInfo
-          .subscribe(onNext: { response in
+          .subscribe(onNext: { result in
+            guard case let .success(response) = result else { return }
             guard let entireDays = Int(response.entireDays),
                   let confirmationDays = Int(response.confirmationDays) else { return }
             chapelHeaderModelRelay.accept(

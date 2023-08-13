@@ -18,15 +18,15 @@ final class AuthService {
 }
 
 extension AuthService {
-  func registerMember(request: RegisterMemberRequest) -> Observable<RegisterMemberResponse> {
+  func registerMember(request: RegisterMemberRequest) -> Observable<Result<RegisterMemberResponse, HaramError>> {
     service.request(router: AuthRouter.registerMember(request), type: RegisterMemberResponse.self)
   }
   
-  func loginMember(request: LoginRequest) -> Observable<LoginResponse> {
+  func loginMember(request: LoginRequest) -> Observable<Result<LoginResponse, HaramError>> {
     service.request(router: AuthRouter.loginMember(request), type: LoginResponse.self)
   }
   
-  func reissuanceAccessToken() -> Observable<LoginResponse> {
+  func reissuanceAccessToken() -> Observable<Result<LoginResponse, HaramError>> {
     service.request(router: AuthRouter.reissuanceAccessToken, type: LoginResponse.self)
   }
   
@@ -34,11 +34,11 @@ extension AuthService {
     service.intranetRequest(router: AuthRouter.loginIntranet(request))
   }
   
-  func requestIntranetToken() -> Observable<RequestIntranetTokenResponse> {
+  func requestIntranetToken() -> Observable<Result<RequestIntranetTokenResponse, HaramError>> {
     service.request(router: AuthRouter.requestIntranetToken, type: RequestIntranetTokenResponse.self)
   }
   
-  func signupMember(request: SignupMemberRequest) -> Observable<SearchBookResponse> {
+  func signupMember(request: SignupMemberRequest) -> Observable<Result<SearchBookResponse, HaramError>> {
     service.request(router: AuthRouter.signupMember(request), type: SearchBookResponse.self)
   }
 }

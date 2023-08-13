@@ -58,22 +58,26 @@ extension LoginViewModel {
             )
           )
         }
-        .subscribe(with: self, onNext: { owner, response in
-          guard let (userID, _) = try? owner.tryLoginRequestSubject.value() else { return }
-          UserManager.shared.updatePLUBToken(
-            accessToken: response.accessToken,
-            refreshToken: response.refreshToken
-          )
-          UserManager.shared.set(userID: userID)
-          
-          owner.tokenForLogin.onNext(UserManager.shared.accessToken)
-          owner.refreshTokenForLogin.onNext(UserManager.shared.refreshToken)
-        }, onError: { owner, error in
-          guard let error = error as? HaramError,
-                let description = error.description else { return }
-          /// TODO: -로그인 실패 시 처리해야함
-          print("로그인 시도에러: \(description)")
-          owner.errorMessageRelay.accept(description)
+        .subscribe(with: self, onNext: { owner, result in
+          switch result {
+            case .success(let response):
+              guard let (userID, _) = try? owner.tryLoginRequestSubject.value() else { return }
+              
+              UserManager.shared.updatePLUBToken(
+                accessToken: response.accessToken,
+                refreshToken: response.refreshToken
+              )
+              
+              UserManager.shared.set(userID: userID)
+              
+              owner.tokenForLogin.onNext(UserManager.shared.accessToken)
+              owner.refreshTokenForLogin.onNext(UserManager.shared.refreshToken)
+            case .failure(let error):
+              guard let description = error.description else { return }
+              /// TODO: -로그인 실패 시 처리해야함
+              print("로그인 시도에러: \(description)")
+              owner.errorMessageRelay.accept(description)
+          }
         })
         .disposed(by: disposeBag)
   }
@@ -93,6 +97,7 @@ extension LoginViewModel: LoginViewModelType {
   
   var errorMessage: Signal<String> {
     errorMessageRelay
+      .distinctUntilChanged()
       .asSignal(onErrorJustReturn: "")
   }
   

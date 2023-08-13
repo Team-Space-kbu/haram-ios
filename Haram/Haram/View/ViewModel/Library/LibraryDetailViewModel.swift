@@ -58,8 +58,8 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     shareRequestingBookText
       .do(onNext: { _ in isLoadingSubject.onNext(true) })
       .flatMapLatest(LibraryService.shared.requestBookInfo(text: ))
-      .subscribe(onNext: { response in
-        
+      .subscribe(onNext: { result in
+        guard case let .success(response) = result else { return }
         currentDetailMainModel.accept(LibraryDetailMainViewModel(
           bookImage: response.thumbnailImage,
           title: response.bookTitle,
@@ -99,8 +99,9 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
         shareRequestingBookText
         .do(onNext: { _ in isLoadingSubject.onNext(true) })
         .flatMapLatest(LibraryService.shared.requestBookLoanStatus(path: ))
-        .subscribe(onNext: { response in
+        .subscribe(onNext: { result in
           // TODO: - 책에 대한 대여정보가 없을 경우에 대한 처리 해야함
+          guard case let .success(response) = result else { return }
           currentDetailRentalModel.accept(response.map { .init(response: $0) })
           isLoadingSubject.onNext(false)
         }, onError: { error in

@@ -11,7 +11,7 @@ import Alamofire
 import RxSwift
 
 protocol BaseService {
-  func request<T: Codable>(router: URLRequestConvertible, type: T.Type) -> Observable<T>
+  func request<T: Codable>(router: URLRequestConvertible, type: T.Type) -> Observable<Result<T, HaramError>>
   func intranetRequest(router: Alamofire.URLRequestConvertible) -> Observable<String>
 }
 
@@ -22,7 +22,7 @@ final class ApiService: BaseService {
 //  configuration.waitsForConnectivity = true
   private lazy var session = Session(configuration: configuration, interceptor: Interceptor(), eventMonitors: [monitor])
   
-  func request<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Observable<T> where T : Codable {
+  func request<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Observable<Result<T, HaramError>> where T : Codable {
     Single.create { observer in
       self.session.request(router)
         .validate({ request, response, data in
@@ -48,15 +48,15 @@ final class ApiService: BaseService {
             switch statusCode {
             case 200..<300:
               if decodedData.data != nil {
-                return observer(.success(decodedData.data!))
+                return observer(.success(.success(decodedData.data!)))
               } else {
                 let code = decodedData.code
                 if code == HaramError.notFindUserError.code {
-                  return observer(.failure(HaramError.notFindUserError))
+                  return observer(.success(.failure(HaramError.notFindUserError)))
                 } else if code == HaramError.wrongPasswordError.code {
-                  return observer(.failure(HaramError.wrongPasswordError))
+                  return observer(.success(.failure(HaramError.wrongPasswordError)))
                 } else if code == HaramError.loanInfoEmptyError.code {
-                  return observer(.failure(HaramError.loanInfoEmptyError))
+                  return observer(.success(.failure(HaramError.loanInfoEmptyError)))
                 }
               }
             case 400..<500:

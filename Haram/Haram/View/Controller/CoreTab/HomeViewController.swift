@@ -122,7 +122,8 @@ final class HomeViewController: BaseViewController {
   override func bind() {
     super.bind()
     HomeService.shared.inquireHomeInfo()
-      .subscribe(with: self) { owner, response in
+      .subscribe(with: self) { owner, result in
+        guard case let .success(response) = result else { return }
         owner.newsModel = response.kokkoks.kbuNews.map { HomeNewsCollectionViewCellModel(kbuNews: $0) }
         
         owner.bannerModel = response.banner.banners.map { HomebannerCollectionViewCellModel(subBanner: $0) }

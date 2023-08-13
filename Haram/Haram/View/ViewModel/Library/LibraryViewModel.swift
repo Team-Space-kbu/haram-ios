@@ -45,7 +45,8 @@ final class LibraryViewModel: LibraryViewModelType {
     
     let inquireLibrary = LibraryService.shared.inquireLibrary()
     
-    inquireLibrary.subscribe(onNext: { response in
+    inquireLibrary.subscribe(onNext: { result in
+      guard case let .success(response) = result else { return }
       currentNewBookModel.accept(response.newBook.map { LibraryCollectionViewCellModel(newBook: $0) })
       currentBestBookModel.accept(response.bestBook.map { LibraryCollectionViewCellModel(bestBook: $0) })
     })
@@ -55,7 +56,8 @@ final class LibraryViewModel: LibraryViewModelType {
       .do(onNext: { _ in isLoadingSubject.onNext(true) })
       .flatMapLatest(LibraryService.shared.searchBook)
     
-    requestSearchBook.subscribe(onNext: { response in
+    requestSearchBook.subscribe(onNext: { result in
+      guard case let .success(response) = result else { return }
       let model = response.map { LibraryResultsCollectionViewCellModel(response: $0) }
       searchBookResults.accept(model)
       isLoadingSubject.onNext(false)
