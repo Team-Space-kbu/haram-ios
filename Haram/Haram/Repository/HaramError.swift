@@ -51,9 +51,9 @@ extension HaramError {
     case .serverError:
       return "하람 서버에러가 발생하였습니다"
     case .notFindUserError:
-      return "유저를 찾을 수 없습니다."
+      return "아이디 또는 비밀번호가 유효하지 않습니다."
     case .wrongPasswordError:
-      return "패스워드가 틀렸습니다."
+      return "아이디 또는 비밀번호가 유효하지 않습니다."
     case .loanInfoEmptyError:
       return "대여 정보가 비어 있습니다."
     }

@@ -82,6 +82,11 @@ final class LoginViewController: BaseViewController {
     $0.delegate = self
   }
   
+  private lazy var errorMessageLabel = UILabel().then {
+    $0.textColor = .red
+    $0.font = .regular14
+  }
+  
   private lazy var loginButton = LoginButton().then {
     $0.delegate = self
   }
@@ -133,10 +138,8 @@ final class LoginViewController: BaseViewController {
     viewModel.loginToken
       .skip(1)
       .drive(with: self) { owner, result in
-        guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken,
-              let userID = owner.emailTextField.text else { return }
+        guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else { return }
         
-        UserManager.shared.set(userID: userID)
         let vc = HaramTabbarController()
         vc.modalPresentationStyle = .overFullScreen
         owner.present(vc, animated: true) { [weak self] in
@@ -144,13 +147,16 @@ final class LoginViewController: BaseViewController {
         }
       }
       .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(to: errorMessageLabel.rx.text)
+      .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(loginImageView)
-    view.addSubview(containerView)
-    [loginLabel, schoolLabel, emailTextField, passwordTextField, loginButton, loginAlertView].forEach { containerView.addArrangedSubview($0) }
+    [loginImageView, containerView].forEach { view.addSubview($0) }
+    [loginLabel, schoolLabel, emailTextField, passwordTextField, errorMessageLabel, loginButton, loginAlertView].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -203,7 +209,7 @@ extension LoginViewController: LoginButtonDelegate {
   func didTappedLoginButton() {
     guard let userID = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
           let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
-    
+    view.endEditing(true)
     viewModel.tryLoginRequest.onNext((userID, password))
   }
   
@@ -224,7 +230,7 @@ extension LoginViewController: UITextFieldDelegate {
       passwordTextField.resignFirstResponder()
       guard let userID = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return true }
-      
+      view.endEditing(true)
       viewModel.tryLoginRequest.onNext((userID, password))
     }
     return true
