@@ -42,8 +42,10 @@ extension LoginViewModel {
           message = Constants.idEmptyMessage
         } else if password.isEmpty && !id.isEmpty {
           message = Constants.passwordEmptyMessage
-        } else {
+        } else if id.isEmpty && password.isEmpty {
           message = Constants.allEmptyMessage
+        } else {
+          message = ""
         }
         self.errorMessageRelay.accept(message)
       })
@@ -90,7 +92,8 @@ extension LoginViewModel {
 extension LoginViewModel: LoginViewModelType {
   
   var errorMessage: Signal<String> {
-    errorMessageRelay.asSignal()
+    errorMessageRelay
+      .asSignal(onErrorJustReturn: "")
   }
   
   var tryLoginRequest: AnyObserver<(String, String)?> {
