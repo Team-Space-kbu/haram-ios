@@ -152,8 +152,9 @@ final class MoreViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.successMessage
-      .emit(with: self) { message in
-        print("로그아웃 메세지: \(message)")
+      .emit(with: self) { owner, message in
+        let vc = LoginViewController()
+        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
       }
       .disposed(by: disposeBag)
   }

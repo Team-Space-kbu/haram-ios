@@ -52,7 +52,7 @@ final class ApiService: BaseService {
               if decodedData.data != nil {
                 return observer(.success(.success(decodedData.data!)))
               }
-//              return observer(.success(.success(decodedData.data as! EmptyModel)))
+              return observer(.success(.success(EmptyModel() as! T)))
             case 400..<500:
               if code == HaramError.notFindUserError.code {
                 return observer(.success(.failure(HaramError.notFindUserError)))
