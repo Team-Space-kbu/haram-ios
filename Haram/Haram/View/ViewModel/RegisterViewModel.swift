@@ -75,7 +75,7 @@ final class RegisterViewModel {
         .filter { $0.2 == $0.3 }
       .flatMapLatest { result in
         let (id, email, password, _, nickname, authcode) = result
-        return AuthService.shared.registerMember(
+        return AuthService.shared.signupUser(
           request: .init(
             userID: id,
             email: email,

@@ -15,8 +15,8 @@ struct ProfileInfoViewModel {
   let email: String
   
   init(response: InquireUserInfoResponse) {
-    name = response.nickname
-    email = response.email
+    name = response.userNickname
+    email = response.userEmail
   }
 }
 

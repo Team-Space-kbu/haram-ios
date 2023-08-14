@@ -150,6 +150,12 @@ final class MoreViewController: BaseViewController {
         owner.profileInfoView.configureUI(with: profileInfoViewModel!)
       }
       .disposed(by: disposeBag)
+    
+    viewModel.successMessage
+      .emit(with: self) { message in
+        print("로그아웃 메세지: \(message)")
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {
@@ -234,5 +240,12 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
       return 23 + 24
     }
     return 23 + 13
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    if tableView == settingTableView && SettingType.allCases[indexPath.row] == .logout {
+      viewModel.requestLogoutUser.onNext(())
+    }
+    
   }
 }

@@ -22,15 +22,15 @@ extension MyPageRouter: Router {
   
   var path: String {
     switch self {
-    case .inquireUserInfo:
-      return "/v1/users"
+    case .inquireUserInfo(let userID):
+      return "/v1/user/read/\(userID)"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case let .inquireUserInfo(userID):
-      return .query(["userId": userID])
+    case .inquireUserInfo:
+      return .plain
     }
   }
   

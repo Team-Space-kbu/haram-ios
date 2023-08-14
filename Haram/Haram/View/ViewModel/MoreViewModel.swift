@@ -11,8 +11,10 @@ import RxCocoa
 protocol MoreViewModelType {
   
   var currentUserID: AnyObserver<String> { get }
+  var requestLogoutUser: AnyObserver<Void> { get }
   
   var currentUserInfo: Driver<ProfileInfoViewModel?> { get }
+  var successMessage: Signal<String> { get }
 }
 
 final class MoreViewModel: MoreViewModelType {
@@ -20,15 +22,22 @@ final class MoreViewModel: MoreViewModelType {
   private let disposeBag = DisposeBag()
   
   let currentUserID: AnyObserver<String>
+  let requestLogoutUser: AnyObserver<Void>
   
   let currentUserInfo: Driver<ProfileInfoViewModel?>
+  let successMessage: Signal<String>
   
   init() {
     
     let currentUserIDSubject = PublishSubject<String>()
+    let requestLogoutUserSubject = PublishSubject<Void>()
     let currentUserInfoRelay = PublishRelay<ProfileInfoViewModel?>()
+    let successMessageRelay = PublishRelay<String>()
+    
     currentUserID = currentUserIDSubject.asObserver()
     currentUserInfo = currentUserInfoRelay.asDriver(onErrorJustReturn: nil)
+    requestLogoutUser = requestLogoutUserSubject.asObserver()
+    successMessage = successMessageRelay.asSignal()
     
     currentUserIDSubject
       .filter { _ in UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken }
@@ -38,6 +47,14 @@ final class MoreViewModel: MoreViewModelType {
         guard case let .success(response) = result else { return }
         let profileInfoViewModel = ProfileInfoViewModel(response: response)
         currentUserInfoRelay.accept(profileInfoViewModel)
+      })
+      .disposed(by: disposeBag)
+    
+    requestLogoutUserSubject
+      .flatMapLatest { AuthService.shared.logoutUser(userID: UserManager.shared.userID!) }
+      .subscribe(onNext: { result in
+        guard case .success(_) = result else { return }
+        successMessageRelay.accept("로그아웃 성공하였습니다.")
       })
       .disposed(by: disposeBag)
   }

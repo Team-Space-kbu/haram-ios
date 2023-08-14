@@ -8,13 +8,14 @@
 import Foundation
 
 struct InquireUserInfoResponse: Codable {
-  let joinDate: String
-  let nickname: String
   let userID: String
-  let email: String
+  let userEmail: String
+  let userNickname: String
+  let userStatus: Bool
+  let role: String
   
   enum CodingKeys: String, CodingKey {
     case userID = "userId"
-    case joinDate, nickname, email
+    case userEmail, userNickname, userStatus, role
   }
 }

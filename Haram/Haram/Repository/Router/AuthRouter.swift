@@ -8,20 +8,20 @@
 import Alamofire
 
 enum AuthRouter {
-  case registerMember(RegisterMemberRequest)
+  case signupUser(SignupUserRequest)
   case loginMember(LoginRequest)
+  case logoutUser(String)
   case reissuanceAccessToken(String)
   
   case loginIntranet(IntranetLoginRequest)
   case requestIntranetToken
-  case signupMember(SignupMemberRequest)
 }
 
 extension AuthRouter: Router {
   
   var baseURL: String {
     switch self {
-    case .registerMember, .loginMember, .reissuanceAccessToken, .requestIntranetToken, .signupMember:
+    case .signupUser, .loginMember, .reissuanceAccessToken, .requestIntranetToken, .logoutUser:
       return URLConstants.baseURL
     case .loginIntranet:
       return URLConstants.intranetBaseURL
@@ -30,7 +30,7 @@ extension AuthRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .registerMember, .reissuanceAccessToken, .loginMember, .loginIntranet, .signupMember:
+    case .signupUser, .reissuanceAccessToken, .loginMember, .loginIntranet, .logoutUser:
       return .post
     case .requestIntranetToken:
       return .get
@@ -39,7 +39,7 @@ extension AuthRouter: Router {
   
   var path: String {
     switch self {
-    case .registerMember:
+    case .signupUser:
       return "/v1/user/signup"
     case .loginMember:
       return "/v1/auth/login"
@@ -49,14 +49,14 @@ extension AuthRouter: Router {
       return "/loginApp"
     case .requestIntranetToken:
       return "/v1/function/intranet/token"
-    case .signupMember:
-      return "/v1/signup"
+    case .logoutUser:
+      return "/v1/auth/logout"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .registerMember(let request):
+    case .signupUser(let request):
       return .body(request)
     case .loginMember(let request):
       return .body(request)
@@ -66,16 +66,16 @@ extension AuthRouter: Router {
       return .plain
     case .loginIntranet(let request):
       return .body(request)
-    case .signupMember(let request):
-      return .body(request)
+    case .logoutUser(let userID):
+      return .body(["userId":userID])
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .registerMember, .loginMember, .signupMember:
+    case .signupUser, .loginMember:
       return .default
-    case .requestIntranetToken:
+    case .requestIntranetToken, .logoutUser:
       return .withAccessToken
     case .loginIntranet:
       return .withCookieForIntranet

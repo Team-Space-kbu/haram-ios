@@ -18,8 +18,8 @@ final class AuthService {
 }
 
 extension AuthService {
-  func registerMember(request: RegisterMemberRequest) -> Observable<Result<EmptyModel, HaramError>> {
-    service.request(router: AuthRouter.registerMember(request), type: EmptyModel.self)
+  func signupUser(request: SignupUserRequest) -> Observable<Result<EmptyModel, HaramError>> {
+    service.request(router: AuthRouter.signupUser(request), type: EmptyModel.self)
   }
   
   func loginMember(request: LoginRequest) -> Observable<Result<LoginResponse, HaramError>> {
@@ -38,7 +38,8 @@ extension AuthService {
     service.request(router: AuthRouter.requestIntranetToken, type: RequestIntranetTokenResponse.self)
   }
   
-  func signupMember(request: SignupMemberRequest) -> Observable<Result<SearchBookResponse, HaramError>> {
-    service.request(router: AuthRouter.signupMember(request), type: SearchBookResponse.self)
+  func logoutUser(userID: String) -> Observable<Result<EmptyModel, HaramError>> {
+    service.request(router: AuthRouter.logoutUser(userID), type: EmptyModel.self)
   }
+  
 }

@@ -27,7 +27,7 @@
 		705FD2922A13B9E600F353FE /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2912A13B9E600F353FE /* AuthService.swift */; };
 		705FD2952A13BB4300F353FE /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2942A13BB4300F353FE /* AuthRouter.swift */; };
 		705FD2992A13BC1700F353FE /* RegisterMemberResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2982A13BC1700F353FE /* RegisterMemberResponse.swift */; };
-		705FD29B2A13C19A00F353FE /* RegisterMemberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD29A2A13C19A00F353FE /* RegisterMemberRequest.swift */; };
+		705FD29B2A13C19A00F353FE /* SignupUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD29A2A13C19A00F353FE /* SignupUserRequest.swift */; };
 		705FD29F2A15F21F00F353FE /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD29E2A15F21F00F353FE /* LoginButton.swift */; };
 		705FD2A12A15F75900F353FE /* LoginAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2A02A15F75900F353FE /* LoginAlertView.swift */; };
 		705FD2A32A15FD8100F353FE /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2A22A15FD8100F353FE /* LoginResponse.swift */; };
@@ -185,7 +185,7 @@
 		705FD2912A13B9E600F353FE /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		705FD2942A13BB4300F353FE /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		705FD2982A13BC1700F353FE /* RegisterMemberResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterMemberResponse.swift; sourceTree = "<group>"; };
-		705FD29A2A13C19A00F353FE /* RegisterMemberRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterMemberRequest.swift; sourceTree = "<group>"; };
+		705FD29A2A13C19A00F353FE /* SignupUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupUserRequest.swift; sourceTree = "<group>"; };
 		705FD29E2A15F21F00F353FE /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
 		705FD2A02A15F75900F353FE /* LoginAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAlertView.swift; sourceTree = "<group>"; };
 		705FD2A22A15FD8100F353FE /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
@@ -432,7 +432,7 @@
 			isa = PBXGroup;
 			children = (
 				705FD2982A13BC1700F353FE /* RegisterMemberResponse.swift */,
-				705FD29A2A13C19A00F353FE /* RegisterMemberRequest.swift */,
+				705FD29A2A13C19A00F353FE /* SignupUserRequest.swift */,
 				705FD2A22A15FD8100F353FE /* LoginResponse.swift */,
 				705FD2A42A15FDB500F353FE /* LoginRequest.swift */,
 				7083123F2A2CA79D00F7E283 /* IntranetLoginRequest.swift */,
@@ -996,7 +996,7 @@
 				708312602A388D8B00F7E283 /* ScheduleViewModel.swift in Sources */,
 				7083128A2A655BD900F7E283 /* MileageTableHeaderView.swift in Sources */,
 				7083128C2A6561CD00F7E283 /* MyPageRouter.swift in Sources */,
-				705FD29B2A13C19A00F353FE /* RegisterMemberRequest.swift in Sources */,
+				705FD29B2A13C19A00F353FE /* SignupUserRequest.swift in Sources */,
 				708312B42A76945000F7E283 /* BoardListCollectionViewCell.swift in Sources */,
 				708312882A6540E900F7E283 /* Ex+Notification.Name.swift in Sources */,
 				708312422A2CAA1800F7E283 /* RequestIntranetTokenResponse.swift in Sources */,

@@ -13,7 +13,11 @@ import Then
 
 final class RegisterViewController: BaseViewController {
   
+  // MARK: - Property
+  
   private let viewModel: RegisterViewModelType
+  
+  // MARK: - UI Components
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -76,6 +80,10 @@ final class RegisterViewController: BaseViewController {
     $0.setTitleText(title: "회원가입")
   }
   
+  private let tapGesture = UITapGestureRecognizer(target: RegisterViewController.self, action: nil)
+  
+  // MARK: - Initializations
+  
   init(viewModel: RegisterViewModelType = RegisterViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -85,9 +93,12 @@ final class RegisterViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  // MARK: - Configurations
+  
   override func setupStyles() {
     super.setupStyles()
     navigationController?.navigationBar.isHidden = true
+    view.addGestureRecognizer(tapGesture)
     [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField, checkEmailTextField].forEach { $0.textField.delegate = self }
   }
   
@@ -206,11 +217,19 @@ final class RegisterViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    tapGesture.rx.event
+      .subscribe(with: self) { owner, _ in
+        owner.view.endEditing(true)
+      }
+      .disposed(by: disposeBag)
+    
 //    viewModel.isRegisterButtonEnabled
 //      .drive(registerButton.rx.isEnabled)
 //      .disposed(by: disposeBag)
   }
 }
+
+// MARK: - Constants
 
 extension RegisterViewController {
   enum Constants {
@@ -255,6 +274,8 @@ extension RegisterViewController {
   }
 }
 
+// MARK: - RegisterTextFieldDelegate
+
 extension RegisterViewController: RegisterTextFieldDelegate {
   func didTappedButton() {
     print("확인코드발송 선택")
@@ -267,26 +288,22 @@ extension RegisterViewController: RegisterTextFieldDelegate {
   }
 }
 
+// MARK: - UITextFieldDelegate
+
 extension RegisterViewController: UITextFieldDelegate {
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    if textField == idTextField {
-      idTextField.resignFirstResponder()
-      pwdTextField.becomeFirstResponder()
-    } else if textField == pwdTextField {
-      pwdTextField.resignFirstResponder()
-      repwdTextField.becomeFirstResponder()
-    } else if textField == repwdTextField {
-      repwdTextField.resignFirstResponder()
-      nicknameTextField.becomeFirstResponder()
-    } else if textField == nicknameTextField {
-      nicknameTextField.resignFirstResponder()
-      emailTextField.becomeFirstResponder()
-    } else if textField == emailTextField {
-      emailTextField.resignFirstResponder()
-      checkEmailTextField.becomeFirstResponder()
-    } else if textField == checkEmailTextField {
-      checkEmailTextField.resignFirstResponder()
-      view.endEditing(true)
+    if textField == idTextField.textField {
+      pwdTextField.textField.becomeFirstResponder()
+    } else if textField == pwdTextField.textField {
+      repwdTextField.textField.becomeFirstResponder()
+    } else if textField == repwdTextField.textField {
+      nicknameTextField.textField.becomeFirstResponder()
+    } else if textField == nicknameTextField.textField {
+      emailTextField.textField.becomeFirstResponder()
+    } else if textField == emailTextField.textField {
+      checkEmailTextField.textField.becomeFirstResponder()
+    } else if textField == checkEmailTextField.textField {
+      checkEmailTextField.textField.resignFirstResponder()
     }
     return true
   }
