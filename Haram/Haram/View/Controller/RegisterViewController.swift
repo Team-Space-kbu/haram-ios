@@ -7,15 +7,24 @@
 
 import UIKit
 
+import RxSwift
+import SnapKit
+import Then
+
 final class RegisterViewController: BaseViewController {
   
   private let viewModel: RegisterViewModelType
+  
+  private let scrollView = UIScrollView().then {
+    $0.backgroundColor = .clear
+    $0.alwaysBounceVertical = true
+  }
   
   private let stackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 25
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: 66, left: 15, bottom: .zero, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: 66, left: 15, bottom: 49, right: 15)
   }
   
   private let titleLabel = UILabel().then {
@@ -43,6 +52,17 @@ final class RegisterViewController: BaseViewController {
   private let repwdTextField = RegisterTextField(
     title: Constants.repassword.title,
     placeholder: Constants.repassword.placeholder,
+    options: [.errorLabel]
+  )
+  
+  private let nicknameTextField = RegisterTextField(
+    title: Constants.nickname.title,
+    placeholder: Constants.nickname.placeholder
+  )
+  
+  private let emailTextField = RegisterTextField(
+    title: Constants.schoolEmail.title,
+    placeholder: Constants.schoolEmail.placeholder,
     options: [.defaultEmail]
   )
   
@@ -68,36 +88,46 @@ final class RegisterViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     navigationController?.navigationBar.isHidden = true
+    [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField, checkEmailTextField].forEach { $0.textField.delegate = self }
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(stackView)
-    view.addSubview(registerButton)
-    [titleLabel, alertLabel, idTextField, pwdTextField, repwdTextField, checkEmailTextField].forEach { stackView.addArrangedSubview($0) }
+    view.addSubview(scrollView)
+    scrollView.addSubview(stackView)
+
+    [titleLabel, alertLabel, idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField, checkEmailTextField, registerButton].forEach { stackView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
+    
+    scrollView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
     stackView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.top.width.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
     stackView.setCustomSpacing(7, after: titleLabel)
     
     registerButton.snp.makeConstraints {
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(49)
       $0.height.equalTo(48)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
     
-    [idTextField, pwdTextField, repwdTextField, checkEmailTextField].forEach {
+    [idTextField, pwdTextField, nicknameTextField, emailTextField, checkEmailTextField].forEach {
       $0.snp.makeConstraints {
         $0.height.equalTo(74)
       }
     }
+    
+    repwdTextField.snp.makeConstraints {
+      $0.height.equalTo(84 + 15)
+    }
+    
+    stackView.setCustomSpacing(10, after: repwdTextField)
   }
   
   override func bind() {
@@ -132,9 +162,19 @@ final class RegisterViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    checkEmailTextField.rx.text
+    nicknameTextField.rx.text
       .orEmpty
-      .filter { $0 != Constants.checkEmail.placeholder }
+      .filter { $0 != Constants.nickname.placeholder }
+      .distinctUntilChanged()
+      .skip(1)
+      .subscribe(with: self) { owner, nickname in
+        owner.viewModel.registerNickname.onNext(nickname)
+      }
+      .disposed(by: disposeBag)
+    
+    emailTextField.rx.text
+      .orEmpty
+      .filter { $0 != Constants.schoolEmail.placeholder }
       .distinctUntilChanged()
       .skip(1)
       .subscribe(with: self) { owner, email in
@@ -142,15 +182,33 @@ final class RegisterViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    registerButton.rx.tap
-      .subscribe(with: self) { owner, _ in
-
+    checkEmailTextField.rx.text
+      .orEmpty
+      .filter { $0 != Constants.checkEmail.placeholder }
+      .distinctUntilChanged()
+      .skip(1)
+      .subscribe(with: self) { owner, authCode in
+        owner.viewModel.registerAuthCode.onNext(authCode)
       }
       .disposed(by: disposeBag)
     
-    viewModel.isRegisterButtonEnabled
-      .drive(registerButton.rx.isEnabled)
+    
+    registerButton.rx.tap
+      .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
+      .subscribe(with: self) { owner, _ in
+        owner.viewModel.tappedRegisterButton.onNext(())
+      }
       .disposed(by: disposeBag)
+    
+    viewModel.checkPasswordIsEqualMessage
+      .emit(with: self) { owner, message in
+        owner.repwdTextField.setError(description: message)
+      }
+      .disposed(by: disposeBag)
+    
+//    viewModel.isRegisterButtonEnabled
+//      .drive(registerButton.rx.isEnabled)
+//      .disposed(by: disposeBag)
   }
 }
 
@@ -159,6 +217,8 @@ extension RegisterViewController {
     case id
     case password
     case repassword
+    case nickname
+    case schoolEmail
     case checkEmail
     
     var title: String {
@@ -171,6 +231,10 @@ extension RegisterViewController {
         return "비밀번호 확인"
       case .checkEmail:
         return "이메일 확인"
+      case .schoolEmail:
+        return "학교 이메일"
+      case .nickname:
+        return "닉네임"
       }
     }
     
@@ -182,6 +246,10 @@ extension RegisterViewController {
         return "Password"
       case .checkEmail:
         return "확인코드"
+      case .schoolEmail:
+        return "Email"
+      case .nickname:
+        return "Nickname"
       }
     }
   }
@@ -196,5 +264,30 @@ extension RegisterViewController: RegisterTextFieldDelegate {
   func didTappedReturnKey() {
     print("리턴 선택")
     view.endEditing(true)
+  }
+}
+
+extension RegisterViewController: UITextFieldDelegate {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    if textField == idTextField {
+      idTextField.resignFirstResponder()
+      pwdTextField.becomeFirstResponder()
+    } else if textField == pwdTextField {
+      pwdTextField.resignFirstResponder()
+      repwdTextField.becomeFirstResponder()
+    } else if textField == repwdTextField {
+      repwdTextField.resignFirstResponder()
+      nicknameTextField.becomeFirstResponder()
+    } else if textField == nicknameTextField {
+      nicknameTextField.resignFirstResponder()
+      emailTextField.becomeFirstResponder()
+    } else if textField == emailTextField {
+      emailTextField.resignFirstResponder()
+      checkEmailTextField.becomeFirstResponder()
+    } else if textField == checkEmailTextField {
+      checkEmailTextField.resignFirstResponder()
+      view.endEditing(true)
+    }
+    return true
   }
 }

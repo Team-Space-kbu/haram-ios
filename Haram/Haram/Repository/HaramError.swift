@@ -12,10 +12,15 @@ enum HaramError: Error {
   case unknownedError
   case requestError
   case serverError
+  
   case notFindUserError // 사용자를 찾을 수 없는 상태입니다.
   case wrongPasswordError // 패스워드가 틀렸을 때 발생하는 에러입니다.
-  case loanInfoEmptyError // 대여정보가 비어있어 처리할 수 없는 상태입니다
+  
+  case loanInfoEmptyError // 대여정보가 비어있어 처리할 수 없는 상태입니다.
 
+  case existSameUserError // 동일한 아이디로 회원가입한 사용자가 존재할 때 발생하는 에러
+  case wrongEmailAuthcodeError // 이메일 인증코드가 틀렸을 때 발생하는 에러
+  case failedRegisterError // 회원가입에 실패했을 때 발생하는 에러
 }
 
 // MARK: - 하람에러에 대한 코드 및 상태메세지
@@ -37,6 +42,12 @@ extension HaramError {
       return "LIB07"
     case .wrongPasswordError:
       return "USER02"
+    case .existSameUserError:
+      return "USER03"
+    case .wrongEmailAuthcodeError:
+      return "USER05"
+    case .failedRegisterError:
+      return "USER04"
     }
   }
   
@@ -50,12 +61,16 @@ extension HaramError {
       return "하람 요청에러가 발생하였습니다."
     case .serverError:
       return "하람 서버에러가 발생하였습니다"
-    case .notFindUserError:
-      return "아이디 또는 비밀번호가 유효하지 않습니다."
-    case .wrongPasswordError:
+    case .notFindUserError, .wrongPasswordError:
       return "아이디 또는 비밀번호가 유효하지 않습니다."
     case .loanInfoEmptyError:
       return "대여 정보가 비어 있습니다."
+    case .existSameUserError:
+      return "이미 해당 아이디를 사용하는 유저가 존재합니다."
+    case .wrongEmailAuthcodeError:
+      return "이메일 인증 코드가 일치하지않습니다."
+    case .failedRegisterError:
+      return "회원가입에 실패했습니다, 다시 시도해주세요."
     }
   }
 }

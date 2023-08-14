@@ -41,8 +41,8 @@ final class Interceptor: RequestInterceptor {
           completion(.doNotRetryWithError(plubError))
         }
         .disposed(by: disposeBag)
-    } else if statusCode == 403 {
-      // 상태코드 403은 refreshToken 만료
+    } else if statusCode == 402 {
+      // 상태코드 402은 refreshToken 만료
       UserManager.shared.clearAllInformations()
       
       DispatchQueue.main.async {

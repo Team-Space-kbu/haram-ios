@@ -12,9 +12,13 @@ struct RegisterMemberRequest: Codable {
   let email: String
   let password: String
   let nickname: String
+  let emailAuthCode: String
   
   enum CodingKeys: String, CodingKey {
     case userID = "userId"
-    case email, password, nickname
+    case email = "userEmail"
+    case password = "userPassword"
+    case nickname = "userNickname"
+    case emailAuthCode
   }
 }

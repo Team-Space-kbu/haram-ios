@@ -10,7 +10,8 @@ import Alamofire
 enum AuthRouter {
   case registerMember(RegisterMemberRequest)
   case loginMember(LoginRequest)
-  case reissuanceAccessToken
+  case reissuanceAccessToken(String)
+  
   case loginIntranet(IntranetLoginRequest)
   case requestIntranetToken
   case signupMember(SignupMemberRequest)
@@ -29,9 +30,9 @@ extension AuthRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .registerMember, .loginMember, .loginIntranet, .signupMember:
+    case .registerMember, .reissuanceAccessToken, .loginMember, .loginIntranet, .signupMember:
       return .post
-    case .reissuanceAccessToken, .requestIntranetToken:
+    case .requestIntranetToken:
       return .get
     }
   }
@@ -39,11 +40,11 @@ extension AuthRouter: Router {
   var path: String {
     switch self {
     case .registerMember:
-      return "/v1/signup"
+      return "/v1/user/signup"
     case .loginMember:
-      return "/v1/login"
+      return "/v1/auth/login"
     case .reissuanceAccessToken:
-      return "/v1/refresh"
+      return "/v1/auth/refresh"
     case .loginIntranet:
       return "/loginApp"
     case .requestIntranetToken:
@@ -59,8 +60,8 @@ extension AuthRouter: Router {
       return .body(request)
     case .loginMember(let request):
       return .body(request)
-    case .reissuanceAccessToken:
-      return .plain
+    case .reissuanceAccessToken(let userID):
+      return .body(["userId": userID])
     case .requestIntranetToken:
       return .plain
     case .loginIntranet(let request):

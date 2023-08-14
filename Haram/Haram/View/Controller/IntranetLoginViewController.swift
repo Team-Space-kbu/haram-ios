@@ -11,9 +11,19 @@ import RxSwift
 import SnapKit
 import Then
 
+enum IntranetLoginType {
+  case shortcut
+  case noShortcut
+}
+
 final class IntranetLoginViewController: BaseViewController {
   
+  // MARK: - Property
+  
   private let viewModel: IntranetLoginViewModelType
+  private let type: IntranetLoginType
+  
+  // MARK: - UI Components
   
   private let containerStackView = UIStackView().then {
     $0.axis = .vertical
@@ -98,14 +108,19 @@ final class IntranetLoginViewController: BaseViewController {
   
   private let indicatorView = UIActivityIndicatorView(style: .large)
   
-  init(viewModel: IntranetLoginViewModelType = IntranetLoginViewModel()) {
+  // MARK: - Initialization
+  
+  init(type: IntranetLoginType = .noShortcut, viewModel: IntranetLoginViewModelType = IntranetLoginViewModel()) {
     self.viewModel = viewModel
+    self.type = type
     super.init(nibName: nil, bundle: nil)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  // MARK: - Life Cycles
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)

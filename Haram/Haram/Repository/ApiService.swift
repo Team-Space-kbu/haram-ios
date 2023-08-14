@@ -26,7 +26,7 @@ final class ApiService: BaseService {
     Single.create { observer in
       self.session.request(router)
         .validate({ request, response, data in
-          if response.statusCode != 401 || response.statusCode != 403 {
+          if response.statusCode != 401 || response.statusCode != 402 {
             return .success(Void())
           }
           
@@ -44,24 +44,32 @@ final class ApiService: BaseService {
             guard let decodedData = try? JSONDecoder().decode(BaseEntity<T>.self, from: data) else {
               return observer(.failure(HaramError.decodedError))
             }
-
+            
+            let code = decodedData.code
+            
             switch statusCode {
             case 200..<300:
               if decodedData.data != nil {
                 return observer(.success(.success(decodedData.data!)))
-              } else {
-                let code = decodedData.code
-                if code == HaramError.notFindUserError.code {
-                  return observer(.success(.failure(HaramError.notFindUserError)))
-                } else if code == HaramError.wrongPasswordError.code {
-                  return observer(.success(.failure(HaramError.wrongPasswordError)))
-                } else if code == HaramError.loanInfoEmptyError.code {
-                  return observer(.success(.failure(HaramError.loanInfoEmptyError)))
-                }
               }
             case 400..<500:
+              if code == HaramError.notFindUserError.code {
+                return observer(.success(.failure(HaramError.notFindUserError)))
+              } else if code == HaramError.wrongPasswordError.code {
+                return observer(.success(.failure(HaramError.wrongPasswordError)))
+              } else if code == HaramError.loanInfoEmptyError.code {
+                return observer(.success(.failure(HaramError.loanInfoEmptyError)))
+              } else if code == HaramError.existSameUserError.code {
+                return observer(.success(.failure(HaramError.existSameUserError)))
+              } else if code == HaramError.wrongEmailAuthcodeError.code {
+                return observer(.success(.failure(HaramError.wrongEmailAuthcodeError)))
+              }
+              
               return observer(.failure(HaramError.requestError))
             case 500..<600:
+              if code == HaramError.failedRegisterError.code {
+                return observer(.success(.failure(HaramError.failedRegisterError)))
+              }
               return observer(.failure(HaramError.serverError))
             default:
               return observer(.failure(HaramError.unknownedError))

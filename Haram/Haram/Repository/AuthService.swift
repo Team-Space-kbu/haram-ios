@@ -18,16 +18,16 @@ final class AuthService {
 }
 
 extension AuthService {
-  func registerMember(request: RegisterMemberRequest) -> Observable<Result<RegisterMemberResponse, HaramError>> {
-    service.request(router: AuthRouter.registerMember(request), type: RegisterMemberResponse.self)
+  func registerMember(request: RegisterMemberRequest) -> Observable<Result<EmptyModel, HaramError>> {
+    service.request(router: AuthRouter.registerMember(request), type: EmptyModel.self)
   }
   
   func loginMember(request: LoginRequest) -> Observable<Result<LoginResponse, HaramError>> {
     service.request(router: AuthRouter.loginMember(request), type: LoginResponse.self)
   }
   
-  func reissuanceAccessToken() -> Observable<Result<LoginResponse, HaramError>> {
-    service.request(router: AuthRouter.reissuanceAccessToken, type: LoginResponse.self)
+  func reissuanceAccessToken(userID: String) -> Observable<Result<LoginResponse, HaramError>> {
+    service.request(router: AuthRouter.reissuanceAccessToken(userID), type: LoginResponse.self)
   }
   
   func loginIntranet(request: IntranetLoginRequest) -> Observable<String> {

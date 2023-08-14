@@ -13,6 +13,6 @@ struct LoginRequest: Codable {
   
   enum CodingKeys: String, CodingKey {
     case userID = "userId"
-    case password
+    case password = "userPassword"
   }
 }

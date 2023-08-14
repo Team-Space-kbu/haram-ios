@@ -109,7 +109,7 @@ extension UserManager {
   
   /// 가지고 있는 `refresh token`을 가지고 새로운 `access token`과 `refresh token`을 발급받습니다.
   func reissuanceAccessToken() -> Observable<Void> {
-    return AuthService.shared.reissuanceAccessToken()
+    return AuthService.shared.reissuanceAccessToken(userID: UserManager.shared.userID!)
       .map { result in
         guard case let .success(tokenData) = result else { return }
         self.updatePLUBToken(accessToken: tokenData.accessToken, refreshToken: tokenData.refreshToken)
