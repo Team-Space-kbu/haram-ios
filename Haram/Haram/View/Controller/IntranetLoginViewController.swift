@@ -49,7 +49,7 @@ final class IntranetLoginViewController: BaseViewController {
     $0.font = .regular14
   }
   
-  private let idTextField = UITextField().then {
+  private lazy var idTextField = UITextField().then {
     $0.attributedPlaceholder = NSAttributedString(
       string: "아이디",
       attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
@@ -63,9 +63,10 @@ final class IntranetLoginViewController: BaseViewController {
     $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
     $0.leftViewMode = .always
     $0.autocapitalizationType = .none
+    $0.delegate = self
   }
   
-  private let pwTextField = UITextField().then {
+  private lazy var pwTextField = UITextField().then {
     $0.attributedPlaceholder = NSAttributedString(
       string: "비밀번호",
       attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
@@ -79,6 +80,7 @@ final class IntranetLoginViewController: BaseViewController {
     $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
     $0.leftViewMode = .always
     $0.isSecureTextEntry = true
+    $0.delegate = self
   }
   
   private let loginButton = UIButton().then {
@@ -262,5 +264,23 @@ extension IntranetLoginViewController {
     UIView.animate(withDuration: 1) {
       self.view.layoutIfNeeded()
     }
+  }
+}
+
+extension IntranetLoginViewController: UITextFieldDelegate {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    if textField == idTextField {
+      pwTextField.becomeFirstResponder()
+    } else if textField == pwTextField {
+      pwTextField.resignFirstResponder()
+      guard let intranetID = self.idTextField.text,
+            let intranetPWD = self.pwTextField.text,
+            !intranetID.isEmpty && !intranetPWD.isEmpty else {
+        return true
+      }
+      viewModel.intranetLoginButtonTapped.onNext(())
+      viewModel.whichIntranetInfo.onNext((intranetID, intranetPWD))
+    }
+    return true
   }
 }

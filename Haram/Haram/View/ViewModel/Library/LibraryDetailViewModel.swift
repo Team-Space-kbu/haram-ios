@@ -74,25 +74,22 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
         currentDetailInfoModel.accept(LibraryDetailInfoViewType.allCases.map { type in
           let content: String
           switch type {
-          case .author:
-            content = response.author
-          case .publisher:
-            content = response.publisher
-          case .publishDate:
-            content = response.pubDate
-          case .discount:
-            let charToRemove: Character = "\\"
-            let discount = response.discount
-            let filterDiscount = discount.filter { $0 != charToRemove }
-            content = filterDiscount != "정보 없음" ? filterDiscount + "원" : filterDiscount
+            case .author:
+              content = response.author
+            case .publisher:
+              content = response.publisher
+            case .publishDate:
+              content = response.pubDate
+            case .discount:
+              let charToRemove: Character = "\\"
+              let discount = response.discount
+              let filterDiscount = discount.filter { $0 != charToRemove }
+              let trimDiscount = filterDiscount.trimmingCharacters(in: .whitespacesAndNewlines)
+              content = trimDiscount != "정보없음" ? filterDiscount + "원" : trimDiscount
           }
           return LibraryInfoViewModel(title: type.title, content: content)
         })
         isLoadingSubject.onNext(false)
-      }, onError: { error in
-        isLoadingSubject.onNext(false)
-        guard let error = error as? HaramError else { return }
-        print("네이버오류 \(error.description)")
       })
       .disposed(by: disposeBag)
         
@@ -104,11 +101,6 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
           guard case let .success(response) = result else { return }
           currentDetailRentalModel.accept(response.map { .init(response: $0) })
           isLoadingSubject.onNext(false)
-        }, onError: { error in
-          isLoadingSubject.onNext(false)
-          guard let error = error as? HaramError,
-                error == HaramError.loanInfoEmptyError else { return }
-          print("도서 대여정보요청결과: \(error.description!)")
         })
         .disposed(by: disposeBag)
   }

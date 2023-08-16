@@ -217,6 +217,13 @@ final class RegisterViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    viewModel.signupSuccessMessage
+      .emit(onNext: { _ in 
+        let vc = LoginViewController()
+        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
+      })
+      .disposed(by: disposeBag)
+    
     tapGesture.rx.event
       .subscribe(with: self) { owner, _ in
         owner.view.endEditing(true)

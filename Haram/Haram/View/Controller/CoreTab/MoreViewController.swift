@@ -96,6 +96,7 @@ final class MoreViewController: BaseViewController {
   private let scrollView = UIScrollView().then {
     $0.alwaysBounceVertical = true
     $0.backgroundColor = .clear
+    $0.showsVerticalScrollIndicator = false
   }
 
   private let contentView = UIView().then {

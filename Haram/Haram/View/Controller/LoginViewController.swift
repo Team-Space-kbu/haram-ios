@@ -23,14 +23,14 @@ final class LoginViewController: BaseViewController {
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: .zero, left: 22, bottom: .zero, right: 22)
+    $0.layoutMargins = .init(top: 118, left: 22, bottom: .zero, right: 22)
     $0.spacing = 15
     $0.backgroundColor = .clear
   }
   
   private let loginImageView = UIImageView().then {
     $0.image = UIImage(named: "login")
-    $0.contentMode = .scaleAspectFill
+    $0.contentMode = .scaleAspectFit
   }
   
   private let loginLabel = UILabel().then {
@@ -111,7 +111,7 @@ final class LoginViewController: BaseViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     UserManager.shared.clearAllInformations()
-
+  
     guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else {
       return
     }
@@ -155,22 +155,20 @@ final class LoginViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [loginImageView, containerView].forEach { view.addSubview($0) }
-    [loginLabel, schoolLabel, emailTextField, passwordTextField, errorMessageLabel, loginButton, loginAlertView].forEach { containerView.addArrangedSubview($0) }
+    [containerView].forEach { view.addSubview($0) }
+    [loginImageView, loginLabel, schoolLabel, emailTextField, passwordTextField, errorMessageLabel, loginButton].forEach { containerView.addArrangedSubview($0) }
+    view.addSubview(loginAlertView)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
     loginImageView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(118)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(77.4)
       $0.height.equalTo(248.669)
     }
-    
+
     containerView.snp.makeConstraints {
-      $0.top.equalTo(loginImageView.snp.bottom).offset(37.33)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
@@ -188,6 +186,10 @@ final class LoginViewController: BaseViewController {
       $0.height.equalTo(18)
     }
     
+    errorMessageLabel.snp.makeConstraints {
+      $0.height.equalTo(16)
+    }
+    
     loginButton.snp.makeConstraints {
       $0.height.equalTo(48)
     }
@@ -197,9 +199,16 @@ final class LoginViewController: BaseViewController {
       $0.height.equalTo(16)
     }
     
+    containerView.setCustomSpacing(37.33, after: loginImageView)
     containerView.setCustomSpacing(12, after: loginLabel)
     containerView.setCustomSpacing(30, after: schoolLabel)
-    containerView.setCustomSpacing(83, after: loginButton)
+//    containerView.setCustomSpacing(83, after: loginButton)
+    
+    loginAlertView.snp.makeConstraints {
+      $0.top.equalTo(containerView.snp.bottom).offset(83)
+      $0.centerX.equalToSuperview()
+      $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide)
+    }
   }
 }
 

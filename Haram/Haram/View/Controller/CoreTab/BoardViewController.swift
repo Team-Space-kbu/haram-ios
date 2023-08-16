@@ -90,6 +90,7 @@ final class BoardViewController: BaseViewController {
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
+    $0.showsVerticalScrollIndicator = false
   }
   
   private let containerView = UIStackView().then {

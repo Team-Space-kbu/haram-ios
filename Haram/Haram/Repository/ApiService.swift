@@ -18,8 +18,6 @@ protocol BaseService {
 final class ApiService: BaseService {
   private let configuration = URLSessionConfiguration.af.default
   private let monitor = APIEventLogger()
-//  configuration.timeoutIntervalForRequest = 30
-//  configuration.waitsForConnectivity = true
   private lazy var session = Session(configuration: configuration, interceptor: Interceptor(), eventMonitors: [monitor])
   
   func request<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Observable<Result<T, HaramError>> where T : Codable {
@@ -47,33 +45,22 @@ final class ApiService: BaseService {
             
             let code = decodedData.code
             
+            if HaramError.isExist(with: code) {
+              return observer(.success(.failure(HaramError.getError(with: code))))
+            }
+            
             switch statusCode {
-            case 200..<300:
-              if decodedData.data != nil {
-                return observer(.success(.success(decodedData.data!)))
-              }
-              return observer(.success(.success(EmptyModel() as! T)))
-            case 400..<500:
-              if code == HaramError.notFindUserError.code {
-                return observer(.success(.failure(HaramError.notFindUserError)))
-              } else if code == HaramError.wrongPasswordError.code {
-                return observer(.success(.failure(HaramError.wrongPasswordError)))
-              } else if code == HaramError.loanInfoEmptyError.code {
-                return observer(.success(.failure(HaramError.loanInfoEmptyError)))
-              } else if code == HaramError.existSameUserError.code {
-                return observer(.success(.failure(HaramError.existSameUserError)))
-              } else if code == HaramError.wrongEmailAuthcodeError.code {
-                return observer(.success(.failure(HaramError.wrongEmailAuthcodeError)))
-              }
-              
-              return observer(.failure(HaramError.requestError))
-            case 500..<600:
-              if code == HaramError.failedRegisterError.code {
-                return observer(.success(.failure(HaramError.failedRegisterError)))
-              }
-              return observer(.failure(HaramError.serverError))
-            default:
-              return observer(.failure(HaramError.unknownedError))
+              case 200..<300:
+                if decodedData.data != nil {
+                  return observer(.success(.success(decodedData.data!)))
+                }
+                return observer(.success(.success(EmptyModel() as! T)))
+              case 400..<500:
+                return observer(.failure(HaramError.requestError))
+              case 500..<600:
+                return observer(.failure(HaramError.serverError))
+              default:
+                return observer(.failure(HaramError.unknownedError))
             }
             
           case .failure(let error):
@@ -89,7 +76,7 @@ final class ApiService: BaseService {
     Single.create { observer in
       self.session.request(router)
         .validate({ request, response, data in
-          if response.statusCode != 401 || response.statusCode != 403 {
+          if response.statusCode != 401 || response.statusCode != 402 {
             return .success(Void())
           }
           
@@ -101,32 +88,31 @@ final class ApiService: BaseService {
           case .success(let data):
             guard let statusCode = response.response?.statusCode
             else {
-              print("알 수 없는 에러")
               observer(.failure(HaramError.unknownedError))
               return
             }
-//            guard let decodedData = try? JSONDecoder().decode(T.self, from: data) else {
-//              print("디코딩에러")
-//              return observer(.failure(HaramError.decodedError))
-//            }
+            //            guard let decodedData = try? JSONDecoder().decode(T.self, from: data) else {
+            //              print("디코딩에러")
+            //              return observer(.failure(HaramError.decodedError))
+            //            }
             
             if let htmlString = String(data: data, encoding: .utf8) {
               return observer(.success(htmlString))
             }
             
-//            switch statusCode {
-//            case 200..<300:
-//              return observer(.success(decodedData))
-//            case 400..<500:
-//              print("리퀘스트 에러발생")
-//              return observer(.failure(HaramError.requestError))
-//            case 500..<600:
-//              print("서버 에러발생")
-//              return observer(.failure(HaramError.serverError))
-//            default:
-//              print("알 수 없는 에러발생")
-//              return observer(.failure(HaramError.unknownedError))
-//            }
+            //            switch statusCode {
+            //            case 200..<300:
+            //              return observer(.success(decodedData))
+            //            case 400..<500:
+            //              print("리퀘스트 에러발생")
+            //              return observer(.failure(HaramError.requestError))
+            //            case 500..<600:
+            //              print("서버 에러발생")
+            //              return observer(.failure(HaramError.serverError))
+            //            default:
+            //              print("알 수 없는 에러발생")
+            //              return observer(.failure(HaramError.unknownedError))
+            //            }
             
           case .failure(let error):
             print("응답 에러발생")

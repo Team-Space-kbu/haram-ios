@@ -88,6 +88,7 @@ final class ScheduleViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    navigationController?.setNavigationBarHidden(true, animated: true)
   }
   
   override func setupLayouts() {

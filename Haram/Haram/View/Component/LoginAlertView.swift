@@ -20,6 +20,12 @@ final class LoginAlertView: UIView {
   weak var delegate: LoginAlertViewDelegate?
   private let disposeBag = DisposeBag()
   
+  private let containerView = UIStackView().then {
+    $0.axis = .horizontal
+    $0.spacing = 12
+    $0.alignment = .center
+  }
+  
   private let alertLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .regular13
@@ -51,17 +57,20 @@ final class LoginAlertView: UIView {
   }
   
   private func configureUI() {
-    [alertLabel, registerButton].forEach { addSubview($0) }
+    addSubview(containerView)
+    [alertLabel, registerButton].forEach { containerView.addArrangedSubview($0) }
+    
+    containerView.snp.makeConstraints {
+      $0.leading.directionalVerticalEdges.equalToSuperview()
+      $0.trailing.lessThanOrEqualToSuperview()
+    }
+    
     alertLabel.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(90 - 22)
-      $0.directionalVerticalEdges.equalToSuperview()
+      $0.width.equalTo(156)
     }
     
     registerButton.snp.makeConstraints {
-      $0.leading.equalTo(alertLabel.snp.trailing).offset(12)
-      $0.directionalVerticalEdges.equalToSuperview()
-      $0.trailing.lessThanOrEqualToSuperview()
-      //.inset(90 - 22)
+      $0.width.equalTo(48)
     }
   }
 }

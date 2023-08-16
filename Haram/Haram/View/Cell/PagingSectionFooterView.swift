@@ -8,10 +8,17 @@
 import UIKit
 
 import RxSwift
+import RxCocoa
 import SnapKit
 import Then
 
+protocol PagingSectionFooterViewDelegate: AnyObject {
+  func didChangedPageControl(_ currentPage: Int)
+}
+
 final class PagingSectionFooterView: UICollectionReusableView {
+  
+  weak var delegate: PagingSectionFooterViewDelegate?
   
   static let identifier = "PagingSectionFooterView"
   private let disposeBag = DisposeBag()
@@ -25,6 +32,7 @@ final class PagingSectionFooterView: UICollectionReusableView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -36,6 +44,14 @@ final class PagingSectionFooterView: UICollectionReusableView {
     pageControl.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
+  }
+  
+  private func bind() {
+    pageControl.rx.controlEvent(.valueChanged)
+      .subscribe(with: self) { owner,  _ in
+        owner.delegate?.didChangedPageControl(owner.pageControl.currentPage)
+      }
+      .disposed(by: disposeBag)
   }
   
   func setPageControl(subBanners: [HomebannerCollectionViewCellModel], currentPage: PublishSubject<Int>) {

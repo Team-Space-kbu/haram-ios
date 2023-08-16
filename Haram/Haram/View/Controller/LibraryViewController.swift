@@ -165,7 +165,7 @@ final class LibraryViewController: BaseViewController {
     super.setupConstraints()
     
     scrollView.snp.makeConstraints {
-      $0.width.directionalEdges.equalToSuperview()
+      $0.width.directionalVerticalEdges.equalToSuperview()
     }
     
     indicatorView.snp.makeConstraints {
@@ -173,7 +173,7 @@ final class LibraryViewController: BaseViewController {
     }
     
     containerView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.top.directionalHorizontalEdges.width.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
     

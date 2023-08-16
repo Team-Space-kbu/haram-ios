@@ -47,8 +47,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     appearance.shadowColor = .clear
     appearance.shadowImage = UIImage()
     
+    let scrollEdgeAppearance = UINavigationBarAppearance()
+    scrollEdgeAppearance.backgroundColor = .white
+    scrollEdgeAppearance.configureWithOpaqueBackground()
+    scrollEdgeAppearance.titleTextAttributes = [
+      NSAttributedString.Key.foregroundColor: UIColor.black, // 텍스트 색상
+      NSAttributedString.Key.font: UIFont.bold20 // 폰트
+    ]
+    // 내비바 하단 회색선 제거
+//    scrollEdgeAppearance.shadowColor = .lightGray
+    scrollEdgeAppearance.shadowImage = UIImage()
+    
+    
     UINavigationBar.appearance().tintColor = .black
-    UINavigationBar.appearance().standardAppearance = appearance
+    UINavigationBar.appearance().standardAppearance = scrollEdgeAppearance
     UINavigationBar.appearance().scrollEdgeAppearance = appearance
   }
 }

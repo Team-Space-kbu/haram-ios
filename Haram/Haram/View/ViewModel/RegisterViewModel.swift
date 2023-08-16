@@ -20,6 +20,7 @@ protocol RegisterViewModelType {
   
   var isRegisterButtonEnabled: Driver<Bool> { get }
   var checkPasswordIsEqualMessage: Signal<String> { get }
+  var signupSuccessMessage: Signal<String> { get }
 }
 
 final class RegisterViewModel {
@@ -36,6 +37,7 @@ final class RegisterViewModel {
   
   private let isRegisterButtonEnabledSubject = BehaviorSubject<Bool>(value: false)
   private let checkPasswordIsEqualMessageRelay = PublishRelay<String>()
+  private let signupSuccessMessageRelay = PublishRelay<String>()
   
   init() {
     tryRegisterMember()
@@ -87,14 +89,14 @@ final class RegisterViewModel {
       }
     
     tryRegisterMember
-      .subscribe(onNext: { result in
+      .subscribe(with: self) { owner, result in
         switch result {
         case .success(let response):
-          print("회원가입 성공")
+          owner.signupSuccessMessageRelay.accept("회원가입 성공")
         case .failure(let error):
           print("회원가입 호출결과: \(error.description)")
         }
-      })
+      }
       .disposed(by: disposeBag)
   }
   
@@ -139,5 +141,7 @@ extension RegisterViewModel: RegisterViewModelType {
     registerEmailSubject.asObserver()
   }
   
-  
+  var signupSuccessMessage: Signal<String> {
+    signupSuccessMessageRelay.asSignal()
+  }
 }

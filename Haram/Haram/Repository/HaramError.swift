@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum HaramError: Error {
+enum HaramError: Error, CaseIterable {
   case decodedError
   case unknownedError
   case requestError
@@ -21,6 +21,20 @@ enum HaramError: Error {
   case existSameUserError // 동일한 아이디로 회원가입한 사용자가 존재할 때 발생하는 에러
   case wrongEmailAuthcodeError // 이메일 인증코드가 틀렸을 때 발생하는 에러
   case failedRegisterError // 회원가입에 실패했을 때 발생하는 에러
+}
+
+extension HaramError {
+  
+  static func isExist(with code: String) -> Bool {
+    return HaramError.allCases.contains(where: { $0.code == code })
+  }
+  
+  static func getError(with code: String) -> Self {
+    guard let error = HaramError.allCases.filter({ $0.code == code }).first else {
+      return .unknownedError
+    }
+    return error
+  }
 }
 
 // MARK: - 하람에러에 대한 코드 및 상태메세지

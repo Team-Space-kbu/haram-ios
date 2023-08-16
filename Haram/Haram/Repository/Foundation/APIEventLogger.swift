@@ -11,7 +11,7 @@ import Alamofire
 
 class APIEventLogger: EventMonitor {
   //1
-  let queue = DispatchQueue(label: "com.myCompany.myProject.networklogger")
+  let queue = DispatchQueue(label: "com.Jun.Haram")
   //2
   func requestDidFinish(_ request: Request) {
     print("⭐️Reqeust LOG")
@@ -19,8 +19,8 @@ class APIEventLogger: EventMonitor {
     
     print(
       "URL: " + (request.request?.url?.absoluteString ?? "")  + "\n"
-        + "Method: " + (request.request?.httpMethod ?? "") + "\n"
-        + "Headers: " + "\(request.request?.allHTTPHeaderFields ?? [:])" + "\n"
+      + "Method: " + (request.request?.httpMethod ?? "") + "\n"
+      + "Headers: " + "\(request.request?.allHTTPHeaderFields ?? [:])" + "\n"
     )
     print("Authorization: " + (request.request?.headers["Authorization"] ?? ""))
     print("Body: " + (request.request?.httpBody?.toPrettyPrintedString ?? ""))
@@ -33,17 +33,17 @@ class APIEventLogger: EventMonitor {
     print("⭐️RESPONSE LOG")
     print(
       "URL: " + (request.request?.url?.absoluteString ?? "") + "\n"
-        + "Result: " + "\(response.result)" + "\n"
-        + "StatusCode: " + "\(response.response?.statusCode ?? 0)" + "\n"
-        + "Data: \(response.data?.toPrettyPrintedString ?? "")"
+      + "Result: " + "\(response.result)" + "\n"
+      + "StatusCode: " + "\(response.response?.statusCode ?? 0)" + "\n"
+      + "Data: \(response.data?.toPrettyPrintedString ?? "")"
     )
   }
 }
 extension Data {
-    var toPrettyPrintedString: String? {
-        guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
-            let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
-            let prettyPrintedString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) else { return nil }
-        return prettyPrintedString as String
-    }
+  var toPrettyPrintedString: String? {
+    guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
+          let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
+          let prettyPrintedString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) else { return nil }
+    return prettyPrintedString as String
+  }
 }

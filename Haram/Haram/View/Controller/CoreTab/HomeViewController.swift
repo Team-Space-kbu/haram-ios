@@ -50,6 +50,8 @@ final class HomeViewController: BaseViewController {
     $0.showsVerticalScrollIndicator = true
     $0.showsHorizontalScrollIndicator = false
     $0.contentInsetAdjustmentBehavior = .always
+    $0.showsVerticalScrollIndicator = false
+    $0.alwaysBounceVertical = true
   }
   
   private let scrollContainerView = UIView().then {
@@ -114,8 +116,10 @@ final class HomeViewController: BaseViewController {
     
     collectionView.snp.makeConstraints {
       $0.top.equalTo(homeNoticeView.snp.bottom).offset(20)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(15)
-      $0.height.equalTo(UIScreen.main.bounds.height - (20 + 70 + 20 + 35))
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      $0.height.equalTo(624.91)
+      $0.bottom.lessThanOrEqualToSuperview()
+//      $0.height.equalTo(142 + 20 + 30.94 + 28 + 54 + 28.97 + 54 + 21 + 12 + 28 + 206)
     }
   }
   
@@ -173,18 +177,20 @@ final class HomeViewController: BaseViewController {
           widthDimension: .fractionalWidth(1),
           heightDimension: .fractionalHeight(1))
       )
+      
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1/4),
-          heightDimension: .fractionalWidth(1/4)),
+          heightDimension: .absolute(54)),
         repeatingSubitem: item,
         count: 4
       )
+//      group.interItemSpacing = .fixed(41)
       
       let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(18 + 26 + 32.94)
+          heightDimension: .absolute(30.94 + 28)
         ),
         elementKind: UICollectionView.elementKindSectionHeader,
         alignment: .top
@@ -193,6 +199,8 @@ final class HomeViewController: BaseViewController {
       let section = NSCollectionLayoutSection(group: group)
       section.boundarySupplementaryItems = [header]
       section.orthogonalScrollingBehavior = .none
+      section.interGroupSpacing = 28.97
+      section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: .zero, bottom: 21, trailing: .zero)
       return section
       
     case .news:
@@ -204,8 +212,8 @@ final class HomeViewController: BaseViewController {
       
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
-          widthDimension: .absolute(118),
-          heightDimension: .absolute(18 + 6 + 165)),
+          widthDimension: .absolute(119),
+          heightDimension: .absolute(206)),
         repeatingSubitem: item,
         count: 1
       )
@@ -213,7 +221,7 @@ final class HomeViewController: BaseViewController {
       let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(50)
+          heightDimension: .absolute(12 + 28)
         ),
         elementKind: UICollectionView.elementKindSectionHeader,
         alignment: .top
@@ -268,6 +276,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     if kind == UICollectionView.elementKindSectionFooter && indexPath.section == 0 {
       let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: PagingSectionFooterView.identifier, for: indexPath) as? PagingSectionFooterView ?? PagingSectionFooterView()
       footer.setPageControl(subBanners: bannerModel, currentPage: currentBannerPage)
+      footer.delegate = self
       return footer
     }
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeCollectionHeaderView.identifier, for: indexPath) as? HomeCollectionHeaderView ?? HomeCollectionHeaderView()
@@ -333,5 +342,13 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       print("잉")
     }
   }
+  
+}
+
+extension HomeViewController: PagingSectionFooterViewDelegate {
+  func didChangedPageControl(_ currentPage: Int) {
+    collectionView.scrollToItem(at: .init(row: currentPage, section: 0), at: .left, animated: true)
+  }
+  
   
 }

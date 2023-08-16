@@ -31,8 +31,8 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
   private func configureUI() {
     addSubview(titleLabel)
     titleLabel.snp.makeConstraints {
-      $0.directionalVerticalEdges.equalToSuperview()
-      $0.leading.equalToSuperview()
+      $0.top.leading.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(12)
     }
   }
   
