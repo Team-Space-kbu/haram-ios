@@ -12,6 +12,8 @@ import RxSwift
 import SnapKit
 import Then
 
+// MARK: - HomeType
+
 enum HomeType: CaseIterable {
   case banner
   case shortcut
@@ -31,7 +33,13 @@ enum HomeType: CaseIterable {
 
 final class HomeViewController: BaseViewController {
   
+  // MARK: - Properties
+  
+  private let viewModel: HomeViewModelType
+  
   private let currentBannerPage = PublishSubject<Int>()
+  
+  // MARK: - UI Models
   
   private var bannerModel: [HomebannerCollectionViewCellModel] = [] {
     didSet {
@@ -44,6 +52,8 @@ final class HomeViewController: BaseViewController {
       collectionView.reloadSections([2])
     }
   }
+  
+  // MARK: - UI Components
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -79,6 +89,19 @@ final class HomeViewController: BaseViewController {
     $0.showsVerticalScrollIndicator = false
     $0.isScrollEnabled = false
   }
+  
+  // MARK: - Initializations
+  
+  init(viewModel: HomeViewModelType = HomeViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  // MARK: - Configurations
   
   override func setupStyles() {
     super.setupStyles()
@@ -125,13 +148,13 @@ final class HomeViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    HomeService.shared.inquireHomeInfo()
-      .subscribe(with: self) { owner, result in
-        guard case let .success(response) = result else { return }
-        owner.newsModel = response.kokkoks.kbuNews.map { HomeNewsCollectionViewCellModel(kbuNews: $0) }
-        
-        owner.bannerModel = response.banner.banners.map { HomebannerCollectionViewCellModel(subBanner: $0) }
-      }
+    
+    viewModel.newsModel
+      .drive(rx.newsModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.bannerModel
+      .drive(rx.bannerModel)
       .disposed(by: disposeBag)
   }
   
@@ -235,6 +258,8 @@ final class HomeViewController: BaseViewController {
     }
   }
 }
+
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
