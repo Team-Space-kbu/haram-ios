@@ -20,6 +20,27 @@ enum ShortcutType: CaseIterable {
   case eventSchedule
   case readingRoom
   
+  var viewController: BaseViewController {
+    switch self {
+    case .mileage:
+      return MileageViewController()
+    case .chapel:
+      return ChapelViewController()
+    case .notice:
+      return NoticeViewController()
+    case .searchBook:
+      return LibraryViewController()
+    case .searchBible:
+      return StudyListViewController()
+    case .affiliate:
+      return StudyListViewController()
+    case .eventSchedule:
+      return StudyListViewController()
+    case .readingRoom:
+      return StudyListViewController()
+    }
+  }
+  
   var title: String {
     switch self {
     case .mileage:

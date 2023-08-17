@@ -119,7 +119,7 @@ final class HomeViewController: BaseViewController {
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(624.91)
       $0.bottom.lessThanOrEqualToSuperview()
-//      $0.height.equalTo(142 + 20 + 30.94 + 28 + 54 + 28.97 + 54 + 21 + 12 + 28 + 206)
+      //      $0.height.equalTo(142 + 20 + 30.94 + 28 + 54 + 28.97 + 54 + 21 + 12 + 28 + 206)
     }
   }
   
@@ -167,8 +167,8 @@ final class HomeViewController: BaseViewController {
       section.boundarySupplementaryItems = [pagingFooterElement]
       section.visibleItemsInvalidationHandler = { [weak self] _, contentOffset, environment in
         let bannerIndex = Int(max(0, round(contentOffset.x / environment.container.contentSize.width)))
-          self?.currentBannerPage.onNext(bannerIndex)
-     }
+        self?.currentBannerPage.onNext(bannerIndex)
+      }
       
       return section
     case .shortcut:
@@ -185,7 +185,7 @@ final class HomeViewController: BaseViewController {
         repeatingSubitem: item,
         count: 4
       )
-//      group.interItemSpacing = .fixed(41)
+      //      group.interItemSpacing = .fixed(41)
       
       let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
@@ -291,53 +291,24 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       print("배너클릭")
     case .shortcut:
       let type = ShortcutType.allCases[indexPath.row]
+      let vc: BaseViewController
       switch type {
-      case .mileage:
-        if !UserManager.shared.hasIntranetToken {
-          let vc = IntranetLoginViewController()
-          vc.modalPresentationStyle = .overFullScreen
-          present(vc, animated: true)
-        } else {
-          let vc = MileageViewController()
-          vc.title = "마일리지"
-          vc.navigationItem.largeTitleDisplayMode = .never
-          vc.hidesBottomBarWhenPushed = true
-          vc.navigationItem.backButtonTitle = nil
-          navigationController?.pushViewController(vc, animated: true)
-        }
-      case .chapel:
-        if !UserManager.shared.hasIntranetToken {
-          let vc = IntranetLoginViewController()
-          vc.modalPresentationStyle = .overFullScreen
-          present(vc, animated: true)
-        } else {
-          let vc = ChapelViewController()
-          vc.navigationItem.largeTitleDisplayMode = .never
-          vc.hidesBottomBarWhenPushed = true
-          vc.navigationItem.backButtonTitle = nil
-          navigationController?.pushViewController(vc, animated: true)
-        }
-      case .notice:
-        let vc = NoticeViewController()
-        vc.navigationItem.largeTitleDisplayMode = .never
-        vc.hidesBottomBarWhenPushed = true
-        vc.navigationItem.backButtonTitle = nil
-        navigationController?.pushViewController(vc, animated: true)
-      case .searchBook:
-        let vc = LibraryViewController()
-        vc.navigationItem.largeTitleDisplayMode = .never
-        vc.hidesBottomBarWhenPushed = true
-        vc.navigationItem.backButtonTitle = nil
-        navigationController?.pushViewController(vc, animated: true)
-      case .searchBible:
-        print("잉")
-      case .affiliate:
-        print("잉")
-      case .eventSchedule:
-        print("잉")
-      case .readingRoom:
-        print("잉")
+        case .mileage, .chapel:
+          if !UserManager.shared.hasIntranetToken {
+            vc = IntranetLoginViewController()
+            vc.modalPresentationStyle = .overFullScreen
+            present(vc, animated: true)
+            return
+          } else {
+            vc = type.viewController
+          }
+        default:
+          vc = type.viewController
       }
+      vc.navigationItem.largeTitleDisplayMode = .never
+      vc.hidesBottomBarWhenPushed = true
+      vc.navigationItem.backButtonTitle = nil
+      navigationController?.pushViewController(vc, animated: true)
     case .news:
       print("잉")
     }

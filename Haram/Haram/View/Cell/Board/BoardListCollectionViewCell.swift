@@ -10,9 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
-struct BoardListCollectionViewCellModel {
+struct BoardListCollectionViewCellModel: Hashable {
   let title: String
   let subTitle: String
+  let identifier = UUID()
 }
 
 final class BoardListCollectionViewCell: UICollectionViewCell {

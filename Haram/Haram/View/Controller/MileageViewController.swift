@@ -51,6 +51,7 @@ final class MileageViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    title = "마일리지"
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: "back"),
       style: .done,

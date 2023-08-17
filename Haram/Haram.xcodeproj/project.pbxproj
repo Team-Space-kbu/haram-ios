@@ -65,7 +65,6 @@
 		70727A9029D88935003DE956 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A8F29D88935003DE956 /* BaseViewController.swift */; };
 		70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9129D889AE003DE956 /* LoginViewController.swift */; };
 		70727A9529D889C6003DE956 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9429D889C6003DE956 /* HomeViewController.swift */; };
-		70727A9729D889FF003DE956 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9629D889FF003DE956 /* PolicyViewController.swift */; };
 		70727A9929D88A22003DE956 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9829D88A22003DE956 /* RegisterViewController.swift */; };
 		70727A9B29D88A3A003DE956 /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */; };
 		70727A9D29D88A7F003DE956 /* UpdatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */; };
@@ -134,6 +133,11 @@
 		708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */; };
 		708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */; };
 		708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */; };
+		708ED7822A8CC70700107CDF /* BoardListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7812A8CC70700107CDF /* BoardListViewModel.swift */; };
+		708ED7842A8E017A00107CDF /* StudyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7832A8E017A00107CDF /* StudyListViewController.swift */; };
+		708ED7862A8E01CC00107CDF /* StudyListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7852A8E01CC00107CDF /* StudyListCollectionViewCell.swift */; };
+		708ED7892A8E02B800107CDF /* StudyListCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7882A8E02B800107CDF /* StudyListCollectionHeaderView.swift */; };
+		708ED7912A8E0AED00107CDF /* StudyListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7902A8E0AED00107CDF /* StudyListViewModel.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -222,7 +226,6 @@
 		70727A8F29D88935003DE956 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		70727A9129D889AE003DE956 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		70727A9429D889C6003DE956 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		70727A9629D889FF003DE956 /* PolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
 		70727A9829D88A22003DE956 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePasswordViewController.swift; sourceTree = "<group>"; };
@@ -291,6 +294,11 @@
 		708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBookLoanStatusResponse.swift; sourceTree = "<group>"; };
 		708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
 		708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		708ED7812A8CC70700107CDF /* BoardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListViewModel.swift; sourceTree = "<group>"; };
+		708ED7832A8E017A00107CDF /* StudyListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyListViewController.swift; sourceTree = "<group>"; };
+		708ED7852A8E01CC00107CDF /* StudyListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyListCollectionViewCell.swift; sourceTree = "<group>"; };
+		708ED7882A8E02B800107CDF /* StudyListCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyListCollectionHeaderView.swift; sourceTree = "<group>"; };
+		708ED7902A8E0AED00107CDF /* StudyListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyListViewModel.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -445,14 +453,14 @@
 		705FD2A62A16030E00F353FE /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				708ED78F2A8E0AE400107CDF /* Study */,
+				708ED7802A8CC6E000107CDF /* Intranet */,
 				708312972A691D0000F7E283 /* Library */,
 				705FD2A72A16031300F353FE /* Auth */,
-				7083125F2A388D8B00F7E283 /* ScheduleViewModel.swift */,
 				708312922A65638200F7E283 /* MoreViewModel.swift */,
-				708312982A691D1700F7E283 /* MileageViewModel.swift */,
-				7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */,
 				708312AF2A73E07300F7E283 /* NoticeViewModel.swift */,
 				708312BB2A79247500F7E283 /* RegisterViewModel.swift */,
+				708ED7812A8CC70700107CDF /* BoardListViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -571,7 +579,6 @@
 				70727A8F29D88935003DE956 /* BaseViewController.swift */,
 				70727A9329D889BE003DE956 /* CoreTab */,
 				70727A9129D889AE003DE956 /* LoginViewController.swift */,
-				70727A9629D889FF003DE956 /* PolicyViewController.swift */,
 				70727A9829D88A22003DE956 /* RegisterViewController.swift */,
 				70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */,
 				70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */,
@@ -585,6 +592,7 @@
 				708312452A2F34DB00F7E283 /* IntranetLoginViewController.swift */,
 				7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */,
 				708312B12A76940600F7E283 /* BoardListViewController.swift */,
+				708ED7832A8E017A00107CDF /* StudyListViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -603,26 +611,16 @@
 		70727AA429D93B2A003DE956 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */,
-				70727AA529D93B42003DE956 /* HomeShortcutCollectionViewCell.swift */,
-				70727AA729D93F24003DE956 /* HomeNewsCollectionViewCell.swift */,
-				70727AA929D94482003DE956 /* HomeCollectionHeaderView.swift */,
-				70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */,
-				70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */,
-				70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */,
-				705FD2B02A1625EF00F353FE /* LibraryCollectionViewCell.swift */,
-				705FD2B22A16278700F353FE /* LibraryCollectionHeaderView.swift */,
-				705FD2B82A1A3CFB00F353FE /* LibraryResultsCollectionViewCell.swift */,
-				705FD2BA2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift */,
+				708ED78E2A8E037800107CDF /* Board */,
+				708ED78D2A8E037300107CDF /* Mileage */,
+				708ED78C2A8E036F00107CDF /* Chapel */,
+				708ED78B2A8E036700107CDF /* Library */,
+				708ED78A2A8E035C00107CDF /* Home */,
+				708ED7872A8E01DC00107CDF /* StudyRoom */,
 				705FD2C42A2338DE00F353FE /* NoticeCollectionViewCell.swift */,
-				708312552A31975C00F7E283 /* HomeBannerCollectionViewCell.swift */,
 				708312572A31A23200F7E283 /* PagingSectionFooterView.swift */,
-				708312692A39DEF300F7E283 /* LibraryRelatedBookCollectionViewCell.swift */,
-				708312892A655BD900F7E283 /* MileageTableHeaderView.swift */,
 				708312A92A723B4D00F7E283 /* NoticeCollectionHeaderView.swift */,
 				708312AD2A73936E00F7E283 /* CategoryCollectionViewCell.swift */,
-				708312B32A76945000F7E283 /* BoardListCollectionViewCell.swift */,
-				708312B52A779D1A00F7E283 /* BoardTableHeaderView.swift */,
 				708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */,
 				708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */,
 			);
@@ -697,6 +695,84 @@
 				708312632A3977B500F7E283 /* LibraryDetailViewModel.swift */,
 			);
 			path = Library;
+			sourceTree = "<group>";
+		};
+		708ED7802A8CC6E000107CDF /* Intranet */ = {
+			isa = PBXGroup;
+			children = (
+				7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */,
+				7083125F2A388D8B00F7E283 /* ScheduleViewModel.swift */,
+				708312982A691D1700F7E283 /* MileageViewModel.swift */,
+			);
+			path = Intranet;
+			sourceTree = "<group>";
+		};
+		708ED7872A8E01DC00107CDF /* StudyRoom */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7852A8E01CC00107CDF /* StudyListCollectionViewCell.swift */,
+				708ED7882A8E02B800107CDF /* StudyListCollectionHeaderView.swift */,
+			);
+			path = StudyRoom;
+			sourceTree = "<group>";
+		};
+		708ED78A2A8E035C00107CDF /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				708312552A31975C00F7E283 /* HomeBannerCollectionViewCell.swift */,
+				70727AA529D93B42003DE956 /* HomeShortcutCollectionViewCell.swift */,
+				70727AA729D93F24003DE956 /* HomeNewsCollectionViewCell.swift */,
+				70727AA929D94482003DE956 /* HomeCollectionHeaderView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		708ED78B2A8E036700107CDF /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				708312692A39DEF300F7E283 /* LibraryRelatedBookCollectionViewCell.swift */,
+				705FD2B02A1625EF00F353FE /* LibraryCollectionViewCell.swift */,
+				705FD2B22A16278700F353FE /* LibraryCollectionHeaderView.swift */,
+				705FD2B82A1A3CFB00F353FE /* LibraryResultsCollectionViewCell.swift */,
+				705FD2BA2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		708ED78C2A8E036F00107CDF /* Chapel */ = {
+			isa = PBXGroup;
+			children = (
+				70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */,
+				70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */,
+			);
+			path = Chapel;
+			sourceTree = "<group>";
+		};
+		708ED78D2A8E037300107CDF /* Mileage */ = {
+			isa = PBXGroup;
+			children = (
+				70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */,
+				708312892A655BD900F7E283 /* MileageTableHeaderView.swift */,
+			);
+			path = Mileage;
+			sourceTree = "<group>";
+		};
+		708ED78E2A8E037800107CDF /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */,
+				708312B32A76945000F7E283 /* BoardListCollectionViewCell.swift */,
+				708312B52A779D1A00F7E283 /* BoardTableHeaderView.swift */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
+		708ED78F2A8E0AE400107CDF /* Study */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7902A8E0AED00107CDF /* StudyListViewModel.swift */,
+			);
+			path = Study;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -988,6 +1064,7 @@
 				705FD2A92A16031900F353FE /* LoginViewModel.swift in Sources */,
 				70C9CCAE2A066B8F00BEB5F2 /* ChapelInfoView.swift in Sources */,
 				708312C02A7A448300F7E283 /* TermsOfUseCheckView.swift in Sources */,
+				708ED7842A8E017A00107CDF /* StudyListViewController.swift in Sources */,
 				705FD2CC2A23BA6A00F353FE /* InquireLibraryResponse.swift in Sources */,
 				70727A9029D88935003DE956 /* BaseViewController.swift in Sources */,
 				705FD28E2A10FC0200F353FE /* KeyChainWrapper.swift in Sources */,
@@ -1016,6 +1093,7 @@
 				705FD2BB2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift in Sources */,
 				705FD2822A10E2A800F353FE /* BaseEntity.swift in Sources */,
 				708312C42A7BF7BD00F7E283 /* APIEventLogger.swift in Sources */,
+				708ED7862A8E01CC00107CDF /* StudyListCollectionViewCell.swift in Sources */,
 				708312932A65638200F7E283 /* MoreViewModel.swift in Sources */,
 				705FD2862A10E58600F353FE /* HeaderType.swift in Sources */,
 				705E70B629E1C7A100156B1F /* HaramSectionView.swift in Sources */,
@@ -1036,7 +1114,6 @@
 				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
 				7083129D2A6D0F7900F7E283 /* MileageReloadButton.swift in Sources */,
 				705FD2C92A23BA3000F353FE /* LibraryService.swift in Sources */,
-				70727A9729D889FF003DE956 /* PolicyViewController.swift in Sources */,
 				708312B02A73E07300F7E283 /* NoticeViewModel.swift in Sources */,
 				708312A32A6EC9D700F7E283 /* IntranetLoginViewModel.swift in Sources */,
 				70C9CCB02A06700400BEB5F2 /* ChapelViewController.swift in Sources */,
@@ -1046,12 +1123,14 @@
 				70727A9B29D88A3A003DE956 /* FindPasswordViewController.swift in Sources */,
 				708312B82A77E36900F7E283 /* RegisterTextField.swift in Sources */,
 				70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */,
+				708ED7822A8CC70700107CDF /* BoardListViewModel.swift in Sources */,
 				70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */,
 				7083128E2A65626E00F7E283 /* MyPageService.swift in Sources */,
 				70727A9529D889C6003DE956 /* HomeViewController.swift in Sources */,
 				708312662A398C0D00F7E283 /* LibraryRentalListView.swift in Sources */,
 				705FD28C2A10F74D00F353FE /* UserManager.swift in Sources */,
 				70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */,
+				708ED7892A8E02B800107CDF /* StudyListCollectionHeaderView.swift in Sources */,
 				708312442A2F1E6500F7E283 /* InquireChapelInfoResponse.swift in Sources */,
 				705FD2D32A2645D200F353FE /* SearchBookResponse.swift in Sources */,
 				705FD29F2A15F21F00F353FE /* LoginButton.swift in Sources */,
@@ -1065,6 +1144,7 @@
 				7083129B2A6A909C00F7E283 /* ChapelViewModel.swift in Sources */,
 				705FD2BF2A1A4D2E00F353FE /* LibraryDetailMainView.swift in Sources */,
 				7083124F2A31927600F7E283 /* HomeRouter.swift in Sources */,
+				708ED7912A8E0AED00107CDF /* StudyListViewModel.swift in Sources */,
 				708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */,
 				70727AA629D93B43003DE956 /* HomeShortcutCollectionViewCell.swift in Sources */,
 				7083124A2A2F856700F7E283 /* LibraryDetailInfoView.swift in Sources */,

@@ -12,6 +12,19 @@ import SnapKit
 import Then
 
 final class BoardListViewController: BaseViewController {
+  
+  private let viewModel: BoardListViewModelType
+  
+  private var boardListModel: [BoardListCollectionViewCellModel] = [] {
+    didSet {
+      var snapshot = NSDiffableDataSourceSnapshot<Section, BoardListCollectionViewCellModel>()
+      snapshot.appendSections([.main])
+      snapshot.appendItems(boardListModel)
+      self.dataSource.apply(snapshot, animatingDifferences: true)
+    }
+  }
+  private var dataSource: UICollectionViewDiffableDataSource<Section, BoardListCollectionViewCellModel>!
+  
   private lazy var boardListCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
@@ -21,8 +34,16 @@ final class BoardListViewController: BaseViewController {
     $0.backgroundColor = .clear
     $0.register(BoardListCollectionViewCell.self, forCellWithReuseIdentifier: BoardListCollectionViewCell.identifier)
     $0.delegate = self
-    $0.dataSource = self
     $0.contentInset = UIEdgeInsets(top: 32, left: 15, bottom: .zero, right: 15)
+  }
+  
+  init(viewModel: BoardListViewModelType = BoardListViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func setupStyles() {
@@ -33,6 +54,19 @@ final class BoardListViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
+    
+    let cellRegistration = UICollectionView.CellRegistration<BoardListCollectionViewCell, BoardListCollectionViewCellModel> { cell, indexPath, item in
+      cell.configureUI(with: item)
+    }
+    
+    dataSource = UICollectionViewDiffableDataSource<Section, BoardListCollectionViewCellModel>(collectionView: boardListCollectionView) { collectionView, indexPath, item -> UICollectionViewCell in
+      return collectionView.dequeueConfiguredReusableCell(
+        using: cellRegistration,
+        for: indexPath,
+        item: item
+      )
+    }
+    
   }
   
   override func setupLayouts() {
@@ -49,7 +83,9 @@ final class BoardListViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    
+    viewModel.boardListModel
+      .drive(rx.boardListModel)
+      .disposed(by: disposeBag)
   }
   
   @objc private func didTappedBackButton() {
@@ -57,20 +93,17 @@ final class BoardListViewController: BaseViewController {
   }
 }
 
-extension BoardListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardListCollectionViewCell.identifier, for: indexPath) as? BoardListCollectionViewCell ?? BoardListCollectionViewCell()
-    cell.configureUI(with: .init(title: "게시판제목", subTitle: "게시판부제목"))
-    return cell
-  }
-}
-
 extension BoardListViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: collectionView.frame.width - 30, height: 92)
+  }
+}
+
+// MARK: - Section For DiffableDataSource
+
+extension BoardListViewController {
+  enum Section: CaseIterable {
+    case main
+    case second
   }
 }
