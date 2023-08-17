@@ -27,7 +27,9 @@ final class StudyListViewController: BaseViewController {
   
   private var dataSource: UICollectionViewDiffableDataSource<Section, StudyListCollectionViewCellModel>!
   
-  private lazy var studyListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+  private lazy var studyListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
+    $0.minimumLineSpacing = 20
+  }).then {
     $0.backgroundColor = .clear
     $0.delegate = self
   }
@@ -127,17 +129,18 @@ extension StudyListViewController {
 
 extension StudyListViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    viewModel.tapped.onNext(())
+    
   }
 }
 
 extension StudyListViewController: UICollectionViewDelegateFlowLayout {
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    return CGSize(width: collectionView.frame.width, height: 300 + 30)
+    /// 헤더뷰랑 로뎀스터디룸예약 라벨 사이의 간격을 모르겠음 30을 수정해야함
+    return CGSize(width: collectionView.frame.width, height: 22 + 26 + 294 + 26)
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: collectionView.frame.width - 30, height: 50)
+    return CGSize(width: collectionView.frame.width - 30, height: 98)
   }
 }

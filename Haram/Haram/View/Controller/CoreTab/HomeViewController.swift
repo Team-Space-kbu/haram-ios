@@ -156,6 +156,12 @@ final class HomeViewController: BaseViewController {
     viewModel.bannerModel
       .drive(rx.bannerModel)
       .disposed(by: disposeBag)
+    
+    viewModel.noticeModel
+      .emit(with: self) { owner, model in
+        owner.homeNoticeView.configureUI(with: model)
+      }
+      .disposed(by: disposeBag)
   }
   
   private func createSection(type: HomeType) -> NSCollectionLayoutSection? {

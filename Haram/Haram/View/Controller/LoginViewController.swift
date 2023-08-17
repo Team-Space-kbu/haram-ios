@@ -110,7 +110,7 @@ final class LoginViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    UserManager.shared.clearAllInformations()
+//    UserManager.shared.clearAllInformations()
   
     guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else {
       return

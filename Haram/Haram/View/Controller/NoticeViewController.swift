@@ -131,7 +131,7 @@ final class NoticeViewController: BaseViewController {
     let header = NSCollectionLayoutBoundarySupplementaryItem(
       layoutSize: NSCollectionLayoutSize(
         widthDimension: .fractionalWidth(1),
-        heightDimension: .absolute(20 + 200 + 20 + 22 + 70)
+        heightDimension: .absolute(189 + 30)
       ),
       elementKind: UICollectionView.elementKindSectionHeader,
       alignment: .top

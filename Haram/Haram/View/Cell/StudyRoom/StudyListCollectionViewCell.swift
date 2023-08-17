@@ -26,11 +26,23 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "StudyListCollectionViewCell"
   
-  private let studyTitleLabel = UILabel()
+  private let studyTitleLabel = UILabel().then {
+    $0.font = .bold18
+    $0.textColor = .hex1A1E27
+    $0.numberOfLines = 1
+  }
   
-  private let studyDescriptionLabel = UILabel()
+  private let studyDescriptionLabel = UILabel().then {
+    $0.textColor = .hex1A1E27
+    $0.font = .regular14
+    $0.numberOfLines = 0
+  }
   
-  private let studyImageView = UIImageView()
+  private let studyImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFill
+    $0.layer.masksToBounds = true
+    $0.layer.cornerRadius = 10
+  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -43,24 +55,30 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
   
   private func configureUI() {
     [studyTitleLabel, studyDescriptionLabel, studyImageView].forEach { contentView.addSubview($0) }
+    
+    studyImageView.snp.makeConstraints {
+      $0.directionalVerticalEdges.trailing.equalToSuperview()
+      $0.size.equalTo(98)
+    }
+    
     studyTitleLabel.snp.makeConstraints {
-      $0.top.leading.equalToSuperview()
+      $0.top.equalToSuperview()
+      $0.leading.equalToSuperview()
+      $0.trailing.lessThanOrEqualTo(studyImageView.snp.leading)
     }
     
     studyDescriptionLabel.snp.makeConstraints {
       $0.top.equalTo(studyTitleLabel.snp.bottom).offset(10)
-      $0.leading.equalToSuperview()
+      $0.leading.equalTo(studyTitleLabel)
       $0.bottom.lessThanOrEqualToSuperview()
-    }
-    
-    studyImageView.snp.makeConstraints {
-      $0.directionalVerticalEdges.trailing.equalToSuperview()
+      $0.trailing.lessThanOrEqualTo(studyImageView.snp.leading)
     }
   }
   
   func configureUI(with model: StudyListCollectionViewCellModel) {
     studyTitleLabel.text = model.title
     studyDescriptionLabel.text = model.description
-    studyImageView.kf.setImage(with: model.imageURL)
+    studyImageView.image = UIImage(named: "rothemImage")
+//    studyImageView.kf.setImage(with: model.imageURL)
   }
 }

@@ -17,6 +17,7 @@ enum HaramError: Error, CaseIterable {
   case wrongPasswordError // 패스워드가 틀렸을 때 발생하는 에러입니다.
   
   case loanInfoEmptyError // 대여정보가 비어있어 처리할 수 없는 상태입니다.
+  case noExistSearchInfo // 검색된 정보가 존재하지않은 상태입니다.
 
   case existSameUserError // 동일한 아이디로 회원가입한 사용자가 존재할 때 발생하는 에러
   case wrongEmailAuthcodeError // 이메일 인증코드가 틀렸을 때 발생하는 에러
@@ -62,6 +63,8 @@ extension HaramError {
       return "USER05"
     case .failedRegisterError:
       return "USER04"
+    case .noExistSearchInfo:
+      return "LIB04"
     }
   }
   
@@ -85,6 +88,8 @@ extension HaramError {
       return "이메일 인증 코드가 일치하지않습니다."
     case .failedRegisterError:
       return "회원가입에 실패했습니다, 다시 시도해주세요."
+    case .noExistSearchInfo:
+      return "검색된 정보가 존재하지않습니다."
     }
   }
 }

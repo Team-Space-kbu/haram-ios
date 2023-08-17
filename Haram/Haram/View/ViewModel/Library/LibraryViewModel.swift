@@ -57,9 +57,13 @@ final class LibraryViewModel: LibraryViewModelType {
       .flatMapLatest(LibraryService.shared.searchBook)
     
     requestSearchBook.subscribe(onNext: { result in
-      guard case let .success(response) = result else { return }
-      let model = response.map { LibraryResultsCollectionViewCellModel(response: $0) }
-      searchBookResults.accept(model)
+      switch result {
+      case .success(let response):
+        let model = response.map { LibraryResultsCollectionViewCellModel(response: $0) }
+        searchBookResults.accept(model)
+      case .failure(_):
+        searchBookResults.accept([])
+      }
       isLoadingSubject.onNext(false)
     })
     .disposed(by: disposeBag)

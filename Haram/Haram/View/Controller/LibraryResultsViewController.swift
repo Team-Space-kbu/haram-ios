@@ -29,6 +29,8 @@ final class LibraryResultsViewController: BaseViewController {
   
   private let indicatorView = UIActivityIndicatorView(style: .large)
   
+  private lazy var emptyView = LibraryResultsEmptyView()
+  
   init(model: [LibraryResultsCollectionViewCellModel]) {
     self.model = model
     super.init(nibName: nil, bundle: nil)
@@ -40,6 +42,7 @@ final class LibraryResultsViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    emptyView.isHidden = !model.isEmpty
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: "back"),
       style: .plain,
@@ -52,6 +55,7 @@ final class LibraryResultsViewController: BaseViewController {
     super.setupLayouts()
     view.addSubview(collectionView)
     view.addSubview(indicatorView)
+    view.addSubview(emptyView)
   }
   
   override func setupConstraints() {
@@ -61,6 +65,10 @@ final class LibraryResultsViewController: BaseViewController {
     }
     
     indicatorView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
+    emptyView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
   }

@@ -35,12 +35,6 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
     $0.backgroundColor = .clear
   }
   
-  private let noticeLabel = UILabel().then {
-    $0.font = .medium16
-    $0.textColor = .hex02162E
-    $0.text = "통합공지사항"
-  }
-  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -51,25 +45,17 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
-    [categoryLabel, categoryCollectionView, noticeLabel].forEach { addSubview($0) }
+    [categoryLabel, categoryCollectionView].forEach { addSubview($0) }
     
     categoryLabel.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(70)
-      $0.leading.equalToSuperview()
+      $0.top.leading.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }
     
     categoryCollectionView.snp.makeConstraints {
-      $0.top.equalTo(categoryLabel.snp.bottom).offset(16)
+      $0.top.equalTo(categoryLabel.snp.bottom).offset(17)
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(41 + 71 + 41)
-    }
-    
-    noticeLabel.snp.makeConstraints {
-      $0.top.equalTo(categoryCollectionView.snp.bottom).offset(31)
-      $0.leading.equalToSuperview()
-      $0.trailing.lessThanOrEqualToSuperview()
-      $0.bottom.equalToSuperview().inset(22)
     }
   }
   

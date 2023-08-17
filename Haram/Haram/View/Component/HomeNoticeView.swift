@@ -10,6 +10,16 @@ import UIKit
 import SnapKit
 import Then
 
+struct HomeNoticeViewModel {
+  let title: String
+  let content: String
+  
+  init(subNotice: SubNotice) {
+    title = subNotice.title
+    content = subNotice.content
+  }
+}
+
 final class HomeNoticeView: UIView {
   
   private let noticeImageView = UIImageView().then {
@@ -19,7 +29,6 @@ final class HomeNoticeView: UIView {
   
   private let noticeLabel = UILabel().then {
     $0.textColor = .hex1A1E27
-    $0.text = "알림 라벨입니다"
     $0.font = .regular16
   }
   
@@ -50,5 +59,9 @@ final class HomeNoticeView: UIView {
       $0.directionalVerticalEdges.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }
+  }
+  
+  func configureUI(with model: HomeNoticeViewModel) {
+    noticeLabel.text = model.title
   }
 }
