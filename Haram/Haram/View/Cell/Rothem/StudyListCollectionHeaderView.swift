@@ -10,13 +10,32 @@ import UIKit
 import SnapKit
 import Then
 
+enum StudyListCollectionHeaderViewType {
+  case noReservation
+  case reservation
+}
+
+protocol StudyListCollectionHeaderViewDelegate: AnyObject {
+  func didTappedCheckButton()
+}
+
 final class StudyListCollectionHeaderView: UICollectionReusableView {
   
   static let identifier = "StudyListCollectionHeaderView"
+  weak var delegate: StudyListCollectionHeaderViewDelegate?
   
   // MARK: - UI Components
   
+  private let containerView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 26
+  }
+  
   private let studyListHeaderView = StudyListHeaderView()
+  
+  private lazy var checkReservationInfoView = CheckReservationInfoView().then {
+    $0.delegate = self
+  }
   
   private let studyReservationLabel = UILabel().then {
     $0.font = .bold22
@@ -34,21 +53,36 @@ final class StudyListCollectionHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
-    [studyListHeaderView, studyReservationLabel].forEach { addSubview($0) }
+    addSubview(containerView)
+    [studyListHeaderView, studyReservationLabel].forEach { containerView.addArrangedSubview($0) }
+    
+    containerView.snp.makeConstraints {
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
+    }
     
     studyListHeaderView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(294)
     }
     
     studyReservationLabel.snp.makeConstraints {
-      $0.top.equalTo(studyListHeaderView.snp.bottom).offset(26)
+//      $0.top.equalTo(studyListHeaderView.snp.bottom).offset(26)
       $0.leading.equalToSuperview().inset(15)
       $0.bottom.equalToSuperview().inset(22)
     }
+    
   }
   
-  func configureUI(with model: StudyListHeaderViewModel) {
+  func configureUI(with model: StudyListHeaderViewModel, type: StudyListCollectionHeaderViewType = .noReservation) {
+    if type == .reservation {
+      containerView.insertArrangedSubview(checkReservationInfoView, at: 1)
+      checkReservationInfoView.snp.makeConstraints {
+        $0.height.equalTo(41)
+        $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      }
+      containerView.setCustomSpacing(27, after: checkReservationInfoView)
+    }
     studyListHeaderView.configureUI(with: model)
   }
 }
@@ -119,5 +153,11 @@ struct StudyListHeaderViewModel: Hashable {
   
   func hash(into hasher: inout Hasher) {
     hasher.combine(identifier)
+  }
+}
+
+extension StudyListCollectionHeaderView: CheckReservationInfoViewDelegate {
+  func didTappedButton() {
+    delegate?.didTappedCheckButton()
   }
 }

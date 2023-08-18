@@ -13,6 +13,7 @@ import Then
 final class StudyListViewController: BaseViewController {
   
   private let viewModel: StudyListViewModelType
+  private var type: StudyListCollectionHeaderViewType = .reservation
   
   private var studyListModel: [StudyListCollectionViewCellModel] = [] {
     didSet {
@@ -93,7 +94,8 @@ final class StudyListViewController: BaseViewController {
       switch self.dataSource.snapshot().sectionIdentifiers[indexPath.section] {
       case .studyList(let studyHeaderModel):
         guard let studyHeaderModel = studyHeaderModel else { return }
-        supplementaryView.configureUI(with: studyHeaderModel)
+        supplementaryView.delegate = self
+        supplementaryView.configureUI(with: studyHeaderModel, type: self.type)
       }
     }
     
@@ -129,7 +131,9 @@ extension StudyListViewController {
 
 extension StudyListViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    
+    let vc = StudyReservationViewController()
+    vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
   }
 }
 
@@ -137,10 +141,23 @@ extension StudyListViewController: UICollectionViewDelegateFlowLayout {
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
     /// 헤더뷰랑 로뎀스터디룸예약 라벨 사이의 간격을 모르겠음 30을 수정해야함
-    return CGSize(width: collectionView.frame.width, height: 22 + 26 + 294 + 26)
+    switch type {
+    case .noReservation:
+      return CGSize(width: collectionView.frame.width, height: 22 + 26 + 294 + 26)
+    case .reservation:
+      return CGSize(width: collectionView.frame.width, height: 453.97 - 17.97)
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: collectionView.frame.width - 30, height: 98)
+  }
+}
+
+extension StudyListViewController: StudyListCollectionHeaderViewDelegate {
+  func didTappedCheckButton() {
+    let vc = CheckReservationViewController()
+    vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
   }
 }

@@ -143,6 +143,13 @@
 		708ED7982A8E6F8F00107CDF /* RothemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7972A8E6F8F00107CDF /* RothemService.swift */; };
 		708ED79B2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED79A2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift */; };
 		708ED79D2A8E817F00107CDF /* LibraryResultsEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED79C2A8E817F00107CDF /* LibraryResultsEmptyView.swift */; };
+		708ED79F2A8F65A100107CDF /* CheckReservationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED79E2A8F65A100107CDF /* CheckReservationInfoView.swift */; };
+		708ED7A12A8F922900107CDF /* CheckReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7A02A8F922900107CDF /* CheckReservationViewController.swift */; };
+		708ED7A72A8FA1C500107CDF /* StudyReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7A62A8FA1C500107CDF /* StudyReservationViewController.swift */; };
+		708ED7A92A8FA41300107CDF /* SelectedTimeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7A82A8FA41300107CDF /* SelectedTimeCollectionViewCell.swift */; };
+		708ED7AB2A8FA53F00107CDF /* SelectedTimeCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7AA2A8FA53F00107CDF /* SelectedTimeCollectionHeaderView.swift */; };
+		708ED7AD2A8FAAF600107CDF /* SelectedDayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7AC2A8FAAF600107CDF /* SelectedDayCollectionViewCell.swift */; };
+		708ED7AF2A8FDA7700107CDF /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7AE2A8FDA7700107CDF /* NoticeDetailViewController.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -309,6 +316,13 @@
 		708ED7972A8E6F8F00107CDF /* RothemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemService.swift; sourceTree = "<group>"; };
 		708ED79A2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireAllRoomInfoResponse.swift; sourceTree = "<group>"; };
 		708ED79C2A8E817F00107CDF /* LibraryResultsEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryResultsEmptyView.swift; sourceTree = "<group>"; };
+		708ED79E2A8F65A100107CDF /* CheckReservationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReservationInfoView.swift; sourceTree = "<group>"; };
+		708ED7A02A8F922900107CDF /* CheckReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReservationViewController.swift; sourceTree = "<group>"; };
+		708ED7A62A8FA1C500107CDF /* StudyReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyReservationViewController.swift; sourceTree = "<group>"; };
+		708ED7A82A8FA41300107CDF /* SelectedTimeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTimeCollectionViewCell.swift; sourceTree = "<group>"; };
+		708ED7AA2A8FA53F00107CDF /* SelectedTimeCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTimeCollectionHeaderView.swift; sourceTree = "<group>"; };
+		708ED7AC2A8FAAF600107CDF /* SelectedDayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedDayCollectionViewCell.swift; sourceTree = "<group>"; };
+		708ED7AE2A8FDA7700107CDF /* NoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewController.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -407,6 +421,7 @@
 				708312BF2A7A448300F7E283 /* TermsOfUseCheckView.swift */,
 				708312C12A7A6F2900F7E283 /* PaddingLabel.swift */,
 				708ED79C2A8E817F00107CDF /* LibraryResultsEmptyView.swift */,
+				708ED79E2A8F65A100107CDF /* CheckReservationInfoView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -591,23 +606,16 @@
 		70727A8E29D8892C003DE956 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				708ED7A52A8FA19F00107CDF /* Rothem */,
+				708ED7A42A8F948500107CDF /* Library */,
+				708ED7A32A8F944A00107CDF /* Intranet */,
 				70727A8F29D88935003DE956 /* BaseViewController.swift */,
 				70727A9329D889BE003DE956 /* CoreTab */,
-				70727A9129D889AE003DE956 /* LoginViewController.swift */,
-				70727A9829D88A22003DE956 /* RegisterViewController.swift */,
-				70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */,
-				70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */,
-				70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */,
-				70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */,
+				708ED7A22A8F942500107CDF /* Auth */,
 				705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */,
-				705FD2AC2A16160100F353FE /* LibraryViewController.swift */,
-				705FD2AE2A16246F00F353FE /* LibraryResultsViewController.swift */,
-				705FD2BC2A1A4CEE00F353FE /* LibraryDetailViewController.swift */,
 				705FD2C22A2337C800F353FE /* NoticeViewController.swift */,
-				708312452A2F34DB00F7E283 /* IntranetLoginViewController.swift */,
-				7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */,
 				708312B12A76940600F7E283 /* BoardListViewController.swift */,
-				708ED7832A8E017A00107CDF /* StudyListViewController.swift */,
+				708ED7AE2A8FDA7700107CDF /* NoticeDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -631,7 +639,7 @@
 				708ED78C2A8E036F00107CDF /* Chapel */,
 				708ED78B2A8E036700107CDF /* Library */,
 				708ED78A2A8E035C00107CDF /* Home */,
-				708ED7872A8E01DC00107CDF /* StudyRoom */,
+				708ED7872A8E01DC00107CDF /* Rothem */,
 				705FD2C42A2338DE00F353FE /* NoticeCollectionViewCell.swift */,
 				708312572A31A23200F7E283 /* PagingSectionFooterView.swift */,
 				708312A92A723B4D00F7E283 /* NoticeCollectionHeaderView.swift */,
@@ -722,13 +730,16 @@
 			path = Intranet;
 			sourceTree = "<group>";
 		};
-		708ED7872A8E01DC00107CDF /* StudyRoom */ = {
+		708ED7872A8E01DC00107CDF /* Rothem */ = {
 			isa = PBXGroup;
 			children = (
 				708ED7852A8E01CC00107CDF /* StudyListCollectionViewCell.swift */,
 				708ED7882A8E02B800107CDF /* StudyListCollectionHeaderView.swift */,
+				708ED7A82A8FA41300107CDF /* SelectedTimeCollectionViewCell.swift */,
+				708ED7AA2A8FA53F00107CDF /* SelectedTimeCollectionHeaderView.swift */,
+				708ED7AC2A8FAAF600107CDF /* SelectedDayCollectionViewCell.swift */,
 			);
-			path = StudyRoom;
+			path = Rothem;
 			sourceTree = "<group>";
 		};
 		708ED78A2A8E035C00107CDF /* Home */ = {
@@ -802,6 +813,48 @@
 			isa = PBXGroup;
 			children = (
 				708ED79A2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift */,
+			);
+			path = Rothem;
+			sourceTree = "<group>";
+		};
+		708ED7A22A8F942500107CDF /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */,
+				70727A9829D88A22003DE956 /* RegisterViewController.swift */,
+				70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */,
+				70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */,
+				70727A9129D889AE003DE956 /* LoginViewController.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		708ED7A32A8F944A00107CDF /* Intranet */ = {
+			isa = PBXGroup;
+			children = (
+				708312452A2F34DB00F7E283 /* IntranetLoginViewController.swift */,
+				70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */,
+				70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */,
+			);
+			path = Intranet;
+			sourceTree = "<group>";
+		};
+		708ED7A42A8F948500107CDF /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				705FD2AC2A16160100F353FE /* LibraryViewController.swift */,
+				705FD2AE2A16246F00F353FE /* LibraryResultsViewController.swift */,
+				705FD2BC2A1A4CEE00F353FE /* LibraryDetailViewController.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		708ED7A52A8FA19F00107CDF /* Rothem */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7832A8E017A00107CDF /* StudyListViewController.swift */,
+				708ED7A02A8F922900107CDF /* CheckReservationViewController.swift */,
+				708ED7A62A8FA1C500107CDF /* StudyReservationViewController.swift */,
 			);
 			path = Rothem;
 			sourceTree = "<group>";
@@ -1070,8 +1123,11 @@
 			files = (
 				705FD2992A13BC1700F353FE /* RegisterMemberResponse.swift in Sources */,
 				705FD2AD2A16160100F353FE /* LibraryViewController.swift in Sources */,
+				708ED7AB2A8FA53F00107CDF /* SelectedTimeCollectionHeaderView.swift in Sources */,
 				705FD2C52A2338DE00F353FE /* NoticeCollectionViewCell.swift in Sources */,
 				70727A9929D88A22003DE956 /* RegisterViewController.swift in Sources */,
+				708ED7A72A8FA1C500107CDF /* StudyReservationViewController.swift in Sources */,
+				708ED79F2A8F65A100107CDF /* CheckReservationInfoView.swift in Sources */,
 				708312562A31975C00F7E283 /* HomeBannerCollectionViewCell.swift in Sources */,
 				70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */,
 				705FD2C72A23B9AD00F353FE /* LibraryRouter.swift in Sources */,
@@ -1081,6 +1137,7 @@
 				708312402A2CA79D00F7E283 /* IntranetLoginRequest.swift in Sources */,
 				705FD2BD2A1A4CEE00F353FE /* LibraryDetailViewController.swift in Sources */,
 				7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */,
+				708ED7A12A8F922900107CDF /* CheckReservationViewController.swift in Sources */,
 				70727AAA29D94482003DE956 /* HomeCollectionHeaderView.swift in Sources */,
 				705FD2B32A16278700F353FE /* LibraryCollectionHeaderView.swift in Sources */,
 				70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */,
@@ -1129,6 +1186,7 @@
 				705FD2822A10E2A800F353FE /* BaseEntity.swift in Sources */,
 				708312C42A7BF7BD00F7E283 /* APIEventLogger.swift in Sources */,
 				708ED7862A8E01CC00107CDF /* StudyListCollectionViewCell.swift in Sources */,
+				708ED7A92A8FA41300107CDF /* SelectedTimeCollectionViewCell.swift in Sources */,
 				708312932A65638200F7E283 /* MoreViewModel.swift in Sources */,
 				705FD2862A10E58600F353FE /* HeaderType.swift in Sources */,
 				705E70B629E1C7A100156B1F /* HaramSectionView.swift in Sources */,
@@ -1171,10 +1229,12 @@
 				705FD29F2A15F21F00F353FE /* LoginButton.swift in Sources */,
 				7083125E2A3887B700F7E283 /* InquireScheduleInfoResponse.swift in Sources */,
 				708312BA2A78D0A300F7E283 /* HaramButton.swift in Sources */,
+				708ED7AD2A8FAAF600107CDF /* SelectedDayCollectionViewCell.swift in Sources */,
 				70C9CCB22A067D8000BEB5F2 /* ChapelDayView.swift in Sources */,
 				70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */,
 				705FD2842A10E47F00F353FE /* HaramError.swift in Sources */,
 				70C9CCB62A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift in Sources */,
+				708ED7AF2A8FDA7700107CDF /* NoticeDetailViewController.swift in Sources */,
 				705FD2C32A2337C800F353FE /* NoticeViewController.swift in Sources */,
 				7083129B2A6A909C00F7E283 /* ChapelViewModel.swift in Sources */,
 				705FD2BF2A1A4D2E00F353FE /* LibraryDetailMainView.swift in Sources */,

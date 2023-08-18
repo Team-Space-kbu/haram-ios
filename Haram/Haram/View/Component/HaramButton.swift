@@ -23,6 +23,7 @@ final class HaramButton: UIButton {
     self.type = type
     super.init(frame: .zero)
     configureUI()
+    
   }
   
   required init?(coder: NSCoder) {
