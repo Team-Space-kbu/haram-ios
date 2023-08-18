@@ -73,12 +73,23 @@ final class LibraryRentalListView: UIView {
   }
   
   func configureUI(with model: [LibraryRentalViewModel]) {
+    
+    containerView.subviews.forEach { $0.removeFromSuperview() }
+    
+    if model.isEmpty {
+      let emptyView = RentalEmptyView()
+      emptyView.snp.makeConstraints {
+        $0.height.equalTo(80)
+      }
+      containerView.addArrangedSubview(emptyView)
+      return
+    }
+    
     model.forEach { rentalModel in
       let vw = LibraryRentalView()
       vw.configureUI(with: rentalModel)
       vw.snp.makeConstraints {
         $0.height.equalTo(307 / 4)
-        $0.width.equalTo(333)
       }
       containerView.addArrangedSubview(vw)
     }
@@ -163,5 +174,36 @@ final class LibraryRentalView: UIView {
     numberLabel.text = "청구기호 : \(model.number)"
     holdingInstitutionLabel.text = "소장처 : \(model.holdingInstitution)"
     loanStatusLabel.text = model.loanStatus
+  }
+}
+
+extension LibraryRentalListView {
+  final class RentalEmptyView: UIView {
+    
+    private let alertLabel = UILabel().then {
+      $0.textColor = .hex1A1E27
+      $0.font = .bold18
+      $0.text = "대여 가능한 정보가 없습니다."
+    }
+    
+    override init(frame: CGRect) {
+      super.init(frame: frame)
+      configureUI()
+    }
+    
+    required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureUI() {
+      backgroundColor = .hexF2F3F5
+      layer.masksToBounds = true
+      layer.cornerRadius = 10
+      
+      addSubview(alertLabel)
+      alertLabel.snp.makeConstraints {
+        $0.center.equalToSuperview()
+      }
+    }
   }
 }
