@@ -32,7 +32,8 @@ final class LibraryCollectionHeaderView: UICollectionReusableView {
   private func configureUI() {
     addSubview(titleLabel)
     titleLabel.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.top.leading.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(17)
     }
   }
   

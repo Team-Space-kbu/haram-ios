@@ -20,16 +20,16 @@ final class NoticeViewModel {
   
   init() {
     noticeModelRelay.accept([
-      NoticeCollectionViewCellModel(title: "공지제목", description: "공지내용"),
-      NoticeCollectionViewCellModel(title: "공지제목", description: "공지내용"),
-      NoticeCollectionViewCellModel(title: "공지제목", description: "공지내용"),
-      NoticeCollectionViewCellModel(title: "공지제목", description: "공지내용"),
-      NoticeCollectionViewCellModel(title: "공지제목", description: "공지내용"),
-      NoticeCollectionViewCellModel(title: "공지제목", description: "공지내용"),
-      NoticeCollectionViewCellModel(title: "공지제목", description: "공지내용"),
-      NoticeCollectionViewCellModel(title: "공지제목", description: "공지내용"),
-      NoticeCollectionViewCellModel(title: "공지제목", description: "공지내용"),
-      NoticeCollectionViewCellModel(title: "공지제목", description: "공지내용")
+      NoticeCollectionViewCellModel(title: "공지제목", description: "2022-12-28|이건준", noticeType: ["학사"]),
+      NoticeCollectionViewCellModel(title: "공지제목", description: "2022-12-28|이건준", noticeType: ["학사"]),
+      NoticeCollectionViewCellModel(title: "공지제목", description: "2022-12-28|이건준", noticeType: ["학사"]),
+      NoticeCollectionViewCellModel(title: "공지제목", description: "2022-12-28|이건준", noticeType: ["학사"]),
+      NoticeCollectionViewCellModel(title: "공지제목", description: "2022-12-28|이건준", noticeType: ["학사"]),
+      NoticeCollectionViewCellModel(title: "공지제목", description: "2022-12-28|이건준", noticeType: ["학사"]),
+      NoticeCollectionViewCellModel(title: "공지제목", description: "2022-12-28|이건준", noticeType: ["학사"]),
+      NoticeCollectionViewCellModel(title: "공지제목", description: "2022-12-28|이건준", noticeType: ["학사"]),
+      NoticeCollectionViewCellModel(title: "공지제목", description: "2022-12-28|이건준", noticeType: ["학사"]),
+      NoticeCollectionViewCellModel(title: "공지제목", description: "2022-12-28|이건준", noticeType: ["학사"])
     ])
   }
 }

@@ -13,6 +13,7 @@ import Then
 struct BoardListCollectionViewCellModel: Hashable {
   let title: String
   let subTitle: String
+  let boardType: [String]
   let identifier = UUID()
 }
 
@@ -30,6 +31,11 @@ final class BoardListCollectionViewCell: UICollectionViewCell {
     $0.textColor = .hex1A1E27
   }
   
+  private let typeStackView = UIStackView().then {
+    $0.axis = .horizontal
+    $0.spacing = 5
+    $0.backgroundColor = .clear
+  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -45,7 +51,7 @@ final class BoardListCollectionViewCell: UICollectionViewCell {
     contentView.layer.masksToBounds = true
     contentView.backgroundColor = .hexF8F8F8
     
-    [titleLabel, subLabel].forEach { contentView.addSubview($0) }
+    [titleLabel, subLabel, typeStackView].forEach { contentView.addSubview($0) }
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(7)
       $0.leading.equalToSuperview().inset(11)
@@ -55,10 +61,32 @@ final class BoardListCollectionViewCell: UICollectionViewCell {
       $0.top.equalTo(titleLabel.snp.bottom).offset(3)
       $0.leading.equalTo(titleLabel)
     }
+    
+    typeStackView.snp.makeConstraints {
+      $0.top.equalTo(subLabel.snp.bottom).offset(10)
+      $0.leading.equalTo(subLabel)
+      $0.bottom.equalToSuperview().inset(12)
+      $0.trailing.lessThanOrEqualToSuperview().inset(11)
+    }
   }
   
   func configureUI(with model: BoardListCollectionViewCellModel) {
     titleLabel.text = model.title
     subLabel.text = model.subTitle
+    
+    model.boardType.forEach { type in
+      let paddingLabel = PaddingLabel(withInsets: 2, 3, 8, 9).then {
+        $0.font = .regular11
+        $0.textColor = .hex1A1E27
+        $0.layer.masksToBounds = true
+        $0.layer.cornerRadius = 5
+        $0.backgroundColor = .hexD8D8DA
+      }
+      paddingLabel.text = type
+      paddingLabel.snp.makeConstraints {
+        $0.height.equalTo(19)
+      }
+      typeStackView.addArrangedSubview(paddingLabel)
+    }
   }
 }

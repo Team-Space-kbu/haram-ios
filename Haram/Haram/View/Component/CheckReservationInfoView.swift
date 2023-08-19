@@ -17,8 +17,12 @@ protocol CheckReservationInfoViewDelegate: AnyObject {
 
 final class CheckReservationInfoView: UIView {
   
+  // MARK: - Properties
+  
   weak var delegate: CheckReservationInfoViewDelegate?
   private let disposeBag = DisposeBag()
+  
+  // MARK: - UI Components
   
   private let titleLabel = UILabel().then {
     $0.textColor = .hex1A1E27
@@ -32,9 +36,9 @@ final class CheckReservationInfoView: UIView {
     $0.text = "예정된예약정보를확인하고미리준비하세요"
   }
   
-  private let checkReservationButton = HaramButton(type: .apply).then {
-    $0.setTitleText(title: "예약확인")
-  }
+  private let checkReservationButton = CheckReservationButton()
+  
+  // MARK: - Initializations
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -45,6 +49,8 @@ final class CheckReservationInfoView: UIView {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  // MARK: - Configurations
   
   private func configureUI() {
     [titleLabel, descriptionLabel, checkReservationButton].forEach { addSubview($0) }
@@ -70,5 +76,38 @@ final class CheckReservationInfoView: UIView {
         owner.delegate?.didTappedButton()
       }
       .disposed(by: disposeBag)
+  }
+}
+
+// MARK: - CheckReservationButton
+
+extension CheckReservationInfoView {
+  final class CheckReservationButton: UIButton {
+    
+    override var intrinsicContentSize: CGSize {
+      get {
+        let baseSize = super.intrinsicContentSize
+        return CGSize(width: baseSize.width + 30,
+                      height: baseSize.height + 8)
+      }
+    }
+    
+    override init(frame: CGRect) {
+      super.init(frame: frame)
+      configureUI()
+    }
+    
+    required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureUI() {
+      layer.masksToBounds = true
+      layer.cornerRadius = 10
+      backgroundColor = .hex79BD9A
+      titleLabel?.font = .bold14
+      titleLabel?.textColor = .white
+      setTitle("예약확인", for: .normal)
+    }
   }
 }

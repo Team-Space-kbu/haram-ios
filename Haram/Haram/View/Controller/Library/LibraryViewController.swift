@@ -72,15 +72,15 @@ final class LibraryViewController: BaseViewController {
   private lazy var collectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
-    guard let self = self else { return nil }
-    return self.createCollectionViewSection()
-  }).then {
-    $0.register(LibraryCollectionViewCell.self, forCellWithReuseIdentifier: LibraryCollectionViewCell.identifier)
-    $0.register(LibraryCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LibraryCollectionHeaderView.identifier)
-    $0.delegate = self
-    $0.dataSource = self
-    $0.bounces = false
-  }
+      guard let self = self else { return nil }
+      return self.createCollectionViewSection()
+    }).then {
+      $0.register(LibraryCollectionViewCell.self, forCellWithReuseIdentifier: LibraryCollectionViewCell.identifier)
+      $0.register(LibraryCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LibraryCollectionHeaderView.identifier)
+      $0.delegate = self
+      $0.dataSource = self
+      $0.bounces = false
+    }
   
   private let indicatorView = UIActivityIndicatorView(style: .large)
   
@@ -110,14 +110,14 @@ final class LibraryViewController: BaseViewController {
       .do(onNext: { [weak self] _ in
         self?.searchBar.resignFirstResponder()
       })
-      .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
-      .withLatestFrom(searchBar.rx.text.orEmpty)
-      .filter { $0.count != 0 }
-      .withUnretained(self)
-      .subscribe(onNext: { owner, text in
-        owner.viewModel.whichSearchText.onNext(text)
-      })
-      .disposed(by: disposeBag)
+        .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
+        .withLatestFrom(searchBar.rx.text.orEmpty)
+        .filter { $0.count != 0 }
+        .withUnretained(self)
+        .subscribe(onNext: { owner, text in
+          owner.viewModel.whichSearchText.onNext(text)
+        })
+        .disposed(by: disposeBag)
     
     viewModel.searchResults
       .drive(with: self) { owner, result in
@@ -182,13 +182,13 @@ final class LibraryViewController: BaseViewController {
     }
     
     bannerImageView.snp.makeConstraints {
-      $0.height.equalTo(183.661)
+      $0.height.equalTo(185)
     }
-
+    
     collectionView.snp.makeConstraints {
       $0.height.equalTo(282 + 165)
     }
-    
+    containerView.setCustomSpacing(18, after: bannerImageView)
     containerView.setCustomSpacing(25, after: searchBar)
   }
   
@@ -209,11 +209,12 @@ final class LibraryViewController: BaseViewController {
     let section = NSCollectionLayoutSection(group: group)
     section.interGroupSpacing = 20
     section.orthogonalScrollingBehavior = .groupPaging
+    section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: .zero, bottom: 17, trailing: .zero)
     
     let header = NSCollectionLayoutBoundarySupplementaryItem(
       layoutSize: NSCollectionLayoutSize(
         widthDimension: .fractionalWidth(1),
-        heightDimension: .absolute(18 + 25 + 16)
+        heightDimension: .absolute(24 + 17)
       ),
       elementKind: UICollectionView.elementKindSectionHeader,
       alignment: .top
@@ -259,15 +260,13 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let type = LibraryType.allCases[indexPath.section]
-    switch type {
-    case .new:
-      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: LibraryCollectionHeaderView.identifier, for: indexPath) as? LibraryCollectionHeaderView ?? LibraryCollectionHeaderView()
-      header.configureUI(with: type.title)
-      return header
-    case .popular:
-      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: LibraryCollectionHeaderView.identifier, for: indexPath) as? LibraryCollectionHeaderView ?? LibraryCollectionHeaderView()
-      header.configureUI(with: type.title)
-      return header
-    }
+    
+    let header = collectionView.dequeueReusableSupplementaryView(
+      ofKind: kind,
+      withReuseIdentifier: LibraryCollectionHeaderView.identifier,
+      for: indexPath
+    ) as? LibraryCollectionHeaderView ?? LibraryCollectionHeaderView()
+    header.configureUI(with: type.title)
+    return header
   }
 }
