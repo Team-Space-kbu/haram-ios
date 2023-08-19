@@ -44,6 +44,7 @@ final class LibraryViewController: BaseViewController {
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
+    $0.contentInsetAdjustmentBehavior = .always
   }
   
   private let containerView = UIStackView().then {
@@ -157,8 +158,9 @@ final class LibraryViewController: BaseViewController {
     super.setupLayouts()
     view.addSubview(scrollView)
     view.addSubview(indicatorView)
+    scrollView.addSubview(searchBar)
     scrollView.addSubview(containerView)
-    [searchBar, bannerImageView, collectionView].forEach { containerView.addArrangedSubview($0) }
+    [bannerImageView, collectionView].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -172,13 +174,16 @@ final class LibraryViewController: BaseViewController {
       $0.directionalEdges.equalToSuperview()
     }
     
-    containerView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.width.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
+    searchBar.snp.makeConstraints {
+      $0.top.equalToSuperview() // 기존 22
+      $0.directionalHorizontalEdges.equalToSuperview().inset(7.5)
+      $0.height.equalTo(45)
     }
     
-    searchBar.snp.makeConstraints {
-      $0.height.equalTo(45)
+    containerView.snp.makeConstraints {
+      $0.top.equalTo(searchBar.snp.bottom).offset(18)
+      $0.directionalHorizontalEdges.width.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
     }
     
     bannerImageView.snp.makeConstraints {
@@ -209,7 +214,12 @@ final class LibraryViewController: BaseViewController {
     let section = NSCollectionLayoutSection(group: group)
     section.interGroupSpacing = 20
     section.orthogonalScrollingBehavior = .groupPaging
-    section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: .zero, bottom: 17, trailing: .zero)
+    section.contentInsets = NSDirectionalEdgeInsets(
+      top: .zero,
+      leading: .zero,
+      bottom: 17,
+      trailing: .zero
+    )
     
     let header = NSCollectionLayoutBoundarySupplementaryItem(
       layoutSize: NSCollectionLayoutSize(
