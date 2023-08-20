@@ -131,7 +131,7 @@ extension StudyListViewController {
 
 extension StudyListViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = StudyReservationViewController()
+    let vc = StudyRoomDetailViewController()
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }

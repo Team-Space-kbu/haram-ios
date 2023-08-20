@@ -21,7 +21,11 @@ final class StudyReservationViewController: BaseViewController {
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 16
+    $0.isLayoutMarginsRelativeArrangement = true
+    $0.layoutMargins = UIEdgeInsets(top: .zero, left: 15, bottom: .zero, right: 15)
   }
+  
+  private let studyRoomInfoView = StudyRoomInfoView()
   
   private let selectedDayLabel = UILabel().then {
     $0.text = "날짜선택"
@@ -115,6 +119,8 @@ final class StudyReservationViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
+    
+    studyRoomInfoView.configureUI(with: .init(roomImageURL: nil, roomName: "스터디룸1", roomDescription: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요"))
   }
   
   @objc private func didTappedBackButton() {
@@ -125,7 +131,7 @@ final class StudyReservationViewController: BaseViewController {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
-    [selectedDayLabel, selectedDayCollectionView, selectedTimeLabel, selectedTimeCollectionView, reservationInfoLabel, nameTextField, phoneNumberTextField, reservationButton].forEach { containerView.addArrangedSubview($0) }
+    [studyRoomInfoView, selectedDayLabel, selectedDayCollectionView, selectedTimeLabel, selectedTimeCollectionView, reservationInfoLabel, nameTextField, phoneNumberTextField, reservationButton].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -137,6 +143,11 @@ final class StudyReservationViewController: BaseViewController {
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.width.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
+    }
+    
+    studyRoomInfoView.snp.makeConstraints {
+      $0.height.equalTo(98)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
     
     selectedDayLabel.snp.makeConstraints {

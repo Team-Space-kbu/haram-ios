@@ -31,7 +31,7 @@ enum ShortcutType: CaseIterable {
     case .searchBook:
       return LibraryViewController()
     case .searchBible:
-      return StudyListViewController()
+      return BibleViewController()
     case .affiliate:
       return StudyListViewController()
     case .eventSchedule:

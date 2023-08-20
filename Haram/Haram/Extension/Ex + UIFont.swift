@@ -30,6 +30,7 @@ extension UIFont {
   static let bold44 = UIFont(name: SpoqaHanSansNeo.bold.rawValue, size: 44)!
   static let bold36 = UIFont(name: SpoqaHanSansNeo.bold.rawValue, size: 36)!
   static let bold26 = UIFont(name: SpoqaHanSansNeo.bold.rawValue, size: 26)!
+  static let bold25 = UIFont(name: SpoqaHanSansNeo.bold.rawValue, size: 25)!
   static let bold22 = UIFont(name: SpoqaHanSansNeo.bold.rawValue, size: 22)!
   static let bold20 = UIFont(name: SpoqaHanSansNeo.bold.rawValue, size: 20)!
   static let bold24 = UIFont(name: SpoqaHanSansNeo.bold.rawValue, size: 24)!
@@ -47,6 +48,7 @@ extension UIFont {
   static let regular15 = UIFont(name: SpoqaHanSansNeo.regular.rawValue, size: 15)!
   static let regular14 = UIFont(name: SpoqaHanSansNeo.regular.rawValue, size: 14)!
   static let regular13 = UIFont(name: SpoqaHanSansNeo.regular.rawValue, size: 13)!
+  static let regular12 = UIFont(name: SpoqaHanSansNeo.regular.rawValue, size: 12)!
   static let regular11 = UIFont(name: SpoqaHanSansNeo.regular.rawValue, size: 11)!
   static let regular10 = UIFont(name: SpoqaHanSansNeo.regular.rawValue, size: 10)!
   static let light = UIFont(name: SpoqaHanSansNeo.light.rawValue, size: 12)!
