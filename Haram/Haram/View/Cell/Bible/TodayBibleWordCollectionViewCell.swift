@@ -17,7 +17,6 @@ final class TodayBibleWordCollectionViewCell: UICollectionViewCell {
     $0.font = .bold18
     $0.textColor = .hex9F9FA4
     $0.numberOfLines = 0
-    $0.text = "오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀"
   }
   
   override init(frame: CGRect) {
@@ -38,6 +37,13 @@ final class TodayBibleWordCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: String) {
-    todayBibleWordLabel.text = model
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineSpacing = 3
+
+    let attributedString = NSAttributedString(
+      string: model,
+      attributes: [.paragraphStyle: paragraphStyle]
+    )
+    todayBibleWordLabel.attributedText = attributedString
   }
 }

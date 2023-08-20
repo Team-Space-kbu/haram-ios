@@ -59,7 +59,11 @@ final class BibleCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: BibleCollectionViewCellModel) {
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineSpacing = 8
+
+    let attributedString = NSAttributedString(string:model.prayContent, attributes: [.paragraphStyle: paragraphStyle])
     prayTitleLabel.text = model.prayTitle
-    prayContentLabel.text = model.prayContent
+    prayContentLabel.attributedText = attributedString
   }
 }

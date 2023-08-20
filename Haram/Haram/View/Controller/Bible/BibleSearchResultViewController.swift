@@ -15,6 +15,7 @@ final class BibleSearchResultViewController: BaseViewController {
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
+    $0.contentInsetAdjustmentBehavior = .never
   }
   
   private let containerView = UIStackView().then {
@@ -44,7 +45,12 @@ final class BibleSearchResultViewController: BaseViewController {
     )
     
     bibleTitleView.configureUI(with: .init(title: "마태복음", chapter: "2장"))
-    contentLabel.text = "성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용"
+    
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineSpacing = 15
+
+    let attributedString = NSAttributedString(string:"성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용", attributes: [.paragraphStyle: paragraphStyle])
+    contentLabel.attributedText = attributedString
   }
   
   override func setupLayouts() {
@@ -71,7 +77,6 @@ final class BibleSearchResultViewController: BaseViewController {
 //      $0.leading.equalToSuperview().inset(15)
       $0.height.equalTo(39)
     }
-    
     
   }
   

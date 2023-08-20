@@ -41,7 +41,7 @@ final class BibleViewController: BaseViewController {
     $0.register(BibleCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BibleCollectionHeaderView.identifier)
     $0.dataSource = self
     $0.delegate = self
-//    $0.contentInset = UIEdgeInsets(top: .zero, left: 15, bottom: .zero, right: 15)
+    $0.contentInset = UIEdgeInsets(top: 124 - 70.4 - 24.6, left: .zero, bottom: .zero, right: .zero)
   }
   
   private lazy var bibleSearchView = BibleSearchView().then {
@@ -192,9 +192,11 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
     switch BibleType.allCases[indexPath.section] {
     case .todayBibleWord:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayBibleWordCollectionViewCell.identifier, for: indexPath) as? TodayBibleWordCollectionViewCell ?? TodayBibleWordCollectionViewCell()
+      cell.configureUI(with: "오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀")
       return cell
     case .notice:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleNoticeCollectionViewCell.identifier, for: indexPath) as? BibleNoticeCollectionViewCell ?? BibleNoticeCollectionViewCell()
+      cell.configureUI(with: "성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항")
       return cell
     case .todayPray:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleCollectionViewCell.identifier, for: indexPath) as? BibleCollectionViewCell ?? BibleCollectionViewCell()
@@ -202,17 +204,6 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
       return cell
     }
   }
-  
-//  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//    switch BibleType.allCases[section] {
-//    case .todayBibleWord:
-//      return CGSize(width: collectionView.frame.width, height: 24 + 13)
-//    case .notice:
-//      return CGSize(width: collectionView.frame.width, height: 24 + 12)
-//    case .todayPray:
-//      return CGSize(width: collectionView.frame.width, height: 24 + 14)
-//    }
-//  }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BibleCollectionHeaderView.identifier, for: indexPath) as? BibleCollectionHeaderView ?? BibleCollectionHeaderView()

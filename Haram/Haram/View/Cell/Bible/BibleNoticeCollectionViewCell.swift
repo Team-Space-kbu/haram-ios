@@ -22,7 +22,6 @@ final class BibleNoticeCollectionViewCell: UICollectionViewCell {
     $0.font = .bold18
     $0.textColor = .hex1A1E27
     $0.numberOfLines = 0
-    $0.text = "성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항"
   }
   
   override init(frame: CGRect) {
@@ -49,7 +48,11 @@ final class BibleNoticeCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: String) {
-    noticeLabel.text = model
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineSpacing = 3
+
+    let attributedString = NSAttributedString(string: model, attributes: [.paragraphStyle: paragraphStyle])
+    noticeLabel.attributedText = attributedString
   }
 }
 

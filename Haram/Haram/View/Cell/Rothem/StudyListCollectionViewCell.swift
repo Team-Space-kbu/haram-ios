@@ -76,8 +76,14 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: StudyListCollectionViewCellModel) {
+    
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineSpacing = 3
+
+    let attributedString = NSAttributedString(string: model.description, attributes: [.paragraphStyle: paragraphStyle])
+    
     studyTitleLabel.text = model.title
-    studyDescriptionLabel.text = model.description
+    studyDescriptionLabel.attributedText = attributedString
     studyImageView.image = UIImage(named: "rothemImage")
 //    studyImageView.kf.setImage(with: model.imageURL)
   }
