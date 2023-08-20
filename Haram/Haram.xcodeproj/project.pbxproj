@@ -164,6 +164,7 @@
 		708ED7CB2A91224B00107CDF /* TodayBibleWordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7CA2A91224B00107CDF /* TodayBibleWordCollectionViewCell.swift */; };
 		708ED7CD2A9122F900107CDF /* BibleNoticeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7CC2A9122F900107CDF /* BibleNoticeCollectionViewCell.swift */; };
 		708ED7CF2A91F13600107CDF /* BibleSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7CE2A91F13600107CDF /* BibleSearchView.swift */; };
+		708ED7D22A9203DF00107CDF /* BibleSearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7D12A9203DF00107CDF /* BibleSearchResultViewController.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -351,6 +352,7 @@
 		708ED7CA2A91224B00107CDF /* TodayBibleWordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayBibleWordCollectionViewCell.swift; sourceTree = "<group>"; };
 		708ED7CC2A9122F900107CDF /* BibleNoticeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleNoticeCollectionViewCell.swift; sourceTree = "<group>"; };
 		708ED7CE2A91F13600107CDF /* BibleSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleSearchView.swift; sourceTree = "<group>"; };
+		708ED7D12A9203DF00107CDF /* BibleSearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleSearchResultViewController.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -634,6 +636,7 @@
 		70727A8E29D8892C003DE956 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				708ED7D02A9203CC00107CDF /* Bible */,
 				708ED7A52A8FA19F00107CDF /* Rothem */,
 				708ED7A42A8F948500107CDF /* Library */,
 				708ED7A32A8F944A00107CDF /* Intranet */,
@@ -644,7 +647,6 @@
 				705FD2C22A2337C800F353FE /* NoticeViewController.swift */,
 				708312B12A76940600F7E283 /* BoardListViewController.swift */,
 				708ED7AE2A8FDA7700107CDF /* NoticeDetailViewController.swift */,
-				708ED7C22A911B4800107CDF /* BibleViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -921,6 +923,15 @@
 				708ED7C82A911E8700107CDF /* BibleCollectionHeaderView.swift */,
 				708ED7CA2A91224B00107CDF /* TodayBibleWordCollectionViewCell.swift */,
 				708ED7CC2A9122F900107CDF /* BibleNoticeCollectionViewCell.swift */,
+			);
+			path = Bible;
+			sourceTree = "<group>";
+		};
+		708ED7D02A9203CC00107CDF /* Bible */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7C22A911B4800107CDF /* BibleViewController.swift */,
+				708ED7D12A9203DF00107CDF /* BibleSearchResultViewController.swift */,
 			);
 			path = Bible;
 			sourceTree = "<group>";
@@ -1333,6 +1344,7 @@
 				705FD2B92A1A3CFB00F353FE /* LibraryResultsCollectionViewCell.swift in Sources */,
 				708312AA2A723B4D00F7E283 /* NoticeCollectionHeaderView.swift in Sources */,
 				708312AC2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				708ED7D22A9203DF00107CDF /* BibleSearchResultViewController.swift in Sources */,
 				705FD2AF2A16246F00F353FE /* LibraryResultsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

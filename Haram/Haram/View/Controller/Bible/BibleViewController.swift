@@ -223,6 +223,8 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 
 extension BibleViewController: BibleSearchViewDelgate {
   func didTappedSearchButton() {
-    print("성경검색 선택")
+    let vc = BibleSearchResultViewController()
+    vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
   }
 }
