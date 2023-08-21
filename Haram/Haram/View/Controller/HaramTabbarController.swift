@@ -61,7 +61,7 @@ final class HaramTabbarController: UITabBarController {
   }
   
   private func setupConstraints() {
-    
+    print("리프레시토큰 \(UserManager.shared.refreshToken)")
   }
   
   private func setupStyles() {

@@ -13,6 +13,8 @@ import Then
 
 protocol BibleSearchViewDelgate: AnyObject {
   func didTappedSearchButton()
+  func didTappedJeolControl()
+  func didTappedChapterControl()
 }
 
 final class BibleSearchView: UIView {
@@ -70,6 +72,18 @@ final class BibleSearchView: UIView {
     bibleSearchButton.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.delegate?.didTappedSearchButton()
+      }
+      .disposed(by: disposeBag)
+    
+    jeolBibleControl.rx.controlEvent(.touchUpInside)
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedJeolControl()
+      }
+      .disposed(by: disposeBag)
+    
+    chapterBibleControl.rx.controlEvent(.touchUpInside)
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedChapterControl()
       }
       .disposed(by: disposeBag)
   }

@@ -8,6 +8,10 @@
 import Foundation
 
 struct InquireTodayWordsRequest: Codable {
-  let bibleType: String
-  let book: String
+  let bibleType: RevisionOfTranslationType
+//  let book: String
+}
+
+enum RevisionOfTranslationType: String, Codable { // 개역개정 타입
+  case rt = "RT"
 }

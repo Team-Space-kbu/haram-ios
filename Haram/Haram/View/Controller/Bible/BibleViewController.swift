@@ -29,20 +29,28 @@ enum BibleType: CaseIterable {
 
 final class BibleViewController: BaseViewController {
   
+  private let viewModel: BibleViewModelType
+  
+  private var todayBibleWordModel: [String] = [] {
+    didSet {
+      bibleCollectionView.reloadSections([0])
+    }
+  }
+  
   private lazy var bibleCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
-    guard let self = self else { return nil }
-    return type(of: self).createCollectionViewSection(type: BibleType.allCases[sec])
-  }).then {
-    $0.register(BibleCollectionViewCell.self, forCellWithReuseIdentifier: BibleCollectionViewCell.identifier)
-    $0.register(TodayBibleWordCollectionViewCell.self, forCellWithReuseIdentifier: TodayBibleWordCollectionViewCell.identifier)
-    $0.register(BibleNoticeCollectionViewCell.self, forCellWithReuseIdentifier: BibleNoticeCollectionViewCell.identifier)
-    $0.register(BibleCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BibleCollectionHeaderView.identifier)
-    $0.dataSource = self
-    $0.delegate = self
-    $0.contentInset = UIEdgeInsets(top: 124 - 70.4 - 24.6, left: .zero, bottom: .zero, right: .zero)
-  }
+      guard let self = self else { return nil }
+      return type(of: self).createCollectionViewSection(type: BibleType.allCases[sec])
+    }).then {
+      $0.register(TodayPrayCollectionViewCell.self, forCellWithReuseIdentifier: TodayPrayCollectionViewCell.identifier)
+      $0.register(TodayBibleWordCollectionViewCell.self, forCellWithReuseIdentifier: TodayBibleWordCollectionViewCell.identifier)
+      $0.register(BibleNoticeCollectionViewCell.self, forCellWithReuseIdentifier: BibleNoticeCollectionViewCell.identifier)
+      $0.register(BibleCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BibleCollectionHeaderView.identifier)
+      $0.dataSource = self
+      $0.delegate = self
+      $0.contentInset = UIEdgeInsets(top: 124 - 70.4 - 24.6, left: .zero, bottom: .zero, right: .zero)
+    }
   
   private lazy var bibleSearchView = BibleSearchView().then {
     $0.delegate = self
@@ -54,6 +62,23 @@ final class BibleViewController: BaseViewController {
     $0.layer.maskedCorners = CACornerMask(
       arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner
     )
+  }
+  
+  init(viewModel: BibleViewModelType = BibleViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func bind() {
+    super.bind()
+    
+    viewModel.todayBibleWordList
+      .drive(rx.todayBibleWordModel)
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -192,14 +217,14 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
     switch BibleType.allCases[indexPath.section] {
     case .todayBibleWord:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayBibleWordCollectionViewCell.identifier, for: indexPath) as? TodayBibleWordCollectionViewCell ?? TodayBibleWordCollectionViewCell()
-      cell.configureUI(with: "오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀오늘의말씀")
+      cell.configureUI(with: todayBibleWordModel.first ?? "")
       return cell
     case .notice:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleNoticeCollectionViewCell.identifier, for: indexPath) as? BibleNoticeCollectionViewCell ?? BibleNoticeCollectionViewCell()
       cell.configureUI(with: "성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항")
       return cell
     case .todayPray:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleCollectionViewCell.identifier, for: indexPath) as? BibleCollectionViewCell ?? BibleCollectionViewCell()
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayPrayCollectionViewCell.identifier, for: indexPath) as? TodayPrayCollectionViewCell ?? TodayPrayCollectionViewCell()
       cell.configureUI(with: .init(prayTitle: "기도제목", prayContent: "제발성공적으로 하람이 잘 개발되었으면 좋겠습니다.제발성공적으로 하람이 잘 개발되었으면 좋겠습니다.제발성공적으로 하람이 잘 개발되었으면 좋겠습니다.제발성공적으로 하람이 잘 개발되었으면 좋겠습니다.제발성공적으로 하람이 잘 개발되었으면 좋겠습니다."))
       return cell
     }
@@ -213,6 +238,15 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 }
 
 extension BibleViewController: BibleSearchViewDelgate {
+  func didTappedJeolControl() {
+    let bottomSheet = BibleBottomSheetViewController()
+    present(bottomSheet, animated: true)
+  }
+  
+  func didTappedChapterControl() {
+    
+  }
+  
   func didTappedSearchButton() {
     let vc = BibleSearchResultViewController()
     vc.navigationItem.largeTitleDisplayMode = .never

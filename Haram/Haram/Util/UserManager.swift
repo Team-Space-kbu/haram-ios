@@ -100,6 +100,11 @@ extension UserManager {
     self.laravelSession = nil
   }
   
+  func clearToken() {
+    self.accessToken = nil
+    self.refreshToken = nil
+  }
+  
   /// 인트라넷관련 정보를 초기화합니다.
   func clearIntranetInformation() {
     self.intranetToken = nil
@@ -111,8 +116,14 @@ extension UserManager {
   func reissuanceAccessToken() -> Observable<Void> {
     return AuthService.shared.reissuanceAccessToken(userID: UserManager.shared.userID!)
       .map { result in
-        guard case let .success(tokenData) = result else { return }
-        self.updatePLUBToken(accessToken: tokenData.accessToken, refreshToken: tokenData.refreshToken)
+        switch result {
+        case .success(let tokenData):
+          self.updatePLUBToken(accessToken: tokenData.accessToken, refreshToken: tokenData.refreshToken)
+        case .failure(_):
+          UserManager.shared.clearToken()
+        }
+//        guard case let .success(tokenData) = result else { return }
+//        self.updatePLUBToken(accessToken: tokenData.accessToken, refreshToken: tokenData.refreshToken)
       }
   }
   

@@ -22,6 +22,8 @@ enum HaramError: Error, CaseIterable {
   case existSameUserError // 동일한 아이디로 회원가입한 사용자가 존재할 때 발생하는 에러
   case wrongEmailAuthcodeError // 이메일 인증코드가 틀렸을 때 발생하는 에러
   case failedRegisterError // 회원가입에 실패했을 때 발생하는 에러
+  
+  case unValidRefreshToken
 }
 
 extension HaramError {
@@ -65,6 +67,8 @@ extension HaramError {
       return "USER04"
     case .noExistSearchInfo:
       return "LIB04"
+    case .unValidRefreshToken:
+      return "AUTH04"
     }
   }
   
@@ -90,6 +94,8 @@ extension HaramError {
       return "회원가입에 실패했습니다, 다시 시도해주세요."
     case .noExistSearchInfo:
       return "검색된 정보가 존재하지않습니다."
+    case .unValidRefreshToken:
+      return "올바르지 않은 리프레쉬 토큰입니다."
     }
   }
 }

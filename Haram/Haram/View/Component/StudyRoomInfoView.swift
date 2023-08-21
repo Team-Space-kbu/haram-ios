@@ -31,7 +31,7 @@ final class StudyRoomInfoView: UIView {
   }
   
   private let roomDescriptionLabel = UILabel().then {
-    $0.numberOfLines = 1
+    $0.numberOfLines = 0
     $0.font = .regular14
     $0.textColor = .hex1A1E27
   }

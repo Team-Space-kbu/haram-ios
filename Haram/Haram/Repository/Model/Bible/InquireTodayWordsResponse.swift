@@ -8,7 +8,7 @@
 import Foundation
 
 struct InquireTodayWordsResponse: Codable {
-  let book: Int
+  let book: String
   let chapter: Int
   let verse: Int
   let content: String

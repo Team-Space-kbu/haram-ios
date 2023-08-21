@@ -13,7 +13,7 @@ import Then
 final class StudyRoomDetailViewController: BaseViewController {
   private let studyRoomImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
-    $0.image = UIImage(named: "rothemImage")
+    $0.image = UIImage(named: "studyRoom")
   }
   
   private lazy var studyRoomDetailView = StudyRoomDetailView().then {
@@ -49,15 +49,18 @@ final class StudyRoomDetailViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
+    
+    studyRoomDetailView.snp.makeConstraints {
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(42)
+      $0.height.equalTo(469)
+    }
+
+    
     studyRoomImageView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide)
       $0.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo(293)
-    }
-    
-    studyRoomDetailView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(254)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.bottom.equalTo(studyRoomDetailView.snp.top).offset(40)
     }
   }
 }

@@ -22,7 +22,7 @@ final class StudyReservationViewController: BaseViewController {
     $0.axis = .vertical
     $0.spacing = 16
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: .zero, left: 15, bottom: .zero, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: .zero, left: 15, bottom: 4, right: 15)
   }
   
   private let studyRoomInfoView = StudyRoomInfoView()
@@ -40,7 +40,7 @@ final class StudyReservationViewController: BaseViewController {
       $0.minimumInteritemSpacing = 18
     }).then {
       $0.backgroundColor = .white
-      $0.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: 15)
+      $0.isScrollEnabled = false
       $0.delegate = self
       $0.dataSource = self
       $0.register(SelectedDayCollectionViewCell.self, forCellWithReuseIdentifier: SelectedDayCollectionViewCell.identifier)
@@ -54,12 +54,11 @@ final class StudyReservationViewController: BaseViewController {
   
   private lazy var selectedTimeCollectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: UICollectionViewFlowLayout().then {
+    collectionViewLayout: LeftAlignedCollectionViewFlowLayout().then {
       $0.sectionInset = UIEdgeInsets(top: .zero, left: .zero, bottom: 19, right: .zero)
-      $0.scrollDirection = .vertical
-      $0.minimumLineSpacing = 15
-      
+      $0.minimumInteritemSpacing = 15
     }).then {
+      $0.isScrollEnabled = false
       $0.backgroundColor = .white
       $0.delegate = self
       $0.dataSource = self

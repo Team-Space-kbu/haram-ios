@@ -26,13 +26,13 @@ extension LibraryRouter: Router {
   var path: String {
     switch self {
     case .inquireLibrary:
-      return "/v1/function/library"
+      return "/v1/library"
     case .searchBook(let text):
-      return "/v1/function/library/search/\(text)"
+      return "/v1/library/search/\(text)"
     case .requestBookInfo(let detail):
-      return "/v1/function/library/detail/info/\(detail)"
+      return "/v1/library/detail/info/\(detail)"
     case .requestBookLoanStatus(let path):
-      return "/v1/function/library/detail/keep/\(path)"
+      return "/v1/library/detail/keep/\(path)"
     }
   }
   

@@ -70,7 +70,14 @@ final class StudyRoomDetailView: UIView {
     $0.text = "Popular amenities"
   }
   
-  private let popularAmenityCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+  private lazy var popularAmenityCollectionView = UICollectionView(
+    frame: .zero,
+    collectionViewLayout: UICollectionViewFlowLayout()
+  ).then {
+    $0.register(PopularAmenityCollectionViewCell.self, forCellWithReuseIdentifier: PopularAmenityCollectionViewCell.identifier)
+    $0.delegate = self
+    $0.dataSource = self
+  }
   
   private let reservationButton = UIButton().then {
     $0.titleLabel?.textColor = .white
@@ -158,5 +165,20 @@ final class StudyRoomDetailView: UIView {
     roomTitleLabel.text = model.roomTitle
     roomDestinationLabel.text = model.roomDestination
     roomDescriptionContentLabel.text = model.roomDescription
+  }
+}
+
+extension StudyRoomDetailView: UICollectionViewDelegate, UICollectionViewDataSource {
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 1
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return 6
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularAmenityCollectionViewCell.identifier, for: indexPath) as? PopularAmenityCollectionViewCell ?? PopularAmenityCollectionViewCell()
+    return cell
   }
 }

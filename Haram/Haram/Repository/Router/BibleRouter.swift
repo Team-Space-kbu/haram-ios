@@ -32,7 +32,7 @@ extension BibleRouter: Router {
   var parameters: ParameterType {
     switch self {
     case let .inquireTodayWords(request):
-      return .body(request)
+      return .query(request)
     }
   }
   

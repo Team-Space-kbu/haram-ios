@@ -10,24 +10,12 @@ import UIKit
 import SnapKit
 import Then
 
-struct BibleCollectionViewCellModel {
-  let prayTitle: String
-  let prayContent: String
-}
-
 final class BibleCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "BibleCollectionViewCell"
   
-  private let prayTitleLabel = UILabel().then {
-    $0.font = .bold18
-    $0.textColor = .hex545E6A
-  }
-  
-  private let prayContentLabel = UILabel().then {
-    $0.font = .regular14
-    $0.textColor = .hex545E6A
-    $0.numberOfLines = 0
+  private let bibleNameLabel = UILabel().then {
+    $0.text = "창세기"
   }
   
   override init(frame: CGRect) {
@@ -40,30 +28,9 @@ final class BibleCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
-    contentView.layer.masksToBounds = true
-    contentView.layer.cornerRadius = 10
-    contentView.layer.borderWidth = 1
-    contentView.layer.borderColor = UIColor.hex707070.cgColor
-    
-    [prayTitleLabel, prayContentLabel].forEach { contentView.addSubview($0) }
-    prayTitleLabel.snp.makeConstraints {
-      $0.top.leading.equalToSuperview().inset(15)
+    contentView.addSubview(bibleNameLabel)
+    bibleNameLabel.snp.makeConstraints {
+      $0.leading.directionalVerticalEdges.equalToSuperview()
     }
-    
-    prayContentLabel.snp.makeConstraints {
-      $0.top.equalTo(prayTitleLabel.snp.bottom)
-      $0.leading.equalTo(prayTitleLabel)
-      $0.trailing.lessThanOrEqualToSuperview().inset(15)
-      $0.bottom.lessThanOrEqualToSuperview()
-    }
-  }
-  
-  func configureUI(with model: BibleCollectionViewCellModel) {
-    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineSpacing = 8
-
-    let attributedString = NSAttributedString(string:model.prayContent, attributes: [.paragraphStyle: paragraphStyle])
-    prayTitleLabel.text = model.prayTitle
-    prayContentLabel.attributedText = attributedString
   }
 }
