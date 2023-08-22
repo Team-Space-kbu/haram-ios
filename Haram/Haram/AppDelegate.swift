@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         .init(bibleName: "사사기", chapter: 21, jeol: 618, id: 7),
         .init(bibleName: "룻기", chapter: 4, jeol: 85, id: 8),
         .init(bibleName: "사무엘상", chapter: 31, jeol: 810, id: 9),
-//        .init(bibleName: "사무엘하", chapter: 24, jeol: 695, id: 10),
+        .init(bibleName: "사무엘하", chapter: 24, jeol: 695, id: 10),
         .init(bibleName: "열왕기상", chapter: 22, jeol: 816, id: 11),
         .init(bibleName: "열왕기하", chapter: 25, jeol: 719, id: 12),
         .init(bibleName: "역대상", chapter: 29, jeol: 942, id: 13),

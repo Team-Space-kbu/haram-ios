@@ -28,18 +28,21 @@ final class BibleViewModel {
   private func inquireTodayBibleWord() {
     let tryInquireTodayBibleWord = BibleService.shared.inquireTodayWords(request: .init(bibleType: .rt)).share()
     
-    let failureInquireTodayBibleWord = tryInquireTodayBibleWord.compactMap { result -> HaramError? in
-      guard case let .failure(error) = result else { return nil }
-      return error
+//    let failureInquireTodayBibleWord = tryInquireTodayBibleWord.compactMap { result -> HaramError? in
+//      guard case let .failure(error) = result else { return nil }
+//      return error
+//    }
+    
+    let resultInquireTodayBibleWord = tryInquireTodayBibleWord.compactMap { result -> String? in
+      switch result {
+      case .success(let response):
+        return response.first?.content
+      case .failure(let error):
+        return error.description
+      }
     }
     
-    let successInquireTodayBibleWord = tryInquireTodayBibleWord.compactMap { result -> [InquireTodayWordsResponse]? in
-      guard case let .success(response) = result else { return nil }
-      return response
-    }
-    
-    successInquireTodayBibleWord
-      .compactMap { $0.first?.content }
+    resultInquireTodayBibleWord
       .subscribe(with: self) { owner, content in
         owner.todayBibleWordListRelay.accept([content])
       }

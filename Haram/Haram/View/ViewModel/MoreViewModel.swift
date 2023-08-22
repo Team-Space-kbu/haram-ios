@@ -52,10 +52,11 @@ final class MoreViewModel: MoreViewModelType {
     
     requestLogoutUserSubject
       .flatMapLatest { AuthService.shared.logoutUser(userID: UserManager.shared.userID!) }
-      .subscribe(onNext: { result in
-        guard case .success(_) = result else {
-          return
-        }
+      .compactMap { result in
+        guard case .success(_) = result else { return }
+      }
+      .subscribe(onNext: { _ in
+        
         UserManager.shared.clearAllInformations()
         successMessageRelay.accept("로그아웃 성공하였습니다.")
       })

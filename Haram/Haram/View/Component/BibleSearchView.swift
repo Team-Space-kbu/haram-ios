@@ -88,14 +88,31 @@ final class BibleSearchView: UIView {
       .disposed(by: disposeBag)
   }
   
+  func getRevisionOfTranslation() -> String {
+    jeolBibleControl.getRevisionOfTranslation()
+  }
+  
   func updateJeolBibleName(bibleName: String) {
     jeolBibleControl.configureUI(with: bibleName)
+  }
+  
+  func updateChapter(chapter: String) {
+    chapterBibleControl.configureUI(with: chapter)
   }
 }
 
 enum BibleSearchControlType {
   case jeol // 절으로 검색
   case chapter // 장으로 검색
+  
+  var defaultText: String {
+    switch self {
+    case .jeol:
+      return "창세기"
+    case .chapter:
+      return "1장"
+    }
+  }
   
   var imageName: String {
     switch self {
@@ -114,10 +131,10 @@ final class BibleSearchControl: UIControl {
     $0.contentMode = .scaleAspectFill
   }
   
-  private let typeLabel = UILabel().then {
+  private lazy var typeLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .hex9F9FA4
-    $0.text = "창세기"
+    $0.text = type.defaultText
   }
   
   init(type: BibleSearchControlType) {
@@ -155,6 +172,11 @@ final class BibleSearchControl: UIControl {
   
   func configureUI(with model: String) {
     typeLabel.text = model
+  }
+  
+  func getRevisionOfTranslation() -> String {
+    guard case .jeol = type else { return type.defaultText }
+    return typeLabel.text ?? type.defaultText
   }
 }
 

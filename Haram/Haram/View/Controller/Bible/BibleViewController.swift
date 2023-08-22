@@ -31,6 +31,8 @@ final class BibleViewController: BaseViewController {
   
   private let viewModel: BibleViewModelType
   
+  private let revisionOfTranlationModel = CoreDataManager.shared.getRevisionOfTranslation(ascending: true)
+  
   private var todayBibleWordModel: [String] = [] {
     didSet {
       bibleCollectionView.reloadSections([0])
@@ -240,13 +242,17 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 
 extension BibleViewController: BibleSearchViewDelgate {
   func didTappedJeolControl() {
-    let bottomSheet = BibleBottomSheetViewController()
+    let bottomSheet = BibleBottomSheetViewController(type: .revisionOfTranslation(revisionOfTranlationModel))
     bottomSheet.delegate = self
     present(bottomSheet, animated: true)
   }
   
   func didTappedChapterControl() {
-    
+    let selectedRevisionOfTranslation = bibleSearchView.getRevisionOfTranslation()
+    let selectedChapter = revisionOfTranlationModel.filter { $0.bibleName == selectedRevisionOfTranslation }.first?.chapter ?? 1
+    let bottomSheet = BibleBottomSheetViewController(type: .chapter(Array(1...Int(selectedChapter))))
+    bottomSheet.delegate = self
+    present(bottomSheet, animated: true)
   }
   
   func didTappedSearchButton() {
@@ -259,5 +265,10 @@ extension BibleViewController: BibleSearchViewDelgate {
 extension BibleViewController: BibleBottomSheetViewControllerDelegate {
   func didTappedRevisionOfTranslation(bibleName: String) {
     bibleSearchView.updateJeolBibleName(bibleName: bibleName)
+    bibleSearchView.updateChapter(chapter: "1장")
+  }
+  
+  func didTappedChapter(chapter: String) {
+    bibleSearchView.updateChapter(chapter: chapter)
   }
 }

@@ -17,8 +17,8 @@ final class CoreDataManager {
   
   let modelName: String = "RevisionOfTranslation"
   
-  func getRevisionOfTranslation(ascending: Bool = false) -> [RevisionOfTranslation] {
-    var models: [RevisionOfTranslation] = [RevisionOfTranslation]()
+  func getRevisionOfTranslation(ascending: Bool = false) -> [RevisionOfTranslationModel] {
+    var models: [RevisionOfTranslationModel] = [RevisionOfTranslationModel]()
     
     if let context = context {
       let idSort: NSSortDescriptor = NSSortDescriptor(key: "id", ascending: ascending)
@@ -28,7 +28,7 @@ final class CoreDataManager {
       
       do {
         if let fetchResult: [RevisionOfTranslation] = try context.fetch(fetchRequest) as? [RevisionOfTranslation] {
-          models = fetchResult
+          models = fetchResult.map { RevisionOfTranslationModel(revisionOfTranslation: $0) }
         }
       } catch let error as NSError {
         print("Could not fetch🥺: \(error), \(error.userInfo)")

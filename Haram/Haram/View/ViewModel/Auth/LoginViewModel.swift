@@ -41,18 +41,21 @@ extension LoginViewModel {
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)
         let message: String
-        if id.isEmpty && !password.isEmpty {
-          message = Constants.idEmptyMessage
+        if id.isEmpty {
+          message = password.isEmpty ? Constants.allEmptyMessage : Constants.idEmptyMessage
         } else if password.isEmpty && !id.isEmpty {
           message = Constants.passwordEmptyMessage
-        } else if id.isEmpty && password.isEmpty {
-          message = Constants.allEmptyMessage
         } else {
           message = ""
         }
         self.errorMessageRelay.accept(message)
+        self.isLoadingSubject.onNext(false)
       })
         .filter { !$0.isEmpty && !$1.isEmpty }
+        .do(onNext: { [weak self] _ in
+          guard let self = self else { return }
+          self.isLoadingSubject.onNext(true)
+        })
         .flatMapLatest {
           AuthService.shared.loginMember(
             request: .init(
@@ -99,12 +102,18 @@ extension LoginViewModel {
 
 extension LoginViewModel: LoginViewModelType {
   var isLoading: RxCocoa.Driver<Bool> {
-    isLoadingSubject.asDriver(onErrorJustReturn: false)
+    isLoadingSubject
+      .distinctUntilChanged()
+      .asDriver(onErrorJustReturn: false)
   }
   
   
   var errorMessage: Signal<String> {
     errorMessageRelay
+//      .do(onNext: { [weak self] _ in
+//        guard let self = self else { return }
+//        self.isLoadingSubject.onNext(false)
+//      })
       .distinctUntilChanged()
       .asSignal(onErrorJustReturn: "")
   }

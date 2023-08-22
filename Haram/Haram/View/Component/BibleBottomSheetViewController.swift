@@ -12,13 +12,19 @@ import Then
 
 protocol BibleBottomSheetViewControllerDelegate: AnyObject {
   func didTappedRevisionOfTranslation(bibleName: String)
+  func didTappedChapter(chapter: String)
+}
+
+enum BibleBottomSheetViewType {
+  case revisionOfTranslation([RevisionOfTranslationModel])
+  case chapter([Int])
 }
 
 final class BibleBottomSheetViewController: BottomSheetViewController {
   
   weak var delegate: BibleBottomSheetViewControllerDelegate?
   
-  private let bibleModel: [RevisionOfTranslation] = CoreDataManager.shared.getRevisionOfTranslation(ascending: true)
+  private let type: BibleBottomSheetViewType
   
   private lazy var bibleCollectionView = UICollectionView(
     frame: .zero,
@@ -27,6 +33,15 @@ final class BibleBottomSheetViewController: BottomSheetViewController {
     $0.register(BibleCollectionViewCell.self, forCellWithReuseIdentifier: BibleCollectionViewCell.identifier)
     $0.delegate = self
     $0.dataSource = self
+  }
+  
+  init(type: BibleBottomSheetViewType) {
+    self.type = type
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func setupLayouts() {
@@ -47,13 +62,25 @@ final class BibleBottomSheetViewController: BottomSheetViewController {
 
 extension BibleBottomSheetViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return bibleModel.count
+    switch type {
+    case let .revisionOfTranslation(model):
+      return model.count
+    case let .chapter(model):
+      return model.count
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleCollectionViewCell.identifier, for: indexPath) as? BibleCollectionViewCell ?? BibleCollectionViewCell()
-    cell.configureUI(with: bibleModel[indexPath.row].bibleName)
-    return cell
+    switch type {
+    case let .revisionOfTranslation(model):
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleCollectionViewCell.identifier, for: indexPath) as? BibleCollectionViewCell ?? BibleCollectionViewCell()
+      cell.configureUI(with: model[indexPath.row].bibleName)
+      return cell
+    case let .chapter(model):
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleCollectionViewCell.identifier, for: indexPath) as? BibleCollectionViewCell ?? BibleCollectionViewCell()
+      cell.configureUI(with: "\(model[indexPath.row])")
+      return cell
+    }
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -61,7 +88,12 @@ extension BibleBottomSheetViewController: UICollectionViewDelegate, UICollection
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    delegate?.didTappedRevisionOfTranslation(bibleName: bibleModel[indexPath.row].bibleName)
+    switch type {
+    case let .revisionOfTranslation(model):
+      delegate?.didTappedRevisionOfTranslation(bibleName: model[indexPath.row].bibleName)
+    case let .chapter(model):
+      delegate?.didTappedChapter(chapter: "\(model[indexPath.row])장")
+    }
     dismiss(animated: true)
   }
 }
