@@ -23,6 +23,8 @@ enum HaramError: Error, CaseIterable {
   case wrongEmailAuthcodeError // 이메일 인증코드가 틀렸을 때 발생하는 에러
   case failedRegisterError // 회원가입에 실패했을 때 발생하는 에러
   
+  case noExistTodayBibleWord // 오늘의 성경말씀이 존재하지않을 때 발생하는 에러
+  
   case unValidRefreshToken
 }
 
@@ -69,6 +71,8 @@ extension HaramError {
       return "LIB04"
     case .unValidRefreshToken:
       return "AUTH04"
+    case .noExistTodayBibleWord:
+      return "BI01"
     }
   }
   
@@ -96,6 +100,8 @@ extension HaramError {
       return "검색된 정보가 존재하지않습니다."
     case .unValidRefreshToken:
       return "올바르지 않은 리프레쉬 토큰입니다."
+    case .noExistTodayBibleWord:
+      return "성경이 존재하지 않습니다."
     }
   }
 }

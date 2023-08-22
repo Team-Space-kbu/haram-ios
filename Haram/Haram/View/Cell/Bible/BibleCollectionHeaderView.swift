@@ -17,6 +17,7 @@ final class BibleCollectionHeaderView: UICollectionReusableView {
   private let titleLabel = UILabel().then {
     $0.font = .bold20
     $0.textColor = .hex1A1E27
+    $0.textAlignment = .left
   }
   
   override init(frame: CGRect) {
@@ -31,7 +32,7 @@ final class BibleCollectionHeaderView: UICollectionReusableView {
   private func configureUI() {
     addSubview(titleLabel)
     titleLabel.snp.makeConstraints {
-      $0.top.leading.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
   }
   

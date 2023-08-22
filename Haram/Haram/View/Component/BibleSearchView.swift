@@ -87,6 +87,10 @@ final class BibleSearchView: UIView {
       }
       .disposed(by: disposeBag)
   }
+  
+  func updateJeolBibleName(bibleName: String) {
+    jeolBibleControl.configureUI(with: bibleName)
+  }
 }
 
 enum BibleSearchControlType {
@@ -147,6 +151,10 @@ final class BibleSearchControl: UIControl {
       $0.leading.equalTo(typeImageView.snp.trailing).offset(82 - 48.95 - 16.08)
       $0.trailing.lessThanOrEqualToSuperview()
     }
+  }
+  
+  func configureUI(with model: String) {
+    typeLabel.text = model
   }
 }
 

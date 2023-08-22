@@ -111,6 +111,7 @@ final class HomeViewController: BaseViewController {
       $0.font = .bold26
     }
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
+    
   }
   
   override func setupLayouts() {

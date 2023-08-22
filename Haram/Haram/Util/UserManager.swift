@@ -120,7 +120,7 @@ extension UserManager {
         case .success(let tokenData):
           self.updatePLUBToken(accessToken: tokenData.accessToken, refreshToken: tokenData.refreshToken)
         case .failure(_):
-          UserManager.shared.clearToken()
+          UserManager.shared.clearAllInformations()
         }
 //        guard case let .success(tokenData) = result else { return }
 //        self.updatePLUBToken(accessToken: tokenData.accessToken, refreshToken: tokenData.refreshToken)

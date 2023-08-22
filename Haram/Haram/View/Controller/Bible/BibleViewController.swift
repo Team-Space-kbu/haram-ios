@@ -132,26 +132,26 @@ final class BibleViewController: BaseViewController {
       let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(24 + 13)
+          heightDimension: .absolute(24)
         ),
         elementKind: UICollectionView.elementKindSectionHeader,
         alignment: .top
       )
       
       let section = NSCollectionLayoutSection(group: group)
-      section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 15, bottom: 28, trailing: 15)
+      section.contentInsets = NSDirectionalEdgeInsets(top: 13, leading: 15, bottom: 28, trailing: 15)
       section.boundarySupplementaryItems = [header]
       return section
     case .notice:
       let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
         widthDimension: .fractionalWidth(1),
-        heightDimension: .estimated(22)
+        heightDimension: .estimated(161 + 6 + 12 + 22)
       ))
       
-      let group = NSCollectionLayoutGroup.horizontal(
+      let group = NSCollectionLayoutGroup.vertical(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
-          heightDimension: .estimated(161)
+          heightDimension: .estimated(161 + 6 + 12 + 22)
         ),
         subitems: [item]
       )
@@ -159,14 +159,14 @@ final class BibleViewController: BaseViewController {
       let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(24 + 12)
+          heightDimension: .absolute(24)
         ),
         elementKind: UICollectionView.elementKindSectionHeader,
         alignment: .top
       )
       
       let section = NSCollectionLayoutSection(group: group)
-      section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 15, bottom: 28, trailing: 15)
+      section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 15, bottom: 28, trailing: 15)
       section.boundarySupplementaryItems = [header]
       return section
     case .todayPray:
@@ -186,7 +186,7 @@ final class BibleViewController: BaseViewController {
       let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(24 + 14)
+          heightDimension: .absolute(24)
         ),
         elementKind: UICollectionView.elementKindSectionHeader,
         alignment: .top
@@ -194,7 +194,7 @@ final class BibleViewController: BaseViewController {
       
       let section = NSCollectionLayoutSection(group: group)
       section.boundarySupplementaryItems = [header]
-      section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 15, bottom: 156, trailing: 15)
+      section.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 15, bottom: 156, trailing: 15)
       section.interGroupSpacing = 20
       return section
     }
@@ -233,6 +233,7 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BibleCollectionHeaderView.identifier, for: indexPath) as? BibleCollectionHeaderView ?? BibleCollectionHeaderView()
     header.configureUI(with: BibleType.allCases[indexPath.section].title)
+//    header.backgroundColor = .red
     return header
   }
 }
@@ -240,6 +241,7 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 extension BibleViewController: BibleSearchViewDelgate {
   func didTappedJeolControl() {
     let bottomSheet = BibleBottomSheetViewController()
+    bottomSheet.delegate = self
     present(bottomSheet, animated: true)
   }
   
@@ -251,5 +253,11 @@ extension BibleViewController: BibleSearchViewDelgate {
     let vc = BibleSearchResultViewController()
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
+  }
+}
+
+extension BibleViewController: BibleBottomSheetViewControllerDelegate {
+  func didTappedRevisionOfTranslation(bibleName: String) {
+    bibleSearchView.updateJeolBibleName(bibleName: bibleName)
   }
 }

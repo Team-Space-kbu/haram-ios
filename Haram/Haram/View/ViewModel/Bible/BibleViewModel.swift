@@ -26,10 +26,14 @@ final class BibleViewModel {
   }
   
   private func inquireTodayBibleWord() {
-    let tryInquireTodayBibleWord = BibleService.shared.inquireTodayWords(request: .init(bibleType: .rt))
+    let tryInquireTodayBibleWord = BibleService.shared.inquireTodayWords(request: .init(bibleType: .rt)).share()
+    
+    let failureInquireTodayBibleWord = tryInquireTodayBibleWord.compactMap { result -> HaramError? in
+      guard case let .failure(error) = result else { return nil }
+      return error
+    }
     
     let successInquireTodayBibleWord = tryInquireTodayBibleWord.compactMap { result -> [InquireTodayWordsResponse]? in
-      print("결과 \(result)")
       guard case let .success(response) = result else { return nil }
       return response
     }

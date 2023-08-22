@@ -13,6 +13,7 @@ protocol LoginViewModelType {
   
   var loginToken: Driver<(String?, String?)> { get }
   var errorMessage: Signal<String> { get }
+  var isLoading: Driver<Bool> { get }
 }
 
 final class LoginViewModel {
@@ -23,6 +24,7 @@ final class LoginViewModel {
   private let tokenForLogin = BehaviorSubject<String?>(value: UserManager.shared.accessToken)
   private let refreshTokenForLogin = BehaviorSubject<String?>(value: UserManager.shared.refreshToken)
   private let errorMessageRelay = PublishRelay<String>()
+  private let isLoadingSubject = BehaviorSubject<Bool>(value: false)
   
   init() {
     tryLogin()
@@ -37,6 +39,7 @@ extension LoginViewModel {
       .compactMap { $0 }
       .do(onNext: { [weak self] id, password in
         guard let self = self else { return }
+        self.isLoadingSubject.onNext(true)
         let message: String
         if id.isEmpty && !password.isEmpty {
           message = Constants.idEmptyMessage
@@ -78,6 +81,7 @@ extension LoginViewModel {
               print("로그인 시도에러: \(description)")
               owner.errorMessageRelay.accept(description)
           }
+          owner.isLoadingSubject.onNext(false)
         })
         .disposed(by: disposeBag)
   }
@@ -94,6 +98,10 @@ extension LoginViewModel {
 }
 
 extension LoginViewModel: LoginViewModelType {
+  var isLoading: RxCocoa.Driver<Bool> {
+    isLoadingSubject.asDriver(onErrorJustReturn: false)
+  }
+  
   
   var errorMessage: Signal<String> {
     errorMessageRelay

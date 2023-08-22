@@ -16,6 +16,7 @@ final class BibleNoticeCollectionViewCell: UICollectionViewCell {
   private let noticeImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
     $0.image = UIImage(named: "noticeBible")
+    $0.layer.masksToBounds = true
   }
   
   private let noticeLabel = UILabel().then {
@@ -43,7 +44,8 @@ final class BibleNoticeCollectionViewCell: UICollectionViewCell {
     
     noticeLabel.snp.makeConstraints {
       $0.top.equalTo(noticeImageView.snp.bottom).offset(6)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
     }
   }
   

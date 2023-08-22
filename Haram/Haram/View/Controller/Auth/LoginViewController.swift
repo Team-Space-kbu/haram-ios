@@ -95,6 +95,8 @@ final class LoginViewController: BaseViewController {
     $0.delegate = self
   }
   
+  private let indicatorView = UIActivityIndicatorView(style: .large)
+  
   // MARK: - Initializations
   
   init(viewModel: LoginViewModelType = LoginViewModel()) {
@@ -151,11 +153,15 @@ final class LoginViewController: BaseViewController {
     viewModel.errorMessage
       .emit(to: errorMessageLabel.rx.text)
       .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .drive(indicatorView.rx.isAnimating)
+      .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    [containerView].forEach { view.addSubview($0) }
+    [containerView, indicatorView].forEach { view.addSubview($0) }
     [loginImageView, loginLabel, schoolLabel, emailTextField, passwordTextField, errorMessageLabel, loginButton].forEach { containerView.addArrangedSubview($0) }
     view.addSubview(loginAlertView)
   }
@@ -170,6 +176,10 @@ final class LoginViewController: BaseViewController {
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
+    }
+    
+    indicatorView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
     [emailTextField, passwordTextField].forEach {

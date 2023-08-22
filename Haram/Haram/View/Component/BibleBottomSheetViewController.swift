@@ -10,7 +10,15 @@ import UIKit
 import SnapKit
 import Then
 
+protocol BibleBottomSheetViewControllerDelegate: AnyObject {
+  func didTappedRevisionOfTranslation(bibleName: String)
+}
+
 final class BibleBottomSheetViewController: BottomSheetViewController {
+  
+  weak var delegate: BibleBottomSheetViewControllerDelegate?
+  
+  private let bibleModel: [RevisionOfTranslation] = CoreDataManager.shared.getRevisionOfTranslation(ascending: true)
   
   private lazy var bibleCollectionView = UICollectionView(
     frame: .zero,
@@ -39,15 +47,21 @@ final class BibleBottomSheetViewController: BottomSheetViewController {
 
 extension BibleBottomSheetViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    return bibleModel.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleCollectionViewCell.identifier, for: indexPath) as? BibleCollectionViewCell ?? BibleCollectionViewCell()
+    cell.configureUI(with: bibleModel[indexPath.row].bibleName)
     return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: collectionView.frame.width, height: 50)
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    delegate?.didTappedRevisionOfTranslation(bibleName: bibleModel[indexPath.row].bibleName)
+    dismiss(animated: true)
   }
 }

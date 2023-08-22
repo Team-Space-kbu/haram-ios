@@ -15,7 +15,7 @@ final class BibleCollectionViewCell: UICollectionViewCell {
   static let identifier = "BibleCollectionViewCell"
   
   private let bibleNameLabel = UILabel().then {
-    $0.text = "창세기"
+    $0.textColor = .black
   }
   
   override init(frame: CGRect) {
@@ -32,5 +32,9 @@ final class BibleCollectionViewCell: UICollectionViewCell {
     bibleNameLabel.snp.makeConstraints {
       $0.leading.directionalVerticalEdges.equalToSuperview()
     }
+  }
+  
+  func configureUI(with model: String) {
+    bibleNameLabel.text = model
   }
 }
