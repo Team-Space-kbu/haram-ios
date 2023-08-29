@@ -21,4 +21,8 @@ extension HomeService {
   func inquireHomeInfo() -> Observable<Result<InquireHomeInfoResponse, HaramError>> {
     service.request(router: HomeRouter.inquireHomeInfo, type: InquireHomeInfoResponse.self)
   }
+  
+  func inquireAffiliatedList() -> Observable<Result<[InquireAffiliatedResponse], HaramError>> {
+    service.request(router: HomeRouter.inquireAffiliatedList, type: [InquireAffiliatedResponse].self)
+  }
 }

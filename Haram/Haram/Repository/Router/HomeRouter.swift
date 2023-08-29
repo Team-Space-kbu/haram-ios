@@ -9,13 +9,14 @@ import Alamofire
 
 enum HomeRouter {
   case inquireHomeInfo
+  case inquireAffiliatedList
 }
 
 extension HomeRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .inquireHomeInfo:
+    case .inquireHomeInfo, .inquireAffiliatedList:
       return .get
     }
   }
@@ -24,19 +25,21 @@ extension HomeRouter: Router {
     switch self {
     case .inquireHomeInfo:
       return "/v1/home"
+    case .inquireAffiliatedList:
+      return "/v1/partners"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireHomeInfo:
+    case .inquireHomeInfo, .inquireAffiliatedList:
       return .plain
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireHomeInfo:
+    case .inquireHomeInfo, .inquireAffiliatedList:
       return .withAccessToken
     }
   }
