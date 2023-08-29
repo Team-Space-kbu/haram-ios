@@ -8,6 +8,9 @@
 import UIKit
 import CoreData
 
+import NMapsMap
+
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
@@ -100,6 +103,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("개역개정 초기 데이터 세팅: \(success)")
       }
     }
+    
+    // Set NaverMaps ClientID
+    NMFAuthManager.shared().clientId = NaverMapKeyConstants.clientID
     
     return true
   }

@@ -32,7 +32,5 @@
 			</array>
 		</dict>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>Application needs camera access to publish stream</string>
 </dict>
 </plist>

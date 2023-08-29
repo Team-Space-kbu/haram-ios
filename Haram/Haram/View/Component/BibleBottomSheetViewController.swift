@@ -72,14 +72,14 @@ extension BibleBottomSheetViewController: UICollectionViewDelegate, UICollection
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     switch type {
-    case let .revisionOfTranslation(model):
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleCollectionViewCell.identifier, for: indexPath) as? BibleCollectionViewCell ?? BibleCollectionViewCell()
-      cell.configureUI(with: model[indexPath.row].bibleName)
-      return cell
-    case let .chapter(model):
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleCollectionViewCell.identifier, for: indexPath) as? BibleCollectionViewCell ?? BibleCollectionViewCell()
-      cell.configureUI(with: "\(model[indexPath.row])")
-      return cell
+      case let .revisionOfTranslation(model):
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleCollectionViewCell.identifier, for: indexPath) as? BibleCollectionViewCell ?? BibleCollectionViewCell()
+        cell.configureUI(with: model[indexPath.row].bibleName)
+        return cell
+      case let .chapter(model):
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleCollectionViewCell.identifier, for: indexPath) as? BibleCollectionViewCell ?? BibleCollectionViewCell()
+        cell.configureUI(with: "\(model[indexPath.row])장")
+        return cell
     }
   }
   
