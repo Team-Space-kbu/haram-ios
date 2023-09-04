@@ -59,19 +59,19 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell {
     [affiliatedImageView, affiliatedTitleLabel, affiliatedSubTitleLabel].forEach { contentView.addSubview($0) }
     affiliatedImageView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
-      $0.bottom.equalTo(contentView.snp.centerY)
+      $0.height.equalTo(107)
     }
     
     affiliatedTitleLabel.snp.makeConstraints {
-      $0.top.equalTo(affiliatedImageView.snp.bottom)
+      $0.top.equalTo(affiliatedImageView.snp.bottom).offset(11)
       $0.leading.equalToSuperview().inset(10)
       $0.trailing.lessThanOrEqualToSuperview().inset(10)
     }
     
     affiliatedSubTitleLabel.snp.makeConstraints {
-      $0.top.equalTo(affiliatedTitleLabel.snp.bottom).offset(8)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(10)
-      $0.bottom.lessThanOrEqualToSuperview().inset(10)
+      $0.top.equalTo(affiliatedTitleLabel.snp.bottom).offset(4)
+      $0.leading.equalToSuperview().inset(10)
+      $0.bottom.trailing.lessThanOrEqualToSuperview().inset(10)
     }
   }
   

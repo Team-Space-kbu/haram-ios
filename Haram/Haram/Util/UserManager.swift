@@ -8,6 +8,7 @@
 import Foundation
 
 import RxSwift
+import UIKit
 
 final class UserManager {
   
@@ -124,6 +125,7 @@ extension UserManager {
           )
         case .failure(_):
           UserManager.shared.clearAllInformations()
+          (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = LoginViewController()
         }
 //        guard case let .success(tokenData) = result else { return }
 //        self.updatePLUBToken(accessToken: tokenData.accessToken, refreshToken: tokenData.refreshToken)

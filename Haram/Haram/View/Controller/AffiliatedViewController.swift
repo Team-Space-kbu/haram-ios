@@ -33,6 +33,7 @@ final class AffiliatedViewController: BaseViewController {
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
       $0.scrollDirection = .horizontal
+      $0.minimumInteritemSpacing = 20
     }
   ).then {
     $0.register(AffiliatedCollectionViewCell.self, forCellWithReuseIdentifier: AffiliatedCollectionViewCell.identifier)
@@ -73,9 +74,9 @@ final class AffiliatedViewController: BaseViewController {
     }
     
     affiliatedCollectionView.snp.makeConstraints {
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(10)
-      $0.height.equalTo(200)
+      $0.bottom.equalToSuperview().inset(36)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      $0.height.equalTo(220)
     }
   }
   
@@ -111,6 +112,6 @@ extension AffiliatedViewController: UICollectionViewDelegate, UICollectionViewDa
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: 250, height: 200)
+    return CGSize(width: 272, height: 220)
   }
 }
