@@ -11,6 +11,8 @@
 		5E15FD44DC3072E540FA1C8F /* Pods_HaramTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAC35EABE917C0BCEC6F2EE /* Pods_HaramTests.framework */; };
 		7034AF1A29F0064B009C7676 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7034AF1929F0064B009C7676 /* WebViewController.swift */; };
 		70375EF82AA5B6110032F6B8 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 70375EF72AA5B6110032F6B8 /* SkeletonView */; };
+		70375EFA2AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375EF92AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift */; };
+		70375EFC2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375EFB2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift */; };
 		703C5C0D29E6A1ED00B5D091 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 703C5C0C29E6A1ED00B5D091 /* SnapKit */; };
 		705E70B629E1C7A100156B1F /* HaramSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B529E1C7A100156B1F /* HaramSectionView.swift */; };
 		705E70B829E1C8ED00156B1F /* HomeNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */; };
@@ -37,7 +39,7 @@
 		705FD2AB2A160C1800F353FE /* HaramTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */; };
 		705FD2AD2A16160100F353FE /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2AC2A16160100F353FE /* LibraryViewController.swift */; };
 		705FD2AF2A16246F00F353FE /* LibraryResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2AE2A16246F00F353FE /* LibraryResultsViewController.swift */; };
-		705FD2B12A1625EF00F353FE /* LibraryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2B02A1625EF00F353FE /* LibraryCollectionViewCell.swift */; };
+		705FD2B12A1625EF00F353FE /* NewLibraryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2B02A1625EF00F353FE /* NewLibraryCollectionViewCell.swift */; };
 		705FD2B32A16278700F353FE /* LibraryCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2B22A16278700F353FE /* LibraryCollectionHeaderView.swift */; };
 		705FD2B92A1A3CFB00F353FE /* LibraryResultsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2B82A1A3CFB00F353FE /* LibraryResultsCollectionViewCell.swift */; };
 		705FD2BB2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2BA2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift */; };
@@ -216,6 +218,8 @@
 		5B797AF901DCF1B5F1437F95 /* Pods-HaramTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaramTests.debug.xcconfig"; path = "Target Support Files/Pods-HaramTests/Pods-HaramTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6318D8E47B36D3D6D8223CC2 /* Pods-Haram-HaramUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.release.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.release.xcconfig"; sourceTree = "<group>"; };
 		7034AF1929F0064B009C7676 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		70375EF92AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularLibraryCollectionViewCell.swift; sourceTree = "<group>"; };
+		70375EFB2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryResultsViewModel.swift; sourceTree = "<group>"; };
 		705E70B529E1C7A100156B1F /* HaramSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramSectionView.swift; sourceTree = "<group>"; };
 		705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNoticeView.swift; sourceTree = "<group>"; };
 		705FD2782A10D3C500F353FE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -240,7 +244,7 @@
 		705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramTabbarController.swift; sourceTree = "<group>"; };
 		705FD2AC2A16160100F353FE /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		705FD2AE2A16246F00F353FE /* LibraryResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryResultsViewController.swift; sourceTree = "<group>"; };
-		705FD2B02A1625EF00F353FE /* LibraryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCollectionViewCell.swift; sourceTree = "<group>"; };
+		705FD2B02A1625EF00F353FE /* NewLibraryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLibraryCollectionViewCell.swift; sourceTree = "<group>"; };
 		705FD2B22A16278700F353FE /* LibraryCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCollectionHeaderView.swift; sourceTree = "<group>"; };
 		705FD2B82A1A3CFB00F353FE /* LibraryResultsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryResultsCollectionViewCell.swift; sourceTree = "<group>"; };
 		705FD2BA2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryResultsCollectionHeaderView.swift; sourceTree = "<group>"; };
@@ -789,6 +793,7 @@
 			children = (
 				705FD2D02A24DEFC00F353FE /* LibraryViewModel.swift */,
 				708312632A3977B500F7E283 /* LibraryDetailViewModel.swift */,
+				70375EFB2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -831,10 +836,11 @@
 			isa = PBXGroup;
 			children = (
 				708312692A39DEF300F7E283 /* LibraryRelatedBookCollectionViewCell.swift */,
-				705FD2B02A1625EF00F353FE /* LibraryCollectionViewCell.swift */,
+				705FD2B02A1625EF00F353FE /* NewLibraryCollectionViewCell.swift */,
 				705FD2B22A16278700F353FE /* LibraryCollectionHeaderView.swift */,
 				705FD2B82A1A3CFB00F353FE /* LibraryResultsCollectionViewCell.swift */,
 				705FD2BA2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift */,
+				70375EF92AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -1295,6 +1301,7 @@
 				7083126A2A39DEF300F7E283 /* LibraryRelatedBookCollectionViewCell.swift in Sources */,
 				708ED7E62A94B61100107CDF /* RevisionOfTranslation+CoreDataClass.swift in Sources */,
 				705FD2AB2A160C1800F353FE /* HaramTabbarController.swift in Sources */,
+				70375EFC2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift in Sources */,
 				705FD2A92A16031900F353FE /* LoginViewModel.swift in Sources */,
 				70C9CCAE2A066B8F00BEB5F2 /* ChapelInfoView.swift in Sources */,
 				708312C02A7A448300F7E283 /* TermsOfUseCheckView.swift in Sources */,
@@ -1334,7 +1341,8 @@
 				70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */,
 				708ED7E72A94B61100107CDF /* RevisionOfTranslation+CoreDataProperties.swift in Sources */,
 				705FD2922A13B9E600F353FE /* AuthService.swift in Sources */,
-				705FD2B12A1625EF00F353FE /* LibraryCollectionViewCell.swift in Sources */,
+				70375EFA2AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift in Sources */,
+				705FD2B12A1625EF00F353FE /* NewLibraryCollectionViewCell.swift in Sources */,
 				708312372A2CA50300F7E283 /* IntranetRouter.swift in Sources */,
 				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
 				708ED7E02A94B2E700107CDF /* RevisionOfTranslation.xcdatamodeld in Sources */,

@@ -9,9 +9,10 @@ import UIKit
 
 import Kingfisher
 import SnapKit
+import SkeletonView
 import Then
 
-struct LibraryCollectionViewCellModel {
+struct NewLibraryCollectionViewCellModel {
   let imageName: String
   
   init(newBook: NewBook) {
@@ -23,14 +24,15 @@ struct LibraryCollectionViewCellModel {
   }
 }
 
-final class LibraryCollectionViewCell: UICollectionViewCell {
+final class NewLibraryCollectionViewCell: UICollectionViewCell {
   
-  static let identifier = "LibraryCollectionViewCell"
+  static let identifier = "NewLibraryCollectionViewCell"
   
   private let thumbnailImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -42,15 +44,24 @@ final class LibraryCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    thumbnailImageView.image = nil
+  }
+  
   private func configureUI() {
+    isSkeletonable = true
+    contentView.isSkeletonable = true
+    
     contentView.addSubview(thumbnailImageView)
     thumbnailImageView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
   }
   
-  func configureUI(with model: LibraryCollectionViewCellModel) {
-    guard let url = URL(string: model.imageName) else { return }
+  func configureUI(with model: NewLibraryCollectionViewCellModel) {
+    let url = URL(string: model.imageName)
     thumbnailImageView.kf.setImage(with: url)
+    contentView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
   }
 }

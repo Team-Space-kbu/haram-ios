@@ -8,6 +8,7 @@
 import UIKit
 
 import RxSwift
+import SkeletonView
 import SnapKit
 import Then
 
@@ -29,13 +30,13 @@ final class LibraryViewController: BaseViewController {
   
   private let viewModel: LibraryViewModelType
   
-  private var newBookModel: [LibraryCollectionViewCellModel] = [] {
+  private var newBookModel: [NewLibraryCollectionViewCellModel] = [] {
     didSet {
       collectionView.reloadSections([0])
     }
   }
   
-  private var bestBookModel: [LibraryCollectionViewCellModel] = [] {
+  private var bestBookModel: [PopularLibraryCollectionViewCellModel] = [] {
     didSet {
       collectionView.reloadSections([1])
     }
@@ -45,6 +46,7 @@ final class LibraryViewController: BaseViewController {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
     $0.contentInsetAdjustmentBehavior = .always
+    $0.isSkeletonable = true
   }
   
   private let containerView = UIStackView().then {
@@ -53,6 +55,7 @@ final class LibraryViewController: BaseViewController {
     $0.backgroundColor = .clear
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
+    $0.isSkeletonable = true
   }
   
   private let searchBar = UISearchBar().then {
@@ -68,6 +71,7 @@ final class LibraryViewController: BaseViewController {
     $0.contentMode = .scaleAspectFill
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
+    $0.isSkeletonable = true
   }
   
   private lazy var collectionView = UICollectionView(
@@ -76,14 +80,16 @@ final class LibraryViewController: BaseViewController {
       guard let self = self else { return nil }
       return self.createCollectionViewSection()
     }).then {
-      $0.register(LibraryCollectionViewCell.self, forCellWithReuseIdentifier: LibraryCollectionViewCell.identifier)
+      $0.register(NewLibraryCollectionViewCell.self, forCellWithReuseIdentifier: NewLibraryCollectionViewCell.identifier)
+      $0.register(PopularLibraryCollectionViewCell.self, forCellWithReuseIdentifier: PopularLibraryCollectionViewCell.identifier)
       $0.register(LibraryCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LibraryCollectionHeaderView.identifier)
       $0.delegate = self
       $0.dataSource = self
       $0.bounces = false
+      $0.isSkeletonable = true
     }
   
-  private let indicatorView = UIActivityIndicatorView(style: .large)
+//  private let indicatorView = UIActivityIndicatorView(style: .large)
   
   private let tapGesture = UITapGestureRecognizer(target: LibraryViewController.self, action: nil)
   
@@ -115,19 +121,13 @@ final class LibraryViewController: BaseViewController {
         .withLatestFrom(searchBar.rx.text.orEmpty)
         .filter { $0.count != 0 }
         .withUnretained(self)
-        .subscribe(onNext: { owner, text in
-          owner.viewModel.whichSearchText.onNext(text)
+        .subscribe(onNext: { owner, searchQuery in
+          let vc = LibraryResultsViewController(searchQuery: searchQuery)
+          vc.title = "도서 검색"
+          vc.navigationItem.largeTitleDisplayMode = .never
+          owner.navigationController?.pushViewController(vc, animated: true)
         })
         .disposed(by: disposeBag)
-    
-    viewModel.searchResults
-      .drive(with: self) { owner, result in
-        let vc = LibraryResultsViewController(model: result)
-        vc.title = "도서 검색"
-        vc.navigationItem.largeTitleDisplayMode = .never
-        owner.navigationController?.pushViewController(vc, animated: true)
-      }
-      .disposed(by: disposeBag)
     
     tapGesture.rx.event
       .asDriver()
@@ -137,8 +137,13 @@ final class LibraryViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isLoading
-      .distinctUntilChanged()
-      .drive(indicatorView.rx.isAnimating)
+      .drive(with: self) { owner, isLoading in
+        if !isLoading {
+          DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            owner.view.hideSkeleton()
+          }
+        }
+      }
       .disposed(by: disposeBag)
   }
   
@@ -152,12 +157,21 @@ final class LibraryViewController: BaseViewController {
     )
     title = "도서"
     view.addGestureRecognizer(tapGesture)
+    view.isSkeletonable = true
+    
+    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
+
+    let graient = SkeletonGradient(baseColor: .skeletonDefault)
+    view.showAnimatedGradientSkeleton(
+      usingGradient: graient,
+      animation: skeletonAnimation,
+      transition: .none
+    )
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
-    view.addSubview(indicatorView)
     scrollView.addSubview(searchBar)
     scrollView.addSubview(containerView)
     [bannerImageView, collectionView].forEach { containerView.addArrangedSubview($0) }
@@ -168,10 +182,6 @@ final class LibraryViewController: BaseViewController {
     
     scrollView.snp.makeConstraints {
       $0.width.directionalVerticalEdges.equalToSuperview()
-    }
-    
-    indicatorView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
     }
     
     searchBar.snp.makeConstraints {
@@ -238,7 +248,7 @@ final class LibraryViewController: BaseViewController {
   }
 }
 
-extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataSource
+extension LibraryViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource
 {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 2
@@ -258,11 +268,11 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
     let type = LibraryType.allCases[indexPath.section]
     switch type {
     case .new:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewLibraryCollectionViewCell.identifier, for: indexPath) as? NewLibraryCollectionViewCell ?? NewLibraryCollectionViewCell()
       cell.configureUI(with: newBookModel[indexPath.row])
       return cell
     case .popular:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularLibraryCollectionViewCell.identifier, for: indexPath) as? PopularLibraryCollectionViewCell ?? PopularLibraryCollectionViewCell()
       cell.configureUI(with: bestBookModel[indexPath.row])
       return cell
     }
@@ -278,5 +288,43 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
     ) as? LibraryCollectionHeaderView ?? LibraryCollectionHeaderView()
     header.configureUI(with: type.title)
     return header
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+    let type = LibraryType.allCases[indexPath.section]
+    switch type {
+    case .new:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewLibraryCollectionViewCell.identifier, for: indexPath) as? NewLibraryCollectionViewCell ?? NewLibraryCollectionViewCell()
+//      cell.configureUI(with: newBookModel[indexPath.row])
+      return cell
+    case .popular:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularLibraryCollectionViewCell.identifier, for: indexPath) as? PopularLibraryCollectionViewCell ?? PopularLibraryCollectionViewCell()
+//      cell.configureUI(with: bestBookModel[indexPath.row])
+      return cell
+    }
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    let type = LibraryType.allCases[section]
+    switch type {
+    case .new:
+      return newBookModel.count
+    case .popular:
+      return bestBookModel.count
+    }
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+    let type = LibraryType.allCases[indexPath.section]
+    switch type {
+    case .new:
+      return NewLibraryCollectionViewCell.identifier
+    case .popular:
+      return PopularLibraryCollectionViewCell.identifier
+    }
+  }
+  
+  func numSections(in collectionSkeletonView: UICollectionView) -> Int {
+    LibraryType.allCases.count
   }
 }

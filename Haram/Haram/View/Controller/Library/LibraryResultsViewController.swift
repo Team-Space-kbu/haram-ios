@@ -12,9 +12,13 @@ import Then
 
 final class LibraryResultsViewController: BaseViewController {
   
-//  private let viewModel: Libraryresult
+  private let viewModel: LibraryResultsViewModelType
   
-  private let model: [LibraryResultsCollectionViewCellModel]
+  private var model: [LibraryResultsCollectionViewCellModel] = [] {
+    didSet {
+      collectionView.reloadData()
+    }
+  }
   
   private lazy var collectionView = UICollectionView(
     frame: .zero,
@@ -31,24 +35,38 @@ final class LibraryResultsViewController: BaseViewController {
   
   private lazy var emptyView = LibraryResultsEmptyView()
   
-  init(model: [LibraryResultsCollectionViewCellModel]) {
-    self.model = model
+  init(viewModel: LibraryResultsViewModelType = LibraryResultsViewModel(), searchQuery: String) {
+    self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
+    viewModel.whichSearchText.onNext(searchQuery)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func bind() {
+    super.bind()
+    viewModel.searchResults
+      .drive(with: self) { owner, model in
+        owner.emptyView.isHidden = !model.isEmpty
+        owner.model = model
+      }
+      .disposed(by: disposeBag)
+    
+//    viewModel.
+  }
+  
   override func setupStyles() {
     super.setupStyles()
-    emptyView.isHidden = !model.isEmpty
+    
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: "back"),
       style: .plain,
       target: self,
       action: #selector(didTappedBackButton)
     )
+    emptyView.isHidden = true
   }
   
   override func setupLayouts() {
@@ -71,12 +89,6 @@ final class LibraryResultsViewController: BaseViewController {
     emptyView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
-  }
-  
-  override func bind() {
-    super.bind()
-    
-    
   }
   
   @objc private func didTappedBackButton() {
