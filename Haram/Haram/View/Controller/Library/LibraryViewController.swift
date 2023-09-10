@@ -15,6 +15,7 @@ import Then
 enum LibraryType: CaseIterable {
   case new
   case popular
+  case rental
   
   var title: String {
     switch self {
@@ -22,6 +23,8 @@ enum LibraryType: CaseIterable {
       return "신작도서"
     case .popular:
       return "인기도서"
+    case .rental:
+      return "대여도서"
     }
   }
 }
@@ -39,6 +42,12 @@ final class LibraryViewController: BaseViewController {
   private var bestBookModel: [PopularLibraryCollectionViewCellModel] = [] {
     didSet {
       collectionView.reloadSections([1])
+    }
+  }
+  
+  private var rentalBookModel: [RentalLibraryCollectionViewCellModel] = [] {
+    didSet {
+      collectionView.reloadSections([2])
     }
   }
   
@@ -82,6 +91,7 @@ final class LibraryViewController: BaseViewController {
     }).then {
       $0.register(NewLibraryCollectionViewCell.self, forCellWithReuseIdentifier: NewLibraryCollectionViewCell.identifier)
       $0.register(PopularLibraryCollectionViewCell.self, forCellWithReuseIdentifier: PopularLibraryCollectionViewCell.identifier)
+      $0.register(RentalLibraryCollectionViewCell.self, forCellWithReuseIdentifier: RentalLibraryCollectionViewCell.identifier)
       $0.register(LibraryCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LibraryCollectionHeaderView.identifier)
       $0.delegate = self
       $0.dataSource = self
@@ -113,6 +123,10 @@ final class LibraryViewController: BaseViewController {
       .drive(rx.bestBookModel)
       .disposed(by: disposeBag)
     
+    viewModel.rentalBookModel
+      .drive(rx.rentalBookModel)
+      .disposed(by: disposeBag)
+    
     searchBar.rx.searchButtonClicked
       .do(onNext: { [weak self] _ in
         self?.searchBar.resignFirstResponder()
@@ -139,7 +153,7 @@ final class LibraryViewController: BaseViewController {
     viewModel.isLoading
       .drive(with: self) { owner, isLoading in
         if !isLoading {
-          DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+          DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             owner.view.hideSkeleton()
           }
         }
@@ -201,7 +215,7 @@ final class LibraryViewController: BaseViewController {
     }
     
     collectionView.snp.makeConstraints {
-      $0.height.equalTo(282 + 165)
+      $0.height.equalTo(282 + 165 + 205 + 18)
     }
     containerView.setCustomSpacing(18, after: bannerImageView)
     containerView.setCustomSpacing(25, after: searchBar)
@@ -251,7 +265,7 @@ final class LibraryViewController: BaseViewController {
 extension LibraryViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource
 {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 2
+    return LibraryType.allCases.count
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -261,6 +275,8 @@ extension LibraryViewController: SkeletonCollectionViewDelegate, SkeletonCollect
       return newBookModel.count
     case .popular:
       return bestBookModel.count
+    case .rental:
+      return rentalBookModel.count
     }
   }
   
@@ -274,6 +290,10 @@ extension LibraryViewController: SkeletonCollectionViewDelegate, SkeletonCollect
     case .popular:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularLibraryCollectionViewCell.identifier, for: indexPath) as? PopularLibraryCollectionViewCell ?? PopularLibraryCollectionViewCell()
       cell.configureUI(with: bestBookModel[indexPath.row])
+      return cell
+    case .rental:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RentalLibraryCollectionViewCell.identifier, for: indexPath) as? RentalLibraryCollectionViewCell ?? RentalLibraryCollectionViewCell()
+      cell.configureUI(with: rentalBookModel[indexPath.row])
       return cell
     }
   }
@@ -295,11 +315,12 @@ extension LibraryViewController: SkeletonCollectionViewDelegate, SkeletonCollect
     switch type {
     case .new:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewLibraryCollectionViewCell.identifier, for: indexPath) as? NewLibraryCollectionViewCell ?? NewLibraryCollectionViewCell()
-//      cell.configureUI(with: newBookModel[indexPath.row])
       return cell
     case .popular:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularLibraryCollectionViewCell.identifier, for: indexPath) as? PopularLibraryCollectionViewCell ?? PopularLibraryCollectionViewCell()
-//      cell.configureUI(with: bestBookModel[indexPath.row])
+      return cell
+    case .rental:
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RentalLibraryCollectionViewCell.identifier, for: indexPath) as? RentalLibraryCollectionViewCell ?? RentalLibraryCollectionViewCell()
       return cell
     }
   }
@@ -311,6 +332,8 @@ extension LibraryViewController: SkeletonCollectionViewDelegate, SkeletonCollect
       return newBookModel.count
     case .popular:
       return bestBookModel.count
+    case .rental:
+      return rentalBookModel.count
     }
   }
   
@@ -321,6 +344,8 @@ extension LibraryViewController: SkeletonCollectionViewDelegate, SkeletonCollect
       return NewLibraryCollectionViewCell.identifier
     case .popular:
       return PopularLibraryCollectionViewCell.identifier
+    case .rental:
+      return RentalLibraryCollectionViewCell.identifier
     }
   }
   

@@ -9,6 +9,7 @@ import UIKit
 
 import Kingfisher
 import SnapKit
+import SkeletonView
 import Then
 
 struct LibraryRelatedBookCollectionViewCellModel {
@@ -22,6 +23,7 @@ final class LibraryRelatedBookCollectionViewCell: UICollectionViewCell {
   private let bookImageView = UIImageView().then {
     $0.backgroundColor = .systemGray
     $0.contentMode = .scaleAspectFill
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -34,6 +36,9 @@ final class LibraryRelatedBookCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    contentView.isSkeletonable = true
+    
     layer.masksToBounds = true
     layer.cornerRadius = 10
     backgroundColor = .systemGray

@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 struct LibraryDetailSubViewModel {
@@ -18,7 +19,7 @@ struct LibraryDetailSubViewModel {
 final class LibraryDetailSubView: UIView {
   
   private let titleLabel = UILabel().then {
-//    $0.text = "책 설명"
+    $0.text = "책 설명"
     $0.textColor = .black
     $0.font = .bold18
   }
@@ -26,7 +27,8 @@ final class LibraryDetailSubView: UIView {
   private let descriptionLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .regular16
-    $0.numberOfLines = 0
+    $0.numberOfLines = .max
+    $0.skeletonTextNumberOfLines = 5
   }
   
   private let bottomLineView = UIView().then {
@@ -43,7 +45,11 @@ final class LibraryDetailSubView: UIView {
   }
   
   private func configureUI() {
-    [titleLabel, descriptionLabel, bottomLineView].forEach { addSubview($0) }
+    isSkeletonable = true
+    [titleLabel, descriptionLabel, bottomLineView].forEach {
+//      $0.isSkeletonable = true
+      addSubview($0)
+    }
     titleLabel.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
     }
@@ -61,14 +67,18 @@ final class LibraryDetailSubView: UIView {
     }
   }
   
-  func configureUI(with model: LibraryDetailSubViewModel?) {
-    guard let model = model else { return }
+  func configureUI(with model: [LibraryDetailSubViewModel]) {
+    guard let model = model.first else { return }
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineSpacing = 1
 
-    let attributedString = NSAttributedString(string: model.description, attributes: [.paragraphStyle: paragraphStyle])
+    let attributedString = NSAttributedString(
+      string: model.description,
+      attributes: [.paragraphStyle: paragraphStyle]
+    )
     
     titleLabel.text = model.title
     descriptionLabel.attributedText = attributedString
+    print("시발 \(descriptionLabel.text)")
   }
 }

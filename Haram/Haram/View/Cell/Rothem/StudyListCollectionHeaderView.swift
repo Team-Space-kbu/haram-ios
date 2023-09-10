@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 enum StudyListCollectionHeaderViewType {
@@ -29,6 +30,7 @@ final class StudyListCollectionHeaderView: UICollectionReusableView {
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 26
+    $0.isSkeletonable = true
   }
   
   private let studyListHeaderView = StudyListHeaderView()
@@ -41,6 +43,7 @@ final class StudyListCollectionHeaderView: UICollectionReusableView {
     $0.font = .bold22
     $0.textColor = .black
     $0.text = "로뎀스터디룸예약"
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -53,6 +56,8 @@ final class StudyListCollectionHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    
     addSubview(containerView)
     [studyListHeaderView, studyReservationLabel].forEach { containerView.addArrangedSubview($0) }
     
@@ -116,6 +121,7 @@ extension StudyListCollectionHeaderView {
     }
     
     private func configureUI() {
+      isSkeletonable = true
       addSubview(backgroudImageView)
       [titleLabel, descriptionLabel].forEach { backgroudImageView.addSubview($0) }
       

@@ -15,12 +15,8 @@ import Then
 struct NewLibraryCollectionViewCellModel {
   let imageName: String
   
-  init(newBook: NewBook) {
-    imageName = newBook.image
-  }
-  
-  init(bestBook: BestBook) {
-    imageName = bestBook.image
+  init(bookInfo: BookInfo) {
+    imageName = bookInfo.image
   }
 }
 

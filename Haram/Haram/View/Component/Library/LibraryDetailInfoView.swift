@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 enum LibraryDetailInfoViewType: CaseIterable {
@@ -61,7 +62,11 @@ final class LibraryInfoView: UIView {
   }
   
   private func configureUI() {
-    [titleLabel, contentLabel].forEach { addSubview($0) }
+    isSkeletonable = true
+    [titleLabel, contentLabel].forEach {
+      $0.isSkeletonable = true
+      addSubview($0)
+    }
     titleLabel.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(18)
@@ -123,8 +128,11 @@ final class LibraryDetailInfoView: UIView {
   }
   
   private func configureUI() {
+    isSkeletonable = true
     addSubview(containerView)
-    [authorInfoView, lineView, publisherInfoView, lineView1, pubDateInfoView, lineView2, discountInfoView].forEach { containerView.addArrangedSubview($0)
+    [authorInfoView, lineView, publisherInfoView, lineView1, pubDateInfoView, lineView2, discountInfoView].forEach {
+//      $0.isSkeletonable = true
+      containerView.addArrangedSubview($0)
     }
     
     containerView.snp.makeConstraints {

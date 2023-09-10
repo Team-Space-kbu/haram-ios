@@ -10,6 +10,7 @@ import RxCocoa
 
 protocol LibraryResultsViewModelType {
   var whichSearchText: AnyObserver<String> { get }
+  var fetchMoreDatas: AnyObserver<Void> { get }
   
   var searchResults: Driver<[LibraryResultsCollectionViewCellModel]> { get }
   var isLoading: Driver<Bool> { get }
@@ -22,33 +23,55 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
   let whichSearchText: AnyObserver<String>
   let searchResults:Driver<[LibraryResultsCollectionViewCellModel]>
   let isLoading: Driver<Bool>
+  let fetchMoreDatas: AnyObserver<Void>
   
   init() {
     let whichSearchingText = PublishSubject<String>()
-    let isLoadingSubject = BehaviorSubject<Bool>(value: false)
-    let searchBookResults = PublishRelay<[LibraryResultsCollectionViewCellModel]>()
+    let isLoadingRelay = BehaviorRelay<Bool>(value: false)
+    let searchBookResults = BehaviorRelay<[LibraryResultsCollectionViewCellModel]>(value: [])
+    let currentPageSubject = BehaviorRelay<Int>(value: 1)
+    let fetchingDatas = PublishSubject<Void>()
+    let isLastPage = BehaviorRelay<Bool>(value: false)
     
     whichSearchText = whichSearchingText.asObserver()
+    fetchMoreDatas = fetchingDatas.asObserver()
     
-    let requestSearchBook = whichSearchingText
-      .do(onNext: { _ in isLoadingSubject.onNext(true) })
+    let requestSearchBook = Observable.combineLatest(
+      whichSearchingText,
+      currentPageSubject
+    )
+      .do(onNext: { _ in isLoadingRelay.accept(true) })
         .flatMapLatest(LibraryService.shared.searchBook)
         
         requestSearchBook.subscribe(onNext: { result in
           switch result {
           case .success(let response):
-            let model = response.map { LibraryResultsCollectionViewCellModel(response: $0) }
-            searchBookResults.accept(model)
+            let model = response.result.map {
+              LibraryResultsCollectionViewCellModel(result: $0)
+            }
+            var currentResultModel = searchBookResults.value
+            currentResultModel.append(contentsOf: model)
+            print("총모델 \(currentResultModel)")
+            searchBookResults.accept(currentResultModel)
+            //            isLastPage.accept(response.end)
           case .failure(_):
             searchBookResults.accept([])
           }
-          isLoadingSubject.onNext(false)
+          isLoadingRelay.accept(false)
         })
         .disposed(by: disposeBag)
         
-        // Output
-        searchResults = searchBookResults
-          .asDriver(onErrorDriveWith: .empty())
-        isLoading = isLoadingSubject.asDriver(onErrorJustReturn: false)
-        }
+        fetchingDatas
+        .filter { _ in !isLastPage.value && !isLoadingRelay.value }
+        .subscribe(onNext: { _ in
+          let currentPage = currentPageSubject.value
+          currentPageSubject.accept(currentPage + 1)
+        })
+        .disposed(by: disposeBag)
+    
+    // Output
+    searchResults = searchBookResults
+      .asDriver(onErrorDriveWith: .empty())
+    isLoading = isLoadingRelay.asDriver(onErrorJustReturn: false)
+  }
 }

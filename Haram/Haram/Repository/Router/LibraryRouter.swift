@@ -9,7 +9,7 @@ import Alamofire
 
 enum LibraryRouter {
   case inquireLibrary
-  case searchBook(String)
+  case searchBook(SearchBookRequest)
   case requestBookInfo(Int)
   case requestBookLoanStatus(Int)
 }
@@ -27,8 +27,8 @@ extension LibraryRouter: Router {
     switch self {
     case .inquireLibrary:
       return "/v1/library"
-    case .searchBook(let text):
-      return "/v1/library/search/\(text)"
+    case .searchBook:
+      return "/v1/library/search"
     case .requestBookInfo(let detail):
       return "/v1/library/detail/info/\(detail)"
     case .requestBookLoanStatus(let path):
@@ -40,8 +40,8 @@ extension LibraryRouter: Router {
     switch self {
     case .inquireLibrary:
       return .plain
-    case .searchBook:
-      return .plain
+    case .searchBook(let request):
+      return .query(request)
     case .requestBookInfo:
       return .plain
     case .requestBookLoanStatus:

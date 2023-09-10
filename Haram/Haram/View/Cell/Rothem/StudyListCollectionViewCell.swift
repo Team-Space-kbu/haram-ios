@@ -9,6 +9,7 @@ import UIKit
 
 import Kingfisher
 import SnapKit
+import SkeletonView
 import Then
 
 struct StudyListCollectionViewCellModel: Hashable {
@@ -30,18 +31,21 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
     $0.font = .bold18
     $0.textColor = .hex1A1E27
     $0.numberOfLines = 1
+    $0.isSkeletonable = true
   }
   
   private let studyDescriptionLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .regular14
     $0.numberOfLines = 0
+    $0.isSkeletonable = true
   }
   
   private let studyImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -54,6 +58,9 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    contentView.isSkeletonable = true
+    
     [studyTitleLabel, studyDescriptionLabel, studyImageView].forEach { contentView.addSubview($0) }
     
     studyImageView.snp.makeConstraints {

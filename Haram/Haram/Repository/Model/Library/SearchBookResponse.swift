@@ -8,6 +8,12 @@
 import Foundation
 
 struct SearchBookResponse: Codable {
+  let start: Int
+  let end: Int
+  let result: [SearchBookResult]
+}
+
+struct SearchBookResult: Codable {
   let title: String
   let description: String
   let imageName: String

@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 final class LibraryResultsViewController: BaseViewController {
@@ -29,9 +30,10 @@ final class LibraryResultsViewController: BaseViewController {
     $0.delegate = self
     $0.dataSource = self
     $0.contentInset = .init(top: 21.97, left: 15, bottom: .zero, right: 15)
+    $0.isSkeletonable = true
   }
   
-  private let indicatorView = UIActivityIndicatorView(style: .large)
+//  private let indicatorView = UIActivityIndicatorView(style: .large)
   
   private lazy var emptyView = LibraryResultsEmptyView()
   
@@ -54,7 +56,26 @@ final class LibraryResultsViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-//    viewModel.
+    viewModel.isLoading
+      .drive(with: self) { owner, isLoading in
+        if !isLoading {
+          DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            owner.view.hideSkeleton()
+          }
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    collectionView.rx.didScroll
+      .subscribe(with: self, onNext: { owner, _ in
+        let offSetY = owner.collectionView.contentOffset.y
+        let contentHeight = owner.collectionView.contentSize.height
+        
+        if offSetY > (contentHeight - owner.collectionView.frame.size.height) {
+          owner.viewModel.fetchMoreDatas.onNext(())
+        }
+      })
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -67,12 +88,22 @@ final class LibraryResultsViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     emptyView.isHidden = true
+    view.isSkeletonable = true
+    
+    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
+
+    let graient = SkeletonGradient(baseColor: .skeletonDefault)
+    view.showAnimatedGradientSkeleton(
+      usingGradient: graient,
+      animation: skeletonAnimation,
+      transition: .none
+    )
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(collectionView)
-    view.addSubview(indicatorView)
+//    view.addSubview(indicatorView)
     view.addSubview(emptyView)
   }
   
@@ -82,9 +113,9 @@ final class LibraryResultsViewController: BaseViewController {
       $0.directionalEdges.equalToSuperview()
     }
     
-    indicatorView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
-    }
+//    indicatorView.snp.makeConstraints {
+//      $0.directionalEdges.equalToSuperview()
+//    }
     
     emptyView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
@@ -96,7 +127,9 @@ final class LibraryResultsViewController: BaseViewController {
   }
 }
 
-extension LibraryResultsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+// MARK: - SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource, UICollectionViewDelegateFlowLayout
+
+extension LibraryResultsViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 1
   }
@@ -134,5 +167,27 @@ extension LibraryResultsViewController: UICollectionViewDelegate, UICollectionVi
     vc.title = "도서 상세"
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
+  }
+}
+
+// MARK: - For SkeletonView
+
+extension LibraryResultsViewController {
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryResultsCollectionViewCell.identifier, for: indexPath) as? LibraryResultsCollectionViewCell ?? LibraryResultsCollectionViewCell()
+    cell.configureUI(with: model[indexPath.row])
+    return cell
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+    LibraryResultsCollectionViewCell.identifier
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    model.count
+  }
+  
+  func numSections(in collectionSkeletonView: UICollectionView) -> Int {
+    1
   }
 }

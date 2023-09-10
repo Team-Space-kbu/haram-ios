@@ -12,8 +12,8 @@ protocol LibraryDetailViewModelType {
   var whichRequestBookPath: AnyObserver<Int> { get }
   
   var detailBookInfo: Driver<[LibraryRentalViewModel]> { get }
-  var detailMainModel: Driver<LibraryDetailMainViewModel> { get }
-  var detailSubModel: Driver<LibraryDetailSubViewModel> { get }
+  var detailMainModel: Driver<[LibraryDetailMainViewModel]> { get }
+  var detailSubModel: Driver<[LibraryDetailSubViewModel]> { get }
   var detailInfoModel: Driver<[LibraryInfoViewModel]> { get }
   var detailRentalModel: Driver<[LibraryRentalViewModel]> { get }
   var relatedBookModel: Driver<[LibraryRelatedBookCollectionViewCellModel]> { get }
@@ -27,8 +27,8 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
   let whichRequestBookPath: AnyObserver<Int>
   
   let detailBookInfo: Driver<[LibraryRentalViewModel]>
-  let detailMainModel: Driver<LibraryDetailMainViewModel>
-  let detailSubModel: Driver<LibraryDetailSubViewModel>
+  let detailMainModel: Driver<[LibraryDetailMainViewModel]>
+  let detailSubModel: Driver<[LibraryDetailSubViewModel]>
   let detailInfoModel: Driver<[LibraryInfoViewModel]>
   let detailRentalModel: Driver<[LibraryRentalViewModel]>
   let relatedBookModel: Driver<[LibraryRelatedBookCollectionViewCellModel]>
@@ -37,8 +37,8 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
   init() {
     let whichRequestingBookPath = PublishSubject<Int>()
     let currentDetailBookInfo = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
-    let currentDetailMainModel = PublishRelay<LibraryDetailMainViewModel>()
-    let currentDetailSubModel = PublishRelay<LibraryDetailSubViewModel>()
+    let currentDetailMainModel = BehaviorRelay<[LibraryDetailMainViewModel]>(value: [])
+    let currentDetailSubModel = BehaviorRelay<[LibraryDetailSubViewModel]>(value: [])
     let currentDetailInfoModel = BehaviorRelay<[LibraryInfoViewModel]>(value: [])
     let currentDetailRentalModel = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
     let currentRelatedBookModel = BehaviorRelay<[LibraryRelatedBookCollectionViewCellModel]>(value: [])
@@ -46,8 +46,8 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     
     whichRequestBookPath = whichRequestingBookPath.asObserver()
     detailBookInfo = currentDetailBookInfo.asDriver()
-    detailMainModel = currentDetailMainModel.asDriver(onErrorJustReturn: .init(bookImage: "", title: "", subTitle: ""))
-    detailSubModel = currentDetailSubModel.asDriver(onErrorJustReturn: .init(title: "", description: ""))
+    detailMainModel = currentDetailMainModel.asDriver()
+    detailSubModel = currentDetailSubModel.asDriver()
     detailInfoModel = currentDetailInfoModel.asDriver()
     detailRentalModel = currentDetailRentalModel.asDriver()
     relatedBookModel = currentRelatedBookModel.asDriver()
@@ -60,16 +60,16 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
       .flatMapLatest(LibraryService.shared.requestBookInfo(text: ))
       .subscribe(onNext: { result in
         guard case let .success(response) = result else { return }
-        currentDetailMainModel.accept(LibraryDetailMainViewModel(
+        currentDetailMainModel.accept([LibraryDetailMainViewModel(
           bookImage: response.thumbnailImage,
           title: response.bookTitle,
           subTitle: response.publisher
-        ))
+        )])
         
-        currentDetailSubModel.accept(LibraryDetailSubViewModel(
+        currentDetailSubModel.accept([LibraryDetailSubViewModel(
           title: "책 설명",
           description: response.description
-        ))
+        )])
         
         currentDetailInfoModel.accept(LibraryDetailInfoViewType.allCases.map { type in
           let content: String
@@ -99,7 +99,13 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
         .subscribe(onNext: { result in
           // TODO: - 책에 대한 대여정보가 없을 경우에 대한 처리 해야함
           guard case let .success(response) = result else { return }
-          currentDetailRentalModel.accept(response.map { .init(response: $0) })
+          currentDetailRentalModel.accept(
+            response.keepBooks.keepBooks.map { .init(keepBook: $0) }
+          )
+          currentRelatedBookModel.accept(
+            response.relateBooks.relatedBooks.map { .init(bookImageURL: $0.image) }
+          )
+          
           isLoadingSubject.onNext(false)
         })
         .disposed(by: disposeBag)

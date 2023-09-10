@@ -101,10 +101,10 @@ extension UserManager {
     self.laravelSession = nil
   }
   
-  func clearToken() {
-    self.accessToken = nil
-    self.refreshToken = nil
-  }
+//  func clearToken() {
+//    self.accessToken = nil
+//    self.refreshToken = nil
+//  }
   
   /// 인트라넷관련 정보를 초기화합니다.
   func clearIntranetInformation() {
@@ -123,6 +123,7 @@ extension UserManager {
             accessToken: tokenData.accessToken,
             refreshToken: tokenData.refreshToken
           )
+          return Void()
         case .failure(_):
           UserManager.shared.clearAllInformations()
           (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = LoginViewController()

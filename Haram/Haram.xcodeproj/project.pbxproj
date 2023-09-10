@@ -13,6 +13,9 @@
 		70375EF82AA5B6110032F6B8 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 70375EF72AA5B6110032F6B8 /* SkeletonView */; };
 		70375EFA2AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375EF92AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift */; };
 		70375EFC2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375EFB2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift */; };
+		70375EFE2AAA022A0032F6B8 /* LibraryRentalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375EFD2AAA022A0032F6B8 /* LibraryRentalView.swift */; };
+		70375F032AAD78E20032F6B8 /* RentalLibraryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375F022AAD78E20032F6B8 /* RentalLibraryCollectionViewCell.swift */; };
+		70375F052AAD804C0032F6B8 /* SearchBookRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375F042AAD804C0032F6B8 /* SearchBookRequest.swift */; };
 		703C5C0D29E6A1ED00B5D091 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 703C5C0C29E6A1ED00B5D091 /* SnapKit */; };
 		705E70B629E1C7A100156B1F /* HaramSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B529E1C7A100156B1F /* HaramSectionView.swift */; };
 		705E70B829E1C8ED00156B1F /* HomeNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */; };
@@ -220,6 +223,9 @@
 		7034AF1929F0064B009C7676 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		70375EF92AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularLibraryCollectionViewCell.swift; sourceTree = "<group>"; };
 		70375EFB2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryResultsViewModel.swift; sourceTree = "<group>"; };
+		70375EFD2AAA022A0032F6B8 /* LibraryRentalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRentalView.swift; sourceTree = "<group>"; };
+		70375F022AAD78E20032F6B8 /* RentalLibraryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalLibraryCollectionViewCell.swift; sourceTree = "<group>"; };
+		70375F042AAD804C0032F6B8 /* SearchBookRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBookRequest.swift; sourceTree = "<group>"; };
 		705E70B529E1C7A100156B1F /* HaramSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramSectionView.swift; sourceTree = "<group>"; };
 		705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNoticeView.swift; sourceTree = "<group>"; };
 		705FD2782A10D3C500F353FE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -463,20 +469,50 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		705E70B429E1C79500156B1F /* Component */ = {
+		70375EFF2AAA024A0032F6B8 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				705E70B529E1C7A100156B1F /* HaramSectionView.swift */,
-				705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */,
-				70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */,
-				70C9CCAD2A066B8F00BEB5F2 /* ChapelInfoView.swift */,
-				70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */,
-				705FD29E2A15F21F00F353FE /* LoginButton.swift */,
-				705FD2A02A15F75900F353FE /* LoginAlertView.swift */,
+				70375EFD2AAA022A0032F6B8 /* LibraryRentalView.swift */,
+				708ED79C2A8E817F00107CDF /* LibraryResultsEmptyView.swift */,
 				705FD2BE2A1A4D2E00F353FE /* LibraryDetailMainView.swift */,
 				708312472A2F7EC300F7E283 /* LibraryDetailSubView.swift */,
 				708312492A2F856700F7E283 /* LibraryDetailInfoView.swift */,
 				708312652A398C0D00F7E283 /* LibraryRentalListView.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		70375F002AAA02570032F6B8 /* Chapel */ = {
+			isa = PBXGroup;
+			children = (
+				70C9CCAD2A066B8F00BEB5F2 /* ChapelInfoView.swift */,
+				70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */,
+			);
+			path = Chapel;
+			sourceTree = "<group>";
+		};
+		70375F012AAA02660032F6B8 /* Rothem */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7D52A9230FF00107CDF /* BibleBottomSheetViewController.swift */,
+				708ED79E2A8F65A100107CDF /* CheckReservationInfoView.swift */,
+				708ED7B02A90CC0C00107CDF /* StudyRoomInfoView.swift */,
+				708ED7B42A90D61000107CDF /* StudyRoomDetailView.swift */,
+			);
+			path = Rothem;
+			sourceTree = "<group>";
+		};
+		705E70B429E1C79500156B1F /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				70375F012AAA02660032F6B8 /* Rothem */,
+				70375F002AAA02570032F6B8 /* Chapel */,
+				70375EFF2AAA024A0032F6B8 /* Library */,
+				705E70B529E1C7A100156B1F /* HaramSectionView.swift */,
+				705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */,
+				70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */,
+				705FD29E2A15F21F00F353FE /* LoginButton.swift */,
+				705FD2A02A15F75900F353FE /* LoginAlertView.swift */,
 				708312672A39C4B000F7E283 /* LoginInfoRememberView.swift */,
 				7083129C2A6D0F7900F7E283 /* MileageReloadButton.swift */,
 				708312AB2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift */,
@@ -484,13 +520,8 @@
 				708312B92A78D0A300F7E283 /* HaramButton.swift */,
 				708312BF2A7A448300F7E283 /* TermsOfUseCheckView.swift */,
 				708312C12A7A6F2900F7E283 /* PaddingLabel.swift */,
-				708ED79C2A8E817F00107CDF /* LibraryResultsEmptyView.swift */,
-				708ED79E2A8F65A100107CDF /* CheckReservationInfoView.swift */,
-				708ED7B02A90CC0C00107CDF /* StudyRoomInfoView.swift */,
-				708ED7B42A90D61000107CDF /* StudyRoomDetailView.swift */,
 				708ED7CE2A91F13600107CDF /* BibleSearchView.swift */,
 				708ED7D32A9228D200107CDF /* BottomSheetViewController.swift */,
-				708ED7D52A9230FF00107CDF /* BibleBottomSheetViewController.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -584,6 +615,7 @@
 				705FD2D22A2645D200F353FE /* SearchBookResponse.swift */,
 				7083124B2A2F88EE00F7E283 /* RequestBookInfoResponse.swift */,
 				708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */,
+				70375F042AAD804C0032F6B8 /* SearchBookRequest.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -841,6 +873,7 @@
 				705FD2B82A1A3CFB00F353FE /* LibraryResultsCollectionViewCell.swift */,
 				705FD2BA2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift */,
 				70375EF92AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift */,
+				70375F022AAD78E20032F6B8 /* RentalLibraryCollectionViewCell.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -1322,6 +1355,7 @@
 				7083128C2A6561CD00F7E283 /* MyPageRouter.swift in Sources */,
 				708ED7B92A91191C00107CDF /* BibleRouter.swift in Sources */,
 				705FD29B2A13C19A00F353FE /* SignupUserRequest.swift in Sources */,
+				70375F052AAD804C0032F6B8 /* SearchBookRequest.swift in Sources */,
 				708ED7C32A911B4800107CDF /* BibleViewController.swift in Sources */,
 				708312B42A76945000F7E283 /* BoardListCollectionViewCell.swift in Sources */,
 				708ED7E92A94BADD00107CDF /* RevisionOfTranslationModel.swift in Sources */,
@@ -1364,6 +1398,7 @@
 				708312B22A76940600F7E283 /* BoardListViewController.swift in Sources */,
 				708312BE2A7A3C6200F7E283 /* SignupMemberRequest.swift in Sources */,
 				70727AA829D93F24003DE956 /* HomeNewsCollectionViewCell.swift in Sources */,
+				70375F032AAD78E20032F6B8 /* RentalLibraryCollectionViewCell.swift in Sources */,
 				708ED7B32A90D4ED00107CDF /* StudyRoomDetailViewController.swift in Sources */,
 				705FD2A12A15F75900F353FE /* LoginAlertView.swift in Sources */,
 				708ED7C12A911AFF00107CDF /* InquireTodayWordsResponse.swift in Sources */,
@@ -1392,6 +1427,7 @@
 				7083128E2A65626E00F7E283 /* MyPageService.swift in Sources */,
 				70727A9529D889C6003DE956 /* HomeViewController.swift in Sources */,
 				708312662A398C0D00F7E283 /* LibraryRentalListView.swift in Sources */,
+				70375EFE2AAA022A0032F6B8 /* LibraryRentalView.swift in Sources */,
 				705FD28C2A10F74D00F353FE /* UserManager.swift in Sources */,
 				70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */,
 				708ED7892A8E02B800107CDF /* StudyListCollectionHeaderView.swift in Sources */,

@@ -9,6 +9,7 @@ import UIKit
 
 import Kingfisher
 import SnapKit
+import SkeletonView
 import Then
 
 struct LibraryResultsCollectionViewCellModel {
@@ -17,11 +18,11 @@ struct LibraryResultsCollectionViewCellModel {
   let description: String
   let path: Int
   
-  init(response: SearchBookResponse) {
-    imageName = response.imageName
-    title = response.title
-    description = response.description
-    path = response.path
+  init(result: SearchBookResult) {
+    imageName = result.imageName
+    title = result.title
+    description = result.description
+    path = result.path
   }
 }
 
@@ -33,20 +34,21 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
     $0.contentMode = .scaleAspectFit
+    $0.isSkeletonable = true
   }
   
   private let mainLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold16
     $0.numberOfLines = 2
-    $0.text = "Lorem ipsum dolor sit amet,\nconsetetur sadipscing elitr, sedLorem ipsum dolor sit amet"
+    $0.isSkeletonable = true
   }
   
   private let subLabel = UILabel().then {
     $0.textColor = .hex545E6A
     $0.font = .regular14
     $0.numberOfLines = 1
-    $0.text = "박유성자유아카데미, 2020"
+    $0.isSkeletonable = true
   }
   
   private let bottomLineView = UIView().then {
@@ -62,7 +64,17 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    bookImageView.image = nil
+    mainLabel.text = nil
+    subLabel.text = nil
+  }
+  
   private func configureUI() {
+    isSkeletonable = true
+    contentView.isSkeletonable = true
+    
     [bookImageView, mainLabel, subLabel, bottomLineView].forEach { contentView.addSubview($0) }
     bookImageView.snp.makeConstraints {
       $0.top.leading.equalToSuperview()

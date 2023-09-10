@@ -13,6 +13,8 @@ import RxCocoa
 protocol StudyListViewModelType {
   var currentStudyReservationList: Driver<[StudyListCollectionViewCellModel]> { get }
   var currentStudyReservationHeaderModel: Driver<StudyListHeaderViewModel?> { get }
+  
+  var isLoading: Driver<Bool> { get }
 }
 
 final class StudyListViewModel {
@@ -22,6 +24,7 @@ final class StudyListViewModel {
   
   private let studyReservationListRelay = BehaviorRelay<[StudyListCollectionViewCellModel]>(value: [])
   private let studyReservationHeaderRelay = BehaviorRelay<StudyListHeaderViewModel?>(value: nil)
+  private let isLoadingSubject = BehaviorSubject<Bool>(value: false)
   
   init() {
     studyReservationListRelay.accept([
@@ -63,5 +66,9 @@ extension StudyListViewModel: StudyListViewModelType {
   
   var currentStudyReservationHeaderModel: Driver<StudyListHeaderViewModel?> {
     studyReservationHeaderRelay.asDriver(onErrorJustReturn: nil)
+  }
+  
+  var isLoading: Driver<Bool> {
+    isLoadingSubject.asDriver(onErrorJustReturn: false)
   }
 }

@@ -107,7 +107,7 @@ final class RegisterViewController: BaseViewController {
     view.addSubview(scrollView)
     scrollView.addSubview(stackView)
 
-    [titleLabel, alertLabel, idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField, checkEmailTextField, registerButton].forEach { stackView.addArrangedSubview($0) }
+    [titleLabel, alertLabel, idTextField, nicknameTextField, pwdTextField, repwdTextField, emailTextField, checkEmailTextField, registerButton].forEach { stackView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {

@@ -242,11 +242,12 @@ final class HomeViewController: BaseViewController {
       
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
-          widthDimension: .absolute(119),
+          widthDimension: .absolute(119 + 23),
           heightDimension: .absolute(206)),
         repeatingSubitem: item,
         count: 1
       )
+      group.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 23, bottom: .zero, trailing: .zero)
       
       let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
@@ -260,7 +261,7 @@ final class HomeViewController: BaseViewController {
       let section = NSCollectionLayoutSection(group: group)
       section.boundarySupplementaryItems = [header]
       section.orthogonalScrollingBehavior = .groupPaging
-      section.interGroupSpacing = 22
+//      section.interGroupSpacing = 22
       return section
     }
   }

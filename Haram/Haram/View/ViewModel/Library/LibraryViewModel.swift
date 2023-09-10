@@ -13,6 +13,7 @@ protocol LibraryViewModelType {
   
   var newBookModel: Driver<[NewLibraryCollectionViewCellModel]> { get }
   var bestBookModel: Driver<[PopularLibraryCollectionViewCellModel]> { get }
+  var rentalBookModel: Driver<[RentalLibraryCollectionViewCellModel]> { get }
   var isLoading: Driver<Bool> { get }
 }
 
@@ -24,12 +25,14 @@ final class LibraryViewModel: LibraryViewModelType {
   
   let newBookModel: Driver<[NewLibraryCollectionViewCellModel]>
   let bestBookModel: Driver<[PopularLibraryCollectionViewCellModel]>
+  let rentalBookModel: Driver<[RentalLibraryCollectionViewCellModel]>
   let isLoading: Driver<Bool>
   
   init() {
     
     let currentNewBookModel = BehaviorRelay<[NewLibraryCollectionViewCellModel]>(value: [])
     let currentBestBookModel = BehaviorRelay<[PopularLibraryCollectionViewCellModel]>(value: [])
+    let currentRentalBookModel = BehaviorRelay<[RentalLibraryCollectionViewCellModel]>(value: [])
     let initializingData = PublishSubject<Void>()
     let isLoadingSubject = BehaviorSubject<Bool>(value: true)
     
@@ -41,8 +44,11 @@ final class LibraryViewModel: LibraryViewModelType {
       .do(onNext: { _ in isLoadingSubject.onNext(true) })
         .subscribe(onNext: { result in
           guard case let .success(response) = result else { return }
-          currentNewBookModel.accept(response.newBook.map { NewLibraryCollectionViewCellModel(newBook: $0) })
-          currentBestBookModel.accept(response.bestBook.map { PopularLibraryCollectionViewCellModel(bestBook: $0) })
+          currentNewBookModel.accept(response.newBook.map { NewLibraryCollectionViewCellModel(bookInfo: $0) })
+          currentBestBookModel.accept(response.bestBook.map { PopularLibraryCollectionViewCellModel(bookInfo: $0) })
+          currentRentalBookModel.accept(response.rentalBook.map {
+           RentalLibraryCollectionViewCellModel(bookInfo: $0) })
+          
           isLoadingSubject.onNext(false)
         })
         .disposed(by: disposeBag)
@@ -52,6 +58,9 @@ final class LibraryViewModel: LibraryViewModelType {
         .asDriver(onErrorDriveWith: .empty())
         
         bestBookModel = currentBestBookModel
+        .asDriver(onErrorDriveWith: .empty())
+        
+        rentalBookModel = currentRentalBookModel
         .asDriver(onErrorDriveWith: .empty())
         
         isLoading = isLoadingSubject

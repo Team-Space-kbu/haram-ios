@@ -9,19 +9,25 @@ import UIKit
 
 import RxSwift
 import SnapKit
+import SkeletonView
 import Then
 
 final class LibraryDetailViewController: BaseViewController {
   
-  private let viewModel: LibraryDetailViewModelType
+  // MARK: - Properties
   
-  private var mainModel: LibraryDetailMainViewModel? {
+  private let viewModel: LibraryDetailViewModelType
+  private let path: Int
+  
+  // MARK: - UI Models
+  
+  private var mainModel: [LibraryDetailMainViewModel] = [] {
     didSet {
       libraryDetailMainView.configureUI(with: mainModel)
     }
   }
   
-  private var subModel: LibraryDetailSubViewModel? {
+  private var subModel: [LibraryDetailSubViewModel] = [] {
     didSet {
       libraryDetailSubView.configureUI(with: subModel)
     }
@@ -45,11 +51,14 @@ final class LibraryDetailViewController: BaseViewController {
     }
   }
   
+  // MARK: - UI Components
+  
   private let scrollView = UIScrollView().then {
     $0.alwaysBounceVertical = true
     $0.backgroundColor = .clear
     $0.showsVerticalScrollIndicator = true
     $0.showsHorizontalScrollIndicator = false
+    $0.isSkeletonable = true
   }
   
   private let containerView = UIStackView().then {
@@ -59,8 +68,8 @@ final class LibraryDetailViewController: BaseViewController {
     $0.axis = .vertical
     $0.alignment = .center
     $0.distribution = .fill
-    
     $0.spacing = 18
+    $0.isSkeletonable = true
   }
   
   private let libraryDetailMainView = LibraryDetailMainView()
@@ -73,8 +82,9 @@ final class LibraryDetailViewController: BaseViewController {
   
   private let relatedBookLabel = UILabel().then {
     $0.text = "관련도서"
-    $0.font = .regular18
+    $0.font = .bold18
     $0.textColor = .black
+    $0.isSkeletonable = true
   }
   
   private lazy var collectionView = UICollectionView(
@@ -91,19 +101,25 @@ final class LibraryDetailViewController: BaseViewController {
     $0.contentInset = .init(top: .zero, left: 30, bottom: .zero, right: 30)
     $0.showsHorizontalScrollIndicator = false
     $0.isPagingEnabled = true
+    $0.isSkeletonable = true
   }
   
-  private let indicatorView = UIActivityIndicatorView(style: .large)
+//  private let indicatorView = UIActivityIndicatorView(style: .large)
+  
+  // MARK: - Initializations
   
   init(viewModel: LibraryDetailViewModelType = LibraryDetailViewModel(), path: Int) {
     self.viewModel = viewModel
+    self.path = path
     super.init(nibName: nil, bundle: nil)
-    bind(path: path)
+//    bind(path: path)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  // MARK: - Configurations
   
   override func setupStyles() {
     super.setupStyles()
@@ -113,12 +129,23 @@ final class LibraryDetailViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
+    
+    view.isSkeletonable = true
+    
+    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
+
+    let graient = SkeletonGradient(baseColor: .skeletonDefault)
+    view.showAnimatedGradientSkeleton(
+      usingGradient: graient,
+      animation: skeletonAnimation,
+      transition: .none
+    )
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
-    view.addSubview(indicatorView)
+//    view.addSubview(indicatorView)
     [containerView].forEach { scrollView.addSubview($0) }
     [libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, collectionView].forEach { containerView.addArrangedSubview($0) }
   }
@@ -131,9 +158,9 @@ final class LibraryDetailViewController: BaseViewController {
       $0.directionalHorizontalEdges.bottom.width.equalToSuperview()
     }
     
-    indicatorView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
-    }
+//    indicatorView.snp.makeConstraints {
+//      $0.directionalEdges.equalToSuperview()
+//    }
     
     containerView.snp.makeConstraints {
       $0.top.width.equalToSuperview()
@@ -159,6 +186,7 @@ final class LibraryDetailViewController: BaseViewController {
     relatedBookLabel.snp.makeConstraints {
       $0.leading.equalToSuperview().inset(30)
       $0.height.equalTo(23)
+      $0.trailing.lessThanOrEqualToSuperview()
     }
     
     collectionView.snp.makeConstraints {
@@ -170,7 +198,7 @@ final class LibraryDetailViewController: BaseViewController {
     containerView.setCustomSpacing(15, after: relatedBookLabel)
   }
   
-  func bind(path: Int) {
+  override func bind() {
     super.bind()
     
     viewModel.whichRequestBookPath.onNext(path)
@@ -192,7 +220,18 @@ final class LibraryDetailViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isLoading
-      .drive(indicatorView.rx.isAnimating)
+      .drive(with: self) { owner, isLoading in
+        print("로딩중 \(isLoading)")
+        if !isLoading {
+          DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            owner.view.hideSkeleton()
+          }
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.relatedBookModel
+      .drive(rx.relatedBookModel)
       .disposed(by: disposeBag)
   }
   
@@ -201,23 +240,49 @@ final class LibraryDetailViewController: BaseViewController {
   }
 }
 
-extension LibraryDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+// MARK: - SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource
+
+extension LibraryDetailViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 1
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    return relatedBookModel.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryRelatedBookCollectionViewCell.identifier, for: indexPath) as? LibraryRelatedBookCollectionViewCell ?? LibraryRelatedBookCollectionViewCell()
+    cell.configureUI(with: relatedBookModel[indexPath.row])
     return cell
   }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
+
 extension LibraryDetailViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: 118, height: 165)
+  }
+}
+
+// MARK: - For SkeletonView
+
+extension LibraryDetailViewController {
+  func numSections(in collectionSkeletonView: UICollectionView) -> Int {
+    1
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryRelatedBookCollectionViewCell.identifier, for: indexPath) as? LibraryRelatedBookCollectionViewCell ?? LibraryRelatedBookCollectionViewCell()
+    return cell
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    relatedBookModel.count
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+    LibraryRelatedBookCollectionViewCell.identifier
   }
 }

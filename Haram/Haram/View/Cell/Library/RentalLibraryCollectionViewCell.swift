@@ -1,8 +1,8 @@
 //
-//  PopularLibraryCollectionViewCell.swift
+//  RentalLibraryCollectionViewCell.swift
 //  Haram
 //
-//  Created by 이건준 on 2023/09/04.
+//  Created by 이건준 on 2023/09/10.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ import SnapKit
 import SkeletonView
 import Then
 
-struct PopularLibraryCollectionViewCellModel {
+struct RentalLibraryCollectionViewCellModel {
   let imageName: String
   
   init(bookInfo: BookInfo) {
@@ -20,8 +20,8 @@ struct PopularLibraryCollectionViewCellModel {
   }
 }
 
-final class PopularLibraryCollectionViewCell: UICollectionViewCell {
-  static let identifier = "PopularLibraryCollectionViewCell"
+final class RentalLibraryCollectionViewCell: UICollectionViewCell {
+  static let identifier = "RentalLibraryCollectionViewCell"
   
   private let thumbnailImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
@@ -54,7 +54,7 @@ final class PopularLibraryCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  func configureUI(with model: PopularLibraryCollectionViewCellModel) {
+  func configureUI(with model: RentalLibraryCollectionViewCellModel) {
     let url = URL(string: model.imageName)
     thumbnailImageView.kf.setImage(with: url)
     contentView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))

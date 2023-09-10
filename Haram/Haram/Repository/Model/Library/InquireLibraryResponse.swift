@@ -8,32 +8,29 @@
 import Foundation
 
 struct InquireLibraryResponse: Codable {
-  let image: String?
-  let newBook: [NewBook]
-  let bestBook: [BestBook]
+  let image: [String]
+  let newBook: [BookInfo]
+  let bestBook: [BookInfo]
+  let rentalBook: [BookInfo]
   
   enum CodingKeys: String, CodingKey {
-    case image, newBook, bestBook
+    case image, newBook, bestBook, rentalBook
   }
   
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     
-    image = try values.decodeIfPresent(String.self, forKey: .image)
-    newBook = try values.decodeIfPresent([NewBook].self, forKey: .newBook) ?? []
-    bestBook = try values.decodeIfPresent([BestBook].self, forKey: .bestBook) ?? []
+    image = try values.decodeIfPresent([String].self, forKey: .image) ?? []
+    newBook = try values.decodeIfPresent([BookInfo].self, forKey: .newBook) ?? []
+    bestBook = try values.decodeIfPresent([BookInfo].self, forKey: .bestBook) ?? []
+    rentalBook = try values.decodeIfPresent([BookInfo].self, forKey: .rentalBook) ?? []
   }
 }
 
-struct NewBook: Codable {
+struct BookInfo: Codable {
   let path: Int
   let image: String
   let title: String
 }
 
-struct BestBook: Codable {
-  let path: Int
-  let image: String
-  let title: String
-}
 

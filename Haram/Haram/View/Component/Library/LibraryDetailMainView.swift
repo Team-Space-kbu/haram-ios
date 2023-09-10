@@ -9,6 +9,7 @@ import UIKit
 
 import Kingfisher
 import SnapKit
+import SkeletonView
 import Then
 
 struct LibraryDetailMainViewModel {
@@ -23,6 +24,7 @@ final class LibraryDetailMainView: UIView {
     $0.axis = .vertical
     $0.spacing = 16
     $0.alignment = .center
+    $0.isSkeletonable = true
   }
   
   private let bookImageView = UIImageView().then {
@@ -30,6 +32,7 @@ final class LibraryDetailMainView: UIView {
     $0.layer.cornerRadius = 10
     $0.backgroundColor = .gray
     $0.contentMode = .scaleAspectFill
+//    $0.isSkeletonable = true
   }
   
   private let titleLabel = UILabel().then {
@@ -37,11 +40,13 @@ final class LibraryDetailMainView: UIView {
     $0.textColor = .black
     $0.numberOfLines = 3
     $0.lineBreakMode = .byTruncatingTail
+//    $0.isSkeletonable = true
   }
   
   private let subLabel = UILabel().then {
     $0.font = .regular16
     $0.textColor = .black
+//    $0.isSkeletonable = true
   }
   
   private let bottomLineView = UIView().then {
@@ -58,8 +63,11 @@ final class LibraryDetailMainView: UIView {
   }
   
   private func configureUI() {
+    isSkeletonable = true
     addSubview(containerView)
-    [bookImageView, titleLabel, subLabel, bottomLineView].forEach { containerView.addArrangedSubview($0) }
+    [bookImageView, titleLabel, subLabel, bottomLineView].forEach {
+      containerView.addArrangedSubview($0)
+    }
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
@@ -84,8 +92,8 @@ final class LibraryDetailMainView: UIView {
     containerView.setCustomSpacing(31, after: subLabel)
   }
   
-  func configureUI(with model: LibraryDetailMainViewModel?) {
-    guard let model = model else { return }
+  func configureUI(with model: [LibraryDetailMainViewModel]) {
+    guard let model = model.first else { return }
     let url = URL(string: model.bookImage)
     bookImageView.kf.setImage(with: url)
     titleLabel.text = model.title
