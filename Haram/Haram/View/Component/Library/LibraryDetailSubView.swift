@@ -47,7 +47,7 @@ final class LibraryDetailSubView: UIView {
   private func configureUI() {
     isSkeletonable = true
     [titleLabel, descriptionLabel, bottomLineView].forEach {
-//      $0.isSkeletonable = true
+      $0.isSkeletonable = true
       addSubview($0)
     }
     titleLabel.snp.makeConstraints {

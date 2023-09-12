@@ -34,21 +34,18 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
     $0.contentMode = .scaleAspectFit
-    $0.isSkeletonable = true
   }
   
   private let mainLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold16
     $0.numberOfLines = 2
-    $0.isSkeletonable = true
   }
   
   private let subLabel = UILabel().then {
     $0.textColor = .hex545E6A
     $0.font = .regular14
     $0.numberOfLines = 1
-    $0.isSkeletonable = true
   }
   
   private let bottomLineView = UIView().then {
@@ -75,7 +72,10 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
     isSkeletonable = true
     contentView.isSkeletonable = true
     
-    [bookImageView, mainLabel, subLabel, bottomLineView].forEach { contentView.addSubview($0) }
+    [bookImageView, mainLabel, subLabel, bottomLineView].forEach {
+      $0.isSkeletonable = true
+      contentView.addSubview($0)
+    }
     bookImageView.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
       $0.height.equalTo(112)

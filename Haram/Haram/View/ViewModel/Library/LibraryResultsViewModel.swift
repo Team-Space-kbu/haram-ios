@@ -31,7 +31,7 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
     let searchBookResults = BehaviorRelay<[LibraryResultsCollectionViewCellModel]>(value: [])
     let currentPageSubject = BehaviorRelay<Int>(value: 1)
     let fetchingDatas = PublishSubject<Void>()
-    let isLastPage = BehaviorRelay<Bool>(value: false)
+    let isLastPage = BehaviorRelay<Int>(value: 1)
     
     whichSearchText = whichSearchingText.asObserver()
     fetchMoreDatas = fetchingDatas.asObserver()
@@ -51,9 +51,8 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
             }
             var currentResultModel = searchBookResults.value
             currentResultModel.append(contentsOf: model)
-            print("총모델 \(currentResultModel)")
             searchBookResults.accept(currentResultModel)
-            //            isLastPage.accept(response.end)
+            isLastPage.accept(response.end)
           case .failure(_):
             searchBookResults.accept([])
           }
@@ -62,8 +61,10 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
         .disposed(by: disposeBag)
         
         fetchingDatas
-        .filter { _ in !isLastPage.value && !isLoadingRelay.value }
+        .filter { _ in currentPageSubject.value < isLastPage.value && !isLoadingRelay.value }
         .subscribe(onNext: { _ in
+          print("마지막페이지값 \(isLastPage.value)")
+          print("현재페이지값 \(currentPageSubject.value)")
           let currentPage = currentPageSubject.value
           currentPageSubject.accept(currentPage + 1)
         })
@@ -71,6 +72,7 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
     
     // Output
     searchResults = searchBookResults
+      .skip(1)
       .asDriver(onErrorDriveWith: .empty())
     isLoading = isLoadingRelay.asDriver(onErrorJustReturn: false)
   }

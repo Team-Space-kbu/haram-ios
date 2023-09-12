@@ -89,7 +89,8 @@ final class LibraryDetailInfoView: UIView {
   
   private let containerView = UIStackView().then {
     $0.axis = .horizontal
-    $0.distribution = .equalSpacing
+//    $0.distribution = .equalSpacing
+    $0.spacing = 3
     $0.alignment = .top
   }
   
@@ -131,8 +132,14 @@ final class LibraryDetailInfoView: UIView {
     isSkeletonable = true
     addSubview(containerView)
     [authorInfoView, lineView, publisherInfoView, lineView1, pubDateInfoView, lineView2, discountInfoView].forEach {
-//      $0.isSkeletonable = true
+      $0.isSkeletonable = true
       containerView.addArrangedSubview($0)
+    }
+    
+    [authorInfoView, publisherInfoView, pubDateInfoView, discountInfoView].forEach {
+      $0.snp.makeConstraints {
+        $0.width.equalTo((UIScreen.main.bounds.width - 3 - 60) / 4)
+      }
     }
     
     containerView.snp.makeConstraints {

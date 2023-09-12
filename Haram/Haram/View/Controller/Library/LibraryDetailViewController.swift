@@ -21,29 +21,13 @@ final class LibraryDetailViewController: BaseViewController {
   
   // MARK: - UI Models
   
-  private var mainModel: [LibraryDetailMainViewModel] = [] {
-    didSet {
-      libraryDetailMainView.configureUI(with: mainModel)
-    }
-  }
+  private var mainModel: [LibraryDetailMainViewModel] = []
   
-  private var subModel: [LibraryDetailSubViewModel] = [] {
-    didSet {
-      libraryDetailSubView.configureUI(with: subModel)
-    }
-  }
+  private var subModel: [LibraryDetailSubViewModel] = []
   
-  private var infoModel: [LibraryInfoViewModel] = [] {
-    didSet {
-      libraryDetailInfoView.configureUI(with: infoModel)
-    }
-  }
+  private var infoModel: [LibraryInfoViewModel] = []
   
-  private var rentalModel: [LibraryRentalViewModel] = [] {
-    didSet {
-      libraryRentalListView.configureUI(with: rentalModel)
-    }
-  }
+  private var rentalModel: [LibraryRentalViewModel] = []
   
   private var relatedBookModel: [LibraryRelatedBookCollectionViewCellModel] = [] {
     didSet {
@@ -221,10 +205,15 @@ final class LibraryDetailViewController: BaseViewController {
     
     viewModel.isLoading
       .drive(with: self) { owner, isLoading in
-        print("로딩중 \(isLoading)")
         if !isLoading {
+          
+          owner.libraryDetailInfoView.configureUI(with: owner.infoModel)
+          owner.libraryRentalListView.configureUI(with: owner.rentalModel)
+          
           DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             owner.view.hideSkeleton()
+            owner.libraryDetailMainView.configureUI(with: owner.mainModel)
+            owner.libraryDetailSubView.configureUI(with: owner.subModel)
           }
         }
       }

@@ -57,23 +57,23 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     
     shareRequestingBookText
       .do(onNext: { _ in isLoadingSubject.onNext(true) })
-      .flatMapLatest(LibraryService.shared.requestBookInfo(text: ))
-      .subscribe(onNext: { result in
-        guard case let .success(response) = result else { return }
-        currentDetailMainModel.accept([LibraryDetailMainViewModel(
-          bookImage: response.thumbnailImage,
-          title: response.bookTitle,
-          subTitle: response.publisher
-        )])
-        
-        currentDetailSubModel.accept([LibraryDetailSubViewModel(
-          title: "책 설명",
-          description: response.description
-        )])
-        
-        currentDetailInfoModel.accept(LibraryDetailInfoViewType.allCases.map { type in
-          let content: String
-          switch type {
+        .flatMapLatest(LibraryService.shared.requestBookInfo(text: ))
+        .subscribe(onNext: { result in
+          guard case let .success(response) = result else { return }
+          currentDetailMainModel.accept([LibraryDetailMainViewModel(
+            bookImage: response.thumbnailImage,
+            title: response.bookTitle,
+            subTitle: response.publisher
+          )])
+          
+          currentDetailSubModel.accept([LibraryDetailSubViewModel(
+            title: "책 설명",
+            description: response.description
+          )])
+          
+          currentDetailInfoModel.accept(LibraryDetailInfoViewType.allCases.map { type in
+            let content: String
+            switch type {
             case .author:
               content = response.author
             case .publisher:
@@ -81,33 +81,34 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
             case .publishDate:
               content = response.pubDate
             case .discount:
+              
+              /// 외부 API를 통해 받아온 데이터에 \\를 필터링하는 로직
               let charToRemove: Character = "\\"
               let discount = response.discount
               let filterDiscount = discount.filter { $0 != charToRemove }
               let trimDiscount = filterDiscount.trimmingCharacters(in: .whitespacesAndNewlines)
               content = trimDiscount != "정보없음" ? filterDiscount + "원" : trimDiscount
-          }
-          return LibraryInfoViewModel(title: type.title, content: content)
-        })
-        isLoadingSubject.onNext(false)
-      })
-      .disposed(by: disposeBag)
-        
-        shareRequestingBookText
-        .do(onNext: { _ in isLoadingSubject.onNext(true) })
-        .flatMapLatest(LibraryService.shared.requestBookLoanStatus(path: ))
-        .subscribe(onNext: { result in
-          // TODO: - 책에 대한 대여정보가 없을 경우에 대한 처리 해야함
-          guard case let .success(response) = result else { return }
-          currentDetailRentalModel.accept(
-            response.keepBooks.keepBooks.map { .init(keepBook: $0) }
-          )
-          currentRelatedBookModel.accept(
-            response.relateBooks.relatedBooks.map { .init(bookImageURL: $0.image) }
-          )
-          
+            }
+            return LibraryInfoViewModel(title: type.title, content: content)
+          })
           isLoadingSubject.onNext(false)
         })
         .disposed(by: disposeBag)
-  }
+        
+        shareRequestingBookText
+        .do(onNext: { _ in isLoadingSubject.onNext(true) })
+          .flatMapLatest(LibraryService.shared.requestBookLoanStatus(path: ))
+          .subscribe(onNext: { result in
+            guard case let .success(response) = result else { return }
+            currentDetailRentalModel.accept(
+              response.keepBooks.keepBooks.map { .init(keepBook: $0) }
+            )
+            currentRelatedBookModel.accept(
+              response.relateBooks.relatedBooks.map { .init(bookImageURL: $0.image) }
+            )
+            
+            isLoadingSubject.onNext(false)
+          })
+          .disposed(by: disposeBag)
+          }
 }

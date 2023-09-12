@@ -326,15 +326,7 @@ extension LibraryViewController: SkeletonCollectionViewDelegate, SkeletonCollect
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    let type = LibraryType.allCases[section]
-    switch type {
-    case .new:
-      return newBookModel.count
-    case .popular:
-      return bestBookModel.count
-    case .rental:
-      return rentalBookModel.count
-    }
+    10
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {

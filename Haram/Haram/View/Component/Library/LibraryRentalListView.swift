@@ -21,6 +21,7 @@ final class LibraryRentalListView: UIView {
     $0.text = "대여정보"
     $0.font = .bold18
     $0.textColor = .black
+//    $0.isSkeletonable = true
   }
   
   private let containerView = UIStackView().then {
@@ -28,6 +29,7 @@ final class LibraryRentalListView: UIView {
     $0.backgroundColor = .hexF2F3F5
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
+//    $0.isSkeletonable = true
   }
   
   private let lineView = UIView().then {
@@ -44,7 +46,6 @@ final class LibraryRentalListView: UIView {
   }
   
   private func configureUI() {
-//    backgroundColor = .systemPink
     isSkeletonable = true
     [lineView1, rentalInfoLabel, containerView, lineView].forEach {
 //      $0.isSkeletonable = true

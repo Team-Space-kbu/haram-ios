@@ -175,7 +175,13 @@ extension LibraryResultsViewController: SkeletonCollectionViewDelegate, Skeleton
 extension LibraryResultsViewController {
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryResultsCollectionViewCell.identifier, for: indexPath) as? LibraryResultsCollectionViewCell ?? LibraryResultsCollectionViewCell()
-    cell.configureUI(with: model[indexPath.row])
+    cell.configureUI(with: .init(result: .init(
+      title: "Lorem ipsum dolor sit amet,\nconsetetur sadipscing elitr, sed",
+      description: "박유성자유아카데미, 2020,",
+      imageName: "",
+      path: 0,
+      isbn: ""
+    )))
     return cell
   }
   
