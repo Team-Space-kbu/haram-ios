@@ -14,6 +14,7 @@ protocol LibraryViewModelType {
   var newBookModel: Driver<[NewLibraryCollectionViewCellModel]> { get }
   var bestBookModel: Driver<[PopularLibraryCollectionViewCellModel]> { get }
   var rentalBookModel: Driver<[RentalLibraryCollectionViewCellModel]> { get }
+  var bannerImage: Signal<String?> { get }
   var isLoading: Driver<Bool> { get }
 }
 
@@ -26,6 +27,7 @@ final class LibraryViewModel: LibraryViewModelType {
   let newBookModel: Driver<[NewLibraryCollectionViewCellModel]>
   let bestBookModel: Driver<[PopularLibraryCollectionViewCellModel]>
   let rentalBookModel: Driver<[RentalLibraryCollectionViewCellModel]>
+  let bannerImage: Signal<String?>
   let isLoading: Driver<Bool>
   
   init() {
@@ -34,6 +36,7 @@ final class LibraryViewModel: LibraryViewModelType {
     let currentBestBookModel = BehaviorRelay<[PopularLibraryCollectionViewCellModel]>(value: [])
     let currentRentalBookModel = BehaviorRelay<[RentalLibraryCollectionViewCellModel]>(value: [])
     let initializingData = PublishSubject<Void>()
+    let bannerImageRelay = PublishRelay<String?>()
     let isLoadingSubject = BehaviorSubject<Bool>(value: true)
     
     initialData = initializingData.asObserver()
@@ -48,6 +51,7 @@ final class LibraryViewModel: LibraryViewModelType {
           currentBestBookModel.accept(response.bestBook.map { PopularLibraryCollectionViewCellModel(bookInfo: $0) })
           currentRentalBookModel.accept(response.rentalBook.map {
            RentalLibraryCollectionViewCellModel(bookInfo: $0) })
+          bannerImageRelay.accept(response.image.first)
           
           isLoadingSubject.onNext(false)
         })
@@ -62,6 +66,8 @@ final class LibraryViewModel: LibraryViewModelType {
         
         rentalBookModel = currentRentalBookModel
         .asDriver(onErrorDriveWith: .empty())
+        
+        bannerImage = bannerImageRelay.asSignal()
         
         isLoading = isLoadingSubject
         .distinctUntilChanged()

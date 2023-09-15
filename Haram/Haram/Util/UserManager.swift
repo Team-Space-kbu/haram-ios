@@ -5,10 +5,9 @@
 //  Created by 이건준 on 2023/05/14.
 //
 
-import Foundation
+import UIKit
 
 import RxSwift
-import UIKit
 
 final class UserManager {
   
@@ -18,23 +17,17 @@ final class UserManager {
   
   // MARK: - User Options
   
-  /// 최초 실행 여부를 확인하는 변수
+  /// 로그인한 사용자의 아이디에 대한 변수
   @UserDefaultsWrapper<String>(key: "userID")
   private(set) var userID
   
-  // MARK: - PLUB Token
-  
-  @KeyChainWrapper<String>(key: "signToken")
-  private(set) var signToken
+  // MARK: - Haram Token
   
   @KeyChainWrapper<String>(key: "accessToken")
   private(set) var accessToken
   
   @KeyChainWrapper<String>(key: "refreshToken")
   private(set) var refreshToken
-  
-  @KeyChainWrapper<String>(key: "fcmToken")
-  private(set) var fcmToken
   
   // MARK: - Intranet Token
   @KeyChainWrapper<String>(key: "intranetToken")
@@ -60,27 +53,17 @@ final class UserManager {
 
 extension UserManager {
   
-  /// PLUB의 accessToken과 refreshToken을 업데이트합니다.
+  /// Haram의 accessToken과 refreshToken을 업데이트합니다.
   /// - Parameters:
   ///   - accessToken: 새로운 accessToken
   ///   - refreshToken: 새로운 refreshToken
-  func updatePLUBToken(accessToken: String, refreshToken: String) {
+  func updateHaramToken(accessToken: String, refreshToken: String) {
     self.accessToken = accessToken
     self.refreshToken = refreshToken
   }
   
   func set(userID: String) {
     self.userID = userID
-  }
-  
-  /// 플럽 회원가입에 필요한 `SignToken`을 세팅합니다.
-  func set(signToken: String) {
-    self.signToken = signToken
-  }
-  
-  /// 플럽 푸시 알림에 필요한 `firebase cloud messaging Token`을 세팅합니다.
-  func set(fcmToken: String) {
-    self.fcmToken = fcmToken
   }
   
   /// 인트라넷 관련 API를 위한 토큰값을 세팅합니다.
@@ -101,11 +84,6 @@ extension UserManager {
     self.laravelSession = nil
   }
   
-//  func clearToken() {
-//    self.accessToken = nil
-//    self.refreshToken = nil
-//  }
-  
   /// 인트라넷관련 정보를 초기화합니다.
   func clearIntranetInformation() {
     self.intranetToken = nil
@@ -119,7 +97,7 @@ extension UserManager {
       .map { result in
         switch result {
         case .success(let tokenData):
-          self.updatePLUBToken(
+          self.updateHaramToken(
             accessToken: tokenData.accessToken,
             refreshToken: tokenData.refreshToken
           )
@@ -128,8 +106,6 @@ extension UserManager {
           UserManager.shared.clearAllInformations()
           (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = LoginViewController()
         }
-//        guard case let .success(tokenData) = result else { return }
-//        self.updatePLUBToken(accessToken: tokenData.accessToken, refreshToken: tokenData.refreshToken)
       }
   }
   

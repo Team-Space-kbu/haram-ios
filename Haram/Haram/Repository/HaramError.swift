@@ -6,6 +6,7 @@
 //
 
 import Foundation
+/// TODO: - LIB02, LIB08일 경우 상세페이지 들어갔다가 다시 백한 이후 토스트메세지 던져주기
 
 enum HaramError: Error, CaseIterable {
   case decodedError
@@ -18,6 +19,8 @@ enum HaramError: Error, CaseIterable {
   
   case loanInfoEmptyError // 대여정보가 비어있어 처리할 수 없는 상태입니다.
   case noExistSearchInfo // 검색된 정보가 존재하지않은 상태입니다.
+  case noRequestFromNaver // 네이버로부터 요청 값을 처리할 수 없는 상태입니다.
+  case noEnglishRequest // 영문도서에 대한 요청을 처리할 수 없는 상태입니다.
 
   case existSameUserError // 동일한 아이디로 회원가입한 사용자가 존재할 때 발생하는 에러
   case wrongEmailAuthcodeError // 이메일 인증코드가 틀렸을 때 발생하는 에러
@@ -73,6 +76,10 @@ extension HaramError {
       return "AUTH04"
     case .noExistTodayBibleWord:
       return "BI01"
+    case .noRequestFromNaver:
+      return "LIB02"
+    case .noEnglishRequest:
+      return "LIB08"
     }
   }
   
@@ -102,6 +109,10 @@ extension HaramError {
       return "올바르지 않은 리프레쉬 토큰입니다."
     case .noExistTodayBibleWord:
       return "성경이 존재하지 않습니다."
+    case .noRequestFromNaver:
+      return "네이버로부터 요청을 처리할 수 없습니다."
+    case .noEnglishRequest:
+      return "영문도서에 대한 요청을 처리할 수 없습니다."
     }
   }
 }

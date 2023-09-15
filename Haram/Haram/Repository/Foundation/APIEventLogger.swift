@@ -39,6 +39,7 @@ class APIEventLogger: EventMonitor {
     )
   }
 }
+
 extension Data {
   var toPrettyPrintedString: String? {
     guard let object = try? JSONSerialization.jsonObject(with: self, options: []),

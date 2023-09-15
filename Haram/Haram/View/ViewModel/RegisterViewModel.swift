@@ -91,7 +91,7 @@ final class RegisterViewModel {
     tryRegisterMember
       .subscribe(with: self) { owner, result in
         switch result {
-        case .success(let response):
+        case .success(_):
           owner.signupSuccessMessageRelay.accept("회원가입 성공")
         case .failure(let error):
           print("회원가입 호출결과: \(error.description)")

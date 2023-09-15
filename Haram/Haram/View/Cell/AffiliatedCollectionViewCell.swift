@@ -11,15 +11,23 @@ import Kingfisher
 import SnapKit
 import Then
 
-struct AffiliatedCollectionViewCellModel {
+struct AffiliatedCollectionViewCellModel: Equatable {
+  let affiliatedX: Double
+  let affiliatedY: Double
   let affiliatedImageURL: URL?
   let affiliatedTitle: String
   let affiliatedSubTitle: String
   
   init(response: InquireAffiliatedResponse) {
+    affiliatedX = Double(response.xCoordinate) ?? 0
+    affiliatedY = Double(response.yCoordinate) ?? 0
     affiliatedImageURL = response.affiliatedImageURL
     affiliatedTitle = response.affiliatedName
     affiliatedSubTitle = response.description
+  }
+  
+  static func == (lhs: Self, rhs: Self) -> Bool {
+    lhs.affiliatedX == rhs.affiliatedX && lhs.affiliatedY == rhs.affiliatedY
   }
 }
 

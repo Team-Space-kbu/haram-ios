@@ -72,7 +72,6 @@ final class StudyListCollectionHeaderView: UICollectionReusableView {
     }
     
     studyReservationLabel.snp.makeConstraints {
-//      $0.top.equalTo(studyListHeaderView.snp.bottom).offset(26)
       $0.leading.equalToSuperview().inset(15)
       $0.bottom.equalToSuperview().inset(22)
     }

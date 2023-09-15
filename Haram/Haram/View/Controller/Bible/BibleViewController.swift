@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-enum BibleType: CaseIterable {
+enum BibleViewType: CaseIterable {
   case todayBibleWord
   case notice
   case todayPray
@@ -43,7 +43,7 @@ final class BibleViewController: BaseViewController {
     frame: .zero,
     collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
       guard let self = self else { return nil }
-      return type(of: self).createCollectionViewSection(type: BibleType.allCases[sec])
+      return type(of: self).createCollectionViewSection(type: BibleViewType.allCases[sec])
     }).then {
       $0.register(TodayPrayCollectionViewCell.self, forCellWithReuseIdentifier: TodayPrayCollectionViewCell.identifier)
       $0.register(TodayBibleWordCollectionViewCell.self, forCellWithReuseIdentifier: TodayBibleWordCollectionViewCell.identifier)
@@ -116,7 +116,7 @@ final class BibleViewController: BaseViewController {
     navigationController?.popViewController(animated: true)
   }
   
-  static func createCollectionViewSection(type: BibleType) -> NSCollectionLayoutSection? {
+  static func createCollectionViewSection(type: BibleViewType) -> NSCollectionLayoutSection? {
     switch type {
     case .todayBibleWord:
       let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
@@ -205,18 +205,18 @@ final class BibleViewController: BaseViewController {
 
 extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return BibleType.allCases.count
+    return BibleViewType.allCases.count
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    if BibleType.allCases[section] == .todayPray {
+    if BibleViewType.allCases[section] == .todayPray {
       return 5
     }
     return 1
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    switch BibleType.allCases[indexPath.section] {
+    switch BibleViewType.allCases[indexPath.section] {
     case .todayBibleWord:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayBibleWordCollectionViewCell.identifier, for: indexPath) as? TodayBibleWordCollectionViewCell ?? TodayBibleWordCollectionViewCell()
       cell.configureUI(with: todayBibleWordModel.first ?? "")
@@ -234,7 +234,7 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BibleCollectionHeaderView.identifier, for: indexPath) as? BibleCollectionHeaderView ?? BibleCollectionHeaderView()
-    header.configureUI(with: BibleType.allCases[indexPath.section].title)
+    header.configureUI(with: BibleViewType.allCases[indexPath.section].title)
 //    header.backgroundColor = .red
     return header
   }
@@ -255,8 +255,12 @@ extension BibleViewController: BibleSearchViewDelgate {
     present(bottomSheet, animated: true)
   }
   
-  func didTappedSearchButton() {
-    let vc = BibleSearchResultViewController()
+  func didTappedSearchButton(book: String, chapter: Int) {
+    let vc = BibleSearchResultViewController(request: .init(
+      bibleType: .RT,
+      book: book,
+      chapter: chapter
+    ))
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }
@@ -265,7 +269,7 @@ extension BibleViewController: BibleSearchViewDelgate {
 extension BibleViewController: BibleBottomSheetViewControllerDelegate {
   func didTappedRevisionOfTranslation(bibleName: String) {
     bibleSearchView.updateJeolBibleName(bibleName: bibleName)
-    bibleSearchView.updateChapter(chapter: "1장")
+    bibleSearchView.updateChapter(chapter: "1")
   }
   
   func didTappedChapter(chapter: String) {

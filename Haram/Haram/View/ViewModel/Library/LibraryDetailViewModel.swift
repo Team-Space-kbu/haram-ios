@@ -18,6 +18,7 @@ protocol LibraryDetailViewModelType {
   var detailRentalModel: Driver<[LibraryRentalViewModel]> { get }
   var relatedBookModel: Driver<[LibraryRelatedBookCollectionViewCellModel]> { get }
   var isLoading: Driver<Bool> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class LibraryDetailViewModel: LibraryDetailViewModelType {
@@ -33,6 +34,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
   let detailRentalModel: Driver<[LibraryRentalViewModel]>
   let relatedBookModel: Driver<[LibraryRelatedBookCollectionViewCellModel]>
   let isLoading: Driver<Bool>
+  let errorMessage: Signal<HaramError>
   
   init() {
     let whichRequestingBookPath = PublishSubject<Int>()
@@ -43,6 +45,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     let currentDetailRentalModel = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
     let currentRelatedBookModel = BehaviorRelay<[LibraryRelatedBookCollectionViewCellModel]>(value: [])
     let isLoadingSubject = BehaviorSubject<Bool>(value: false)
+    let errorMessageRelay = PublishRelay<HaramError>()
     
     whichRequestBookPath = whichRequestingBookPath.asObserver()
     detailBookInfo = currentDetailBookInfo.asDriver()
@@ -52,6 +55,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     detailRentalModel = currentDetailRentalModel.asDriver()
     relatedBookModel = currentRelatedBookModel.asDriver()
     isLoading = isLoadingSubject.distinctUntilChanged().asDriver(onErrorJustReturn: false)
+    errorMessage = errorMessageRelay.asSignal()
     
     let shareRequestingBookText = whichRequestingBookPath.share()
     
@@ -59,38 +63,43 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
       .do(onNext: { _ in isLoadingSubject.onNext(true) })
         .flatMapLatest(LibraryService.shared.requestBookInfo(text: ))
         .subscribe(onNext: { result in
-          guard case let .success(response) = result else { return }
-          currentDetailMainModel.accept([LibraryDetailMainViewModel(
-            bookImage: response.thumbnailImage,
-            title: response.bookTitle,
-            subTitle: response.publisher
-          )])
+          switch result {
+          case .success(let response):
+            currentDetailMainModel.accept([LibraryDetailMainViewModel(
+              bookImage: response.thumbnailImage,
+              title: response.bookTitle,
+              subTitle: response.publisher
+            )])
+            
+            currentDetailSubModel.accept([LibraryDetailSubViewModel(
+              title: "책 설명",
+              description: response.description
+            )])
+            
+            currentDetailInfoModel.accept(LibraryDetailInfoViewType.allCases.map { type in
+              let content: String
+              switch type {
+              case .author:
+                content = response.author
+              case .publisher:
+                content = response.publisher
+              case .publishDate:
+                content = response.pubDate
+              case .discount:
+                
+                /// 외부 API를 통해 받아온 데이터에 \\를 필터링하는 로직
+                let charToRemove: Character = "\\"
+                let discount = response.discount
+                let filterDiscount = discount.filter { $0 != charToRemove }
+                let trimDiscount = filterDiscount.trimmingCharacters(in: .whitespacesAndNewlines)
+                content = trimDiscount != "정보없음" ? filterDiscount + "원" : trimDiscount
+              }
+              return LibraryInfoViewModel(title: type.title, content: content)
+            })
+          case .failure(let error):
+            errorMessageRelay.accept(error)
+          }
           
-          currentDetailSubModel.accept([LibraryDetailSubViewModel(
-            title: "책 설명",
-            description: response.description
-          )])
-          
-          currentDetailInfoModel.accept(LibraryDetailInfoViewType.allCases.map { type in
-            let content: String
-            switch type {
-            case .author:
-              content = response.author
-            case .publisher:
-              content = response.publisher
-            case .publishDate:
-              content = response.pubDate
-            case .discount:
-              
-              /// 외부 API를 통해 받아온 데이터에 \\를 필터링하는 로직
-              let charToRemove: Character = "\\"
-              let discount = response.discount
-              let filterDiscount = discount.filter { $0 != charToRemove }
-              let trimDiscount = filterDiscount.trimmingCharacters(in: .whitespacesAndNewlines)
-              content = trimDiscount != "정보없음" ? filterDiscount + "원" : trimDiscount
-            }
-            return LibraryInfoViewModel(title: type.title, content: content)
-          })
           isLoadingSubject.onNext(false)
         })
         .disposed(by: disposeBag)
@@ -104,7 +113,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
               response.keepBooks.keepBooks.map { .init(keepBook: $0) }
             )
             currentRelatedBookModel.accept(
-              response.relateBooks.relatedBooks.map { .init(bookImageURL: $0.image) }
+              response.relateBooks.relatedBooks.map { .init(path: $0.path, bookImageURL: $0.image) }
             )
             
             isLoadingSubject.onNext(false)

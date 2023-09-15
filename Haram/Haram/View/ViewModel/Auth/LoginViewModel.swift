@@ -69,7 +69,7 @@ extension LoginViewModel {
             case .success(let response):
               guard let (userID, _) = try? owner.tryLoginRequestSubject.value() else { return }
               
-              UserManager.shared.updatePLUBToken(
+              UserManager.shared.updateHaramToken(
                 accessToken: response.accessToken,
                 refreshToken: response.refreshToken
               )
@@ -110,10 +110,6 @@ extension LoginViewModel: LoginViewModelType {
   
   var errorMessage: Signal<String> {
     errorMessageRelay
-//      .do(onNext: { [weak self] _ in
-//        guard let self = self else { return }
-//        self.isLoadingSubject.onNext(false)
-//      })
       .distinctUntilChanged()
       .asSignal(onErrorJustReturn: "")
   }

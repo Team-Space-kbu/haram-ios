@@ -63,8 +63,6 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
         fetchingDatas
         .filter { _ in currentPageSubject.value < isLastPage.value && !isLoadingRelay.value }
         .subscribe(onNext: { _ in
-          print("마지막페이지값 \(isLastPage.value)")
-          print("현재페이지값 \(currentPageSubject.value)")
           let currentPage = currentPageSubject.value
           currentPageSubject.accept(currentPage + 1)
         })

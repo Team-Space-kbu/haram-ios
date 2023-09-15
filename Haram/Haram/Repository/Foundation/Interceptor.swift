@@ -22,16 +22,10 @@ final class Interceptor: RequestInterceptor {
       completion(.doNotRetry)
       return
     }
-    print("상태코드 \(statusCode)")
-//    guard statusCode == 401 || statusCode == 403 else {
-//      // 401 accessToken 만료, 403 refreshToken 만료
-//      // retry하지 않고 Error를 뱉음 (토큰 만료 에러가 아니기 때문)
-//      completion(.doNotRetryWithError(error))
-//      return
-//    }
     
     if statusCode == 401 {
       // 토큰 만료인 경우 토큰 값 갱신
+      guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else { return }
       UserManager.shared.reissuanceAccessToken()
         .subscribe { _ in
           // 재발급을 성공했다면 기존에 발생했던 요청 재시도

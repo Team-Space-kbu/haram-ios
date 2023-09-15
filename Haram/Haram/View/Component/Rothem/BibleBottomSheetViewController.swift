@@ -92,7 +92,7 @@ extension BibleBottomSheetViewController: UICollectionViewDelegate, UICollection
     case let .revisionOfTranslation(model):
       delegate?.didTappedRevisionOfTranslation(bibleName: model[indexPath.row].bibleName)
     case let .chapter(model):
-      delegate?.didTappedChapter(chapter: "\(model[indexPath.row])장")
+      delegate?.didTappedChapter(chapter: "\(model[indexPath.row])")
     }
     dismiss(animated: true)
   }

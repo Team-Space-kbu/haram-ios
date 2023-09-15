@@ -12,10 +12,12 @@ import SnapKit
 import Then
 
 protocol BibleSearchViewDelgate: AnyObject {
-  func didTappedSearchButton()
+  func didTappedSearchButton(book: String, chapter: Int)
   func didTappedJeolControl()
   func didTappedChapterControl()
 }
+
+// MARK: - BibleSearchView
 
 final class BibleSearchView: UIView {
   
@@ -71,7 +73,12 @@ final class BibleSearchView: UIView {
   private func bind() {
     bibleSearchButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedSearchButton()
+        var chapterText = owner.chapterBibleControl.typeLabel.text!
+        chapterText.removeLast()
+        owner.delegate?.didTappedSearchButton(
+          book: owner.jeolBibleControl.typeLabel.text!,
+          chapter: Int(chapterText)!
+        )
       }
       .disposed(by: disposeBag)
     
@@ -89,7 +96,7 @@ final class BibleSearchView: UIView {
   }
   
   func getRevisionOfTranslation() -> String {
-    jeolBibleControl.getRevisionOfTranslation()
+    jeolBibleControl.getSearchWord()
   }
   
   func updateJeolBibleName(bibleName: String) {
@@ -100,6 +107,8 @@ final class BibleSearchView: UIView {
     chapterBibleControl.configureUI(with: chapter)
   }
 }
+
+// MARK: - BibleSearchControlType
 
 enum BibleSearchControlType {
   case jeol // 절으로 검색
@@ -124,6 +133,8 @@ enum BibleSearchControlType {
   }
 }
 
+// MARK: - BibleSearchControl
+
 final class BibleSearchControl: UIControl {
   private let type: BibleSearchControlType
   
@@ -131,7 +142,7 @@ final class BibleSearchControl: UIControl {
     $0.contentMode = .scaleAspectFill
   }
   
-  private lazy var typeLabel = UILabel().then {
+  lazy var typeLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .hex9F9FA4
     $0.text = type.defaultText
@@ -171,11 +182,15 @@ final class BibleSearchControl: UIControl {
   }
   
   func configureUI(with model: String) {
-    typeLabel.text = model
+    switch type {
+    case .jeol:
+      typeLabel.text = model
+    case .chapter:
+      typeLabel.text = model + "장"
+    }
   }
   
-  func getRevisionOfTranslation() -> String {
-    guard case .jeol = type else { return type.defaultText }
+  func getSearchWord() -> String {
     return typeLabel.text ?? type.defaultText
   }
 }

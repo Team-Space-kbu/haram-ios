@@ -12,10 +12,15 @@ import Then
 
 final class BibleSearchResultViewController: BaseViewController {
   
+  // MARK: - Property
+  
+  private let viewModel: BibleSearchResultViewModelType
+  
+  // MARK: - UI Components
+  
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
-    $0.contentInsetAdjustmentBehavior = .never
   }
   
   private let containerView = UIStackView().then {
@@ -34,6 +39,46 @@ final class BibleSearchResultViewController: BaseViewController {
     $0.numberOfLines = 0
   }
   
+  // MARK: - Initializations
+  
+  init(
+    viewModel: BibleSearchResultViewModelType = BibleSearchResultViewModel(),
+    request: InquireChapterToBibleRequest
+  ) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+    bind(request: request)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  // MARK: - Configurations
+  
+  func bind(request: InquireChapterToBibleRequest) {
+    super.bind()
+    viewModel.whichRequestForSearch.onNext(request)
+    
+    viewModel.searchResultContent
+      .drive(with: self) { owner, content in
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 15
+
+        let attributedString = NSAttributedString(
+          string: content,
+          attributes: [.paragraphStyle: paragraphStyle]
+        )
+        owner.contentLabel.attributedText = attributedString
+      }
+      .disposed(by: disposeBag)
+    
+    bibleTitleView.configureUI(with: .init(
+      title: request.book,
+      chapter: "\(request.chapter)"
+    ))
+  }
+  
   override func setupStyles() {
     super.setupStyles()
     title = "성경"
@@ -43,14 +88,6 @@ final class BibleSearchResultViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
-    
-    bibleTitleView.configureUI(with: .init(title: "마태복음", chapter: "2장"))
-    
-    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineSpacing = 15
-
-    let attributedString = NSAttributedString(string:"성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용성경내용", attributes: [.paragraphStyle: paragraphStyle])
-    contentLabel.attributedText = attributedString
   }
   
   override func setupLayouts() {
@@ -73,69 +110,15 @@ final class BibleSearchResultViewController: BaseViewController {
     }
     
     bibleTitleView.snp.makeConstraints {
-//      $0.top.equalTo(view.safeAreaLayoutGuide)
-//      $0.leading.equalToSuperview().inset(15)
       $0.height.equalTo(39)
     }
     
   }
+  
+  // MARK: - Action Function
   
   @objc private func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
 }
 
-struct BibleTitleViewModel {
-  let title: String
-  let chapter: String
-}
-
-final class BibleTitleView: UIView {
-  
-  private let lineView = UIView().then {
-    $0.backgroundColor = .hex1A1E27
-  }
-  
-  private let titleLabel = UILabel().then {
-    $0.textColor = .hex1A1E27
-    $0.font = .bold24
-  }
-  
-  private let chapterLabel = UILabel().then {
-    $0.textColor = .hex9F9FA4
-    $0.font = .regular20
-  }
-  
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    configureUI()
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
-  private func configureUI() {
-    [lineView, titleLabel, chapterLabel].forEach { addSubview($0) }
-    lineView.snp.makeConstraints {
-      $0.leading.directionalVerticalEdges.equalToSuperview()
-      $0.width.equalTo(3)
-    }
-    
-    titleLabel.snp.makeConstraints {
-      $0.leading.equalTo(lineView.snp.trailing).offset(5)
-      $0.centerY.equalToSuperview()
-    }
-    
-    chapterLabel.snp.makeConstraints {
-      $0.leading.equalTo(titleLabel.snp.trailing)
-      $0.centerY.equalToSuperview()
-      $0.trailing.lessThanOrEqualToSuperview()
-    }
-  }
-  
-  func configureUI(with model: BibleTitleViewModel) {
-    titleLabel.text = model.title
-    chapterLabel.text = model.chapter
-  }
-}

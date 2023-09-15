@@ -13,9 +13,11 @@ import SkeletonView
 import Then
 
 struct RentalLibraryCollectionViewCellModel {
+  let path: Int
   let imageName: String
   
   init(bookInfo: BookInfo) {
+    path = bookInfo.path
     imageName = bookInfo.image
   }
 }

@@ -26,12 +26,7 @@ final class BibleViewModel {
   }
   
   private func inquireTodayBibleWord() {
-    let tryInquireTodayBibleWord = BibleService.shared.inquireTodayWords(request: .init(bibleType: .rt)).share()
-    
-//    let failureInquireTodayBibleWord = tryInquireTodayBibleWord.compactMap { result -> HaramError? in
-//      guard case let .failure(error) = result else { return nil }
-//      return error
-//    }
+    let tryInquireTodayBibleWord = BibleService.shared.inquireTodayWords(request: .init(bibleType: .RT)).share()
     
     let resultInquireTodayBibleWord = tryInquireTodayBibleWord.compactMap { result -> String? in
       switch result {
@@ -51,6 +46,7 @@ final class BibleViewModel {
 }
 
 extension BibleViewModel: BibleViewModelType {
+  
   var todayPrayList: RxCocoa.Driver<[TodayPrayCollectionViewCellModel]> {
     todayPrayListRelay.asDriver()
   }

@@ -31,21 +31,18 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
     $0.font = .bold18
     $0.textColor = .hex1A1E27
     $0.numberOfLines = 1
-    $0.isSkeletonable = true
   }
   
   private let studyDescriptionLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .regular14
     $0.numberOfLines = 0
-    $0.isSkeletonable = true
   }
   
   private let studyImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
-    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -61,7 +58,10 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
     isSkeletonable = true
     contentView.isSkeletonable = true
     
-    [studyTitleLabel, studyDescriptionLabel, studyImageView].forEach { contentView.addSubview($0) }
+    [studyTitleLabel, studyDescriptionLabel, studyImageView].forEach {
+      $0.isSkeletonable = true
+      contentView.addSubview($0)
+    }
     
     studyImageView.snp.makeConstraints {
       $0.directionalVerticalEdges.trailing.equalToSuperview()
@@ -69,8 +69,7 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
     }
     
     studyTitleLabel.snp.makeConstraints {
-      $0.top.equalToSuperview()
-      $0.leading.equalToSuperview()
+      $0.top.leading.equalToSuperview()
       $0.trailing.lessThanOrEqualTo(studyImageView.snp.leading)
     }
     

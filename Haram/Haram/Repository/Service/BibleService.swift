@@ -20,5 +20,9 @@ extension BibleService {
   func inquireTodayWords(request: InquireTodayWordsRequest) -> Observable<Result<[InquireTodayWordsResponse], HaramError>> {
     service.request(router: BibleRouter.inquireTodayWords(request), type: [InquireTodayWordsResponse].self)
   }
+  
+  func inquireChapterToBible(request: InquireChapterToBibleRequest) -> Observable<Result<[InquireChapterToBibleResponse], HaramError>> {
+    service.request(router: BibleRouter.inquireChapterToBible(request), type: [InquireChapterToBibleResponse].self)
+  }
 }
 

@@ -133,7 +133,7 @@ final class HomeViewController: BaseViewController {
     }
     
     homeNoticeView.snp.makeConstraints {
-      $0.top.equalToSuperview()
+      $0.top.equalToSuperview().inset(10)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(35) //공지 뷰
     }
@@ -242,12 +242,11 @@ final class HomeViewController: BaseViewController {
       
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
-          widthDimension: .absolute(119 + 23),
+          widthDimension: .absolute(119),
           heightDimension: .absolute(206)),
         repeatingSubitem: item,
         count: 1
       )
-      group.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 23, bottom: .zero, trailing: .zero)
       
       let header = NSCollectionLayoutBoundarySupplementaryItem(
         layoutSize: NSCollectionLayoutSize(
@@ -261,7 +260,7 @@ final class HomeViewController: BaseViewController {
       let section = NSCollectionLayoutSection(group: group)
       section.boundarySupplementaryItems = [header]
       section.orthogonalScrollingBehavior = .groupPaging
-//      section.interGroupSpacing = 22
+      section.interGroupSpacing = 22
       return section
     }
   }
@@ -277,12 +276,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     let type = HomeType.allCases[section]
     switch type {
-    case .banner:
-      return bannerModel.count
-    case .shortcut:
-      return ShortcutType.allCases.count
-    case .news:
-      return newsModel.count
+      case .banner:
+        return bannerModel.count
+      case .shortcut:
+        return ShortcutType.allCases.count
+      case .news:
+        return newsModel.count
     }
   }
   

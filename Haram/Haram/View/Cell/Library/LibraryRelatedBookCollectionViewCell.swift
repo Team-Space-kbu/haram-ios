@@ -13,6 +13,7 @@ import SkeletonView
 import Then
 
 struct LibraryRelatedBookCollectionViewCellModel {
+  let path: Int
   let bookImageURL: String
 }
 
@@ -42,6 +43,7 @@ final class LibraryRelatedBookCollectionViewCell: UICollectionViewCell {
     layer.masksToBounds = true
     layer.cornerRadius = 10
     backgroundColor = .systemGray
+    
     contentView.addSubview(bookImageView)
     bookImageView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()

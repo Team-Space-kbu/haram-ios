@@ -7,6 +7,7 @@
 
 import UIKit
 
+import Kingfisher
 import RxSwift
 import SkeletonView
 import SnapKit
@@ -33,23 +34,11 @@ final class LibraryViewController: BaseViewController {
   
   private let viewModel: LibraryViewModelType
   
-  private var newBookModel: [NewLibraryCollectionViewCellModel] = [] {
-    didSet {
-      collectionView.reloadSections([0])
-    }
-  }
+  private var newBookModel: [NewLibraryCollectionViewCellModel] = []
   
-  private var bestBookModel: [PopularLibraryCollectionViewCellModel] = [] {
-    didSet {
-      collectionView.reloadSections([1])
-    }
-  }
+  private var bestBookModel: [PopularLibraryCollectionViewCellModel] = []
   
-  private var rentalBookModel: [RentalLibraryCollectionViewCellModel] = [] {
-    didSet {
-      collectionView.reloadSections([2])
-    }
-  }
+  private var rentalBookModel: [RentalLibraryCollectionViewCellModel] = []
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -99,9 +88,9 @@ final class LibraryViewController: BaseViewController {
       $0.isSkeletonable = true
     }
   
-//  private let indicatorView = UIActivityIndicatorView(style: .large)
-  
-  private let tapGesture = UITapGestureRecognizer(target: LibraryViewController.self, action: nil)
+  private let tapGesture = UITapGestureRecognizer(target: LibraryViewController.self, action: nil).then {
+    $0.cancelsTouchesInView = false
+  }
   
   init(viewModel: LibraryViewModelType = LibraryViewModel()) {
     self.viewModel = viewModel
@@ -127,6 +116,14 @@ final class LibraryViewController: BaseViewController {
       .drive(rx.rentalBookModel)
       .disposed(by: disposeBag)
     
+    viewModel.bannerImage
+      .compactMap { $0 }
+      .map { URL(string: $0) }
+      .emit(with: self) { owner, bannerImage in
+        owner.bannerImageView.kf.setImage(with: bannerImage)
+      }
+      .disposed(by: disposeBag)
+    
     searchBar.rx.searchButtonClicked
       .do(onNext: { [weak self] _ in
         self?.searchBar.resignFirstResponder()
@@ -137,7 +134,6 @@ final class LibraryViewController: BaseViewController {
         .withUnretained(self)
         .subscribe(onNext: { owner, searchQuery in
           let vc = LibraryResultsViewController(searchQuery: searchQuery)
-          vc.title = "도서 검색"
           vc.navigationItem.largeTitleDisplayMode = .never
           owner.navigationController?.pushViewController(vc, animated: true)
         })
@@ -153,7 +149,8 @@ final class LibraryViewController: BaseViewController {
     viewModel.isLoading
       .drive(with: self) { owner, isLoading in
         if !isLoading {
-          DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+          DispatchQueue.main.asyncAfter(deadline: .now()) {
+            owner.collectionView.reloadData()
             owner.view.hideSkeleton()
           }
         }
@@ -181,13 +178,13 @@ final class LibraryViewController: BaseViewController {
       animation: skeletonAnimation,
       transition: .none
     )
+    
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
-    scrollView.addSubview(searchBar)
-    scrollView.addSubview(containerView)
+    [searchBar, containerView].forEach { scrollView.addSubview($0) }
     [bannerImageView, collectionView].forEach { containerView.addArrangedSubview($0) }
   }
   
@@ -237,7 +234,7 @@ final class LibraryViewController: BaseViewController {
     
     let section = NSCollectionLayoutSection(group: group)
     section.interGroupSpacing = 20
-    section.orthogonalScrollingBehavior = .groupPaging
+    section.orthogonalScrollingBehavior = .continuous
     section.contentInsets = NSDirectionalEdgeInsets(
       top: .zero,
       leading: .zero,
@@ -262,7 +259,9 @@ final class LibraryViewController: BaseViewController {
   }
 }
 
-extension LibraryViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource
+// MARK: - UICollectionViewDelegate & UICollectionViewDataSource
+
+extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataSource
 {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return LibraryType.allCases.count
@@ -310,6 +309,25 @@ extension LibraryViewController: SkeletonCollectionViewDelegate, SkeletonCollect
     return header
   }
   
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let path: Int
+    switch LibraryType.allCases[indexPath.section] {
+      case .new:
+        path = newBookModel[indexPath.row].path
+      case .popular:
+        path = bestBookModel[indexPath.row].path
+      case .rental:
+        path = rentalBookModel[indexPath.row].path
+    }
+    let vc = LibraryDetailViewController(path: path)
+    vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
+  }
+}
+
+// MARK: - SkeletonCollectionViewDataSource
+
+extension LibraryViewController: SkeletonCollectionViewDataSource, SkeletonCollectionViewDelegate {
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     let type = LibraryType.allCases[indexPath.section]
     switch type {
@@ -326,7 +344,14 @@ extension LibraryViewController: SkeletonCollectionViewDelegate, SkeletonCollect
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    10
+    switch LibraryType.allCases[section] {
+    case .new:
+      return newBookModel.count
+    case .popular:
+      return bestBookModel.count
+    case .rental:
+      return rentalBookModel.count
+    }
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
@@ -344,4 +369,5 @@ extension LibraryViewController: SkeletonCollectionViewDelegate, SkeletonCollect
   func numSections(in collectionSkeletonView: UICollectionView) -> Int {
     LibraryType.allCases.count
   }
+  
 }

@@ -59,7 +59,7 @@ final class LibraryResultsViewController: BaseViewController {
     viewModel.isLoading
       .drive(with: self) { owner, isLoading in
         if !isLoading {
-          DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+          DispatchQueue.main.asyncAfter(deadline: .now()) {
             owner.view.hideSkeleton()
           }
         }
@@ -71,7 +71,7 @@ final class LibraryResultsViewController: BaseViewController {
         let offSetY = owner.collectionView.contentOffset.y
         let contentHeight = owner.collectionView.contentSize.height
         
-        if offSetY > (contentHeight - owner.collectionView.frame.size.height) {
+        if offSetY > (contentHeight - owner.collectionView.frame.size.height - (112 + 15 + 1) * 3) {
           owner.viewModel.fetchMoreDatas.onNext(())
         }
       })
@@ -80,7 +80,7 @@ final class LibraryResultsViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    
+    title = "도서 검색"
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: "back"),
       style: .plain,
@@ -162,9 +162,7 @@ extension LibraryResultsViewController: SkeletonCollectionViewDelegate, Skeleton
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let path = model[indexPath.row].path
-    let title = model[indexPath.row].title
     let vc = LibraryDetailViewController(path: path)
-    vc.title = "도서 상세"
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }

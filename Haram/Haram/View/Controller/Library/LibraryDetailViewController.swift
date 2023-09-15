@@ -75,7 +75,7 @@ final class LibraryDetailViewController: BaseViewController {
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
       $0.scrollDirection = .horizontal
-      $0.minimumInteritemSpacing = 20
+      $0.minimumInteritemSpacing = 40
     }
   ).then {
     $0.backgroundColor = .white
@@ -88,7 +88,7 @@ final class LibraryDetailViewController: BaseViewController {
     $0.isSkeletonable = true
   }
   
-//  private let indicatorView = UIActivityIndicatorView(style: .large)
+  //  private let indicatorView = UIActivityIndicatorView(style: .large)
   
   // MARK: - Initializations
   
@@ -96,7 +96,7 @@ final class LibraryDetailViewController: BaseViewController {
     self.viewModel = viewModel
     self.path = path
     super.init(nibName: nil, bundle: nil)
-//    bind(path: path)
+    //    bind(path: path)
   }
   
   required init?(coder: NSCoder) {
@@ -113,11 +113,11 @@ final class LibraryDetailViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
-    
+    title = "도서 상세"
     view.isSkeletonable = true
     
     let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
-
+    
     let graient = SkeletonGradient(baseColor: .skeletonDefault)
     view.showAnimatedGradientSkeleton(
       usingGradient: graient,
@@ -129,8 +129,7 @@ final class LibraryDetailViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
-//    view.addSubview(indicatorView)
-    [containerView].forEach { scrollView.addSubview($0) }
+    scrollView.addSubview(containerView)
     [libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, collectionView].forEach { containerView.addArrangedSubview($0) }
   }
   
@@ -142,29 +141,15 @@ final class LibraryDetailViewController: BaseViewController {
       $0.directionalHorizontalEdges.bottom.width.equalToSuperview()
     }
     
-//    indicatorView.snp.makeConstraints {
-//      $0.directionalEdges.equalToSuperview()
-//    }
-    
     containerView.snp.makeConstraints {
       $0.top.width.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
-    libraryDetailMainView.snp.makeConstraints {
-      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
-    }
-    
-    libraryDetailSubView.snp.makeConstraints {
-      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
-    }
-    
-    libraryDetailInfoView.snp.makeConstraints {
-      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
-    }
-    
-    libraryRentalListView.snp.makeConstraints {
-      $0.directionalHorizontalEdges.equalToSuperview().inset(30)
+    [libraryDetailSubView, libraryRentalListView].forEach {
+      $0.snp.makeConstraints {
+        $0.directionalHorizontalEdges.equalToSuperview().inset(30)
+      }
     }
     
     relatedBookLabel.snp.makeConstraints {
@@ -210,7 +195,7 @@ final class LibraryDetailViewController: BaseViewController {
           owner.libraryDetailInfoView.configureUI(with: owner.infoModel)
           owner.libraryRentalListView.configureUI(with: owner.rentalModel)
           
-          DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+          DispatchQueue.main.asyncAfter(deadline: .now()) {
             owner.view.hideSkeleton()
             owner.libraryDetailMainView.configureUI(with: owner.mainModel)
             owner.libraryDetailSubView.configureUI(with: owner.subModel)
@@ -222,6 +207,14 @@ final class LibraryDetailViewController: BaseViewController {
     viewModel.relatedBookModel
       .drive(rx.relatedBookModel)
       .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        guard error == .noEnglishRequest || error == .noRequestFromNaver else { return }
+        owner.navigationController?.popViewController(animated: true)
+        HaramToast.makeToast(text: error.description)
+      }
+      .disposed(by: disposeBag)
   }
   
   @objc private func didTappedBackButton() {
@@ -229,9 +222,9 @@ final class LibraryDetailViewController: BaseViewController {
   }
 }
 
-// MARK: - SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource
+// MARK: - UICollectionViewDelegate & UICollectionViewDataSource
 
-extension LibraryDetailViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource {
+extension LibraryDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 1
   }
@@ -245,6 +238,13 @@ extension LibraryDetailViewController: SkeletonCollectionViewDelegate, SkeletonC
     cell.configureUI(with: relatedBookModel[indexPath.row])
     return cell
   }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let path = relatedBookModel[indexPath.row].path
+    let vc = LibraryDetailViewController(path: path)
+    vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
+  }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -255,9 +255,9 @@ extension LibraryDetailViewController: UICollectionViewDelegateFlowLayout {
   }
 }
 
-// MARK: - For SkeletonView
+// MARK: - SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource
 
-extension LibraryDetailViewController {
+extension LibraryDetailViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource {
   func numSections(in collectionSkeletonView: UICollectionView) -> Int {
     1
   }
