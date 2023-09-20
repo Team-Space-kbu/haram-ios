@@ -93,9 +93,15 @@ final class BoardListViewController: BaseViewController {
   }
 }
 
-extension BoardListViewController: UICollectionViewDelegateFlowLayout {
+extension BoardListViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: collectionView.frame.width - 30, height: 92)
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let vc = BoardDetailViewController()
+    vc.navigationItem.largeTitleDisplayMode = .never
+    self.navigationController?.pushViewController(vc, animated: true)
   }
 }
 

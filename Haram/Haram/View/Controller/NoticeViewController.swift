@@ -112,7 +112,7 @@ final class NoticeViewController: BaseViewController {
     }
   }
   
-  static func setCollectionViewSection() -> NSCollectionLayoutSection? {
+  static private func setCollectionViewSection() -> NSCollectionLayoutSection? {
     let item = NSCollectionLayoutItem(
       layoutSize: NSCollectionLayoutSize(
         widthDimension: .fractionalWidth(1),
