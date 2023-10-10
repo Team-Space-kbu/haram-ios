@@ -28,6 +28,7 @@ final class TodayPrayCollectionViewCell: UICollectionViewCell {
     $0.font = .regular14
     $0.textColor = .hex545E6A
     $0.numberOfLines = 0
+//    $0.lineBreakMode = .
   }
   
   override init(frame: CGRect) {
@@ -47,20 +48,19 @@ final class TodayPrayCollectionViewCell: UICollectionViewCell {
     
     [prayTitleLabel, prayContentLabel].forEach { contentView.addSubview($0) }
     prayTitleLabel.snp.makeConstraints {
-      $0.top.leading.equalToSuperview().inset(15)
+      $0.top.leading.equalToSuperview().inset(10)
     }
     
     prayContentLabel.snp.makeConstraints {
-      $0.top.equalTo(prayTitleLabel.snp.bottom)
+      $0.top.equalTo(prayTitleLabel.snp.bottom).offset(5)
       $0.leading.equalTo(prayTitleLabel)
-      $0.trailing.lessThanOrEqualToSuperview().inset(15)
-      $0.bottom.lessThanOrEqualToSuperview()
+      $0.trailing.bottom.lessThanOrEqualToSuperview().inset(10)
     }
   }
   
   func configureUI(with model: TodayPrayCollectionViewCellModel) {
     let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineSpacing = 8
+    paragraphStyle.lineSpacing = 3
 
     let attributedString = NSAttributedString(
       string: model.prayContent,

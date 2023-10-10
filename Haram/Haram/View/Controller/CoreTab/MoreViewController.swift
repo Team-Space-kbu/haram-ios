@@ -184,7 +184,7 @@ final class MoreViewController: BaseViewController {
     }
     
     profileInfoView.snp.makeConstraints {
-      $0.top.equalTo(moreLabel.snp.bottom).offset(65)
+      $0.top.equalTo(moreLabel.snp.bottom).offset(20)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(131)
     }

@@ -17,10 +17,11 @@ final class BibleNoticeCollectionViewCell: UICollectionViewCell {
     $0.contentMode = .scaleAspectFill
     $0.image = UIImage(named: "noticeBible")
     $0.layer.masksToBounds = true
+    $0.layer.cornerRadius = 10
   }
   
   private let noticeLabel = UILabel().then {
-    $0.font = .bold18
+    $0.font = .regular18
     $0.textColor = .hex1A1E27
     $0.numberOfLines = 0
   }

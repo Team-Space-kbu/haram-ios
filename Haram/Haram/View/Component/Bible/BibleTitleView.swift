@@ -53,7 +53,7 @@ final class BibleTitleView: UIView {
     }
     
     chapterLabel.snp.makeConstraints {
-      $0.leading.equalTo(titleLabel.snp.trailing)
+      $0.leading.equalTo(titleLabel.snp.trailing).offset(5)
       $0.centerY.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }

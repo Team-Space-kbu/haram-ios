@@ -12,6 +12,28 @@ import Then
 
 final class StudyReservationViewController: BaseViewController {
   
+  private var selectedDateModel: [SelectedDayCollectionViewCellModel] = [
+    .init(title: "월요일", day: "09"),
+    .init(title: "화요일", day: "10"),
+    .init(title: "수요일", day: "11"),
+    .init(title: "목요일", day: "12"),
+    .init(title: "금요일", day: "13")
+  ]
+  
+  private var selectedMorningTimeModel: [SelectedTimeCollectionViewCellModel] = [
+    .init(time: "10:00"),
+    .init(time: "10:30"),
+    .init(time: "11:00"),
+    .init(time: "11:30")
+  ]
+  
+  private var selectedAfternoonTimeModel: [SelectedTimeCollectionViewCellModel] = [
+    .init(time: "13:30"),
+    .init(time: "14:00"),
+    .init(time: "14:30"),
+    .init(time: "15:00")
+  ]
+  
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
@@ -119,7 +141,10 @@ final class StudyReservationViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     
-    studyRoomInfoView.configureUI(with: .init(roomImageURL: nil, roomName: "스터디룸1", roomDescription: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요"))
+    studyRoomInfoView.configureUI(with: .init(
+      roomImageURL: URL(string: "http://ctl.bible.ac.kr/attachment/view/20544/KakaoTalk_20210531_142417965.jpg?ts=0"),
+      roomName: "개인학습실",
+      roomDescription: "그룹학습실은 한국성서대학교 학생이라면 누구나 대관해서 공부나 팀프로젝트, 개인프로젝트, 과제 등등 학습을 위해서라면 언제든 대관을 해드립니다!"))
   }
   
   @objc private func didTappedBackButton() {
@@ -200,19 +225,23 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     if collectionView == selectedDayCollectionView {
-      return 5
+      return selectedDateModel.count
     }
-    return 4
+    if section == 0 {
+      return selectedMorningTimeModel.count
+    }
+    return selectedAfternoonTimeModel.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if collectionView == selectedTimeCollectionView {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedTimeCollectionViewCell.identifier, for: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
-      cell.configureUI(with: .init(time: "10:00"))
+      cell.configureUI(with: indexPath.section == 0 ? selectedMorningTimeModel[indexPath.row] : selectedAfternoonTimeModel[indexPath.row])
       return cell
     }
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedDayCollectionViewCell.identifier, for: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
-    cell.configureUI(with: .init(title: "월요일", day: "01"))
+    cell.configureUI(with: selectedDateModel[indexPath.row])
+    //    if indexPath.row
     return cell
   }
   
@@ -243,10 +272,10 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
     return CGSize(width: 64, height: 33)
   }
   
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedDayCollectionViewCell.identifier, for: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
-    
-  }
+//  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedDayCollectionViewCell.identifier, for: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
+//    
+//  }
   
   //  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
   //    if collectionView == selectedDayCollectionView {

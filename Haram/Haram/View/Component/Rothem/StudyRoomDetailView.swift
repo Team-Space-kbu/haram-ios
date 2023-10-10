@@ -64,20 +64,20 @@ final class StudyRoomDetailView: UIView {
     $0.numberOfLines = 0
   }
   
-  private let popularAmenityTitleLabel = UILabel().then {
-    $0.font = .bold18
-    $0.textColor = .black
-    $0.text = "Popular amenities"
-  }
-  
-  private lazy var popularAmenityCollectionView = UICollectionView(
-    frame: .zero,
-    collectionViewLayout: UICollectionViewFlowLayout()
-  ).then {
-    $0.register(PopularAmenityCollectionViewCell.self, forCellWithReuseIdentifier: PopularAmenityCollectionViewCell.identifier)
-    $0.delegate = self
-    $0.dataSource = self
-  }
+//  private let popularAmenityTitleLabel = UILabel().then {
+//    $0.font = .bold18
+//    $0.textColor = .black
+//    $0.text = "Popular amenities"
+//  }
+//
+//  private lazy var popularAmenityCollectionView = UICollectionView(
+//    frame: .zero,
+//    collectionViewLayout: UICollectionViewFlowLayout()
+//  ).then {
+//    $0.register(PopularAmenityCollectionViewCell.self, forCellWithReuseIdentifier: PopularAmenityCollectionViewCell.identifier)
+//    $0.delegate = self
+//    $0.dataSource = self
+//  }
   
   private let reservationButton = UIButton().then {
     $0.titleLabel?.textColor = .white
@@ -103,7 +103,7 @@ final class StudyRoomDetailView: UIView {
     
     [containerView].forEach { scrollView.addSubview($0) }
     
-    [roomTitleLabel, roomDestinationLabel, lineView, roomDescriptionTitleLabel, roomDescriptionContentLabel, popularAmenityTitleLabel, reservationButton].forEach { containerView.addArrangedSubview($0) }
+    [roomTitleLabel, roomDestinationLabel, lineView, roomDescriptionTitleLabel, roomDescriptionContentLabel, reservationButton].forEach { containerView.addArrangedSubview($0) }
     
     scrollView.snp.makeConstraints {
       $0.directionalEdges.width.equalToSuperview()
@@ -130,9 +130,9 @@ final class StudyRoomDetailView: UIView {
       $0.height.equalTo(22)
     }
     
-    popularAmenityTitleLabel.snp.makeConstraints {
-      $0.height.equalTo(22)
-    }
+//    popularAmenityTitleLabel.snp.makeConstraints {
+//      $0.height.equalTo(22)
+//    }
     
 //    popularAmenityCollectionView.snp.makeConstraints {
 //      $0.height.equalTo(56)
@@ -149,7 +149,7 @@ final class StudyRoomDetailView: UIView {
     containerView.setCustomSpacing(7, after: roomDestinationLabel)
     containerView.setCustomSpacing(7, after: lineView)
     containerView.setCustomSpacing(7, after: roomDescriptionTitleLabel)
-    containerView.setCustomSpacing(14, after: roomDescriptionContentLabel)
+    containerView.setCustomSpacing(50, after: roomDescriptionContentLabel)
 //    containerView.setCustomSpacing(7, after: popularAmenityTitleLabel)
   }
   

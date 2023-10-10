@@ -174,13 +174,13 @@ final class BibleViewController: BaseViewController {
     case .todayPray:
       let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
         widthDimension: .fractionalWidth(1),
-        heightDimension: .fractionalHeight(1)
+        heightDimension: .estimated(85)
       ))
       
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
-          heightDimension: .absolute(85)
+          heightDimension: .estimated(85)
         ),
         subitems: [item]
       )
@@ -210,7 +210,7 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     if BibleViewType.allCases[section] == .todayPray {
-      return 5
+      return 1
     }
     return 1
   }
@@ -223,11 +223,11 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
       return cell
     case .notice:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleNoticeCollectionViewCell.identifier, for: indexPath) as? BibleNoticeCollectionViewCell ?? BibleNoticeCollectionViewCell()
-      cell.configureUI(with: "성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항성경공지사항")
+      cell.configureUI(with: "[공지사항] 하람 애플리케이션 서비스 사용안내")
       return cell
     case .todayPray:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayPrayCollectionViewCell.identifier, for: indexPath) as? TodayPrayCollectionViewCell ?? TodayPrayCollectionViewCell()
-      cell.configureUI(with: .init(prayTitle: "기도제목", prayContent: "제발성공적으로 하람이 잘 개발되었으면 좋겠습니다.제발성공적으로 하람이 잘 개발되었으면 좋겠습니다.제발성공적으로 하람이 잘 개발되었으면 좋겠습니다.제발성공적으로 하람이 잘 개발되었으면 좋겠습니다.제발성공적으로 하람이 잘 개발되었으면 좋겠습니다."))
+      cell.configureUI(with: .init(prayTitle: "이건준, 컴소4", prayContent: "성공적으로 하람이 계획한대로 마무리되었으면 좋겠습니다. 하람팀원인 성묵이 상우에게도 좋은 기운이 취업에 있어서 가득하길 기도합니다 "))
       return cell
     }
   }

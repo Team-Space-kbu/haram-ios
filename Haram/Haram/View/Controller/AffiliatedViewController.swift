@@ -100,6 +100,15 @@ final class AffiliatedViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
+    
+    mapView.mapView.moveCamera(
+      NMFCameraUpdate(
+        scrollTo: .init(
+          lat: 37.6486885,
+          lng: 127.0642073
+        )
+      )
+    )
   }
   
   // MARK: - Action Function
@@ -208,5 +217,10 @@ struct MapCoordinate {
   init(affiliatedCollectionViewCellModel: AffiliatedCollectionViewCellModel) {
     x = affiliatedCollectionViewCellModel.affiliatedX
     y = affiliatedCollectionViewCellModel.affiliatedY
+  }
+  
+  init(x: Double, y: Double) {
+    self.x = x
+    self.y = y
   }
 }

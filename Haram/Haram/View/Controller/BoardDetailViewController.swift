@@ -13,16 +13,16 @@ import Then
 final class BoardDetailViewController: BaseViewController {
   
   private var cellModel: [BoardDetailCollectionViewCellModel] = [
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "ㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹ"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "ㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹ"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "ㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹ"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "ㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹ"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "ㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹ"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "ㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹ"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "ㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹ"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "ㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹ"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "ㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹ"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "ㄴㅇㄹㄴㅇㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㄴㅇㄹ"),
+    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "이건준", commentDate: "2023/09.04"), comment: "넌 바보니?"),
+    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "문상우", commentDate: "2023/09.04"), comment: "난 바보다 아니야 너가 더 바보야"),
+    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "임성묵", commentDate: "2023/09.04"), comment: "나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다"),
+    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "신범철", commentDate: "2023/09.04"), comment: "잉 이건 또 뭐니"),
+    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "문진우", commentDate: "2023/09.04"), comment: "이 게시글은 아주 훌륭하군요"),
+    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "이정섭", commentDate: "2023/09.04"), comment: "어쩌라고 난 바보다 바보일까 바보이니"),
+    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "김민형", commentDate: "2023/09.04"), comment: "혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹"),
+    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다"),
+    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다"),
+    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다"),
   ]
   
   // MARK: - UI Component

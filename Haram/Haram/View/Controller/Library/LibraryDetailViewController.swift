@@ -192,13 +192,13 @@ final class LibraryDetailViewController: BaseViewController {
       .drive(with: self) { owner, isLoading in
         if !isLoading {
           
-          owner.libraryDetailInfoView.configureUI(with: owner.infoModel)
-          owner.libraryRentalListView.configureUI(with: owner.rentalModel)
           
           DispatchQueue.main.asyncAfter(deadline: .now()) {
             owner.view.hideSkeleton()
             owner.libraryDetailMainView.configureUI(with: owner.mainModel)
             owner.libraryDetailSubView.configureUI(with: owner.subModel)
+            owner.libraryDetailInfoView.configureUI(with: owner.infoModel)
+            owner.libraryRentalListView.configureUI(with: owner.rentalModel)
           }
         }
       }

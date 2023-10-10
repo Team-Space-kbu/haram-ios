@@ -42,6 +42,7 @@ final class LibraryDetailMainView: UIView {
     $0.numberOfLines = 3
     $0.lineBreakMode = .byTruncatingTail
     $0.isSkeletonable = true
+    $0.textAlignment = .center
   }
   
   private let subLabel = UILabel().then {
@@ -95,12 +96,11 @@ final class LibraryDetailMainView: UIView {
   }
   
   func configureUI(with model: [LibraryDetailMainViewModel]) {
-    print("모델 \(model)")
-    guard let model = model.first else { return }
-//    let model = model[0]
-    let url = URL(string: model.bookImage)
+//    guard let model = model.first else { return }
+    guard !model.isEmpty else { return }
+    let url = URL(string: model[0].bookImage)
     bookImageView.kf.setImage(with: url)
-    titleLabel.text = model.title
-    subLabel.text = model.subTitle
+    titleLabel.text = model[0].title
+    subLabel.text = model[0].subTitle
   }
 }

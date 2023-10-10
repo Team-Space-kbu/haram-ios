@@ -34,6 +34,7 @@ final class StudyRoomInfoView: UIView {
     $0.numberOfLines = 0
     $0.font = .regular14
     $0.textColor = .hex1A1E27
+    $0.numberOfLines = 4
   }
   
   override init(frame: CGRect) {
@@ -66,8 +67,8 @@ final class StudyRoomInfoView: UIView {
   }
   
   func configureUI(with model: StudyRoomInfoViewModel) {
-//    roomImageView.kf.setImage(with: model.roomImageURL)
-    roomImageView.image = UIImage(named: "rothemImage")
+    roomImageView.kf.setImage(with: model.roomImageURL)
+//    roomImageView.image = UIImage(named: "rothemImage")
     roomNameLabel.text = model.roomName
     roomDescriptionLabel.text = model.roomDescription
   }

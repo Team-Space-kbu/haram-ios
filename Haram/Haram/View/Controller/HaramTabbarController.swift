@@ -14,7 +14,7 @@ final class HaramTabbarController: UITabBarController {
   
   private lazy var homeViewController = UINavigationController(rootViewController: HomeViewController().then {
     $0.tabBarItem = UITabBarItem(
-      title: "Home",
+      title: "하람",
       image: UIImage(named: "home"),
       tag: 0
     )

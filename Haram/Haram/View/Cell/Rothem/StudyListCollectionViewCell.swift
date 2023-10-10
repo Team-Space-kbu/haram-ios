@@ -36,7 +36,8 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
   private let studyDescriptionLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .regular14
-    $0.numberOfLines = 0
+    $0.numberOfLines = 3
+    $0.lineBreakMode = .byTruncatingTail
   }
   
   private let studyImageView = UIImageView().then {
@@ -74,10 +75,10 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
     }
     
     studyDescriptionLabel.snp.makeConstraints {
-      $0.top.equalTo(studyTitleLabel.snp.bottom).offset(10)
+      $0.top.equalTo(studyTitleLabel.snp.bottom).offset(5)
       $0.leading.equalTo(studyTitleLabel)
-      $0.bottom.lessThanOrEqualToSuperview()
-      $0.trailing.lessThanOrEqualTo(studyImageView.snp.leading)
+      $0.bottom.equalToSuperview()
+      $0.trailing.lessThanOrEqualTo(studyImageView.snp.leading).offset(-15)
     }
   }
   
@@ -86,11 +87,14 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineSpacing = 3
 
-    let attributedString = NSAttributedString(string: model.description, attributes: [.paragraphStyle: paragraphStyle])
+    let attributedString = NSAttributedString(
+      string: model.description,
+      attributes: [.paragraphStyle: paragraphStyle]
+    )
     
     studyTitleLabel.text = model.title
     studyDescriptionLabel.attributedText = attributedString
-    studyImageView.image = UIImage(named: "rothemImage")
-//    studyImageView.kf.setImage(with: model.imageURL)
+//    studyImageView.image = UIImage(named: "rothemImage")
+    studyImageView.kf.setImage(with: model.imageURL)
   }
 }

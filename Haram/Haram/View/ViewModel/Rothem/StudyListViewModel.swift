@@ -28,13 +28,8 @@ final class StudyListViewModel {
   
   init() {
     studyReservationListRelay.accept([
-      .init(title: "최고의 IOS개발자가 되기위한 스터디", description: "IOS와 관련된 공부를 열심히 하면서 실력을 향상해 나가기위한 스터디입니다.", imageURL: URL(string: "")),
-      .init(title: "최고의 IOS개발자가 되기위한 스터디", description: "IOS와 관련된 공부를 열심히 하면서 실력을 향상해 나가기위한 스터디입니다.", imageURL: URL(string: "")),
-      .init(title: "최고의 IOS개발자가 되기위한 스터디", description: "IOS와 관련된 공부를 열심히 하면서 실력을 향상해 나가기위한 스터디입니다.", imageURL: URL(string: "")),
-      .init(title: "최고의 IOS개발자가 되기위한 스터디", description: "IOS와 관련된 공부를 열심히 하면서 실력을 향상해 나가기위한 스터디입니다.", imageURL: URL(string: "")),
-      .init(title: "최고의 IOS개발자가 되기위한 스터디", description: "IOS와 관련된 공부를 열심히 하면서 실력을 향상해 나가기위한 스터디입니다.", imageURL: URL(string: "")),
-      .init(title: "최고의 IOS개발자가 되기위한 스터디", description: "IOS와 관련된 공부를 열심히 하면서 실력을 향상해 나가기위한 스터디입니다.", imageURL: URL(string: "")),
-      .init(title: "최고의 IOS개발자가 되기위한 스터디", description: "IOS와 관련된 공부를 열심히 하면서 실력을 향상해 나가기위한 스터디입니다.", imageURL: URL(string: "")),
+      .init(title: "개인학습실", description: "그룹학습실은 한국성서대학교 학생이라면 누구나 대관해서 공부나 팀프로젝트, 개인프로젝트, 과제 등등 학습을 위해서라면 언제든 대관을 해드립니다!", imageURL: URL(string: "http://ctl.bible.ac.kr/attachment/view/20544/KakaoTalk_20210531_142417965.jpg?ts=0")),
+      .init(title: "4인 학습실", description: "그룹학습실은 한국성서대학교 학생이라면 누구나 대관해서 공부나 팀프로젝트, 개인프로젝트, 과제 등등 학습을 위해서라면 언제든 대관을 해드립니다!", imageURL: URL(string: "http://ctl.bible.ac.kr/attachment/view/20549/KakaoTalk_20210531_142417965_01.jpg?ts=0")),
     ])
     
     studyReservationHeaderRelay.accept(
