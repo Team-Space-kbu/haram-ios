@@ -23,7 +23,7 @@ final class LoginViewController: BaseViewController {
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: 118, left: 22, bottom: .zero, right: 22)
+    $0.layoutMargins = .init(top: 50, left: 22, bottom: .zero, right: 22)
     $0.spacing = 15
     $0.backgroundColor = .clear
   }
@@ -183,7 +183,7 @@ final class LoginViewController: BaseViewController {
     
     [emailTextField, passwordTextField].forEach {
       $0.snp.makeConstraints {
-        $0.height.equalTo(55)
+        $0.height.equalTo(45)
       }
     }
     
@@ -204,14 +204,13 @@ final class LoginViewController: BaseViewController {
     }
     
     containerView.setCustomSpacing(37.33, after: loginImageView)
-    containerView.setCustomSpacing(12, after: loginLabel)
-    containerView.setCustomSpacing(30, after: schoolLabel)
-//    containerView.setCustomSpacing(83, after: loginButton)
+    containerView.setCustomSpacing(10, after: loginLabel)
+    containerView.setCustomSpacing(20, after: schoolLabel)
     
     loginAlertView.snp.makeConstraints {
-      $0.top.equalTo(containerView.snp.bottom).offset(83)
+      $0.top.equalTo(containerView.snp.bottom).offset(41)
       $0.centerX.equalToSuperview()
-      $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide)
+      $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide.snp.bottom).offset(-41 + 16)
       $0.width.equalTo(216)
       $0.height.equalTo(16)
     }

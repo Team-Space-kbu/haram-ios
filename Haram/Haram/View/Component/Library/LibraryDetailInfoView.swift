@@ -47,9 +47,9 @@ final class LibraryInfoView: UIView {
   private let contentLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold18
-    $0.numberOfLines = 0
+    $0.numberOfLines = 3
     $0.textAlignment = .center
-    $0.lineBreakMode = .byWordWrapping
+    $0.lineBreakMode = .byTruncatingTail
   }
   
   override init(frame: CGRect) {
@@ -81,7 +81,8 @@ final class LibraryInfoView: UIView {
   
   func configureUI(with model: LibraryInfoViewModel) {
     titleLabel.text = model.title
-    contentLabel.text = model.content
+    contentLabel.text = model.content.trimmingCharacters(in: .whitespacesAndNewlines)
+//    model.content.trimmingCharacters(in: .whitespacesAndNewlines)
   }
 }
 

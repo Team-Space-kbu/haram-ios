@@ -210,7 +210,7 @@ final class LibraryDetailViewController: BaseViewController {
       .emit(with: self) { owner, error in
         guard error == .noEnglishRequest || error == .noRequestFromNaver else { return }
         owner.navigationController?.popViewController(animated: true)
-        HaramToast.makeToast(text: error.description)
+        HaramToast.makeToast(text: error.description, duration: .short)
       }
       .disposed(by: disposeBag)
   }

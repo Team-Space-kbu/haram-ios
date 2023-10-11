@@ -159,7 +159,7 @@ final class IntranetLoginViewController: BaseViewController {
     
     [idTextField, pwTextField].forEach {
       $0.snp.makeConstraints {
-        $0.height.equalTo(55)
+        $0.height.equalTo(45)
       }
     }
     
@@ -169,7 +169,7 @@ final class IntranetLoginViewController: BaseViewController {
     
     lastAuthButton.snp.makeConstraints {
       $0.centerX.equalToSuperview()
-      $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-20)
     }
     
     containerStackView.setCustomSpacing(28, after: intranetLabel)
