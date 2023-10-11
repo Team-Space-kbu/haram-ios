@@ -241,7 +241,9 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
     }
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedDayCollectionViewCell.identifier, for: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
     cell.configureUI(with: selectedDateModel[indexPath.row])
-    //    if indexPath.row
+    if 0...2 ~= indexPath.row {
+      cell.contentView.backgroundColor = .lightGray
+    }
     return cell
   }
   

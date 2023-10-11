@@ -203,6 +203,7 @@
 		70C9CCB22A067D8000BEB5F2 /* ChapelDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */; };
 		70C9CCB42A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */; };
 		70C9CCB62A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */; };
+		70E4D1572AD638D000351B35 /* SpaceLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E4D1562AD638D000351B35 /* SpaceLogo.png */; };
 		76E4C9C9A6C0312E9E700CA7 /* Pods_Haram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B3CE5AA62AAEDE2B17FACD7 /* Pods_Haram.framework */; };
 /* End PBXBuildFile section */
 
@@ -418,6 +419,7 @@
 		70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelDayView.swift; sourceTree = "<group>"; };
 		70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelCollectionViewCell.swift; sourceTree = "<group>"; };
 		70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelCollectionHeaderView.swift; sourceTree = "<group>"; };
+		70E4D1562AD638D000351B35 /* SpaceLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SpaceLogo.png; sourceTree = "<group>"; };
 		7B3CE5AA62AAEDE2B17FACD7 /* Pods_Haram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E171A410DFA5A144AD35420 /* Pods-Haram-HaramUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.debug.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D8D26B102329089A61A38067 /* Pods-Haram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram.debug.xcconfig"; path = "Target Support Files/Pods-Haram/Pods-Haram.debug.xcconfig"; sourceTree = "<group>"; };
@@ -688,6 +690,7 @@
 		70727A5329D87B25003DE956 /* Haram */ = {
 			isa = PBXGroup;
 			children = (
+				70E4D1552AD638BF00351B35 /* LaunchScreen */,
 				708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */,
 				708312942A691A8200F7E283 /* Util */,
 				70727AB629D95E2A003DE956 /* Extension */,
@@ -1083,6 +1086,14 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		70E4D1552AD638BF00351B35 /* LaunchScreen */ = {
+			isa = PBXGroup;
+			children = (
+				70E4D1562AD638D000351B35 /* SpaceLogo.png */,
+			);
+			path = LaunchScreen;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1219,6 +1230,7 @@
 				70727AB529D95637003DE956 /* Spoqa Han Sans Neo Thin.otf in Resources */,
 				70727A6129D87B27003DE956 /* LaunchScreen.storyboard in Resources */,
 				70727AB129D955A3003DE956 /* Spoqa Han Sans Neo Medium.otf in Resources */,
+				70E4D1572AD638D000351B35 /* SpaceLogo.png in Resources */,
 				70727A5E29D87B27003DE956 /* Assets.xcassets in Resources */,
 				70727AB329D955AC003DE956 /* Spoqa Han Sans Neo Regular.otf in Resources */,
 			);
@@ -1620,7 +1632,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1674,7 +1686,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1690,6 +1702,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
@@ -1721,6 +1734,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Haram/HaramRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

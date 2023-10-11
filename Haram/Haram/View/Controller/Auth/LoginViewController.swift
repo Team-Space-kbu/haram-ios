@@ -203,11 +203,6 @@ final class LoginViewController: BaseViewController {
       $0.height.equalTo(48)
     }
     
-    loginAlertView.snp.makeConstraints {
-      $0.width.equalTo(216)
-      $0.height.equalTo(16)
-    }
-    
     containerView.setCustomSpacing(37.33, after: loginImageView)
     containerView.setCustomSpacing(12, after: loginLabel)
     containerView.setCustomSpacing(30, after: schoolLabel)
@@ -217,6 +212,8 @@ final class LoginViewController: BaseViewController {
       $0.top.equalTo(containerView.snp.bottom).offset(83)
       $0.centerX.equalToSuperview()
       $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide)
+      $0.width.equalTo(216)
+      $0.height.equalTo(16)
     }
   }
 }

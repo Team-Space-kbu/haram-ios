@@ -79,6 +79,5 @@ final class LibraryDetailSubView: UIView {
     
     titleLabel.text = model.title
     descriptionLabel.attributedText = attributedString
-    print("시발 \(descriptionLabel.text)")
   }
 }

@@ -48,7 +48,7 @@ final class LibraryDetailViewController: BaseViewController {
   private let containerView = UIStackView().then {
     $0.backgroundColor = .clear
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: 42, left: 30, bottom: .zero, right: 30)
+    $0.layoutMargins = .init(top: 42, left: 30, bottom: 30, right: 30)
     $0.axis = .vertical
     $0.alignment = .center
     $0.distribution = .fill
@@ -192,8 +192,7 @@ final class LibraryDetailViewController: BaseViewController {
       .drive(with: self) { owner, isLoading in
         if !isLoading {
           
-          
-          DispatchQueue.main.asyncAfter(deadline: .now()) {
+          DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             owner.view.hideSkeleton()
             owner.libraryDetailMainView.configureUI(with: owner.mainModel)
             owner.libraryDetailSubView.configureUI(with: owner.subModel)

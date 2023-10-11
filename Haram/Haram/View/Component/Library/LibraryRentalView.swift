@@ -45,7 +45,7 @@ final class LibraryRentalView: UIView {
   }
   
   private func configureUI() {
-    isSkeletonable = true
+//    isSkeletonable = true
     [registerLabel, numberLabel, holdingInstitutionLabel, loanStatusLabel].forEach {
 //      $0.isSkeletonable = true
       addSubview($0)
