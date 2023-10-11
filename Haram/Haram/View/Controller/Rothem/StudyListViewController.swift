@@ -79,7 +79,7 @@ final class StudyListViewController: BaseViewController {
 //    setCollectionViewDataSource()
     title = "스터디"
     navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
+      image: UIImage(named: Constants.backButton),
       style: .plain,
       target: self,
       action: #selector(didTappedBackButton)

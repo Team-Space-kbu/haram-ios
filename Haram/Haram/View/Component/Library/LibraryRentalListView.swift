@@ -21,7 +21,6 @@ final class LibraryRentalListView: UIView {
     $0.text = "대여정보"
     $0.font = .bold18
     $0.textColor = .black
-//    $0.isSkeletonable = true
   }
   
   private let containerView = UIStackView().then {
@@ -29,7 +28,6 @@ final class LibraryRentalListView: UIView {
     $0.backgroundColor = .hexF2F3F5
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
-//    $0.isSkeletonable = true
   }
   
   private let lineView = UIView().then {
@@ -48,7 +46,6 @@ final class LibraryRentalListView: UIView {
   private func configureUI() {
     isSkeletonable = true
     [lineView1, rentalInfoLabel, containerView, lineView].forEach {
-//      $0.isSkeletonable = true
       addSubview($0)
     }
     
@@ -89,14 +86,29 @@ final class LibraryRentalListView: UIView {
       return
     }
     
-    model.forEach { rentalModel in
+    model[0..<model.count - 1].forEach { rentalModel in
       let vw = LibraryRentalView()
       vw.configureUI(with: rentalModel)
       vw.snp.makeConstraints {
         $0.height.equalTo(307 / 4)
       }
-      containerView.addArrangedSubview(vw)
+      
+      let line = UIView().then {
+        $0.backgroundColor = .hex9F9FA4
+      }
+      
+      line.snp.makeConstraints {
+        $0.height.equalTo(1)
+      }
+      [vw, line].forEach { containerView.addArrangedSubview($0) }
     }
+    
+    let vw = LibraryRentalView()
+    vw.configureUI(with: model[model.count - 1])
+    vw.snp.makeConstraints {
+      $0.height.equalTo(307 / 4)
+    }
+    containerView.addArrangedSubview(vw)
   }
 }
 
@@ -117,12 +129,15 @@ struct LibraryRentalViewModel {
 }
 
 extension LibraryRentalListView {
+  
+  // MARK: - RentalEmptyView
+  
   final class RentalEmptyView: UIView {
     
     private let alertLabel = UILabel().then {
       $0.textColor = .hex1A1E27
       $0.font = .bold18
-      $0.text = "대여 가능한 정보가 없습니다."
+      $0.text = Constants.alertText
     }
     
     override init(frame: CGRect) {
@@ -144,5 +159,11 @@ extension LibraryRentalListView {
         $0.center.equalToSuperview()
       }
     }
+  }
+  
+  // MARK: - Constants
+  
+  enum Constants {
+    static let alertText = "대여 가능한 정보가 없습니다."
   }
 }

@@ -11,13 +11,15 @@ import SnapKit
 import Then
 
 final class TermsOfUseCheckView: UIView {
+    
+  // MARK: - UI Components
   
   private let checkButton = UIButton().then {
-    $0.setImage(UIImage(named: "markBlack"), for: .normal)
+    $0.setImage(UIImage(named: Constants.checkImageName), for: .normal)
   }
   
   private let alertLabel = UILabel().then {
-    $0.text = "아래 약관에 모두 동의합니다."
+    $0.text = Constants.alertText
     $0.font = .regular14
     $0.textColor = .hex545E6A
   }
@@ -38,6 +40,8 @@ eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
 """
   }
   
+  // MARK: - Initializations
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -46,6 +50,8 @@ eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  // MARK: - Configurations
   
   private func configureUI() {
     [checkButton, alertLabel, termsLabel].forEach { addSubview($0) }
@@ -65,5 +71,12 @@ eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
+  }
+  
+  // MARK: - Constants
+  
+  enum Constants {
+    static let alertText = "아래 약관에 모두 동의합니다."
+    static let checkImageName = "markBlack"
   }
 }

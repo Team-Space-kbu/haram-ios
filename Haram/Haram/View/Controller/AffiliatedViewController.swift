@@ -95,7 +95,7 @@ final class AffiliatedViewController: BaseViewController {
     super.setupStyles()
     title = "제휴업체"
     navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
+      image: UIImage(named: Constants.backButton),
       style: .plain,
       target: self,
       action: #selector(didTappedBackButton)

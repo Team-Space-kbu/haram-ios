@@ -28,9 +28,9 @@ final class StudyRoomDetailViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-//    title = "스터디룸1"
+
     navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
+      image: UIImage(named: Constants.backButton),
       style: .plain,
       target: self,
       action: #selector(didTappedBackButton)

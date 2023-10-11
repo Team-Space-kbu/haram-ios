@@ -53,7 +53,7 @@ final class MileageViewController: BaseViewController {
     super.setupStyles()
     title = "마일리지"
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
+      image: UIImage(named: Constants.backButton),
       style: .done,
       target: self,
       action: #selector(didTappedBackButton)

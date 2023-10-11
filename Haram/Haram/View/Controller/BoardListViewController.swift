@@ -49,7 +49,7 @@ final class BoardListViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
+      image: UIImage(named: Constants.backButton),
       style: .plain,
       target: self,
       action: #selector(didTappedBackButton)

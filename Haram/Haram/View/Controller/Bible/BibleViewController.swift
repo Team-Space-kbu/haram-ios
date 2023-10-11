@@ -87,7 +87,7 @@ final class BibleViewController: BaseViewController {
     super.setupStyles()
     title = "성경"
     navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
+      image: UIImage(named: Constants.backButton),
       style: .plain,
       target: self,
       action: #selector(didTappedBackButton)

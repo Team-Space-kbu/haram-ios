@@ -82,7 +82,7 @@ final class LibraryResultsViewController: BaseViewController {
     super.setupStyles()
     title = "도서 검색"
     navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
+      image: UIImage(named: Constants.backButton),
       style: .plain,
       target: self,
       action: #selector(didTappedBackButton)

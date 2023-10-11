@@ -193,6 +193,7 @@
 		708ED7ED2A9E1D7400107CDF /* AffiliatedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7EC2A9E1D7400107CDF /* AffiliatedCollectionViewCell.swift */; };
 		708ED7EF2A9E232A00107CDF /* AffiliatedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7EE2A9E232A00107CDF /* AffiliatedViewModel.swift */; };
 		708ED7F12A9E24D000107CDF /* InquireAffiliatedListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7F02A9E24D000107CDF /* InquireAffiliatedListResponse.swift */; };
+		7095D38A2AD67C8F008DAA39 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095D3892AD67C8F008DAA39 /* Constants.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -409,6 +410,7 @@
 		708ED7EC2A9E1D7400107CDF /* AffiliatedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedCollectionViewCell.swift; sourceTree = "<group>"; };
 		708ED7EE2A9E232A00107CDF /* AffiliatedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedViewModel.swift; sourceTree = "<group>"; };
 		708ED7F02A9E24D000107CDF /* InquireAffiliatedListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireAffiliatedListResponse.swift; sourceTree = "<group>"; };
+		7095D3892AD67C8F008DAA39 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -690,6 +692,7 @@
 		70727A5329D87B25003DE956 /* Haram */ = {
 			isa = PBXGroup;
 			children = (
+				7095D3882AD67C85008DAA39 /* Constants */,
 				70E4D1552AD638BF00351B35 /* LaunchScreen */,
 				708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */,
 				708312942A691A8200F7E283 /* Util */,
@@ -1086,6 +1089,14 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		7095D3882AD67C85008DAA39 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				7095D3892AD67C8F008DAA39 /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		70E4D1552AD638BF00351B35 /* LaunchScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -1383,6 +1394,7 @@
 				708ED7A12A8F922900107CDF /* CheckReservationViewController.swift in Sources */,
 				708ED7C62A911E6C00107CDF /* TodayPrayCollectionViewCell.swift in Sources */,
 				70727AAA29D94482003DE956 /* HomeCollectionHeaderView.swift in Sources */,
+				7095D38A2AD67C8F008DAA39 /* Constants.swift in Sources */,
 				705FD2B32A16278700F353FE /* LibraryCollectionHeaderView.swift in Sources */,
 				70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */,
 				708ED7EF2A9E232A00107CDF /* AffiliatedViewModel.swift in Sources */,

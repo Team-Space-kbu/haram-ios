@@ -96,7 +96,6 @@ final class LibraryDetailViewController: BaseViewController {
     self.viewModel = viewModel
     self.path = path
     super.init(nibName: nil, bundle: nil)
-    //    bind(path: path)
   }
   
   required init?(coder: NSCoder) {
@@ -108,7 +107,7 @@ final class LibraryDetailViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "back"),
+      image: UIImage(named: Constants.backButton),
       style: .plain,
       target: self,
       action: #selector(didTappedBackButton)
