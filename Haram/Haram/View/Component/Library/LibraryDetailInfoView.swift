@@ -90,7 +90,6 @@ final class LibraryDetailInfoView: UIView {
   
   private let containerView = UIStackView().then {
     $0.axis = .horizontal
-//    $0.distribution = .equalSpacing
     $0.spacing = 3
     $0.alignment = .top
   }

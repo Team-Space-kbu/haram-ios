@@ -42,6 +42,7 @@ final class LibraryDetailMainView: UIView {
     $0.numberOfLines = 3
     $0.lineBreakMode = .byTruncatingTail
     $0.isSkeletonable = true
+    $0.skeletonTextNumberOfLines = 3
     $0.textAlignment = .center
   }
   
@@ -49,6 +50,7 @@ final class LibraryDetailMainView: UIView {
     $0.font = .regular16
     $0.textColor = .black
     $0.isSkeletonable = true
+    $0.skeletonTextNumberOfLines = 1
   }
   
   private let bottomLineView = UIView().then {
@@ -66,7 +68,7 @@ final class LibraryDetailMainView: UIView {
   
   private func configureUI() {
     backgroundColor = .clear
-    isSkeletonable = true
+//    isSkeletonable = true
     addSubview(containerView)
     [bookImageView, titleLabel, subLabel, bottomLineView].forEach {
       containerView.addArrangedSubview($0)
@@ -95,12 +97,11 @@ final class LibraryDetailMainView: UIView {
     containerView.setCustomSpacing(31, after: subLabel)
   }
   
-  func configureUI(with model: [LibraryDetailMainViewModel]) {
-//    guard let model = model.first else { return }
-    guard !model.isEmpty else { return }
-    let url = URL(string: model[0].bookImage)
+  func configureUI(with model: LibraryDetailMainViewModel) {
+    print("메인1 \(model)")
+    let url = URL(string: model.bookImage)
     bookImageView.kf.setImage(with: url)
-    titleLabel.text = model[0].title
-    subLabel.text = model[0].subTitle
+    titleLabel.text = model.title
+    subLabel.text = model.subTitle
   }
 }

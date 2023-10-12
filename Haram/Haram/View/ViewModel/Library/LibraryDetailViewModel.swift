@@ -12,8 +12,8 @@ protocol LibraryDetailViewModelType {
   var whichRequestBookPath: AnyObserver<Int> { get }
   
   var detailBookInfo: Driver<[LibraryRentalViewModel]> { get }
-  var detailMainModel: Driver<[LibraryDetailMainViewModel]> { get }
-  var detailSubModel: Driver<[LibraryDetailSubViewModel]> { get }
+  var detailMainModel: Driver<LibraryDetailMainViewModel?> { get }
+  var detailSubModel: Driver<LibraryDetailSubViewModel?> { get }
   var detailInfoModel: Driver<[LibraryInfoViewModel]> { get }
   var detailRentalModel: Driver<[LibraryRentalViewModel]> { get }
   var relatedBookModel: Driver<[LibraryRelatedBookCollectionViewCellModel]> { get }
@@ -28,8 +28,8 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
   let whichRequestBookPath: AnyObserver<Int>
   
   let detailBookInfo: Driver<[LibraryRentalViewModel]>
-  let detailMainModel: Driver<[LibraryDetailMainViewModel]>
-  let detailSubModel: Driver<[LibraryDetailSubViewModel]>
+  let detailMainModel: Driver<LibraryDetailMainViewModel?>
+  let detailSubModel: Driver<LibraryDetailSubViewModel?>
   let detailInfoModel: Driver<[LibraryInfoViewModel]>
   let detailRentalModel: Driver<[LibraryRentalViewModel]>
   let relatedBookModel: Driver<[LibraryRelatedBookCollectionViewCellModel]>
@@ -39,8 +39,8 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
   init() {
     let whichRequestingBookPath = PublishSubject<Int>()
     let currentDetailBookInfo = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
-    let currentDetailMainModel = BehaviorRelay<[LibraryDetailMainViewModel]>(value: [])
-    let currentDetailSubModel = BehaviorRelay<[LibraryDetailSubViewModel]>(value: [])
+    let currentDetailMainModel = BehaviorRelay<LibraryDetailMainViewModel?>(value: nil)
+    let currentDetailSubModel = BehaviorRelay<LibraryDetailSubViewModel?>(value: nil)
     let currentDetailInfoModel = BehaviorRelay<[LibraryInfoViewModel]>(value: [])
     let currentDetailRentalModel = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
     let currentRelatedBookModel = BehaviorRelay<[LibraryRelatedBookCollectionViewCellModel]>(value: [])
@@ -58,23 +58,25 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     errorMessage = errorMessageRelay.asSignal()
     
     let shareRequestingBookText = whichRequestingBookPath.share()
+      .do(onNext: { _ in isLoadingSubject.onNext(true) })
     
     shareRequestingBookText
-      .do(onNext: { _ in isLoadingSubject.onNext(true) })
         .flatMapLatest(LibraryService.shared.requestBookInfo(text: ))
         .subscribe(onNext: { result in
           switch result {
           case .success(let response):
-            currentDetailMainModel.accept([LibraryDetailMainViewModel(
-              bookImage: response.thumbnailImage,
-              title: response.bookTitle,
-              subTitle: response.publisher
-            )])
+            currentDetailMainModel.accept(
+              LibraryDetailMainViewModel(
+                bookImage: response.thumbnailImage,
+                title: response.bookTitle,
+                subTitle: response.publisher
+            ))
             
-            currentDetailSubModel.accept([LibraryDetailSubViewModel(
-              title: "책 설명",
-              description: response.description
-            )])
+            currentDetailSubModel.accept(
+              LibraryDetailSubViewModel(
+                title: "책 설명",
+                description: response.description
+            ))
             
             currentDetailInfoModel.accept(LibraryDetailInfoViewType.allCases.map { type in
               let content: String
@@ -105,7 +107,6 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
         .disposed(by: disposeBag)
         
         shareRequestingBookText
-        .do(onNext: { _ in isLoadingSubject.onNext(true) })
           .flatMapLatest(LibraryService.shared.requestBookLoanStatus(path: ))
           .subscribe(onNext: { result in
             guard case let .success(response) = result else { return }

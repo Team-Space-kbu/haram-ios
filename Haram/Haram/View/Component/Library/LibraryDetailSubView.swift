@@ -28,7 +28,6 @@ final class LibraryDetailSubView: UIView {
     $0.textColor = .black
     $0.font = .regular16
     $0.numberOfLines = .max
-    $0.skeletonTextNumberOfLines = 5
   }
   
   private let bottomLineView = UIView().then {
@@ -45,7 +44,7 @@ final class LibraryDetailSubView: UIView {
   }
   
   private func configureUI() {
-    isSkeletonable = true
+//    isSkeletonable = true
     [titleLabel, descriptionLabel, bottomLineView].forEach {
       $0.isSkeletonable = true
       addSubview($0)
@@ -67,8 +66,7 @@ final class LibraryDetailSubView: UIView {
     }
   }
   
-  func configureUI(with model: [LibraryDetailSubViewModel]) {
-    guard let model = model.first else { return }
+  func configureUI(with model: LibraryDetailSubViewModel) {
     let paragraphStyle = NSMutableParagraphStyle()
     paragraphStyle.lineSpacing = 1
 

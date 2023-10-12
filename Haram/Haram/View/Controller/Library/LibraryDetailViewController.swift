@@ -21,14 +21,6 @@ final class LibraryDetailViewController: BaseViewController {
   
   // MARK: - UI Models
   
-  private var mainModel: [LibraryDetailMainViewModel] = []
-  
-  private var subModel: [LibraryDetailSubViewModel] = []
-  
-  private var infoModel: [LibraryInfoViewModel] = []
-  
-  private var rentalModel: [LibraryRentalViewModel] = []
-  
   private var relatedBookModel: [LibraryRelatedBookCollectionViewCellModel] = [] {
     didSet {
       collectionView.reloadData()
@@ -42,7 +34,6 @@ final class LibraryDetailViewController: BaseViewController {
     $0.backgroundColor = .clear
     $0.showsVerticalScrollIndicator = true
     $0.showsHorizontalScrollIndicator = false
-    $0.isSkeletonable = true
   }
   
   private let containerView = UIStackView().then {
@@ -53,7 +44,6 @@ final class LibraryDetailViewController: BaseViewController {
     $0.alignment = .center
     $0.distribution = .fill
     $0.spacing = 18
-    $0.isSkeletonable = true
   }
   
   private let libraryDetailMainView = LibraryDetailMainView()
@@ -68,7 +58,6 @@ final class LibraryDetailViewController: BaseViewController {
     $0.text = "관련도서"
     $0.font = .bold18
     $0.textColor = .black
-    $0.isSkeletonable = true
   }
   
   private lazy var collectionView = UICollectionView(
@@ -85,10 +74,7 @@ final class LibraryDetailViewController: BaseViewController {
     $0.contentInset = .init(top: .zero, left: 30, bottom: .zero, right: 30)
     $0.showsHorizontalScrollIndicator = false
     $0.isPagingEnabled = true
-    $0.isSkeletonable = true
   }
-  
-  //  private let indicatorView = UIActivityIndicatorView(style: .large)
   
   // MARK: - Initializations
   
@@ -101,7 +87,7 @@ final class LibraryDetailViewController: BaseViewController {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
+
   // MARK: - Configurations
   
   override func setupStyles() {
@@ -113,10 +99,10 @@ final class LibraryDetailViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     title = "도서 상세"
-    view.isSkeletonable = true
-    
+    [scrollView, containerView, libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, collectionView].forEach { $0.isSkeletonable = true }
+
     let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
-    
+
     let graient = SkeletonGradient(baseColor: .skeletonDefault)
     view.showAnimatedGradientSkeleton(
       usingGradient: graient,
@@ -129,6 +115,7 @@ final class LibraryDetailViewController: BaseViewController {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
+    
     [libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, collectionView].forEach { containerView.addArrangedSubview($0) }
   }
   
@@ -172,33 +159,35 @@ final class LibraryDetailViewController: BaseViewController {
     viewModel.whichRequestBookPath.onNext(path)
     
     viewModel.detailMainModel
-      .drive(rx.mainModel)
+      .compactMap { $0 }
+      .drive(with: self) { owner, model in
+        owner.libraryDetailMainView.configureUI(with: model)
+      }
       .disposed(by: disposeBag)
     
     viewModel.detailSubModel
-      .drive(rx.subModel)
+      .compactMap { $0 }
+      .drive(with: self) { owner, model in
+        owner.libraryDetailSubView.configureUI(with: model)
+      }
       .disposed(by: disposeBag)
     
     viewModel.detailInfoModel
-      .drive(rx.infoModel)
+      .drive(with: self) { owner, model in
+        owner.libraryDetailInfoView.configureUI(with: model)
+      }
       .disposed(by: disposeBag)
     
     viewModel.detailRentalModel
-      .drive(rx.rentalModel)
+      .drive(with: self) { owner, model in
+        owner.libraryRentalListView.configureUI(with: model)
+      }
       .disposed(by: disposeBag)
     
     viewModel.isLoading
-      .drive(with: self) { owner, isLoading in
-        if !isLoading {
-          
-          DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            owner.view.hideSkeleton()
-            owner.libraryDetailMainView.configureUI(with: owner.mainModel)
-            owner.libraryDetailSubView.configureUI(with: owner.subModel)
-            owner.libraryDetailInfoView.configureUI(with: owner.infoModel)
-            owner.libraryRentalListView.configureUI(with: owner.rentalModel)
-          }
-        }
+      .filter { !$0 }
+      .drive(with: self) { owner, _ in
+//        owner.view.hideSkeleton()
       }
       .disposed(by: disposeBag)
     

@@ -61,6 +61,7 @@ final class LoginViewController: BaseViewController {
     $0.returnKeyType = .next
     $0.autocapitalizationType = .none
     $0.delegate = self
+    $0.keyboardType = .emailAddress
   }
   
   private lazy var passwordTextField = UITextField().then {
