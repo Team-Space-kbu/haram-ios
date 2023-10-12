@@ -24,7 +24,6 @@ final class LibraryDetailMainView: UIView {
     $0.axis = .vertical
     $0.spacing = 16
     $0.alignment = .center
-    $0.isSkeletonable = true
     $0.backgroundColor = .clear
   }
   
@@ -33,7 +32,6 @@ final class LibraryDetailMainView: UIView {
     $0.layer.cornerRadius = 10
     $0.backgroundColor = .gray
     $0.contentMode = .scaleAspectFill
-    $0.isSkeletonable = true
   }
   
   private let titleLabel = UILabel().then {
@@ -41,7 +39,6 @@ final class LibraryDetailMainView: UIView {
     $0.textColor = .black
     $0.numberOfLines = 3
     $0.lineBreakMode = .byTruncatingTail
-    $0.isSkeletonable = true
     $0.skeletonTextNumberOfLines = 3
     $0.textAlignment = .center
   }
@@ -49,7 +46,6 @@ final class LibraryDetailMainView: UIView {
   private let subLabel = UILabel().then {
     $0.font = .regular16
     $0.textColor = .black
-    $0.isSkeletonable = true
     $0.skeletonTextNumberOfLines = 1
   }
   
@@ -68,7 +64,9 @@ final class LibraryDetailMainView: UIView {
   
   private func configureUI() {
     backgroundColor = .clear
-//    isSkeletonable = true
+    
+    [containerView, bookImageView, titleLabel, subLabel, bottomLineView].forEach { $0.isSkeletonable = true }
+    
     addSubview(containerView)
     [bookImageView, titleLabel, subLabel, bottomLineView].forEach {
       containerView.addArrangedSubview($0)

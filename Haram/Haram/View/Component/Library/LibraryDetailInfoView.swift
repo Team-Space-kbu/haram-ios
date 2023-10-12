@@ -62,11 +62,10 @@ final class LibraryInfoView: UIView {
   }
   
   private func configureUI() {
-    isSkeletonable = true
     [titleLabel, contentLabel].forEach {
-      $0.isSkeletonable = true
       addSubview($0)
     }
+    
     titleLabel.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(18)
@@ -82,7 +81,6 @@ final class LibraryInfoView: UIView {
   func configureUI(with model: LibraryInfoViewModel) {
     titleLabel.text = model.title
     contentLabel.text = model.content.trimmingCharacters(in: .whitespacesAndNewlines)
-//    model.content.trimmingCharacters(in: .whitespacesAndNewlines)
   }
 }
 
@@ -129,10 +127,9 @@ final class LibraryDetailInfoView: UIView {
   }
   
   private func configureUI() {
-    isSkeletonable = true
+    
     addSubview(containerView)
     [authorInfoView, lineView, publisherInfoView, lineView1, pubDateInfoView, lineView2, discountInfoView].forEach {
-      $0.isSkeletonable = true
       containerView.addArrangedSubview($0)
     }
     

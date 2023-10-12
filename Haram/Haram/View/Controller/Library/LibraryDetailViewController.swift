@@ -99,7 +99,7 @@ final class LibraryDetailViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     title = "도서 상세"
-    [scrollView, containerView, libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, collectionView].forEach { $0.isSkeletonable = true }
+    _ = [view, scrollView, containerView, libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, collectionView].map { $0.isSkeletonable = true }
 
     let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
 

@@ -18,7 +18,7 @@ final class LibraryRentalListView: UIView {
   }
   
   private let rentalInfoLabel = UILabel().then {
-    $0.text = "대여정보"
+    $0.text = Constants.rentalInfoText
     $0.font = .bold18
     $0.textColor = .black
   }
@@ -44,7 +44,7 @@ final class LibraryRentalListView: UIView {
   }
   
   private func configureUI() {
-    isSkeletonable = true
+    
     [lineView1, rentalInfoLabel, containerView, lineView].forEach {
       addSubview($0)
     }
@@ -160,10 +160,14 @@ extension LibraryRentalListView {
       }
     }
   }
+}
+
+extension LibraryRentalListView {
   
   // MARK: - Constants
   
   enum Constants {
     static let alertText = "대여 가능한 정보가 없습니다."
+    static let rentalInfoText = "대여정보"
   }
 }

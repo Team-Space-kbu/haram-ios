@@ -27,7 +27,8 @@ final class LibraryDetailSubView: UIView {
   private let descriptionLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .regular16
-    $0.numberOfLines = .max
+    $0.numberOfLines = 0
+    $0.skeletonTextNumberOfLines = 7
   }
   
   private let bottomLineView = UIView().then {
@@ -44,11 +45,12 @@ final class LibraryDetailSubView: UIView {
   }
   
   private func configureUI() {
-//    isSkeletonable = true
+    
     [titleLabel, descriptionLabel, bottomLineView].forEach {
       $0.isSkeletonable = true
       addSubview($0)
     }
+    
     titleLabel.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
     }
