@@ -76,7 +76,7 @@ final class StudyRoomDetailViewController: BaseViewController {
     studyRoomDetailView.snp.makeConstraints {
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.equalToSuperview().inset(42)
-      $0.height.equalTo(469)
+      $0.height.equalTo(UIScreen.main.bounds.height / 2)
     }
 
     
