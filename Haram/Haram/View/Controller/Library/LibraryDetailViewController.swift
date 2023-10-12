@@ -161,25 +161,32 @@ final class LibraryDetailViewController: BaseViewController {
     viewModel.detailMainModel
       .compactMap { $0 }
       .drive(with: self) { owner, model in
+        owner.libraryDetailMainView.hideSkeleton()
         owner.libraryDetailMainView.configureUI(with: model)
+//        owner.libraryDetailMainView.hideSkeleton()
       }
       .disposed(by: disposeBag)
     
     viewModel.detailSubModel
       .compactMap { $0 }
       .drive(with: self) { owner, model in
+        owner.libraryDetailSubView.hideSkeleton()
         owner.libraryDetailSubView.configureUI(with: model)
       }
       .disposed(by: disposeBag)
     
     viewModel.detailInfoModel
+      .filter { !$0.isEmpty }
       .drive(with: self) { owner, model in
+        owner.libraryDetailInfoView.hideSkeleton()
         owner.libraryDetailInfoView.configureUI(with: model)
       }
       .disposed(by: disposeBag)
     
     viewModel.detailRentalModel
+      .filter { !$0.isEmpty }
       .drive(with: self) { owner, model in
+        owner.libraryRentalListView.hideSkeleton()
         owner.libraryRentalListView.configureUI(with: model)
       }
       .disposed(by: disposeBag)
@@ -187,7 +194,7 @@ final class LibraryDetailViewController: BaseViewController {
     viewModel.isLoading
       .filter { !$0 }
       .drive(with: self) { owner, _ in
-//        owner.view.hideSkeleton()
+        owner.view.hideSkeleton()
       }
       .disposed(by: disposeBag)
     
