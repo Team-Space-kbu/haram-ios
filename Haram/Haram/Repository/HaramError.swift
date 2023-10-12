@@ -29,6 +29,8 @@ enum HaramError: Error, CaseIterable {
   case noExistTodayBibleWord // 오늘의 성경말씀이 존재하지않을 때 발생하는 에러
   
   case unValidRefreshToken
+  
+  case returnWrongFormat
 }
 
 extension HaramError {
@@ -80,6 +82,8 @@ extension HaramError {
       return "LIB02"
     case .noEnglishRequest:
       return "LIB08"
+    case .returnWrongFormat:
+      return "IN04"
     }
   }
   
@@ -113,6 +117,8 @@ extension HaramError {
       return "네이버로부터 요청을 처리할 수 없습니다."
     case .noEnglishRequest:
       return "영문도서에 대한 요청을 처리할 수 없습니다."
+    case .returnWrongFormat:
+      return "잘못된 형식으로 반환되어 처리할 수 없습니다."
     }
   }
 }

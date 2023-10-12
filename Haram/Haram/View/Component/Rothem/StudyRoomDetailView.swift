@@ -29,13 +29,14 @@ final class StudyRoomDetailView: UIView {
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
+    $0.showsVerticalScrollIndicator = false
   }
   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.backgroundColor = .clear
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: 16, left: 15, bottom: .zero, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: 16, left: 15, bottom: 26, right: 15)
   }
   
   private let roomTitleLabel = UILabel().then {
@@ -110,8 +111,8 @@ final class StudyRoomDetailView: UIView {
     }
     
     containerView.snp.makeConstraints {
-      $0.top.width.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
+      $0.directionalVerticalEdges.width.equalToSuperview()
+//      $0.bottom.lessThanOrEqualToSuperview()
     }
     
     roomTitleLabel.snp.makeConstraints {

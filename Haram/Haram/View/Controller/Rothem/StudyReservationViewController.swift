@@ -31,7 +31,11 @@ final class StudyReservationViewController: BaseViewController {
     .init(time: "13:30"),
     .init(time: "14:00"),
     .init(time: "14:30"),
-    .init(time: "15:00")
+    .init(time: "15:00"),
+    .init(time: "15:30"),
+    .init(time: "16:00"),
+    .init(time: "16:30"),
+    .init(time: "17:00"),
   ]
   
   private let scrollView = UIScrollView().then {
@@ -79,6 +83,7 @@ final class StudyReservationViewController: BaseViewController {
     collectionViewLayout: LeftAlignedCollectionViewFlowLayout().then {
       $0.sectionInset = UIEdgeInsets(top: .zero, left: .zero, bottom: 19, right: .zero)
       $0.minimumInteritemSpacing = 15
+      $0.minimumLineSpacing = 6
     }).then {
       $0.isScrollEnabled = false
       $0.backgroundColor = .white
@@ -190,7 +195,7 @@ final class StudyReservationViewController: BaseViewController {
     }
     
     selectedTimeCollectionView.snp.makeConstraints {
-      $0.height.equalTo(131)
+      $0.height.equalTo(131 + 33 + 6)
     }
     
     nameTextField.snp.makeConstraints {

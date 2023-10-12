@@ -13,23 +13,25 @@ import Then
 
 final class StudyListViewController: BaseViewController {
   
+  // MARK: - Properties
+  
   private let viewModel: StudyListViewModelType
   private var type: StudyListCollectionHeaderViewType = .reservation
+  
+  // MARK: - UI Models
   
   private var studyListModel: [StudyListCollectionViewCellModel] = [] {
     didSet {
       studyListCollectionView.reloadData()
-//      updateCollectionViewSnapshot()
     }
   }
   private var studyHeaderModel: StudyListHeaderViewModel? {
     didSet {
       studyListCollectionView.reloadData()
-//      updateCollectionViewSnapshot()
     }
   }
   
-//  private var dataSource: UICollectionViewDiffableDataSource<Section, StudyListCollectionViewCellModel>!
+  // MARK: - UI Components
   
   private lazy var studyListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
     $0.minimumLineSpacing = 20
@@ -40,7 +42,10 @@ final class StudyListViewController: BaseViewController {
     $0.delegate = self
     $0.dataSource = self
     $0.isSkeletonable = true
+    $0.alwaysBounceVertical = true
   }
+  
+  // MARK: - Initializations
   
   init(viewModel: StudyListViewModelType = StudyListViewModel()) {
     self.viewModel = viewModel
@@ -50,6 +55,8 @@ final class StudyListViewController: BaseViewController {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  // MARK: - Configurations
   
   override func setupLayouts() {
     super.setupLayouts()
@@ -76,7 +83,6 @@ final class StudyListViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-//    setCollectionViewDataSource()
     title = "스터디"
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: Constants.backButton),
@@ -103,52 +109,7 @@ final class StudyListViewController: BaseViewController {
   @objc private func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
-  
-//  private func setCollectionViewDataSource() {
-//
-//    let cellRegistration = UICollectionView.CellRegistration<StudyListCollectionViewCell, StudyListCollectionViewCellModel> { cell, indexPath, item in
-//      cell.configureUI(with: item)
-//    }
-//
-//    let headerRegistration = UICollectionView.SupplementaryRegistration<StudyListCollectionHeaderView>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] supplementaryView, elementKind, indexPath in
-//      guard let self = self else { return }
-//      switch self.dataSource.snapshot().sectionIdentifiers[indexPath.section] {
-//      case .studyList(let studyHeaderModel):
-//        guard let studyHeaderModel = studyHeaderModel else { return }
-//        supplementaryView.delegate = self
-//        supplementaryView.configureUI(with: studyHeaderModel, type: self.type)
-//      }
-//    }
-//
-//    dataSource = UICollectionViewDiffableDataSource<Section, StudyListCollectionViewCellModel>(collectionView: studyListCollectionView) { collectionView, indexPath, item -> UICollectionViewCell in
-//      return collectionView.dequeueConfiguredReusableCell(
-//        using: cellRegistration,
-//        for: indexPath,
-//        item: item
-//      )
-//    }.then {
-//      $0.supplementaryViewProvider = .init { collectionView, _, indexPath in
-//        return collectionView.dequeueConfiguredReusableSupplementary(
-//          using: headerRegistration,
-//          for: indexPath
-//        )
-//      }
-//    }
-//  }
-//
-//  private func updateCollectionViewSnapshot() {
-//    var snapshot = NSDiffableDataSourceSnapshot<Section, StudyListCollectionViewCellModel>()
-//    snapshot.appendSections([.studyList(studyHeaderModel)])
-//    snapshot.appendItems(studyListModel)
-//    self.dataSource.apply(snapshot, animatingDifferences: true)
-//  }
 }
-
-//extension StudyListViewController {
-//  enum Section: Hashable {
-//    case studyList(StudyListHeaderViewModel?)
-//  }
-//}
 
 extension StudyListViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
