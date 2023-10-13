@@ -9,13 +9,14 @@ import Alamofire
 
 enum RothemRouter {
   case inquireAllRoomInfo
+  case inquireAllRothemNotice
 }
 
 extension RothemRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .inquireAllRoomInfo:
+    case .inquireAllRoomInfo, .inquireAllRothemNotice:
       return .get
     }
   }
@@ -24,19 +25,21 @@ extension RothemRouter: Router {
     switch self {
     case .inquireAllRoomInfo:
       return "/rothem/admin/rooms"
+    case .inquireAllRothemNotice:
+      return "/rothem/admin/notices"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireAllRoomInfo:
+    case .inquireAllRoomInfo, .inquireAllRothemNotice:
       return .plain
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireAllRoomInfo:
+    case .inquireAllRoomInfo, .inquireAllRothemNotice:
       return .withAccessToken
     }
   }

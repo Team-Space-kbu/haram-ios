@@ -35,6 +35,7 @@
 		7051E4F52AD6A75800C2134B /* space_store.png in Resources */ = {isa = PBXBuildFile; fileRef = 7051E4EE2AD6A75800C2134B /* space_store.png */; };
 		7051E4F62AD6A75800C2134B /* space_4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7051E4EF2AD6A75800C2134B /* space_4x.png */; };
 		7051E4F72AD6A75800C2134B /* space_0.75x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7051E4F02AD6A75800C2134B /* space_0.75x.png */; };
+		7051E4F92AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4F82AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift */; };
 		705E70B829E1C8ED00156B1F /* HomeNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */; };
 		705FD2792A10D3C500F353FE /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2782A10D3C500F353FE /* Router.swift */; };
 		705FD27C2A10D3EA00F353FE /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 705FD27B2A10D3EA00F353FE /* Alamofire */; };
@@ -260,6 +261,7 @@
 		7051E4EE2AD6A75800C2134B /* space_store.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = space_store.png; sourceTree = "<group>"; };
 		7051E4EF2AD6A75800C2134B /* space_4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = space_4x.png; sourceTree = "<group>"; };
 		7051E4F02AD6A75800C2134B /* space_0.75x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = space_0.75x.png; sourceTree = "<group>"; };
+		7051E4F82AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireAllRothemNoticeResponse.swift; sourceTree = "<group>"; };
 		705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNoticeView.swift; sourceTree = "<group>"; };
 		705FD2782A10D3C500F353FE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		705FD27F2A10DE8800F353FE /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
@@ -989,6 +991,7 @@
 			isa = PBXGroup;
 			children = (
 				708ED79A2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift */,
+				7051E4F82AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift */,
 			);
 			path = Rothem;
 			sourceTree = "<group>";
@@ -1459,6 +1462,7 @@
 				705FD29B2A13C19A00F353FE /* SignupUserRequest.swift in Sources */,
 				70375F052AAD804C0032F6B8 /* SearchBookRequest.swift in Sources */,
 				708ED7C32A911B4800107CDF /* BibleViewController.swift in Sources */,
+				7051E4F92AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift in Sources */,
 				708312B42A76945000F7E283 /* BoardListCollectionViewCell.swift in Sources */,
 				708ED7E92A94BADD00107CDF /* RevisionOfTranslationModel.swift in Sources */,
 				708312422A2CAA1800F7E283 /* RequestIntranetTokenResponse.swift in Sources */,

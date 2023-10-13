@@ -20,4 +20,8 @@ extension RothemService {
   func inquireAllRoomInfo() -> Observable<Result<[InquireAllRoomInfoResponse], HaramError>> {
     service.request(router: RothemRouter.inquireAllRoomInfo, type: [InquireAllRoomInfoResponse].self)
   }
+  
+  func inquireAllRothemNotice() -> Observable<Result<[InquireAllRothemNoticeResponse], HaramError>> {
+    service.request(router: RothemRouter.inquireAllRothemNotice, type: [InquireAllRothemNoticeResponse].self)
+  }
 }
