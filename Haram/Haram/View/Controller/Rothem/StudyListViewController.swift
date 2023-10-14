@@ -25,7 +25,7 @@ final class StudyListViewController: BaseViewController {
       studyListCollectionView.reloadData()
     }
   }
-  private var studyHeaderModel: StudyListHeaderViewModel? {
+  private var rothemMainNoticeModel: StudyListHeaderViewModel? {
     didSet {
       studyListCollectionView.reloadData()
     }
@@ -76,8 +76,9 @@ final class StudyListViewController: BaseViewController {
       .drive(rx.studyListModel)
       .disposed(by: disposeBag)
     
-    viewModel.currentStudyReservationHeaderModel
-      .drive(rx.studyHeaderModel)
+    viewModel.currentRothemMainNotice
+      .do(onNext: { print("공지 \($0)") })
+      .drive(rx.rothemMainNoticeModel)
       .disposed(by: disposeBag)
   }
   
@@ -171,9 +172,12 @@ extension StudyListViewController: SkeletonCollectionViewDataSource {
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: StudyListCollectionHeaderView.identifier, for: indexPath) as? StudyListCollectionHeaderView ?? StudyListCollectionHeaderView()
-    guard let studyHeaderModel = studyHeaderModel else { return StudyListCollectionHeaderView() }
-    header.configureUI(with: studyHeaderModel, type: type)
+    let header = collectionView.dequeueReusableSupplementaryView(
+      ofKind: kind,
+      withReuseIdentifier: StudyListCollectionHeaderView.identifier,
+      for: indexPath
+    ) as? StudyListCollectionHeaderView ?? StudyListCollectionHeaderView()
+    header.configureUI(with: rothemMainNoticeModel, type: type)
     header.delegate = self
     return header
   }

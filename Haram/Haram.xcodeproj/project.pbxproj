@@ -36,6 +36,9 @@
 		7051E4F62AD6A75800C2134B /* space_4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7051E4EF2AD6A75800C2134B /* space_4x.png */; };
 		7051E4F72AD6A75800C2134B /* space_0.75x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7051E4F02AD6A75800C2134B /* space_0.75x.png */; };
 		7051E4F92AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4F82AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift */; };
+		7051E4FB2ADAB6C700C2134B /* BoardRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4FA2ADAB6C700C2134B /* BoardRouter.swift */; };
+		7051E4FD2ADAB71200C2134B /* BoardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4FC2ADAB71200C2134B /* BoardService.swift */; };
+		7051E5002ADAB75100C2134B /* InquireBoardlistResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4FF2ADAB75100C2134B /* InquireBoardlistResponse.swift */; };
 		705E70B829E1C8ED00156B1F /* HomeNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */; };
 		705FD2792A10D3C500F353FE /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2782A10D3C500F353FE /* Router.swift */; };
 		705FD27C2A10D3EA00F353FE /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 705FD27B2A10D3EA00F353FE /* Alamofire */; };
@@ -262,6 +265,9 @@
 		7051E4EF2AD6A75800C2134B /* space_4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = space_4x.png; sourceTree = "<group>"; };
 		7051E4F02AD6A75800C2134B /* space_0.75x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = space_0.75x.png; sourceTree = "<group>"; };
 		7051E4F82AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireAllRothemNoticeResponse.swift; sourceTree = "<group>"; };
+		7051E4FA2ADAB6C700C2134B /* BoardRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardRouter.swift; sourceTree = "<group>"; };
+		7051E4FC2ADAB71200C2134B /* BoardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardService.swift; sourceTree = "<group>"; };
+		7051E4FF2ADAB75100C2134B /* InquireBoardlistResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBoardlistResponse.swift; sourceTree = "<group>"; };
 		705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNoticeView.swift; sourceTree = "<group>"; };
 		705FD2782A10D3C500F353FE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		705FD27F2A10DE8800F353FE /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
@@ -564,6 +570,14 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		7051E4FE2ADAB74700C2134B /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				7051E4FF2ADAB75100C2134B /* InquireBoardlistResponse.swift */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
 		705E70B429E1C79500156B1F /* Component */ = {
 			isa = PBXGroup;
 			children = (
@@ -609,6 +623,7 @@
 				7083128B2A6561CD00F7E283 /* MyPageRouter.swift */,
 				708ED7952A8E6F2700107CDF /* RothemRouter.swift */,
 				708ED7B82A91191C00107CDF /* BibleRouter.swift */,
+				7051E4FA2ADAB6C700C2134B /* BoardRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -616,6 +631,7 @@
 		705FD2962A13BC0000F353FE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7051E4FE2ADAB74700C2134B /* Board */,
 				708ED7E32A94B60200107CDF /* CoreData */,
 				708ED7BA2A91196B00107CDF /* Bible */,
 				708ED7992A8E6FD100107CDF /* Rothem */,
@@ -1060,6 +1076,7 @@
 				7083128D2A65626E00F7E283 /* MyPageService.swift */,
 				708ED7972A8E6F8F00107CDF /* RothemService.swift */,
 				708ED7BE2A911AB800107CDF /* BibleService.swift */,
+				7051E4FC2ADAB71200C2134B /* BoardService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1403,6 +1420,7 @@
 				705FD2AD2A16160100F353FE /* LibraryViewController.swift in Sources */,
 				708ED7DD2A93490E00107CDF /* PopularAmenityCollectionViewCell.swift in Sources */,
 				708ED7AB2A8FA53F00107CDF /* SelectedTimeCollectionHeaderView.swift in Sources */,
+				7051E5002ADAB75100C2134B /* InquireBoardlistResponse.swift in Sources */,
 				705FD2C52A2338DE00F353FE /* NoticeCollectionViewCell.swift in Sources */,
 				70727A9929D88A22003DE956 /* RegisterViewController.swift in Sources */,
 				708ED7A72A8FA1C500107CDF /* StudyReservationViewController.swift in Sources */,
@@ -1457,6 +1475,7 @@
 				708ED7982A8E6F8F00107CDF /* RothemService.swift in Sources */,
 				708ED7B52A90D61100107CDF /* StudyRoomDetailView.swift in Sources */,
 				7083128A2A655BD900F7E283 /* MileageTableHeaderView.swift in Sources */,
+				7051E4FB2ADAB6C700C2134B /* BoardRouter.swift in Sources */,
 				7083128C2A6561CD00F7E283 /* MyPageRouter.swift in Sources */,
 				708ED7B92A91191C00107CDF /* BibleRouter.swift in Sources */,
 				705FD29B2A13C19A00F353FE /* SignupUserRequest.swift in Sources */,
@@ -1574,6 +1593,7 @@
 				708312AA2A723B4D00F7E283 /* NoticeCollectionHeaderView.swift in Sources */,
 				708312AC2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				708ED7D22A9203DF00107CDF /* BibleSearchResultViewController.swift in Sources */,
+				7051E4FD2ADAB71200C2134B /* BoardService.swift in Sources */,
 				705FD2AF2A16246F00F353FE /* LibraryResultsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import SkeletonView
 import Then
+import Kingfisher
 
 enum StudyListCollectionHeaderViewType {
   case noReservation
@@ -78,7 +79,9 @@ final class StudyListCollectionHeaderView: UICollectionReusableView {
     
   }
   
-  func configureUI(with model: StudyListHeaderViewModel, type: StudyListCollectionHeaderViewType = .noReservation) {
+  func configureUI(with model: StudyListHeaderViewModel?, type: StudyListCollectionHeaderViewType = .noReservation) {
+    guard let model = model else { return }
+    
     if type == .reservation {
       containerView.insertArrangedSubview(checkReservationInfoView, at: 1)
       checkReservationInfoView.snp.makeConstraints {
@@ -142,9 +145,10 @@ extension StudyListCollectionHeaderView {
     }
     
     func configureUI(with model: StudyListHeaderViewModel) {
+      print("모델 \(model)")
       titleLabel.text = model.title
       descriptionLabel.text = model.description
-      backgroudImageView.image = UIImage(named: "notice")
+      backgroudImageView.kf.setImage(with: model.thumbnailImageURL)
 //      backgroudImageView.kf.setImage(with: model.thumbnailImageURL)
     }
   }
@@ -155,6 +159,12 @@ struct StudyListHeaderViewModel: Hashable {
   let title: String
   let description: String
   private let identifier = UUID()
+  
+  init(response: InquireAllRothemNoticeResponse) {
+    thumbnailImageURL = URL(string: response.thumbnailImage)
+    title = response.title
+    description = response.content
+  }
   
   func hash(into hasher: inout Hasher) {
     hasher.combine(identifier)
