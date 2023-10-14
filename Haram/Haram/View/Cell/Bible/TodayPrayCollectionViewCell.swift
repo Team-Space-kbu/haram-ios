@@ -59,15 +59,9 @@ final class TodayPrayCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: TodayPrayCollectionViewCellModel) {
-    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineSpacing = 3
-
-    let attributedString = NSAttributedString(
-      string: model.prayContent,
-      attributes: [.paragraphStyle: paragraphStyle]
-    )
     
     prayTitleLabel.text = model.prayTitle
-    prayContentLabel.attributedText = attributedString
+    prayContentLabel.addLineSpacing(lineSpacing: 3, string: model.prayContent)
+    
   }
 }

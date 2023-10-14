@@ -62,14 +62,7 @@ final class BibleSearchResultViewController: BaseViewController {
     
     viewModel.searchResultContent
       .drive(with: self) { owner, content in
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 15
-
-        let attributedString = NSAttributedString(
-          string: content,
-          attributes: [.paragraphStyle: paragraphStyle]
-        )
-        owner.contentLabel.attributedText = attributedString
+        owner.contentLabel.addLineSpacing(lineSpacing: 15, string: content)
       }
       .disposed(by: disposeBag)
     

@@ -51,11 +51,7 @@ final class BibleNoticeCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: String) {
-    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineSpacing = 3
-
-    let attributedString = NSAttributedString(string: model, attributes: [.paragraphStyle: paragraphStyle])
-    noticeLabel.attributedText = attributedString
+    noticeLabel.addLineSpacing(lineSpacing: 3, string: model)
   }
 }
 

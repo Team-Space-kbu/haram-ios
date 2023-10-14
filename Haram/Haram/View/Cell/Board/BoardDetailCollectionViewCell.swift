@@ -24,14 +24,7 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
   private let commentLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .black
-    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineSpacing = 2
-
-    let attributedString = NSAttributedString(
-      string: "Lorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscing",
-      attributes: [.paragraphStyle: paragraphStyle]
-    )
-    $0.attributedText = attributedString
+    $0.addLineSpacing(lineSpacing: 2, string: "Lorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscing")
     $0.numberOfLines = 0
   }
   

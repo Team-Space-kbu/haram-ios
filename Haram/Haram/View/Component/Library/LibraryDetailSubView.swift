@@ -69,15 +69,8 @@ final class LibraryDetailSubView: UIView {
   }
   
   func configureUI(with model: LibraryDetailSubViewModel) {
-    let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.lineSpacing = 1
-
-    let attributedString = NSAttributedString(
-      string: model.description,
-      attributes: [.paragraphStyle: paragraphStyle]
-    )
     
     titleLabel.text = model.title
-    descriptionLabel.attributedText = attributedString
+    descriptionLabel.addLineSpacing(lineSpacing: 1, string: model.description)
   }
 }
