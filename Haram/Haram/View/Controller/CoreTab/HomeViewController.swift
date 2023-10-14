@@ -340,6 +340,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       vc.navigationItem.largeTitleDisplayMode = .never
       vc.hidesBottomBarWhenPushed = true
       vc.navigationItem.backButtonTitle = nil
+      navigationController?.interactivePopGestureRecognizer?.delegate = self
       navigationController?.pushViewController(vc, animated: true)
     case .news:
       print("잉")
@@ -354,4 +355,10 @@ extension HomeViewController: PagingSectionFooterViewDelegate {
   }
   
   
+}
+
+extension HomeViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
+  }
 }

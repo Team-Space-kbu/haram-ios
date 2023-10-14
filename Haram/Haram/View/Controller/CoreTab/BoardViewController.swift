@@ -119,6 +119,11 @@ final class BoardViewController: BaseViewController {
     $0.font = .bold26
   }
   
+  override func setupStyles() {
+    super.setupStyles()
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
@@ -190,5 +195,11 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.hidesBottomBarWhenPushed = true
     navigationController?.pushViewController(vc, animated: true)
+  }
+}
+
+extension BoardViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
   }
 }

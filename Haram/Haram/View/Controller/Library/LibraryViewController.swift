@@ -292,6 +292,7 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
       return cell
     case .rental:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RentalLibraryCollectionViewCell.identifier, for: indexPath) as? RentalLibraryCollectionViewCell ?? RentalLibraryCollectionViewCell()
+      print("렌탈 \(rentalBookModel[indexPath.row])")
       cell.configureUI(with: rentalBookModel[indexPath.row])
       return cell
     }

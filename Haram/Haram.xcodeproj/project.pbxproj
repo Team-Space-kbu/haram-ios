@@ -40,6 +40,7 @@
 		7051E4FD2ADAB71200C2134B /* BoardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4FC2ADAB71200C2134B /* BoardService.swift */; };
 		7051E5002ADAB75100C2134B /* InquireBoardlistResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4FF2ADAB75100C2134B /* InquireBoardlistResponse.swift */; };
 		7051E5022ADABC4400C2134B /* Ex + UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E5012ADABC4400C2134B /* Ex + UILabel.swift */; };
+		7051E5042ADAD42700C2134B /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E5032ADAD42700C2134B /* BaseNavigationController.swift */; };
 		705E70B829E1C8ED00156B1F /* HomeNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */; };
 		705FD2792A10D3C500F353FE /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2782A10D3C500F353FE /* Router.swift */; };
 		705FD27C2A10D3EA00F353FE /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 705FD27B2A10D3EA00F353FE /* Alamofire */; };
@@ -270,6 +271,7 @@
 		7051E4FC2ADAB71200C2134B /* BoardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardService.swift; sourceTree = "<group>"; };
 		7051E4FF2ADAB75100C2134B /* InquireBoardlistResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBoardlistResponse.swift; sourceTree = "<group>"; };
 		7051E5012ADABC4400C2134B /* Ex + UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UILabel.swift"; sourceTree = "<group>"; };
+		7051E5032ADAD42700C2134B /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNoticeView.swift; sourceTree = "<group>"; };
 		705FD2782A10D3C500F353FE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		705FD27F2A10DE8800F353FE /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
@@ -801,6 +803,7 @@
 				708ED7AE2A8FDA7700107CDF /* NoticeDetailViewController.swift */,
 				708ED7EA2A9DD1D000107CDF /* AffiliatedViewController.swift */,
 				7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */,
+				7051E5032ADAD42700C2134B /* BaseNavigationController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1496,6 +1499,7 @@
 				7083129F2A6D25E100F7E283 /* TermsOfUseViewController.swift in Sources */,
 				70375F0E2AB1AA9F0032F6B8 /* BibleTitleView.swift in Sources */,
 				708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */,
+				7051E5042ADAD42700C2134B /* BaseNavigationController.swift in Sources */,
 				708312A82A70292000F7E283 /* CrawlManager.swift in Sources */,
 				7083123E2A2CA62A00F7E283 /* InquireChapelListResponse.swift in Sources */,
 				70375F072AB04F7B0032F6B8 /* InquireChapterToBibleRequest.swift in Sources */,
