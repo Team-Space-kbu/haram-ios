@@ -8,7 +8,7 @@
 import Alamofire
 
 enum BoardRouter {
-  case inquireBoardList(String)
+  case inquireBoardList(BoardType)
 }
 
 extension BoardRouter: Router {

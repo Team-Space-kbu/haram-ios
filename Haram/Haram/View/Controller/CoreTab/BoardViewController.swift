@@ -10,80 +10,80 @@ import UIKit
 import SnapKit
 import Then
 
-enum SchoolBoardType: CaseIterable {
-  case notice
-  case club
-  case department
-  
-  var title: String {
-    switch self {
-    case .notice:
-      return "총학공지사항"
-    case .club:
-      return "동아리게시판"
-    case .department:
-      return "학과게시판"
-    }
-  }
-  
-  static let headerTitle = "학교게시판"
-  
-  var imageName: String {
-    switch self {
-    case .notice:
-      return "noticeBlack"
-    case .club:
-      return "clubBlue"
-    case .department:
-      return "departmentRed"
-    }
-  }
-}
-
-enum NormalBoardType: CaseIterable {
-  case free
-  case secret
-  case think
-  case infor
-  case date
-  case study
-  
-  var title: String {
-    switch self {
-    case .free:
-      return "자유게시판"
-    case .secret:
-      return "비밀게시판"
-    case .think:
-      return "고민게시판"
-    case .infor:
-      return "정보게시판"
-    case .date:
-      return "연애게시판"
-    case .study:
-      return "스터디게시판"
-    }
-  }
-  
-  static let headerTitle = "일반게시판"
-  
-  var imageName: String {
-    switch self {
-    case .free:
-      return "freeGreen"
-    case .secret:
-      return "secretGreen"
-    case .think:
-      return "thinkYellow"
-    case .infor:
-      return "inforRed"
-    case .date:
-      return "dateBlack"
-    case .study:
-      return "studyPurple"
-    }
-  }
-}
+//enum SchoolBoardType: CaseIterable {
+//  case notice
+//  case club
+//  case department
+//  
+//  var title: String {
+//    switch self {
+//    case .notice:
+//      return "총학공지사항"
+//    case .club:
+//      return "동아리게시판"
+//    case .department:
+//      return "학과게시판"
+//    }
+//  }
+//  
+//  static let headerTitle = "학교게시판"
+//  
+//  var imageName: String {
+//    switch self {
+//    case .notice:
+//      return "noticeBlack"
+//    case .club:
+//      return "clubBlue"
+//    case .department:
+//      return "departmentRed"
+//    }
+//  }
+//}
+//
+//enum NormalBoardType: CaseIterable {
+//  case free
+//  case secret
+//  case think
+//  case infor
+//  case date
+//  case study
+//  
+//  var title: String {
+//    switch self {
+//    case .free:
+//      return "자유게시판"
+//    case .secret:
+//      return "비밀게시판"
+//    case .think:
+//      return "고민게시판"
+//    case .infor:
+//      return "정보게시판"
+//    case .date:
+//      return "연애게시판"
+//    case .study:
+//      return "스터디게시판"
+//    }
+//  }
+//  
+//  static let headerTitle = "일반게시판"
+//  
+//  var imageName: String {
+//    switch self {
+//    case .free:
+//      return "freeGreen"
+//    case .secret:
+//      return "secretGreen"
+//    case .think:
+//      return "thinkYellow"
+//    case .infor:
+//      return "inforRed"
+//    case .date:
+//      return "dateBlack"
+//    case .study:
+//      return "studyPurple"
+//    }
+//  }
+//}
 
 final class BoardViewController: BaseViewController {
   
@@ -158,18 +158,20 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if section == 0 {
-      return SchoolBoardType.allCases.count
+      return 3
     }
-    return NormalBoardType.allCases.count
+    return 6
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let section = indexPath.section
     let cell = tableView.dequeueReusableCell(withIdentifier: BoardTableViewCell.identifier, for: indexPath) as? BoardTableViewCell ?? BoardTableViewCell()
     if section == 0 {
-      cell.configureUI(with: .init(imageName: SchoolBoardType.allCases[indexPath.row].imageName, title: SchoolBoardType.allCases[indexPath.row].title))
+      let model: BoardType = [.STUDENT_COUNCIL, .CLUB, .DEPARTMENT][indexPath.row]
+      cell.configureUI(with: .init(imageName: model.imageName, title: model.title))
     } else if section == 1{
-      cell.configureUI(with: .init(imageName: NormalBoardType.allCases[indexPath.row].imageName, title: NormalBoardType.allCases[indexPath.row].title))
+      let model: BoardType = [.FREE, .SECRET, .WORRIES, .INFORMATION, .DATING, .STUDY][indexPath.row]
+      cell.configureUI(with: .init(imageName: model.imageName, title: model.title))
     }
     
     return cell
@@ -178,9 +180,9 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: BoardTableHeaderView.identifier) as? BoardTableHeaderView ?? BoardTableHeaderView()
     if section == 0 {
-      headerView.configureUI(with: SchoolBoardType.headerTitle)
+      headerView.configureUI(with: "학교게시판")
     } else if section == 1 {
-      headerView.configureUI(with: NormalBoardType.headerTitle)
+      headerView.configureUI(with: "일반게시판")
     }
     return headerView
   }
@@ -190,7 +192,9 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let vc = BoardListViewController()
+    let vc = BoardListViewController(
+      type: indexPath.section == 0 ? BoardType.allCases[0...2][indexPath.row] : BoardType.allCases[3...8][indexPath.row + 3]
+    )
     vc.title = "게시판"
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.hidesBottomBarWhenPushed = true

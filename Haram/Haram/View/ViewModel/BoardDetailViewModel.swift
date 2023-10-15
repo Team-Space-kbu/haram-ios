@@ -1,31 +1,30 @@
 //
-//  BoardListViewModel.swift
+//  BoardViewModel.swift
 //  Haram
 //
-//  Created by 이건준 on 2023/08/16.
+//  Created by 이건준 on 10/15/23.
 //
 
 import RxSwift
 import RxCocoa
 
-protocol BoardListViewModelType {
+protocol BoardDetailViewModelType {
   var whichBoardType: AnyObserver<BoardType> { get }
-  var boardListModel: Driver<[BoardListCollectionViewCellModel]> { get }
 }
 
-final class BoardListViewModel {
+final class BoardDetailViewModel {
   
   private let disposeBag = DisposeBag()
   
   private let currentBoardTypeRelay = PublishSubject<BoardType>()
-  private let currentBoardListRelay = BehaviorRelay<[BoardListCollectionViewCellModel]>(value: [])
+  private let currentBoardListRelay = BehaviorRelay<[BoardDetailCollectionViewCellModel]>(value: [])
   
   init() {
     inquireBoardList()
   }
 }
 
-extension BoardListViewModel {
+extension BoardDetailViewModel {
   private func inquireBoardList() {
     let inquireBoardList = currentBoardTypeRelay
       .flatMapLatest(BoardService.shared.inquireBoardlist(boardType: ))
@@ -37,19 +36,14 @@ extension BoardListViewModel {
       }
     
     inquireBoardListToResponse
-      .map { $0.map { BoardListCollectionViewCellModel(response: $0) } }
-      .subscribe(with: self) { owner, model in
-        owner.currentBoardListRelay.accept(model)
+      .subscribe(with: self) { owner, response in
+        
       }
       .disposed(by: disposeBag)
   }
 }
 
-extension BoardListViewModel: BoardListViewModelType {
-  var boardListModel: Driver<[BoardListCollectionViewCellModel]> {
-    currentBoardListRelay.asDriver()
-  }
-  
+extension BoardDetailViewModel: BoardDetailViewModelType {
   var whichBoardType: AnyObserver<BoardType> {
     currentBoardTypeRelay.asObserver()
   }

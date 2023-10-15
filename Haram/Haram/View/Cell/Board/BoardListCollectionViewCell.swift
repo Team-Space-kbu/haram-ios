@@ -15,6 +15,12 @@ struct BoardListCollectionViewCellModel: Hashable {
   let subTitle: String
   let boardType: [String]
   let identifier = UUID()
+  
+  init(response: InquireBoardlistResponse) {
+    title = response.boardTitle
+    subTitle = response.boardContent
+    boardType = []
+  }
 }
 
 final class BoardListCollectionViewCell: UICollectionViewCell {

@@ -33,7 +33,8 @@ final class StudyListViewController: BaseViewController {
   
   // MARK: - UI Components
   
-  private lazy var studyListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
+  private lazy var studyListCollectionView = UICollectionView(
+    frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
     $0.minimumLineSpacing = 20
   }).then {
     $0.register(StudyListCollectionViewCell.self, forCellWithReuseIdentifier: StudyListCollectionViewCell.identifier)
@@ -43,6 +44,7 @@ final class StudyListViewController: BaseViewController {
     $0.dataSource = self
     $0.isSkeletonable = true
     $0.alwaysBounceVertical = true
+    $0.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: 15, right: .zero)
   }
   
   // MARK: - Initializations
@@ -77,7 +79,6 @@ final class StudyListViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.currentRothemMainNotice
-      .do(onNext: { print("공지 \($0)") })
       .drive(rx.rothemMainNoticeModel)
       .disposed(by: disposeBag)
   }
@@ -153,7 +154,7 @@ extension StudyListViewController: SkeletonCollectionViewDataSource {
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: StudyListCollectionViewCell.identifier, for: indexPath) as? StudyListCollectionViewCell
-    cell?.configureUI(with: studyListModel[indexPath.row])
+//    cell?.configureUI(with: studyListModel[indexPath.row])
     return cell
   }
   

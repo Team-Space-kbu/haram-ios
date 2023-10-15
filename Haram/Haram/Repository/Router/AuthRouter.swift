@@ -40,7 +40,7 @@ extension AuthRouter: Router {
   var path: String {
     switch self {
     case .signupUser:
-      return "/v1/user/signup"
+      return "/v1/users"
     case .loginMember:
       return "/v1/auth/login"
     case .reissuanceAccessToken:

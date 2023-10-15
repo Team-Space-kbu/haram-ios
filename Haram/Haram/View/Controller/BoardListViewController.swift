@@ -14,6 +14,7 @@ import Then
 final class BoardListViewController: BaseViewController {
   
   private let viewModel: BoardListViewModelType
+  private let type: BoardType
   
   private var boardListModel: [BoardListCollectionViewCellModel] = [] {
     didSet {
@@ -37,8 +38,9 @@ final class BoardListViewController: BaseViewController {
     $0.contentInset = UIEdgeInsets(top: 32, left: 15, bottom: .zero, right: 15)
   }
   
-  init(viewModel: BoardListViewModelType = BoardListViewModel()) {
+  init(viewModel: BoardListViewModelType = BoardListViewModel(), type: BoardType) {
     self.viewModel = viewModel
+    self.type = type
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -83,6 +85,9 @@ final class BoardListViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
+    viewModel.whichBoardType.onNext(type)
+    
     viewModel.boardListModel
       .drive(rx.boardListModel)
       .disposed(by: disposeBag)

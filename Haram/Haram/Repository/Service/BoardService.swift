@@ -18,7 +18,7 @@ final class BoardService {
 }
 
 extension BoardService {
-  func inquireBoardlist(boardType: String) -> Observable<Result<[InquireBoardlistResponse], HaramError>> {
+  func inquireBoardlist(boardType: BoardType) -> Observable<Result<[InquireBoardlistResponse], HaramError>> {
     service.request(router: BoardRouter.inquireBoardList(boardType), type: [InquireBoardlistResponse].self)
   }
 }

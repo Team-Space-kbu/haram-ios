@@ -23,7 +23,7 @@ extension MyPageRouter: Router {
   var path: String {
     switch self {
     case .inquireUserInfo(let userID):
-      return "/v1/user/read/\(userID)"
+      return "/v1/users/\(userID)"
     }
   }
   
