@@ -118,20 +118,20 @@ final class LoginViewController: BaseViewController {
       return
     }
     
-    removeKeyboardNotification()
+    removeNotifications()
     (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = HaramTabbarController()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    removeKeyboardNotification()
+    removeNotifications()
   }
   
   // MARK: - Configure UI
   
   override func setupStyles() {
     super.setupStyles()
-    registerKeyboardNotification()
+    registerNotifications()
   }
   
   override func bind() {
@@ -145,7 +145,7 @@ final class LoginViewController: BaseViewController {
         let vc = HaramTabbarController()
         vc.modalPresentationStyle = .overFullScreen
         owner.present(vc, animated: true) { [weak self] in
-          self?.removeKeyboardNotification()
+          self?.removeNotifications()
         }
       }
       .disposed(by: disposeBag)
@@ -266,49 +266,8 @@ extension LoginViewController: LoginAlertViewDelegate {
 
 // MARK: - Keyboard Notification
 
-extension LoginViewController {
-  func registerKeyboardNotification() {
-    NotificationCenter.default.addObserver(
-      self, selector: #selector(keyboardWillShow(_:)),
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil
-    )
-    
-    NotificationCenter.default.addObserver(
-      self, selector: #selector(keyboardWillHide(_:)),
-      name: UIResponder.keyboardWillHideNotification,
-      object: nil
-    )
-  }
-  
-  func removeKeyboardNotification() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  func keyboardWillShow(_ sender: Notification) {
-    guard let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-      return
-    }
-    
-    let keyboardHeight = keyboardSize.height
-    
-    if self.view.window?.frame.origin.y == 0 {
-      self.view.window?.frame.origin.y -= keyboardHeight
-    }
-
-    
-    UIView.animate(withDuration: 1) {
-      self.view.layoutIfNeeded()
-    }
-  }
-  
-  @objc
-  func keyboardWillHide(_ sender: Notification) {
-
-    self.view.window?.frame.origin.y = 0
-    UIView.animate(withDuration: 1) {
-      self.view.layoutIfNeeded()
-    }
+extension LoginViewController: KeyboardResponder {
+  public var targetView: UIView {
+    view
   }
 }

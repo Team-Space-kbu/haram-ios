@@ -28,20 +28,16 @@ final class BibleSearchResultViewModel {
   private func inquireChapterToBible() {
     let tryInquireChapterToBible = requestTypeForSearchSubject
       .flatMapLatest(BibleService.shared.inquireChapterToBible(request: ))
-        
+    
     let successInquireChapterToBible = tryInquireChapterToBible
       .compactMap { result -> [InquireChapterToBibleResponse]? in
         guard case .success(let response) = result else { return nil }
         return response
       }
-
+    
     successInquireChapterToBible
       .subscribe(with: self) { owner, responses in
-        var content = ""
-        responses.forEach { response in
-          content += "\(response.verse)" + " " + response.content + " "
-        }
-        owner.searchResultContentRelay.accept(content)
+        owner.searchResultContentRelay.accept(responses.toStringWithWhiteSpace)
       }
       .disposed(by: disposeBag)
   }
@@ -57,3 +53,5 @@ extension BibleSearchResultViewModel: BibleSearchResultViewModelType {
     requestTypeForSearchSubject.asObserver()
   }
 }
+
+

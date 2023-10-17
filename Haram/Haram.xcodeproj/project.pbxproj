@@ -207,6 +207,8 @@
 		708ED7ED2A9E1D7400107CDF /* AffiliatedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7EC2A9E1D7400107CDF /* AffiliatedCollectionViewCell.swift */; };
 		708ED7EF2A9E232A00107CDF /* AffiliatedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7EE2A9E232A00107CDF /* AffiliatedViewModel.swift */; };
 		708ED7F12A9E24D000107CDF /* InquireAffiliatedListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7F02A9E24D000107CDF /* InquireAffiliatedListResponse.swift */; };
+		70903C922ADDB1D900C6FEF0 /* Ex + KeyboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70903C912ADDB1D900C6FEF0 /* Ex + KeyboardResponder.swift */; };
+		70903C942ADEB1F500C6FEF0 /* Ex + Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70903C932ADEB1F500C6FEF0 /* Ex + Array.swift */; };
 		7095D38A2AD67C8F008DAA39 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095D3892AD67C8F008DAA39 /* Constants.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
@@ -437,6 +439,8 @@
 		708ED7EC2A9E1D7400107CDF /* AffiliatedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedCollectionViewCell.swift; sourceTree = "<group>"; };
 		708ED7EE2A9E232A00107CDF /* AffiliatedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedViewModel.swift; sourceTree = "<group>"; };
 		708ED7F02A9E24D000107CDF /* InquireAffiliatedListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireAffiliatedListResponse.swift; sourceTree = "<group>"; };
+		70903C912ADDB1D900C6FEF0 /* Ex + KeyboardResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + KeyboardResponder.swift"; sourceTree = "<group>"; };
+		70903C932ADEB1F500C6FEF0 /* Ex + Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + Array.swift"; sourceTree = "<group>"; };
 		7095D3892AD67C8F008DAA39 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
@@ -861,6 +865,8 @@
 				70727AB729D95E32003DE956 /* Ex + UIFont.swift */,
 				70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */,
 				7051E5012ADABC4400C2134B /* Ex + UILabel.swift */,
+				70903C912ADDB1D900C6FEF0 /* Ex + KeyboardResponder.swift */,
+				70903C932ADEB1F500C6FEF0 /* Ex + Array.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1469,6 +1475,7 @@
 				70375EFC2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift in Sources */,
 				705FD2A92A16031900F353FE /* LoginViewModel.swift in Sources */,
 				70C9CCAE2A066B8F00BEB5F2 /* ChapelInfoView.swift in Sources */,
+				70903C942ADEB1F500C6FEF0 /* Ex + Array.swift in Sources */,
 				708312C02A7A448300F7E283 /* TermsOfUseCheckView.swift in Sources */,
 				708ED7842A8E017A00107CDF /* StudyListViewController.swift in Sources */,
 				705FD2CC2A23BA6A00F353FE /* InquireLibraryResponse.swift in Sources */,
@@ -1602,6 +1609,7 @@
 				708ED7D62A9230FF00107CDF /* BibleBottomSheetViewController.swift in Sources */,
 				708ED7942A8E671200107CDF /* HomeViewModel.swift in Sources */,
 				705FD2B92A1A3CFB00F353FE /* LibraryResultsCollectionViewCell.swift in Sources */,
+				70903C922ADDB1D900C6FEF0 /* Ex + KeyboardResponder.swift in Sources */,
 				708312AA2A723B4D00F7E283 /* NoticeCollectionHeaderView.swift in Sources */,
 				708312AC2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				708ED7D22A9203DF00107CDF /* BibleSearchResultViewController.swift in Sources */,

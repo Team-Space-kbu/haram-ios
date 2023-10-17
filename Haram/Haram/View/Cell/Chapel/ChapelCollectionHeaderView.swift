@@ -23,6 +23,8 @@ final class ChapelCollectionHeaderView: UICollectionReusableView {
     $0.axis = .vertical
     $0.spacing = 19.5
     $0.alignment = .center
+//    $0.isLayoutMarginsRelativeArrangement = true
+//    $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
   }
   
   private let lineView = UIView().then {
@@ -73,12 +75,12 @@ final class ChapelCollectionHeaderView: UICollectionReusableView {
     
     lineView.snp.makeConstraints {
       $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
     
     lineView1.snp.makeConstraints {
       $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
     
     sectionTitleLabel.snp.makeConstraints {
