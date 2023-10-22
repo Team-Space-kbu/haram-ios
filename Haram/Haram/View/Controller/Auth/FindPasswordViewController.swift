@@ -40,6 +40,8 @@ final class FindPasswordViewController: BaseViewController {
     $0.setTitleText(title: "계속하기")
   }
   
+  private let reRequestAlertView = RerequestAlertView()
+  
   deinit {
     removeKeyboardNotification()
   }
@@ -51,8 +53,7 @@ final class FindPasswordViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(containerView)
-    view.addSubview(continueButton)
+    [containerView, continueButton].forEach { view.addSubview($0) }
     [titleLabel, alertLabel, schoolEmailTextField].forEach { containerView.addArrangedSubview($0) }
   }
   
@@ -60,12 +61,15 @@ final class FindPasswordViewController: BaseViewController {
     super.setupConstraints()
     
     containerView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide)
-      $0.directionalHorizontalEdges.equalToSuperview()
-      $0.bottom.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
     }
     
     containerView.setCustomSpacing(7, after: titleLabel)
+    
+    reRequestAlertView.snp.makeConstraints {
+      $0.height.equalTo(19)
+    }
     
     continueButton.snp.makeConstraints {
       $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(24)
@@ -78,7 +82,7 @@ final class FindPasswordViewController: BaseViewController {
     super.bind()
     continueButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        print("탭")
+        owner.containerView.insertArrangedSubview(owner.reRequestAlertView, at: 3)
       }
       .disposed(by: disposeBag)
   }

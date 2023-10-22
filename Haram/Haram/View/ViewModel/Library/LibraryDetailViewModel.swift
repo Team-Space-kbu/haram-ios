@@ -61,64 +61,64 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
       .do(onNext: { _ in isLoadingSubject.onNext(true) })
     
     shareRequestingBookText
-        .flatMapLatest(LibraryService.shared.requestBookInfo(text: ))
-        .subscribe(onNext: { result in
-          switch result {
-          case .success(let response):
-            currentDetailMainModel.accept(
-              LibraryDetailMainViewModel(
-                bookImage: response.thumbnailImage,
-                title: response.bookTitle,
-                subTitle: response.publisher
+      .flatMapLatest(LibraryService.shared.requestBookInfo(text: ))
+      .subscribe(onNext: { result in
+        switch result {
+        case .success(let response):
+          currentDetailMainModel.accept(
+            LibraryDetailMainViewModel(
+              bookImage: response.thumbnailImage,
+              title: response.bookTitle,
+              subTitle: response.publisher
             ))
-            
-            currentDetailSubModel.accept(
-              LibraryDetailSubViewModel(
-                title: "책 설명",
-                description: response.description
-            ))
-            
-            currentDetailInfoModel.accept(LibraryDetailInfoViewType.allCases.map { type in
-              let content: String
-              switch type {
-              case .author:
-                content = response.author
-              case .publisher:
-                content = response.publisher
-              case .publishDate:
-                content = response.pubDate
-              case .discount:
-                
-                /// 외부 API를 통해 받아온 데이터에 \\를 필터링하는 로직
-                let charToRemove: Character = "\\"
-                let discount = response.discount
-                let filterDiscount = discount.filter { $0 != charToRemove }
-                let trimDiscount = filterDiscount.trimmingCharacters(in: .whitespacesAndNewlines)
-                content = trimDiscount != "정보없음" ? filterDiscount + "원" : trimDiscount
-              }
-              return LibraryInfoViewModel(title: type.title, content: content)
-            })
-          case .failure(let error):
-            errorMessageRelay.accept(error)
-          }
           
-          isLoadingSubject.onNext(false)
-        })
-        .disposed(by: disposeBag)
-        
-        shareRequestingBookText
-          .flatMapLatest(LibraryService.shared.requestBookLoanStatus(path: ))
-          .subscribe(onNext: { result in
-            guard case let .success(response) = result else { return }
-            currentDetailRentalModel.accept(
-              response.keepBooks.keepBooks.map { .init(keepBook: $0) }
-            )
-            currentRelatedBookModel.accept(
-              response.relateBooks.relatedBooks.map { .init(path: $0.path, bookImageURL: $0.image) }
-            )
-            
-            isLoadingSubject.onNext(false)
+          currentDetailSubModel.accept(
+            LibraryDetailSubViewModel(
+              title: "책 설명",
+              description: response.description
+            ))
+          
+          currentDetailInfoModel.accept(LibraryDetailInfoViewType.allCases.map { type in
+            let content: String
+            switch type {
+            case .author:
+              content = response.author
+            case .publisher:
+              content = response.publisher
+            case .publishDate:
+              content = response.pubDate
+            case .discount:
+              
+              /// 외부 API를 통해 받아온 데이터에 \\를 필터링하는 로직
+              let charToRemove: Character = "\\"
+              let discount = response.discount
+              let filterDiscount = discount.filter { $0 != charToRemove }
+              let trimDiscount = filterDiscount.trimmingCharacters(in: .whitespacesAndNewlines)
+              content = trimDiscount != "정보없음" ? filterDiscount + "원" : trimDiscount
+            }
+            return LibraryInfoViewModel(title: type.title, content: content)
           })
-          .disposed(by: disposeBag)
-          }
+        case .failure(let error):
+          errorMessageRelay.accept(error)
+        }
+        
+        isLoadingSubject.onNext(false)
+      })
+      .disposed(by: disposeBag)
+    
+    shareRequestingBookText
+      .flatMapLatest(LibraryService.shared.requestBookLoanStatus(path: ))
+      .subscribe(onNext: { result in
+        guard case let .success(response) = result else { return }
+        currentDetailRentalModel.accept(
+          response.keepBooks.keepBooks.map { .init(keepBook: $0) }
+        )
+        currentRelatedBookModel.accept(
+          response.relateBooks.relatedBooks.map { .init(path: $0.path, bookImageURL: $0.image) }
+        )
+        
+        isLoadingSubject.onNext(false)
+      })
+      .disposed(by: disposeBag)
+  }
 }

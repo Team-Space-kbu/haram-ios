@@ -74,7 +74,6 @@ final class LibraryRentalListView: UIView {
   }
   
   func configureUI(with model: [LibraryRentalViewModel]) {
-    
     containerView.subviews.forEach { $0.removeFromSuperview() }
     
     if model.isEmpty {

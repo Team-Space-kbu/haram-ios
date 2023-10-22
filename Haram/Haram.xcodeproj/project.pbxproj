@@ -209,6 +209,7 @@
 		708ED7F12A9E24D000107CDF /* InquireAffiliatedListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7F02A9E24D000107CDF /* InquireAffiliatedListResponse.swift */; };
 		70903C922ADDB1D900C6FEF0 /* Ex + KeyboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70903C912ADDB1D900C6FEF0 /* Ex + KeyboardResponder.swift */; };
 		70903C942ADEB1F500C6FEF0 /* Ex + Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70903C932ADEB1F500C6FEF0 /* Ex + Array.swift */; };
+		70903C962ADFA8FE00C6FEF0 /* RerequestAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70903C952ADFA8FE00C6FEF0 /* RerequestAlertView.swift */; };
 		7095D38A2AD67C8F008DAA39 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095D3892AD67C8F008DAA39 /* Constants.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
@@ -441,6 +442,7 @@
 		708ED7F02A9E24D000107CDF /* InquireAffiliatedListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireAffiliatedListResponse.swift; sourceTree = "<group>"; };
 		70903C912ADDB1D900C6FEF0 /* Ex + KeyboardResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + KeyboardResponder.swift"; sourceTree = "<group>"; };
 		70903C932ADEB1F500C6FEF0 /* Ex + Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + Array.swift"; sourceTree = "<group>"; };
+		70903C952ADFA8FE00C6FEF0 /* RerequestAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RerequestAlertView.swift; sourceTree = "<group>"; };
 		7095D3892AD67C8F008DAA39 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
@@ -576,6 +578,7 @@
 				705FD29E2A15F21F00F353FE /* LoginButton.swift */,
 				705FD2A02A15F75900F353FE /* LoginAlertView.swift */,
 				708312672A39C4B000F7E283 /* LoginInfoRememberView.swift */,
+				70903C952ADFA8FE00C6FEF0 /* RerequestAlertView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1604,6 +1607,7 @@
 				70727AB829D95E32003DE956 /* Ex + UIFont.swift in Sources */,
 				70727A9D29D88A7F003DE956 /* UpdatePasswordViewController.swift in Sources */,
 				70727A9F29D88AAA003DE956 /* BoardViewController.swift in Sources */,
+				70903C962ADFA8FE00C6FEF0 /* RerequestAlertView.swift in Sources */,
 				7051E5062ADAF4EF00C2134B /* BoardDetailViewModel.swift in Sources */,
 				705E70B829E1C8ED00156B1F /* HomeNoticeView.swift in Sources */,
 				708ED7D62A9230FF00107CDF /* BibleBottomSheetViewController.swift in Sources */,

@@ -163,7 +163,6 @@ final class LibraryDetailViewController: BaseViewController {
       .drive(with: self) { owner, model in
         owner.libraryDetailMainView.hideSkeleton()
         owner.libraryDetailMainView.configureUI(with: model)
-//        owner.libraryDetailMainView.hideSkeleton()
       }
       .disposed(by: disposeBag)
     
@@ -184,7 +183,6 @@ final class LibraryDetailViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.detailRentalModel
-      .filter { !$0.isEmpty }
       .drive(with: self) { owner, model in
         owner.libraryRentalListView.hideSkeleton()
         owner.libraryRentalListView.configureUI(with: model)

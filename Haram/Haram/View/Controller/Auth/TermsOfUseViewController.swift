@@ -18,17 +18,24 @@ final class TermsOfUseViewController: BaseViewController {
     $0.font = .bold24
   }
   
+  private let scrollView = UIScrollView().then {
+    $0.alwaysBounceVertical = true
+    $0.backgroundColor = .clear
+  }
+  
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = UIEdgeInsets(top: 101 - 35, left: 15, bottom: .zero, right: 15)
     $0.backgroundColor = .clear
+    $0.spacing = 21
   }
   
   private let horizontalStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.spacing = 17
     $0.distribution = .fillEqually
+    $0.backgroundColor = .clear
   }
   
   private let cancelButton = HaramButton(type: .cancel).then {
@@ -39,7 +46,14 @@ final class TermsOfUseViewController: BaseViewController {
     $0.setTitleText(title: "확인")
   }
   
+  private let checkAllButton = TermsOfUseCheckView(type: .all)
   private let checkButton = TermsOfUseCheckView()
+  private let checkButton1 = TermsOfUseCheckView()
+  
+  override func setupStyles() {
+    super.setupStyles()
+    navigationController?.navigationBar.isHidden = true
+  }
   
   override func bind() {
     super.bind()
@@ -60,28 +74,40 @@ final class TermsOfUseViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(containerView)
-    view.addSubview(horizontalStackView)
-    [titleLabel, checkButton].forEach { containerView.addArrangedSubview($0) }
+    view.addSubview(scrollView)
+    scrollView.addSubview(containerView)
     [cancelButton, applyButton].forEach { horizontalStackView.addArrangedSubview($0) }
+    [titleLabel, checkAllButton, checkButton, checkButton1, horizontalStackView].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
+    scrollView.snp.makeConstraints {
+      $0.directionalEdges.width.equalToSuperview()
+    }
+    
     containerView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.top.width.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
     horizontalStackView.snp.makeConstraints {
       $0.height.equalTo(48)
-      $0.bottom.equalToSuperview().inset(49)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
     
-    checkButton.snp.makeConstraints {
-      $0.height.equalTo(400)
+    checkAllButton.snp.makeConstraints {
+      $0.height.equalTo(18)
     }
+    
+    [checkButton, checkButton1].forEach {
+      $0.snp.makeConstraints {
+        $0.height.greaterThanOrEqualTo(18)
+      }
+    }
+    
+    containerView.setCustomSpacing(23, after: titleLabel)
+    containerView.setCustomSpacing(35, after: checkAllButton)
+    containerView.setCustomSpacing(26, after: checkButton)
   }
 }

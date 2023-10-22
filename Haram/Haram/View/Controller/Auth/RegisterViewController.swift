@@ -128,17 +128,17 @@ final class RegisterViewController: BaseViewController {
       $0.height.equalTo(48)
     }
     
-    [idTextField, pwdTextField, nicknameTextField, emailTextField, checkEmailTextField].forEach {
+    [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField, checkEmailTextField].forEach {
       $0.snp.makeConstraints {
-        $0.height.equalTo(74)
+        $0.height.greaterThanOrEqualTo(74)
       }
     }
     
-    repwdTextField.snp.makeConstraints {
-      $0.height.equalTo(84 + 15)
-    }
+//    repwdTextField.snp.makeConstraints {
+//      $0.height.equalTo(84 + 15)
+//    }
     
-    stackView.setCustomSpacing(10, after: repwdTextField)
+//    stackView.setCustomSpacing(10, after: repwdTextField)
   }
   
   override func bind() {

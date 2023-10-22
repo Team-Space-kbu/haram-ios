@@ -10,8 +10,21 @@ import UIKit
 import SnapKit
 import Then
 
+enum TermsOfUseCheckViewType {
+  
+  /// 앱 정책 전체 동의를 위한 체크 뷰 타입
+  case all
+  
+  /// 앱 정책 한가지 동의를 위한 체크 뷰 타입
+  case none
+}
+
 final class TermsOfUseCheckView: UIView {
     
+  // MARK: - Property
+  
+  private let type: TermsOfUseCheckViewType
+  
   // MARK: - UI Components
   
   private let checkButton = UIButton().then {
@@ -22,6 +35,8 @@ final class TermsOfUseCheckView: UIView {
     $0.text = Constants.alertText
     $0.font = .regular14
     $0.textColor = .hex545E6A
+    $0.numberOfLines = 1
+    $0.textAlignment = .center
   }
   
   private let termsLabel = PaddingLabel(withInsets: 4, 7, 6, 6).then {
@@ -42,8 +57,9 @@ eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
   
   // MARK: - Initializations
   
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  init(type: TermsOfUseCheckViewType = .none) {
+    self.type = type
+    super.init(frame: .zero)
     configureUI()
   }
   
@@ -54,22 +70,24 @@ eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
   // MARK: - Configurations
   
   private func configureUI() {
-    [checkButton, alertLabel, termsLabel].forEach { addSubview($0) }
+    [checkButton, alertLabel].forEach { addSubview($0) }
     checkButton.snp.makeConstraints {
-      $0.size.equalTo(14.06)
-      $0.leading.equalToSuperview()
+      $0.size.equalTo(18)
+      $0.top.leading.equalToSuperview()
     }
     
     alertLabel.snp.makeConstraints {
       $0.leading.equalTo(checkButton.snp.trailing).offset(10)
       $0.trailing.lessThanOrEqualToSuperview()
-      $0.centerY.equalTo(checkButton)
+      $0.directionalVerticalEdges.equalTo(checkButton)
     }
     
-    termsLabel.snp.makeConstraints {
-      $0.top.equalTo(checkButton.snp.bottom)
-      $0.directionalHorizontalEdges.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
+    if type == .none {
+      addSubview(termsLabel)
+      termsLabel.snp.makeConstraints {
+        $0.top.equalTo(checkButton.snp.bottom).offset(10)
+        $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      }
     }
   }
   

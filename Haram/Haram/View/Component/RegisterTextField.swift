@@ -21,6 +21,7 @@ final class RegisterTextField: UIView {
   
   weak var delegate: RegisterTextFieldDelegate?
   private let disposeBag = DisposeBag()
+  private let options: RegisterTextFieldOptions
   
   private let titleLabel = UILabel().then {
     $0.font = .regular14
@@ -60,8 +61,9 @@ final class RegisterTextField: UIView {
     placeholder: String,
     options: RegisterTextFieldOptions = []
   ) {
+    self.options = options
     super.init(frame: .zero)
-    configureUI(title: title, placeholder: placeholder, options: options)
+    configureUI(title: title, placeholder: placeholder)
     bind()
   }
   
@@ -70,6 +72,12 @@ final class RegisterTextField: UIView {
   }
   
   func setError(description: String) {
+    guard options.contains(.errorLabel) else { return }
+    addSubview(errorLabel)
+    errorLabel.snp.makeConstraints {
+      $0.top.equalTo(textField.snp.bottom).offset(10)
+      $0.bottom.leading.equalToSuperview()
+    }
     errorLabel.text = description
   }
   
@@ -87,7 +95,7 @@ final class RegisterTextField: UIView {
       .disposed(by: disposeBag)
   }
   
-  private func configureUI(title: String, placeholder: String, options: RegisterTextFieldOptions) {
+  private func configureUI(title: String, placeholder: String) {
     textField.attributedPlaceholder = NSAttributedString(
       string: placeholder,
       attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
@@ -97,15 +105,22 @@ final class RegisterTextField: UIView {
     [titleLabel, textField].forEach { addSubview($0) }
     titleLabel.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
+      $0.trailing.lessThanOrEqualToSuperview()
+    }
+    
+    textField.snp.makeConstraints {
+      $0.top.equalTo(titleLabel.snp.bottom).offset(10)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.height.equalTo(46)
     }
     
     if options.contains(.addButton) {
       addSubview(haramButton)
-      textField.snp.makeConstraints {
-        $0.top.equalTo(titleLabel.snp.bottom).offset(10)
-        $0.leading.equalToSuperview()
-        $0.height.equalTo(46)
-      }
+//      textField.snp.makeConstraints {
+//        $0.top.equalTo(titleLabel.snp.bottom).offset(10)
+//        $0.directionalHorizontalEdges.equalToSuperview()
+//        $0.height.equalTo(46)
+//      }
       
       haramButton.snp.makeConstraints {
         $0.leading.equalTo(textField.snp.trailing).offset(196 - 15 - 167)
@@ -114,25 +129,11 @@ final class RegisterTextField: UIView {
         $0.height.equalTo(46)
         $0.width.equalTo(167)
       }
-    } else {
-      textField.snp.makeConstraints {
-        $0.top.equalTo(titleLabel.snp.bottom).offset(10)
-        $0.directionalHorizontalEdges.equalToSuperview()
-        $0.height.equalTo(46)
-      }
-    }
+    } 
     
     if options.contains(.defaultEmail) {
       textField.rightViewMode = .always
       textField.rightView = defaultLabel
-    }
-    
-    if options.contains(.errorLabel) {
-      addSubview(errorLabel)
-      errorLabel.snp.makeConstraints {
-        $0.top.equalTo(textField.snp.bottom).offset(10)
-        $0.bottom.leading.equalToSuperview()
-      }
     }
     
   }
