@@ -31,6 +31,7 @@ enum HaramError: Error, CaseIterable {
   case unValidRefreshToken
   
   case returnWrongFormat
+  case noExistBoard // 게시글이 존재하지않을 때 발생하는 에러
 }
 
 extension HaramError {
@@ -84,6 +85,8 @@ extension HaramError {
       return "LIB08"
     case .returnWrongFormat:
       return "IN04"
+    case .noExistBoard:
+      return "BA01"
     }
   }
   
@@ -119,6 +122,8 @@ extension HaramError {
       return "영문도서에 대한 요청을 처리할 수 없습니다."
     case .returnWrongFormat:
       return "잘못된 형식으로 반환되어 처리할 수 없습니다."
+    case .noExistBoard:
+      return "게시글이 존재하지 않습니다."
     }
   }
 }

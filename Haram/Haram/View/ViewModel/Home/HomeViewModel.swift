@@ -61,7 +61,7 @@ extension HomeViewModel {
       .disposed(by: disposeBag)
     
     inquireSuccessResponse
-      .compactMap { $0.notice.notice.first }
+      .compactMap { $0.notice.notices.first }
       .map { HomeNoticeViewModel(subNotice: $0) }
       .subscribe(with: self) { owner, notices in
         owner.noticeModelRelay.accept(notices)

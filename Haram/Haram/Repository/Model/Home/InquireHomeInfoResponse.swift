@@ -8,9 +8,29 @@
 import Foundation
 
 struct InquireHomeInfoResponse: Codable {
+  let homes: [HomeShortcut]
   let banner: MainBanner
   let kokkoks: Kokkoks
   let notice: Notice
+  let bottomBars: [BottomBar]
+}
+
+struct BottomBar: Codable {
+  let createdAt: String
+  let modifiedAt: String?
+  let iconSeq: Int
+  let iconName: String
+  let iconFilePath: String
+  let uiType: String
+}
+
+struct HomeShortcut: Codable {
+  let createdAt: String
+  let modifiedAt: String?
+  let iconSeq: Int
+  let iconName: String
+  let iconFilePath: String
+  let uiType: String
 }
 
 struct MainBanner: Codable {
@@ -37,7 +57,7 @@ struct KbuNews: Codable {
 
 struct Notice: Codable {
   let index: Int
-  let notice: [SubNotice]
+  let notices: [SubNotice]
 }
 
 struct SubNotice: Codable {

@@ -24,7 +24,7 @@ extension HomeRouter: Router {
   var path: String {
     switch self {
     case .inquireHomeInfo:
-      return "/v1/home"
+      return "/v1/homes"
     case .inquireAffiliatedList:
       return "/v1/partners"
     }
