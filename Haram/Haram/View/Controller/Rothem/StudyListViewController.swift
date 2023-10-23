@@ -81,6 +81,12 @@ final class StudyListViewController: BaseViewController {
     viewModel.currentRothemMainNotice
       .drive(rx.rothemMainNoticeModel)
       .disposed(by: disposeBag)
+    
+    viewModel.isReservation
+      .drive(with: self) { owner, isReservation in
+        owner.type = isReservation ? .reservation : .noReservation
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {

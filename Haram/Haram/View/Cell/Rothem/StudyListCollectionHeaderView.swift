@@ -159,10 +159,10 @@ struct StudyListHeaderViewModel: Hashable {
   let description: String
   private let identifier = UUID()
   
-  init(response: InquireAllRothemNoticeResponse) {
-    thumbnailImageURL = URL(string: response.thumbnailImage)
-    title = response.title
-    description = response.content
+  init(rothemNotice: RothemNotice) {
+    thumbnailImageURL = URL(string: rothemNotice.thumbnailImage)
+    title = rothemNotice.title
+    description = rothemNotice.content
   }
   
   func hash(into hasher: inout Hasher) {

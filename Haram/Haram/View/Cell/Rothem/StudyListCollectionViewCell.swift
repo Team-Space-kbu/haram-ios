@@ -18,6 +18,12 @@ struct StudyListCollectionViewCellModel: Hashable {
   let imageURL: URL?
   private let identifier = UUID()
   
+  init(rothemRoom: RothemRoom) {
+    title = rothemRoom.roomName
+    description = rothemRoom.roomExplanation
+    imageURL = URL(string: rothemRoom.thumbnailImage)
+  }
+  
   func hash(into hasher: inout Hasher) {
     hasher.combine(identifier)
   }
@@ -75,9 +81,9 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
     }
     
     studyDescriptionLabel.snp.makeConstraints {
-      $0.top.equalTo(studyTitleLabel.snp.bottom).offset(5)
+      $0.top.equalTo(studyTitleLabel.snp.bottom).offset(6)
       $0.leading.equalTo(studyTitleLabel)
-      $0.bottom.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
       $0.trailing.lessThanOrEqualTo(studyImageView.snp.leading).offset(-15)
     }
   }

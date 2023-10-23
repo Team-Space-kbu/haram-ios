@@ -36,6 +36,7 @@ final class BoardListViewController: BaseViewController {
     $0.register(BoardListCollectionViewCell.self, forCellWithReuseIdentifier: BoardListCollectionViewCell.identifier)
     $0.delegate = self
     $0.contentInset = UIEdgeInsets(top: 32, left: 15, bottom: .zero, right: 15)
+    $0.alwaysBounceVertical = true
   }
   
   init(viewModel: BoardListViewModelType = BoardListViewModel(), type: BoardType) {

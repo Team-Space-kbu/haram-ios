@@ -15,6 +15,7 @@ protocol StudyListViewModelType {
   var currentRothemMainNotice: Driver<StudyListHeaderViewModel?> { get }
   
   var isLoading: Driver<Bool> { get }
+  var isReservation: Driver<Bool> { get }
 }
 
 final class StudyListViewModel {
@@ -26,47 +27,45 @@ final class StudyListViewModel {
   private let rothemMainNoticeRelay = BehaviorRelay<StudyListHeaderViewModel?>(value: nil)
   
   private let isLoadingSubject = BehaviorSubject<Bool>(value: false)
+  private let isReservationSubject = BehaviorSubject<Bool>(value: false)
   
   init() {
-    studyReservationListRelay.accept([
-      .init(title: "개인학습실", description: "그룹학습실은 한국성서대학교 학생이라면 누구나 대관해서 공부나 팀프로젝트, 개인프로젝트, 과제 등등 학습을 위해서라면 언제든 대관을 해드립니다!", imageURL: URL(string: "http://ctl.bible.ac.kr/attachment/view/20544/KakaoTalk_20210531_142417965.jpg?ts=0")),
-      .init(title: "4인 학습실", description: "그룹학습실은 한국성서대학교 학생이라면 누구나 대관해서 공부나 팀프로젝트, 개인프로젝트, 과제 등등 학습을 위해서라면 언제든 대관을 해드립니다!", imageURL: URL(string: "http://ctl.bible.ac.kr/attachment/view/20549/KakaoTalk_20210531_142417965_01.jpg?ts=0")),
-    ])
-    inquireAllRothemNotice()
+    inquireRothemHomeInfo()
     
   }
 }
 
 extension StudyListViewModel {
   
-  private func inquireAllRothemNotice() {
-    let inquireAllRothemNotice = RothemService.shared.inquireAllRothemNotice()
+  private func inquireRothemHomeInfo() {
+    let inquireRothemHomeInfo = RothemService.shared.inquireRothemHomeInfo(userID: UserManager.shared.userID!)
     
-    let inquireAllRothemNoticeToResponse = inquireAllRothemNotice
-      .compactMap { result -> InquireAllRothemNoticeResponse? in
-      guard case let .success(response) = result else { return nil }
-        return response.first
-    }
+    let successInquireRothemHomeInfo = inquireRothemHomeInfo
+      .compactMap { result -> InquireRothemHomeInfoResponse? in
+        guard case let .success(response) = result else { return nil }
+        return response
+      }
     
-    inquireAllRothemNoticeToResponse
-      .map { StudyListHeaderViewModel(response: $0) }
-      .subscribe(with: self) { owner, rothemMainNotice in
-        owner.rothemMainNoticeRelay.accept(rothemMainNotice)
+    successInquireRothemHomeInfo
+      .subscribe(with: self) { owner, response in
+        owner.studyReservationListRelay.accept(response.roomList.map { StudyListCollectionViewCellModel(rothemRoom: $0) })
+        owner.rothemMainNoticeRelay.accept(response.noticeList.first.map { StudyListHeaderViewModel(rothemNotice: $0) })
       }
       .disposed(by: disposeBag)
-  }
-  
-  private func inquireAllRoomInfo() {
-    let inquireAllRoomInfo = RothemService.shared.inquireAllRoomInfo()
-    
-    let inquireAllRoomInfoToResponse = inquireAllRoomInfo
-      .compactMap { result -> [InquireAllRoomInfoResponse]? in
-      guard case let .success(response) = result else { return nil }
-      return response
-    }
-    
-    inquireAllRoomInfoToResponse
-    
+    //    let inquireAllRothemNotice = RothemService.shared.inquireAllRothemNotice()
+    //
+    //    let inquireAllRothemNoticeToResponse = inquireAllRothemNotice
+    //      .compactMap { result -> InquireAllRothemNoticeResponse? in
+    //      guard case let .success(response) = result else { return nil }
+    //        return response.first
+    //    }
+    //
+    //    inquireAllRothemNoticeToResponse
+    //      .map { StudyListHeaderViewModel(response: $0) }
+    //      .subscribe(with: self) { owner, rothemMainNotice in
+    //        owner.rothemMainNoticeRelay.accept(rothemMainNotice)
+    //      }
+    //      .disposed(by: disposeBag)
   }
 }
 
@@ -83,5 +82,9 @@ extension StudyListViewModel: StudyListViewModelType {
   
   var isLoading: Driver<Bool> {
     isLoadingSubject.asDriver(onErrorJustReturn: false)
+  }
+  
+  var isReservation: Driver<Bool> {
+    isReservationSubject.asDriver(onErrorJustReturn: false)
   }
 }
