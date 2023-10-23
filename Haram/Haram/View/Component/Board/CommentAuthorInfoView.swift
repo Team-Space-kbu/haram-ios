@@ -28,13 +28,14 @@ final class CommentAuthorInfoView: UIView {
   private let commentNameLabel = UILabel().then {
     $0.font = .bold14
     $0.textColor = .black
-    $0.text = "익명"
+    $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
   }
   
   private let commentDateLabel = UILabel().then {
     $0.font = .regular12
     $0.textColor = .black
-    $0.text = "2023/09/20"
+    $0.textAlignment = .right
+    $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }
   
   override init(frame: CGRect) {
@@ -50,17 +51,17 @@ final class CommentAuthorInfoView: UIView {
     [commentProfileImageView, commentNameLabel, commentDateLabel].forEach { addSubview($0) }
     commentProfileImageView.snp.makeConstraints {
       $0.size.equalTo(35)
-      $0.leading.centerY.equalToSuperview()
+      $0.leading.directionalVerticalEdges.equalToSuperview()
     }
     
     commentNameLabel.snp.makeConstraints {
       $0.leading.equalTo(commentProfileImageView.snp.trailing).offset(7)
-      $0.centerY.equalTo(commentProfileImageView)
+      $0.directionalVerticalEdges.equalToSuperview()
     }
     
     commentDateLabel.snp.makeConstraints {
-      $0.centerY.trailing.equalToSuperview()
-      $0.leading.greaterThanOrEqualTo(commentNameLabel.snp.trailing)
+      $0.directionalVerticalEdges.trailing.equalToSuperview()
+      $0.leading.equalTo(commentNameLabel.snp.trailing)
     }
   }
   

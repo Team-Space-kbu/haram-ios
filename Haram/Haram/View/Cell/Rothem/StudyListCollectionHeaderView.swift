@@ -111,6 +111,7 @@ extension StudyListCollectionHeaderView {
     private let descriptionLabel = UILabel().then {
       $0.textColor = .white
       $0.font = .regular14
+      $0.numberOfLines = 0
     }
     
     override init(frame: CGRect) {
@@ -145,11 +146,9 @@ extension StudyListCollectionHeaderView {
     }
     
     func configureUI(with model: StudyListHeaderViewModel) {
-      print("모델 \(model)")
       titleLabel.text = model.title
       descriptionLabel.text = model.description
       backgroudImageView.kf.setImage(with: model.thumbnailImageURL)
-//      backgroudImageView.kf.setImage(with: model.thumbnailImageURL)
     }
   }
 }

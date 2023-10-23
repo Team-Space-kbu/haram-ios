@@ -26,7 +26,7 @@ extension RothemRouter: Router {
     case .inquireAllRoomInfo:
       return "/rothem/admin/rooms"
     case .inquireAllRothemNotice:
-      return "/api/rothem/admin/v1/notices"
+      return "/rothem/v1/notices"
     }
   }
   

@@ -13,6 +13,11 @@ import Then
 struct BoardDetailCollectionViewCellModel {
   let commentAuthorInfoModel: CommentAuthorInfoViewModel
   let comment: String
+  
+  init(commentDto: CommentDto) {
+    comment = commentDto.commentContent
+    commentAuthorInfoModel = CommentAuthorInfoViewModel(commentProfileImageURL: nil, commentAuthorName: commentDto.userId, commentDate: commentDto.createdAt)
+  }
 }
 
 final class BoardDetailCollectionViewCell: UICollectionViewCell {
@@ -24,7 +29,6 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
   private let commentLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .black
-    $0.addLineSpacing(lineSpacing: 2, string: "Lorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscing")
     $0.numberOfLines = 0
   }
   
@@ -63,6 +67,6 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
   
   func configureUI(with model: BoardDetailCollectionViewCellModel) {
     commentAuthorInfoView.configureUI(with: model.commentAuthorInfoModel)
-    commentLabel.text = model.comment
+    commentLabel.addLineSpacing(lineSpacing: 2, string: model.comment)
   }
 }

@@ -9,13 +9,14 @@ import Alamofire
 
 enum BoardRouter {
   case inquireBoardList(BoardType)
+  case inquireBoard(BoardType, Int)
 }
 
 extension BoardRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .inquireBoardList:
+    case .inquireBoardList, .inquireBoard:
       return .get
     }
   }
@@ -24,19 +25,21 @@ extension BoardRouter: Router {
     switch self {
     case .inquireBoardList(let boardType):
       return "/v1/boards/\(boardType)"
+    case let .inquireBoard(boardType, boardSeq):
+      return "/v1/boards/\(boardType)/\(boardSeq)"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireBoardList:
+    case .inquireBoardList, .inquireBoard:
       return .plain
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireBoardList:
+    case .inquireBoardList, .inquireBoard:
       return .withAccessToken
     }
   }

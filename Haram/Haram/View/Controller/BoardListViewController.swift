@@ -104,7 +104,7 @@ extension BoardListViewController: UICollectionViewDelegateFlowLayout, UICollect
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = BoardDetailViewController()
+    let vc = BoardDetailViewController(boardSeq: boardListModel[indexPath.row].boardSeq, boardType: type)
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }

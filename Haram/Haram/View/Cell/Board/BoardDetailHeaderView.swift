@@ -10,6 +10,12 @@ import UIKit
 import SnapKit
 import Then
 
+struct BoardDetailHeaderViewModel {
+  let authorInfoViewModel: PostingAuthorInfoViewModel
+  let boardTitle: String
+  let boardContent: String
+}
+
 final class BoardDetailHeaderView: UICollectionReusableView {
   
   static let identifier = "BoardDetailHeaderView"
@@ -27,13 +33,11 @@ final class BoardDetailHeaderView: UICollectionReusableView {
   private let postingTitleLabel = UILabel().then {
     $0.font = .bold14
     $0.textColor = .black
-    $0.text = "Lorem ipsum dolor sit amet, consetetur sadipscing"
   }
   
   private let postingDescriptionLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .black
-    $0.addLineSpacing(lineSpacing: 2, string: "Lorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscingLorem ipsum dolor sit amet, consetetur sadipscing")
     $0.numberOfLines = 0
   }
   
@@ -81,5 +85,12 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     }
     
     containerView.setCustomSpacing(13, after: postingDescriptionLabel)
+  }
+  
+  func configureUI(with model: BoardDetailHeaderViewModel?) {
+    guard let model = model else { return }
+    postingTitleLabel.text = model.boardTitle
+    postingDescriptionLabel.addLineSpacing(lineSpacing: 2, string: model.boardContent)
+    postingInfoView.configureUI(with: model.authorInfoViewModel)
   }
 }

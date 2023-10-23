@@ -12,18 +12,22 @@ import Then
 
 final class BoardDetailViewController: BaseViewController {
   
-  private var cellModel: [BoardDetailCollectionViewCellModel] = [
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "이건준", commentDate: "2023/09.04"), comment: "넌 바보니?"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "문상우", commentDate: "2023/09.04"), comment: "난 바보다 아니야 너가 더 바보야"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "임성묵", commentDate: "2023/09.04"), comment: "나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "신범철", commentDate: "2023/09.04"), comment: "잉 이건 또 뭐니"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "문진우", commentDate: "2023/09.04"), comment: "이 게시글은 아주 훌륭하군요"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "이정섭", commentDate: "2023/09.04"), comment: "어쩌라고 난 바보다 바보일까 바보이니"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "김민형", commentDate: "2023/09.04"), comment: "혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹혼틈섹"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다"),
-    BoardDetailCollectionViewCellModel(commentAuthorInfoModel: .init(commentProfileImageURL: nil, commentAuthorName: "익명", commentDate: "2023/09.04"), comment: "나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다나는 바보다"),
-  ]
+  private let viewModel: BoardDetailViewModelType
+  private let boardSeq: Int
+  private let boardType: BoardType
+  
+  private var cellModel: [BoardDetailCollectionViewCellModel] = [] {
+    didSet {
+      boardDetailCollectionView.reloadSections([1])
+    }
+  }
+  
+  private var boardModel: [BoardDetailHeaderViewModel] = [] {
+    didSet {
+      boardDetailCollectionView.reloadSections([0])
+    }
+  }
+//  private var boardCommentModel:
   
   // MARK: - UI Component
   
@@ -36,6 +40,18 @@ final class BoardDetailViewController: BaseViewController {
     $0.register(BoardDetailCommentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardDetailCommentHeaderView.identifier)
 //    $0.delegate = self
     $0.dataSource = self
+  }
+  
+  // MARK: - Initializations
+  init(viewModel: BoardDetailViewModelType = BoardDetailViewModel(), boardSeq: Int, boardType: BoardType) {
+    self.viewModel = viewModel
+    self.boardSeq = boardSeq
+    self.boardType = boardType
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   // MARK: - Configurations
@@ -61,6 +77,20 @@ final class BoardDetailViewController: BaseViewController {
     boardDetailCollectionView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
+  }
+  
+  override func bind() {
+    super.bind()
+    viewModel.whichBoardSeq.onNext(boardSeq)
+    viewModel.whichBoardType.onNext(boardType)
+    
+    viewModel.boardInfoModel
+      .drive(rx.boardModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.boardCommentModel
+      .drive(rx.cellModel)
+      .disposed(by: disposeBag)
   }
   
   // MARK: - Action Function
@@ -134,6 +164,7 @@ extension BoardDetailViewController: UICollectionViewDataSource {
         withReuseIdentifier: BoardDetailHeaderView.identifier,
         for: indexPath
       ) as? BoardDetailHeaderView ?? BoardDetailHeaderView()
+      header.configureUI(with: boardModel.first)
       return header
     }
     let header = collectionView.dequeueReusableSupplementaryView(

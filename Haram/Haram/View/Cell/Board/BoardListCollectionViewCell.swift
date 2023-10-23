@@ -11,12 +11,14 @@ import SnapKit
 import Then
 
 struct BoardListCollectionViewCellModel: Hashable {
+  let boardSeq: Int
   let title: String
   let subTitle: String
   let boardType: [String]
   let identifier = UUID()
   
   init(response: InquireBoardlistResponse) {
+    boardSeq = response.boardSeq
     title = response.boardTitle
     subTitle = response.boardContent
     boardType = []
@@ -61,11 +63,13 @@ final class BoardListCollectionViewCell: UICollectionViewCell {
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(7)
       $0.leading.equalToSuperview().inset(11)
+      $0.trailing.lessThanOrEqualToSuperview().inset(11)
     }
     
     subLabel.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(3)
       $0.leading.equalTo(titleLabel)
+      $0.trailing.lessThanOrEqualToSuperview().inset(11)
     }
     
     typeStackView.snp.makeConstraints {
