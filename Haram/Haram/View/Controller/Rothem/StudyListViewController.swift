@@ -16,7 +16,7 @@ final class StudyListViewController: BaseViewController {
   // MARK: - Properties
   
   private let viewModel: StudyListViewModelType
-  private var type: StudyListCollectionHeaderViewType = .reservation
+  private var type: StudyListCollectionHeaderViewType = .noReservation
   
   // MARK: - UI Models
   
@@ -87,6 +87,13 @@ final class StudyListViewController: BaseViewController {
         owner.type = isReservation ? .reservation : .noReservation
       }
       .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .filter { !$0 }
+      .drive(with: self) { owner, isLoading in
+        owner.view.hideSkeleton()
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -99,19 +106,15 @@ final class StudyListViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     
-//    view.isSkeletonable = true
-//    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
-//
-//    let graient = SkeletonGradient(baseColor: .skeletonDefault)
-//    view.showAnimatedGradientSkeleton(
-//      usingGradient: graient,
-//      animation: skeletonAnimation,
-//      transition: .none
-//    )
-    
-//    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-//      self.view.hideSkeleton()
-//    }
+    view.isSkeletonable = true
+    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
+
+    let graient = SkeletonGradient(baseColor: .skeletonDefault)
+    view.showAnimatedGradientSkeleton(
+      usingGradient: graient,
+      animation: skeletonAnimation,
+      transition: .none
+    )
   }
   
   @objc private func didTappedBackButton() {
@@ -121,7 +124,7 @@ final class StudyListViewController: BaseViewController {
 
 extension StudyListViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = StudyRoomDetailViewController()
+    let vc = StudyRoomDetailViewController(viewModel: StudyRoomDetailViewModel(roomSeq: studyListModel[indexPath.row].roomSeq))
     vc.title = studyListModel[indexPath.row].title
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
@@ -159,13 +162,15 @@ extension StudyListViewController: SkeletonCollectionViewDataSource {
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: StudyListCollectionViewCell.identifier, for: indexPath) as? StudyListCollectionViewCell
-//    cell?.configureUI(with: studyListModel[indexPath.row])
+    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: StudyListCollectionViewCell.identifier, for: indexPath) as? StudyListCollectionViewCell ?? StudyListCollectionViewCell()
+//    cell.configureUI(with: studyListModel[indexPath.row])
+    cell.configureUI(with: .init(rothemRoom: .init(roomSeq: -1, thumbnailImage: "", roomName: "Lorem ipsum dolor sit amet", roomExplanation: "Lorem ipsum dolor sit amet, consetetur\nsadipscing elitr, sed diam nonumy", peopleCount: 0, location: "1234")))
     return cell
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    studyListModel.count
+//    studyListModel.count
+    10
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

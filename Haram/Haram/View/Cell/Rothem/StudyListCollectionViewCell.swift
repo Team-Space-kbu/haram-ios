@@ -13,12 +13,14 @@ import SkeletonView
 import Then
 
 struct StudyListCollectionViewCellModel: Hashable {
+  let roomSeq: Int
   let title: String
   let description: String
   let imageURL: URL?
   private let identifier = UUID()
   
   init(rothemRoom: RothemRoom) {
+    roomSeq = rothemRoom.roomSeq
     title = rothemRoom.roomName
     description = rothemRoom.roomExplanation
     imageURL = URL(string: rothemRoom.thumbnailImage)
@@ -92,7 +94,6 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
     
     studyTitleLabel.text = model.title
     studyDescriptionLabel.addLineSpacing(lineSpacing: 3, string: model.description)
-//    studyImageView.image = UIImage(named: "rothemImage")
     studyImageView.kf.setImage(with: model.imageURL)
   }
 }

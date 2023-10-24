@@ -26,7 +26,7 @@ final class StudyListViewModel {
   private let studyReservationListRelay = BehaviorRelay<[StudyListCollectionViewCellModel]>(value: [])
   private let rothemMainNoticeRelay = BehaviorRelay<StudyListHeaderViewModel?>(value: nil)
   
-  private let isLoadingSubject = BehaviorSubject<Bool>(value: false)
+  private let isLoadingSubject = PublishSubject<Bool>()
   private let isReservationSubject = BehaviorSubject<Bool>(value: false)
   
   init() {
@@ -41,6 +41,10 @@ extension StudyListViewModel {
     let inquireRothemHomeInfo = RothemService.shared.inquireRothemHomeInfo(userID: UserManager.shared.userID!)
     
     let successInquireRothemHomeInfo = inquireRothemHomeInfo
+      .do(onNext: { [weak self] _ in
+        guard let self = self else { return }
+        self.isLoadingSubject.onNext(true)
+      })
       .compactMap { result -> InquireRothemHomeInfoResponse? in
         guard case let .success(response) = result else { return nil }
         return response
@@ -50,6 +54,7 @@ extension StudyListViewModel {
       .subscribe(with: self) { owner, response in
         owner.studyReservationListRelay.accept(response.roomList.map { StudyListCollectionViewCellModel(rothemRoom: $0) })
         owner.rothemMainNoticeRelay.accept(response.noticeList.first.map { StudyListHeaderViewModel(rothemNotice: $0) })
+        owner.isLoadingSubject.onNext(false)
       }
       .disposed(by: disposeBag)
     //    let inquireAllRothemNotice = RothemService.shared.inquireAllRothemNotice()

@@ -11,13 +11,14 @@ enum RothemRouter {
   case inquireAllRoomInfo
   case inquireAllRothemNotice
   case inquireRothemHomeInfo(String)
+  case inquireRothemRoomInfo(Int)
 }
 
 extension RothemRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo:
+    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo:
       return .get
     }
   }
@@ -30,19 +31,21 @@ extension RothemRouter: Router {
       return "/rothem/v1/notices"
     case .inquireRothemHomeInfo(let userID):
       return "/rothem/v1/homes/\(userID)"
+    case .inquireRothemRoomInfo(let roomSeq):
+      return "/rothem/v1/rooms/\(roomSeq)"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo:
+    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo:
       return .plain
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo:
+    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo:
       return .withAccessToken
     }
   }

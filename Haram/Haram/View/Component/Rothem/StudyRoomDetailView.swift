@@ -11,19 +11,25 @@ import RxSwift
 import SnapKit
 import Then
 
-struct StudyRoomDetailViewModel {
+struct RothemRoomDetailViewModel {
   let roomTitle: String
   let roomDestination: String
   let roomDescription: String
+  
+  init(response: InquireRothemRoomInfoResponse) {
+    roomTitle = response.roomName
+    roomDestination = response.location
+    roomDescription = response.roomExplanation
+  }
 }
 
-protocol StudyRoomDetailViewDelegate: AnyObject {
+protocol RothemRoomDetailViewDelegate: AnyObject {
   func didTappedReservationButton()
 }
 
-final class StudyRoomDetailView: UIView {
+final class RothemRoomDetailView: UIView {
   
-  weak var delegate: StudyRoomDetailViewDelegate?
+  weak var delegate: RothemRoomDetailViewDelegate?
   private let disposeBag = DisposeBag()
   
   private let scrollView = UIScrollView().then {
@@ -44,9 +50,15 @@ final class StudyRoomDetailView: UIView {
     $0.textColor = .black
   }
   
+//  private let roomDestinationImageView = UIImageView().then {
+//    $0.image = UIImage(named: "locationGray")
+//    $0.contentMode = .scaleAspectFill
+//  }
+  
   private let roomDestinationLabel = UILabel().then {
     $0.font = .regular12
     $0.textColor = .hex9F9FA4
+    $0.sizeToFit()
   }
   
   private let lineView = UIView().then {
@@ -162,14 +174,22 @@ final class StudyRoomDetailView: UIView {
       .disposed(by: disposeBag)
   }
   
-  func configureUI(with model: StudyRoomDetailViewModel) {
+  func configureUI(with model: RothemRoomDetailViewModel) {
     roomTitleLabel.text = model.roomTitle
-    roomDestinationLabel.text = model.roomDestination
+    
+    let attributedString = NSMutableAttributedString(string: "")
+    let imageAttachment = NSTextAttachment()
+    imageAttachment.image = UIImage(named: "locationGray")
+    imageAttachment.bounds = CGRect(x: 0, y: 0, width: 10, height: 12)
+    attributedString.append(NSAttributedString(attachment: imageAttachment))
+    attributedString.append(NSAttributedString(string: model.roomDestination))
+    roomDestinationLabel.attributedText = attributedString
+    
     roomDescriptionContentLabel.text = model.roomDescription
   }
 }
 
-extension StudyRoomDetailView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension RothemRoomDetailView: UICollectionViewDelegate, UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 1
   }

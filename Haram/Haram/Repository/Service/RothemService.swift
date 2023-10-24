@@ -28,4 +28,8 @@ extension RothemService {
   func inquireRothemHomeInfo(userID: String) -> Observable<Result<InquireRothemHomeInfoResponse, HaramError>> {
     service.request(router: RothemRouter.inquireRothemHomeInfo(userID), type: InquireRothemHomeInfoResponse.self)
   }
+  
+  func inquireRothemRoomInfo(roomSeq: Int) -> Observable<Result<InquireRothemRoomInfoResponse, HaramError>>  {
+    service.request(router: RothemRouter.inquireRothemRoomInfo(roomSeq), type: InquireRothemRoomInfoResponse.self)
+  }
 }
