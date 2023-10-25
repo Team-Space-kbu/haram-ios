@@ -17,8 +17,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="space_store.png" translatesAutoresizingMaskIntoConstraints="NO" id="Fvo-Zl-vZu">
-                                <rect key="frame" x="7" y="256" width="379" height="341"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="space_store.png" translatesAutoresizingMaskIntoConstraints="NO" id="Fvo-Zl-vZu">
+                                <rect key="frame" x="68.666666666666686" y="298" width="256" height="256"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="270" id="58a-1v-xew"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="270" id="6js-pz-SM8"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="270" id="IXZ-Zn-fSC"/>
+                                    <constraint firstAttribute="width" constant="256" id="JLM-YE-iRA"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="280" id="Zrv-KP-8wJ"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="256" id="oEO-2g-M9r"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="280" id="pG8-gb-eBp"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="256" id="r7X-CV-mjq"/>
+                                    <constraint firstAttribute="height" constant="256" id="uL3-AC-Kry"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="270" id="yAO-FM-B9h"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="5HX-Kk-qwP"/>
