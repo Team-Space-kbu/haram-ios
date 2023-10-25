@@ -96,8 +96,7 @@ final class BibleViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(bibleCollectionView)
-    view.addSubview(bibleSearchView)
+    [bibleCollectionView, bibleSearchView].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -196,7 +195,7 @@ final class BibleViewController: BaseViewController {
       
       let section = NSCollectionLayoutSection(group: group)
       section.boundarySupplementaryItems = [header]
-      section.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 15, bottom: 156, trailing: 15)
+      section.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 15, bottom: 156 + 15, trailing: 15)
       section.interGroupSpacing = 20
       return section
     }

@@ -28,7 +28,7 @@ final class BibleSearchResultViewController: BaseViewController {
     $0.backgroundColor = .clear
     $0.spacing = 21
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: 25, left: 15, bottom: .zero, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: 25, left: 15, bottom: 15, right: 15)
   }
   
   private let bibleTitleView = BibleTitleView()

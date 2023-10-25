@@ -65,7 +65,7 @@ final class PostingAuthorInfoView: UIView {
   }
   
   func configureUI(with model: PostingAuthorInfoViewModel) {
-    profileImageView.backgroundColor = .gray
+    profileImageView.backgroundColor = .hexD9D9D9
     profileImageView.kf.setImage(with: model.profileImageURL)
     authorNameLabel.text = model.authorName
     postingDateLabel.text = model.postingDate

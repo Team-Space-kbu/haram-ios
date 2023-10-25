@@ -33,7 +33,7 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
   }
   
   private let lineView = UIView().then {
-    $0.backgroundColor = .black
+    $0.backgroundColor = .hexD8D8DA
   }
   
   override init(frame: CGRect) {
@@ -54,7 +54,9 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     
     commentLabel.snp.makeConstraints {
       $0.top.equalTo(commentAuthorInfoView.snp.bottom).offset(3)
-      $0.directionalHorizontalEdges.equalToSuperview()
+//      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.leading.equalToSuperview().inset(58 - 16)
+      $0.trailing.lessThanOrEqualToSuperview()
 //      $0.bottom.lessThanOrEqualToSuperview()
     }
     

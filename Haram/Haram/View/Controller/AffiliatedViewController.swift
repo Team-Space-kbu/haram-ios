@@ -33,6 +33,8 @@ final class AffiliatedViewController: BaseViewController {
     $0.mapView.mapType = .basic
     $0.mapView.positionMode = .direction
     $0.mapView.maxZoomLevel = 20
+    $0.showZoomControls = false
+    $0.showScaleBar = false
     //$0.mapView.minZoomLevel = 10
   }
   
@@ -157,7 +159,7 @@ extension AffiliatedViewController {
     let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: mapCoordinate.x, lng: mapCoordinate.y))
     cameraUpdate.reason = 3
     cameraUpdate.animation = .fly
-    cameraUpdate.animationDuration = 2
+    cameraUpdate.animationDuration = 1
     
     mapView.moveCamera(cameraUpdate)
   }
@@ -179,9 +181,11 @@ extension AffiliatedViewController {
           guard let self = self,
                 let row = self.affiliatedModel.firstIndex(where: { $0 == affiliatedCollectionViewCellModel }) else { return false }
           self.moveCameraUpdate(mapView: mapView, where: mapCoordinate)
+          print("로우 \(row)")
+          
           self.affiliatedCollectionView.scrollToItem(
             at: IndexPath(
-              row: row,
+              row: 4,
               section: 0
             ),
             at: .left,

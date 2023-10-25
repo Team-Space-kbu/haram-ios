@@ -275,12 +275,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     let type = HomeType.allCases[section]
     switch type {
-      case .banner:
-        return bannerModel.count
-      case .shortcut:
-        return ShortcutType.allCases.count
-      case .news:
-        return newsModel.count
+    case .banner:
+      return bannerModel.count
+    case .shortcut:
+      return ShortcutType.allCases.count
+    case .news:
+      return newsModel.count
     }
   }
   
@@ -322,19 +322,20 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       print("배너클릭")
     case .shortcut:
       let type = ShortcutType.allCases[indexPath.row]
+      guard type != .eventSchedule else { return }
       let vc: BaseViewController
       switch type {
-        case .mileage, .chapel:
-          if !UserManager.shared.hasIntranetToken {
-            vc = IntranetLoginViewController()
-            vc.modalPresentationStyle = .overFullScreen
-            present(vc, animated: true)
-            return
-          } else {
-            vc = type.viewController
-          }
-        default:
+      case .mileage, .chapel:
+        if !UserManager.shared.hasIntranetToken {
+          vc = IntranetLoginViewController()
+          vc.modalPresentationStyle = .overFullScreen
+          present(vc, animated: true)
+          return
+        } else {
           vc = type.viewController
+        }
+      default:
+        vc = type.viewController
       }
       vc.navigationItem.largeTitleDisplayMode = .never
       vc.hidesBottomBarWhenPushed = true

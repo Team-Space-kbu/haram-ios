@@ -47,7 +47,7 @@ final class BoardDetailHeaderView: UICollectionReusableView {
   }
   
   private let lineView = UIView().then {
-    $0.backgroundColor = .hexC9C9C9
+    $0.backgroundColor = .hexD8D8DA
   }
   
   override init(frame: CGRect) {
@@ -83,12 +83,13 @@ final class BoardDetailHeaderView: UICollectionReusableView {
       $0.height.equalTo(188)
     }
     
+    containerView.setCustomSpacing(6, after: postingTitleLabel)
     containerView.setCustomSpacing(13, after: postingDescriptionLabel)
   }
   
   func configureUI(with model: BoardDetailHeaderViewModel?) {
     guard let model = model else { return }
-    postingImageView.backgroundColor = .gray
+    postingImageView.backgroundColor = .hexD9D9D9
     postingTitleLabel.text = model.boardTitle
     postingDescriptionLabel.addLineSpacing(lineSpacing: 2, string: model.boardContent)
     postingInfoView.configureUI(with: model.authorInfoViewModel)

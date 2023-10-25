@@ -65,7 +65,7 @@ final class CommentAuthorInfoView: UIView {
   }
   
   func configureUI(with model: CommentAuthorInfoViewModel) {
-    commentProfileImageView.backgroundColor = .gray
+    commentProfileImageView.backgroundColor = .hexD9D9D9
     commentProfileImageView.kf.setImage(with: model.commentProfileImageURL)
     commentNameLabel.text = model.commentAuthorName
     commentDateLabel.text = model.commentDate
