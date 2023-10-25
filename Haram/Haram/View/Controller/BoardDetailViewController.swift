@@ -104,14 +104,14 @@ final class BoardDetailViewController: BaseViewController {
     let item = NSCollectionLayoutItem(
       layoutSize: NSCollectionLayoutSize(
         widthDimension: .fractionalWidth(1),
-        heightDimension: .estimated(35 + 3 + 18)
+        heightDimension: .estimated(35 + 3 + 18 + 16 + 1)
       )
     )
     
     let verticalGroup = NSCollectionLayoutGroup.vertical(
       layoutSize: NSCollectionLayoutSize(
         widthDimension: .fractionalWidth(1),
-        heightDimension: .estimated(35 + 3 + 18)
+        heightDimension: .estimated(35 + 3 + 18 + 16 + 1)
       ),
       subitems: [item]
     )
@@ -128,7 +128,7 @@ final class BoardDetailViewController: BaseViewController {
 
     let section = NSCollectionLayoutSection(group: verticalGroup)
     if sec == 1 {
-      section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 16, bottom: 16, trailing: 16)
+      section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 16, bottom: .zero, trailing: 16)
     }
     section.interGroupSpacing = 16
     section.boundarySupplementaryItems = [header]

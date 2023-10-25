@@ -54,14 +54,12 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     
     commentLabel.snp.makeConstraints {
       $0.top.equalTo(commentAuthorInfoView.snp.bottom).offset(3)
-//      $0.directionalHorizontalEdges.equalToSuperview()
       $0.leading.equalToSuperview().inset(58 - 16)
       $0.trailing.lessThanOrEqualToSuperview()
-//      $0.bottom.lessThanOrEqualToSuperview()
     }
     
     lineView.snp.makeConstraints {
-      $0.top.equalTo(commentLabel.snp.bottom).offset(54)
+      $0.top.equalTo(commentLabel.snp.bottom).offset(16)
       $0.height.equalTo(1)
       $0.bottom.directionalHorizontalEdges.equalToSuperview()
     }
