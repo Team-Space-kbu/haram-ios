@@ -9,7 +9,7 @@ import Foundation
 
 struct InquireRothemRoomInfoResponse: Codable {
   let roomSeq: Int
-  let thumbnailImage: String
+  let thumbnailImage: String?
   let outsideImages: [String]
   let insideImages: [String]
   let roomName: String

@@ -44,7 +44,6 @@ final class BoardDetailHeaderView: UICollectionReusableView {
   private let postingImageView = UIImageView().then {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
-    $0.backgroundColor = .gray
   }
   
   private let lineView = UIView().then {
@@ -89,6 +88,7 @@ final class BoardDetailHeaderView: UICollectionReusableView {
   
   func configureUI(with model: BoardDetailHeaderViewModel?) {
     guard let model = model else { return }
+    postingImageView.backgroundColor = .gray
     postingTitleLabel.text = model.boardTitle
     postingDescriptionLabel.addLineSpacing(lineSpacing: 2, string: model.boardContent)
     postingInfoView.configureUI(with: model.authorInfoViewModel)

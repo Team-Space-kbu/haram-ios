@@ -15,7 +15,7 @@ struct InquireRothemHomeInfoResponse: Codable {
 
 struct RothemRoom: Codable {
   let roomSeq: Int
-  let thumbnailImage: String
+  let thumbnailImage: String?
   let roomName: String
   let roomExplanation: String
   let peopleCount: Int

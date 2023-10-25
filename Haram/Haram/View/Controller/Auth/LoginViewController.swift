@@ -139,11 +139,8 @@ final class LoginViewController: BaseViewController {
         guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else { return }
         
         let vc = HaramTabbarController()
-        vc.modalPresentationStyle = .overFullScreen
-        owner.present(vc, animated: true) { [weak self] in
-          guard let self = self else { return }
-          self.removeNotifications()
-        }
+        vc.modalPresentationStyle = .fullScreen
+        owner.present(vc, animated: true)
       }
       .disposed(by: disposeBag)
     

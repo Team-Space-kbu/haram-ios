@@ -119,7 +119,7 @@ extension LoginViewModel: LoginViewModelType {
   }
   
   var loginToken: Driver<(String?, String?)> {
-    Observable.combineLatest(
+    Observable.zip(
       tokenForLogin, refreshTokenForLogin
     )
     .asDriver(onErrorDriveWith: .empty())

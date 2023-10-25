@@ -23,7 +23,7 @@ struct StudyListCollectionViewCellModel: Hashable {
     roomSeq = rothemRoom.roomSeq
     title = rothemRoom.roomName
     description = rothemRoom.roomExplanation
-    imageURL = URL(string: rothemRoom.thumbnailImage)
+    imageURL = URL(string: rothemRoom.thumbnailImage ?? "")
   }
   
   func hash(into hasher: inout Hasher) {

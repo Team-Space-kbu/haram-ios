@@ -32,13 +32,19 @@ enum LibraryType: CaseIterable {
 
 final class LibraryViewController: BaseViewController {
   
+  // MARK: - Properties
+  
   private let viewModel: LibraryViewModelType
+  
+  // MARK: - UI Models
   
   private var newBookModel: [NewLibraryCollectionViewCellModel] = []
   
   private var bestBookModel: [PopularLibraryCollectionViewCellModel] = []
   
   private var rentalBookModel: [RentalLibraryCollectionViewCellModel] = []
+  
+  // MARK: - UI Components
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -88,6 +94,8 @@ final class LibraryViewController: BaseViewController {
       $0.isSkeletonable = true
     }
   
+  // MARK: - Gesture
+  
   private let tapGesture = UITapGestureRecognizer(target: LibraryViewController.self, action: nil).then {
     $0.cancelsTouchesInView = false
   }
@@ -95,6 +103,8 @@ final class LibraryViewController: BaseViewController {
   private let panGesture = UIPanGestureRecognizer(target: LibraryViewController.self, action: nil).then {
     $0.cancelsTouchesInView = false
   }
+  
+  // MARK: - Initializations
   
   init(viewModel: LibraryViewModelType = LibraryViewModel()) {
     self.viewModel = viewModel
@@ -104,6 +114,8 @@ final class LibraryViewController: BaseViewController {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  // MARK: - Configurations
   
   override func bind() {
     super.bind()
@@ -171,6 +183,8 @@ final class LibraryViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    
+    /// Configure Navigation Bar
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: Constants.backButton),
       style: .plain,
@@ -178,14 +192,17 @@ final class LibraryViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     title = "도서"
+    
+    /// Set tapGesture & panGesture
     [tapGesture, panGesture].forEach { view.addGestureRecognizer($0) }
     panGesture.delegate = self
     
+    /// Configure Skeleton UI
     view.isSkeletonable = true
     
     let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
-
     let graient = SkeletonGradient(baseColor: .skeletonDefault)
+    
     view.showAnimatedGradientSkeleton(
       usingGradient: graient,
       animation: skeletonAnimation,

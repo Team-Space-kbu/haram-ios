@@ -22,19 +22,16 @@ final class PostingAuthorInfoView: UIView {
   private let profileImageView = UIImageView().then {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 17.5
-    $0.backgroundColor = .gray
   }
   
   private let authorNameLabel = UILabel().then {
     $0.font = .bold14
     $0.textColor = .black
-    $0.text = "익명"
   }
   
   private let postingDateLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .black
-    $0.text = "2022/11/20"
   }
   
   override init(frame: CGRect) {
@@ -68,6 +65,7 @@ final class PostingAuthorInfoView: UIView {
   }
   
   func configureUI(with model: PostingAuthorInfoViewModel) {
+    profileImageView.backgroundColor = .gray
     profileImageView.kf.setImage(with: model.profileImageURL)
     authorNameLabel.text = model.authorName
     postingDateLabel.text = model.postingDate

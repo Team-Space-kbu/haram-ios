@@ -27,7 +27,6 @@ final class BoardDetailViewController: BaseViewController {
       boardDetailCollectionView.reloadSections([0])
     }
   }
-//  private var boardCommentModel:
   
   // MARK: - UI Component
   

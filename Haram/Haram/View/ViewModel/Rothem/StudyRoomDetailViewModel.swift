@@ -39,7 +39,7 @@ final class StudyRoomDetailViewModel {
         let rothemRoomThubnailImage = response.thumbnailImage
         let rothemRoomDetailViewModel = RothemRoomDetailViewModel(response: response)
         owner.currentRothemRoomDetailViewModelRelay.accept(rothemRoomDetailViewModel)
-        owner.currentRothemRoomThubnailImageRelay.accept(rothemRoomThubnailImage)
+        owner.currentRothemRoomThubnailImageRelay.accept(rothemRoomThubnailImage ?? "")
       }
       .disposed(by: disposeBag)
   }

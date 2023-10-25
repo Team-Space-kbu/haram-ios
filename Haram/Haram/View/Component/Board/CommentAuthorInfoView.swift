@@ -22,7 +22,6 @@ final class CommentAuthorInfoView: UIView {
   private let commentProfileImageView = UIImageView().then {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 17.5
-    $0.backgroundColor = .gray
   }
   
   private let commentNameLabel = UILabel().then {
@@ -66,6 +65,7 @@ final class CommentAuthorInfoView: UIView {
   }
   
   func configureUI(with model: CommentAuthorInfoViewModel) {
+    commentProfileImageView.backgroundColor = .gray
     commentProfileImageView.kf.setImage(with: model.commentProfileImageURL)
     commentNameLabel.text = model.commentAuthorName
     commentDateLabel.text = model.commentDate
