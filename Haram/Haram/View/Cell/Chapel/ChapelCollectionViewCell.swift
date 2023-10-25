@@ -28,20 +28,18 @@ final class ChapelCollectionViewCell: UICollectionViewCell {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 22
     $0.contentMode = .scaleAspectFill
-    $0.backgroundColor = .gray
+    $0.backgroundColor = .hexD9D9D9
   }
   
   private let chapelTitleLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold18
     $0.sizeToFit()
-    $0.text = "Lorem ipsum"
   }
   
   private let chapelSubTitleLabel = UILabel().then {
     $0.textColor = .hex545E6A
     $0.font = .regular14
-    $0.text = "Lorem ipsum"
   }
   
   override init(frame: CGRect) {

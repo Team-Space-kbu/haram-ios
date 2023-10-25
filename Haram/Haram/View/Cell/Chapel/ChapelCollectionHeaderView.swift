@@ -28,11 +28,11 @@ final class ChapelCollectionHeaderView: UICollectionReusableView {
   }
   
   private let lineView = UIView().then {
-    $0.backgroundColor = .hex9F9FA4
+    $0.backgroundColor = .hexD8D8DA
   }
   
   private let lineView1 = UIView().then {
-    $0.backgroundColor = .hex9F9FA4
+    $0.backgroundColor = .hexD8D8DA
   }
   
   private let chapelDayView = ChapelDayView()

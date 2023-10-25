@@ -49,7 +49,7 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
   }
   
   private let bottomLineView = UIView().then {
-    $0.backgroundColor = .hex9F9FA4
+    $0.backgroundColor = .hexD8D8DA
   }
   
   override init(frame: CGRect) {

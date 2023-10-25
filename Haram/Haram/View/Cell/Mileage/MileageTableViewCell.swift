@@ -20,7 +20,7 @@ final class MileageTableViewCell: UITableViewCell {
   static let identifier = "MileageTableViewCell"
   
   private let mileageImageView = UIImageView().then {
-    $0.backgroundColor = .lightGray
+    $0.backgroundColor = .hexD9D9D9
     $0.layer.cornerRadius = 22
     $0.layer.masksToBounds = true
   }
