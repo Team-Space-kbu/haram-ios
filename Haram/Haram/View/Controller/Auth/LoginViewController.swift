@@ -113,8 +113,9 @@ final class LoginViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-  
+    
     guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else {
+      registerNotifications()
       return
     }
     
@@ -127,12 +128,7 @@ final class LoginViewController: BaseViewController {
     removeNotifications()
   }
   
-  // MARK: - Configure UI
-  
-  override func setupStyles() {
-    super.setupStyles()
-    registerNotifications()
-  }
+  // MARK: - Configurations
   
   override func bind() {
     super.bind()
@@ -145,7 +141,8 @@ final class LoginViewController: BaseViewController {
         let vc = HaramTabbarController()
         vc.modalPresentationStyle = .overFullScreen
         owner.present(vc, animated: true) { [weak self] in
-          self?.removeNotifications()
+          guard let self = self else { return }
+          self.removeNotifications()
         }
       }
       .disposed(by: disposeBag)

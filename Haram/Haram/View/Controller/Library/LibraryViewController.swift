@@ -92,6 +92,10 @@ final class LibraryViewController: BaseViewController {
     $0.cancelsTouchesInView = false
   }
   
+  private let panGesture = UIPanGestureRecognizer(target: LibraryViewController.self, action: nil).then {
+    $0.cancelsTouchesInView = false
+  }
+  
   init(viewModel: LibraryViewModelType = LibraryViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -146,6 +150,13 @@ final class LibraryViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    panGesture.rx.event
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.view.endEditing(true)
+      }
+      .disposed(by: disposeBag)
+    
     viewModel.isLoading
       .drive(with: self) { owner, isLoading in
         if !isLoading {
@@ -167,7 +178,9 @@ final class LibraryViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     title = "도서"
-    view.addGestureRecognizer(tapGesture)
+    [tapGesture, panGesture].forEach { view.addGestureRecognizer($0) }
+    panGesture.delegate = self
+    
     view.isSkeletonable = true
     
     let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
@@ -370,4 +383,13 @@ extension LibraryViewController: SkeletonCollectionViewDataSource, SkeletonColle
     LibraryType.allCases.count
   }
   
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension LibraryViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
+    return true
+  }
 }
