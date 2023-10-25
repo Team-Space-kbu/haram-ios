@@ -181,16 +181,17 @@ extension AffiliatedViewController {
           guard let self = self,
                 let row = self.affiliatedModel.firstIndex(where: { $0 == affiliatedCollectionViewCellModel }) else { return false }
           self.moveCameraUpdate(mapView: mapView, where: mapCoordinate)
-          print("로우 \(row)")
           
+          self.affiliatedCollectionView.isPagingEnabled = false
           self.affiliatedCollectionView.scrollToItem(
             at: IndexPath(
-              row: 4,
+              row: row,
               section: 0
             ),
             at: .left,
             animated: true
           )
+          self.affiliatedCollectionView.isPagingEnabled = true
           return true
         }
         
