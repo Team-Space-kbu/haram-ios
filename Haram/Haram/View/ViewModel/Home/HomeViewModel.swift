@@ -32,7 +32,7 @@ final class HomeViewModel {
 
 extension HomeViewModel {
   private func inquireHomeInfo() {
-    let inquireHomeInfo = HomeService.shared.inquireHomeInfo().share()
+    let inquireHomeInfo = HomeService.shared.inquireHomeInfo().debug()
     
     let inquireSuccessResponse = inquireHomeInfo
       .do(onNext: { [weak self] _ in
@@ -45,25 +45,13 @@ extension HomeViewModel {
     }
     
     inquireSuccessResponse
-      .map { $0.kokkoks.kbuNews.map { HomeNewsCollectionViewCellModel(kbuNews: $0) } }
-      .subscribe(with: self) { owner, news in
+      .subscribe(with: self) { owner, response in
+        guard let subNotice = response.notice.notices.first else { return }
+        let news = response.kokkoks.kbuNews.map { HomeNewsCollectionViewCellModel(kbuNews: $0) }
+        let banners = response.banner.banners.map { HomebannerCollectionViewCellModel(subBanner: $0) }
+        let notices = HomeNoticeViewModel(subNotice: subNotice)
         owner.newsModelRelay.accept(news)
-        owner.isLoadingSubject.onNext(false)
-      }
-      .disposed(by: disposeBag)
-    
-    inquireSuccessResponse
-      .map { $0.banner.banners.map { HomebannerCollectionViewCellModel(subBanner: $0) } }
-      .subscribe(with: self) { owner, banners in
         owner.bannerModelRelay.accept(banners)
-        owner.isLoadingSubject.onNext(false)
-      }
-      .disposed(by: disposeBag)
-    
-    inquireSuccessResponse
-      .compactMap { $0.notice.notices.first }
-      .map { HomeNoticeViewModel(subNotice: $0) }
-      .subscribe(with: self) { owner, notices in
         owner.noticeModelRelay.accept(notices)
         owner.isLoadingSubject.onNext(false)
       }
