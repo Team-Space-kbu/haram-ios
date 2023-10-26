@@ -115,7 +115,6 @@ final class ApiService: BaseService {
             //            }
             
           case .failure(let error):
-            print("응답 에러발생")
             observer(.failure(error))
           }
         }
