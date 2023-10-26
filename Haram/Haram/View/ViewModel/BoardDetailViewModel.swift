@@ -45,30 +45,19 @@ extension BoardDetailViewModel {
     
     successInquireBoard
       .subscribe(with: self) { owner, response in
-        print("응답 \(response)")
-        owner.currentBoardInfoRelay.accept([BoardDetailHeaderViewModel(authorInfoViewModel: .init(profileImageURL: nil, authorName: response.userId, postingDate: response.createdAt), boardTitle: response.boardTitle, boardContent: response.boardContent)])
+        owner.currentBoardInfoRelay.accept([BoardDetailHeaderViewModel(
+          authorInfoViewModel: .init(
+            profileImageURL: nil,
+            authorName: response.userId,
+            postingDate: response.createdAt
+          ),
+          boardTitle: response.boardTitle,
+          boardContent: response.boardContent)])
         
         owner.currentBoardListRelay.accept(response.commentDtoList.map { BoardDetailCollectionViewCellModel(commentDto: $0) })
       }
       .disposed(by: disposeBag)
   }
-  
-//  private func inquireBoardList() {
-//    let inquireBoardList = currentBoardTypeRelay
-//      .flatMapLatest(BoardService.shared.inquireBoardlist(boardType: ))
-//    
-//    let inquireBoardListToResponse = inquireBoardList
-//      .compactMap { result -> [InquireBoardlistResponse]? in
-//        guard case .success(let response) = result else { return nil }
-//        return response
-//      }
-//    
-//    inquireBoardListToResponse
-//      .subscribe(with: self) { owner, response in
-//        
-//      }
-//      .disposed(by: disposeBag)
-//  }
 }
 
 extension BoardDetailViewModel: BoardDetailViewModelType {

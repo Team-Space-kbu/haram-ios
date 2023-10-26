@@ -93,7 +93,7 @@ final class LibraryRentalListView: UIView {
       }
       
       let line = UIView().then {
-        $0.backgroundColor = .hex9F9FA4
+        $0.backgroundColor = .hexD8D8DA
       }
       
       line.snp.makeConstraints {

@@ -14,7 +14,7 @@ import Then
 struct CommentAuthorInfoViewModel {
   let commentProfileImageURL: URL?
   let commentAuthorName: String
-  let commentDate: String
+  let commentDate: Date
 }
 
 final class CommentAuthorInfoView: UIView {
@@ -68,6 +68,6 @@ final class CommentAuthorInfoView: UIView {
     commentProfileImageView.backgroundColor = .hexD9D9D9
     commentProfileImageView.kf.setImage(with: model.commentProfileImageURL)
     commentNameLabel.text = model.commentAuthorName
-    commentDateLabel.text = model.commentDate
+    commentDateLabel.text = DateformatterFactory.dateWithHypen.string(from: model.commentDate)
   }
 }

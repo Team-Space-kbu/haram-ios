@@ -136,6 +136,15 @@ final class StudyReservationViewController: BaseViewController {
     $0.setTitle("예약하기", for: .normal)
   }
   
+  override func bind() {
+    super.bind()
+    reservationButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        HaramToast.makeToast(text: "현재 로그인된 계정은 데모전용 계정이므로 예약이 불가합니다", duration: .short)
+      }
+      .disposed(by: disposeBag)
+  }
+  
   override func setupStyles() {
     super.setupStyles()
     title = "예약하기"

@@ -32,7 +32,7 @@ final class HomeViewModel {
 
 extension HomeViewModel {
   private func inquireHomeInfo() {
-    let inquireHomeInfo = HomeService.shared.inquireHomeInfo().debug()
+    let inquireHomeInfo = HomeService.shared.inquireHomeInfo()
     
     let inquireSuccessResponse = inquireHomeInfo
       .do(onNext: { [weak self] _ in

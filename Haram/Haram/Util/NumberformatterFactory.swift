@@ -22,3 +22,16 @@ enum NumberformatterFactory {
     }
   }
 }
+
+enum DateformatterFactory {
+  private static var formatter: DateFormatter {
+    DateFormatter().then {
+      $0.locale = Locale(identifier: "ko_KR")
+    }
+  }
+  
+  static var dateWithHypen: DateFormatter {
+    formatter.then { $0.dateFormat = "yyyy-MM-dd" }
+  }
+  
+}

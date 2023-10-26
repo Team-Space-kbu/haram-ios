@@ -16,6 +16,7 @@ enum HaramError: Error, CaseIterable {
   
   case notFindUserError // 사용자를 찾을 수 없는 상태입니다.
   case wrongPasswordError // 패스워드가 틀렸을 때 발생하는 에러입니다.
+  case failedAuth // 인증에 실패했을 때 발생하는 에러입니다.
   
   case loanInfoEmptyError // 대여정보가 비어있어 처리할 수 없는 상태입니다.
   case noExistSearchInfo // 검색된 정보가 존재하지않은 상태입니다.
@@ -87,6 +88,8 @@ extension HaramError {
       return "IN04"
     case .noExistBoard:
       return "BA01"
+    case .failedAuth:
+      return "AUTH01"
     }
   }
   
@@ -124,6 +127,8 @@ extension HaramError {
       return "잘못된 형식으로 반환되어 처리할 수 없습니다."
     case .noExistBoard:
       return "게시글이 존재하지 않습니다."
+    case .failedAuth:
+      return "인증에 실패했습니다."
     }
   }
 }
