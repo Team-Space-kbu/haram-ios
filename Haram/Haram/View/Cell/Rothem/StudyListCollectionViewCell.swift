@@ -54,6 +54,10 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
     $0.layer.cornerRadius = 10
   }
   
+  private let lineView = UIView().then {
+    $0.backgroundColor = .hexD8D8DA
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -71,6 +75,7 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
       $0.isSkeletonable = true
       contentView.addSubview($0)
     }
+    contentView.addSubview(lineView)
     
     studyImageView.snp.makeConstraints {
       $0.directionalVerticalEdges.trailing.equalToSuperview()
@@ -85,8 +90,15 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
     studyDescriptionLabel.snp.makeConstraints {
       $0.top.equalTo(studyTitleLabel.snp.bottom).offset(6)
       $0.leading.equalTo(studyTitleLabel)
-      $0.bottom.lessThanOrEqualToSuperview()
+//      $0.bottom.lessThanOrEqualToSuperview()
       $0.trailing.lessThanOrEqualTo(studyImageView.snp.leading).offset(-15)
+    }
+    
+    lineView.snp.makeConstraints {
+      $0.height.equalTo(1)
+      $0.directionalHorizontalEdges.width.equalToSuperview()
+      $0.top.equalTo(studyImageView.snp.bottom).offset(10)
+//      $0.bottom.equalToSuperview()
     }
   }
   

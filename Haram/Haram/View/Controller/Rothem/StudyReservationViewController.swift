@@ -13,11 +13,11 @@ import Then
 final class StudyReservationViewController: BaseViewController {
   
   private var selectedDateModel: [SelectedDayCollectionViewCellModel] = [
-    .init(title: "월요일", day: "09"),
-    .init(title: "화요일", day: "10"),
-    .init(title: "수요일", day: "11"),
-    .init(title: "목요일", day: "12"),
-    .init(title: "금요일", day: "13")
+    .init(title: "월요일", day: "23"),
+    .init(title: "화요일", day: "24"),
+    .init(title: "수요일", day: "25"),
+    .init(title: "목요일", day: "26"),
+    .init(title: "금요일", day: "27")
   ]
   
   private var selectedMorningTimeModel: [SelectedTimeCollectionViewCellModel] = [
@@ -248,6 +248,7 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
     cell.configureUI(with: selectedDateModel[indexPath.row])
     if 0...2 ~= indexPath.row {
       cell.contentView.backgroundColor = .lightGray
+      cell.isUserInteractionEnabled = false
     }
     return cell
   }
