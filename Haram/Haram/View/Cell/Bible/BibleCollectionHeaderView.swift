@@ -29,6 +29,11 @@ final class BibleCollectionHeaderView: UICollectionReusableView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    titleLabel.text = nil
+  }
+  
   private func configureUI() {
     addSubview(titleLabel)
     titleLabel.snp.makeConstraints {

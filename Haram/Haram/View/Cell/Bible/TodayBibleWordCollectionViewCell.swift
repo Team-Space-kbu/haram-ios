@@ -28,6 +28,11 @@ final class TodayBibleWordCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    todayBibleWordLabel.text = nil
+  }
+  
   private func configureUI() {
     contentView.addSubview(todayBibleWordLabel)
     todayBibleWordLabel.snp.makeConstraints {

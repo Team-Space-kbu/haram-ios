@@ -54,6 +54,13 @@ final class BoardListCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    titleLabel.text = nil
+    subLabel.text = nil
+    _ = typeStackView.subviews.map { $0.removeFromSuperview() }
+  }
+  
   private func configureUI() {
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true

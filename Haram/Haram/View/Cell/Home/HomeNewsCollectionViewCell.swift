@@ -47,6 +47,12 @@ final class HomeNewsCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    newsImageView.image = nil
+    titleLabel.text = nil
+  }
+  
   private func configureUI() {
     [newsImageView, titleLabel].forEach { contentView.addSubview($0) }
     newsImageView.snp.makeConstraints {

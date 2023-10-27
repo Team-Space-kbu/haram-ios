@@ -24,5 +24,9 @@ extension BibleService {
   func inquireChapterToBible(request: InquireChapterToBibleRequest) -> Observable<Result<[InquireChapterToBibleResponse], HaramError>> {
     service.request(router: BibleRouter.inquireChapterToBible(request), type: [InquireChapterToBibleResponse].self)
   }
+  
+  func inquireBibleMainNotice() -> Observable<Result<InquireBibleMainNoticeResponse, HaramError>> {
+    service.request(router: BibleRouter.inquireBibleMainNotice, type: InquireBibleMainNoticeResponse.self)
+  }
 }
 

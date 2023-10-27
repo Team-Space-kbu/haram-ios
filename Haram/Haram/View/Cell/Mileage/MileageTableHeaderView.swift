@@ -44,6 +44,11 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    totalMileageLabel.text = nil
+  }
+  
   private func bind() {
     mileageReloadButton.button.rx.tap
       .subscribe(onNext: { _ in

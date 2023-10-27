@@ -51,6 +51,13 @@ final class MileageTableViewCell: UITableViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    mainLabel.text = nil
+    subLabel.text = nil
+    mileageLabel.text = nil
+  }
+  
   private func configureUI() {
     selectionStyle = .none
     [mileageImageView, mainLabel, subLabel, mileageLabel].forEach { addSubview($0) }

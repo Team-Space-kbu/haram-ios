@@ -21,7 +21,7 @@ final class ApiService: BaseService {
   private lazy var session = Session(configuration: configuration, interceptor: Interceptor(), eventMonitors: [monitor])
   
   func request<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Observable<Result<T, HaramError>> where T : Codable {
-    Single.create { observer in
+    Observable.create { observer in
       self.session.request(router)
         .validate({ request, response, data in
           if response.statusCode != 401 || response.statusCode != 402 {
@@ -36,40 +36,41 @@ final class ApiService: BaseService {
           case .success(let data):
             guard let statusCode = response.response?.statusCode
             else {
-              observer(.failure(HaramError.unknownedError))
+              observer.onNext(.failure(HaramError.unknownedError))
               return
             }
             guard let decodedData = try? JSONDecoder().decode(BaseEntity<T>.self, from: data) else {
-              return observer(.failure(HaramError.decodedError))
+              return observer.onNext(.failure(HaramError.decodedError))
             }
             
             let code = decodedData.code
             
             if HaramError.isExist(with: code) {
-              return observer(.success(.failure(HaramError.getError(with: code))))
+              return observer.onNext(.failure(HaramError.getError(with: code)))
             }
             
             switch statusCode {
-              case 200..<300:
-                if decodedData.data != nil {
-                  return observer(.success(.success(decodedData.data!)))
-                }
-                return observer(.success(.success(EmptyModel() as! T)))
-              case 400..<500:
-                return observer(.failure(HaramError.requestError))
-              case 500..<600:
-                return observer(.failure(HaramError.serverError))
-              default:
-                return observer(.failure(HaramError.unknownedError))
+            case 200..<300:
+              if decodedData.data != nil {
+                return observer.onNext(.success(decodedData.data!))
+              }
+              return observer.onNext(.success(EmptyModel() as! T))
+            case 400..<500:
+              return observer.onNext(.failure(HaramError.requestError))
+            case 500..<600:
+              return observer.onNext(.failure(HaramError.serverError))
+            default:
+              return observer.onNext(.failure(HaramError.unknownedError))
             }
             
           case .failure(let error):
-            observer(.failure(error))
+            print("APIService 에러")
+            //            observer.onNext(.failure(error))
           }
         }
       return Disposables.create()
     }
-    .asObservable()
+    
   }
   
   func intranetRequest(router: Alamofire.URLRequestConvertible) -> Observable<String> {

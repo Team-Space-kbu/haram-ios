@@ -27,6 +27,11 @@ final class BibleCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    bibleNameLabel.text = nil
+  }
+  
   private func configureUI() {
     contentView.addSubview(bibleNameLabel)
     bibleNameLabel.snp.makeConstraints {

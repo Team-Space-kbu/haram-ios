@@ -7,8 +7,19 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 import Then
+
+struct BibleNoticeCollectionViewCellModel {
+  let noticeImageURL: URL?
+  let noticeContent: String
+  
+  init(response: InquireBibleMainNoticeResponse) {
+    noticeImageURL = URL(string: response.path)
+    noticeContent = response.content
+  }
+}
 
 final class BibleNoticeCollectionViewCell: UICollectionViewCell {
   static let identifier = "BibleNoticeCollectionViewCell"
@@ -35,6 +46,11 @@ final class BibleNoticeCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    noticeLabel.text = nil
+  }
+  
   private func configureUI() {
     [noticeImageView, noticeLabel].forEach { contentView.addSubview($0) }
     
@@ -50,8 +66,9 @@ final class BibleNoticeCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  func configureUI(with model: String) {
-    noticeLabel.addLineSpacing(lineSpacing: 3, string: model)
+  func configureUI(with model: BibleNoticeCollectionViewCellModel) {
+    noticeImageView.kf.setImage(with: model.noticeImageURL)
+    noticeLabel.addLineSpacing(lineSpacing: 3, string: model.noticeContent)
   }
 }
 

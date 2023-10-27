@@ -42,7 +42,7 @@ final class LibraryViewController: BaseViewController {
   
   private var bestBookModel: [PopularLibraryCollectionViewCellModel] = []
   
-  private var rentalBookModel: [RentalLibraryCollectionViewCellModel] = []
+  private var rentalBookModel: [RentalLibraryCollectionViewCellModel] = [] 
   
   // MARK: - UI Components
   
@@ -90,7 +90,6 @@ final class LibraryViewController: BaseViewController {
       $0.register(LibraryCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LibraryCollectionHeaderView.identifier)
       $0.delegate = self
       $0.dataSource = self
-      $0.bounces = false
       $0.isSkeletonable = true
     }
   
@@ -141,19 +140,18 @@ final class LibraryViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     searchBar.rx.searchButtonClicked
-      .do(onNext: { [weak self] _ in
-        self?.searchBar.resignFirstResponder()
-      })
-        .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
-        .withLatestFrom(searchBar.rx.text.orEmpty)
-        .filter { $0.count != 0 }
-        .withUnretained(self)
-        .subscribe(onNext: { owner, searchQuery in
-          let vc = LibraryResultsViewController(searchQuery: searchQuery)
-          vc.navigationItem.largeTitleDisplayMode = .never
-          owner.navigationController?.pushViewController(vc, animated: true)
-        })
-        .disposed(by: disposeBag)
+//      .do(onNext: { [weak self] _ in
+//        self?.searchBar.resignFirstResponder()
+//      })
+      .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
+      .withLatestFrom(searchBar.rx.text.orEmpty)
+      .filter { $0.trimmingCharacters(in: .whitespacesAndNewlines).count != 0 }
+      .subscribe(with: self) { owner, searchQuery in
+        let vc = LibraryResultsViewController(searchQuery: searchQuery)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        owner.navigationController?.pushViewController(vc, animated: true)
+      }
+      .disposed(by: disposeBag)
     
     tapGesture.rx.event
       .asDriver()
@@ -170,13 +168,10 @@ final class LibraryViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isLoading
+      .filter { !$0 }
       .drive(with: self) { owner, isLoading in
-        if !isLoading {
-          DispatchQueue.main.asyncAfter(deadline: .now()) {
-            owner.collectionView.reloadData()
-            owner.view.hideSkeleton()
-          }
-        }
+        owner.collectionView.reloadData()
+        owner.view.hideSkeleton()
       }
       .disposed(by: disposeBag)
   }
@@ -194,7 +189,7 @@ final class LibraryViewController: BaseViewController {
     title = "도서"
     
     /// Set tapGesture & panGesture
-    [tapGesture, panGesture].forEach { view.addGestureRecognizer($0) }
+    _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
     panGesture.delegate = self
     
     /// Configure Skeleton UI
@@ -214,8 +209,8 @@ final class LibraryViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
-    [searchBar, containerView].forEach { scrollView.addSubview($0) }
-    [bannerImageView, collectionView].forEach { containerView.addArrangedSubview($0) }
+    _ = [searchBar, containerView].map { scrollView.addSubview($0) }
+    _ = [bannerImageView, collectionView].map { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -342,12 +337,12 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let path: Int
     switch LibraryType.allCases[indexPath.section] {
-      case .new:
-        path = newBookModel[indexPath.row].path
-      case .popular:
-        path = bestBookModel[indexPath.row].path
-      case .rental:
-        path = rentalBookModel[indexPath.row].path
+    case .new:
+      path = newBookModel[indexPath.row].path
+    case .popular:
+      path = bestBookModel[indexPath.row].path
+    case .rental:
+      path = rentalBookModel[indexPath.row].path
     }
     let vc = LibraryDetailViewController(path: path)
     vc.navigationItem.largeTitleDisplayMode = .never

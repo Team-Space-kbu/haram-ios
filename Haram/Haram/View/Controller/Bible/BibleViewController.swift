@@ -39,6 +39,12 @@ final class BibleViewController: BaseViewController {
     }
   }
   
+  private var bibleMainNotice: [BibleNoticeCollectionViewCellModel] = [] {
+    didSet {
+      bibleCollectionView.reloadSections([1])
+    }
+  }
+  
   private lazy var bibleCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
@@ -80,6 +86,10 @@ final class BibleViewController: BaseViewController {
     
     viewModel.todayBibleWordList
       .drive(rx.todayBibleWordModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.bibleMainNotice
+      .drive(rx.bibleMainNotice)
       .disposed(by: disposeBag)
   }
   
@@ -208,10 +218,14 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    if BibleViewType.allCases[section] == .todayPray {
+    switch BibleViewType.allCases[section] {
+    case .todayPray:
+      return 1
+    case .notice:
+      return bibleMainNotice.count
+    case .todayBibleWord:
       return 1
     }
-    return 1
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -222,7 +236,7 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
       return cell
     case .notice:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleNoticeCollectionViewCell.identifier, for: indexPath) as? BibleNoticeCollectionViewCell ?? BibleNoticeCollectionViewCell()
-      cell.configureUI(with: "[공지사항] 하람 애플리케이션 서비스 사용안내")
+      cell.configureUI(with: bibleMainNotice[indexPath.row])
       return cell
     case .todayPray:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayPrayCollectionViewCell.identifier, for: indexPath) as? TodayPrayCollectionViewCell ?? TodayPrayCollectionViewCell()
@@ -234,7 +248,6 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BibleCollectionHeaderView.identifier, for: indexPath) as? BibleCollectionHeaderView ?? BibleCollectionHeaderView()
     header.configureUI(with: BibleViewType.allCases[indexPath.section].title)
-//    header.backgroundColor = .red
     return header
   }
 }

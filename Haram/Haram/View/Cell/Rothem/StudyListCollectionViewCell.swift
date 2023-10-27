@@ -67,6 +67,13 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    studyTitleLabel.text = nil
+    studyDescriptionLabel.text = nil
+    studyImageView.image = nil
+  }
+  
   private func configureUI() {
     isSkeletonable = true
     contentView.isSkeletonable = true
@@ -90,7 +97,6 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
     studyDescriptionLabel.snp.makeConstraints {
       $0.top.equalTo(studyTitleLabel.snp.bottom).offset(6)
       $0.leading.equalTo(studyTitleLabel)
-//      $0.bottom.lessThanOrEqualToSuperview()
       $0.trailing.lessThanOrEqualTo(studyImageView.snp.leading).offset(-15)
     }
     
@@ -98,7 +104,6 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
       $0.height.equalTo(1)
       $0.directionalHorizontalEdges.width.equalToSuperview()
       $0.top.equalTo(studyImageView.snp.bottom).offset(10)
-//      $0.bottom.equalToSuperview()
     }
   }
   

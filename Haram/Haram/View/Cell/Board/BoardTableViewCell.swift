@@ -47,6 +47,12 @@ final class BoardTableViewCell: UITableViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    boardImageView.image = nil
+    titleLabel.text = nil
+  }
+  
   private func configureUI() {
     selectionStyle = .none
     contentView.backgroundColor = .clear

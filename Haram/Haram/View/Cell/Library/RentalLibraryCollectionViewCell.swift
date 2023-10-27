@@ -59,6 +59,5 @@ final class RentalLibraryCollectionViewCell: UICollectionViewCell {
   func configureUI(with model: RentalLibraryCollectionViewCellModel) {
     let url = URL(string: model.imageName)
     thumbnailImageView.kf.setImage(with: url)
-    contentView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.5))
   }
 }

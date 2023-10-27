@@ -55,6 +55,13 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    affiliatedImageView.image = nil
+    affiliatedTitleLabel.text = nil
+    affiliatedSubTitleLabel.text = nil
+  }
+  
   private func configureUI() {
     contentView.layer.masksToBounds = true
     contentView.layer.cornerRadius = 10

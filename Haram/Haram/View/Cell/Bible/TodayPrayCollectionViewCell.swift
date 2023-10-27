@@ -28,7 +28,6 @@ final class TodayPrayCollectionViewCell: UICollectionViewCell {
     $0.font = .regular14
     $0.textColor = .hex545E6A
     $0.numberOfLines = 0
-//    $0.lineBreakMode = .
   }
   
   override init(frame: CGRect) {
@@ -38,6 +37,12 @@ final class TodayPrayCollectionViewCell: UICollectionViewCell {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    prayTitleLabel.text = nil
+    prayContentLabel.text = nil
   }
   
   private func configureUI() {

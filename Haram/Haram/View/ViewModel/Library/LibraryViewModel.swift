@@ -37,7 +37,7 @@ final class LibraryViewModel: LibraryViewModelType {
     let currentRentalBookModel = BehaviorRelay<[RentalLibraryCollectionViewCellModel]>(value: [])
     let initializingData = PublishSubject<Void>()
     let bannerImageRelay = PublishRelay<String?>()
-    let isLoadingSubject = BehaviorSubject<Bool>(value: true)
+    let isLoadingSubject = PublishSubject<Bool>()
     
     initialData = initializingData.asObserver()
     

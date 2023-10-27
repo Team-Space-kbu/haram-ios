@@ -51,6 +51,12 @@ final class ChapelCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    chapelTitleLabel.text = nil
+    chapelSubTitleLabel.text = nil
+  }
+  
   private func configureUI() {
     contentView.backgroundColor = .white
     [chapelImageView, chapelTitleLabel, chapelSubTitleLabel].forEach { contentView.addSubview($0) }

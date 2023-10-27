@@ -12,6 +12,7 @@ import RxCocoa
 protocol BibleViewModelType {
   var todayBibleWordList: Driver<[String]> { get }
   var todayPrayList: Driver<[TodayPrayCollectionViewCellModel]> { get }
+  var bibleMainNotice: Driver<[BibleNoticeCollectionViewCellModel]> { get }
 }
 
 final class BibleViewModel {
@@ -20,9 +21,11 @@ final class BibleViewModel {
   
   private let todayBibleWordListRelay = BehaviorRelay<[String]>(value: [])
   private let todayPrayListRelay = BehaviorRelay<[TodayPrayCollectionViewCellModel]>(value: [])
+  private let bibleMainNoticeRelay = BehaviorRelay<[BibleNoticeCollectionViewCellModel]>(value: [])
   
   init() {
     inquireTodayBibleWord()
+    inquireBibleMainNotice()
   }
   
   private func inquireTodayBibleWord() {
@@ -43,9 +46,29 @@ final class BibleViewModel {
       }
       .disposed(by: disposeBag)
   }
+  
+  private func inquireBibleMainNotice() {
+    let inquireBibleMainNotice = BibleService.shared.inquireBibleMainNotice()
+    
+    let successInquireBibleMainNotice = inquireBibleMainNotice
+      .compactMap { result -> InquireBibleMainNoticeResponse? in
+        guard case let .success(response) = result else { return nil }
+        return response
+      }
+    
+    successInquireBibleMainNotice
+      .subscribe(with: self) { owner, response in
+        owner.bibleMainNoticeRelay.accept([BibleNoticeCollectionViewCellModel(response: response)])
+      }
+      .disposed(by: disposeBag)
+  }
 }
 
 extension BibleViewModel: BibleViewModelType {
+  var bibleMainNotice: RxCocoa.Driver<[BibleNoticeCollectionViewCellModel]> {
+    bibleMainNoticeRelay.asDriver()
+  }
+  
   
   var todayPrayList: RxCocoa.Driver<[TodayPrayCollectionViewCellModel]> {
     todayPrayListRelay.asDriver()

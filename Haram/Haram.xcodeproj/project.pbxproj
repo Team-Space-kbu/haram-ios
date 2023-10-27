@@ -13,6 +13,7 @@
 		701F29C62AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29C52AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift */; };
 		701F29D72AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29D62AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift */; };
 		701F29D92AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */; };
+		701F29DC2AEBB29C00E3E68B /* InquireBibleMainNoticeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29DB2AEBB29C00E3E68B /* InquireBibleMainNoticeResponse.swift */; };
 		7031E3C82ABA72C10027DC0A /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */; };
 		7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */; };
 		7031E3CE2ABA74E50027DC0A /* PostingAuthorInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CD2ABA74E50027DC0A /* PostingAuthorInfoView.swift */; };
@@ -254,6 +255,7 @@
 		701F29C52AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireRothemHomeInfoResponse.swift; sourceTree = "<group>"; };
 		701F29D62AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireRothemRoomInfoResponse.swift; sourceTree = "<group>"; };
 		701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyRoomDetailViewModel.swift; sourceTree = "<group>"; };
+		701F29DB2AEBB29C00E3E68B /* InquireBibleMainNoticeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBibleMainNoticeResponse.swift; sourceTree = "<group>"; };
 		7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewController.swift; sourceTree = "<group>"; };
 		7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailHeaderView.swift; sourceTree = "<group>"; };
 		7031E3CD2ABA74E50027DC0A /* PostingAuthorInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingAuthorInfoView.swift; sourceTree = "<group>"; };
@@ -527,6 +529,15 @@
 				DC57A9B863A5665C09F610F4 /* Pods-HaramTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		701F29DA2AEB072C00E3E68B /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				708312B12A76940600F7E283 /* BoardListViewController.swift */,
+				7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */,
+			);
+			path = Board;
 			sourceTree = "<group>";
 		};
 		7031E3CC2ABA74520027DC0A /* Board */ = {
@@ -809,6 +820,7 @@
 		70727A8E29D8892C003DE956 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				701F29DA2AEB072C00E3E68B /* Board */,
 				708ED7D02A9203CC00107CDF /* Bible */,
 				708ED7A52A8FA19F00107CDF /* Rothem */,
 				708ED7A42A8F948500107CDF /* Library */,
@@ -818,10 +830,8 @@
 				708ED7A22A8F942500107CDF /* Auth */,
 				705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */,
 				705FD2C22A2337C800F353FE /* NoticeViewController.swift */,
-				708312B12A76940600F7E283 /* BoardListViewController.swift */,
 				708ED7AE2A8FDA7700107CDF /* NoticeDetailViewController.swift */,
 				708ED7EA2A9DD1D000107CDF /* AffiliatedViewController.swift */,
-				7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */,
 				7051E5032ADAD42700C2134B /* BaseNavigationController.swift */,
 			);
 			path = Controller;
@@ -1092,6 +1102,7 @@
 				708ED7C02A911AFF00107CDF /* InquireTodayWordsResponse.swift */,
 				70375F062AB04F7B0032F6B8 /* InquireChapterToBibleRequest.swift */,
 				70375F082AB050E00032F6B8 /* InquireChapterToBibleResponse.swift */,
+				701F29DB2AEBB29C00E3E68B /* InquireBibleMainNoticeResponse.swift */,
 			);
 			path = Bible;
 			sourceTree = "<group>";
@@ -1465,6 +1476,7 @@
 				708312482A2F7EC300F7E283 /* LibraryDetailSubView.swift in Sources */,
 				708312992A691D1700F7E283 /* MileageViewModel.swift in Sources */,
 				708312402A2CA79D00F7E283 /* IntranetLoginRequest.swift in Sources */,
+				701F29DC2AEBB29C00E3E68B /* InquireBibleMainNoticeResponse.swift in Sources */,
 				705FD2BD2A1A4CEE00F353FE /* LibraryDetailViewController.swift in Sources */,
 				7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */,
 				708ED7A12A8F922900107CDF /* CheckReservationViewController.swift in Sources */,

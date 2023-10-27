@@ -38,6 +38,11 @@ final class HomeBannerCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    bannerImageView.image = nil
+  }
+  
   private func configureUI() {
     contentView.addSubview(bannerImageView)
     bannerImageView.snp.makeConstraints {

@@ -59,10 +59,16 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    postingImageView.backgroundColor = nil
+    postingTitleLabel.text = nil
+    postingDescriptionLabel.text = nil
+  }
+  
   private func configureUI() {
-    addSubview(containerView)
-    addSubview(lineView)
-    [postingInfoView, postingTitleLabel, postingDescriptionLabel, postingImageView].forEach { containerView.addArrangedSubview($0) }
+    _ = [containerView, lineView].map { addSubview($0) }
+    _ = [postingInfoView, postingTitleLabel, postingDescriptionLabel, postingImageView].map { containerView.addArrangedSubview($0) }
     
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
