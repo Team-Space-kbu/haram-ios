@@ -11,6 +11,18 @@ import SnapKit
 import Then
 
 final class CheckReservationViewController: BaseViewController {
+  
+  private let viewModel: CheckReservationViewModelType
+  
+  init(viewModel: CheckReservationViewModelType = CheckReservationViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func setupStyles() {
     super.setupStyles()
     title = "예약확인하기"
@@ -20,6 +32,11 @@ final class CheckReservationViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
+  }
+  
+  override func bind() {
+    super.bind()
+    
   }
   
   @objc private func didTappedBackButton() {
