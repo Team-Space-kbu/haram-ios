@@ -41,37 +41,42 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
       currentPageSubject
     )
       .do(onNext: { _ in isLoadingRelay.accept(true) })
-        .flatMapLatest(LibraryService.shared.searchBook)
-        
-        requestSearchBook.subscribe(onNext: { result in
-          switch result {
-          case .success(let response):
-            let model = response.result.map {
-              LibraryResultsCollectionViewCellModel(result: $0)
-            }
-            var currentResultModel = searchBookResults.value
-            currentResultModel.append(contentsOf: model)
-            searchBookResults.accept(currentResultModel)
-            isLastPage.accept(response.end)
-          case .failure(_):
-            searchBookResults.accept([])
-          }
-          isLoadingRelay.accept(false)
-        })
-        .disposed(by: disposeBag)
-        
-        fetchingDatas
-        .filter { _ in currentPageSubject.value < isLastPage.value && !isLoadingRelay.value }
-        .subscribe(onNext: { _ in
-          let currentPage = currentPageSubject.value
-          currentPageSubject.accept(currentPage + 1)
-        })
-        .disposed(by: disposeBag)
+      .flatMapLatest(LibraryService.shared.searchBook)
+    
+    requestSearchBook.subscribe(onNext: { response in
+      
+      
+      let model = response.result.map {
+        LibraryResultsCollectionViewCellModel(result: $0)
+      }
+      var currentResultModel = searchBookResults.value
+      currentResultModel.append(contentsOf: model)
+      searchBookResults.accept(currentResultModel)
+      isLastPage.accept(response.end)
+      
+      
+      isLoadingRelay.accept(false)
+    }, onError: { _ in
+      searchBookResults.accept([])
+      isLoadingRelay.accept(false)
+    })
+    .disposed(by: disposeBag)
+    
+    fetchingDatas
+      .filter { _ in currentPageSubject.value < isLastPage.value && !isLoadingRelay.value }
+      .subscribe(onNext: { _ in
+        let currentPage = currentPageSubject.value
+        currentPageSubject.accept(currentPage + 1)
+      })
+      .disposed(by: disposeBag)
     
     // Output
     searchResults = searchBookResults
       .skip(1)
       .asDriver(onErrorDriveWith: .empty())
-    isLoading = isLoadingRelay.asDriver(onErrorJustReturn: false)
+    
+    isLoading = isLoadingRelay
+      .distinctUntilChanged()
+      .asDriver(onErrorJustReturn: false)
   }
 }

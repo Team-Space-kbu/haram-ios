@@ -184,7 +184,7 @@ final class LibraryDetailViewController: BaseViewController {
     
     viewModel.detailRentalModel
       .drive(with: self) { owner, model in
-        owner.libraryRentalListView.hideSkeleton()
+//        owner.libraryRentalListView.hideSkeleton()
         owner.libraryRentalListView.configureUI(with: model)
       }
       .disposed(by: disposeBag)

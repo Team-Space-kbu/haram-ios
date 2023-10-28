@@ -13,13 +13,13 @@ import SkeletonView
 import Then
 
 struct LibraryResultsCollectionViewCellModel {
-  let imageName: String
+  let imageURL: URL?
   let title: String
   let description: String
   let path: Int
   
   init(result: SearchBookResult) {
-    imageName = result.imageName
+    imageURL = URL(string: result.imageName)
     title = result.title
     description = result.description
     path = result.path
@@ -102,8 +102,7 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: LibraryResultsCollectionViewCellModel) {
-    let url = URL(string: model.imageName)
-    bookImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "book"))
+    bookImageView.kf.setImage(with: model.imageURL, placeholder: UIImage(systemName: "book"))
     mainLabel.text = model.title
     subLabel.text = model.description
   }

@@ -14,7 +14,12 @@ import Then
 
 struct LibraryRelatedBookCollectionViewCellModel {
   let path: Int
-  let bookImageURL: String
+  let bookImageURL: URL?
+  
+  init(relatedBook: RelatedBook) {
+    path = relatedBook.path
+    bookImageURL = URL(string: relatedBook.image)
+  }
 }
 
 final class LibraryRelatedBookCollectionViewCell: UICollectionViewCell {
@@ -51,7 +56,6 @@ final class LibraryRelatedBookCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: LibraryRelatedBookCollectionViewCellModel) {
-    let url = URL(string: model.bookImageURL)
-    bookImageView.kf.setImage(with: url)
+    bookImageView.kf.setImage(with: model.bookImageURL)
   }
 }

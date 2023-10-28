@@ -13,9 +13,15 @@ import SkeletonView
 import Then
 
 struct LibraryDetailMainViewModel {
-  let bookImage: String
+  let bookImageURL: URL?
   let title: String
   let subTitle: String
+  
+  init(response: RequestBookInfoResponse) {
+    bookImageURL = URL(string: response.thumbnailImage)
+    title = response.bookTitle
+    subTitle = response.publisher
+  }
 }
 
 final class LibraryDetailMainView: UIView {
@@ -65,12 +71,11 @@ final class LibraryDetailMainView: UIView {
   private func configureUI() {
     backgroundColor = .clear
     
-    [containerView, bookImageView, titleLabel, subLabel, bottomLineView].forEach { $0.isSkeletonable = true }
+    _ = [containerView, bookImageView, titleLabel, subLabel, bottomLineView].map { $0.isSkeletonable = true }
     
     addSubview(containerView)
-    [bookImageView, titleLabel, subLabel, bottomLineView].forEach {
-      containerView.addArrangedSubview($0)
-    }
+    _ = [bookImageView, titleLabel, subLabel, bottomLineView].map { containerView.addArrangedSubview($0) }
+    
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
@@ -96,9 +101,7 @@ final class LibraryDetailMainView: UIView {
   }
   
   func configureUI(with model: LibraryDetailMainViewModel) {
-    print("메인1 \(model)")
-    let url = URL(string: model.bookImage)
-    bookImageView.kf.setImage(with: url)
+    bookImageView.kf.setImage(with: model.bookImageURL)
     titleLabel.text = model.title
     subLabel.text = model.subTitle
   }

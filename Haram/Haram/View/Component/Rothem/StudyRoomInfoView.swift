@@ -68,7 +68,6 @@ final class StudyRoomInfoView: UIView {
   
   func configureUI(with model: StudyRoomInfoViewModel) {
     roomImageView.kf.setImage(with: model.roomImageURL)
-//    roomImageView.image = UIImage(named: "rothemImage")
     roomNameLabel.text = model.roomName
     roomDescriptionLabel.text = model.roomDescription
   }

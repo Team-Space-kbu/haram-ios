@@ -44,8 +44,8 @@ final class LibraryRentalListView: UIView {
   }
   
   private func configureUI() {
-    
-    [lineView1, rentalInfoLabel, containerView, lineView].forEach {
+    _ = [lineView1, rentalInfoLabel, containerView, lineView].map {
+      $0.isSkeletonable = true
       addSubview($0)
     }
     

@@ -15,11 +15,7 @@ final class LibraryResultsViewController: BaseViewController {
   
   private let viewModel: LibraryResultsViewModelType
   
-  private var model: [LibraryResultsCollectionViewCellModel] = [] {
-    didSet {
-      collectionView.reloadData()
-    }
-  }
+  private var model: [LibraryResultsCollectionViewCellModel] = []
   
   private lazy var collectionView = UICollectionView(
     frame: .zero,
@@ -33,7 +29,7 @@ final class LibraryResultsViewController: BaseViewController {
     $0.isSkeletonable = true
   }
   
-//  private let indicatorView = UIActivityIndicatorView(style: .large)
+  //  private let indicatorView = UIActivityIndicatorView(style: .large)
   
   private lazy var emptyView = LibraryResultsEmptyView()
   
@@ -57,12 +53,10 @@ final class LibraryResultsViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isLoading
+      .filter { !$0 }
       .drive(with: self) { owner, isLoading in
-        if !isLoading {
-          DispatchQueue.main.asyncAfter(deadline: .now()) {
-            owner.view.hideSkeleton()
-          }
-        }
+        owner.collectionView.reloadData()
+        owner.view.hideSkeleton()
       }
       .disposed(by: disposeBag)
     
@@ -80,6 +74,8 @@ final class LibraryResultsViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    
+    /// Configure NavigationBar
     title = "도서 검색"
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: Constants.backButton),
@@ -88,10 +84,12 @@ final class LibraryResultsViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     emptyView.isHidden = true
+    
+    /// Configure Skeleton
     view.isSkeletonable = true
     
     let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
-
+    
     let graient = SkeletonGradient(baseColor: .skeletonDefault)
     view.showAnimatedGradientSkeleton(
       usingGradient: graient,
@@ -102,9 +100,7 @@ final class LibraryResultsViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(collectionView)
-//    view.addSubview(indicatorView)
-    view.addSubview(emptyView)
+    _ = [collectionView, emptyView].map { view.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -112,10 +108,6 @@ final class LibraryResultsViewController: BaseViewController {
     collectionView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
-    
-//    indicatorView.snp.makeConstraints {
-//      $0.directionalEdges.equalToSuperview()
-//    }
     
     emptyView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
@@ -172,7 +164,7 @@ extension LibraryResultsViewController: SkeletonCollectionViewDelegate, Skeleton
 
 extension LibraryResultsViewController {
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryResultsCollectionViewCell.identifier, for: indexPath) as? LibraryResultsCollectionViewCell ?? LibraryResultsCollectionViewCell()
+    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: LibraryResultsCollectionViewCell.identifier, for: indexPath) as? LibraryResultsCollectionViewCell ?? LibraryResultsCollectionViewCell()
     cell.configureUI(with: .init(result: .init(
       title: "Lorem ipsum dolor sit amet,\nconsetetur sadipscing elitr, sed",
       description: "박유성자유아카데미, 2020,",
@@ -188,10 +180,6 @@ extension LibraryResultsViewController {
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    model.count
-  }
-  
-  func numSections(in collectionSkeletonView: UICollectionView) -> Int {
-    1
+    10
   }
 }

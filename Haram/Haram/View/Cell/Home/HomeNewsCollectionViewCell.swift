@@ -13,11 +13,11 @@ import Then
 
 struct HomeNewsCollectionViewCellModel {
   let title: String
-  let thumbnailName: String
+  let thumbnailURL: URL?
   
   init(kbuNews: KbuNews) {
     title = kbuNews.title
-    thumbnailName = kbuNews.filePath
+    thumbnailURL = URL(string: kbuNews.filePath)
   }
 }
 
@@ -68,8 +68,7 @@ final class HomeNewsCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: HomeNewsCollectionViewCellModel) {
-    let url = URL(string: model.thumbnailName)
-    newsImageView.kf.setImage(with: url)
+    newsImageView.kf.setImage(with: model.thumbnailURL)
     titleLabel.text = model.title
   }
 }

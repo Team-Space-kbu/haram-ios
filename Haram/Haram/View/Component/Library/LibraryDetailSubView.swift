@@ -14,6 +14,11 @@ import Then
 struct LibraryDetailSubViewModel {
   let title: String
   let description: String
+  
+  init(response: RequestBookInfoResponse) {
+    title = "책 설명"
+    description = response.description
+  }
 }
 
 final class LibraryDetailSubView: UIView {

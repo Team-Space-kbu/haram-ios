@@ -12,10 +12,10 @@ import SnapKit
 import Then
 
 struct HomebannerCollectionViewCellModel {
-  let imagePath: String
+  let imageURL: URL?
   
   init(subBanner: SubBanner) {
-    imagePath = subBanner.filePath
+    imageURL = URL(string: subBanner.filePath)
   }
 }
 
@@ -51,7 +51,6 @@ final class HomeBannerCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: HomebannerCollectionViewCellModel) {
-    let url = URL(string: model.imagePath)
-    bannerImageView.kf.setImage(with: url)
+    bannerImageView.kf.setImage(with: model.imageURL)
   }
 }

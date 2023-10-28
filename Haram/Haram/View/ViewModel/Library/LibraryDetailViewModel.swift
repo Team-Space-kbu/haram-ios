@@ -64,18 +64,9 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
       .flatMapLatest(LibraryService.shared.requestBookInfo(text: ))
       .subscribe(onNext: { response in
         
-          currentDetailMainModel.accept(
-            LibraryDetailMainViewModel(
-              bookImage: response.thumbnailImage,
-              title: response.bookTitle,
-              subTitle: response.publisher
-            ))
+          currentDetailMainModel.accept(LibraryDetailMainViewModel(response: response))
           
-          currentDetailSubModel.accept(
-            LibraryDetailSubViewModel(
-              title: "책 설명",
-              description: response.description
-            ))
+          currentDetailSubModel.accept(LibraryDetailSubViewModel(response: response))
           
           currentDetailInfoModel.accept(LibraryDetailInfoViewType.allCases.map { type in
             let content: String
@@ -113,7 +104,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
           response.keepBooks.keepBooks.map { .init(keepBook: $0) }
         )
         currentRelatedBookModel.accept(
-          response.relateBooks.relatedBooks.map { .init(path: $0.path, bookImageURL: $0.image) }
+          response.relateBooks.relatedBooks.map { LibraryRelatedBookCollectionViewCellModel(relatedBook: $0) }
         )
         
         isLoadingSubject.onNext(false)

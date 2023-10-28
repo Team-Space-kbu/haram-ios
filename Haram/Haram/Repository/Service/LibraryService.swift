@@ -22,8 +22,8 @@ extension LibraryService {
     service.betarequest(router: LibraryRouter.inquireLibrary, type: InquireLibraryResponse.self)
   }
   
-  func searchBook(query: String, page: Int = 1) -> Observable<Result<SearchBookResponse, HaramError>> {
-    service.request(router: LibraryRouter.searchBook(
+  func searchBook(query: String, page: Int = 1) -> Single<SearchBookResponse> {
+    service.betarequest(router: LibraryRouter.searchBook(
       SearchBookRequest(
         query: query,
         page: page
