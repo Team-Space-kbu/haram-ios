@@ -23,7 +23,7 @@ final class HomeViewModel {
   private let newsModelRelay = BehaviorRelay<[HomeNewsCollectionViewCellModel]>(value: [])
   private let bannerModelRelay = BehaviorRelay<[HomebannerCollectionViewCellModel]>(value: [])
   private let noticeModelRelay = PublishRelay<HomeNoticeViewModel>()
-  private let isLoadingSubject = BehaviorSubject<Bool>(value: false)
+  private let isLoadingSubject = PublishSubject<Bool>()
   
   init() {
     inquireHomeInfo()
@@ -34,17 +34,11 @@ extension HomeViewModel {
   private func inquireHomeInfo() {
     let inquireHomeInfo = HomeService.shared.inquireHomeInfo()
     
-    let inquireSuccessResponse = inquireHomeInfo
-      .do(onNext: { [weak self] _ in
+    inquireHomeInfo
+      .do(onSuccess: { [weak self] _ in
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)
       })
-      .compactMap { result -> InquireHomeInfoResponse? in
-      guard case let .success(response) = result else { return nil }
-      return response
-    }
-    
-    inquireSuccessResponse
       .subscribe(with: self) { owner, response in
         guard let subNotice = response.notice.notices.first else { return }
         let news = response.kokkoks.kbuNews.map { HomeNewsCollectionViewCellModel(kbuNews: $0) }

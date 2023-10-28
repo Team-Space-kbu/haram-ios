@@ -8,6 +8,7 @@
 import UIKit
 
 import Kingfisher
+import SkeletonView
 import SnapKit
 import Then
 
@@ -35,6 +36,7 @@ final class BibleNoticeCollectionViewCell: UICollectionViewCell {
     $0.font = .regular18
     $0.textColor = .hex1A1E27
     $0.numberOfLines = 0
+    $0.skeletonTextNumberOfLines = 2
   }
   
   override init(frame: CGRect) {
@@ -52,7 +54,12 @@ final class BibleNoticeCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
-    [noticeImageView, noticeLabel].forEach { contentView.addSubview($0) }
+    isSkeletonable = true
+    contentView.isSkeletonable = true
+    _ = [noticeImageView, noticeLabel].map {
+      $0.isSkeletonable = true
+      contentView.addSubview($0)
+    }
     
     noticeImageView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()

@@ -9,7 +9,11 @@ import SwiftSoup
 import Foundation
 
 final class CrawlManager {
-  static func getIntranetLoginResult(html: String, completion: (IntranetLoginAlert) -> Void) {
+  
+  static let shared = CrawlManager()
+  private init() {}
+  
+  func getIntranetLoginResult(html: String, completion: (IntranetLoginAlert) -> Void) {
     do {
       let document: Document = try SwiftSoup.parse(html)
       let scriptElements = try! document.select("script")

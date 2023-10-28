@@ -13,6 +13,7 @@ protocol BibleViewModelType {
   var todayBibleWordList: Driver<[String]> { get }
   var todayPrayList: Driver<[TodayPrayCollectionViewCellModel]> { get }
   var bibleMainNotice: Driver<[BibleNoticeCollectionViewCellModel]> { get }
+  var isLoading: Driver<Bool> { get }
 }
 
 final class BibleViewModel {
@@ -22,6 +23,7 @@ final class BibleViewModel {
   private let todayBibleWordListRelay = BehaviorRelay<[String]>(value: [])
   private let todayPrayListRelay = BehaviorRelay<[TodayPrayCollectionViewCellModel]>(value: [])
   private let bibleMainNoticeRelay = BehaviorRelay<[BibleNoticeCollectionViewCellModel]>(value: [])
+  private let isLoadingSubject = PublishSubject<Bool>()
   
   init() {
     inquireTodayBibleWord()
@@ -29,42 +31,48 @@ final class BibleViewModel {
   }
   
   private func inquireTodayBibleWord() {
-    let tryInquireTodayBibleWord = BibleService.shared.inquireTodayWords(request: .init(bibleType: .RT)).share()
+    let tryInquireTodayBibleWord = BibleService.shared.inquireTodayWords(request: .init(bibleType: .RT))
+      .do(onSuccess: { [weak self] _ in
+        guard let self = self else { return }
+        self.isLoadingSubject.onNext(true)
+      })
     
-    let resultInquireTodayBibleWord = tryInquireTodayBibleWord.compactMap { result -> String? in
-      switch result {
-      case .success(let response):
-        return response.first?.content
-      case .failure(let error):
-        return error.description
-      }
-    }
-    
-    resultInquireTodayBibleWord
-      .subscribe(with: self) { owner, content in
+    tryInquireTodayBibleWord
+      .subscribe(with: self, onSuccess: { owner, response in
+        guard let content = response.first?.content else { return }
         owner.todayBibleWordListRelay.accept([content])
-      }
+        owner.isLoadingSubject.onNext(false)
+      }, onFailure:  { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.todayBibleWordListRelay.accept([error.description!])
+        owner.isLoadingSubject.onNext(false)
+      })
       .disposed(by: disposeBag)
+    
+    
   }
   
   private func inquireBibleMainNotice() {
     let inquireBibleMainNotice = BibleService.shared.inquireBibleMainNotice()
+      .do(onSuccess: { [weak self] _ in
+        guard let self = self else { return }
+        self.isLoadingSubject.onNext(true)
+      })
     
-    let successInquireBibleMainNotice = inquireBibleMainNotice
-      .compactMap { result -> InquireBibleMainNoticeResponse? in
-        guard case let .success(response) = result else { return nil }
-        return response
-      }
-    
-    successInquireBibleMainNotice
+    inquireBibleMainNotice
       .subscribe(with: self) { owner, response in
         owner.bibleMainNoticeRelay.accept([BibleNoticeCollectionViewCellModel(response: response)])
+        owner.isLoadingSubject.onNext(false)
       }
       .disposed(by: disposeBag)
   }
 }
 
 extension BibleViewModel: BibleViewModelType {
+  var isLoading: RxCocoa.Driver<Bool> {
+    isLoadingSubject.asDriver(onErrorJustReturn: false)
+  }
+  
   var bibleMainNotice: RxCocoa.Driver<[BibleNoticeCollectionViewCellModel]> {
     bibleMainNoticeRelay.asDriver()
   }

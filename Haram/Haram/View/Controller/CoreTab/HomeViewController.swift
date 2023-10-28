@@ -41,17 +41,9 @@ final class HomeViewController: BaseViewController {
   
   // MARK: - UI Models
   
-  private var bannerModel: [HomebannerCollectionViewCellModel] = [] {
-    didSet {
-      collectionView.reloadSections([0])
-    }
-  }
+  private var bannerModel: [HomebannerCollectionViewCellModel] = []
   
-  private var newsModel: [HomeNewsCollectionViewCellModel] = [] {
-    didSet {
-      collectionView.reloadSections([2])
-    }
-  }
+  private var newsModel: [HomeNewsCollectionViewCellModel] = []
   
   // MARK: - UI Components
   
@@ -160,6 +152,13 @@ final class HomeViewController: BaseViewController {
     viewModel.noticeModel
       .emit(with: self) { owner, model in
         owner.homeNoticeView.configureUI(with: model)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .filter { !$0 }
+      .drive(with: self) { owner, _ in
+        owner.collectionView.reloadData()
       }
       .disposed(by: disposeBag)
   }

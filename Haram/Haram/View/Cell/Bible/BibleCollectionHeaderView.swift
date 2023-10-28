@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -35,6 +36,7 @@ final class BibleCollectionHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    isSkeletonable = true
     addSubview(titleLabel)
     titleLabel.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()

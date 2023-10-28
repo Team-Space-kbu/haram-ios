@@ -18,11 +18,11 @@ final class HomeService {
 }
 
 extension HomeService {
-  func inquireHomeInfo() -> Observable<Result<InquireHomeInfoResponse, HaramError>> {
-    service.request(router: HomeRouter.inquireHomeInfo, type: InquireHomeInfoResponse.self)
+  func inquireHomeInfo() -> Single<InquireHomeInfoResponse> {
+    service.betarequest(router: HomeRouter.inquireHomeInfo, type: InquireHomeInfoResponse.self)
   }
   
-  func inquireAffiliatedList() -> Observable<Result<[InquireAffiliatedResponse], HaramError>> {
-    service.request(router: HomeRouter.inquireAffiliatedList, type: [InquireAffiliatedResponse].self)
+  func inquireAffiliatedList() -> Single<[InquireAffiliatedResponse]> {
+    service.betarequest(router: HomeRouter.inquireAffiliatedList, type: [InquireAffiliatedResponse].self)
   }
 }

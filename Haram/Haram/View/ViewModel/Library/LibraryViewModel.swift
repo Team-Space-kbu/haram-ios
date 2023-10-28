@@ -44,9 +44,8 @@ final class LibraryViewModel: LibraryViewModelType {
     let inquireLibrary = LibraryService.shared.inquireLibrary()
     
     inquireLibrary
-      .do(onNext: { _ in isLoadingSubject.onNext(true) })
-        .subscribe(onNext: { result in
-          guard case let .success(response) = result else { return }
+      .do(onSuccess: { _ in isLoadingSubject.onNext(true) })
+        .subscribe(onSuccess: { response in
           currentNewBookModel.accept(response.newBook.map { NewLibraryCollectionViewCellModel(bookInfo: $0) })
           currentBestBookModel.accept(response.bestBook.map { PopularLibraryCollectionViewCellModel(bookInfo: $0) })
           currentRentalBookModel.accept(response.rentalBook.map {

@@ -17,23 +17,23 @@ final class RothemService {
 }
 
 extension RothemService {
-  func inquireAllRoomInfo() -> Observable<Result<[InquireAllRoomInfoResponse], HaramError>> {
-    service.request(router: RothemRouter.inquireAllRoomInfo, type: [InquireAllRoomInfoResponse].self)
+  func inquireAllRoomInfo() -> Single<[InquireAllRoomInfoResponse]> {
+    service.betarequest(router: RothemRouter.inquireAllRoomInfo, type: [InquireAllRoomInfoResponse].self)
   }
   
-  func inquireAllRothemNotice() -> Observable<Result<[InquireAllRothemNoticeResponse], HaramError>> {
-    service.request(router: RothemRouter.inquireAllRothemNotice, type: [InquireAllRothemNoticeResponse].self)
+  func inquireAllRothemNotice() -> Single<[InquireAllRothemNoticeResponse]> {
+    service.betarequest(router: RothemRouter.inquireAllRothemNotice, type: [InquireAllRothemNoticeResponse].self)
   }
   
-  func inquireRothemHomeInfo(userID: String) -> Observable<Result<InquireRothemHomeInfoResponse, HaramError>> {
-    service.request(router: RothemRouter.inquireRothemHomeInfo(userID), type: InquireRothemHomeInfoResponse.self)
+  func inquireRothemHomeInfo(userID: String) -> Single<InquireRothemHomeInfoResponse> {
+    service.betarequest(router: RothemRouter.inquireRothemHomeInfo(userID), type: InquireRothemHomeInfoResponse.self)
   }
   
-  func inquireRothemRoomInfo(roomSeq: Int) -> Observable<Result<InquireRothemRoomInfoResponse, HaramError>>  {
-    service.request(router: RothemRouter.inquireRothemRoomInfo(roomSeq), type: InquireRothemRoomInfoResponse.self)
+  func inquireRothemRoomInfo(roomSeq: Int) -> Single<InquireRothemRoomInfoResponse>  {
+    service.betarequest(router: RothemRouter.inquireRothemRoomInfo(roomSeq), type: InquireRothemRoomInfoResponse.self)
   }
   
-  func inquireRothemReservationAuthCode(userID: String) -> Observable<Result<String, HaramError>> {
-    service.request(router: RothemRouter.inquireRothemReservationAuthCode(userID), type: String.self)
+  func inquireRothemReservationAuthCode(userID: String) -> Single<String> {
+    service.betarequest(router: RothemRouter.inquireRothemReservationAuthCode(userID), type: String.self)
   }
 }

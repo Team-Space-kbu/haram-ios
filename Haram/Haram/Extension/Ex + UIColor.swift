@@ -41,15 +41,15 @@ extension UIColor {
 // MARK: - Plub Color Palette
 
 extension UIColor {
-  static let hex3B8686                = UIColor(hex: 0x3B8686)
-  static let hex79BD9A             = UIColor(hex: 0x79BD9A)
+  static let hex3B8686          = UIColor(hex: 0x3B8686)
+  static let hex79BD9A          = UIColor(hex: 0x79BD9A)
   static let hexA8DBA8          = UIColor(hex: 0xA8DBA8)
-  static let hexCFF09E       = UIColor(hex: 0xCFF09E)
-  static let hex56CCF2            = UIColor(hex: 0x56CCF2)
+  static let hexCFF09E          = UIColor(hex: 0xCFF09E)
+  static let hex56CCF2          = UIColor(hex: 0x56CCF2)
   static let hex2D9CDB          = UIColor(hex: 0x2D9CDB)
-  static let hex2F80ED           = UIColor(hex: 0x2F80ED)
-  static let hexF8F8F8               = UIColor(hex: 0xF8F8F8)
-  static let hexD8D8DA               = UIColor(hex: 0xD8D8DA)
+  static let hex2F80ED          = UIColor(hex: 0x2F80ED)
+  static let hexF8F8F8          = UIColor(hex: 0xF8F8F8)
+  static let hexD8D8DA          = UIColor(hex: 0xD8D8DA)
   static let hex545E6A          = UIColor(hex: 0x545E6A)
   static let hex1A1E27          = UIColor(hex: 0x1A1E27)
   static let hex9F9FA4          = UIColor(hex: 0x9F9FA4)

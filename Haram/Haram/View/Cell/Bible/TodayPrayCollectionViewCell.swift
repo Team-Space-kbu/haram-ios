@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -22,12 +23,14 @@ final class TodayPrayCollectionViewCell: UICollectionViewCell {
   private let prayTitleLabel = UILabel().then {
     $0.font = .bold18
     $0.textColor = .hex545E6A
+    $0.skeletonTextNumberOfLines = 1
   }
   
   private let prayContentLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .hex545E6A
     $0.numberOfLines = 0
+    $0.skeletonTextNumberOfLines = 2
   }
   
   override init(frame: CGRect) {
@@ -46,12 +49,14 @@ final class TodayPrayCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    contentView.isSkeletonable = true
     contentView.layer.masksToBounds = true
     contentView.layer.cornerRadius = 10
     contentView.layer.borderWidth = 1
     contentView.layer.borderColor = UIColor.hex707070.cgColor
     
-    [prayTitleLabel, prayContentLabel].forEach { contentView.addSubview($0) }
+    _ = [prayTitleLabel, prayContentLabel].map { contentView.addSubview($0) }
     prayTitleLabel.snp.makeConstraints {
       $0.top.leading.equalToSuperview().inset(10)
     }

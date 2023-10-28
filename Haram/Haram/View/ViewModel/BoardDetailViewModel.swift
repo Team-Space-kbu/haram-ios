@@ -9,9 +9,6 @@ import RxSwift
 import RxCocoa
 
 protocol BoardDetailViewModelType {
-  var whichBoardType: AnyObserver<BoardType> { get }
-  var whichBoardSeq: AnyObserver<Int> { get }
-  
   var boardInfoModel: Driver<[BoardDetailHeaderViewModel]> { get }
   var boardCommentModel: Driver<[BoardDetailCollectionViewCellModel]> { get }
 }
@@ -20,13 +17,16 @@ final class BoardDetailViewModel {
   
   private let disposeBag = DisposeBag()
   
-  private let currentBoardTypeRelay = PublishSubject<BoardType>()
+  private let boardType: BoardType
+  private let boardSeq: Int
+  
   private let currentBoardListRelay = BehaviorRelay<[BoardDetailCollectionViewCellModel]>(value: [])
   private let currentBoardInfoRelay = BehaviorRelay<[BoardDetailHeaderViewModel]>(value: [])
-  private let currentBoardSeq = PublishSubject<Int>()
   
-  init() {
-//    inquireBoardList()
+  
+  init(boardType: BoardType, boardSeq: Int) {
+    self.boardType = boardType
+    self.boardSeq = boardSeq
     inquireBoard()
   }
 }
@@ -34,16 +34,9 @@ final class BoardDetailViewModel {
 extension BoardDetailViewModel {
   
   private func inquireBoard() {
-    let inquireBoard = Observable.combineLatest(currentBoardTypeRelay, currentBoardSeq)
-      .flatMapLatest(BoardService.shared.inquireBoard)
+    let inquireBoard = BoardService.shared.inquireBoard(boardType: boardType, boardSeq: boardSeq)
     
-    let successInquireBoard = inquireBoard
-      .compactMap { result -> InquireBoardResponse? in
-        guard case let .success(response) = result else { return nil }
-        return response
-      }
-    
-    successInquireBoard
+    inquireBoard
       .subscribe(with: self) { owner, response in
         owner.currentBoardInfoRelay.accept([BoardDetailHeaderViewModel(
           authorInfoViewModel: .init(
@@ -63,14 +56,6 @@ extension BoardDetailViewModel {
 extension BoardDetailViewModel: BoardDetailViewModelType {
   var boardInfoModel: RxCocoa.Driver<[BoardDetailHeaderViewModel]> {
     currentBoardInfoRelay.asDriver()
-  }
-  
-  var whichBoardSeq: RxSwift.AnyObserver<Int> {
-    currentBoardSeq.asObserver()
-  }
-  
-  var whichBoardType: AnyObserver<BoardType> {
-    currentBoardTypeRelay.asObserver()
   }
   
   var boardCommentModel: Driver<[BoardDetailCollectionViewCellModel]> {

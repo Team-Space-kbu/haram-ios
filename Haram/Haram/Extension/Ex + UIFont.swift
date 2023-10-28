@@ -51,6 +51,4 @@ extension UIFont {
   static let regular12 = UIFont(name: SpoqaHanSansNeo.regular.rawValue, size: 12)!
   static let regular11 = UIFont(name: SpoqaHanSansNeo.regular.rawValue, size: 11)!
   static let regular10 = UIFont(name: SpoqaHanSansNeo.regular.rawValue, size: 10)!
-  static let light = UIFont(name: SpoqaHanSansNeo.light.rawValue, size: 12)!
-  static let thin = UIFont(name: SpoqaHanSansNeo.thin.rawValue, size: 10)!
 }

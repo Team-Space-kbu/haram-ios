@@ -40,37 +40,17 @@ extension StudyListViewModel {
   private func inquireRothemHomeInfo() {
     let inquireRothemHomeInfo = RothemService.shared.inquireRothemHomeInfo(userID: UserManager.shared.userID!)
     
-    let successInquireRothemHomeInfo = inquireRothemHomeInfo
-      .do(onNext: { [weak self] _ in
+    inquireRothemHomeInfo
+      .do(onSuccess: { [weak self] _ in
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)
       })
-      .compactMap { result -> InquireRothemHomeInfoResponse? in
-        guard case let .success(response) = result else { return nil }
-        return response
-      }
-    
-    successInquireRothemHomeInfo
       .subscribe(with: self) { owner, response in
         owner.studyReservationListRelay.accept(response.roomList.map { StudyListCollectionViewCellModel(rothemRoom: $0) })
         owner.rothemMainNoticeRelay.accept(response.noticeList.first.map { StudyListHeaderViewModel(rothemNotice: $0) })
         owner.isLoadingSubject.onNext(false)
       }
       .disposed(by: disposeBag)
-    //    let inquireAllRothemNotice = RothemService.shared.inquireAllRothemNotice()
-    //
-    //    let inquireAllRothemNoticeToResponse = inquireAllRothemNotice
-    //      .compactMap { result -> InquireAllRothemNoticeResponse? in
-    //      guard case let .success(response) = result else { return nil }
-    //        return response.first
-    //    }
-    //
-    //    inquireAllRothemNoticeToResponse
-    //      .map { StudyListHeaderViewModel(response: $0) }
-    //      .subscribe(with: self) { owner, rothemMainNotice in
-    //        owner.rothemMainNoticeRelay.accept(rothemMainNotice)
-    //      }
-    //      .disposed(by: disposeBag)
   }
 }
 

@@ -15,7 +15,7 @@ protocol StudyRoomDetailViewModelType {
 
 final class StudyRoomDetailViewModel {
   
-  private(set) var roomSeq: Int
+  private let roomSeq: Int
   private let disposeBag = DisposeBag()
   private let currentRothemRoomDetailViewModelRelay = PublishRelay<RothemRoomDetailViewModel>()
   private let currentRothemRoomThubnailImageRelay = PublishRelay<String>()
@@ -28,13 +28,7 @@ final class StudyRoomDetailViewModel {
   private func inquireRothemRoomInfo() {
     let inquireRothemRoomInfo = RothemService.shared.inquireRothemRoomInfo(roomSeq: roomSeq)
     
-    let successInquireRothemRoomInfo = inquireRothemRoomInfo
-      .compactMap { result -> InquireRothemRoomInfoResponse? in
-        guard case let .success(response) = result else { return nil }
-        return response
-      }
-    
-    successInquireRothemRoomInfo
+    inquireRothemRoomInfo
       .subscribe(with: self) { owner, response in
         let rothemRoomThubnailImage = response.thumbnailImage
         let rothemRoomDetailViewModel = RothemRoomDetailViewModel(response: response)

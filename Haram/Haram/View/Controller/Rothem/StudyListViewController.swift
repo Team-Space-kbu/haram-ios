@@ -20,16 +20,9 @@ final class StudyListViewController: BaseViewController {
   
   // MARK: - UI Models
   
-  private var studyListModel: [StudyListCollectionViewCellModel] = [] {
-    didSet {
-      studyListCollectionView.reloadData()
-    }
-  }
-  private var rothemMainNoticeModel: StudyListHeaderViewModel? {
-    didSet {
-      studyListCollectionView.reloadData()
-    }
-  }
+  private var studyListModel: [StudyListCollectionViewCellModel] = []
+  
+  private var rothemMainNoticeModel: StudyListHeaderViewModel?
   
   // MARK: - UI Components
   
@@ -91,6 +84,7 @@ final class StudyListViewController: BaseViewController {
     viewModel.isLoading
       .filter { !$0 }
       .drive(with: self) { owner, isLoading in
+        owner.studyListCollectionView.reloadData()
         owner.view.hideSkeleton()
       }
       .disposed(by: disposeBag)

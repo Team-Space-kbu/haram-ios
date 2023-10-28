@@ -13,8 +13,6 @@ import Then
 final class BoardDetailViewController: BaseViewController {
   
   private let viewModel: BoardDetailViewModelType
-  private let boardSeq: Int
-  private let boardType: BoardType
   
   private var cellModel: [BoardDetailCollectionViewCellModel] = [] {
     didSet {
@@ -37,15 +35,12 @@ final class BoardDetailViewController: BaseViewController {
     $0.register(BoardDetailCollectionViewCell.self, forCellWithReuseIdentifier: BoardDetailCollectionViewCell.identifier)
     $0.register(BoardDetailHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardDetailHeaderView.identifier)
     $0.register(BoardDetailCommentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardDetailCommentHeaderView.identifier)
-//    $0.delegate = self
     $0.dataSource = self
   }
   
   // MARK: - Initializations
-  init(viewModel: BoardDetailViewModelType = BoardDetailViewModel(), boardSeq: Int, boardType: BoardType) {
-    self.viewModel = viewModel
-    self.boardSeq = boardSeq
-    self.boardType = boardType
+  init(boardType: BoardType, boardSeq: Int) {
+    self.viewModel = BoardDetailViewModel(boardType: boardType, boardSeq: boardSeq)
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -80,8 +75,6 @@ final class BoardDetailViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    viewModel.whichBoardSeq.onNext(boardSeq)
-    viewModel.whichBoardType.onNext(boardType)
     
     viewModel.boardInfoModel
       .drive(rx.boardModel)

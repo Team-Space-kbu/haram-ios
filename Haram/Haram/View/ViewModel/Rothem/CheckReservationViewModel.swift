@@ -23,13 +23,7 @@ final class CheckReservationViewModel {
   private func inquireRothemReservationAuthCode() {
     let inquireRothemReservationAuthCode = RothemService.shared.inquireRothemReservationAuthCode(userID: UserManager.shared.userID!)
     
-    let successInquireRothemReservationAuthCode = inquireRothemReservationAuthCode
-      .compactMap { result -> String? in
-        guard case let .success(response) = result else { return nil }
-        return response
-      }
-    
-    successInquireRothemReservationAuthCode
+    inquireRothemReservationAuthCode
       .subscribe(with: self) { owner, authCode in
         
       }

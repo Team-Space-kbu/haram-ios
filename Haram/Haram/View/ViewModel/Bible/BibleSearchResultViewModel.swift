@@ -29,13 +29,7 @@ final class BibleSearchResultViewModel {
     let tryInquireChapterToBible = requestTypeForSearchSubject
       .flatMapLatest(BibleService.shared.inquireChapterToBible(request: ))
     
-    let successInquireChapterToBible = tryInquireChapterToBible
-      .compactMap { result -> [InquireChapterToBibleResponse]? in
-        guard case .success(let response) = result else { return nil }
-        return response
-      }
-    
-    successInquireChapterToBible
+    tryInquireChapterToBible
       .subscribe(with: self) { owner, responses in
         owner.searchResultContentRelay.accept(responses.toStringWithWhiteSpace)
       }

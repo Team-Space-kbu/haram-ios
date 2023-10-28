@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -33,17 +34,9 @@ final class BibleViewController: BaseViewController {
   
   private let revisionOfTranlationModel = CoreDataManager.shared.getRevisionOfTranslation(ascending: true)
   
-  private var todayBibleWordModel: [String] = [] {
-    didSet {
-      bibleCollectionView.reloadSections([0])
-    }
-  }
+  private var todayBibleWordModel: [String] = []
   
-  private var bibleMainNotice: [BibleNoticeCollectionViewCellModel] = [] {
-    didSet {
-      bibleCollectionView.reloadSections([1])
-    }
-  }
+  private var bibleMainNotice: [BibleNoticeCollectionViewCellModel] = []
   
   private lazy var bibleCollectionView = UICollectionView(
     frame: .zero,
@@ -91,6 +84,14 @@ final class BibleViewController: BaseViewController {
     viewModel.bibleMainNotice
       .drive(rx.bibleMainNotice)
       .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .filter { !$0 }
+      .drive(with: self) { owner, isLoading in
+        owner.bibleCollectionView.reloadData()
+        owner.view.hideSkeleton()
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -102,11 +103,24 @@ final class BibleViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
+    
+    view.isSkeletonable = true
+    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
+
+    let graient = SkeletonGradient(baseColor: .skeletonDefault)
+    view.showAnimatedGradientSkeleton(
+      usingGradient: graient,
+      animation: skeletonAnimation,
+      transition: .none
+    )
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    [bibleCollectionView, bibleSearchView].forEach { view.addSubview($0) }
+    _ = [bibleCollectionView, bibleSearchView].map {
+      $0.isSkeletonable = true
+      view.addSubview($0)
+    }
   }
   
   override func setupConstraints() {
@@ -249,6 +263,49 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BibleCollectionHeaderView.identifier, for: indexPath) as? BibleCollectionHeaderView ?? BibleCollectionHeaderView()
     header.configureUI(with: BibleViewType.allCases[indexPath.section].title)
     return header
+  }
+}
+
+// MARK: - SkeletonCollectionViewDataSource
+
+extension BibleViewController: SkeletonCollectionViewDataSource {
+  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+    switch BibleViewType.allCases[indexPath.section] {
+    case .todayBibleWord:
+      return TodayBibleWordCollectionViewCell.identifier
+    case .notice:
+      return BibleNoticeCollectionViewCell.identifier
+    case .todayPray:
+      return TodayPrayCollectionViewCell.identifier
+    }
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+    switch BibleViewType.allCases[indexPath.section] {
+    case .todayBibleWord:
+      return skeletonView.dequeueReusableCell(withReuseIdentifier: TodayBibleWordCollectionViewCell.identifier, for: indexPath) as? TodayBibleWordCollectionViewCell ?? TodayBibleWordCollectionViewCell()
+    case .notice:
+      return skeletonView.dequeueReusableCell(withReuseIdentifier: BibleNoticeCollectionViewCell.identifier, for: indexPath) as? BibleNoticeCollectionViewCell ?? BibleNoticeCollectionViewCell()
+    case .todayPray:
+      return skeletonView.dequeueReusableCell(withReuseIdentifier: TodayPrayCollectionViewCell.identifier, for: indexPath) as? TodayPrayCollectionViewCell ?? TodayPrayCollectionViewCell()
+    }
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    switch BibleViewType.allCases[section] {
+    case .todayBibleWord, .notice:
+      return 1
+    case .todayPray:
+      return 10
+    }
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
+    BibleCollectionHeaderView.identifier
+  }
+  
+  func numSections(in collectionSkeletonView: UICollectionView) -> Int {
+    BibleViewType.allCases.count
   }
 }
 

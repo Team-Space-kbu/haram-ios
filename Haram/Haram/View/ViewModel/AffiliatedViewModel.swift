@@ -25,15 +25,17 @@ final class AffiliatedViewModel {
   private func tryInquireAffiliated() {
     let inquireAffiliatedList = HomeService.shared.inquireAffiliatedList()
     
-    let successInquireAffiliatedList = inquireAffiliatedList.compactMap { result -> [InquireAffiliatedResponse]? in
-      guard case .success(let response) = result else { return nil }
-      return response
-    }
-    
-    successInquireAffiliatedList
+    inquireAffiliatedList
       .map { $0.map { AffiliatedCollectionViewCellModel(response: $0) } }
-      .bind(to: affiliatedModelRelay)
+      .subscribe(with: self) { owner, model in
+        owner.affiliatedModelRelay.accept(model)
+      }
       .disposed(by: disposeBag)
+    
+//    successInquireAffiliatedList
+//      .map { $0.map { AffiliatedCollectionViewCellModel(response: $0) } }
+//      .bind(to: affiliatedModelRelay)
+//      .disposed(by: disposeBag)
   }
 }
 

@@ -17,16 +17,16 @@ final class BibleService {
 }
 
 extension BibleService {
-  func inquireTodayWords(request: InquireTodayWordsRequest) -> Observable<Result<[InquireTodayWordsResponse], HaramError>> {
-    service.request(router: BibleRouter.inquireTodayWords(request), type: [InquireTodayWordsResponse].self)
+  func inquireTodayWords(request: InquireTodayWordsRequest) -> Single<[InquireTodayWordsResponse]> {
+    service.betarequest(router: BibleRouter.inquireTodayWords(request), type: [InquireTodayWordsResponse].self)
   }
   
-  func inquireChapterToBible(request: InquireChapterToBibleRequest) -> Observable<Result<[InquireChapterToBibleResponse], HaramError>> {
-    service.request(router: BibleRouter.inquireChapterToBible(request), type: [InquireChapterToBibleResponse].self)
+  func inquireChapterToBible(request: InquireChapterToBibleRequest) -> Single<[InquireChapterToBibleResponse]> {
+    service.betarequest(router: BibleRouter.inquireChapterToBible(request), type: [InquireChapterToBibleResponse].self)
   }
   
-  func inquireBibleMainNotice() -> Observable<Result<InquireBibleMainNoticeResponse, HaramError>> {
-    service.request(router: BibleRouter.inquireBibleMainNotice, type: InquireBibleMainNoticeResponse.self)
+  func inquireBibleMainNotice() -> Single<InquireBibleMainNoticeResponse> {
+    service.betarequest(router: BibleRouter.inquireBibleMainNotice, type: InquireBibleMainNoticeResponse.self)
   }
 }
 

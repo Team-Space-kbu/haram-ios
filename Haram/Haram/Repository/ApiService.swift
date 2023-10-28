@@ -13,6 +13,7 @@ import RxSwift
 protocol BaseService {
   func request<T: Codable>(router: URLRequestConvertible, type: T.Type) -> Observable<Result<T, HaramError>>
   func intranetRequest(router: Alamofire.URLRequestConvertible) -> Observable<String>
+  func betarequest<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Single<T> where T : Codable
 }
 
 final class ApiService: BaseService {
@@ -72,6 +73,58 @@ final class ApiService: BaseService {
     }
     
   }
+  
+  func betarequest<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Single<T> where T : Codable {
+      Single.create { observer in
+        self.session.request(router)
+          .validate({ request, response, data in
+            if response.statusCode != 401 || response.statusCode != 402 {
+              return .success(Void())
+            }
+            
+            let reason = AFError.ResponseValidationFailureReason.unacceptableStatusCode(code: response.statusCode)
+            return .failure(AFError.responseValidationFailed(reason: reason))
+          })
+          .responseData { response in
+            switch response.result {
+            case .success(let data):
+              guard let statusCode = response.response?.statusCode
+              else {
+                observer(.failure(HaramError.unknownedError))
+                return
+              }
+              guard let decodedData = try? JSONDecoder().decode(BaseEntity<T>.self, from: data) else {
+                return observer(.failure(HaramError.decodedError))
+              }
+              
+              let code = decodedData.code
+              
+              if HaramError.isExist(with: code) {
+                return observer(.failure(HaramError.getError(with: code)))
+              }
+              
+              switch statusCode {
+                case 200..<300:
+                  if decodedData.data != nil {
+                    return observer(.success(decodedData.data!))
+                  }
+                  return observer(.success(EmptyModel() as! T))
+                case 400..<500:
+                  return observer(.failure(HaramError.requestError))
+                case 500..<600:
+                  return observer(.failure(HaramError.serverError))
+                default:
+                  return observer(.failure(HaramError.unknownedError))
+              }
+              
+            case .failure(let error):
+              observer(.failure(error))
+            }
+          }
+        return Disposables.create()
+      }
+    }
+
   
   func intranetRequest(router: Alamofire.URLRequestConvertible) -> Observable<String> {
     Single.create { observer in

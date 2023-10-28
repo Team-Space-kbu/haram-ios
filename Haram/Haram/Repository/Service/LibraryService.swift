@@ -18,8 +18,8 @@ final class LibraryService {
 }
 
 extension LibraryService {
-  func inquireLibrary() -> Observable<Result<InquireLibraryResponse, HaramError>> {
-    service.request(router: LibraryRouter.inquireLibrary, type: InquireLibraryResponse.self)
+  func inquireLibrary() -> Single<InquireLibraryResponse> {
+    service.betarequest(router: LibraryRouter.inquireLibrary, type: InquireLibraryResponse.self)
   }
   
   func searchBook(query: String, page: Int = 1) -> Observable<Result<SearchBookResponse, HaramError>> {
@@ -30,11 +30,11 @@ extension LibraryService {
       )), type: SearchBookResponse.self)
   }
   
-  func requestBookInfo(text: Int) -> Observable<Result<RequestBookInfoResponse, HaramError>> {
-    service.request(router: LibraryRouter.requestBookInfo(text), type: RequestBookInfoResponse.self)
+  func requestBookInfo(text: Int) -> Single<RequestBookInfoResponse> {
+    service.betarequest(router: LibraryRouter.requestBookInfo(text), type: RequestBookInfoResponse.self)
   }
   
-  func requestBookLoanStatus(path: Int) -> Observable<Result<RequestBookLoanStatusResponse, HaramError>> {
-    service.request(router: LibraryRouter.requestBookLoanStatus(path), type: RequestBookLoanStatusResponse.self)
+  func requestBookLoanStatus(path: Int) -> Single<RequestBookLoanStatusResponse> {
+    service.betarequest(router: LibraryRouter.requestBookLoanStatus(path), type: RequestBookLoanStatusResponse.self)
   }
 }

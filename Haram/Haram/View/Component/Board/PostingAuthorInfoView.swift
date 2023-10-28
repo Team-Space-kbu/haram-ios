@@ -68,7 +68,7 @@ final class PostingAuthorInfoView: UIView {
     profileImageView.backgroundColor = .hexD9D9D9
     profileImageView.kf.setImage(with: model.profileImageURL)
     authorNameLabel.text = model.authorName
-//    postingDateLabel.text = model.postingDate
+    
     let date = DateformatterFactory.dateWithHypen.date(from: model.postingDate)
     postingDateLabel.text = DateformatterFactory.dateWithHypen.string(from: date ?? Date())
   }

@@ -18,11 +18,11 @@ final class BoardService {
 }
 
 extension BoardService {
-  func inquireBoardlist(boardType: BoardType) -> Observable<Result<[InquireBoardlistResponse], HaramError>> {
-    service.request(router: BoardRouter.inquireBoardList(boardType), type: [InquireBoardlistResponse].self)
+  func inquireBoardlist(boardType: BoardType) -> Single<[InquireBoardlistResponse]> {
+    service.betarequest(router: BoardRouter.inquireBoardList(boardType), type: [InquireBoardlistResponse].self)
   }
   
-  func inquireBoard(boardType: BoardType, boardSeq: Int) -> Observable<Result<InquireBoardResponse, HaramError>> {
-    service.request(router: BoardRouter.inquireBoard(boardType, boardSeq), type: InquireBoardResponse.self)
+  func inquireBoard(boardType: BoardType, boardSeq: Int) -> Single<InquireBoardResponse> {
+    service.betarequest(router: BoardRouter.inquireBoard(boardType, boardSeq), type: InquireBoardResponse.self)
   }
 }

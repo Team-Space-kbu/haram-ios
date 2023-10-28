@@ -18,13 +18,9 @@ final class BoardListViewController: BaseViewController {
   
   private var boardListModel: [BoardListCollectionViewCellModel] = [] {
     didSet {
-      var snapshot = NSDiffableDataSourceSnapshot<Section, BoardListCollectionViewCellModel>()
-      snapshot.appendSections([.main])
-      snapshot.appendItems(boardListModel)
-      self.dataSource.apply(snapshot, animatingDifferences: true)
+      boardListCollectionView.reloadSections([0])
     }
   }
-  private var dataSource: UICollectionViewDiffableDataSource<Section, BoardListCollectionViewCellModel>!
   
   private lazy var boardListCollectionView = UICollectionView(
     frame: .zero,
@@ -35,12 +31,13 @@ final class BoardListViewController: BaseViewController {
     $0.backgroundColor = .clear
     $0.register(BoardListCollectionViewCell.self, forCellWithReuseIdentifier: BoardListCollectionViewCell.identifier)
     $0.delegate = self
+    $0.dataSource = self
     $0.contentInset = UIEdgeInsets(top: 32, left: 15, bottom: .zero, right: 15)
     $0.alwaysBounceVertical = true
   }
   
-  init(viewModel: BoardListViewModelType = BoardListViewModel(), type: BoardType) {
-    self.viewModel = viewModel
+  init(type: BoardType) {
+    self.viewModel = BoardListViewModel(boardType: type)
     self.type = type
     super.init(nibName: nil, bundle: nil)
   }
@@ -57,19 +54,6 @@ final class BoardListViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
-    
-    let cellRegistration = UICollectionView.CellRegistration<BoardListCollectionViewCell, BoardListCollectionViewCellModel> { cell, indexPath, item in
-      cell.configureUI(with: item)
-    }
-    
-    dataSource = UICollectionViewDiffableDataSource<Section, BoardListCollectionViewCellModel>(collectionView: boardListCollectionView) { collectionView, indexPath, item -> UICollectionViewCell in
-      return collectionView.dequeueConfiguredReusableCell(
-        using: cellRegistration,
-        for: indexPath,
-        item: item
-      )
-    }
-    
   }
   
   override func setupLayouts() {
@@ -87,8 +71,6 @@ final class BoardListViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    viewModel.whichBoardType.onNext(type)
-    
     viewModel.boardListModel
       .drive(rx.boardListModel)
       .disposed(by: disposeBag)
@@ -99,13 +81,24 @@ final class BoardListViewController: BaseViewController {
   }
 }
 
-extension BoardListViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+extension BoardListViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
+  
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    boardListModel.count
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardListCollectionViewCell.identifier, for: indexPath) as? BoardListCollectionViewCell ?? BoardListCollectionViewCell()
+    cell.configureUI(with: boardListModel[indexPath.row])
+    return cell
+  }
+  
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: collectionView.frame.width - 30, height: 92)
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = BoardDetailViewController(boardSeq: boardListModel[indexPath.row].boardSeq, boardType: type)
+    let vc = BoardDetailViewController(boardType: type, boardSeq: boardListModel[indexPath.row].boardSeq)
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }

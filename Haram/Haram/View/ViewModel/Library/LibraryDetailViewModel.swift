@@ -62,9 +62,8 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     
     shareRequestingBookText
       .flatMapLatest(LibraryService.shared.requestBookInfo(text: ))
-      .subscribe(onNext: { result in
-        switch result {
-        case .success(let response):
+      .subscribe(onNext: { response in
+        
           currentDetailMainModel.accept(
             LibraryDetailMainViewModel(
               bookImage: response.thumbnailImage,
@@ -98,18 +97,18 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
             }
             return LibraryInfoViewModel(title: type.title, content: content)
           })
-        case .failure(let error):
-          errorMessageRelay.accept(error)
-        }
         
         isLoadingSubject.onNext(false)
+      }, onError: { error in
+        guard let error = error as? HaramError else { return }
+        errorMessageRelay.accept(error)
       })
       .disposed(by: disposeBag)
     
     shareRequestingBookText
       .flatMapLatest(LibraryService.shared.requestBookLoanStatus(path: ))
-      .subscribe(onNext: { result in
-        guard case let .success(response) = result else { return }
+      .subscribe(onNext: { response in
+        
         currentDetailRentalModel.accept(
           response.keepBooks.keepBooks.map { .init(keepBook: $0) }
         )
