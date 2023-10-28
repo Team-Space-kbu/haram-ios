@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -18,6 +19,9 @@ final class LibraryCollectionHeaderView: UICollectionReusableView {
     $0.font = .bold20
     $0.textColor = .black
     $0.textAlignment = .left
+    $0.skeletonTextNumberOfLines = 1
+    $0.isSkeletonable = true
+    $0.text = "인기도서"
   }
   
   override init(frame: CGRect) {
@@ -30,6 +34,7 @@ final class LibraryCollectionHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    isSkeletonable = true
     addSubview(titleLabel)
     titleLabel.snp.makeConstraints {
       $0.top.leading.equalToSuperview()

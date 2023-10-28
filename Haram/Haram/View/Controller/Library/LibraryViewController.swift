@@ -58,7 +58,7 @@ final class LibraryViewController: BaseViewController {
     $0.spacing = 18
     $0.backgroundColor = .clear
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
+    $0.layoutMargins = .init(top: 18, left: 15, bottom: .zero, right: 15)
     $0.isSkeletonable = true
   }
   
@@ -70,15 +70,14 @@ final class LibraryViewController: BaseViewController {
     $0.searchBarStyle = .minimal
   }
   
-  private let bannerImageView = UIImageView().then {
-    $0.image = UIImage(named: "banner")
+  private let bannerImageView = UIImageView(image: UIImage(named: "banner")).then {
     $0.contentMode = .scaleAspectFill
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
     $0.isSkeletonable = true
   }
   
-  private lazy var collectionView = UICollectionView(
+  private lazy var libraryCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
       guard let self = self else { return nil }
@@ -132,17 +131,12 @@ final class LibraryViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.bannerImage
-      .compactMap { $0 }
-      .map { URL(string: $0) }
-      .emit(with: self) { owner, bannerImage in
-        owner.bannerImageView.kf.setImage(with: bannerImage)
+      .emit(with: self) { owner, imageURL in
+        owner.bannerImageView.kf.setImage(with: imageURL)
       }
       .disposed(by: disposeBag)
     
     searchBar.rx.searchButtonClicked
-//      .do(onNext: { [weak self] _ in
-//        self?.searchBar.resignFirstResponder()
-//      })
       .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .withLatestFrom(searchBar.rx.text.orEmpty)
       .filter { $0.trimmingCharacters(in: .whitespacesAndNewlines).count != 0 }
@@ -170,7 +164,7 @@ final class LibraryViewController: BaseViewController {
     viewModel.isLoading
       .filter { !$0 }
       .drive(with: self) { owner, isLoading in
-        owner.collectionView.reloadData()
+        owner.libraryCollectionView.reloadData()
         owner.view.hideSkeleton()
       }
       .disposed(by: disposeBag)
@@ -210,7 +204,7 @@ final class LibraryViewController: BaseViewController {
     super.setupLayouts()
     view.addSubview(scrollView)
     _ = [searchBar, containerView].map { scrollView.addSubview($0) }
-    _ = [bannerImageView, collectionView].map { containerView.addArrangedSubview($0) }
+    _ = [bannerImageView, libraryCollectionView].map { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -227,7 +221,7 @@ final class LibraryViewController: BaseViewController {
     }
     
     containerView.snp.makeConstraints {
-      $0.top.equalTo(searchBar.snp.bottom).offset(18)
+      $0.top.equalTo(searchBar.snp.bottom)
       $0.directionalHorizontalEdges.width.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
@@ -236,7 +230,7 @@ final class LibraryViewController: BaseViewController {
       $0.height.equalTo(185)
     }
     
-    collectionView.snp.makeConstraints {
+    libraryCollectionView.snp.makeConstraints {
       $0.height.equalTo(282 + 165 + 205 + 18)
     }
     containerView.setCustomSpacing(18, after: bannerImageView)
@@ -357,26 +351,16 @@ extension LibraryViewController: SkeletonCollectionViewDataSource, SkeletonColle
     let type = LibraryType.allCases[indexPath.section]
     switch type {
     case .new:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewLibraryCollectionViewCell.identifier, for: indexPath) as? NewLibraryCollectionViewCell ?? NewLibraryCollectionViewCell()
-      return cell
+      return skeletonView.dequeueReusableCell(withReuseIdentifier: NewLibraryCollectionViewCell.identifier, for: indexPath) as? NewLibraryCollectionViewCell ?? NewLibraryCollectionViewCell()
     case .popular:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularLibraryCollectionViewCell.identifier, for: indexPath) as? PopularLibraryCollectionViewCell ?? PopularLibraryCollectionViewCell()
-      return cell
+      return skeletonView.dequeueReusableCell(withReuseIdentifier: PopularLibraryCollectionViewCell.identifier, for: indexPath) as? PopularLibraryCollectionViewCell ?? PopularLibraryCollectionViewCell()
     case .rental:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RentalLibraryCollectionViewCell.identifier, for: indexPath) as? RentalLibraryCollectionViewCell ?? RentalLibraryCollectionViewCell()
-      return cell
+      return skeletonView.dequeueReusableCell(withReuseIdentifier: RentalLibraryCollectionViewCell.identifier, for: indexPath) as? RentalLibraryCollectionViewCell ?? RentalLibraryCollectionViewCell()
     }
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    switch LibraryType.allCases[section] {
-    case .new:
-      return newBookModel.count
-    case .popular:
-      return bestBookModel.count
-    case .rental:
-      return rentalBookModel.count
-    }
+    10
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
@@ -393,6 +377,10 @@ extension LibraryViewController: SkeletonCollectionViewDataSource, SkeletonColle
   
   func numSections(in collectionSkeletonView: UICollectionView) -> Int {
     LibraryType.allCases.count
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
+    LibraryCollectionHeaderView.identifier
   }
   
 }

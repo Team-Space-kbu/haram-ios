@@ -11,6 +11,8 @@ import SkeletonView
 import SnapKit
 import Then
 
+// MARK: - 성경검색화면타입
+
 enum BibleViewType: CaseIterable {
   case todayBibleWord
   case notice
@@ -30,13 +32,19 @@ enum BibleViewType: CaseIterable {
 
 final class BibleViewController: BaseViewController {
   
+  // MARK: - Property
+  
   private let viewModel: BibleViewModelType
+  
+  // MARK: - UI Models
   
   private let revisionOfTranlationModel = CoreDataManager.shared.getRevisionOfTranslation(ascending: true)
   
   private var todayBibleWordModel: [String] = []
   
   private var bibleMainNotice: [BibleNoticeCollectionViewCellModel] = []
+  
+  // MARK: - UI Components
   
   private lazy var bibleCollectionView = UICollectionView(
     frame: .zero,
@@ -65,6 +73,8 @@ final class BibleViewController: BaseViewController {
     )
   }
   
+  // MARK: - Initializations
+  
   init(viewModel: BibleViewModelType = BibleViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -73,6 +83,8 @@ final class BibleViewController: BaseViewController {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  // MARK: - Configurations
   
   override func bind() {
     super.bind()
@@ -95,6 +107,8 @@ final class BibleViewController: BaseViewController {
   }
   
   override func setupStyles() {
+    
+    /// Configure NavigationBar
     super.setupStyles()
     title = "성경"
     navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -104,6 +118,7 @@ final class BibleViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     
+    /// Configure Skeleton
     view.isSkeletonable = true
     let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
 
@@ -133,10 +148,6 @@ final class BibleViewController: BaseViewController {
       $0.height.equalTo(186 - 30)
       $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
-  }
-  
-  @objc private func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
   }
   
   static func createCollectionViewSection(type: BibleViewType) -> NSCollectionLayoutSection? {
@@ -224,7 +235,15 @@ final class BibleViewController: BaseViewController {
       return section
     }
   }
+  
+  // MARK: - Action
+  
+  @objc private func didTappedBackButton() {
+    navigationController?.popViewController(animated: true)
+  }
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout, UICollectionViewDataSource
 
 extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {

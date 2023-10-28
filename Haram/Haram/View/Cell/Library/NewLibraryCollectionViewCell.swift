@@ -14,11 +14,11 @@ import Then
 
 struct NewLibraryCollectionViewCellModel {
   let path: Int
-  let imageName: String
+  let imageNameURL: URL?
   
   init(bookInfo: BookInfo) {
     path = bookInfo.path
-    imageName = bookInfo.image
+    imageNameURL = URL(string: bookInfo.image)
   }
 }
 
@@ -30,7 +30,6 @@ final class NewLibraryCollectionViewCell: UICollectionViewCell {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
-    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -49,7 +48,6 @@ final class NewLibraryCollectionViewCell: UICollectionViewCell {
   
   private func configureUI() {
     isSkeletonable = true
-    contentView.isSkeletonable = true
     
     contentView.addSubview(thumbnailImageView)
     thumbnailImageView.snp.makeConstraints {
@@ -58,7 +56,7 @@ final class NewLibraryCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: NewLibraryCollectionViewCellModel) {
-    let url = URL(string: model.imageName)
-    thumbnailImageView.kf.setImage(with: url)
+    hideSkeleton()
+    thumbnailImageView.kf.setImage(with: model.imageNameURL)
   }
 }
