@@ -84,7 +84,6 @@ final class StudyRoomDetailViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.rothemRoomThumbnailImage
-      .compactMap { URL(string: $0) }
       .drive(with: self) { owner, thumbnailImageURL in
         owner.studyRoomImageView.kf.setImage(with: thumbnailImageURL)
       }

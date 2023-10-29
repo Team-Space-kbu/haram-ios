@@ -5,12 +5,14 @@
 //  Created by 이건준 on 10/24/23.
 //
 
+import Foundation
+
 import RxSwift
 import RxCocoa
 
 protocol StudyRoomDetailViewModelType {
   var rothemRoomDetailViewModel: Driver<RothemRoomDetailViewModel> { get }
-  var rothemRoomThumbnailImage: Driver<String> { get }
+  var rothemRoomThumbnailImage: Driver<URL?> { get }
 }
 
 final class StudyRoomDetailViewModel {
@@ -18,7 +20,7 @@ final class StudyRoomDetailViewModel {
   private let roomSeq: Int
   private let disposeBag = DisposeBag()
   private let currentRothemRoomDetailViewModelRelay = PublishRelay<RothemRoomDetailViewModel>()
-  private let currentRothemRoomThubnailImageRelay = PublishRelay<String>()
+  private let currentRothemRoomThubnailImageRelay = PublishRelay<URL?>()
   
   init(roomSeq: Int) {
     self.roomSeq = roomSeq
@@ -30,10 +32,10 @@ final class StudyRoomDetailViewModel {
     
     inquireRothemRoomInfo
       .subscribe(with: self) { owner, response in
-        let rothemRoomThubnailImage = response.thumbnailImage
+        let rothemRoomThubnailImageURL = URL(string: response.thumbnailImage ?? "")
         let rothemRoomDetailViewModel = RothemRoomDetailViewModel(response: response)
         owner.currentRothemRoomDetailViewModelRelay.accept(rothemRoomDetailViewModel)
-        owner.currentRothemRoomThubnailImageRelay.accept(rothemRoomThubnailImage ?? "")
+        owner.currentRothemRoomThubnailImageRelay.accept(rothemRoomThubnailImageURL)
       }
       .disposed(by: disposeBag)
   }
@@ -44,7 +46,7 @@ extension StudyRoomDetailViewModel: StudyRoomDetailViewModelType {
     currentRothemRoomDetailViewModelRelay.asDriver(onErrorDriveWith: .empty())
   }
   
-  var rothemRoomThumbnailImage: RxCocoa.Driver<String> {
+  var rothemRoomThumbnailImage: RxCocoa.Driver<URL?> {
     currentRothemRoomThubnailImageRelay.asDriver(onErrorDriveWith: .empty())
   }
   

@@ -12,7 +12,7 @@ protocol IntranetLoginViewModelType {
   var intranetLoginButtonTapped: AnyObserver<Void> { get }
   var whichIntranetInfo: AnyObserver<(String, String)> { get }
   
-  var successIntranetLogin: Signal<String?> { get }
+  var successIntranetLogin: Signal<Void> { get }
   var isLoading: Driver<Bool> { get }
 }
 
@@ -22,7 +22,7 @@ final class IntranetLoginViewModel {
   
   private let intranetLoginButtonTappedSubject = PublishSubject<Void>()
   private let intranetInfoSubject = PublishSubject<(String, String)>()
-  private let intranetLoginMessage = PublishSubject<String?>()
+  private let intranetLoginMessage = PublishSubject<Void>()
   private let isLoadingSubject = BehaviorSubject<Bool>(value: false)
   
   init() {
@@ -67,8 +67,15 @@ final class IntranetLoginViewModel {
         }
     
     requestLoginIntranet
-      .subscribe(with: self)  { owner, response in
-        owner.intranetLoginMessage.onNext(response)
+      .subscribe(with: self)  { owner, html in
+        CrawlManager.shared.getIntranetLoginResult(html: html) { loginResult in
+          switch loginResult {
+          case .successIntranetLogin:
+            owner.intranetLoginMessage.onNext(())
+          case .failedIntranetLogin:
+            print("인트라넷 로그인 결과 \(loginResult.message)")
+          }
+        }
         owner.isLoadingSubject.onNext(false)
       }
       .disposed(by: disposeBag)
@@ -89,7 +96,7 @@ extension IntranetLoginViewModel: IntranetLoginViewModelType {
     intranetInfoSubject.asObserver()
   }
   
-  var successIntranetLogin: Signal<String?> {
-    intranetLoginMessage.asSignal(onErrorJustReturn: nil)
+  var successIntranetLogin: Signal<Void> {
+    intranetLoginMessage.asSignal(onErrorSignalWith: .empty())
   }
 }

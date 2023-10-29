@@ -18,7 +18,7 @@ final class MyPageService {
 }
 
 extension MyPageService {
-  func inquireUserInfo(userID: String) -> Observable<Result<InquireUserInfoResponse, HaramError>> {
-    service.request(router: MyPageRouter.inquireUserInfo(userID), type: InquireUserInfoResponse.self)
+  func inquireUserInfo(userID: String) -> Single<InquireUserInfoResponse> {
+    service.betarequest(router: MyPageRouter.inquireUserInfo(userID), type: InquireUserInfoResponse.self)
   }
 }

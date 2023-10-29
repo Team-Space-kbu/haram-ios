@@ -159,7 +159,6 @@ final class LibraryDetailViewController: BaseViewController {
     viewModel.whichRequestBookPath.onNext(path)
     
     viewModel.detailMainModel
-      .compactMap { $0 }
       .drive(with: self) { owner, model in
         owner.libraryDetailMainView.hideSkeleton()
         owner.libraryDetailMainView.configureUI(with: model)
@@ -167,7 +166,6 @@ final class LibraryDetailViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.detailSubModel
-      .compactMap { $0 }
       .drive(with: self) { owner, model in
         owner.libraryDetailSubView.hideSkeleton()
         owner.libraryDetailSubView.configureUI(with: model)
@@ -175,7 +173,6 @@ final class LibraryDetailViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.detailInfoModel
-      .filter { !$0.isEmpty }
       .drive(with: self) { owner, model in
         owner.libraryDetailInfoView.hideSkeleton()
         owner.libraryDetailInfoView.configureUI(with: model)

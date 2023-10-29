@@ -69,7 +69,11 @@ enum SettingType: CaseIterable {
 
 final class MoreViewController: BaseViewController {
   
+  // MARK: - Property
+  
   private let viewModel: MoreViewModelType
+  
+  // MARK: - UI Components
   
   private lazy var moreTableView = UITableView(frame: .zero, style: .plain).then {
     $0.delegate = self
@@ -127,6 +131,8 @@ final class MoreViewController: BaseViewController {
     $0.backgroundColor = .hexD8D8DA
   }
   
+  // MARK: - Initializations
+  
   init(viewModel: MoreViewModelType = MoreViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -135,6 +141,8 @@ final class MoreViewController: BaseViewController {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  // MARK: - Configurations
   
   override func setupStyles() {
     super.setupStyles()
@@ -146,9 +154,8 @@ final class MoreViewController: BaseViewController {
     viewModel.currentUserID.onNext(userID)
     
     viewModel.currentUserInfo
-      .compactMap { $0 }
       .drive(with: self) { owner, profileInfoViewModel in
-        owner.profileInfoView.configureUI(with: profileInfoViewModel!)
+        owner.profileInfoView.configureUI(with: profileInfoViewModel)
       }
       .disposed(by: disposeBag)
     
@@ -193,7 +200,6 @@ final class MoreViewController: BaseViewController {
       $0.top.equalTo(profileInfoView.snp.bottom).offset(31.33)
       $0.leading.equalToSuperview().inset(18.01)
       $0.trailing.equalToSuperview().inset(28)
-//      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo((23 + 24) * MoreType.allCases.count)
     }
     
@@ -217,6 +223,8 @@ final class MoreViewController: BaseViewController {
     }
   }
 }
+
+// MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

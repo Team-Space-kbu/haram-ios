@@ -13,7 +13,7 @@ protocol MoreViewModelType {
   var currentUserID: AnyObserver<String> { get }
   var requestLogoutUser: AnyObserver<Void> { get }
   
-  var currentUserInfo: Driver<ProfileInfoViewModel?> { get }
+  var currentUserInfo: Driver<ProfileInfoViewModel> { get }
   var successMessage: Signal<String> { get }
 }
 
@@ -24,7 +24,7 @@ final class MoreViewModel: MoreViewModelType {
   let currentUserID: AnyObserver<String>
   let requestLogoutUser: AnyObserver<Void>
   
-  let currentUserInfo: Driver<ProfileInfoViewModel?>
+  let currentUserInfo: Driver<ProfileInfoViewModel>
   let successMessage: Signal<String>
   
   init() {
@@ -35,7 +35,7 @@ final class MoreViewModel: MoreViewModelType {
     let successMessageRelay = PublishRelay<String>()
     
     currentUserID = currentUserIDSubject.asObserver()
-    currentUserInfo = currentUserInfoRelay.asDriver(onErrorJustReturn: nil)
+    currentUserInfo = currentUserInfoRelay.compactMap { $0 }.asDriver(onErrorDriveWith: .empty())
     requestLogoutUser = requestLogoutUserSubject.asObserver()
     successMessage = successMessageRelay.asSignal()
     
@@ -43,8 +43,7 @@ final class MoreViewModel: MoreViewModelType {
       .filter { _ in UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken }
       .take(1)
       .flatMapLatest(MyPageService.shared.inquireUserInfo)
-      .subscribe(onNext: { result in
-        guard case let .success(response) = result else { return }
+      .subscribe(onNext: { response in
         let profileInfoViewModel = ProfileInfoViewModel(response: response)
         currentUserInfoRelay.accept(profileInfoViewModel)
       })
@@ -52,9 +51,6 @@ final class MoreViewModel: MoreViewModelType {
     
     requestLogoutUserSubject
       .flatMapLatest { AuthService.shared.logoutUser(userID: UserManager.shared.userID!) }
-      .compactMap { result in
-        guard case .success(_) = result else { return }
-      }
       .subscribe(onNext: { _ in
         
         UserManager.shared.clearAllInformations()

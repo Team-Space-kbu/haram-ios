@@ -80,6 +80,7 @@ extension LoginViewModel {
               owner.refreshTokenForLogin.onNext(UserManager.shared.refreshToken)
             case .failure(let error):
               guard let description = error.description else { return }
+              /// TODO: -로그인 실패 시 처리해야함
               owner.errorMessageRelay.accept(description)
           }
           owner.isLoadingSubject.onNext(false)

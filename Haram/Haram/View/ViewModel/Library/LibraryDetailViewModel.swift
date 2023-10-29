@@ -12,8 +12,8 @@ protocol LibraryDetailViewModelType {
   var whichRequestBookPath: AnyObserver<Int> { get }
   
   var detailBookInfo: Driver<[LibraryRentalViewModel]> { get }
-  var detailMainModel: Driver<LibraryDetailMainViewModel?> { get }
-  var detailSubModel: Driver<LibraryDetailSubViewModel?> { get }
+  var detailMainModel: Driver<LibraryDetailMainViewModel> { get }
+  var detailSubModel: Driver<LibraryDetailSubViewModel> { get }
   var detailInfoModel: Driver<[LibraryInfoViewModel]> { get }
   var detailRentalModel: Driver<[LibraryRentalViewModel]> { get }
   var relatedBookModel: Driver<[LibraryRelatedBookCollectionViewCellModel]> { get }
@@ -28,8 +28,8 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
   let whichRequestBookPath: AnyObserver<Int>
   
   let detailBookInfo: Driver<[LibraryRentalViewModel]>
-  let detailMainModel: Driver<LibraryDetailMainViewModel?>
-  let detailSubModel: Driver<LibraryDetailSubViewModel?>
+  let detailMainModel: Driver<LibraryDetailMainViewModel>
+  let detailSubModel: Driver<LibraryDetailSubViewModel>
   let detailInfoModel: Driver<[LibraryInfoViewModel]>
   let detailRentalModel: Driver<[LibraryRentalViewModel]>
   let relatedBookModel: Driver<[LibraryRelatedBookCollectionViewCellModel]>
@@ -49,9 +49,9 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     
     whichRequestBookPath = whichRequestingBookPath.asObserver()
     detailBookInfo = currentDetailBookInfo.asDriver()
-    detailMainModel = currentDetailMainModel.asDriver()
-    detailSubModel = currentDetailSubModel.asDriver()
-    detailInfoModel = currentDetailInfoModel.asDriver()
+    detailMainModel = currentDetailMainModel.compactMap { $0 }.asDriver(onErrorDriveWith: .empty())
+    detailSubModel = currentDetailSubModel.compactMap { $0 }.asDriver(onErrorDriveWith: .empty())
+    detailInfoModel = currentDetailInfoModel.filter { !$0.isEmpty }.asDriver(onErrorJustReturn: [])
     detailRentalModel = currentDetailRentalModel.asDriver()
     relatedBookModel = currentRelatedBookModel.asDriver()
     isLoading = isLoadingSubject.distinctUntilChanged().asDriver(onErrorJustReturn: false)

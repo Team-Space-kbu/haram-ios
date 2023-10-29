@@ -202,16 +202,8 @@ final class IntranetLoginViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.successIntranetLogin
-      .compactMap { $0 }
       .emit(with: self) { owner, message in
-        CrawlManager.shared.getIntranetLoginResult(html: message) { loginResult in
-          switch loginResult {
-          case .successIntranetLogin:
-            owner.dismiss(animated: true)
-          case .failedIntranetLogin:
-            print("인트라넷 로그인 결과 \(loginResult.message)")
-          }
-        }
+        owner.dismiss(animated: true)
       }
       .disposed(by: disposeBag)
     

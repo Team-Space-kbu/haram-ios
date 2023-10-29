@@ -25,13 +25,11 @@ final class ProfileInfoView: UIView {
   private let nameLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold20
-    $0.sizeToFit()
   }
   
   private let emailLabel = UILabel().then {
     $0.textColor = .hex8B8B8E
     $0.font = .regular20
-    $0.sizeToFit()
   }
   
   private let lineView = UIView().then {
@@ -42,7 +40,6 @@ final class ProfileInfoView: UIView {
     $0.textColor = .hex1A1E27
     $0.font = .bold18
     $0.text = "더보기"
-    $0.sizeToFit()
   }
   
   private let indicatorButton = UIButton().then {
