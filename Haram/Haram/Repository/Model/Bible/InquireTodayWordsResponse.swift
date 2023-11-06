@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireTodayWordsResponse: Codable {
+struct InquireTodayWordsResponse: Decodable {
   let book: String
   let chapter: Int
   let verse: Int

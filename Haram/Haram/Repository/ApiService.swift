@@ -9,19 +9,22 @@ import Foundation
 
 import Alamofire
 import RxSwift
+import Then
 
 protocol BaseService {
-  func request<T: Codable>(router: URLRequestConvertible, type: T.Type) -> Observable<Result<T, HaramError>>
+  func request<T: Decodable>(router: URLRequestConvertible, type: T.Type) -> Observable<Result<T, HaramError>>
   func intranetRequest(router: Alamofire.URLRequestConvertible) -> Observable<String>
-  func betarequest<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Single<T> where T : Codable
+  func betarequest<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Single<T> where T : Decodable
 }
 
 final class ApiService: BaseService {
   private let configuration = URLSessionConfiguration.af.default
+  
   private let monitor = APIEventLogger()
   private lazy var session = Session(configuration: configuration, interceptor: Interceptor(), eventMonitors: [monitor])
   
-  func request<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Observable<Result<T, HaramError>> where T : Codable {
+  
+  func request<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Observable<Result<T, HaramError>> where T : Decodable {
     Observable.create { observer in
       self.session.request(router)
         .validate({ request, response, data in
@@ -64,9 +67,8 @@ final class ApiService: BaseService {
               return observer.onNext(.failure(HaramError.unknownedError))
             }
             
-          case .failure(let error):
+          case .failure(_):
             print("APIService 에러")
-            //            observer.onNext(.failure(error))
           }
         }
       return Disposables.create()
@@ -74,7 +76,7 @@ final class ApiService: BaseService {
     
   }
   
-  func betarequest<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Single<T> where T : Codable {
+  func betarequest<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Single<T> where T : Decodable {
       Single.create { observer in
         self.session.request(router)
           .validate({ request, response, data in

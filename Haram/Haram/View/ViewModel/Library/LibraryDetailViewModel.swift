@@ -55,7 +55,7 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
     detailRentalModel = currentDetailRentalModel.asDriver()
     relatedBookModel = currentRelatedBookModel.asDriver()
     isLoading = isLoadingSubject.distinctUntilChanged().asDriver(onErrorJustReturn: false)
-    errorMessage = errorMessageRelay.asSignal()
+    errorMessage = errorMessageRelay.filter { $0 == .noEnglishRequest || $0 == .noRequestFromNaver }.asSignal(onErrorSignalWith: .empty())
     
     let shareRequestingBookText = whichRequestingBookPath.share()
       .do(onNext: { _ in isLoadingSubject.onNext(true) })

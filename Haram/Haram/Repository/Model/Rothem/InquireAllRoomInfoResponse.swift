@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireAllRoomInfoResponse: Codable {
+struct InquireAllRoomInfoResponse: Decodable {
   let id: Int
   let explanation: String
   let availablePersonnel: Int

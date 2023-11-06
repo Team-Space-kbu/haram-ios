@@ -47,7 +47,7 @@ extension BibleRouter: Router {
   var headers: HeaderType {
     switch self {
     case .inquireTodayWords, .inquireChapterToBible, .inquireBibleMainNotice:
-      return .withAccessToken
+      return .noCache
     }
   }
 }

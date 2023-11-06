@@ -24,7 +24,7 @@ final class LoginViewController: BaseViewController {
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = .init(top: 50, left: 22, bottom: .zero, right: 22)
-    $0.spacing = 15
+    $0.spacing = 25
     $0.backgroundColor = .clear
   }
   
@@ -113,7 +113,7 @@ final class LoginViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
+//    UserManager.shared.clearAllInformations()
     guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else {
       registerNotifications()
       return
@@ -145,7 +145,12 @@ final class LoginViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.errorMessage
-      .emit(to: errorMessageLabel.rx.text)
+      .emit(with: self) { owner, error in
+        if !owner.containerView.subviews.contains(owner.errorMessageLabel) {
+          owner.containerView.insertArrangedSubview(owner.errorMessageLabel, at: 5)
+        }
+        owner.errorMessageLabel.text = error
+      }
       .disposed(by: disposeBag)
     
     viewModel.isLoading
@@ -156,7 +161,7 @@ final class LoginViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     [containerView, indicatorView].forEach { view.addSubview($0) }
-    [loginImageView, loginLabel, schoolLabel, emailTextField, passwordTextField, errorMessageLabel, loginButton].forEach { containerView.addArrangedSubview($0) }
+    [loginImageView, loginLabel, schoolLabel, emailTextField, passwordTextField, loginButton].forEach { containerView.addArrangedSubview($0) }
     view.addSubview(loginAlertView)
   }
   
@@ -190,9 +195,9 @@ final class LoginViewController: BaseViewController {
       $0.height.equalTo(18)
     }
     
-    errorMessageLabel.snp.makeConstraints {
-      $0.height.equalTo(16)
-    }
+//    errorMessageLabel.snp.makeConstraints {
+//      $0.height.equalTo(16)
+//    }
     
     loginButton.snp.makeConstraints {
       $0.height.equalTo(48)
@@ -223,7 +228,7 @@ extension LoginViewController: LoginButtonDelegate {
   }
   
   func didTappedFindPasswordButton() {
-    let vc = FindPasswordViewController()
+    let vc = UINavigationController(rootViewController: FindPasswordViewController())
     vc.modalPresentationStyle = .fullScreen
     present(vc, animated: true)
   }

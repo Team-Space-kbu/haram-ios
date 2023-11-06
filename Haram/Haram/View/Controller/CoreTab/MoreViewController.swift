@@ -149,9 +149,8 @@ final class MoreViewController: BaseViewController {
     navigationController?.navigationBar.isHidden = true
   }
   
-  func bind(userID: String) {
+  override func bind() {
     super.bind()
-    viewModel.currentUserID.onNext(userID)
     
     viewModel.currentUserInfo
       .drive(with: self) { owner, profileInfoViewModel in

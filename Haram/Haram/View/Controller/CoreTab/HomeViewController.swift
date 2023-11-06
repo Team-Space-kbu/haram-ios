@@ -164,13 +164,13 @@ final class HomeViewController: BaseViewController {
   }
   
   private func createSection(type: HomeType) -> NSCollectionLayoutSection? {
+    let item = NSCollectionLayoutItem(
+      layoutSize: NSCollectionLayoutSize(
+        widthDimension: .fractionalWidth(1),
+        heightDimension: .fractionalHeight(1))
+    )
     switch type {
     case .banner:
-      let item = NSCollectionLayoutItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .fractionalHeight(1))
-      )
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1),
@@ -200,12 +200,6 @@ final class HomeViewController: BaseViewController {
       
       return section
     case .shortcut:
-      let item = NSCollectionLayoutItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .fractionalHeight(1))
-      )
-      
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .fractionalWidth(1/4),
@@ -232,12 +226,6 @@ final class HomeViewController: BaseViewController {
       return section
       
     case .news:
-      let item = NSCollectionLayoutItem(
-        layoutSize: NSCollectionLayoutSize(
-          widthDimension: .fractionalWidth(1),
-          heightDimension: .fractionalHeight(1))
-      )
-      
       let group = NSCollectionLayoutGroup.horizontal(
         layoutSize: NSCollectionLayoutSize(
           widthDimension: .absolute(119),

@@ -115,7 +115,6 @@ final class ScheduleViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isLoading
-      .distinctUntilChanged()
       .drive(indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
   }

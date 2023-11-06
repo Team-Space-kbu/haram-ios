@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireChapelListResponse: Codable {
+struct InquireChapelListResponse: Decodable {
   let attendance: String
   let weekDays: String
   let attendanceDays: String

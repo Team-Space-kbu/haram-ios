@@ -7,28 +7,28 @@
 
 import Foundation
 
-struct RequestBookLoanStatusResponse: Codable {
+struct RequestBookLoanStatusResponse: Decodable {
   let keepBooks: KeepBookInfo
   let relateBooks: RelatedBookInfo
 }
 
-struct RelatedBookInfo: Codable {
+struct RelatedBookInfo: Decodable {
   let display: Int
   let relatedBooks: [RelatedBook]
 }
 
-struct RelatedBook: Codable {
+struct RelatedBook: Decodable {
   let path: Int
   let image: String
   let title: String
 }
 
-struct KeepBookInfo: Codable {
+struct KeepBookInfo: Decodable {
   let display: Int
   let keepBooks: [KeepBook]
 }
 
-struct KeepBook: Codable {
+struct KeepBook: Decodable {
   let register: String
   let number: String
   let holdingInstitution: String

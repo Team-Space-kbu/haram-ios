@@ -12,11 +12,11 @@ import Then
 
 struct ChapelCollectionViewCellModel {
   let title: String
-  let subTitle: String
+  let chapelDate: Date
   
-  init(response: InquireChapelListResponse) {
-    title = response.attendanceDays
-    subTitle = response.attendance
+  init(response: InquireChapelDetailResponse) {
+    title = response.attendance
+    chapelDate = DateformatterFactory.dateForChapel.date(from: response.date) ?? Date()
   }
 }
 
@@ -80,7 +80,8 @@ final class ChapelCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: ChapelCollectionViewCellModel) {
+//    guard let chapelDate = model.chapelDate else { return }
     chapelTitleLabel.text = model.title
-    chapelSubTitleLabel.text = model.subTitle
+    chapelSubTitleLabel.text = DateformatterFactory.dateForChapel.string(from: model.chapelDate)
   }
 }

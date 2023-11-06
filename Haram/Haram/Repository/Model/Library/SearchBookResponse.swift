@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct SearchBookResponse: Codable {
+struct SearchBookResponse: Decodable {
   let start: Int
   let end: Int
   let result: [SearchBookResult]
 }
 
-struct SearchBookResult: Codable {
+struct SearchBookResult: Decodable {
   let title: String
   let description: String
   let imageName: String

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireRothemRoomInfoResponse: Codable {
+struct InquireRothemRoomInfoResponse: Decodable {
   let roomSeq: Int
   let thumbnailImage: String?
   let outsideImages: [String]

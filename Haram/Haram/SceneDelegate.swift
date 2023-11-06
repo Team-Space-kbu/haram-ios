@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     window?.rootViewController = LoginViewController()
 //    window?.rootViewController = BoardDetailViewController()
 //    window?.rootViewController = LibraryDetailViewController(path: 166181)
-//    window?.rootViewController = TermsOfUseViewController()
+//    window?.rootViewController = ChapelViewController()
     window?.makeKeyAndVisible()
   }
 

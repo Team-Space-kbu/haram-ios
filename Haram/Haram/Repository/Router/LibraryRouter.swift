@@ -38,14 +38,10 @@ extension LibraryRouter: Router {
   
   var parameters: ParameterType {
     switch self {
-    case .inquireLibrary:
+    case .inquireLibrary, .requestBookInfo, .requestBookLoanStatus:
       return .plain
     case .searchBook(let request):
       return .query(request)
-    case .requestBookInfo:
-      return .plain
-    case .requestBookLoanStatus:
-      return .plain
     }
   }
   

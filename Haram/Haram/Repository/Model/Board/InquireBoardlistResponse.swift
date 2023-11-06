@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireBoardlistResponse: Codable {
+struct InquireBoardlistResponse: Decodable {
   let boardSeq: Int
   let boardTitle: String
   let userID: String
@@ -22,7 +22,7 @@ struct InquireBoardlistResponse: Codable {
 }
 
 /// 게시글에 대한 타입
-enum BoardType: String, CaseIterable, Codable {
+enum BoardType: String, CaseIterable, Decodable {
   case STUDENT_COUNCIL
   case CLUB
   case DEPARTMENT

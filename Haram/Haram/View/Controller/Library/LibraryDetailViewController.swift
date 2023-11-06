@@ -8,6 +8,7 @@
 import UIKit
 
 import RxSwift
+import RxCocoa
 import SnapKit
 import SkeletonView
 import Then
@@ -158,33 +159,27 @@ final class LibraryDetailViewController: BaseViewController {
     
     viewModel.whichRequestBookPath.onNext(path)
     
-    viewModel.detailMainModel
-      .drive(with: self) { owner, model in
-        owner.libraryDetailMainView.hideSkeleton()
-        owner.libraryDetailMainView.configureUI(with: model)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.detailSubModel
-      .drive(with: self) { owner, model in
-        owner.libraryDetailSubView.hideSkeleton()
-        owner.libraryDetailSubView.configureUI(with: model)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.detailInfoModel
-      .drive(with: self) { owner, model in
-        owner.libraryDetailInfoView.hideSkeleton()
-        owner.libraryDetailInfoView.configureUI(with: model)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.detailRentalModel
-      .drive(with: self) { owner, model in
-//        owner.libraryRentalListView.hideSkeleton()
-        owner.libraryRentalListView.configureUI(with: model)
-      }
-      .disposed(by: disposeBag)
+    Driver.combineLatest(
+      viewModel.detailMainModel,
+      viewModel.detailSubModel,
+      viewModel.detailInfoModel,
+      viewModel.detailRentalModel,
+      viewModel.relatedBookModel
+    )
+    .drive(with: self) { owner, result in
+      let (mainModel, subModel, infoModel, rentalModel, bookModel) = result
+      owner.libraryDetailMainView.hideSkeleton()
+      owner.libraryDetailSubView.hideSkeleton()
+      owner.libraryDetailInfoView.hideSkeleton()
+      owner.libraryRentalListView.hideSkeleton()
+      
+      owner.libraryDetailMainView.configureUI(with: mainModel)
+      owner.libraryDetailSubView.configureUI(with: subModel)
+      owner.libraryDetailInfoView.configureUI(with: infoModel)
+      owner.libraryRentalListView.configureUI(with: rentalModel)
+      owner.relatedBookModel = bookModel
+    }
+    .disposed(by: disposeBag)
     
     viewModel.isLoading
       .filter { !$0 }
@@ -193,13 +188,8 @@ final class LibraryDetailViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    viewModel.relatedBookModel
-      .drive(rx.relatedBookModel)
-      .disposed(by: disposeBag)
-    
     viewModel.errorMessage
       .emit(with: self) { owner, error in
-        guard error == .noEnglishRequest || error == .noRequestFromNaver else { return }
         owner.navigationController?.popViewController(animated: true)
         HaramToast.makeToast(text: error.description, duration: .short)
       }

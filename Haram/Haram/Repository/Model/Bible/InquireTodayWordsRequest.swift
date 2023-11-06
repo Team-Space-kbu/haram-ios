@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireTodayWordsRequest: Codable {
+struct InquireTodayWordsRequest: Encodable {
   let bibleType: BibleType
 }
 

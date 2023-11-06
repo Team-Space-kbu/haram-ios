@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireHomeInfoResponse: Codable {
+struct InquireHomeInfoResponse: Decodable {
   let homes: [HomeShortcut]
   let banner: MainBanner
   let kokkoks: Kokkoks
@@ -15,7 +15,7 @@ struct InquireHomeInfoResponse: Codable {
   let bottomBars: [BottomBar]
 }
 
-struct BottomBar: Codable {
+struct BottomBar: Decodable {
   let createdAt: String
   let modifiedAt: String?
   let iconSeq: Int
@@ -24,7 +24,7 @@ struct BottomBar: Codable {
   let uiType: String
 }
 
-struct HomeShortcut: Codable {
+struct HomeShortcut: Decodable {
   let createdAt: String
   let modifiedAt: String?
   let iconSeq: Int
@@ -33,34 +33,34 @@ struct HomeShortcut: Codable {
   let uiType: String
 }
 
-struct MainBanner: Codable {
+struct MainBanner: Decodable {
   let index: Int
   let banners: [SubBanner]
 }
 
-struct SubBanner: Codable {
+struct SubBanner: Decodable {
   let title: String
   let content: String
   let filePath: String
   let department: String
 }
 
-struct Kokkoks: Codable {
+struct Kokkoks: Decodable {
   let index: Int
   let kbuNews: [KbuNews]
 }
 
-struct KbuNews: Codable {
+struct KbuNews: Decodable {
   let title: String
   let filePath: String
 }
 
-struct Notice: Codable {
+struct Notice: Decodable {
   let index: Int
   let notices: [SubNotice]
 }
 
-struct SubNotice: Codable {
+struct SubNotice: Decodable {
   let title: String
   let content: String
 }

@@ -40,7 +40,7 @@ extension BoardRouter: Router {
   var headers: HeaderType {
     switch self {
     case .inquireBoardList, .inquireBoard:
-      return .withAccessToken
+      return .noCache
     }
   }
 }

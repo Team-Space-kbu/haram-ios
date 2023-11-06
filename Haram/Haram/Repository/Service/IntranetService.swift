@@ -29,5 +29,13 @@ extension IntranetService {
   func inquireScheduleInfo(request: IntranetRequest) -> Observable<Result<[InquireScheduleInfoResponse], HaramError>> {
     service.request(router: IntranetRouter.inquireScheduleInfo(request), type: [InquireScheduleInfoResponse].self)
   }
+  
+  func inquireChapelInfo2() -> Single<InquireChapelInfoResponse> {
+    service.betarequest(router: IntranetRouter.inquireChapelInfo2, type: InquireChapelInfoResponse.self)
+  }
+  
+  func inquireChapelDetail() -> Single<[InquireChapelDetailResponse]> {
+    service.betarequest(router: IntranetRouter.inquireChapelDetail, type: [InquireChapelDetailResponse].self)
+  }
 }
 

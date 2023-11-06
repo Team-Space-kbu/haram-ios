@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireLibraryResponse: Codable {
+struct InquireLibraryResponse: Decodable {
   let image: [String]
   let newBook: [BookInfo]
   let bestBook: [BookInfo]
@@ -27,7 +27,7 @@ struct InquireLibraryResponse: Codable {
   }
 }
 
-struct BookInfo: Codable {
+struct BookInfo: Decodable {
   let path: Int
   let image: String
   let title: String

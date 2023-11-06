@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireAffiliatedResponse: Codable {
+struct InquireAffiliatedResponse: Decodable {
   let id: Int
   let affiliatedName: String
   let tag: String

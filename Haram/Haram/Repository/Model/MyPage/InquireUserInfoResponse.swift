@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireUserInfoResponse: Codable {
+struct InquireUserInfoResponse: Decodable {
   let userID: String
   let userEmail: String
   let userNickname: String

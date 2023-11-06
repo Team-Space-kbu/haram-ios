@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireAllRothemNoticeResponse: Codable {
+struct InquireAllRothemNoticeResponse: Decodable {
   let noticeSeq: Int
   let thumbnailImage: String
   let adminName: String

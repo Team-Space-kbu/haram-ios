@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct IntranetLoginRequest: Codable {
+struct IntranetLoginRequest: Encodable {
   let intranetToken: String
   let intranetID: String
   let intranetPWD: String

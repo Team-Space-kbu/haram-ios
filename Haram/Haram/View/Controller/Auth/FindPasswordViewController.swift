@@ -49,6 +49,7 @@ final class FindPasswordViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     registerKeyboardNotification()
+    navigationController?.navigationBar.isHidden = true
   }
   
   override func setupLayouts() {

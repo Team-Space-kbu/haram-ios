@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RequestBookInfoResponse: Codable {
+struct RequestBookInfoResponse: Decodable {
   let bookTitle: String
   let thumbnailImage: String
   let isbn: String?
@@ -26,7 +26,7 @@ struct RequestBookInfoResponse: Codable {
   }
 }
 
-struct BookKeep: Codable {
+struct BookKeep: Decodable {
   let register: String
   let number: String
   let holdingInstitution: String

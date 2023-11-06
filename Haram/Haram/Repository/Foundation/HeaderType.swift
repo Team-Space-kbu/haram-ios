@@ -14,6 +14,7 @@ enum HeaderType {
   case withAccessToken
   case withRefreshToken
   case withCookieForIntranet
+  case noCache
 }
 
 extension HeaderType {
@@ -57,6 +58,18 @@ extension HeaderType {
         defaultHeaders.add(name: "Cookie", value: "XSRF-TOKEN=\(xsrfToken);laravel_session=\(laravelSession)")
         defaultHeaders.add(.contentType("application/json"))
         return defaultHeaders
+    case .noCache:
+      // 토큰이 존재하지 않는 경우 default 리턴
+      guard let token = UserManager.shared.accessToken else {
+        return HeaderType.default.toHTTPHeader
+      }
+
+      // default 헤더 값에 `Authorization token` 및 `Content-Type` 추가
+      var defaultHeaders = HTTPHeaders.default
+      defaultHeaders.add(.authorization(bearerToken: token))
+      defaultHeaders.add(.contentType("application/json"))
+      defaultHeaders.add(name: "Cache-Control", value: "no-store")
+      return defaultHeaders
     }
   }
 }

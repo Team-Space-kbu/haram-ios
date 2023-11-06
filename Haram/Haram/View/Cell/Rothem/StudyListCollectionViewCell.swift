@@ -12,12 +12,12 @@ import SnapKit
 import SkeletonView
 import Then
 
-struct StudyListCollectionViewCellModel: Hashable {
+struct StudyListCollectionViewCellModel {
   let roomSeq: Int
   let title: String
   let description: String
   let imageURL: URL?
-  private let identifier = UUID()
+//  private let identifier = UUID()
   
   init(rothemRoom: RothemRoom) {
     roomSeq = rothemRoom.roomSeq
@@ -26,9 +26,9 @@ struct StudyListCollectionViewCellModel: Hashable {
     imageURL = URL(string: rothemRoom.thumbnailImage ?? "")
   }
   
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(identifier)
-  }
+//  func hash(into hasher: inout Hasher) {
+//    hasher.combine(identifier)
+//  }
 }
 
 final class StudyListCollectionViewCell: UICollectionViewCell {

@@ -36,7 +36,7 @@ final class ScheduleViewModel: ScheduleViewModelType {
     
     self.scheduleInfo = schedulingInfo.asDriver(onErrorJustReturn: [])
     self.inquireSchedule = inquiringSchedule.asObserver()
-    self.isLoading = isLoadingSubject.asDriver(onErrorJustReturn: false)
+    self.isLoading = isLoadingSubject.distinctUntilChanged().asDriver(onErrorJustReturn: false)
     
     inquiringSchedule
       .filter { UserManager.shared.hasIntranetToken }

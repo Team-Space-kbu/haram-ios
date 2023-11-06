@@ -9,8 +9,6 @@ import RxSwift
 import RxCocoa
 
 protocol MoreViewModelType {
-  
-  var currentUserID: AnyObserver<String> { get }
   var requestLogoutUser: AnyObserver<Void> { get }
   
   var currentUserInfo: Driver<ProfileInfoViewModel> { get }
@@ -20,37 +18,39 @@ protocol MoreViewModelType {
 final class MoreViewModel: MoreViewModelType {
   
   private let disposeBag = DisposeBag()
-  
-  let currentUserID: AnyObserver<String>
+
   let requestLogoutUser: AnyObserver<Void>
   
   let currentUserInfo: Driver<ProfileInfoViewModel>
   let successMessage: Signal<String>
   
   init() {
-    
-    let currentUserIDSubject = PublishSubject<String>()
     let requestLogoutUserSubject = PublishSubject<Void>()
-    let currentUserInfoRelay = PublishRelay<ProfileInfoViewModel?>()
+    let currentUserInfoRelay = BehaviorRelay<ProfileInfoViewModel?>(value: nil)
     let successMessageRelay = PublishRelay<String>()
-    
-    currentUserID = currentUserIDSubject.asObserver()
+
     currentUserInfo = currentUserInfoRelay.compactMap { $0 }.asDriver(onErrorDriveWith: .empty())
     requestLogoutUser = requestLogoutUserSubject.asObserver()
     successMessage = successMessageRelay.asSignal()
     
-    currentUserIDSubject
-      .filter { _ in UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken }
-      .take(1)
-      .flatMapLatest(MyPageService.shared.inquireUserInfo)
+    Observable.just(())
+      .compactMap { UserManager.shared.userID }
+      .flatMapLatest(MyPageService.shared.inquireUserInfo(userID: ))
       .subscribe(onNext: { response in
         let profileInfoViewModel = ProfileInfoViewModel(response: response)
         currentUserInfoRelay.accept(profileInfoViewModel)
       })
       .disposed(by: disposeBag)
+//    MyPageService.shared.inquireUserInfo(userID: UserManager.shared.userID!)
+//      .subscribe(onSuccess: { response in
+//        let profileInfoViewModel = ProfileInfoViewModel(response: response)
+//        currentUserInfoRelay.accept(profileInfoViewModel)
+//      })
+//      .disposed(by: disposeBag)
     
     requestLogoutUserSubject
-      .flatMapLatest { AuthService.shared.logoutUser(userID: UserManager.shared.userID!) }
+      .compactMap { UserManager.shared.userID }
+      .flatMapLatest(AuthService.shared.logoutUser(userID: ))
       .subscribe(onNext: { _ in
         
         UserManager.shared.clearAllInformations()

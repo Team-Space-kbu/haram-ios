@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RequestIntranetTokenResponse: Codable {
+struct RequestIntranetTokenResponse: Decodable {
   let intranetToken: String
   let xsrfToken: String
   let laravelSession: String

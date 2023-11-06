@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct InquireRothemHomeInfoResponse: Codable {
+struct InquireRothemHomeInfoResponse: Decodable {
   let noticeList: [RothemNotice]
   let roomList: [RothemRoom]
   let reservation: Bool
 }
 
-struct RothemRoom: Codable {
+struct RothemRoom: Decodable {
   let roomSeq: Int
   let thumbnailImage: String?
   let roomName: String
@@ -22,7 +22,7 @@ struct RothemRoom: Codable {
   let location: String
 }
 
-struct RothemNotice: Codable {
+struct RothemNotice: Decodable {
   let noticeSeq: Int
   let thumbnailImage: String
   let adminName: String

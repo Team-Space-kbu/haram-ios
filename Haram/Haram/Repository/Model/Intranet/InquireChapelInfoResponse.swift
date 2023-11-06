@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct InquireChapelInfoResponse: Codable {
+struct InquireChapelInfoResponse: Decodable {
   let regulateDays: String
   let attendanceDays: String
   let lateDays: String
   let confirmationDays: String
-  let entireDays: String
+//  let entireDays: String
 }

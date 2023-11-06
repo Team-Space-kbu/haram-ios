@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RegisterMemberResponse: Codable {
+struct RegisterMemberResponse: Decodable {
   let joinDate: String
   let nickname: String
   let userID: String

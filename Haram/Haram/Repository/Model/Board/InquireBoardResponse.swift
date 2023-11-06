@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireBoardResponse: Codable {
+struct InquireBoardResponse: Decodable {
   let boardSeq: Int
   let boardTitle: String
   let userId: String
@@ -19,7 +19,7 @@ struct InquireBoardResponse: Codable {
   let commentDtoList: [CommentDto]
 }
 
-struct CommentDto: Codable {
+struct CommentDto: Decodable {
   let modifiedAt: String?
   let commentContent: String
   let boardSeq: Int
@@ -28,7 +28,7 @@ struct CommentDto: Codable {
   let createdAt: String
 }
 
-struct BoardFile: Codable {
+struct BoardFile: Decodable {
   let fileSeq: Int
   let boardSeq: Int
   let path: String

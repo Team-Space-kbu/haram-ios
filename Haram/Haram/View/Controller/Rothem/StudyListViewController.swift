@@ -76,9 +76,7 @@ final class StudyListViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isReservation
-      .drive(with: self) { owner, isReservation in
-        owner.type = isReservation ? .reservation : .noReservation
-      }
+      .drive(rx.type)
       .disposed(by: disposeBag)
     
     viewModel.isLoading
@@ -92,6 +90,8 @@ final class StudyListViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    
+    /// Configure NavigationBar
     title = "스터디"
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: Constants.backButton),
@@ -100,6 +100,7 @@ final class StudyListViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     
+    /// Configure Skeleton
     view.isSkeletonable = true
     let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
 
@@ -157,7 +158,6 @@ extension StudyListViewController: SkeletonCollectionViewDataSource {
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: StudyListCollectionViewCell.identifier, for: indexPath) as? StudyListCollectionViewCell ?? StudyListCollectionViewCell()
-//    cell.configureUI(with: studyListModel[indexPath.row])
     cell.configureUI(with: .init(rothemRoom: .init(roomSeq: -1, thumbnailImage: "", roomName: "Lorem ipsum dolor sit amet", roomExplanation: "Lorem ipsum dolor sit amet, consetetur\nsadipscing elitr, sed diam nonumy", peopleCount: 0, location: "1234")))
     return cell
   }

@@ -60,15 +60,13 @@ final class ChapelViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isLoading
-      .distinctUntilChanged()
       .drive(indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(chapelCollectionView)
-    view.addSubview(indicatorView)
+    _ = [chapelCollectionView, indicatorView].map { view.addSubview($0) }
   }
   
   override func setupConstraints() {

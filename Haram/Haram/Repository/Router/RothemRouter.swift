@@ -48,8 +48,10 @@ extension RothemRouter: Router {
   
   var headers: HeaderType {
     switch self {
-    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo, .inquireRothemReservationAuthCode:
+    case .inquireRothemRoomInfo, .inquireRothemReservationAuthCode:
       return .withAccessToken
+    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo:
+      return .noCache
     }
   }
 }

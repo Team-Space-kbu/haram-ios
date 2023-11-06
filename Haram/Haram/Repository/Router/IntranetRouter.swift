@@ -11,6 +11,9 @@ enum IntranetRouter {
   case inquireChapelList(IntranetRequest)
   case inquireChapelInfo(IntranetRequest)
   case inquireScheduleInfo(IntranetRequest)
+  
+  case inquireChapelInfo2
+  case inquireChapelDetail
 }
 
 extension IntranetRouter: Router {
@@ -19,6 +22,8 @@ extension IntranetRouter: Router {
     switch self {
     case .inquireChapelList, .inquireChapelInfo, .inquireScheduleInfo:
       return .post
+    case .inquireChapelInfo2, .inquireChapelDetail:
+      return .get
     }
   }
   
@@ -30,6 +35,10 @@ extension IntranetRouter: Router {
       return "/v1/function/chapel/info"
     case .inquireScheduleInfo:
       return "/v1/function/schedule"
+    case .inquireChapelInfo2:
+      return "/v2/intranet/chapel/info"
+    case .inquireChapelDetail:
+      return "/v2/intranet/chapel/detail"
     }
   }
   
@@ -41,12 +50,14 @@ extension IntranetRouter: Router {
       return .body(request)
     case .inquireScheduleInfo(let request):
       return .body(request)
+    case .inquireChapelInfo2, .inquireChapelDetail:
+      return .plain
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireChapelList, .inquireChapelInfo, .inquireScheduleInfo:
+    case .inquireChapelList, .inquireChapelInfo, .inquireScheduleInfo, .inquireChapelInfo2, .inquireChapelDetail:
       return .withAccessToken
     }
   }

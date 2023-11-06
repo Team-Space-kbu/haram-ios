@@ -27,7 +27,6 @@ final class BibleNoticeCollectionViewCell: UICollectionViewCell {
   
   private let noticeImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
-    $0.image = UIImage(named: "noticeBible")
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
   }

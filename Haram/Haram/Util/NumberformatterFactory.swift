@@ -34,4 +34,8 @@ enum DateformatterFactory {
     formatter.then { $0.dateFormat = "yyyy-MM-dd" }
   }
   
+  static var dateForChapel: DateFormatter {
+    formatter.then { $0.dateFormat = "yyyy.MM.dd HH시mm분" }
+  }
+  
 }

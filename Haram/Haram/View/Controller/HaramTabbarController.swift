@@ -90,9 +90,9 @@ extension HaramTabbarController: UITabBarControllerDelegate {
       vc.modalPresentationStyle = .fullScreen
       present(vc, animated: true)
     }
-    else if viewController == moreViewController {
-      guard let vc = moreViewController.topViewController as? MoreViewController else { return }
-      vc.bind(userID: UserManager.shared.userID!)
-    }
+//    else if viewController == moreViewController {
+//      guard let vc = moreViewController.topViewController as? MoreViewController else { return }
+//      vc.bind(userID: UserManager.shared.userID!)
+//    }
   }
 }

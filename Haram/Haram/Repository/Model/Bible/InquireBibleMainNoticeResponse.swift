@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireBibleMainNoticeResponse: Codable {
+struct InquireBibleMainNoticeResponse: Decodable {
   let bibleNoticeSeq: Int
   let path: String
   let content: String

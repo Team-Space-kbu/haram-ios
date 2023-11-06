@@ -15,7 +15,7 @@ protocol StudyListViewModelType {
   var currentRothemMainNotice: Driver<StudyListHeaderViewModel?> { get }
   
   var isLoading: Driver<Bool> { get }
-  var isReservation: Driver<Bool> { get }
+  var isReservation: Driver<StudyListCollectionHeaderViewType> { get }
 }
 
 final class StudyListViewModel {
@@ -69,7 +69,9 @@ extension StudyListViewModel: StudyListViewModelType {
     isLoadingSubject.asDriver(onErrorJustReturn: false)
   }
   
-  var isReservation: Driver<Bool> {
-    isReservationSubject.asDriver(onErrorJustReturn: false)
+  var isReservation: Driver<StudyListCollectionHeaderViewType> {
+    isReservationSubject
+      .map { $0 ? .reservation : .noReservation }
+      .asDriver(onErrorDriveWith: .empty())
   }
 }

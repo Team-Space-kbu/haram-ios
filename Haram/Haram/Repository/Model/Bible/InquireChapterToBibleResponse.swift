@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct InquireChapterToBibleResponse: Codable {
+struct InquireChapterToBibleResponse: Decodable {
   let verse: Int
   let chapter: Int
   let book: String

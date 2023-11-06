@@ -165,6 +165,7 @@
 		708312C02A7A448300F7E283 /* TermsOfUseCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312BF2A7A448300F7E283 /* TermsOfUseCheckView.swift */; };
 		708312C22A7A6F2900F7E283 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312C12A7A6F2900F7E283 /* PaddingLabel.swift */; };
 		708312C42A7BF7BD00F7E283 /* APIEventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312C32A7BF7BD00F7E283 /* APIEventLogger.swift */; };
+		70864F302AF69FB100CD4124 /* InquireChapelDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F2F2AF69FB100CD4124 /* InquireChapelDetailResponse.swift */; };
 		708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */; };
 		708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */; };
 		708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */; };
@@ -403,6 +404,7 @@
 		708312BF2A7A448300F7E283 /* TermsOfUseCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseCheckView.swift; sourceTree = "<group>"; };
 		708312C12A7A6F2900F7E283 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		708312C32A7BF7BD00F7E283 /* APIEventLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEventLogger.swift; sourceTree = "<group>"; };
+		70864F2F2AF69FB100CD4124 /* InquireChapelDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireChapelDetailResponse.swift; sourceTree = "<group>"; };
 		708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HaramRelease.entitlements; sourceTree = "<group>"; };
 		708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBookLoanStatusResponse.swift; sourceTree = "<group>"; };
 		708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
@@ -538,6 +540,15 @@
 			children = (
 				708312B12A76940600F7E283 /* BoardListViewController.swift */,
 				7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
+		701F29DF2AEEA0A700E3E68B /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7812A8CC70700107CDF /* BoardListViewModel.swift */,
+				7051E5052ADAF4EF00C2134B /* BoardDetailViewModel.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -696,6 +707,7 @@
 		705FD2A62A16030E00F353FE /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				701F29DF2AEEA0A700E3E68B /* Board */,
 				708ED7D92A923B2300107CDF /* Bible */,
 				708ED7922A8E670B00107CDF /* Home */,
 				708ED78F2A8E0AE400107CDF /* Rothem */,
@@ -704,10 +716,7 @@
 				705FD2A72A16031300F353FE /* Auth */,
 				708312922A65638200F7E283 /* MoreViewModel.swift */,
 				708312AF2A73E07300F7E283 /* NoticeViewModel.swift */,
-				708312BB2A79247500F7E283 /* RegisterViewModel.swift */,
-				708ED7812A8CC70700107CDF /* BoardListViewModel.swift */,
 				708ED7EE2A9E232A00107CDF /* AffiliatedViewModel.swift */,
-				7051E5052ADAF4EF00C2134B /* BoardDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -715,6 +724,7 @@
 		705FD2A72A16031300F353FE /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				708312BB2A79247500F7E283 /* RegisterViewModel.swift */,
 				705FD2A82A16031900F353FE /* LoginViewModel.swift */,
 				708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */,
 			);
@@ -902,6 +912,7 @@
 				7083123D2A2CA62A00F7E283 /* InquireChapelListResponse.swift */,
 				708312432A2F1E6500F7E283 /* InquireChapelInfoResponse.swift */,
 				7083125D2A3887B700F7E283 /* InquireScheduleInfoResponse.swift */,
+				70864F2F2AF69FB100CD4124 /* InquireChapelDetailResponse.swift */,
 			);
 			path = Intranet;
 			sourceTree = "<group>";
@@ -1633,6 +1644,7 @@
 				708ED7912A8E0AED00107CDF /* StudyListViewModel.swift in Sources */,
 				708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */,
 				70727AA629D93B43003DE956 /* HomeShortcutCollectionViewCell.swift in Sources */,
+				70864F302AF69FB100CD4124 /* InquireChapelDetailResponse.swift in Sources */,
 				7083124A2A2F856700F7E283 /* LibraryDetailInfoView.swift in Sources */,
 				708312BC2A79247500F7E283 /* RegisterViewModel.swift in Sources */,
 				705FD2952A13BB4300F353FE /* AuthRouter.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SearchBookRequest: Codable {
+struct SearchBookRequest: Encodable {
   let query: String
   let page: Int
   
