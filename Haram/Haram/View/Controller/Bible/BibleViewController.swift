@@ -158,7 +158,7 @@ final class BibleViewController: BaseViewController {
     }
   }
   
-  static func createCollectionViewSection(type: BibleViewType) -> NSCollectionLayoutSection? {
+  static private func createCollectionViewSection(type: BibleViewType) -> NSCollectionLayoutSection? {
     switch type {
     case .todayBibleWord:
       let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(

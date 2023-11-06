@@ -146,10 +146,15 @@ final class LoginViewController: BaseViewController {
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
-        if !owner.containerView.subviews.contains(owner.errorMessageLabel) {
+        let isContain = owner.containerView.subviews.contains(owner.errorMessageLabel)
+        let isEmpty = error.isEmpty
+        
+        if (!isContain && !isEmpty) || (isContain && !isEmpty) {
           owner.containerView.insertArrangedSubview(owner.errorMessageLabel, at: 5)
-        }
-        owner.errorMessageLabel.text = error
+          owner.errorMessageLabel.text = error
+        } else if (isContain && isEmpty) || (!isContain && isEmpty) {
+          owner.containerView.removeArrangedSubview(owner.errorMessageLabel)
+        } 
       }
       .disposed(by: disposeBag)
     
