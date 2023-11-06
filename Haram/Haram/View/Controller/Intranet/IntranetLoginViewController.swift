@@ -52,7 +52,7 @@ final class IntranetLoginViewController: BaseViewController {
   private lazy var idTextField = UITextField().then {
     $0.attributedPlaceholder = NSAttributedString(
       string: "아이디",
-      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
+      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.hex9F9FA4]
     )
     $0.backgroundColor = .hexF5F5F5
     $0.textColor = .black
@@ -69,7 +69,7 @@ final class IntranetLoginViewController: BaseViewController {
   private lazy var pwTextField = UITextField().then {
     $0.attributedPlaceholder = NSAttributedString(
       string: "비밀번호",
-      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
+      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.hex9F9FA4]
     )
     $0.backgroundColor = .hexF5F5F5
     $0.textColor = .black

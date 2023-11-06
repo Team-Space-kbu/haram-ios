@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import SnapKit
 import Then
+import RxCocoa
 
 final class RegisterViewController: BaseViewController {
   
@@ -143,6 +144,50 @@ final class RegisterViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
+//    Observable.combineLatest(
+//      idTextField.rx.text
+//        .orEmpty
+//        .filter { $0 != Constants.id.placeholder }
+//        .distinctUntilChanged()
+//        .skip(1).asObservable(),
+//      pwdTextField.rx.text
+//        .orEmpty
+//        .filter { $0 != Constants.password.placeholder }
+//        .distinctUntilChanged()
+//        .skip(1).asObservable(),
+//      repwdTextField.rx.text
+//        .orEmpty
+//        .filter { $0 != Constants.repassword.placeholder }
+//        .distinctUntilChanged()
+//        .skip(1).asObservable(),
+//      nicknameTextField.rx.text
+//        .orEmpty
+//        .filter { $0 != Constants.nickname.placeholder }
+//        .distinctUntilChanged()
+//        .skip(1).asObservable(),
+//      emailTextField.rx.text
+//        .orEmpty
+//        .filter { $0 != Constants.schoolEmail.placeholder }
+//        .distinctUntilChanged()
+//        .skip(1).asObservable(),
+//      checkEmailTextField.rx.text
+//        .orEmpty
+//        .filter { $0 != Constants.checkEmail.placeholder }
+//        .distinctUntilChanged()
+//        .skip(1).asObservable()
+//    )
+//    .subscribe(with: self) { owner, result in
+//      let (id, pwd, repwd, nickname, email, authCode) = result
+//      owner.viewModel.registerID.onNext(id)
+//      owner.viewModel.registerPWD.onNext(pwd)
+//      owner.viewModel.registerRePWD.onNext(repwd)
+//      owner.viewModel.registerNickname.onNext(nickname)
+//      owner.viewModel.registerEmail.onNext(email)
+//      owner.viewModel.registerAuthCode.onNext(authCode)
+//    }
+//    .disposed(by: disposeBag)
+    
     idTextField.rx.text
       .orEmpty
       .filter { $0 != Constants.id.placeholder }

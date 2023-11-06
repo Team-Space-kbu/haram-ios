@@ -20,9 +20,17 @@ final class StudyListViewController: BaseViewController {
   
   // MARK: - UI Models
   
-  private var studyListModel: [StudyListCollectionViewCellModel] = []
+  private var studyListModel: [StudyListCollectionViewCellModel] = [] {
+    didSet {
+      studyListCollectionView.reloadData()
+    }
+  }
   
-  private var rothemMainNoticeModel: StudyListHeaderViewModel?
+  private var rothemMainNoticeModel: StudyListHeaderViewModel? {
+    didSet {
+      studyListCollectionView.reloadData()
+    }
+  }
   
   // MARK: - UI Components
   
@@ -163,7 +171,6 @@ extension StudyListViewController: SkeletonCollectionViewDataSource {
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//    studyListModel.count
     10
   }
   

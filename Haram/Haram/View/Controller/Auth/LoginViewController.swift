@@ -48,7 +48,7 @@ final class LoginViewController: BaseViewController {
   private lazy var emailTextField = UITextField().then {
     $0.attributedPlaceholder = NSAttributedString(
       string: "Email",
-      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
+      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.hex9F9FA4]
     )
     $0.backgroundColor = .hexF5F5F5
     $0.textColor = .black
@@ -67,7 +67,7 @@ final class LoginViewController: BaseViewController {
   private lazy var passwordTextField = UITextField().then {
     $0.attributedPlaceholder = NSAttributedString(
       string: "Password",
-      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.black]
+      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.hex9F9FA4]
     )
     $0.backgroundColor = .hexF5F5F5
     $0.textColor = .black

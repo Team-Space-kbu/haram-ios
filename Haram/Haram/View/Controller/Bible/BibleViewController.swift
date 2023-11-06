@@ -40,9 +40,17 @@ final class BibleViewController: BaseViewController {
   
   private let revisionOfTranlationModel = CoreDataManager.shared.getRevisionOfTranslation(ascending: true)
   
-  private var todayBibleWordModel: [String] = []
+  private var todayBibleWordModel: [String] = [] {
+    didSet {
+      bibleCollectionView.reloadData()
+    }
+  }
   
-  private var bibleMainNotice: [BibleNoticeCollectionViewCellModel] = []
+  private var bibleMainNotice: [BibleNoticeCollectionViewCellModel] = [] {
+    didSet {
+      bibleCollectionView.reloadData()
+    }
+  }
   
   // MARK: - UI Components
   
