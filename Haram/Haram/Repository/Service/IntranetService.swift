@@ -18,17 +18,6 @@ final class IntranetService {
 }
 
 extension IntranetService {
-  func inquireChapelList(request: IntranetRequest) -> Observable<Result<[InquireChapelListResponse], HaramError>> {
-    service.request(router: IntranetRouter.inquireChapelList(request), type: [InquireChapelListResponse].self)
-  }
-  
-  func inquireChapelInfo(request: IntranetRequest) -> Observable<Result<InquireChapelInfoResponse, HaramError>> {
-    service.request(router: IntranetRouter.inquireChapelInfo(request), type: InquireChapelInfoResponse.self)
-  }
-  
-  func inquireScheduleInfo(request: IntranetRequest) -> Observable<Result<[InquireScheduleInfoResponse], HaramError>> {
-    service.request(router: IntranetRouter.inquireScheduleInfo(request), type: [InquireScheduleInfoResponse].self)
-  }
   
   func inquireChapelInfo2() -> Single<InquireChapelInfoResponse> {
     service.betarequest(router: IntranetRouter.inquireChapelInfo2, type: InquireChapelInfoResponse.self)
@@ -36,6 +25,10 @@ extension IntranetService {
   
   func inquireChapelDetail() -> Single<[InquireChapelDetailResponse]> {
     service.betarequest(router: IntranetRouter.inquireChapelDetail, type: [InquireChapelDetailResponse].self)
+  }
+  
+  func inquireScheduleInfo2() -> Single<[InquireScheduleInfoResponse]> {
+    service.betarequest(router: IntranetRouter.inquireScheduleInfo2, type: [InquireScheduleInfoResponse].self)
   }
 }
 

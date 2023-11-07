@@ -33,20 +33,20 @@ final class MoreViewModel: MoreViewModelType {
     requestLogoutUser = requestLogoutUserSubject.asObserver()
     successMessage = successMessageRelay.asSignal()
     
-    Observable.just(())
-      .compactMap { UserManager.shared.userID }
-      .flatMapLatest(MyPageService.shared.inquireUserInfo(userID: ))
-      .subscribe(onNext: { response in
-        let profileInfoViewModel = ProfileInfoViewModel(response: response)
-        currentUserInfoRelay.accept(profileInfoViewModel)
-      })
-      .disposed(by: disposeBag)
-//    MyPageService.shared.inquireUserInfo(userID: UserManager.shared.userID!)
-//      .subscribe(onSuccess: { response in
+//    Observable.just(())
+//      .compactMap { UserManager.shared.userID }
+//      .flatMapLatest(MyPageService.shared.inquireUserInfo(userID: ))
+//      .subscribe(onNext: { response in
 //        let profileInfoViewModel = ProfileInfoViewModel(response: response)
 //        currentUserInfoRelay.accept(profileInfoViewModel)
 //      })
 //      .disposed(by: disposeBag)
+    MyPageService.shared.inquireUserInfo(userID: UserManager.shared.userID!)
+      .subscribe(onSuccess: { response in
+        let profileInfoViewModel = ProfileInfoViewModel(response: response)
+        currentUserInfoRelay.accept(profileInfoViewModel)
+      })
+      .disposed(by: disposeBag)
     
     requestLogoutUserSubject
       .compactMap { UserManager.shared.userID }

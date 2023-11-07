@@ -43,8 +43,12 @@ final class UserManager {
     return intranetToken != nil && xsrfToken != nil && laravelSession != nil
   }
   
-  var hasAccessToken: Bool { return accessToken != nil }
-  var hasRefreshToken: Bool { return refreshToken != nil }
+  var hasToken: Bool {
+    return accessToken != nil && refreshToken != nil && userID != nil
+  }
+  
+//  var hasAccessToken: Bool { return accessToken != nil }
+//  var hasRefreshToken: Bool { return refreshToken != nil }
   
   // MARK: - Initialization
   

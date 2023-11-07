@@ -106,8 +106,8 @@ final class AffiliatedViewController: BaseViewController {
     mapView.mapView.moveCamera(
       NMFCameraUpdate(
         scrollTo: .init(
-          lat: 37.6486885,
-          lng: 127.0642073
+          lat: Constants.currentLat,
+          lng: Constants.currentLng
         )
       )
     )
@@ -147,6 +147,8 @@ extension AffiliatedViewController: UICollectionViewDelegate, UICollectionViewDa
       mapView: mapView.mapView,
       where: .init(affiliatedCollectionViewCellModel: model)
     )
+    
+    scrollToItem(at: indexPath)
   }
 }
 
@@ -154,8 +156,19 @@ extension AffiliatedViewController: UICollectionViewDelegate, UICollectionViewDa
 
 extension AffiliatedViewController {
   
+  /// 특정 인덱스로 스크롤하는 함수
+  private func scrollToItem(at indexPath: IndexPath) {
+    self.affiliatedCollectionView.isPagingEnabled = false
+    self.affiliatedCollectionView.scrollToItem(
+      at: indexPath,
+      at: .left,
+      animated: true
+    )
+    self.affiliatedCollectionView.isPagingEnabled = true
+  }
+  
   /// 원하는 좌표로 네이버 지도 화면을 이동하는 함수
-  func moveCameraUpdate(mapView: NMFMapView, where mapCoordinate: MapCoordinate) {
+  private func moveCameraUpdate(mapView: NMFMapView, where mapCoordinate: MapCoordinate) {
     let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: mapCoordinate.x, lng: mapCoordinate.y))
     cameraUpdate.reason = 3
     cameraUpdate.animation = .fly
@@ -165,7 +178,7 @@ extension AffiliatedViewController {
   }
   
   /// 네이버 지도에 제휴업체에 대한 마커를 추가하는 함수
-  func addMarkers(where mapView: NMFMapView ,with affiliatedCollectionViewCellModels: [AffiliatedCollectionViewCellModel]) {
+  private func addMarkers(where mapView: NMFMapView ,with affiliatedCollectionViewCellModels: [AffiliatedCollectionViewCellModel]) {
     guard !affiliatedCollectionViewCellModels.isEmpty else { return }
     
     DispatchQueue.global(qos: .default).async { [weak self] in
@@ -180,18 +193,10 @@ extension AffiliatedViewController {
         marker.touchHandler = { [weak self] _ in 
           guard let self = self,
                 let row = self.affiliatedModel.firstIndex(where: { $0 == affiliatedCollectionViewCellModel }) else { return false }
-          self.moveCameraUpdate(mapView: mapView, where: mapCoordinate)
           
-          self.affiliatedCollectionView.isPagingEnabled = false
-          self.affiliatedCollectionView.scrollToItem(
-            at: IndexPath(
-              row: row,
-              section: 0
-            ),
-            at: .left,
-            animated: true
-          )
-          self.affiliatedCollectionView.isPagingEnabled = true
+          self.moveCameraUpdate(mapView: mapView, where: mapCoordinate)
+          self.scrollToItem(at: IndexPath(row: row, section: 0))
+          
           return true
         }
         
@@ -204,14 +209,6 @@ extension AffiliatedViewController {
         }
       }
     }
-  }
-  
-  func addTextInfoWindows(title: String, marker: NMFMarker) {
-    let infoWindow = NMFInfoWindow()
-    let dataSource = NMFInfoWindowDefaultTextSource.data()
-    dataSource.title = title
-    infoWindow.dataSource = dataSource
-    infoWindow.open(with: marker)
   }
 }
 

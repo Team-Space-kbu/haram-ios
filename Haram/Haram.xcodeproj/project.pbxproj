@@ -166,6 +166,7 @@
 		708312C22A7A6F2900F7E283 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312C12A7A6F2900F7E283 /* PaddingLabel.swift */; };
 		708312C42A7BF7BD00F7E283 /* APIEventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312C32A7BF7BD00F7E283 /* APIEventLogger.swift */; };
 		70864F302AF69FB100CD4124 /* InquireChapelDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F2F2AF69FB100CD4124 /* InquireChapelDetailResponse.swift */; };
+		70864F322AF9502600CD4124 /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F312AF9502600CD4124 /* CommentInputView.swift */; };
 		708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */; };
 		708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */; };
 		708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */; };
@@ -405,6 +406,7 @@
 		708312C12A7A6F2900F7E283 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		708312C32A7BF7BD00F7E283 /* APIEventLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEventLogger.swift; sourceTree = "<group>"; };
 		70864F2F2AF69FB100CD4124 /* InquireChapelDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireChapelDetailResponse.swift; sourceTree = "<group>"; };
+		70864F312AF9502600CD4124 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HaramRelease.entitlements; sourceTree = "<group>"; };
 		708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBookLoanStatusResponse.swift; sourceTree = "<group>"; };
 		708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
@@ -558,6 +560,7 @@
 			children = (
 				7031E3CD2ABA74E50027DC0A /* PostingAuthorInfoView.swift */,
 				7031E3D12ABA80BA0027DC0A /* CommentAuthorInfoView.swift */,
+				70864F312AF9502600CD4124 /* CommentInputView.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -1605,6 +1608,7 @@
 				705FD2C92A23BA3000F353FE /* LibraryService.swift in Sources */,
 				708312B02A73E07300F7E283 /* NoticeViewModel.swift in Sources */,
 				708312A32A6EC9D700F7E283 /* IntranetLoginViewModel.swift in Sources */,
+				70864F322AF9502600CD4124 /* CommentInputView.swift in Sources */,
 				70C9CCB02A06700400BEB5F2 /* ChapelViewController.swift in Sources */,
 				705FD2D12A24DEFC00F353FE /* LibraryViewModel.swift in Sources */,
 				705FD2902A10FD6D00F353FE /* Interceptor.swift in Sources */,

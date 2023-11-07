@@ -42,16 +42,8 @@ final class ScheduleViewModel: ScheduleViewModelType {
       .filter { UserManager.shared.hasIntranetToken }
       .do(onNext: { _ in isLoadingSubject.onNext(true) })
       .take(1)
-      .flatMapLatest { _ in
-        return IntranetService.shared.inquireScheduleInfo(request: .init(
-          intranetToken: UserManager.shared.intranetToken!,
-          xsrfToken: UserManager.shared.xsrfToken!,
-          laravelSession: UserManager.shared.laravelSession!
-        )
-        )
-      }
-      .subscribe(onNext: { result in
-        guard case let .success(response) = result else { return }
+      .flatMapLatest(IntranetService.shared.inquireScheduleInfo2)
+      .subscribe(onNext: { response in
         let scheduleModel = response.compactMap { model -> ElliottEvent? in
           guard let courseDay = ScheduleDay.allCases.filter({ $0.text == model.lectureDay }).first?.elliotDay else { return nil }
           return ElliottEvent(

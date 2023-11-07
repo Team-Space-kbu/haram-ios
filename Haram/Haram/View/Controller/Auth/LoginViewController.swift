@@ -114,7 +114,7 @@ final class LoginViewController: BaseViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
 //    UserManager.shared.clearAllInformations()
-    guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else {
+    guard UserManager.shared.hasToken else {
       registerNotifications()
       return
     }
@@ -136,7 +136,7 @@ final class LoginViewController: BaseViewController {
     viewModel.loginToken
       .skip(1)
       .drive(with: self) { owner, result in
-        guard UserManager.shared.hasAccessToken && UserManager.shared.hasRefreshToken else { return }
+        guard UserManager.shared.hasToken else { return }
         
         let vc = HaramTabbarController()
         vc.modalPresentationStyle = .fullScreen
@@ -154,7 +154,7 @@ final class LoginViewController: BaseViewController {
           owner.errorMessageLabel.text = error
         } else if (isContain && isEmpty) || (!isContain && isEmpty) {
           owner.containerView.removeArrangedSubview(owner.errorMessageLabel)
-        } 
+        }
       }
       .disposed(by: disposeBag)
     
@@ -165,9 +165,8 @@ final class LoginViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [containerView, indicatorView].forEach { view.addSubview($0) }
+    [containerView, indicatorView, loginAlertView].forEach { view.addSubview($0) }
     [loginImageView, loginLabel, schoolLabel, emailTextField, passwordTextField, loginButton].forEach { containerView.addArrangedSubview($0) }
-    view.addSubview(loginAlertView)
   }
   
   override func setupConstraints() {
@@ -199,10 +198,6 @@ final class LoginViewController: BaseViewController {
     schoolLabel.snp.makeConstraints {
       $0.height.equalTo(18)
     }
-    
-//    errorMessageLabel.snp.makeConstraints {
-//      $0.height.equalTo(16)
-//    }
     
     loginButton.snp.makeConstraints {
       $0.height.equalTo(48)

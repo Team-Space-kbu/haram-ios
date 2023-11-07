@@ -28,6 +28,8 @@ final class BoardDetailViewController: BaseViewController {
   
   // MARK: - UI Component
   
+  private let commentInputView = CommentInputView()
+  
   private lazy var boardDetailCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
     guard let self = self else { return nil }
     return type(of: self).createCollectionViewLayout(sec: sec)
@@ -64,12 +66,20 @@ final class BoardDetailViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(boardDetailCollectionView)
+    view.addSubview(commentInputView)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     boardDetailCollectionView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+//      $0.directionalEdges.equalToSuperview()
+    }
+    
+    commentInputView.snp.makeConstraints {
+      $0.top.equalTo(boardDetailCollectionView.snp.bottom)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.height.equalTo(89)
     }
   }
   
