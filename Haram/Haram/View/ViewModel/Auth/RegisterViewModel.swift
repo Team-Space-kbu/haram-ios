@@ -19,7 +19,7 @@ protocol RegisterViewModelType {
   var registerAuthCode: AnyObserver<String> { get }
   
   var isRegisterButtonEnabled: Driver<Bool> { get }
-  var checkPasswordIsEqualMessage: Signal<String> { get }
+  var errorMessage: Signal<HaramError> { get }
   var signupSuccessMessage: Signal<String> { get }
 }
 
@@ -36,7 +36,7 @@ final class RegisterViewModel {
   private let registerAuthCodeSubject = PublishSubject<String>()
   
   private let isRegisterButtonEnabledSubject = BehaviorSubject<Bool>(value: false)
-  private let checkPasswordIsEqualMessageRelay = PublishRelay<String>()
+  private let errorMessageRelay = PublishRelay<HaramError>()
   private let signupSuccessMessageRelay = PublishRelay<String>()
   
   init() {
@@ -71,10 +71,10 @@ final class RegisterViewModel {
         guard let self = self else { return }
         let (_, _, password, rePassword, _, _) = result
         if password != rePassword {
-          self.checkPasswordIsEqualMessageRelay.accept("비밀번호와 일치하지않습니다.")
+          self.errorMessageRelay.accept(.noEqualPassword)
         }
       })
-        .filter { $0.2 == $0.3 }
+      .filter { $0.2 == $0.3 }
       .flatMapLatest { result in
         let (id, email, password, _, nickname, authcode) = result
         return AuthService.shared.signupUser(
@@ -94,7 +94,7 @@ final class RegisterViewModel {
         case .success(_):
           owner.signupSuccessMessageRelay.accept("회원가입 성공")
         case .failure(let error):
-          print("회원가입 호출결과: \(error.description)")
+          owner.errorMessageRelay.accept(error)
         }
       }
       .disposed(by: disposeBag)
@@ -103,8 +103,8 @@ final class RegisterViewModel {
 }
 
 extension RegisterViewModel: RegisterViewModelType {
-  var checkPasswordIsEqualMessage: RxCocoa.Signal<String> {
-    checkPasswordIsEqualMessageRelay.asSignal()
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.asSignal()
   }
   
   var registerRePWD: RxSwift.AnyObserver<String> {
@@ -121,7 +121,7 @@ extension RegisterViewModel: RegisterViewModelType {
   
   var isRegisterButtonEnabled: RxCocoa.Driver<Bool> {
     isRegisterButtonEnabledSubject
-      .distinctUntilChanged() 
+      .distinctUntilChanged()
       .asDriver(onErrorJustReturn: false)
   }
   

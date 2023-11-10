@@ -19,9 +19,13 @@ protocol RegisterTextFieldDelegate: AnyObject {
 
 final class RegisterTextField: UIView {
   
+  // MARK: - Property
+  
   weak var delegate: RegisterTextFieldDelegate?
   private let disposeBag = DisposeBag()
   private let options: RegisterTextFieldOptions
+  
+  // MARK: - UI Components
   
   private let titleLabel = UILabel().then {
     $0.font = .regular14
@@ -56,6 +60,8 @@ final class RegisterTextField: UIView {
     $0.setTitleText(title: "확인코드발송")
   }
   
+  // MARK: - Initializations
+  
   init(
     title: String,
     placeholder: String,
@@ -71,15 +77,7 @@ final class RegisterTextField: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func setError(description: String) {
-    guard options.contains(.errorLabel) else { return }
-    addSubview(errorLabel)
-    errorLabel.snp.makeConstraints {
-      $0.top.equalTo(textField.snp.bottom).offset(10)
-      $0.bottom.leading.equalToSuperview()
-    }
-    errorLabel.text = description
-  }
+  // MARK: - Configurations
   
   private func bind() {
     haramButton.rx.tap
@@ -126,7 +124,7 @@ final class RegisterTextField: UIView {
     } else {
       textField.snp.makeConstraints {
         $0.top.equalTo(titleLabel.snp.bottom).offset(10)
-        $0.directionalHorizontalEdges.bottom.equalToSuperview()
+        $0.directionalHorizontalEdges.equalToSuperview()
         $0.height.equalTo(46)
       }
     }
@@ -136,6 +134,28 @@ final class RegisterTextField: UIView {
       textField.rightView = defaultLabel
     }
     
+  }
+}
+
+// MARK: - Public Functions
+
+extension RegisterTextField {
+  func removeError() {
+    guard options.contains(.errorLabel) else { return }
+    if subviews.contains(errorLabel) {
+      errorLabel.removeFromSuperview()
+    }
+  }
+  
+  func setError(description: String) {
+    guard options.contains(.errorLabel) else { return }
+    addSubview(errorLabel)
+    errorLabel.snp.makeConstraints {
+      $0.top.equalTo(textField.snp.bottom).offset(10)
+      $0.trailing.lessThanOrEqualToSuperview()
+      $0.leading.bottom.equalToSuperview()
+    }
+    errorLabel.text = description
   }
 }
 

@@ -46,7 +46,8 @@ final class RegisterViewController: BaseViewController {
   
   private let idTextField = RegisterTextField(
     title: Constants.id.title,
-    placeholder: Constants.id.placeholder
+    placeholder: Constants.id.placeholder,
+    options: [.errorLabel]
   )
   
   private let pwdTextField = RegisterTextField(
@@ -134,59 +135,10 @@ final class RegisterViewController: BaseViewController {
         $0.height.greaterThanOrEqualTo(74)
       }
     }
-    
-//    repwdTextField.snp.makeConstraints {
-//      $0.height.equalTo(84 + 15)
-//    }
-    
-//    stackView.setCustomSpacing(10, after: repwdTextField)
   }
   
   override func bind() {
     super.bind()
-    
-//    Observable.combineLatest(
-//      idTextField.rx.text
-//        .orEmpty
-//        .filter { $0 != Constants.id.placeholder }
-//        .distinctUntilChanged()
-//        .skip(1).asObservable(),
-//      pwdTextField.rx.text
-//        .orEmpty
-//        .filter { $0 != Constants.password.placeholder }
-//        .distinctUntilChanged()
-//        .skip(1).asObservable(),
-//      repwdTextField.rx.text
-//        .orEmpty
-//        .filter { $0 != Constants.repassword.placeholder }
-//        .distinctUntilChanged()
-//        .skip(1).asObservable(),
-//      nicknameTextField.rx.text
-//        .orEmpty
-//        .filter { $0 != Constants.nickname.placeholder }
-//        .distinctUntilChanged()
-//        .skip(1).asObservable(),
-//      emailTextField.rx.text
-//        .orEmpty
-//        .filter { $0 != Constants.schoolEmail.placeholder }
-//        .distinctUntilChanged()
-//        .skip(1).asObservable(),
-//      checkEmailTextField.rx.text
-//        .orEmpty
-//        .filter { $0 != Constants.checkEmail.placeholder }
-//        .distinctUntilChanged()
-//        .skip(1).asObservable()
-//    )
-//    .subscribe(with: self) { owner, result in
-//      let (id, pwd, repwd, nickname, email, authCode) = result
-//      owner.viewModel.registerID.onNext(id)
-//      owner.viewModel.registerPWD.onNext(pwd)
-//      owner.viewModel.registerRePWD.onNext(repwd)
-//      owner.viewModel.registerNickname.onNext(nickname)
-//      owner.viewModel.registerEmail.onNext(email)
-//      owner.viewModel.registerAuthCode.onNext(authCode)
-//    }
-//    .disposed(by: disposeBag)
     
     idTextField.rx.text
       .orEmpty
@@ -252,13 +204,20 @@ final class RegisterViewController: BaseViewController {
     registerButton.rx.tap
       .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .subscribe(with: self) { owner, _ in
+        owner.idTextField.removeError()
+        owner.repwdTextField.removeError()
         owner.viewModel.tappedRegisterButton.onNext(())
       }
       .disposed(by: disposeBag)
     
-    viewModel.checkPasswordIsEqualMessage
-      .emit(with: self) { owner, message in
-        owner.repwdTextField.setError(description: message)
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        if error == .noEqualPassword {
+          owner.repwdTextField.setError(description: error.description!)
+        } else if error == .existSameUserError {
+          owner.idTextField.setError(description: error.description!)
+        }
+        
       }
       .disposed(by: disposeBag)
     

@@ -14,7 +14,11 @@ final class MileageViewController: BaseViewController {
   
   private let viewModel: MileageViewModelType
   
-  private var mileagePayInfoModel: MileageTableHeaderViewModel = MileageTableHeaderViewModel(totalMileage: 0)
+  private var mileagePayInfoModel: MileageTableHeaderViewModel = MileageTableHeaderViewModel(totalMileage: 0) {
+    didSet {
+      mileageTableView.reloadData()
+    }
+  }
   
   private var model: [MileageTableViewCellModel] = [] {
     didSet {

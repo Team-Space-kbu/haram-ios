@@ -6,29 +6,36 @@
 //
 
 import Foundation
-/// TODO: - LIB02, LIB08일 경우 상세페이지 들어갔다가 다시 백한 이후 토스트메세지 던져주기
 
 enum HaramError: Error, CaseIterable {
+  
+  /// API 호출 결과에 따른 에러
   case decodedError
   case unknownedError
   case requestError
   case serverError
   
+  /// 로그인 시 에러
   case notFindUserError // 사용자를 찾을 수 없는 상태입니다.
   case wrongPasswordError // 패스워드가 틀렸을 때 발생하는 에러입니다.
   case failedAuth // 인증에 실패했을 때 발생하는 에러입니다.
   
+  /// 도서관관련 에러
   case loanInfoEmptyError // 대여정보가 비어있어 처리할 수 없는 상태입니다.
   case noExistSearchInfo // 검색된 정보가 존재하지않은 상태입니다.
   case noRequestFromNaver // 네이버로부터 요청 값을 처리할 수 없는 상태입니다.
   case noEnglishRequest // 영문도서에 대한 요청을 처리할 수 없는 상태입니다.
 
+  /// 회원가입 시 에러
   case existSameUserError // 동일한 아이디로 회원가입한 사용자가 존재할 때 발생하는 에러
   case wrongEmailAuthcodeError // 이메일 인증코드가 틀렸을 때 발생하는 에러
   case failedRegisterError // 회원가입에 실패했을 때 발생하는 에러
+  case noEqualPassword // 비밀번호와 비밀번호확인이 동일하지않을 때 발생하는 에러
   
+  /// 성경관련 에러
   case noExistTodayBibleWord // 오늘의 성경말씀이 존재하지않을 때 발생하는 에러
   
+  /// 토큰인증관련 에러
   case unValidRefreshToken
   
   case returnWrongFormat
@@ -54,13 +61,7 @@ extension HaramError {
 extension HaramError {
   var code: String? { // 하람 서버에서 제공하는 code, Notion 참고
     switch self {
-    case .decodedError:
-      return nil
-    case .unknownedError:
-      return nil
-    case .requestError:
-      return nil
-    case .serverError:
+    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword:
       return nil
     case .notFindUserError:
       return "USER01"
@@ -129,6 +130,8 @@ extension HaramError {
       return "게시글이 존재하지 않습니다."
     case .failedAuth:
       return "인증에 실패했습니다."
+    case .noEqualPassword:
+      return "비밀번호와 일치하지않습니다."
     }
   }
 }
