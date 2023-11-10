@@ -8,44 +8,44 @@
 import Alamofire
 
 enum IntranetRouter {
-//  case inquireChapelList(IntranetRequest)
-//  case inquireChapelInfo(IntranetRequest)
-  
-  case inquireChapelInfo2
+  case inquireChapelInfo
   case inquireChapelDetail
-  case inquireScheduleInfo2
+  case inquireScheduleInfo
+  case inquireMileageInfo
 }
 
 extension IntranetRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .inquireChapelInfo2, .inquireChapelDetail, .inquireScheduleInfo2:
+    case .inquireChapelInfo, .inquireChapelDetail, .inquireScheduleInfo, .inquireMileageInfo:
       return .get
     }
   }
   
   var path: String {
     switch self {
-    case .inquireChapelInfo2:
+    case .inquireChapelInfo:
       return "/v2/intranet/chapel/info"
     case .inquireChapelDetail:
       return "/v2/intranet/chapel/detail"
-    case .inquireScheduleInfo2:
+    case .inquireScheduleInfo:
       return "/v2/intranet/timetable"
+    case .inquireMileageInfo:
+      return "/v1/mileage"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireChapelInfo2, .inquireChapelDetail, .inquireScheduleInfo2:
+    case .inquireChapelInfo, .inquireChapelDetail, .inquireScheduleInfo, .inquireMileageInfo:
       return .plain
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireChapelInfo2, .inquireChapelDetail, .inquireScheduleInfo2:
+    case .inquireChapelInfo, .inquireChapelDetail, .inquireScheduleInfo, .inquireMileageInfo:
       return .withAccessToken
     }
   }

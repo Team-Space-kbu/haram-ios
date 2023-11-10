@@ -8,16 +8,17 @@
 import UIKit
 
 import RxSwift
+import RxCocoa
 import SnapKit
 import Then
 
-final class CommentInputView: UIView {
+final class CommentInputView: UIView, UITextViewDelegate {
   
   private let disposeBag = DisposeBag()
   private let placeHolder = "댓글추가"
   
-  let commentTextView = UITextView().then {
-    $0.textColor = .black
+  lazy var commentTextView = UITextView().then {
+    $0.textColor = .hexD0D0D0
     $0.textContainerInset = UIEdgeInsets(
       top: 11,
       left: 8,
@@ -25,13 +26,24 @@ final class CommentInputView: UIView {
       right: 8
     )
     $0.font = .regular14
-    $0.backgroundColor = .white
+    $0.backgroundColor = .hexF4F4F4
+    $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 8
+    $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
+    $0.layer.borderWidth = 1
     $0.isScrollEnabled = false
+    $0.delegate = self
+  }
+  
+  private let sendButton = UIButton().then {
+    $0.backgroundColor = .clear
+    $0.setImage(UIImage(named: "rightIndicatorBlue"), for: .normal)
   }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
+    setupLayouts()
+    setupConstraints()
     bind()
     commentTextView.text = placeHolder
   }
@@ -40,7 +52,34 @@ final class CommentInputView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  private func setupStyles() {
+
+  }
+  
+  private func setupLayouts() {
+    addSubview(commentTextView)
+    addSubview(sendButton)
+  }
+  
+  private func setupConstraints() {
+    commentTextView.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(7.5)
+      $0.leading.equalToSuperview().inset(56.5)
+      $0.trailing.equalToSuperview().inset(16.5)
+      $0.bottom.equalToSuperview().inset(43.5)
+    }
+    
+    sendButton.snp.makeConstraints {
+      $0.width.equalTo(21)
+      $0.height.equalTo(18)
+      $0.top.equalToSuperview().inset(18)
+      $0.trailing.equalToSuperview().inset(25)
+      
+    }
+  }
+  
   private func bind() {
+    
     commentTextView.rx.didBeginEditing
       .withUnretained(self)
       .subscribe(onNext: { owner, _ in
@@ -61,7 +100,7 @@ final class CommentInputView: UIView {
           owner.commentTextView.textColor = .hexD0D0D0
         }
         
-        owner.updateTextViewHeightAutomatically()
+//        owner.updateTextViewHeightAutomatically()
       })
       .disposed(by: disposeBag)
   }

@@ -12,28 +12,35 @@ protocol MileageViewModelType {
   var currentUserMileageInfo: Driver<[MileageTableViewCellModel]> { get }
 }
 
-final class MileageViewModel: MileageViewModelType {
+final class MileageViewModel {
   
-  let currentUserMileageInfo: Driver<[MileageTableViewCellModel]>
+  private let disposeBag = DisposeBag()
+  
+  private let currentUserMileageInfoRelay = BehaviorRelay<[MileageTableViewCellModel]>(value: [])
   
   init() {
-    let currentMileageRelay = BehaviorRelay<[MileageTableViewCellModel]>(value: [
-      MileageTableViewCellModel(mainText: "카페 코스테스", subText: "한국성서대학교", mileage: -2000),
-      MileageTableViewCellModel(mainText: "카페 코스테스", subText: "한국성서대학교", mileage: -2000),
-      MileageTableViewCellModel(mainText: "성적 최우수상", subText: "한국성서대학교", mileage: 200000),
-      MileageTableViewCellModel(mainText: "도서 구매", subText: "한국성서대학교", mileage: -2000),
-      MileageTableViewCellModel(mainText: "카페 코스테스", subText: "한국성서대학교", mileage: -2000),
-      MileageTableViewCellModel(mainText: "카페 코스테스", subText: "한국성서대학교", mileage: -2000),
-      MileageTableViewCellModel(mainText: "매점", subText: "한국성서대학교", mileage: -2000),
-      MileageTableViewCellModel(mainText: "도서 구매", subText: "한국성서대학교", mileage: -2000),
-      MileageTableViewCellModel(mainText: "도서 구매", subText: "한국성서대학교", mileage: -2000),
-      MileageTableViewCellModel(mainText: "매점", subText: "한국성서대학교", mileage: -2000),
-      MileageTableViewCellModel(mainText: "카페 코스테스", subText: "한국성서대학교", mileage: -2000),
-      MileageTableViewCellModel(mainText: "매점", subText: "한국성서대학교", mileage: -2000),
-      MileageTableViewCellModel(mainText: "카페 코스테스", subText: "한국성서대학교", mileage: -2000),
-    ])
-    currentUserMileageInfo = currentMileageRelay.asDriver()
+    inquireMileageInfo()
+  }
+  
+  private func inquireMileageInfo() {
+    let tryInquireMileageInfo = IntranetService.shared.inquireMileageInfo()
     
-    
+    tryInquireMileageInfo
+      .subscribe(with: self) { owner, response in
+        owner.currentUserMileageInfoRelay.accept(
+          response.mileageDetails.map { MileageTableViewCellModel(
+            mainText: $0.etc,
+            subText: "한국성서대학교",
+            mileage: Int(String($0.point)) ?? 0)
+          }
+        )
+      }
+      .disposed(by: disposeBag)
+  }
+}
+
+extension MileageViewModel: MileageViewModelType {
+  var currentUserMileageInfo: Driver<[MileageTableViewCellModel]> {
+    currentUserMileageInfoRelay.asDriver()
   }
 }

@@ -69,7 +69,7 @@ final class ChapelViewModel: ChapelViewModelType {
 //        )
 //        .do(onNext: { _ in isLoadingSubject.onNext(true) })
     
-    let inquireChapelInfo = IntranetService.shared.inquireChapelInfo2()
+    let inquireChapelInfo = IntranetService.shared.inquireChapelInfo()
       .do(onSuccess: { _ in isLoadingSubject.onNext(true) })
           
           inquireChapelInfo

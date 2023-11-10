@@ -167,6 +167,7 @@
 		708312C42A7BF7BD00F7E283 /* APIEventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312C32A7BF7BD00F7E283 /* APIEventLogger.swift */; };
 		70864F302AF69FB100CD4124 /* InquireChapelDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F2F2AF69FB100CD4124 /* InquireChapelDetailResponse.swift */; };
 		70864F322AF9502600CD4124 /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F312AF9502600CD4124 /* CommentInputView.swift */; };
+		70864F362AFE1F3600CD4124 /* InquireMileageInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F352AFE1F3600CD4124 /* InquireMileageInfoResponse.swift */; };
 		708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */; };
 		708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */; };
 		708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */; };
@@ -407,6 +408,7 @@
 		708312C32A7BF7BD00F7E283 /* APIEventLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEventLogger.swift; sourceTree = "<group>"; };
 		70864F2F2AF69FB100CD4124 /* InquireChapelDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireChapelDetailResponse.swift; sourceTree = "<group>"; };
 		70864F312AF9502600CD4124 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
+		70864F352AFE1F3600CD4124 /* InquireMileageInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireMileageInfoResponse.swift; sourceTree = "<group>"; };
 		708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HaramRelease.entitlements; sourceTree = "<group>"; };
 		708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBookLoanStatusResponse.swift; sourceTree = "<group>"; };
 		708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
@@ -916,6 +918,7 @@
 				708312432A2F1E6500F7E283 /* InquireChapelInfoResponse.swift */,
 				7083125D2A3887B700F7E283 /* InquireScheduleInfoResponse.swift */,
 				70864F2F2AF69FB100CD4124 /* InquireChapelDetailResponse.swift */,
+				70864F352AFE1F3600CD4124 /* InquireMileageInfoResponse.swift */,
 			);
 			path = Intranet;
 			sourceTree = "<group>";
@@ -1602,6 +1605,7 @@
 				708312462A2F34DB00F7E283 /* IntranetLoginViewController.swift in Sources */,
 				70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */,
 				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
+				70864F362AFE1F3600CD4124 /* InquireMileageInfoResponse.swift in Sources */,
 				7083129D2A6D0F7900F7E283 /* MileageReloadButton.swift in Sources */,
 				7031E3D22ABA80BA0027DC0A /* CommentAuthorInfoView.swift in Sources */,
 				708ED7F12A9E24D000107CDF /* InquireAffiliatedListResponse.swift in Sources */,

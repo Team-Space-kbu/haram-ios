@@ -10,13 +10,18 @@ import Foundation
 struct InquireBoardResponse: Decodable {
   let boardSeq: Int
   let boardTitle: String
-  let userId: String
+  let userID: String
   let boardContent: String
   let boardFileList: [BoardFile]
   let createdAt: String
   let modifiedAt: String?
   let boardType: BoardType
   let commentDtoList: [CommentDto]
+  
+  enum CodingKeys: String, CodingKey {
+    case userID = "userId"
+    case boardSeq, boardTitle, boardContent, boardFileList, createdAt, modifiedAt, boardType, commentDtoList
+  }
 }
 
 struct CommentDto: Decodable {

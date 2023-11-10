@@ -42,7 +42,7 @@ final class ScheduleViewModel: ScheduleViewModelType {
       .filter { UserManager.shared.hasIntranetToken }
       .do(onNext: { _ in isLoadingSubject.onNext(true) })
       .take(1)
-      .flatMapLatest(IntranetService.shared.inquireScheduleInfo2)
+      .flatMapLatest(IntranetService.shared.inquireScheduleInfo)
       .subscribe(onNext: { response in
         let scheduleModel = response.compactMap { model -> ElliottEvent? in
           guard let courseDay = ScheduleDay.allCases.filter({ $0.text == model.lectureDay }).first?.elliotDay else { return nil }

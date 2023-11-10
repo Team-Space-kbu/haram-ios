@@ -12,7 +12,11 @@ import Then
 
 final class BoardDetailViewController: BaseViewController {
   
+  // MARK: - Property
+  
   private let viewModel: BoardDetailViewModelType
+  
+  // MARK: - UI Models
   
   private var cellModel: [BoardDetailCollectionViewCellModel] = [] {
     didSet {
@@ -26,9 +30,21 @@ final class BoardDetailViewController: BaseViewController {
     }
   }
   
+  // MARK: - Gesture
+  
+  private let tapGesture = UITapGestureRecognizer(target: BoardDetailViewController.self, action: nil).then {
+    $0.cancelsTouchesInView = false
+  }
+  
   // MARK: - UI Component
   
-  private let commentInputView = CommentInputView()
+  private let commentInputView = CommentInputView().then {
+    $0.layer.cornerRadius = 8
+    $0.layer.shadowColor = UIColor(hex: 0x000000).cgColor
+    $0.layer.shadowOpacity = 1
+    $0.layer.shadowRadius = 10
+    $0.layer.shadowOffset = CGSize(width: 0, height: 1)
+  }
   
   private lazy var boardDetailCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
     guard let self = self else { return nil }
@@ -61,12 +77,12 @@ final class BoardDetailViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
+    view.addGestureRecognizer(tapGesture)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(boardDetailCollectionView)
-    view.addSubview(commentInputView)
+    _ = [boardDetailCollectionView, commentInputView].map { view.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -92,6 +108,13 @@ final class BoardDetailViewController: BaseViewController {
     
     viewModel.boardCommentModel
       .drive(rx.cellModel)
+      .disposed(by: disposeBag)
+    
+    tapGesture.rx.event
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.view.endEditing(true)
+      }
       .disposed(by: disposeBag)
   }
   

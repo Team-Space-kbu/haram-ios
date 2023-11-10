@@ -313,14 +313,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       let vc: BaseViewController
       switch type {
       case .mileage, .chapel:
-        if !UserManager.shared.hasIntranetToken {
-          vc = IntranetLoginViewController()
-          vc.modalPresentationStyle = .overFullScreen
-          present(vc, animated: true)
-          return
-        } else {
+//        if !UserManager.shared.hasIntranetToken {
+//          vc = IntranetLoginViewController()
+//          vc.modalPresentationStyle = .overFullScreen
+//          present(vc, animated: true)
+//          return
+//        } else {
           vc = type.viewController
-        }
+//        }
       default:
         vc = type.viewController
       }

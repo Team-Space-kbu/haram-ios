@@ -41,7 +41,7 @@ extension BoardDetailViewModel {
         owner.currentBoardInfoRelay.accept([BoardDetailHeaderViewModel(
           authorInfoViewModel: .init(
             profileImageURL: nil,
-            authorName: response.userId,
+            authorName: response.userID,
             postingDate: response.createdAt
           ),
           boardTitle: response.boardTitle,
