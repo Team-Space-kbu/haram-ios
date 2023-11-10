@@ -14,6 +14,8 @@ final class MileageViewController: BaseViewController {
   
   private let viewModel: MileageViewModelType
   
+  private var mileagePayInfoModel: MileageTableHeaderViewModel = MileageTableHeaderViewModel(totalMileage: 0)
+  
   private var model: [MileageTableViewCellModel] = [] {
     didSet {
       mileageTableView.reloadData()
@@ -46,6 +48,10 @@ final class MileageViewController: BaseViewController {
     
     viewModel.currentUserMileageInfo
       .drive(rx.model)
+      .disposed(by: disposeBag)
+    
+    viewModel.currentAvailabilityPoint
+      .drive(rx.mileagePayInfoModel)
       .disposed(by: disposeBag)
   }
   
@@ -101,6 +107,7 @@ extension MileageViewController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MileageTableHeaderView.identifier) as? MileageTableHeaderView ?? MileageTableHeaderView()
+    header.configureUI(with: mileagePayInfoModel)
     return header
   }
 }

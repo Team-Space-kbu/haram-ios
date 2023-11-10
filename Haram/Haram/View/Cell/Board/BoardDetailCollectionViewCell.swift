@@ -16,7 +16,11 @@ struct BoardDetailCollectionViewCellModel {
   
   init(commentDto: CommentDto) {
     comment = commentDto.commentContent
-    commentAuthorInfoModel = CommentAuthorInfoViewModel(commentProfileImageURL: nil, commentAuthorName: commentDto.userId, commentDate: DateformatterFactory.dateWithHypen.date(from: commentDto.createdAt) ?? Date())
+    commentAuthorInfoModel = CommentAuthorInfoViewModel(
+      commentProfileImageURL: nil,
+      commentAuthorName: commentDto.userID,
+      commentDate: DateformatterFactory.dateWithHypen.date(from: commentDto.createdAt) ?? Date()
+    )
   }
 }
 

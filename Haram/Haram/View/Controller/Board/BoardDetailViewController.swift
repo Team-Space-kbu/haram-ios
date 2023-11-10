@@ -39,11 +39,12 @@ final class BoardDetailViewController: BaseViewController {
   // MARK: - UI Component
   
   private let commentInputView = CommentInputView().then {
-    $0.layer.cornerRadius = 8
-    $0.layer.shadowColor = UIColor(hex: 0x000000).cgColor
+//    $0.layer.cornerRadius = 8
+    $0.layer.shadowColor = UIColor.hexD0D0D0.cgColor
     $0.layer.shadowOpacity = 1
     $0.layer.shadowRadius = 10
     $0.layer.shadowOffset = CGSize(width: 0, height: 1)
+    $0.backgroundColor = .red
   }
   
   private lazy var boardDetailCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
@@ -94,7 +95,8 @@ final class BoardDetailViewController: BaseViewController {
     
     commentInputView.snp.makeConstraints {
       $0.top.equalTo(boardDetailCollectionView.snp.bottom)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.equalTo(view.safeAreaLayoutGuide)
       $0.height.equalTo(89)
     }
   }

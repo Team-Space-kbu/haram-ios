@@ -28,9 +28,14 @@ struct CommentDto: Decodable {
   let modifiedAt: String?
   let commentContent: String
   let boardSeq: Int
-  let userId: String
+  let userID: String
   let commentSeq: Int
   let createdAt: String
+  
+  enum CodingKeys: String, CodingKey {
+    case userID = "userId"
+    case modifiedAt, commentContent, boardSeq, commentSeq, createdAt
+  }
 }
 
 struct BoardFile: Decodable {

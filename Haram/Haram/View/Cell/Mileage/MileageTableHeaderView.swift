@@ -23,7 +23,6 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
   private let totalMileageLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold36
-    $0.text = "10,218원"
   }
   
   private let mileageReloadButton = MileageReloadButton()

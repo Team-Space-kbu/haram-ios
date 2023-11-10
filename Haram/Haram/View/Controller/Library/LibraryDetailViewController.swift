@@ -124,8 +124,7 @@ final class LibraryDetailViewController: BaseViewController {
     super.setupConstraints()
     
     scrollView.snp.makeConstraints {
-      $0.top.equalToSuperview()
-      $0.directionalHorizontalEdges.bottom.width.equalToSuperview()
+      $0.directionalEdges.width.equalToSuperview()
     }
     
     containerView.snp.makeConstraints {
