@@ -82,6 +82,8 @@ final class RegisterViewController: BaseViewController {
     $0.setTitleText(title: "회원가입")
   }
   
+  private let indicatorView = UIActivityIndicatorView(style: .large)
+  
   private let tapGesture = UITapGestureRecognizer(target: RegisterViewController.self, action: nil)
   
   // MARK: - Initializations
@@ -107,6 +109,7 @@ final class RegisterViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
+    view.addSubview(indicatorView)
     scrollView.addSubview(stackView)
 
     [titleLabel, alertLabel, idTextField, nicknameTextField, pwdTextField, repwdTextField, emailTextField, checkEmailTextField, registerButton].forEach { stackView.addArrangedSubview($0) }
@@ -116,6 +119,10 @@ final class RegisterViewController: BaseViewController {
     super.setupConstraints()
     
     scrollView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
+    indicatorView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
     
@@ -234,9 +241,13 @@ final class RegisterViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-//    viewModel.isRegisterButtonEnabled
-//      .drive(registerButton.rx.isEnabled)
-//      .disposed(by: disposeBag)
+    viewModel.isLoading
+      .drive(indicatorView.rx.isAnimating)
+      .disposed(by: disposeBag)
+    
+    viewModel.isRegisterButtonEnabled
+      .drive(registerButton.rx.isEnabled)
+      .disposed(by: disposeBag)
   }
 }
 

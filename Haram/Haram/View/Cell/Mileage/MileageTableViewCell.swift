@@ -28,7 +28,8 @@ final class MileageTableViewCell: UITableViewCell {
   private let mainLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .bold18
-    $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
+    $0.numberOfLines = 1
+    $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
   }
   
   private let subLabel = UILabel().then {
@@ -39,7 +40,7 @@ final class MileageTableViewCell: UITableViewCell {
   private let mileageLabel = UILabel().then {
     $0.font = .bold18
     $0.textColor = .hex545E6A
-    $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+    $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
   }
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -77,7 +78,7 @@ final class MileageTableViewCell: UITableViewCell {
     }
     
     mileageLabel.snp.makeConstraints {
-      $0.leading.lessThanOrEqualTo(mainLabel.snp.trailing)
+      $0.leading.greaterThanOrEqualTo(mainLabel.snp.trailing)
       $0.centerY.equalTo(mileageImageView)
       $0.trailing.equalToSuperview()
       $0.bottom.equalTo(mileageImageView)

@@ -21,6 +21,7 @@ protocol RegisterViewModelType {
   var isRegisterButtonEnabled: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
   var signupSuccessMessage: Signal<String> { get }
+  var isLoading: Driver<Bool> { get }
 }
 
 final class RegisterViewModel {
@@ -38,20 +39,27 @@ final class RegisterViewModel {
   private let isRegisterButtonEnabledSubject = BehaviorSubject<Bool>(value: false)
   private let errorMessageRelay = PublishRelay<HaramError>()
   private let signupSuccessMessageRelay = PublishRelay<String>()
+  private let isLoadingSubject = PublishSubject<Bool>()
   
   init() {
+    checkIsRegisterButtonEnabled()
     tryRegisterMember()
   }
   
-  private func checkIsEqualToPassword() {
-    tappedRegisterButtonSubject
-      .withLatestFrom(
-        Observable.combineLatest(
-          registerPWDSubject,
-          registerRePWDSubject
-        )
-      )
-      .filter { $0 != $1 }
+  private func checkIsRegisterButtonEnabled() {
+    Observable.combineLatest(
+      registerIDSubject,
+      registerEmailSubject,
+      registerPWDSubject,
+      registerRePWDSubject,
+      registerNicknameSubject,
+      registerAuthCodeSubject
+    ) { !$0.isEmpty && !$1.isEmpty && !$2.isEmpty && !$3.isEmpty && !$4.isEmpty && !$5.isEmpty }
+      .subscribe(with: self) { owner, isEnabled in
+        owner.isRegisterButtonEnabledSubject.onNext(isEnabled)
+      }
+      .disposed(by: disposeBag)
+    
   }
   
   private func tryRegisterMember() {
@@ -67,14 +75,17 @@ final class RegisterViewModel {
           registerAuthCodeSubject
         ) { ($0, $1, $2, $3, $4, $5) }
       )
-      .do(onNext: { [weak self] result in
-        guard let self = self else { return }
+      .filter { [weak self] result in
+        guard let self = self else { return false }
+        self.isLoadingSubject.onNext(true)
         let (_, _, password, rePassword, _, _) = result
         if password != rePassword {
           self.errorMessageRelay.accept(.noEqualPassword)
+          self.isLoadingSubject.onNext(false)
+          return false
         }
-      })
-      .filter { $0.2 == $0.3 }
+        return true
+      }
       .flatMapLatest { result in
         let (id, email, password, _, nickname, authcode) = result
         return AuthService.shared.signupUser(
@@ -96,6 +107,7 @@ final class RegisterViewModel {
         case .failure(let error):
           owner.errorMessageRelay.accept(error)
         }
+        owner.isLoadingSubject.onNext(false)
       }
       .disposed(by: disposeBag)
   }
@@ -143,5 +155,9 @@ extension RegisterViewModel: RegisterViewModelType {
   
   var signupSuccessMessage: Signal<String> {
     signupSuccessMessageRelay.asSignal()
+  }
+  
+  var isLoading: Driver<Bool> {
+    isLoadingSubject.asDriver(onErrorJustReturn: false)
   }
 }
