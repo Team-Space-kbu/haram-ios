@@ -12,18 +12,24 @@ import RxCocoa
 import SnapKit
 import Then
 
+protocol CommentInputViewDelegate: AnyObject {
+  func writeComment(_ comment: String)
+}
+
 final class CommentInputView: UIView, UITextViewDelegate {
+  
+  weak var delegate: CommentInputViewDelegate?
   
   private let disposeBag = DisposeBag()
   private let placeHolder = "댓글추가"
   
-  lazy var commentTextView = UITextView().then {
+  private lazy var commentTextView = UITextView().then {
     $0.textColor = .hexD0D0D0
     $0.textContainerInset = UIEdgeInsets(
-      top: 11,
-      left: 8,
-      bottom: 11,
-      right: 8
+      top: 10,
+      left: 10,
+      bottom: 10,
+      right: 10
     )
     $0.font = .regular14
     $0.backgroundColor = .hexF4F4F4
@@ -79,6 +85,13 @@ final class CommentInputView: UIView, UITextViewDelegate {
   }
   
   private func bind() {
+    
+    sendButton.rx.tap
+      .withLatestFrom(commentTextView.rx.text.orEmpty)
+      .subscribe(with: self) { owner, comment in
+        owner.delegate?.writeComment(comment)
+      }
+      .disposed(by: disposeBag)
     
     commentTextView.rx.didBeginEditing
       .withUnretained(self)

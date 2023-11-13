@@ -21,10 +21,10 @@ final class LoginViewModel {
   private let disposeBag = DisposeBag()
   
   private let tryLoginRequestSubject = BehaviorSubject<(String, String)?>(value: nil)
-  private let tokenForLogin = BehaviorSubject<String?>(value: UserManager.shared.accessToken)
-  private let refreshTokenForLogin = BehaviorSubject<String?>(value: UserManager.shared.refreshToken)
-  private let errorMessageRelay = PublishRelay<String>()
-  private let isLoadingSubject = BehaviorSubject<Bool>(value: false)
+  private let tokenForLogin          = BehaviorSubject<String?>(value: UserManager.shared.accessToken)
+  private let refreshTokenForLogin   = BehaviorSubject<String?>(value: UserManager.shared.refreshToken)
+  private let errorMessageRelay      = PublishRelay<String>()
+  private let isLoadingSubject       = BehaviorSubject<Bool>(value: false)
   
   init() {
     tryLogin()

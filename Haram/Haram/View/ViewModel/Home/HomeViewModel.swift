@@ -20,7 +20,7 @@ final class HomeViewModel {
   
   private let disposeBag = DisposeBag()
   
-  private let newsModelRelay = BehaviorRelay<[HomeNewsCollectionViewCellModel]>(value: [])
+  private let newsModelRelay   = BehaviorRelay<[HomeNewsCollectionViewCellModel]>(value: [])
   private let bannerModelRelay = BehaviorRelay<[HomebannerCollectionViewCellModel]>(value: [])
   private let noticeModelRelay = PublishRelay<HomeNoticeViewModel>()
   private let isLoadingSubject = PublishSubject<Bool>()

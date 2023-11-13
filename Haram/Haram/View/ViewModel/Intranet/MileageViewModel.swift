@@ -17,7 +17,7 @@ final class MileageViewModel {
   
   private let disposeBag = DisposeBag()
   
-  private let currentUserMileageInfoRelay = BehaviorRelay<[MileageTableViewCellModel]>(value: [])
+  private let currentUserMileageInfoRelay  = BehaviorRelay<[MileageTableViewCellModel]>(value: [])
   private let currentAvilabilityPointRelay = PublishRelay<MileageTableHeaderViewModel>()
   
   init() {

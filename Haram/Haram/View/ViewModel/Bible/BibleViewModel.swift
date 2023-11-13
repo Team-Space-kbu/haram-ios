@@ -21,9 +21,9 @@ final class BibleViewModel {
   private let disposeBag = DisposeBag()
   
   private let todayBibleWordListRelay = BehaviorRelay<[String]>(value: [])
-  private let todayPrayListRelay = BehaviorRelay<[TodayPrayCollectionViewCellModel]>(value: [])
-  private let bibleMainNoticeRelay = BehaviorRelay<[BibleNoticeCollectionViewCellModel]>(value: [])
-  private let isLoadingSubject = PublishSubject<Bool>()
+  private let todayPrayListRelay      = BehaviorRelay<[TodayPrayCollectionViewCellModel]>(value: [])
+  private let bibleMainNoticeRelay    = BehaviorRelay<[BibleNoticeCollectionViewCellModel]>(value: [])
+  private let isLoadingSubject        = PublishSubject<Bool>()
   
   init() {
     inquireTodayBibleWord()

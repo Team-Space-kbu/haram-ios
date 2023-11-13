@@ -20,7 +20,7 @@ final class StudyRoomDetailViewModel {
   private let roomSeq: Int
   private let disposeBag = DisposeBag()
   private let currentRothemRoomDetailViewModelRelay = PublishRelay<RothemRoomDetailViewModel>()
-  private let currentRothemRoomThubnailImageRelay = PublishRelay<URL?>()
+  private let currentRothemRoomThubnailImageRelay   = PublishRelay<URL?>()
   
   init(roomSeq: Int) {
     self.roomSeq = roomSeq
@@ -32,7 +32,7 @@ final class StudyRoomDetailViewModel {
     
     inquireRothemRoomInfo
       .subscribe(with: self) { owner, response in
-        let rothemRoomThubnailImageURL = URL(string: response.thumbnailImage ?? "")
+        let rothemRoomThubnailImageURL = URL(string: response.rooomResponse.thumbnailPath)
         let rothemRoomDetailViewModel = RothemRoomDetailViewModel(response: response)
         owner.currentRothemRoomDetailViewModelRelay.accept(rothemRoomDetailViewModel)
         owner.currentRothemRoomThubnailImageRelay.accept(rothemRoomThubnailImageURL)

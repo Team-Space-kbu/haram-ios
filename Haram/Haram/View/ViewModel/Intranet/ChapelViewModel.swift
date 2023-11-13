@@ -24,9 +24,10 @@ final class ChapelViewModel: ChapelViewModelType {
   
   init() {
     
-    let chapelListModelRelay = BehaviorRelay<[ChapelCollectionViewCellModel]>(value: [])
+    let chapelListModelRelay   = BehaviorRelay<[ChapelCollectionViewCellModel]>(value: [])
     let chapelHeaderModelRelay = PublishRelay<ChapelCollectionHeaderViewModel?>()
-    let isLoadingSubject = BehaviorSubject<Bool>(value: true)
+    let isLoadingSubject       = BehaviorSubject<Bool>(value: true)
+    
     self.chapelListModel = chapelListModelRelay.asDriver()
     self.chapelHeaderModel = chapelHeaderModelRelay.asDriver(onErrorJustReturn: nil)
     self.isLoading = isLoadingSubject.distinctUntilChanged().asDriver(onErrorJustReturn: false)

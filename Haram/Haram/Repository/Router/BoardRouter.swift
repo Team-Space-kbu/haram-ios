@@ -10,6 +10,9 @@ import Alamofire
 enum BoardRouter {
   case inquireBoardList(BoardType)
   case inquireBoard(BoardType, Int)
+  
+  /// Comment
+  case createComment(CreateCommentRequest)
 }
 
 extension BoardRouter: Router {
@@ -18,6 +21,8 @@ extension BoardRouter: Router {
     switch self {
     case .inquireBoardList, .inquireBoard:
       return .get
+    case .createComment:
+      return .post
     }
   }
   
@@ -27,6 +32,8 @@ extension BoardRouter: Router {
       return "/v1/boards/\(boardType)"
     case let .inquireBoard(boardType, boardSeq):
       return "/v1/boards/\(boardType)/\(boardSeq)"
+    case .createComment:
+      return "/v1/comments"
     }
   }
   
@@ -34,11 +41,15 @@ extension BoardRouter: Router {
     switch self {
     case .inquireBoardList, .inquireBoard:
       return .plain
+    case let .createComment(request):
+      return .body(request)
     }
   }
   
   var headers: HeaderType {
     switch self {
+    case .createComment:
+      return .withAccessToken
     case .inquireBoardList, .inquireBoard:
       return .noCache
     }

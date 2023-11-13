@@ -26,8 +26,8 @@ final class MoreViewModel: MoreViewModelType {
   
   init() {
     let requestLogoutUserSubject = PublishSubject<Void>()
-    let currentUserInfoRelay = BehaviorRelay<ProfileInfoViewModel?>(value: nil)
-    let successMessageRelay = PublishRelay<String>()
+    let currentUserInfoRelay     = BehaviorRelay<ProfileInfoViewModel?>(value: nil)
+    let successMessageRelay      = PublishRelay<String>()
 
     currentUserInfo = currentUserInfoRelay.compactMap { $0 }.asDriver(onErrorDriveWith: .empty())
     requestLogoutUser = requestLogoutUserSubject.asObserver()

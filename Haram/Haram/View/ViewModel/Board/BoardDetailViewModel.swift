@@ -9,6 +9,8 @@ import RxSwift
 import RxCocoa
 
 protocol BoardDetailViewModelType {
+  var boardComment: AnyObserver<String> { get }
+  
   var boardInfoModel: Driver<[BoardDetailHeaderViewModel]> { get }
   var boardCommentModel: Driver<[BoardDetailCollectionViewCellModel]> { get }
 }
@@ -23,6 +25,8 @@ final class BoardDetailViewModel {
   private let currentBoardListRelay = BehaviorRelay<[BoardDetailCollectionViewCellModel]>(value: [])
   private let currentBoardInfoRelay = BehaviorRelay<[BoardDetailHeaderViewModel]>(value: [])
   
+  private let createCommentSubject  = PublishSubject<String>()
+  
   
   init(boardType: BoardType, boardSeq: Int) {
     self.boardType = boardType
@@ -33,6 +37,7 @@ final class BoardDetailViewModel {
 
 extension BoardDetailViewModel {
   
+  /// 게시글에 대한 정보를 조회합니다
   private func inquireBoard() {
     let inquireBoard = BoardService.shared.inquireBoard(boardType: boardType, boardSeq: boardSeq)
     
@@ -51,9 +56,34 @@ extension BoardDetailViewModel {
       }
       .disposed(by: disposeBag)
   }
+  
+  /// 해당 게시글에 대한 댓글을 생성합니다
+  private func createComment() {
+    let createComment = createCommentSubject
+      .withUnretained(self)
+      .flatMapLatest {
+        BoardService.shared.createComment(
+          request: .init(
+            boardSeq: $0.boardSeq,
+            userID: UserManager.shared.userID!,
+            commentContent: $1
+          )
+        )
+      }
+    
+    createComment
+      .subscribe(with: self) { owner, response in
+        
+      }
+      .disposed(by: disposeBag)
+  }
 }
 
 extension BoardDetailViewModel: BoardDetailViewModelType {
+  var boardComment: RxSwift.AnyObserver<String> {
+    createCommentSubject.asObserver()
+  }
+  
   var boardInfoModel: RxCocoa.Driver<[BoardDetailHeaderViewModel]> {
     currentBoardInfoRelay.asDriver()
   }
@@ -62,3 +92,4 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
     currentBoardListRelay.asDriver()
   }
 }
+

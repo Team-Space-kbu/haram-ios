@@ -160,7 +160,7 @@ struct StudyListHeaderViewModel: Hashable {
   private let identifier = UUID()
   
   init(rothemNotice: RothemNotice) {
-    thumbnailImageURL = URL(string: rothemNotice.thumbnailImage)
+    thumbnailImageURL = URL(string: rothemNotice.thumbnailPath)
     title = rothemNotice.title
     description = rothemNotice.content
   }

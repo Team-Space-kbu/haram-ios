@@ -25,4 +25,8 @@ extension BoardService {
   func inquireBoard(boardType: BoardType, boardSeq: Int) -> Single<InquireBoardResponse> {
     service.betarequest(router: BoardRouter.inquireBoard(boardType, boardSeq), type: InquireBoardResponse.self)
   }
+  
+  func createComment(request: CreateCommentRequest) -> Single<CreateCommentResponse> {
+    service.betarequest(router: BoardRouter.createComment(request), type: CreateCommentResponse.self)
+  }
 }

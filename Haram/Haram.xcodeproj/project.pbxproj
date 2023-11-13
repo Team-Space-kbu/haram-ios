@@ -168,6 +168,9 @@
 		70864F302AF69FB100CD4124 /* InquireChapelDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F2F2AF69FB100CD4124 /* InquireChapelDetailResponse.swift */; };
 		70864F322AF9502600CD4124 /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F312AF9502600CD4124 /* CommentInputView.swift */; };
 		70864F362AFE1F3600CD4124 /* InquireMileageInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F352AFE1F3600CD4124 /* InquireMileageInfoResponse.swift */; };
+		70864F382B014A2D00CD4124 /* CreateCommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F372B014A2D00CD4124 /* CreateCommentRequest.swift */; };
+		70864F3A2B014AD400CD4124 /* CreateCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F392B014AD400CD4124 /* CreateCommentResponse.swift */; };
+		70864F3C2B021FA900CD4124 /* IntranetCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */; };
 		708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */; };
 		708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */; };
 		708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */; };
@@ -409,6 +412,9 @@
 		70864F2F2AF69FB100CD4124 /* InquireChapelDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireChapelDetailResponse.swift; sourceTree = "<group>"; };
 		70864F312AF9502600CD4124 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		70864F352AFE1F3600CD4124 /* InquireMileageInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireMileageInfoResponse.swift; sourceTree = "<group>"; };
+		70864F372B014A2D00CD4124 /* CreateCommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommentRequest.swift; sourceTree = "<group>"; };
+		70864F392B014AD400CD4124 /* CreateCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommentResponse.swift; sourceTree = "<group>"; };
+		70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetCheckViewController.swift; sourceTree = "<group>"; };
 		708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HaramRelease.entitlements; sourceTree = "<group>"; };
 		708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBookLoanStatusResponse.swift; sourceTree = "<group>"; };
 		708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
@@ -625,6 +631,8 @@
 			children = (
 				7051E4FF2ADAB75100C2134B /* InquireBoardlistResponse.swift */,
 				701F29C32AE6750100E3E68B /* InquireBoardResponse.swift */,
+				70864F372B014A2D00CD4124 /* CreateCommentRequest.swift */,
+				70864F392B014AD400CD4124 /* CreateCommentResponse.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -1090,6 +1098,7 @@
 				708312452A2F34DB00F7E283 /* IntranetLoginViewController.swift */,
 				70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */,
 				70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */,
+				70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */,
 			);
 			path = Intranet;
 			sourceTree = "<group>";
@@ -1509,6 +1518,7 @@
 				708ED7EF2A9E232A00107CDF /* AffiliatedViewModel.swift in Sources */,
 				7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */,
 				708312AE2A73936E00F7E283 /* CategoryCollectionViewCell.swift in Sources */,
+				70864F382B014A2D00CD4124 /* CreateCommentRequest.swift in Sources */,
 				70375F092AB050E00032F6B8 /* InquireChapterToBibleResponse.swift in Sources */,
 				7034AF1A29F0064B009C7676 /* WebViewController.swift in Sources */,
 				708312542A31930300F7E283 /* InquireHomeInfoResponse.swift in Sources */,
@@ -1625,6 +1635,7 @@
 				70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */,
 				7083128E2A65626E00F7E283 /* MyPageService.swift in Sources */,
 				70727A9529D889C6003DE956 /* HomeViewController.swift in Sources */,
+				70864F3C2B021FA900CD4124 /* IntranetCheckViewController.swift in Sources */,
 				708312662A398C0D00F7E283 /* LibraryRentalListView.swift in Sources */,
 				70375EFE2AAA022A0032F6B8 /* LibraryRentalView.swift in Sources */,
 				705FD28C2A10F74D00F353FE /* UserManager.swift in Sources */,
@@ -1636,6 +1647,7 @@
 				705FD29F2A15F21F00F353FE /* LoginButton.swift in Sources */,
 				7083125E2A3887B700F7E283 /* InquireScheduleInfoResponse.swift in Sources */,
 				708312BA2A78D0A300F7E283 /* HaramButton.swift in Sources */,
+				70864F3A2B014AD400CD4124 /* CreateCommentResponse.swift in Sources */,
 				708ED7AD2A8FAAF600107CDF /* SelectedDayCollectionViewCell.swift in Sources */,
 				70C9CCB22A067D8000BEB5F2 /* ChapelDayView.swift in Sources */,
 				70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */,

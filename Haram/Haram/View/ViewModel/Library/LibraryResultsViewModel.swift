@@ -27,11 +27,11 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
   
   init() {
     let whichSearchingText = PublishSubject<String>()
-    let isLoadingRelay = BehaviorRelay<Bool>(value: false)
-    let searchBookResults = BehaviorRelay<[LibraryResultsCollectionViewCellModel]>(value: [])
+    let isLoadingRelay     = BehaviorRelay<Bool>(value: false)
+    let searchBookResults  = BehaviorRelay<[LibraryResultsCollectionViewCellModel]>(value: [])
     let currentPageSubject = BehaviorRelay<Int>(value: 1)
-    let fetchingDatas = PublishSubject<Void>()
-    let isLastPage = BehaviorRelay<Int>(value: 1)
+    let fetchingDatas      = PublishSubject<Void>()
+    let isLastPage         = BehaviorRelay<Int>(value: 1)
     
     whichSearchText = whichSearchingText.asObserver()
     fetchMoreDatas = fetchingDatas.asObserver()

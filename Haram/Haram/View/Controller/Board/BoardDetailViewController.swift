@@ -38,14 +38,10 @@ final class BoardDetailViewController: BaseViewController {
   
   // MARK: - UI Component
   
-  private let commentInputView = CommentInputView().then {
-//    $0.layer.cornerRadius = 8
-    $0.layer.shadowColor = UIColor.hexD0D0D0.cgColor
-    $0.layer.shadowOpacity = 1
-    $0.layer.shadowRadius = 10
-    $0.layer.shadowOffset = CGSize(width: 0, height: 1)
-    $0.backgroundColor = .red
+  private lazy var commentInputView = CommentInputView().then {
+    $0.delegate = self
   }
+//
   
   private lazy var boardDetailCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
     guard let self = self else { return nil }
@@ -55,6 +51,7 @@ final class BoardDetailViewController: BaseViewController {
     $0.register(BoardDetailHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardDetailHeaderView.identifier)
     $0.register(BoardDetailCommentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardDetailCommentHeaderView.identifier)
     $0.dataSource = self
+    $0.alwaysBounceVertical = true
   }
   
   // MARK: - Initializations
@@ -90,7 +87,6 @@ final class BoardDetailViewController: BaseViewController {
     super.setupConstraints()
     boardDetailCollectionView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
-//      $0.directionalEdges.equalToSuperview()
     }
     
     commentInputView.snp.makeConstraints {
@@ -203,4 +199,25 @@ extension BoardDetailViewController: UICollectionViewDataSource {
     
   }
   
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension BoardDetailViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
+    return true
+  }
+}
+
+extension BoardDetailViewController: CommentInputViewDelegate {
+  func writeComment(_ comment: String) {
+    boardDetailCollectionView.performBatchUpdates {
+      cellModel.insert(.init(
+        comment: comment,
+        createdAt: DateformatterFactory.dateWithHypen.string(from: Date())
+      ), at: cellModel.count)
+      boardDetailCollectionView.insertItems(at: [IndexPath(item: cellModel.count - 1, section: 1)])
+    }
+  }
 }

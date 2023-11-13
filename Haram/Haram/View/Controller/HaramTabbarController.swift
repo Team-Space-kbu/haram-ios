@@ -84,12 +84,12 @@ final class HaramTabbarController: UITabBarController {
 
 extension HaramTabbarController: UITabBarControllerDelegate {
   func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-    if viewController == scheduleViewController {
-      guard !UserManager.shared.hasIntranetToken else { return }
-      let vc = IntranetLoginViewController()
-      vc.modalPresentationStyle = .fullScreen
-      present(vc, animated: true)
-    }
+//    if viewController == scheduleViewController {
+//      guard !UserManager.shared.hasIntranetToken else { return }
+//      let vc = IntranetLoginViewController()
+//      vc.modalPresentationStyle = .fullScreen
+//      present(vc, animated: true)
+//    }
 //    else if viewController == moreViewController {
 //      guard let vc = moreViewController.topViewController as? MoreViewController else { return }
 //      vc.bind(userID: UserManager.shared.userID!)

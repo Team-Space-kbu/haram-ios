@@ -31,11 +31,11 @@ final class LibraryViewModel: LibraryViewModelType {
   
   init() {
     
-    let currentNewBookModel = BehaviorRelay<[NewLibraryCollectionViewCellModel]>(value: [])
-    let currentBestBookModel = BehaviorRelay<[PopularLibraryCollectionViewCellModel]>(value: [])
+    let currentNewBookModel    = BehaviorRelay<[NewLibraryCollectionViewCellModel]>(value: [])
+    let currentBestBookModel   = BehaviorRelay<[PopularLibraryCollectionViewCellModel]>(value: [])
     let currentRentalBookModel = BehaviorRelay<[RentalLibraryCollectionViewCellModel]>(value: [])
-    let bannerImageRelay = PublishRelay<String?>()
-    let isLoadingSubject = PublishSubject<Bool>()
+    let bannerImageRelay       = PublishRelay<String?>()
+    let isLoadingSubject       = PublishSubject<Bool>()
     
     let inquireLibrary = LibraryService.shared.inquireLibrary()
     

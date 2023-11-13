@@ -31,7 +31,7 @@ extension RothemRouter: Router {
     case .inquireAllRothemNotice:
       return "/rothem/v1/notices"
     case .inquireRothemHomeInfo(let userID):
-      return "/rothem/v1/homes/\(userID)"
+      return "/v1/rothem/main/\(userID)"
     case .inquireRothemRoomInfo(let roomSeq):
       return "/rothem/v1/rooms/\(roomSeq)"
     case .inquireRothemReservationAuthCode(let userID):

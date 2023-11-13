@@ -17,9 +17,9 @@ struct RothemRoomDetailViewModel {
   let roomDescription: String
   
   init(response: InquireRothemRoomInfoResponse) {
-    roomTitle = response.roomName
-    roomDestination = response.location
-    roomDescription = response.roomExplanation
+    roomTitle = response.rooomResponse.roomName
+    roomDestination = response.rooomResponse.roomExplanation
+    roomDescription = response.rooomResponse.roomExplanation
   }
 }
 

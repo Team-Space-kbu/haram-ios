@@ -24,10 +24,9 @@ final class StudyListViewModel {
   
   
   private let studyReservationListRelay = BehaviorRelay<[StudyListCollectionViewCellModel]>(value: [])
-  private let rothemMainNoticeRelay = BehaviorRelay<StudyListHeaderViewModel?>(value: nil)
-  
-  private let isLoadingSubject = PublishSubject<Bool>()
-  private let isReservationSubject = BehaviorSubject<Bool>(value: false)
+  private let rothemMainNoticeRelay     = BehaviorRelay<StudyListHeaderViewModel?>(value: nil)
+  private let isLoadingSubject          = PublishSubject<Bool>()
+  private let isReservationSubject      = BehaviorSubject<Bool>(value: false)
   
   init() {
     inquireRothemHomeInfo()

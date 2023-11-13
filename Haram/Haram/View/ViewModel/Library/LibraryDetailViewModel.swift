@@ -37,15 +37,15 @@ final class LibraryDetailViewModel: LibraryDetailViewModelType {
   let errorMessage: Signal<HaramError>
   
   init() {
-    let whichRequestingBookPath = PublishSubject<Int>()
-    let currentDetailBookInfo = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
-    let currentDetailMainModel = BehaviorRelay<LibraryDetailMainViewModel?>(value: nil)
-    let currentDetailSubModel = BehaviorRelay<LibraryDetailSubViewModel?>(value: nil)
-    let currentDetailInfoModel = BehaviorRelay<[LibraryInfoViewModel]>(value: [])
+    let whichRequestingBookPath  = PublishSubject<Int>()
+    let currentDetailBookInfo    = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
+    let currentDetailMainModel   = BehaviorRelay<LibraryDetailMainViewModel?>(value: nil)
+    let currentDetailSubModel    = BehaviorRelay<LibraryDetailSubViewModel?>(value: nil)
+    let currentDetailInfoModel   = BehaviorRelay<[LibraryInfoViewModel]>(value: [])
     let currentDetailRentalModel = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
-    let currentRelatedBookModel = BehaviorRelay<[LibraryRelatedBookCollectionViewCellModel]>(value: [])
-    let isLoadingSubject = BehaviorSubject<Bool>(value: false)
-    let errorMessageRelay = PublishRelay<HaramError>()
+    let currentRelatedBookModel  = BehaviorRelay<[LibraryRelatedBookCollectionViewCellModel]>(value: [])
+    let isLoadingSubject         = BehaviorSubject<Bool>(value: false)
+    let errorMessageRelay        = PublishRelay<HaramError>()
     
     whichRequestBookPath = whichRequestingBookPath.asObserver()
     detailBookInfo = currentDetailBookInfo.asDriver()

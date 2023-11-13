@@ -22,6 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //    window?.rootViewController = BoardDetailViewController()
 //    window?.rootViewController = LibraryDetailViewController(path: 166181)
 //    window?.rootViewController = ChapelViewController()
+    window?.rootViewController = IntranetCheckViewController()
     window?.makeKeyAndVisible()
   }
 

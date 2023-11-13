@@ -19,7 +19,7 @@ final class BibleSearchResultViewModel {
   private let disposeBag = DisposeBag()
   
   private let requestTypeForSearchSubject = PublishSubject<InquireChapterToBibleRequest>()
-  private let searchResultContentRelay = PublishRelay<String>()
+  private let searchResultContentRelay    = PublishRelay<String>()
   
   init() {
     inquireChapterToBible()

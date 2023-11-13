@@ -22,6 +22,14 @@ struct BoardDetailCollectionViewCellModel {
       commentDate: DateformatterFactory.dateWithHypen.date(from: commentDto.createdAt) ?? Date()
     )
   }
+  
+  init(comment: String, createdAt: String) {
+    self.comment = comment
+    commentAuthorInfoModel = CommentAuthorInfoViewModel(
+      commentProfileImageURL: nil,
+      commentAuthorName: UserManager.shared.userID!,
+      commentDate: DateformatterFactory.dateWithHypen.date(from: createdAt) ?? Date())
+  }
 }
 
 final class BoardDetailCollectionViewCell: UICollectionViewCell {

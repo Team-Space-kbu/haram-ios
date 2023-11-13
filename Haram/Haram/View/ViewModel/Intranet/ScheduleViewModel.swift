@@ -30,16 +30,16 @@ final class ScheduleViewModel: ScheduleViewModelType {
   
   init() {
     
-    let schedulingInfo = PublishRelay<[ElliottEvent]>()
+    let schedulingInfo    = PublishRelay<[ElliottEvent]>()
     let inquiringSchedule = PublishSubject<Void>()
-    let isLoadingSubject = BehaviorSubject<Bool>(value: false)
+    let isLoadingSubject  = BehaviorSubject<Bool>(value: false)
     
     self.scheduleInfo = schedulingInfo.asDriver(onErrorJustReturn: [])
     self.inquireSchedule = inquiringSchedule.asObserver()
     self.isLoading = isLoadingSubject.distinctUntilChanged().asDriver(onErrorJustReturn: false)
     
     inquiringSchedule
-      .filter { UserManager.shared.hasIntranetToken }
+//      .filter { UserManager.shared.hasIntranetToken }
       .do(onNext: { _ in isLoadingSubject.onNext(true) })
       .take(1)
       .flatMapLatest(IntranetService.shared.inquireScheduleInfo)

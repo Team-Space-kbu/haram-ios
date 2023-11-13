@@ -21,9 +21,9 @@ final class IntranetLoginViewModel {
   private let disposeBag = DisposeBag()
   
   private let intranetLoginButtonTappedSubject = PublishSubject<Void>()
-  private let intranetInfoSubject = PublishSubject<(String, String)>()
-  private let intranetLoginMessage = PublishSubject<Void>()
-  private let isLoadingSubject = BehaviorSubject<Bool>(value: false)
+  private let intranetInfoSubject              = PublishSubject<(String, String)>()
+  private let intranetLoginMessage             = PublishSubject<Void>()
+  private let isLoadingSubject                 = BehaviorSubject<Bool>(value: false)
   
   init() {
     tryRequestIntranetToken()

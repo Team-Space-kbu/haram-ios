@@ -27,19 +27,17 @@ protocol RegisterViewModelType {
 final class RegisterViewModel {
   private let disposeBag = DisposeBag()
   
-  private let tappedRegisterButtonSubject = PublishSubject<Void>()
-  
-  private let registerIDSubject = PublishSubject<String>()
-  private let registerPWDSubject = PublishSubject<String>()
-  private let registerRePWDSubject = PublishSubject<String>()
-  private let registerEmailSubject = PublishSubject<String>()
-  private let registerNicknameSubject = PublishSubject<String>()
-  private let registerAuthCodeSubject = PublishSubject<String>()
-  
+  private let tappedRegisterButtonSubject    = PublishSubject<Void>()
+  private let registerIDSubject              = PublishSubject<String>()
+  private let registerPWDSubject             = PublishSubject<String>()
+  private let registerRePWDSubject           = PublishSubject<String>()
+  private let registerEmailSubject           = PublishSubject<String>()
+  private let registerNicknameSubject        = PublishSubject<String>()
+  private let registerAuthCodeSubject        = PublishSubject<String>()
   private let isRegisterButtonEnabledSubject = BehaviorSubject<Bool>(value: false)
-  private let errorMessageRelay = PublishRelay<HaramError>()
-  private let signupSuccessMessageRelay = PublishRelay<String>()
-  private let isLoadingSubject = PublishSubject<Bool>()
+  private let errorMessageRelay              = PublishRelay<HaramError>()
+  private let signupSuccessMessageRelay      = PublishRelay<String>()
+  private let isLoadingSubject               = PublishSubject<Bool>()
   
   init() {
     checkIsRegisterButtonEnabled()
