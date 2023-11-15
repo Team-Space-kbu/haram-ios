@@ -17,7 +17,6 @@ struct BoardDetailCollectionViewCellModel {
   init(commentDto: CommentDto) {
     comment = commentDto.commentContent
     commentAuthorInfoModel = CommentAuthorInfoViewModel(
-      commentProfileImageURL: nil,
       commentAuthorName: commentDto.userID,
       commentDate: DateformatterFactory.dateWithHypen.date(from: commentDto.createdAt) ?? Date()
     )
@@ -26,7 +25,6 @@ struct BoardDetailCollectionViewCellModel {
   init(comment: String, createdAt: String) {
     self.comment = comment
     commentAuthorInfoModel = CommentAuthorInfoViewModel(
-      commentProfileImageURL: nil,
       commentAuthorName: UserManager.shared.userID!,
       commentDate: DateformatterFactory.dateWithHypen.date(from: createdAt) ?? Date())
   }
@@ -61,17 +59,17 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     [commentAuthorInfoView, commentLabel, lineView].forEach { contentView.addSubview($0) }
     commentAuthorInfoView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo(35)
+      $0.height.equalTo(17)
     }
     
     commentLabel.snp.makeConstraints {
-      $0.top.equalTo(commentAuthorInfoView.snp.bottom).offset(3)
-      $0.leading.equalToSuperview().inset(58 - 16)
+      $0.top.equalTo(commentAuthorInfoView.snp.bottom).offset(464 - 440 - 17)
+      $0.leading.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }
     
     lineView.snp.makeConstraints {
-      $0.top.equalTo(commentLabel.snp.bottom).offset(16)
+      $0.top.equalTo(commentLabel.snp.bottom).offset(600 - 464 - 117)
       $0.height.equalTo(1)
       $0.bottom.directionalHorizontalEdges.equalToSuperview()
     }

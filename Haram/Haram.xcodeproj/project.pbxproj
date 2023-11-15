@@ -17,7 +17,6 @@
 		701F29DE2AEBB7FF00E3E68B /* CheckReservationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */; };
 		7031E3C82ABA72C10027DC0A /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */; };
 		7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */; };
-		7031E3CE2ABA74E50027DC0A /* PostingAuthorInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CD2ABA74E50027DC0A /* PostingAuthorInfoView.swift */; };
 		7031E3D02ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */; };
 		7031E3D22ABA80BA0027DC0A /* CommentAuthorInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3D12ABA80BA0027DC0A /* CommentAuthorInfoView.swift */; };
 		7031E3D42ABA89160027DC0A /* BoardDetailCommentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3D32ABA89160027DC0A /* BoardDetailCommentHeaderView.swift */; };
@@ -146,7 +145,6 @@
 		708312962A691AAD00F7E283 /* NumberformatterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312952A691AAD00F7E283 /* NumberformatterFactory.swift */; };
 		708312992A691D1700F7E283 /* MileageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312982A691D1700F7E283 /* MileageViewModel.swift */; };
 		7083129B2A6A909C00F7E283 /* ChapelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */; };
-		7083129D2A6D0F7900F7E283 /* MileageReloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083129C2A6D0F7900F7E283 /* MileageReloadButton.swift */; };
 		7083129F2A6D25E100F7E283 /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */; };
 		708312A32A6EC9D700F7E283 /* IntranetLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */; };
 		708312A62A7028B400F7E283 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 708312A52A7028B400F7E283 /* SwiftSoup */; };
@@ -171,6 +169,8 @@
 		70864F382B014A2D00CD4124 /* CreateCommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F372B014A2D00CD4124 /* CreateCommentRequest.swift */; };
 		70864F3A2B014AD400CD4124 /* CreateCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F392B014AD400CD4124 /* CreateCommentResponse.swift */; };
 		70864F3C2B021FA900CD4124 /* IntranetCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */; };
+		708E1E602B038A6E0030FAA0 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = 708E1E5F2B038A6E0030FAA0 /* FloatingPanel */; };
+		708E1E622B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708E1E612B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift */; };
 		708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */; };
 		708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */; };
 		708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */; };
@@ -266,7 +266,6 @@
 		701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReservationViewModel.swift; sourceTree = "<group>"; };
 		7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewController.swift; sourceTree = "<group>"; };
 		7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailHeaderView.swift; sourceTree = "<group>"; };
-		7031E3CD2ABA74E50027DC0A /* PostingAuthorInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingAuthorInfoView.swift; sourceTree = "<group>"; };
 		7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		7031E3D12ABA80BA0027DC0A /* CommentAuthorInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAuthorInfoView.swift; sourceTree = "<group>"; };
 		7031E3D32ABA89160027DC0A /* BoardDetailCommentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCommentHeaderView.swift; sourceTree = "<group>"; };
@@ -391,7 +390,6 @@
 		708312952A691AAD00F7E283 /* NumberformatterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberformatterFactory.swift; sourceTree = "<group>"; };
 		708312982A691D1700F7E283 /* MileageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageViewModel.swift; sourceTree = "<group>"; };
 		7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelViewModel.swift; sourceTree = "<group>"; };
-		7083129C2A6D0F7900F7E283 /* MileageReloadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageReloadButton.swift; sourceTree = "<group>"; };
 		7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewController.swift; sourceTree = "<group>"; };
 		708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetLoginViewModel.swift; sourceTree = "<group>"; };
 		708312A72A70292000F7E283 /* CrawlManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrawlManager.swift; sourceTree = "<group>"; };
@@ -415,6 +413,7 @@
 		70864F372B014A2D00CD4124 /* CreateCommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommentRequest.swift; sourceTree = "<group>"; };
 		70864F392B014AD400CD4124 /* CreateCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommentResponse.swift; sourceTree = "<group>"; };
 		70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetCheckViewController.swift; sourceTree = "<group>"; };
+		708E1E612B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedFloatingPanelViewController.swift; sourceTree = "<group>"; };
 		708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HaramRelease.entitlements; sourceTree = "<group>"; };
 		708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBookLoanStatusResponse.swift; sourceTree = "<group>"; };
 		708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
@@ -494,6 +493,7 @@
 				705FD27C2A10D3EA00F353FE /* Alamofire in Frameworks */,
 				706BA0C829E6E51100AF12D4 /* WebRTC in Frameworks */,
 				703C5C0D29E6A1ED00B5D091 /* SnapKit in Frameworks */,
+				708E1E602B038A6E0030FAA0 /* FloatingPanel in Frameworks */,
 				70375EF82AA5B6110032F6B8 /* SkeletonView in Frameworks */,
 				705FD2CF2A24DE5B00F353FE /* Kingfisher in Frameworks */,
 				706BA0C529E6A32700AF12D4 /* RxSwift in Frameworks */,
@@ -566,7 +566,6 @@
 		7031E3CC2ABA74520027DC0A /* Board */ = {
 			isa = PBXGroup;
 			children = (
-				7031E3CD2ABA74E50027DC0A /* PostingAuthorInfoView.swift */,
 				7031E3D12ABA80BA0027DC0A /* CommentAuthorInfoView.swift */,
 				70864F312AF9502600CD4124 /* CommentInputView.swift */,
 			);
@@ -648,7 +647,6 @@
 				70375EFF2AAA024A0032F6B8 /* Library */,
 				705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */,
 				70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */,
-				7083129C2A6D0F7900F7E283 /* MileageReloadButton.swift */,
 				708312AB2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift */,
 				708312B72A77E36900F7E283 /* RegisterTextField.swift */,
 				708312B92A78D0A300F7E283 /* HaramButton.swift */,
@@ -656,6 +654,7 @@
 				708312C12A7A6F2900F7E283 /* PaddingLabel.swift */,
 				708ED7D32A9228D200107CDF /* BottomSheetViewController.swift */,
 				70375F152AB1B0500032F6B8 /* HaramToast.swift */,
+				708E1E612B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1241,6 +1240,7 @@
 				705FD2CE2A24DE5B00F353FE /* Kingfisher */,
 				708312A52A7028B400F7E283 /* SwiftSoup */,
 				70375EF72AA5B6110032F6B8 /* SkeletonView */,
+				708E1E5F2B038A6E0030FAA0 /* FloatingPanel */,
 			);
 			productName = Haram;
 			productReference = 70727A5129D87B25003DE956 /* Haram.app */;
@@ -1327,6 +1327,7 @@
 				708312A42A7028B400F7E283 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				70375EF62AA5B6110032F6B8 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				70375F122AB1ADDC0032F6B8 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				708E1E5E2B038A6E0030FAA0 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
 			);
 			productRefGroup = 70727A5229D87B25003DE956 /* Products */;
 			projectDirPath = "";
@@ -1573,7 +1574,6 @@
 				708312A82A70292000F7E283 /* CrawlManager.swift in Sources */,
 				7083123E2A2CA62A00F7E283 /* InquireChapelListResponse.swift in Sources */,
 				70375F072AB04F7B0032F6B8 /* InquireChapterToBibleRequest.swift in Sources */,
-				7031E3CE2ABA74E50027DC0A /* PostingAuthorInfoView.swift in Sources */,
 				708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */,
 				708ED79B2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift in Sources */,
 				70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */,
@@ -1616,7 +1616,6 @@
 				70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */,
 				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
 				70864F362AFE1F3600CD4124 /* InquireMileageInfoResponse.swift in Sources */,
-				7083129D2A6D0F7900F7E283 /* MileageReloadButton.swift in Sources */,
 				7031E3D22ABA80BA0027DC0A /* CommentAuthorInfoView.swift in Sources */,
 				708ED7F12A9E24D000107CDF /* InquireAffiliatedListResponse.swift in Sources */,
 				705FD2C92A23BA3000F353FE /* LibraryService.swift in Sources */,
@@ -1657,6 +1656,7 @@
 				708ED7AF2A8FDA7700107CDF /* NoticeDetailViewController.swift in Sources */,
 				705FD2C32A2337C800F353FE /* NoticeViewController.swift in Sources */,
 				7083129B2A6A909C00F7E283 /* ChapelViewModel.swift in Sources */,
+				708E1E622B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift in Sources */,
 				705FD2BF2A1A4D2E00F353FE /* LibraryDetailMainView.swift in Sources */,
 				70375F162AB1B0500032F6B8 /* HaramToast.swift in Sources */,
 				708ED7CB2A91224B00107CDF /* TodayBibleWordCollectionViewCell.swift in Sources */,
@@ -2100,6 +2100,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		708E1E5E2B038A6E0030FAA0 /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scenee/FloatingPanel";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2147,6 +2155,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 708312A42A7028B400F7E283 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
+		};
+		708E1E5F2B038A6E0030FAA0 /* FloatingPanel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 708E1E5E2B038A6E0030FAA0 /* XCRemoteSwiftPackageReference "FloatingPanel" */;
+			productName = FloatingPanel;
 		};
 /* End XCSwiftPackageProductDependency section */
 

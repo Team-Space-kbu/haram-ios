@@ -38,12 +38,22 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell {
   private let affiliatedImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
+    $0.layer.cornerRadius = 10
   }
   
-  private let affiliatedTitleLabel = UILabel()
+  private let affiliatedTitleLabel = UILabel().then {
+    $0.font = .bold20
+    $0.textColor = .hex1A1E27
+  }
   
   private let affiliatedSubTitleLabel = UILabel().then {
     $0.numberOfLines = 0
+    $0.font = .regular15
+    $0.textColor = .hex1A1E27
+  }
+  
+  private let lineView = UIView().then {
+    $0.backgroundColor = .hexD8D8DA
   }
   
   override init(frame: CGRect) {
@@ -63,30 +73,31 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
-    contentView.layer.masksToBounds = true
-    contentView.layer.cornerRadius = 10
     contentView.backgroundColor = .white
-    contentView.layer.shadowRadius = 1
-    contentView.layer.shadowOffset = CGSize(width: 10, height: 10)
-    contentView.layer.shadowOpacity = 1
-    contentView.layer.shadowColor = UIColor.black.cgColor
     
-    [affiliatedImageView, affiliatedTitleLabel, affiliatedSubTitleLabel].forEach { contentView.addSubview($0) }
+    [affiliatedImageView, affiliatedTitleLabel, affiliatedSubTitleLabel, lineView].forEach { contentView.addSubview($0) }
     affiliatedImageView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo(107)
+      $0.top.leading.equalToSuperview()
+      $0.size.equalTo(94)
+      $0.bottom.equalToSuperview().inset(15)
     }
     
     affiliatedTitleLabel.snp.makeConstraints {
-      $0.top.equalTo(affiliatedImageView.snp.bottom).offset(11)
-      $0.leading.equalToSuperview().inset(10)
-      $0.trailing.lessThanOrEqualToSuperview().inset(10)
+      $0.top.equalToSuperview()
+      $0.leading.equalTo(affiliatedImageView.snp.trailing).offset(23)
+      $0.trailing.lessThanOrEqualToSuperview()
     }
     
     affiliatedSubTitleLabel.snp.makeConstraints {
+      $0.leading.equalTo(affiliatedTitleLabel.snp.leading)
       $0.top.equalTo(affiliatedTitleLabel.snp.bottom).offset(4)
-      $0.leading.equalToSuperview().inset(10)
-      $0.bottom.trailing.lessThanOrEqualToSuperview().inset(10)
+      $0.trailing.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(15)
+    }
+    
+    lineView.snp.makeConstraints {
+      $0.height.equalTo(1)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
   }
   

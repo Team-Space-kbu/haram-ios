@@ -87,6 +87,16 @@ final class IntranetCheckViewController: BaseViewController {
       $0.width.equalTo(95)
     }
   }
+  
+  override func bind() {
+    super.bind()
+    
+    lastButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.dismiss(animated: true)
+      }
+      .disposed(by: disposeBag)
+  }
 }
 
 extension IntranetCheckViewController {

@@ -41,6 +41,6 @@ final class AffiliatedViewModel {
 
 extension AffiliatedViewModel: AffiliatedViewModelType {
   var affiliatedModel: Driver<[AffiliatedCollectionViewCellModel]> {
-    affiliatedModelRelay.asDriver(onErrorJustReturn: [])
+    affiliatedModelRelay.filter { !$0.isEmpty }.asDriver(onErrorJustReturn: [])
   }
 }

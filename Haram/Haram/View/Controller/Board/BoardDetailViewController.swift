@@ -41,7 +41,6 @@ final class BoardDetailViewController: BaseViewController {
   private lazy var commentInputView = CommentInputView().then {
     $0.delegate = self
   }
-//
   
   private lazy var boardDetailCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
     guard let self = self else { return nil }
@@ -91,9 +90,8 @@ final class BoardDetailViewController: BaseViewController {
     
     commentInputView.snp.makeConstraints {
       $0.top.equalTo(boardDetailCollectionView.snp.bottom)
-      $0.directionalHorizontalEdges.equalToSuperview()
-      $0.bottom.equalTo(view.safeAreaLayoutGuide)
-      $0.height.equalTo(89)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.height.greaterThanOrEqualTo(91)
     }
   }
   
@@ -144,7 +142,7 @@ final class BoardDetailViewController: BaseViewController {
     let header = NSCollectionLayoutBoundarySupplementaryItem(
       layoutSize: NSCollectionLayoutSize(
         widthDimension: .fractionalWidth(1),
-        heightDimension: .estimated(18 + 3 + 18 + 16 + 18 + 6 + 18)
+        heightDimension: .estimated(18 + 3 + 18 + 16 + 18 + 18)
       ),
       elementKind: UICollectionView.elementKindSectionHeader,
       alignment: .top

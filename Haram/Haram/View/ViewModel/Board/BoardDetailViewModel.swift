@@ -7,6 +7,7 @@
 
 import RxSwift
 import RxCocoa
+import Foundation
 
 protocol BoardDetailViewModelType {
   var boardComment: AnyObserver<String> { get }
@@ -43,14 +44,13 @@ extension BoardDetailViewModel {
     
     inquireBoard
       .subscribe(with: self) { owner, response in
-        owner.currentBoardInfoRelay.accept([BoardDetailHeaderViewModel(
-          authorInfoViewModel: .init(
-            profileImageURL: nil,
-            authorName: response.userID,
-            postingDate: response.createdAt
-          ),
-          boardTitle: response.boardTitle,
-          boardContent: response.boardContent)])
+        owner.currentBoardInfoRelay.accept([
+          BoardDetailHeaderViewModel(
+            boardTitle: response.boardTitle,
+            boardContent: response.boardContent,
+            boardDate: DateformatterFactory.dateWithHypen.date(from: response.createdAt) ?? Date(),
+            boardAuthorName: "익명"
+          )])
         
         owner.currentBoardListRelay.accept(response.commentDtoList.map { BoardDetailCollectionViewCellModel(commentDto: $0) })
       }

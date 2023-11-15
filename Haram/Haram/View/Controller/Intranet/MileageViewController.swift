@@ -34,7 +34,7 @@ final class MileageViewController: BaseViewController {
     $0.dataSource = self
     $0.backgroundColor = .white
     $0.showsVerticalScrollIndicator = false
-    $0.sectionHeaderHeight = 279.97 - 10
+    $0.sectionHeaderHeight = 69.97 + 135 + 14 + 17 + 44
     $0.sectionFooterHeight = .leastNonzeroMagnitude
   }
   

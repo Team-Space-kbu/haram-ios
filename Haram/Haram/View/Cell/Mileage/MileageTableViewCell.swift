@@ -64,7 +64,7 @@ final class MileageTableViewCell: UITableViewCell {
     [mileageImageView, mainLabel, subLabel, mileageLabel].forEach { addSubview($0) }
     mileageImageView.snp.makeConstraints {
       $0.size.equalTo(44)
-      $0.leading.centerY.equalToSuperview()
+      $0.top.leading.equalToSuperview()
     }
     
     mainLabel.snp.makeConstraints {
@@ -73,7 +73,7 @@ final class MileageTableViewCell: UITableViewCell {
     }
     
     subLabel.snp.makeConstraints {
-      $0.bottom.equalTo(mileageImageView.snp.bottom).offset(-3)
+      $0.bottom.equalTo(mileageImageView.snp.bottom).offset(-4)
       $0.leading.equalTo(mainLabel)
     }
     

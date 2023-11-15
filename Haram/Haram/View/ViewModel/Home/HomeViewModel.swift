@@ -41,7 +41,7 @@ extension HomeViewModel {
       })
       .subscribe(with: self) { owner, response in
         guard let subNotice = response.notice.notices.first else { return }
-        let news = response.kokkoks.kbuNews.map { HomeNewsCollectionViewCellModel(kbuNews: $0) }
+        let news = response.kokkoks.kokkoksNews.map { HomeNewsCollectionViewCellModel(kokkoksNews: $0) }
         let banners = response.banner.banners.map { HomebannerCollectionViewCellModel(subBanner: $0) }
         let notices = HomeNoticeViewModel(subNotice: subNotice)
         owner.newsModelRelay.accept(news)

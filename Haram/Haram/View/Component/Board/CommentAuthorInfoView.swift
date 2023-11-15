@@ -12,17 +12,11 @@ import SnapKit
 import Then
 
 struct CommentAuthorInfoViewModel {
-  let commentProfileImageURL: URL?
   let commentAuthorName: String
   let commentDate: Date
 }
 
 final class CommentAuthorInfoView: UIView {
-  
-  private let commentProfileImageView = UIImageView().then {
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 17.5
-  }
   
   private let commentNameLabel = UILabel().then {
     $0.font = .bold14
@@ -47,26 +41,20 @@ final class CommentAuthorInfoView: UIView {
   }
   
   private func configureUI() {
-    [commentProfileImageView, commentNameLabel, commentDateLabel].forEach { addSubview($0) }
-    commentProfileImageView.snp.makeConstraints {
-      $0.size.equalTo(35)
-      $0.leading.directionalVerticalEdges.equalToSuperview()
-    }
+    [commentNameLabel, commentDateLabel].forEach { addSubview($0) }
     
     commentNameLabel.snp.makeConstraints {
-      $0.leading.equalTo(commentProfileImageView.snp.trailing).offset(7)
-      $0.directionalVerticalEdges.equalToSuperview()
+      $0.directionalVerticalEdges.leading.equalToSuperview()
     }
     
     commentDateLabel.snp.makeConstraints {
-      $0.directionalVerticalEdges.trailing.equalToSuperview()
-      $0.leading.equalTo(commentNameLabel.snp.trailing)
+      $0.directionalVerticalEdges.equalToSuperview()
+      $0.leading.equalTo(commentNameLabel.snp.trailing).offset(44 - 15 - 25)
+      $0.trailing.lessThanOrEqualToSuperview()
     }
   }
   
   func configureUI(with model: CommentAuthorInfoViewModel) {
-    commentProfileImageView.backgroundColor = .hexD9D9D9
-    commentProfileImageView.kf.setImage(with: model.commentProfileImageURL)
     commentNameLabel.text = model.commentAuthorName
     commentDateLabel.text = DateformatterFactory.dateWithHypen.string(from: model.commentDate)
   }

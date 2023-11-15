@@ -11,9 +11,10 @@ import SnapKit
 import Then
 
 struct BoardDetailHeaderViewModel {
-  let authorInfoViewModel: PostingAuthorInfoViewModel
   let boardTitle: String
   let boardContent: String
+  let boardDate: Date
+  let boardAuthorName: String
 }
 
 final class BoardDetailHeaderView: UICollectionReusableView {
@@ -23,15 +24,24 @@ final class BoardDetailHeaderView: UICollectionReusableView {
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.backgroundColor = .clear
-    $0.spacing = 16
+    $0.spacing = 6
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = .init(top: 22, left: 15, bottom: 27.5, right: 15)
   }
-  
-  private let postingInfoView = PostingAuthorInfoView()
-  
+
   private let postingTitleLabel = UILabel().then {
+    $0.font = .bold18
+    $0.textColor = .black
+    $0.numberOfLines = 0
+  }
+  
+  private let postingAuthorNameLabel = UILabel().then {
     $0.font = .bold14
+    $0.textColor = .black
+  }
+  
+  private let postingDateLabel = UILabel().then {
+    $0.font = .regular14
     $0.textColor = .black
   }
   
@@ -39,11 +49,6 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     $0.font = .regular14
     $0.textColor = .black
     $0.numberOfLines = 0
-  }
-  
-  private let postingImageView = UIImageView().then {
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
   }
   
   private let lineView = UIView().then {
@@ -61,14 +66,15 @@ final class BoardDetailHeaderView: UICollectionReusableView {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    postingImageView.backgroundColor = nil
     postingTitleLabel.text = nil
     postingDescriptionLabel.text = nil
+    postingAuthorNameLabel.text = nil
+    postingDateLabel.text = nil
   }
   
   private func configureUI() {
     _ = [containerView, lineView].map { addSubview($0) }
-    _ = [postingInfoView, postingTitleLabel, postingDescriptionLabel, postingImageView].map { containerView.addArrangedSubview($0) }
+    _ = [postingTitleLabel, postingAuthorNameLabel, postingDateLabel, postingDescriptionLabel].map { containerView.addArrangedSubview($0) }
     
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
@@ -80,24 +86,16 @@ final class BoardDetailHeaderView: UICollectionReusableView {
       $0.top.equalTo(containerView.snp.bottom)
       $0.directionalHorizontalEdges.equalToSuperview()
     }
-    
-    postingInfoView.snp.makeConstraints {
-      $0.height.equalTo(18 + 3 + 18)
-    }
-    
-    postingImageView.snp.makeConstraints {
-      $0.height.equalTo(188)
-    }
-    
-    containerView.setCustomSpacing(6, after: postingTitleLabel)
-    containerView.setCustomSpacing(13, after: postingDescriptionLabel)
+
+    containerView.setCustomSpacing(222 - 162 - 38, after: postingDateLabel)
+    containerView.setCustomSpacing(397 - 222 - 157, after: postingDescriptionLabel)
   }
   
   func configureUI(with model: BoardDetailHeaderViewModel?) {
     guard let model = model else { return }
-    postingImageView.backgroundColor = .hexD9D9D9
     postingTitleLabel.text = model.boardTitle
     postingDescriptionLabel.addLineSpacing(lineSpacing: 2, string: model.boardContent)
-    postingInfoView.configureUI(with: model.authorInfoViewModel)
+    postingAuthorNameLabel.text = model.boardAuthorName
+    postingDateLabel.text = DateformatterFactory.dateWithHypen.string(from: model.boardDate)
   }
 }

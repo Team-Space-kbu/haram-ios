@@ -25,8 +25,6 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
     $0.font = .bold36
   }
   
-  private let mileageReloadButton = MileageReloadButton()
-  
   private let spendListLabel = UILabel().then {
     $0.text = "소비내역"
     $0.textColor = .black
@@ -36,7 +34,6 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
   override init(reuseIdentifier: String?) {
     super.init(reuseIdentifier: reuseIdentifier)
     configureUI()
-//    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -48,32 +45,18 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
     totalMileageLabel.text = nil
   }
   
-  private func bind() {
-    mileageReloadButton.button.rx.tap
-      .subscribe(onNext: { _ in
-        print("버튼탭")
-      })
-      .disposed(by: disposeBag)
-  }
-  
   private func configureUI() {
-    [totalMileageLabel, mileageReloadButton, spendListLabel].forEach { addSubview($0) }
+    [totalMileageLabel, spendListLabel].forEach { addSubview($0) }
     totalMileageLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(69.97)
       $0.leading.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }
-    
-    mileageReloadButton.snp.makeConstraints {
-      $0.top.equalTo(totalMileageLabel.snp.bottom).offset(14)
-      $0.leading.equalToSuperview()
-      $0.height.equalTo(25)
-    }
-    
+      
     spendListLabel.snp.makeConstraints {
-      $0.top.equalTo(mileageReloadButton.snp.bottom).offset(95)
+      $0.top.equalTo(totalMileageLabel.snp.bottom).offset(135)
       $0.leading.equalToSuperview()
-      $0.bottom.equalToSuperview().inset(3)
+      $0.bottom.equalToSuperview().inset(15)
     }
   }
   

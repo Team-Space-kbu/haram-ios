@@ -23,6 +23,14 @@ final class CommentInputView: UIView, UITextViewDelegate {
   private let disposeBag = DisposeBag()
   private let placeHolder = "댓글추가"
   
+  private let backgroundView = UIView().then {
+    $0.backgroundColor = .white
+    $0.layer.shadowColor = UIColor(hex: 0x000000).withAlphaComponent(0.16).cgColor
+    $0.layer.shadowOpacity = 1
+    $0.layer.shadowRadius = 10
+    $0.layer.shadowOffset = CGSize(width: 0, height: -3)
+  }
+  
   private lazy var commentTextView = UITextView().then {
     $0.textColor = .hexD0D0D0
     $0.textContainerInset = UIEdgeInsets(
@@ -37,7 +45,6 @@ final class CommentInputView: UIView, UITextViewDelegate {
     $0.layer.cornerRadius = 8
     $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
     $0.layer.borderWidth = 1
-    $0.isScrollEnabled = false
     $0.delegate = self
   }
   
@@ -63,23 +70,30 @@ final class CommentInputView: UIView, UITextViewDelegate {
   }
   
   private func setupLayouts() {
-    addSubview(commentTextView)
-    addSubview(sendButton)
+    addSubview(backgroundView)
+    _ = [commentTextView, sendButton].map { backgroundView.addSubview($0) }
   }
   
   private func setupConstraints() {
+    
+    backgroundView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
     commentTextView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(7.5)
-      $0.leading.equalToSuperview().inset(56.5)
-      $0.trailing.equalToSuperview().inset(16.5)
-      $0.bottom.equalToSuperview().inset(43.5)
+      $0.top.equalToSuperview().inset(11)
+      $0.leading.equalToSuperview().inset(15)
+      $0.trailing.equalToSuperview().inset(56)
+      $0.bottom.equalToSuperview().inset(46)
+      $0.height.equalTo(32)
     }
     
     sendButton.snp.makeConstraints {
-      $0.width.equalTo(21)
-      $0.height.equalTo(18)
-      $0.top.equalToSuperview().inset(18)
-      $0.trailing.equalToSuperview().inset(25)
+      $0.leading.equalTo(commentTextView.snp.trailing).offset(56 - 25.67 - 19.33)
+      $0.height.equalTo(22)
+      $0.width.equalTo(27)
+      $0.centerY.equalTo(commentTextView)
+      $0.trailing.lessThanOrEqualToSuperview()
       
     }
   }
@@ -89,6 +103,8 @@ final class CommentInputView: UIView, UITextViewDelegate {
     sendButton.rx.tap
       .withLatestFrom(commentTextView.rx.text.orEmpty)
       .subscribe(with: self) { owner, comment in
+        owner.commentTextView.textColor = .hexD0D0D0
+        owner.commentTextView.text = owner.placeHolder
         owner.delegate?.writeComment(comment)
       }
       .disposed(by: disposeBag)
@@ -116,6 +132,13 @@ final class CommentInputView: UIView, UITextViewDelegate {
 //        owner.updateTextViewHeightAutomatically()
       })
       .disposed(by: disposeBag)
+    
+    commentTextView.rx.text
+      .withUnretained(self)
+      .subscribe(onNext: { owner, text in
+        owner.updateTextViewHeightAutomatically()
+      })
+      .disposed(by: disposeBag)
   }
   
   private func updateTextViewHeightAutomatically() {
@@ -125,8 +148,10 @@ final class CommentInputView: UIView, UITextViewDelegate {
     )
     let estimatedSize = commentTextView.sizeThatFits(size)
     
-    commentTextView.snp.updateConstraints {
-      $0.height.equalTo(estimatedSize.height)
+    if estimatedSize.height <= 72 {
+      commentTextView.snp.updateConstraints {
+        $0.height.equalTo(estimatedSize.height)
+      }
     }
   }
 }

@@ -36,6 +36,13 @@ final class BoardListViewController: BaseViewController {
     $0.alwaysBounceVertical = true
   }
   
+  private let editBoardButton = UIButton().then {
+    $0.layer.cornerRadius = 25
+    $0.layer.masksToBounds = true
+    $0.backgroundColor = .hex79BD9A
+    $0.setImage(UIImage(named: "editButton"), for: .normal)
+  }
+  
   init(type: BoardType) {
     self.viewModel = BoardListViewModel(boardType: type)
     self.type = type
@@ -58,13 +65,19 @@ final class BoardListViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(boardListCollectionView)
+    _ = [boardListCollectionView, editBoardButton].map { view.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     boardListCollectionView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
+    }
+    
+    editBoardButton.snp.makeConstraints {
+      $0.size.equalTo(50)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottomMargin).offset(-54)
+      $0.trailing.equalToSuperview().inset(15)
     }
   }
   

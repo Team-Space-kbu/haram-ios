@@ -314,7 +314,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       switch type {
       case .mileage, .chapel:
 //        if !UserManager.shared.hasIntranetToken {
-//          vc = IntranetLoginViewController()
+//          vc = IntranetCheckViewController()
 //          vc.modalPresentationStyle = .overFullScreen
 //          present(vc, animated: true)
 //          return

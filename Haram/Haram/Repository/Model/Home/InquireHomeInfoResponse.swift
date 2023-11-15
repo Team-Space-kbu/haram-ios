@@ -47,12 +47,13 @@ struct SubBanner: Decodable {
 
 struct Kokkoks: Decodable {
   let index: Int
-  let kbuNews: [KbuNews]
+  let kokkoksNews: [KokkoksNews]
 }
 
-struct KbuNews: Decodable {
+struct KokkoksNews: Decodable {
   let title: String
-  let filePath: String
+  let img: String
+  let file: String
 }
 
 struct Notice: Decodable {
