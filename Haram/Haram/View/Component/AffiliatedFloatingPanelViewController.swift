@@ -17,6 +17,7 @@ protocol AffiliatedFloatingPanelDelegate: AnyObject {
 final class AffiliatedFloatingPanelViewController: BaseViewController {
   
   weak var delegate: AffiliatedFloatingPanelDelegate?
+  var touchHandler: ((Int) -> Void)?
   
   private let affiliatedModel: [AffiliatedCollectionViewCellModel]
   
@@ -40,10 +41,19 @@ final class AffiliatedFloatingPanelViewController: BaseViewController {
     $0.delegate = self
     $0.dataSource = self
     $0.backgroundColor = .white
-    $0.isPagingEnabled = true
+//    $0.isPagingEnabled = true
     $0.alwaysBounceVertical = true
     $0.showsVerticalScrollIndicator = false
     $0.contentInset = UIEdgeInsets(top: 25, left: 15, bottom: 15, right: 15)
+    $0.isScrollEnabled = true
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    touchHandler = { [weak self] row in
+      guard let self = self else { return }
+      self.scrollToItem(at: IndexPath(row: row, section: 0))
+    }
   }
   
   override func setupLayouts() {
@@ -83,12 +93,8 @@ extension AffiliatedFloatingPanelViewController: UICollectionViewDelegate, UICol
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let model = affiliatedModel[indexPath.row]
-    delegate?.didTappedAffiliatedCollectionViewCell(model)
-//    moveCameraUpdate(
-//      mapView: mapView.mapView,
-//      where: .init(affiliatedCollectionViewCellModel: model)
-//    )
     
+    delegate?.didTappedAffiliatedCollectionViewCell(model)
     scrollToItem(at: indexPath)
   }
   
@@ -97,7 +103,7 @@ extension AffiliatedFloatingPanelViewController: UICollectionViewDelegate, UICol
     self.affiliatedCollectionView.isPagingEnabled = false
     self.affiliatedCollectionView.scrollToItem(
       at: indexPath,
-      at: .left,
+      at: .top,
       animated: true
     )
     self.affiliatedCollectionView.isPagingEnabled = true
