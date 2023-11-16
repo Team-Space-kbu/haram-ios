@@ -31,7 +31,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
     $0.layer.shadowOffset = CGSize(width: 0, height: -3)
   }
   
-  private lazy var commentTextView = UITextView().then {
+  private let commentTextView = UITextView().then {
     $0.textColor = .hexD0D0D0
     $0.textContainerInset = UIEdgeInsets(
       top: 10,
@@ -45,7 +45,6 @@ final class CommentInputView: UIView, UITextViewDelegate {
     $0.layer.cornerRadius = 8
     $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
     $0.layer.borderWidth = 1
-    $0.delegate = self
   }
   
   private let sendButton = UIButton().then {
@@ -55,10 +54,10 @@ final class CommentInputView: UIView, UITextViewDelegate {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
+    setupStyles()
     setupLayouts()
     setupConstraints()
     bind()
-    commentTextView.text = placeHolder
   }
   
   required init?(coder: NSCoder) {
@@ -66,7 +65,8 @@ final class CommentInputView: UIView, UITextViewDelegate {
   }
   
   private func setupStyles() {
-
+    commentTextView.text = placeHolder
+    commentTextView.delegate = self
   }
   
   private func setupLayouts() {

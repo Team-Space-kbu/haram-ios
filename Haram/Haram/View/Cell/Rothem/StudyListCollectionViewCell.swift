@@ -19,11 +19,11 @@ struct StudyListCollectionViewCellModel {
   let imageURL: URL?
 //  private let identifier = UUID()
   
-  init(rothemRoom: RothemRoom) {
+  init(rothemRoom: RoomResponse) {
     roomSeq = rothemRoom.roomSeq
     title = rothemRoom.roomName
     description = rothemRoom.roomExplanation
-    imageURL = URL(string: rothemRoom.thumbnailPath ?? "")
+    imageURL = URL(string: rothemRoom.thumbnailPath)
   }
   
 //  func hash(into hasher: inout Hasher) {

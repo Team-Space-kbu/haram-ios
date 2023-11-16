@@ -61,7 +61,9 @@ final class AffiliatedViewController: BaseViewController {
   }
   
   private let tapGesture = UITapGestureRecognizer(target: AffiliatedViewController.self, action: nil).then {
+    $0.numberOfTapsRequired = 1
     $0.cancelsTouchesInView = false
+    $0.isEnabled = true
   }
   
   // MARK: - Initializations

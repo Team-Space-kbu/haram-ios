@@ -84,7 +84,11 @@ final class RegisterViewController: BaseViewController {
   
   private let indicatorView = UIActivityIndicatorView(style: .large)
   
-  private let tapGesture = UITapGestureRecognizer(target: RegisterViewController.self, action: nil)
+  private let tapGesture = UITapGestureRecognizer(target: RegisterViewController.self, action: nil).then {
+    $0.numberOfTapsRequired = 1
+    $0.cancelsTouchesInView = false
+    $0.isEnabled = true
+  }
   
   // MARK: - Initializations
   

@@ -95,11 +95,14 @@ final class LibraryViewController: BaseViewController {
   // MARK: - Gesture
   
   private let tapGesture = UITapGestureRecognizer(target: LibraryViewController.self, action: nil).then {
+    $0.numberOfTapsRequired = 1
     $0.cancelsTouchesInView = false
+    $0.isEnabled = true
   }
   
   private let panGesture = UIPanGestureRecognizer(target: LibraryViewController.self, action: nil).then {
     $0.cancelsTouchesInView = false
+    $0.isEnabled = true
   }
   
   // MARK: - Initializations

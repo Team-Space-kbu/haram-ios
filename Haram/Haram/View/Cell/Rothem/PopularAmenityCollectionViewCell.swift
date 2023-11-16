@@ -7,8 +7,19 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 import Then
+
+struct PopularAmenityCollectionViewCellModel {
+  let amenityImageURL: URL?
+  let amenityContent: String
+  
+  init(response: AmenityResponse) {
+    amenityImageURL = URL(string: response.filePath)
+    amenityContent = response.title
+  }
+}
 
 final class PopularAmenityCollectionViewCell: UICollectionViewCell {
   
@@ -19,7 +30,7 @@ final class PopularAmenityCollectionViewCell: UICollectionViewCell {
     $0.layer.cornerRadius = 10
     $0.layer.borderWidth = 1
     $0.layer.borderColor = UIColor.hex545E6A.cgColor
-    $0.contentMode = .scaleAspectFill
+    $0.contentMode = .scaleAspectFit
   }
   
   private let amenityLabel = UILabel().then {
@@ -39,5 +50,21 @@ final class PopularAmenityCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     contentView.backgroundColor = .clear
     [amenityImageView, amenityLabel].forEach { contentView.addSubview($0) }
+    
+    amenityLabel.snp.makeConstraints {
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.height.equalTo(15)
+    }
+    
+    amenityImageView.snp.makeConstraints {
+      $0.bottom.lessThanOrEqualTo(amenityLabel.snp.top)
+      $0.centerX.top.equalToSuperview()
+      $0.size.equalTo(40)
+    }
+  }
+  
+  func configureUI(with model: PopularAmenityCollectionViewCellModel) {
+    amenityImageView.kf.setImage(with: model.amenityImageURL)
+    amenityLabel.text = model.amenityContent
   }
 }

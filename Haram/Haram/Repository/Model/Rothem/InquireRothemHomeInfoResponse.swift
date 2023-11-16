@@ -8,8 +8,8 @@
 import Foundation
 
 struct InquireRothemHomeInfoResponse: Decodable {
-  let noticeList: [RothemNotice]
-  let roomList: [RothemRoom]
+  let noticeList: [NoticeResponse]
+  let roomList: [RoomResponse]
   let isReserved: Int
   
   enum CodingKeys: String, CodingKey {
@@ -19,7 +19,7 @@ struct InquireRothemHomeInfoResponse: Decodable {
   }
 }
 
-struct RothemRoom: Decodable {
+struct RoomResponse: Decodable {
   let roomSeq: Int
   let thumbnailPath: String
   let roomName: String
@@ -31,10 +31,9 @@ struct RothemRoom: Decodable {
   let modifiedAt: String
 }
 
-struct RothemNotice: Decodable {
+struct NoticeResponse: Decodable {
   let noticeSeq: Int
   let thumbnailPath: String
-  let adminName: String
   let title: String
   let content: String
   let createdBy: String

@@ -20,7 +20,7 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
     $0.text = "카테고리"
   }
   
-  private lazy var categoryCollectionView = UICollectionView(
+  private let categoryCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: LeftAlignedCollectionViewFlowLayout().then {
       $0.minimumLineSpacing = 15
@@ -28,8 +28,6 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
     }
   ).then {
     $0.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier)
-    $0.delegate = self
-    $0.dataSource = self
     $0.showsVerticalScrollIndicator = false
     $0.isScrollEnabled = false
     $0.backgroundColor = .clear
@@ -45,6 +43,12 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    
+    /// Set CollectionView delegate & dataSource
+    categoryCollectionView.delegate = self
+    categoryCollectionView.dataSource = self
+    
+    /// Set Layout
     [categoryLabel, categoryCollectionView].forEach { addSubview($0) }
     
     categoryLabel.snp.makeConstraints {

@@ -32,7 +32,7 @@ final class StudyRoomDetailViewModel {
     
     inquireRothemRoomInfo
       .subscribe(with: self) { owner, response in
-        let rothemRoomThubnailImageURL = URL(string: response.rooomResponse.thumbnailPath)
+        let rothemRoomThubnailImageURL = URL(string: response.roomResponse.thumbnailPath)
         let rothemRoomDetailViewModel = RothemRoomDetailViewModel(response: response)
         owner.currentRothemRoomDetailViewModelRelay.accept(rothemRoomDetailViewModel)
         owner.currentRothemRoomThubnailImageRelay.accept(rothemRoomThubnailImageURL)

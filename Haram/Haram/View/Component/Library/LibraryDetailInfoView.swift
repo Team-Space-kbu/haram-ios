@@ -147,9 +147,7 @@ final class LibraryDetailInfoView: UIView {
     [lineView, lineView1, lineView2].forEach {
       $0.snp.makeConstraints {
         $0.width.equalTo(1)
-//        $0.height.equalTo(47.5)
         $0.centerY.height.equalToSuperview()
-//        $0.directionalVerticalEdges.equalToSuperview()
       }
     }
   }

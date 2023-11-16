@@ -22,7 +22,7 @@ final class BoardListViewController: BaseViewController {
     }
   }
   
-  private lazy var boardListCollectionView = UICollectionView(
+  private let boardListCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
       $0.minimumLineSpacing = 20
@@ -30,8 +30,6 @@ final class BoardListViewController: BaseViewController {
   ).then {
     $0.backgroundColor = .clear
     $0.register(BoardListCollectionViewCell.self, forCellWithReuseIdentifier: BoardListCollectionViewCell.identifier)
-    $0.delegate = self
-    $0.dataSource = self
     $0.contentInset = UIEdgeInsets(top: 32, left: 15, bottom: .zero, right: 15)
     $0.alwaysBounceVertical = true
   }
@@ -55,6 +53,12 @@ final class BoardListViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    
+    /// Set CollectionView delegate & dataSource
+    boardListCollectionView.delegate = self
+    boardListCollectionView.dataSource = self
+    
+    /// Set Navigationbar
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: Constants.backButton),
       style: .plain,

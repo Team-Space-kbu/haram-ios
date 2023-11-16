@@ -36,9 +36,7 @@ final class StudyListCollectionHeaderView: UICollectionReusableView {
   
   private let studyListHeaderView = StudyListHeaderView()
   
-  private lazy var checkReservationInfoView = CheckReservationInfoView().then {
-    $0.delegate = self
-  }
+  private let checkReservationInfoView = CheckReservationInfoView()
   
   private let studyReservationLabel = UILabel().then {
     $0.font = .bold22
@@ -57,8 +55,15 @@ final class StudyListCollectionHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    
+    /// Set Skeleton
     isSkeletonable = true
     
+    
+    /// Set delegate
+    checkReservationInfoView.delegate = self
+    
+    /// Set Layout
     addSubview(containerView)
     [studyListHeaderView, studyReservationLabel].forEach { containerView.addArrangedSubview($0) }
     
@@ -159,7 +164,7 @@ struct StudyListHeaderViewModel: Hashable {
   let description: String
   private let identifier = UUID()
   
-  init(rothemNotice: RothemNotice) {
+  init(rothemNotice: NoticeResponse) {
     thumbnailImageURL = URL(string: rothemNotice.thumbnailPath)
     title = rothemNotice.title
     description = rothemNotice.content

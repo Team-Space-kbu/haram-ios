@@ -15,11 +15,13 @@ struct RothemRoomDetailViewModel {
   let roomTitle: String
   let roomDestination: String
   let roomDescription: String
+  let amenityModel: [PopularAmenityCollectionViewCellModel]
   
   init(response: InquireRothemRoomInfoResponse) {
-    roomTitle = response.rooomResponse.roomName
-    roomDestination = response.rooomResponse.roomExplanation
-    roomDescription = response.rooomResponse.roomExplanation
+    roomTitle = response.roomResponse.roomName
+    roomDestination = response.roomResponse.location
+    roomDescription = response.roomResponse.roomExplanation
+    amenityModel = response.amenityResponses.map { PopularAmenityCollectionViewCellModel(response: $0) }
   }
 }
 
@@ -32,6 +34,12 @@ final class RothemRoomDetailView: UIView {
   weak var delegate: RothemRoomDetailViewDelegate?
   private let disposeBag = DisposeBag()
   
+  private var amenityModel: [PopularAmenityCollectionViewCellModel] = [] {
+    didSet {
+      popularAmenityCollectionView.reloadData()
+    }
+  }
+  
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
@@ -41,19 +49,15 @@ final class RothemRoomDetailView: UIView {
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.backgroundColor = .clear
+    $0.spacing = 17
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: 16, left: 15, bottom: 26, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: 16, left: 15, bottom: 42, right: 15)
   }
   
   private let roomTitleLabel = UILabel().then {
     $0.font = .bold25
     $0.textColor = .black
   }
-  
-//  private let roomDestinationImageView = UIImageView().then {
-//    $0.image = UIImage(named: "locationGray")
-//    $0.contentMode = .scaleAspectFill
-//  }
   
   private let roomDestinationLabel = UILabel().then {
     $0.font = .regular12
@@ -77,26 +81,28 @@ final class RothemRoomDetailView: UIView {
     $0.numberOfLines = 0
   }
   
-//  private let popularAmenityTitleLabel = UILabel().then {
-//    $0.font = .bold18
-//    $0.textColor = .black
-//    $0.text = "Popular amenities"
-//  }
-//
-//  private lazy var popularAmenityCollectionView = UICollectionView(
-//    frame: .zero,
-//    collectionViewLayout: UICollectionViewFlowLayout()
-//  ).then {
-//    $0.register(PopularAmenityCollectionViewCell.self, forCellWithReuseIdentifier: PopularAmenityCollectionViewCell.identifier)
-//    $0.delegate = self
-//    $0.dataSource = self
-//  }
+  private let popularAmenityTitleLabel = UILabel().then {
+    $0.font = .bold18
+    $0.textColor = .black
+    $0.text = "Popular amenities"
+  }
+  
+  private lazy var popularAmenityCollectionView = UICollectionView(
+    frame: .zero,
+    collectionViewLayout: UICollectionViewFlowLayout().then {
+      $0.minimumInteritemSpacing = 17
+    }
+  ).then {
+    $0.register(PopularAmenityCollectionViewCell.self, forCellWithReuseIdentifier: PopularAmenityCollectionViewCell.identifier)
+    $0.delegate = self
+    $0.dataSource = self
+  }
   
   private let reservationButton = UIButton().then {
-    $0.titleLabel?.textColor = .white
-    $0.titleLabel?.font = .bold22
     $0.setTitle("예약하기", for: .normal)
+    $0.setTitleColor(.white, for: .normal)
     $0.backgroundColor = .hex79BD9A
+    $0.titleLabel?.font = .bold22
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
   }
@@ -116,7 +122,7 @@ final class RothemRoomDetailView: UIView {
     
     [containerView].forEach { scrollView.addSubview($0) }
     
-    [roomTitleLabel, roomDestinationLabel, lineView, roomDescriptionTitleLabel, roomDescriptionContentLabel, reservationButton].forEach { containerView.addArrangedSubview($0) }
+    [roomTitleLabel, roomDestinationLabel, lineView, roomDescriptionTitleLabel, roomDescriptionContentLabel, popularAmenityTitleLabel, popularAmenityCollectionView, reservationButton].forEach { containerView.addArrangedSubview($0) }
     
     scrollView.snp.makeConstraints {
       $0.directionalEdges.width.equalToSuperview()
@@ -124,7 +130,6 @@ final class RothemRoomDetailView: UIView {
     
     containerView.snp.makeConstraints {
       $0.directionalVerticalEdges.width.equalToSuperview()
-//      $0.bottom.lessThanOrEqualToSuperview()
     }
     
     roomTitleLabel.snp.makeConstraints {
@@ -143,27 +148,23 @@ final class RothemRoomDetailView: UIView {
       $0.height.equalTo(22)
     }
     
-//    popularAmenityTitleLabel.snp.makeConstraints {
-//      $0.height.equalTo(22)
-//    }
+    popularAmenityTitleLabel.snp.makeConstraints {
+      $0.height.equalTo(22)
+    }
     
-//    popularAmenityCollectionView.snp.makeConstraints {
-//      $0.height.equalTo(56)
-//    }
+    popularAmenityCollectionView.snp.makeConstraints {
+      $0.height.equalTo(56)
+    }
     
     reservationButton.snp.makeConstraints {
-//      $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
-//      $0.bottom.equalToSuperview().inset(26)
-//      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(49)
     }
     
     containerView.setCustomSpacing(5, after: roomTitleLabel)
-    containerView.setCustomSpacing(7, after: roomDestinationLabel)
-    containerView.setCustomSpacing(7, after: lineView)
     containerView.setCustomSpacing(7, after: roomDescriptionTitleLabel)
-    containerView.setCustomSpacing(50, after: roomDescriptionContentLabel)
-//    containerView.setCustomSpacing(7, after: popularAmenityTitleLabel)
+    containerView.setCustomSpacing(20, after: roomDescriptionContentLabel)
+    containerView.setCustomSpacing(11, after: popularAmenityTitleLabel)
+    containerView.setCustomSpacing(65, after: popularAmenityCollectionView)
   }
   
   private func bind() {
@@ -175,6 +176,7 @@ final class RothemRoomDetailView: UIView {
   }
   
   func configureUI(with model: RothemRoomDetailViewModel) {
+    amenityModel = model.amenityModel
     roomTitleLabel.text = model.roomTitle
     
     let attributedString = NSMutableAttributedString(string: "")
@@ -189,17 +191,27 @@ final class RothemRoomDetailView: UIView {
   }
 }
 
-extension RothemRoomDetailView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension RothemRoomDetailView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 1
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 6
+    return amenityModel.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularAmenityCollectionViewCell.identifier, for: indexPath) as? PopularAmenityCollectionViewCell ?? PopularAmenityCollectionViewCell()
+    cell.configureUI(with: amenityModel[indexPath.row])
     return cell
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    let label = UILabel().then {
+      $0.font = .regular12
+      $0.text = amenityModel[indexPath.row].amenityContent
+      $0.sizeToFit()
+    }
+    return CGSize(width: label.frame.width, height: 56)
   }
 }

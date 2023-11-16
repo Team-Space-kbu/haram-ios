@@ -33,14 +33,14 @@ final class BoardDetailViewController: BaseViewController {
   // MARK: - Gesture
   
   private let tapGesture = UITapGestureRecognizer(target: BoardDetailViewController.self, action: nil).then {
+    $0.numberOfTapsRequired = 1
     $0.cancelsTouchesInView = false
+    $0.isEnabled = true
   }
   
   // MARK: - UI Component
   
-  private lazy var commentInputView = CommentInputView().then {
-    $0.delegate = self
-  }
+  private let commentInputView = CommentInputView()
   
   private lazy var boardDetailCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
     guard let self = self else { return nil }
@@ -67,6 +67,8 @@ final class BoardDetailViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    
+    /// Set NavigationBar
     title = "게시판"
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: Constants.backButton),
@@ -74,7 +76,12 @@ final class BoardDetailViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
+    
+    /// Set GestureRecognizer
     view.addGestureRecognizer(tapGesture)
+    
+    /// Set Delegate
+    commentInputView.delegate = self
   }
   
   override func setupLayouts() {

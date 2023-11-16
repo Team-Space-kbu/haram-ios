@@ -30,7 +30,7 @@ final class AffiliatedFloatingPanelViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  lazy var affiliatedCollectionView = UICollectionView(
+  private let affiliatedCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
       $0.scrollDirection = .vertical
@@ -38,10 +38,7 @@ final class AffiliatedFloatingPanelViewController: BaseViewController {
     }
   ).then {
     $0.register(AffiliatedCollectionViewCell.self, forCellWithReuseIdentifier: AffiliatedCollectionViewCell.identifier)
-    $0.delegate = self
-    $0.dataSource = self
     $0.backgroundColor = .white
-//    $0.isPagingEnabled = true
     $0.alwaysBounceVertical = true
     $0.showsVerticalScrollIndicator = false
     $0.contentInset = UIEdgeInsets(top: 25, left: 15, bottom: 15, right: 15)
@@ -50,6 +47,11 @@ final class AffiliatedFloatingPanelViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    
+    /// Set CollectionView delegate & dataSource
+    affiliatedCollectionView.delegate = self
+    affiliatedCollectionView.dataSource = self
+    
     touchHandler = { [weak self] row in
       guard let self = self else { return }
       self.scrollToItem(at: IndexPath(row: row, section: 0))

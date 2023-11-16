@@ -8,9 +8,22 @@
 import Foundation
 
 struct InquireRothemRoomInfoResponse: Decodable {
-  let rooomResponse: RothemRoom
+  let roomResponse: RothemDetailRoomResponse
   let roomFileResponses: [RoomFileResponse]
   let amenityResponses: [AmenityResponse]
+}
+
+struct RothemDetailRoomResponse: Decodable {
+  let roomName: String
+  let location: String
+  let modifiedBy: String
+  let modifiedAt: String
+  let peopleCount: Int
+  let roomExplanation: String
+  let thumbnailPath: String
+  let roomSeq: Int
+  let createdBy: String
+  let createdAt: String
 }
 
 struct RoomFileResponse: Decodable {

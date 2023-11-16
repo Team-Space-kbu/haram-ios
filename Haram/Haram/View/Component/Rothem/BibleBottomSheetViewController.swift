@@ -26,13 +26,11 @@ final class BibleBottomSheetViewController: BottomSheetViewController {
   
   private let type: BibleBottomSheetViewType
   
-  private lazy var bibleCollectionView = UICollectionView(
+  private let bibleCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout()
   ).then {
     $0.register(BibleCollectionViewCell.self, forCellWithReuseIdentifier: BibleCollectionViewCell.identifier)
-    $0.delegate = self
-    $0.dataSource = self
   }
   
   init(type: BibleBottomSheetViewType) {
@@ -42,6 +40,14 @@ final class BibleBottomSheetViewController: BottomSheetViewController {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func setupStyles() {
+    super.setupStyles()
+    
+    /// Set CollectionView delegate & dataSource
+    bibleCollectionView.delegate = self
+    bibleCollectionView.dataSource = self
   }
   
   override func setupLayouts() {
