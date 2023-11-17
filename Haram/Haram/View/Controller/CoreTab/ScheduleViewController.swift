@@ -59,9 +59,13 @@ final class ScheduleViewController: BaseViewController {
     }
   }
   
-  private lazy var elliotable = Elliotable().then {
-    $0.delegate = self
-    $0.dataSource = self
+  private let titleLabel = UILabel().then {
+    $0.textColor = .black
+    $0.font = .bold22
+    $0.text = "시간표"
+  }
+  
+  private let elliotable = Elliotable().then {
     $0.roundCorner = .none
     $0.isFullBorder = true
     $0.courseTextAlignment = .left
@@ -88,19 +92,29 @@ final class ScheduleViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+//    title = "시간표"
+    elliotable.delegate = self
+    elliotable.dataSource = self
+
     navigationController?.setNavigationBarHidden(true, animated: true)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(elliotable)
-    view.addSubview(indicatorView)
+    _ = [titleLabel, elliotable, indicatorView].map { view.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
+    
+    titleLabel.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin).offset(10)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+    }
+    
     elliotable.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.top.equalTo(titleLabel.snp.bottom).offset(12)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
     
     indicatorView.snp.makeConstraints {

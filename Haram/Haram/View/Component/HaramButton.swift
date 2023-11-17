@@ -17,7 +17,11 @@ enum HaramButtonType {
 
 final class HaramButton: UIButton {
 
-  private let type: HaramButtonType
+  private var type: HaramButtonType {
+    didSet {
+      configureUI()
+    }
+  }
   
   init(type: HaramButtonType) {
     self.type = type
@@ -37,6 +41,7 @@ final class HaramButton: UIButton {
       case .cancel:
         backgroundColor = .hex9F9FA4
     }
+    
     setTitleColor(.white, for: .normal)
     layer.cornerRadius = 10
     layer.masksToBounds = true
@@ -48,5 +53,9 @@ final class HaramButton: UIButton {
       attributes: [.font: UIFont.bold14]
     )
     setTitle(attributedString.string, for: .normal)
+  }
+  
+  func setupButtonType(type: HaramButtonType) {
+    self.type = type
   }
 }

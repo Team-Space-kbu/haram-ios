@@ -36,9 +36,13 @@ final class BoardListViewController: BaseViewController {
   
   private let editBoardButton = UIButton().then {
     $0.layer.cornerRadius = 25
-    $0.layer.masksToBounds = true
+//    $0.layer.masksToBounds = false
     $0.backgroundColor = .hex79BD9A
     $0.setImage(UIImage(named: "editButton"), for: .normal)
+    $0.layer.shadowColor = UIColor(hex: 0x000000).withAlphaComponent(0.16).cgColor
+    $0.layer.shadowOpacity = 1
+    $0.layer.shadowRadius = 5
+    $0.layer.shadowOffset = CGSize(width: 0, height: 8)
   }
   
   init(type: BoardType) {

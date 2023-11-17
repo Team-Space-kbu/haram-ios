@@ -109,9 +109,9 @@ extension HaramError {
     case .loanInfoEmptyError:
       return "대여 정보가 비어 있습니다."
     case .existSameUserError:
-      return "이미 해당 아이디를 사용하는 유저가 존재합니다."
+      return "이미 아이디가 존재합니다."
     case .wrongEmailAuthcodeError:
-      return "이메일 인증 코드가 일치하지않습니다."
+      return "이메일 확인 코드가 다릅니다."
     case .failedRegisterError:
       return "회원가입에 실패했습니다, 다시 시도해주세요."
     case .noExistSearchInfo:
@@ -131,7 +131,7 @@ extension HaramError {
     case .failedAuth:
       return "인증에 실패했습니다."
     case .noEqualPassword:
-      return "비밀번호와 일치하지않습니다."
+      return "비밀번호가 다릅니다."
     }
   }
 }

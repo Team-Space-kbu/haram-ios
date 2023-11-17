@@ -78,7 +78,7 @@ final class RegisterViewController: BaseViewController {
     options: [.addButton]
   )
   
-  private let registerButton = HaramButton(type: .apply).then {
+  private let registerButton = HaramButton(type: .cancel).then {
     $0.setTitleText(title: "회원가입")
   }
   
@@ -250,7 +250,10 @@ final class RegisterViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.isRegisterButtonEnabled
-      .drive(registerButton.rx.isEnabled)
+      .drive(with: self) { owner, isEnabled in
+        owner.registerButton.isEnabled = isEnabled
+        owner.registerButton.setupButtonType(type: isEnabled ? .apply : .cancel )
+      }
       .disposed(by: disposeBag)
   }
 }

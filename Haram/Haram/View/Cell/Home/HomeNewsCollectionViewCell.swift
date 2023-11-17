@@ -14,10 +14,12 @@ import Then
 struct HomeNewsCollectionViewCellModel {
   let title: String
   let thumbnailURL: URL?
+  let pdfURL: URL?
   
   init(kokkoksNews: KokkoksNews) {
     title = kokkoksNews.title
     thumbnailURL = URL(string: kokkoksNews.img)
+    pdfURL = URL(string: kokkoksNews.file)
   }
 }
 
