@@ -127,7 +127,7 @@ final class StudyListViewController: BaseViewController {
 
 extension StudyListViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = StudyRoomDetailViewController(viewModel: StudyRoomDetailViewModel(roomSeq: studyListModel[indexPath.row].roomSeq))
+    let vc = StudyRoomDetailViewController(roomSeq: studyListModel[indexPath.row].roomSeq)
     vc.title = studyListModel[indexPath.row].title
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)

@@ -45,7 +45,7 @@ final class ScheduleViewModel: ScheduleViewModelType {
       .flatMapLatest(IntranetService.shared.inquireScheduleInfo)
       .subscribe(onNext: { response in
         let scheduleModel = response.compactMap { model -> ElliottEvent? in
-          guard let courseDay = ScheduleDay.allCases.filter({ $0.text == model.lectureDay }).first?.elliotDay else { return nil }
+          guard let courseDay = Day.allCases.filter({ $0.text == model.lectureDay }).first?.elliotDay else { return nil }
           return ElliottEvent(
             courseId: model.lectureNum,
             courseName: model.subject,

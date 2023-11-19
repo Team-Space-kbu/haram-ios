@@ -14,6 +14,7 @@ import Then
 final class StudyRoomDetailViewController: BaseViewController {
   
   private let viewModel: StudyRoomDetailViewModelType
+  private let roomSeq: Int
   
   private let studyRoomImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
@@ -29,8 +30,9 @@ final class StudyRoomDetailViewController: BaseViewController {
     $0.backgroundColor = .white
   }
   
-  init(viewModel: StudyRoomDetailViewModelType) {
-    self.viewModel = viewModel
+  init(roomSeq: Int) {
+    self.viewModel = StudyRoomDetailViewModel(roomSeq: roomSeq)
+    self.roomSeq = roomSeq
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -93,7 +95,7 @@ final class StudyRoomDetailViewController: BaseViewController {
 
 extension StudyRoomDetailViewController: RothemRoomDetailViewDelegate {
   func didTappedReservationButton() {
-    let vc = StudyReservationViewController()
+    let vc = StudyReservationViewController(viewModel: StudyReservationViewModel(roomSeq: roomSeq))
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }

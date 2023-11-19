@@ -12,31 +12,19 @@ import Then
 
 final class StudyReservationViewController: BaseViewController {
   
-  private var selectedDateModel: [SelectedDayCollectionViewCellModel] = [
-    .init(title: "월요일", day: "23"),
-    .init(title: "화요일", day: "24"),
-    .init(title: "수요일", day: "25"),
-    .init(title: "목요일", day: "26"),
-    .init(title: "금요일", day: "27")
-  ]
+  private let viewModel: StudyReservationViewModelType
   
-  private var selectedMorningTimeModel: [SelectedTimeCollectionViewCellModel] = [
-    .init(time: "10:00"),
-    .init(time: "10:30"),
-    .init(time: "11:00"),
-    .init(time: "11:30")
-  ]
+  private var selectedDateModel: [SelectedDayCollectionViewCellModel] = [] {
+    didSet {
+      selectedDayCollectionView.reloadData()
+    }
+  }
   
-  private var selectedAfternoonTimeModel: [SelectedTimeCollectionViewCellModel] = [
-    .init(time: "13:30"),
-    .init(time: "14:00"),
-    .init(time: "14:30"),
-    .init(time: "15:00"),
-    .init(time: "15:30"),
-    .init(time: "16:00"),
-    .init(time: "16:30"),
-    .init(time: "17:00"),
-  ]
+  private var selectedTimeModel: [SelectedTimeCollectionViewCellModel] = [] {
+    didSet {
+      selectedTimeCollectionView.reloadData()
+    }
+  }
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -136,11 +124,37 @@ final class StudyReservationViewController: BaseViewController {
     $0.setTitle("예약하기", for: .normal)
   }
   
+  init(viewModel: StudyReservationViewModelType) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func bind() {
     super.bind()
+    
     reservationButton.rx.tap
       .subscribe(with: self) { owner, _ in
         HaramToast.makeToast(text: "현재 로그인된 계정은 데모전용 계정이므로 예약이 불가합니다", duration: .short)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.studyRoomInfoViewModel
+      .drive(with: self) { owner, model in
+        owner.studyRoomInfoView.configureUI(with: model)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.selectedDayCollectionViewCellModel
+      .drive(rx.selectedDateModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.selectedTimeCollectionViewCellModel
+      .drive(with: self) { owner, model in
+        owner.selectedTimeModel = model
       }
       .disposed(by: disposeBag)
   }
@@ -154,11 +168,6 @@ final class StudyReservationViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
-    
-    studyRoomInfoView.configureUI(with: .init(
-      roomImageURL: URL(string: "http://ctl.bible.ac.kr/attachment/view/20544/KakaoTalk_20210531_142417965.jpg?ts=0"),
-      roomName: "개인학습실",
-      roomDescription: "그룹학습실은 한국성서대학교 학생이라면 누구나 대관해서 공부나 팀프로젝트, 개인프로젝트, 과제 등등 학습을 위해서라면 언제든 대관을 해드립니다!"))
   }
   
   @objc private func didTappedBackButton() {
@@ -195,8 +204,6 @@ final class StudyReservationViewController: BaseViewController {
     
     selectedDayCollectionView.snp.makeConstraints {
       $0.height.equalTo(69)
-      //      $0.leading.equalToSuperview()
-      //      $0.trailing.lessThanOrEqualToSuperview()
     }
     
     selectedTimeLabel.snp.makeConstraints {
@@ -242,22 +249,23 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
       return selectedDateModel.count
     }
     if section == 0 {
-      return selectedMorningTimeModel.count
+      return selectedTimeModel.filter { $0.meridiem == .am }.count
     }
-    return selectedAfternoonTimeModel.count
+    return selectedTimeModel.filter { $0.meridiem == .pm }.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if collectionView == selectedTimeCollectionView {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedTimeCollectionViewCell.identifier, for: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
-      cell.configureUI(with: indexPath.section == 0 ? selectedMorningTimeModel[indexPath.row] : selectedAfternoonTimeModel[indexPath.row])
+      cell.configureUI(with: indexPath.section == 0 ? selectedTimeModel.filter { $0.meridiem == .am }[indexPath.row] : selectedTimeModel.filter { $0.meridiem == .pm }[indexPath.row])
       return cell
     }
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedDayCollectionViewCell.identifier, for: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
     cell.configureUI(with: selectedDateModel[indexPath.row])
-    if 0...2 ~= indexPath.row {
-      cell.contentView.backgroundColor = .lightGray
-      cell.isUserInteractionEnabled = false
+    
+    /// 이용가능한 날짜가 존재한다면 맨 처음 셀을 선택
+    if let row = selectedDateModel.firstIndex(where: { $0.isAvailable }) {
+      collectionView.selectItem(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .left)
     }
     return cell
   }
@@ -289,15 +297,10 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
     return CGSize(width: 64, height: 33)
   }
   
-//  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedDayCollectionViewCell.identifier, for: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
-//    
-//  }
-  
-  //  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-  //    if collectionView == selectedDayCollectionView {
-  //      return 18
-  //    }
-  //    return 15
-  //  }
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    if collectionView == selectedDayCollectionView {
+      viewModel.whichCalendarSeq.onNext(selectedDateModel[indexPath.row].calendarSeq)
+    }
+    viewModel.whichTimeSeq.onNext(selectedTimeModel[indexPath.row].timeSeq)
+  }
 }

@@ -13,13 +13,14 @@ enum RothemRouter {
   case inquireRothemHomeInfo(String)
   case inquireRothemRoomInfo(Int)
   case inquireRothemReservationAuthCode(String)
+  case checkTimeAvailableForRothemReservation(Int)
 }
 
 extension RothemRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo, .inquireRothemReservationAuthCode:
+    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo, .inquireRothemReservationAuthCode, .checkTimeAvailableForRothemReservation:
       return .get
     }
   }
@@ -36,19 +37,21 @@ extension RothemRouter: Router {
       return "/v1/rothem/rooms/\(roomSeq)"
     case .inquireRothemReservationAuthCode(let userID):
       return "/rothem/v1/reservations/\(userID)/auth"
+    case .checkTimeAvailableForRothemReservation(let roomSeq):
+      return "/v1/rothem/rooms/\(roomSeq)/reservations"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo, .inquireRothemReservationAuthCode:
+    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo, .inquireRothemReservationAuthCode, .checkTimeAvailableForRothemReservation:
       return .plain
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .inquireRothemRoomInfo, .inquireRothemReservationAuthCode:
+    case .inquireRothemRoomInfo, .inquireRothemReservationAuthCode, .checkTimeAvailableForRothemReservation:
       return .withAccessToken
     case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo:
       return .noCache

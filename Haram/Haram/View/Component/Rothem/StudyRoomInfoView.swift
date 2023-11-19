@@ -15,6 +15,12 @@ struct StudyRoomInfoViewModel {
   let roomImageURL: URL?
   let roomName: String
   let roomDescription: String
+  
+  init(roomResponse: ReservationRoomResponse) {
+    roomImageURL = URL(string: roomResponse.thumbnailPath)
+    roomName = roomResponse.roomName
+    roomDescription = roomResponse.roomExplanation
+  }
 }
 
 final class StudyRoomInfoView: UIView {

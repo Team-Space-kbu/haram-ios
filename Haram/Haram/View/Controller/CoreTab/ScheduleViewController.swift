@@ -11,39 +11,39 @@ import Elliotable
 import SnapKit
 import Then
 
-enum ScheduleDay: CaseIterable {
-  case mon
-  case tue
-  case wed
-  case thr
-  case fri
+enum Day: String, Decodable, CaseIterable {
+  case MONDAY
+  case TUESDAY
+  case WEDNESDAY
+  case THURSDAY
+  case FRIDAY
   
   var text: String {
     switch self {
-    case .mon:
+    case .MONDAY:
       return "월"
-    case .tue:
+    case .TUESDAY:
       return "화"
-    case .wed:
+    case .WEDNESDAY:
       return "수"
-    case .thr:
+    case .THURSDAY:
       return "목"
-    case .fri:
+    case .FRIDAY:
       return "금"
     }
   }
   
   var elliotDay: ElliotDay {
     switch self {
-    case .mon:
+    case .MONDAY:
       return .monday
-    case .tue:
+    case .TUESDAY:
       return .tuesday
-    case .wed:
+    case .WEDNESDAY:
       return .wednesday
-    case .thr:
+    case .THURSDAY:
       return .thursday
-    case .fri:
+    case .FRIDAY:
       return .friday
     }
   }
@@ -144,11 +144,11 @@ extension ScheduleViewController: ElliotableDelegate, ElliotableDataSource {
   }
   
   func elliotable(elliotable: Elliotable, at dayPerIndex: Int) -> String {
-    return ScheduleDay.allCases[dayPerIndex].text
+    return Day.allCases[dayPerIndex].text
   }
   
   func numberOfDays(in elliotable: Elliotable) -> Int {
-    return ScheduleDay.allCases.count
+    return Day.allCases.count
   }
   
   func courseItems(in elliotable: Elliotable) -> [ElliottEvent] {

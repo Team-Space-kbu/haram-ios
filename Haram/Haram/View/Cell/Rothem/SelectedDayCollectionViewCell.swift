@@ -11,8 +11,17 @@ import SnapKit
 import Then
 
 struct SelectedDayCollectionViewCellModel {
+  let calendarSeq: Int
   let title: String
   let day: String
+  let isAvailable: Bool
+  
+  init(calendarResponse: CalendarResponse) {
+    calendarSeq = calendarResponse.calendarSeq
+    title = calendarResponse.day.text
+    day = calendarResponse.date
+    isAvailable = calendarResponse.isAvailable
+  }
 }
 
 final class SelectedDayCollectionViewCell: UICollectionViewCell {
@@ -73,6 +82,11 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
   func configureUI(with model: SelectedDayCollectionViewCellModel) {
     titleLabel.text = model.title
     dayLabel.text = model.day
+    self.isUserInteractionEnabled = model.isAvailable
+    if !model.isAvailable {
+      contentView.backgroundColor = .lightGray
+    }
+//    self.isDaySelected = model.isSelected
   }
   
 }

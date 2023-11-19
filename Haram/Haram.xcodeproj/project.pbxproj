@@ -172,6 +172,8 @@
 		708E1E602B038A6E0030FAA0 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = 708E1E5F2B038A6E0030FAA0 /* FloatingPanel */; };
 		708E1E622B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708E1E612B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift */; };
 		708E1E642B0778CD0030FAA0 /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708E1E632B0778CD0030FAA0 /* PDFViewController.swift */; };
+		708E1E662B09E0330030FAA0 /* StudyReservationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708E1E652B09E0330030FAA0 /* StudyReservationViewModel.swift */; };
+		708E1E682B09E1A70030FAA0 /* CheckTimeAvailableForRothemReservationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708E1E672B09E1A70030FAA0 /* CheckTimeAvailableForRothemReservationResponse.swift */; };
 		708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */; };
 		708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */; };
 		708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */; };
@@ -416,6 +418,8 @@
 		70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetCheckViewController.swift; sourceTree = "<group>"; };
 		708E1E612B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedFloatingPanelViewController.swift; sourceTree = "<group>"; };
 		708E1E632B0778CD0030FAA0 /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
+		708E1E652B09E0330030FAA0 /* StudyReservationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyReservationViewModel.swift; sourceTree = "<group>"; };
+		708E1E672B09E1A70030FAA0 /* CheckTimeAvailableForRothemReservationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTimeAvailableForRothemReservationResponse.swift; sourceTree = "<group>"; };
 		708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HaramRelease.entitlements; sourceTree = "<group>"; };
 		708ED77A2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBookLoanStatusResponse.swift; sourceTree = "<group>"; };
 		708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
@@ -1059,6 +1063,7 @@
 				708ED7902A8E0AED00107CDF /* StudyListViewModel.swift */,
 				701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */,
 				701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */,
+				708E1E652B09E0330030FAA0 /* StudyReservationViewModel.swift */,
 			);
 			path = Rothem;
 			sourceTree = "<group>";
@@ -1078,6 +1083,7 @@
 				7051E4F82AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift */,
 				701F29C52AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift */,
 				701F29D62AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift */,
+				708E1E672B09E1A70030FAA0 /* CheckTimeAvailableForRothemReservationResponse.swift */,
 			);
 			path = Rothem;
 			sourceTree = "<group>";
@@ -1509,6 +1515,7 @@
 				708312482A2F7EC300F7E283 /* LibraryDetailSubView.swift in Sources */,
 				708312992A691D1700F7E283 /* MileageViewModel.swift in Sources */,
 				708312402A2CA79D00F7E283 /* IntranetLoginRequest.swift in Sources */,
+				708E1E682B09E1A70030FAA0 /* CheckTimeAvailableForRothemReservationResponse.swift in Sources */,
 				701F29DC2AEBB29C00E3E68B /* InquireBibleMainNoticeResponse.swift in Sources */,
 				705FD2BD2A1A4CEE00F353FE /* LibraryDetailViewController.swift in Sources */,
 				7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */,
@@ -1596,6 +1603,7 @@
 				708ED7862A8E01CC00107CDF /* StudyListCollectionViewCell.swift in Sources */,
 				708ED7A92A8FA41300107CDF /* SelectedTimeCollectionViewCell.swift in Sources */,
 				708312932A65638200F7E283 /* MoreViewModel.swift in Sources */,
+				708E1E662B09E0330030FAA0 /* StudyReservationViewModel.swift in Sources */,
 				705FD2862A10E58600F353FE /* HeaderType.swift in Sources */,
 				705FD2802A10DE8800F353FE /* ApiService.swift in Sources */,
 				708312582A31A23200F7E283 /* PagingSectionFooterView.swift in Sources */,
