@@ -63,6 +63,10 @@ final class BoardDetailViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotifications()
+  }
+  
   // MARK: - Configurations
   
   override func setupStyles() {
@@ -82,6 +86,7 @@ final class BoardDetailViewController: BaseViewController {
     
     /// Set Delegate
     commentInputView.delegate = self
+    registerNotifications()
   }
   
   override func setupLayouts() {
@@ -114,8 +119,7 @@ final class BoardDetailViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     tapGesture.rx.event
-      .asDriver()
-      .drive(with: self) { owner, _ in
+      .subscribe(with: self) { owner, _ in
         owner.view.endEditing(true)
       }
       .disposed(by: disposeBag)
@@ -224,5 +228,11 @@ extension BoardDetailViewController: CommentInputViewDelegate {
       ), at: cellModel.count)
       boardDetailCollectionView.insertItems(at: [IndexPath(item: cellModel.count - 1, section: 1)])
     }
+  }
+}
+
+extension BoardDetailViewController: KeyboardResponder {
+  var targetView: UIView {
+    return view
   }
 }

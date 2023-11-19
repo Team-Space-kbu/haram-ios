@@ -11,6 +11,7 @@ import RxCocoa
 protocol MileageViewModelType {
   var currentUserMileageInfo: Driver<[MileageTableViewCellModel]> { get }
   var currentAvailabilityPoint: Driver<MileageTableHeaderViewModel> { get }
+  var isLoading: Driver<Bool> { get }
 }
 
 final class MileageViewModel {
@@ -19,6 +20,7 @@ final class MileageViewModel {
   
   private let currentUserMileageInfoRelay  = BehaviorRelay<[MileageTableViewCellModel]>(value: [])
   private let currentAvilabilityPointRelay = PublishRelay<MileageTableHeaderViewModel>()
+  private let isLoadingSubject             = PublishSubject<Bool>()
   
   init() {
     inquireMileageInfo()
@@ -28,6 +30,7 @@ final class MileageViewModel {
     let tryInquireMileageInfo = IntranetService.shared.inquireMileageInfo()
     
     tryInquireMileageInfo
+      .do(onSuccess: { [weak self] _ in self?.isLoadingSubject.onNext(true) })
       .subscribe(with: self) { owner, response in
         owner.currentUserMileageInfoRelay.accept(
           response.mileageDetails.map { MileageTableViewCellModel(
@@ -40,6 +43,8 @@ final class MileageViewModel {
         owner.currentAvilabilityPointRelay.accept(
           MileageTableHeaderViewModel(totalMileage: Int(String(response.mileagePayInfo.availabilityPoint)) ?? 0)
         )
+        
+        owner.isLoadingSubject.onNext(false)
       }
       .disposed(by: disposeBag)
   }
@@ -52,5 +57,9 @@ extension MileageViewModel: MileageViewModelType {
   
   var currentUserMileageInfo: Driver<[MileageTableViewCellModel]> {
     currentUserMileageInfoRelay.asDriver()
+  }
+  
+  var isLoading: Driver<Bool> {
+    isLoadingSubject.asDriver(onErrorJustReturn: false)
   }
 }

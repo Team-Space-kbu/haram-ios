@@ -8,6 +8,7 @@
 import UIKit
 
 import RxSwift
+import SkeletonView
 import SnapKit
 import Then
 
@@ -23,12 +24,15 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
   private let totalMileageLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold36
+    $0.isSkeletonable = true
+    $0.text = "200,000원"
   }
   
   private let spendListLabel = UILabel().then {
     $0.text = "소비내역"
     $0.textColor = .black
     $0.font = .bold14
+    $0.isSkeletonable = true
   }
   
   override init(reuseIdentifier: String?) {
@@ -46,7 +50,10 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
   }
   
   private func configureUI() {
-    [totalMileageLabel, spendListLabel].forEach { addSubview($0) }
+    isSkeletonable = true
+    contentView.isSkeletonable = true
+    
+    [totalMileageLabel, spendListLabel].forEach { contentView.addSubview($0) }
     totalMileageLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(69.97)
       $0.leading.equalToSuperview()

@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -23,6 +24,7 @@ final class MileageTableViewCell: UITableViewCell {
     $0.backgroundColor = .hexD9D9D9
     $0.layer.cornerRadius = 22
     $0.layer.masksToBounds = true
+    $0.isSkeletonable = true
   }
   
   private let mainLabel = UILabel().then {
@@ -30,17 +32,20 @@ final class MileageTableViewCell: UITableViewCell {
     $0.font = .bold18
     $0.numberOfLines = 1
     $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    $0.isSkeletonable = true
   }
   
   private let subLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .regular14
+    $0.isSkeletonable = true
   }
   
   private let mileageLabel = UILabel().then {
     $0.font = .bold18
     $0.textColor = .hex545E6A
     $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+    $0.isSkeletonable = true
   }
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -60,8 +65,19 @@ final class MileageTableViewCell: UITableViewCell {
   }
   
   private func configureUI() {
+    
+    /// Set SkeletonView
+    isSkeletonable = true
+    contentView.isSkeletonable = true
+    
+    /// Set Styles
     selectionStyle = .none
-    [mileageImageView, mainLabel, subLabel, mileageLabel].forEach { addSubview($0) }
+    
+    
+    /// Set Layout
+    _ = [mileageImageView, mainLabel, subLabel, mileageLabel].map { contentView.addSubview($0) }
+    
+    /// Set Constraints
     mileageImageView.snp.makeConstraints {
       $0.size.equalTo(44)
       $0.top.leading.equalToSuperview()
@@ -78,7 +94,7 @@ final class MileageTableViewCell: UITableViewCell {
     }
     
     mileageLabel.snp.makeConstraints {
-      $0.leading.greaterThanOrEqualTo(mainLabel.snp.trailing)
+      $0.leading.greaterThanOrEqualTo(mainLabel.snp.trailing).offset(15)
       $0.centerY.equalTo(mileageImageView)
       $0.trailing.equalToSuperview()
       $0.bottom.equalTo(mileageImageView)

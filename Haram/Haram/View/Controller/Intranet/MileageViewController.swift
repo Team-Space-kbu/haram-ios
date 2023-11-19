@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -14,7 +15,7 @@ final class MileageViewController: BaseViewController {
   
   private let viewModel: MileageViewModelType
   
-  private var mileagePayInfoModel: MileageTableHeaderViewModel = MileageTableHeaderViewModel(totalMileage: 0) {
+  private var mileagePayInfoModel: MileageTableHeaderViewModel? {
     didSet {
       mileageTableView.reloadData()
     }
@@ -36,6 +37,7 @@ final class MileageViewController: BaseViewController {
     $0.showsVerticalScrollIndicator = false
     $0.sectionHeaderHeight = 69.97 + 135 + 14 + 17 + 44
     $0.sectionFooterHeight = .leastNonzeroMagnitude
+    $0.isSkeletonable = true
   }
   
   init(viewModel: MileageViewModelType = MileageViewModel()) {
@@ -57,6 +59,14 @@ final class MileageViewController: BaseViewController {
     viewModel.currentAvailabilityPoint
       .drive(rx.mileagePayInfoModel)
       .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .filter { !$0 }
+      .drive(with: self) { owner, isLoading in
+        owner.view.hideSkeleton()
+        print("로딩중 \(isLoading)")
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -67,6 +77,18 @@ final class MileageViewController: BaseViewController {
       style: .done,
       target: self,
       action: #selector(didTappedBackButton)
+    )
+    
+    /// Configure Skeleton UI
+    view.isSkeletonable = true
+    
+    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
+    let graient = SkeletonGradient(baseColor: .skeletonDefault)
+    
+    view.showAnimatedGradientSkeleton(
+      usingGradient: graient,
+      animation: skeletonAnimation,
+      transition: .none
     )
   }
   
@@ -111,7 +133,28 @@ extension MileageViewController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MileageTableHeaderView.identifier) as? MileageTableHeaderView ?? MileageTableHeaderView()
-    header.configureUI(with: mileagePayInfoModel)
+    header.configureUI(with: mileagePayInfoModel ?? MileageTableHeaderViewModel(totalMileage: 0))
     return header
   }
+}
+
+extension MileageViewController: SkeletonTableViewDelegate, SkeletonTableViewDataSource {
+  func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
+    let cell = skeletonView.dequeueReusableCell(withIdentifier: MileageTableViewCell.identifier, for: indexPath) as? MileageTableViewCell ?? MileageTableViewCell()
+    cell.configureUI(with: .init(mainText: "2023 총장배소프트웨어경진대회 - 컴소", subText: "20231119", mileage: -1000))
+    return cell
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
+    MileageTableViewCell.identifier
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return 10
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UITableView, identifierForHeaderInSection section: Int) -> ReusableHeaderFooterIdentifier? {
+    MileageTableHeaderView.identifier
+  }
+  
 }

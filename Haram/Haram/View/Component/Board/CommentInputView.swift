@@ -102,6 +102,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
     
     sendButton.rx.tap
       .withLatestFrom(commentTextView.rx.text.orEmpty)
+      .observe(on: MainScheduler.instance)
       .subscribe(with: self) { owner, comment in
         owner.commentTextView.textColor = .hexD0D0D0
         owner.commentTextView.text = owner.placeHolder
@@ -110,27 +111,27 @@ final class CommentInputView: UIView, UITextViewDelegate {
       .disposed(by: disposeBag)
     
     commentTextView.rx.didBeginEditing
-      .withUnretained(self)
-      .subscribe(onNext: { owner, _ in
+      .asDriver()
+      .drive(with: self) { owner, _ in
         if owner.commentTextView.text == owner.placeHolder &&
            owner.commentTextView.textColor == .hexD0D0D0 {
           owner.commentTextView.text = ""
           owner.commentTextView.textColor = .black
         }
-      })
+      }
       .disposed(by: disposeBag)
     
     commentTextView.rx.didEndEditing
-      .withUnretained(self)
-      .subscribe(onNext: { owner, _ in
+      .asDriver()
+      .drive(with: self) { owner, _ in
         if owner.commentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
            owner.commentTextView.textColor == .black {
           owner.commentTextView.text = owner.placeHolder
           owner.commentTextView.textColor = .hexD0D0D0
         }
         
-//        owner.updateTextViewHeightAutomatically()
-      })
+        owner.updateTextViewHeightAutomatically()
+      }
       .disposed(by: disposeBag)
     
     commentTextView.rx.text
