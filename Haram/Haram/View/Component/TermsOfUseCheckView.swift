@@ -19,6 +19,16 @@ enum TermsOfUseCheckViewType {
   case none
 }
 
+struct TermsOfUseCheckViewModel {
+  let policySeq: Int
+  let content: String
+  
+  init(response: PolicyResponse) {
+    policySeq = response.policySeq
+    content = response.content
+  }
+}
+
 final class TermsOfUseCheckView: UIView {
     
   // MARK: - Property
@@ -45,14 +55,6 @@ final class TermsOfUseCheckView: UIView {
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
     $0.numberOfLines = 0
-    $0.text = """
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita
-kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-"""
   }
   
   // MARK: - Initializations
@@ -89,6 +91,10 @@ eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
         $0.directionalHorizontalEdges.bottom.equalToSuperview()
       }
     }
+  }
+  
+  func configureUI(with model: TermsOfUseCheckViewModel) {
+    termsLabel.text = model.content
   }
   
   // MARK: - Constants

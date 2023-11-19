@@ -15,6 +15,7 @@ protocol StudyReservationViewModelType {
   var studyRoomInfoViewModel: Driver<StudyRoomInfoViewModel> { get }
   var selectedDayCollectionViewCellModel: Driver<[SelectedDayCollectionViewCellModel]> { get }
   var selectedTimeCollectionViewCellModel: Driver<[SelectedTimeCollectionViewCellModel]> { get }
+  var selectedPolicyModel: Driver<[TermsOfUseCheckViewModel]> { get }
 }
 
 final class StudyReservationViewModel {
@@ -30,6 +31,7 @@ final class StudyReservationViewModel {
   private let timeSeqSubject = PublishSubject<Int>()
   private let studyRoomInfoViewModelRelay = PublishRelay<StudyRoomInfoViewModel>()
   private let selectedDayCollectionViewCellModelRelay = BehaviorRelay<[SelectedDayCollectionViewCellModel]>(value: [])
+  private let policyModelRelay = BehaviorRelay<[TermsOfUseCheckViewModel]>(value: [])
   
   init(roomSeq: Int) {
     self.roomSeq = roomSeq
@@ -45,6 +47,8 @@ final class StudyReservationViewModel {
         owner.studyRoomInfoViewModelRelay.accept(StudyRoomInfoViewModel(roomResponse: response.roomResponse))
         owner.selectedDayCollectionViewCellModelRelay.accept(response.calendarResponses.map { SelectedDayCollectionViewCellModel(calendarResponse: $0) })
         owner.model = response.calendarResponses
+        owner.policyModelRelay.accept(response.policyResponses.map { TermsOfUseCheckViewModel(response: $0) })
+        
         guard let model = response.calendarResponses.filter({ $0.isAvailable }).first else { return }
         owner.calendarSeqSubject.onNext(model.calendarSeq)
       }
@@ -80,5 +84,9 @@ extension StudyReservationViewModel: StudyReservationViewModelType {
   
   var whichTimeSeq: AnyObserver<Int> {
     timeSeqSubject.asObserver()
+  }
+  
+  var selectedPolicyModel: Driver<[TermsOfUseCheckViewModel]> {
+    policyModelRelay.asDriver()
   }
 }

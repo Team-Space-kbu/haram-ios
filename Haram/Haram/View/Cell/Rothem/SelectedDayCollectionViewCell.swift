@@ -18,7 +18,7 @@ struct SelectedDayCollectionViewCellModel {
   
   init(calendarResponse: CalendarResponse) {
     calendarSeq = calendarResponse.calendarSeq
-    title = calendarResponse.day.text
+    title = calendarResponse.day.text + "요일"
     day = calendarResponse.date
     isAvailable = calendarResponse.isAvailable
   }

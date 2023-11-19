@@ -157,6 +157,16 @@ final class StudyReservationViewController: BaseViewController {
         owner.selectedTimeModel = model
       }
       .disposed(by: disposeBag)
+    
+    viewModel.selectedPolicyModel
+      .drive(with: self) { owner, models in
+        models.forEach { model in
+          let checkView = TermsOfUseCheckView()
+          checkView.configureUI(with: model)
+          owner.containerView.insertArrangedSubview(checkView, at: 1)
+        }
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
