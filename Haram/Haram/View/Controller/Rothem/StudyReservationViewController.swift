@@ -79,6 +79,7 @@ final class StudyReservationViewController: BaseViewController {
       $0.dataSource = self
       $0.register(SelectedTimeCollectionViewCell.self, forCellWithReuseIdentifier: SelectedTimeCollectionViewCell.identifier)
       $0.register(SelectedTimeCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SelectedTimeCollectionHeaderView.identifier)
+      $0.allowsMultipleSelection = true
     }
   
   private let reservationInfoLabel = UILabel().then {
@@ -310,7 +311,18 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if collectionView == selectedDayCollectionView {
       viewModel.whichCalendarSeq.onNext(selectedDateModel[indexPath.row].calendarSeq)
+    } else if collectionView == selectedTimeCollectionView {
+      let isSelected = selectedTimeModel[indexPath.row].isTimeSelected
+      let timeSeq = selectedTimeModel[indexPath.row].timeSeq
+      
+      isSelected ? viewModel.deSelectTimeSeq.onNext(timeSeq) : viewModel.selectTimeSeq.onNext(timeSeq)
     }
-    viewModel.whichTimeSeq.onNext(selectedTimeModel[indexPath.row].timeSeq)
   }
+  
+//  func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+//    if collectionView == selectedDayCollectionView {
+////      viewModel.whichCalendarSeq.onNext(selectedDateModel[indexPath.row].calendarSeq)
+//    }
+//    viewModel.deSelectTimeSeq.onNext(selectedTimeModel[indexPath.row].timeSeq)
+//  }
 }
