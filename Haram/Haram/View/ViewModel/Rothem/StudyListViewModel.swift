@@ -48,6 +48,7 @@ extension StudyListViewModel {
         owner.studyReservationListRelay.accept(response.roomList.map { StudyListCollectionViewCellModel(rothemRoom: $0) })
         owner.rothemMainNoticeRelay.accept(response.noticeList.first.map { StudyListHeaderViewModel(rothemNotice: $0) })
         owner.isLoadingSubject.onNext(false)
+        owner.isReservationSubject.onNext(response.isReserved == 1 ? true : false)
       }
       .disposed(by: disposeBag)
   }

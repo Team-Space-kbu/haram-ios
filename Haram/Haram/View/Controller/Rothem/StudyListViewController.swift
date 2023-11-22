@@ -16,7 +16,7 @@ final class StudyListViewController: BaseViewController {
   // MARK: - Properties
   
   private let viewModel: StudyListViewModelType
-  private var type: StudyListCollectionHeaderViewType = .noReservation
+  private var type: StudyListCollectionHeaderViewType = .noReservation 
   
   // MARK: - UI Models
   

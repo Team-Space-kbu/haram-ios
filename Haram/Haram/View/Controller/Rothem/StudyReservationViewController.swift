@@ -139,7 +139,7 @@ final class StudyReservationViewController: BaseViewController {
     
     reservationButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        HaramToast.makeToast(text: "현재 로그인된 계정은 데모전용 계정이므로 예약이 불가합니다", duration: .short)
+        owner.viewModel.reservationButtonTapped.onNext(())
       }
       .disposed(by: disposeBag)
     
@@ -166,6 +166,19 @@ final class StudyReservationViewController: BaseViewController {
           checkView.configureUI(with: model)
           owner.containerView.insertArrangedSubview(checkView, at: 1)
         }
+      }
+      .disposed(by: disposeBag)
+    
+    phoneNumberTextField.rx.text.orEmpty
+      .filter { $0 != "전화번호" }
+      .subscribe(with: self) { owner, phoneNum in
+        owner.viewModel.whichReservationPhoneNumber.onNext(phoneNum)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.isReservationButtonActivated
+      .drive(with: self) { owner, isActivated in
+        print("활성화여부 \(isActivated)")
       }
       .disposed(by: disposeBag)
   }

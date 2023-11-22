@@ -38,6 +38,12 @@ final class SelectedTimeCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "SelectedTimeCollectionViewCell"
   
+  var isReserved: Bool = false {
+    didSet {
+      updateIfNeeded()
+    }
+  }
+  
   var isTimeSelected: Bool = false {
     didSet {
       updateIfNeeded()
@@ -80,18 +86,21 @@ final class SelectedTimeCollectionViewCell: UICollectionViewCell {
   }
   
   private func updateIfNeeded() {
-    contentView.backgroundColor = isTimeSelected ? .hex79BD9A : .white
-    contentView.layer.borderColor = isTimeSelected ? UIColor.hex79BD9A.cgColor : UIColor.hex707070.cgColor
-    timeLabel.textColor = isTimeSelected ? .hexF2F3F5 : .black
+    if !isReserved {
+//      contentView.isUserInteractionEnabled = true
+      contentView.backgroundColor = isTimeSelected ? .hex79BD9A : .white
+      contentView.layer.borderColor = isTimeSelected ? UIColor.hex79BD9A.cgColor : UIColor.hex707070.cgColor
+      timeLabel.textColor = isTimeSelected ? .hexF2F3F5 : .black
+    } else {
+//      contentView.isUserInteractionEnabled = false
+      contentView.backgroundColor = .lightGray
+    }
   }
   
   func configureUI(with model: SelectedTimeCollectionViewCellModel) {
-//    print("모델1 \(model.isTimeSelected)")
     timeLabel.text = model.time
-    contentView.isUserInteractionEnabled = !model.isReserved
-    if model.isReserved {
-      contentView.backgroundColor = .lightGray
-    }
     self.isTimeSelected = model.isTimeSelected
+    self.isReserved = model.isReserved
+    contentView.isUserInteractionEnabled = !model.isReserved
   }
 }
