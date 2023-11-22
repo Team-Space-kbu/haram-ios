@@ -225,6 +225,7 @@
 		70903C922ADDB1D900C6FEF0 /* Ex + KeyboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70903C912ADDB1D900C6FEF0 /* Ex + KeyboardResponder.swift */; };
 		70903C942ADEB1F500C6FEF0 /* Ex + Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70903C932ADEB1F500C6FEF0 /* Ex + Array.swift */; };
 		70903C962ADFA8FE00C6FEF0 /* RerequestAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70903C952ADFA8FE00C6FEF0 /* RerequestAlertView.swift */; };
+		70909A822B0D8B4E00049265 /* ReserveStudyRoomRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70909A812B0D8B4E00049265 /* ReserveStudyRoomRequest.swift */; };
 		7095D38A2AD67C8F008DAA39 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095D3892AD67C8F008DAA39 /* Constants.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
@@ -472,6 +473,7 @@
 		70903C912ADDB1D900C6FEF0 /* Ex + KeyboardResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + KeyboardResponder.swift"; sourceTree = "<group>"; };
 		70903C932ADEB1F500C6FEF0 /* Ex + Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + Array.swift"; sourceTree = "<group>"; };
 		70903C952ADFA8FE00C6FEF0 /* RerequestAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RerequestAlertView.swift; sourceTree = "<group>"; };
+		70909A812B0D8B4E00049265 /* ReserveStudyRoomRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveStudyRoomRequest.swift; sourceTree = "<group>"; };
 		7095D3892AD67C8F008DAA39 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
@@ -1084,6 +1086,7 @@
 				701F29C52AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift */,
 				701F29D62AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift */,
 				708E1E672B09E1A70030FAA0 /* CheckTimeAvailableForRothemReservationResponse.swift */,
+				70909A812B0D8B4E00049265 /* ReserveStudyRoomRequest.swift */,
 			);
 			path = Rothem;
 			sourceTree = "<group>";
@@ -1672,6 +1675,7 @@
 				705FD2BF2A1A4D2E00F353FE /* LibraryDetailMainView.swift in Sources */,
 				70375F162AB1B0500032F6B8 /* HaramToast.swift in Sources */,
 				708ED7CB2A91224B00107CDF /* TodayBibleWordCollectionViewCell.swift in Sources */,
+				70909A822B0D8B4E00049265 /* ReserveStudyRoomRequest.swift in Sources */,
 				7083124F2A31927600F7E283 /* HomeRouter.swift in Sources */,
 				708ED7912A8E0AED00107CDF /* StudyListViewModel.swift in Sources */,
 				708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */,

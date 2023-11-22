@@ -40,4 +40,8 @@ extension RothemService {
   func checkTimeAvailableForRothemReservation(roomSeq: Int) -> Single<CheckTimeAvailableForRothemReservationResponse> {
     service.betarequest(router: RothemRouter.checkTimeAvailableForRothemReservation(roomSeq), type: CheckTimeAvailableForRothemReservationResponse.self)
   }
+  
+  func reserveStudyRoom(roomSeq: Int, request: ReserveStudyRoomRequest) -> Single<EmptyModel> {
+    service.betarequest(router: RothemRouter.reserveStudyRoom(roomSeq, request), type: EmptyModel.self)
+  }
 }

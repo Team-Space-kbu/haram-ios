@@ -78,20 +78,24 @@ final class StudyReservationViewModel {
     selectTimeSeqSubject
       .subscribe(with: self) { owner, timeSeq in
         var timeModel = owner.timeTable.value
+        
+        /// 최대 선택 개수 2개
         guard timeModel.filter({ $0.isTimeSelected }).count < 2 else { return }
         
         if timeModel.filter({ $0.isTimeSelected }).count == 1 {
+          
+          /// 선택한 timeSeq가 기존에 선택된 timeSeq와 연속적이라면
           if timeModel.filter({ $0.isTimeSelected }).map({ $0.timeSeq }).filter({ timeSeq == $0 + 1 || timeSeq == $0 - 1 }).count > 0 {
             let findModel = timeModel.filter { $0.timeSeq == timeSeq }.first!
-            print("뭐야 \(findModel)")
             timeModel[timeModel.firstIndex(of: findModel)!].isTimeSelected = true
             owner.timeTable.accept(timeModel)
           }
+          
+          /// 연속적이지않은 timeSeq는 무시
           return
         }
         
         let findModel = timeModel.filter { $0.timeSeq == timeSeq }.first!
-        print("뭐야1 \(findModel)")
         timeModel[timeModel.firstIndex(of: findModel)!].isTimeSelected = true
         owner.timeTable.accept(timeModel)
       }
