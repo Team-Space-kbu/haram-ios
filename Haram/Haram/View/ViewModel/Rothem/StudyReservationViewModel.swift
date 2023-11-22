@@ -25,14 +25,12 @@ final class StudyReservationViewModel {
   private let roomSeq: Int
   
   private var model: [CalendarResponse] = []
-  
   private let timeTable = BehaviorRelay<[SelectedTimeCollectionViewCellModel]>(value: [])
-  
-  private var timeSeqList = BehaviorRelay<Set<Int>>(value: [])
   
   private let calendarSeqSubject = PublishSubject<Int>()
   private let selectTimeSeqSubject = PublishSubject<Int>()
   private let deSelectTimeSeqSubject = PublishSubject<Int>()
+  
   private let studyRoomInfoViewModelRelay = PublishRelay<StudyRoomInfoViewModel>()
   private let selectedDayCollectionViewCellModelRelay = BehaviorRelay<[SelectedDayCollectionViewCellModel]>(value: [])
   private let policyModelRelay = BehaviorRelay<[TermsOfUseCheckViewModel]>(value: [])
@@ -44,6 +42,7 @@ final class StudyReservationViewModel {
     saveTimeInfoForReservation()
   }
   
+  /// 예약하기위한 정보를 조회하는 함수, 맨 처음에만 호출
   private func inquireReservationInfo() {
     let inquireReservationInfo = RothemService.shared.checkTimeAvailableForRothemReservation(roomSeq: roomSeq)
     
@@ -62,6 +61,7 @@ final class StudyReservationViewModel {
       .disposed(by: disposeBag)
   }
   
+  /// 날짜 선택에 따른 시간정보를 가져오는 함수
   private func getTimeInfoForReservation() {
     calendarSeqSubject
       .distinctUntilChanged()
@@ -72,14 +72,26 @@ final class StudyReservationViewModel {
       .disposed(by: disposeBag)
   }
   
-  /// 시간선택에 따른 시간정보를 저장하는 로직이 담김 함수
+  /// 시간선택 혹은 미선택에 따른 시간정보를 저장하는 로직이 담김 함수
   private func saveTimeInfoForReservation() {
     
     selectTimeSeqSubject
       .subscribe(with: self) { owner, timeSeq in
         var timeModel = owner.timeTable.value
         guard timeModel.filter({ $0.isTimeSelected }).count < 2 else { return }
+        
+        if timeModel.filter({ $0.isTimeSelected }).count == 1 {
+          if timeModel.filter({ $0.isTimeSelected }).map({ $0.timeSeq }).filter({ timeSeq == $0 + 1 || timeSeq == $0 - 1 }).count > 0 {
+            let findModel = timeModel.filter { $0.timeSeq == timeSeq }.first!
+            print("뭐야 \(findModel)")
+            timeModel[timeModel.firstIndex(of: findModel)!].isTimeSelected = true
+            owner.timeTable.accept(timeModel)
+          }
+          return
+        }
+        
         let findModel = timeModel.filter { $0.timeSeq == timeSeq }.first!
+        print("뭐야1 \(findModel)")
         timeModel[timeModel.firstIndex(of: findModel)!].isTimeSelected = true
         owner.timeTable.accept(timeModel)
       }
@@ -93,25 +105,6 @@ final class StudyReservationViewModel {
         owner.timeTable.accept(timeModel)
       }
       .disposed(by: disposeBag)
-    
-//    timeSeqSubject
-//      .subscribe(with: self) { owner, timeSeq in
-//        var timeTable = owner.timeTable.value
-        
-        
-//        var timeSeqList = owner.timeSeqList.value
-//        
-//        /// 타임번호 리스트 개수 제한 2개
-//        if timeSeqList.count >= 2 {
-////          _ = timeSeqList.remove
-//          owner.timeSeqList.accept(timeSeqList)
-//          
-//        } else {
-//          timeSeqList.insert(timeSeq)
-//          owner.timeSeqList.accept(timeSeqList)
-//        }
-//      }
-//      .disposed(by: disposeBag)
   
   }
 }

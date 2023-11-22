@@ -59,13 +59,13 @@ final class SelectedTimeCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func prepareForReuse() {
-    super.prepareForReuse()
-    timeLabel.text = nil
-    contentView.isUserInteractionEnabled = true
-    contentView.backgroundColor = nil
-    self.isTimeSelected = false
-  }
+//  override func prepareForReuse() {
+//    super.prepareForReuse()
+//    timeLabel.text = nil
+//    contentView.isUserInteractionEnabled = true
+//    contentView.backgroundColor = nil
+//    self.isTimeSelected = false
+//  }
   
   private func configureUI() {
     contentView.layer.masksToBounds = true

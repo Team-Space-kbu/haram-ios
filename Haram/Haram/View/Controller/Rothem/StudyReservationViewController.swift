@@ -312,17 +312,16 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
     if collectionView == selectedDayCollectionView {
       viewModel.whichCalendarSeq.onNext(selectedDateModel[indexPath.row].calendarSeq)
     } else if collectionView == selectedTimeCollectionView {
-      let isSelected = selectedTimeModel[indexPath.row].isTimeSelected
-      let timeSeq = selectedTimeModel[indexPath.row].timeSeq
-      
-      isSelected ? viewModel.deSelectTimeSeq.onNext(timeSeq) : viewModel.selectTimeSeq.onNext(timeSeq)
+      if indexPath.section == 0 {
+        let isSelected = selectedTimeModel[indexPath.row].isTimeSelected
+        let timeSeq = selectedTimeModel[indexPath.row].timeSeq
+        isSelected ? viewModel.deSelectTimeSeq.onNext(timeSeq) : viewModel.selectTimeSeq.onNext(timeSeq)
+      } else if indexPath.section == 1 {
+        let amCount = selectedTimeModel.filter { $0.meridiem == .am }.count
+        let isSelected = selectedTimeModel[indexPath.row + amCount].isTimeSelected
+        let timeSeq = selectedTimeModel[indexPath.row + amCount].timeSeq
+        isSelected ? viewModel.deSelectTimeSeq.onNext(timeSeq) : viewModel.selectTimeSeq.onNext(timeSeq)
+      }
     }
   }
-  
-//  func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-//    if collectionView == selectedDayCollectionView {
-////      viewModel.whichCalendarSeq.onNext(selectedDateModel[indexPath.row].calendarSeq)
-//    }
-//    viewModel.deSelectTimeSeq.onNext(selectedTimeModel[indexPath.row].timeSeq)
-//  }
 }
