@@ -42,12 +42,6 @@ final class StudyReservationViewModel {
     inquireReservationInfo()
     getTimeInfoForReservation()
     saveTimeInfoForReservation()
-    
-    timeTable
-      .subscribe(onNext: { model in
-        print("모델로 \(model)")
-      })
-      .disposed(by: disposeBag)
   }
   
   private func inquireReservationInfo() {
@@ -84,6 +78,7 @@ final class StudyReservationViewModel {
     selectTimeSeqSubject
       .subscribe(with: self) { owner, timeSeq in
         var timeModel = owner.timeTable.value
+        guard timeModel.filter({ $0.isTimeSelected }).count < 2 else { return }
         let findModel = timeModel.filter { $0.timeSeq == timeSeq }.first!
         timeModel[timeModel.firstIndex(of: findModel)!].isTimeSelected = true
         owner.timeTable.accept(timeModel)
