@@ -8,13 +8,11 @@
 import Foundation
 
 struct IntranetLoginRequest: Encodable {
-  let intranetToken: String
   let intranetID: String
   let intranetPWD: String
   
   enum CodingKeys: String, CodingKey {
-    case intranetToken = "_token"
-    case intranetID = "id"
-    case intranetPWD = "pw"
+    case intranetID = "userId"
+    case intranetPWD = "userPw"
   }
 }

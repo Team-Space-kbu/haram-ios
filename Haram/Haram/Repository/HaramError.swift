@@ -38,6 +38,10 @@ enum HaramError: Error, CaseIterable {
   /// 토큰인증관련 에러
   case unValidRefreshToken
   
+  /// 인트라넷 학번인증관련 에러
+  case requiredStudentID
+  case wrongLoginInfo
+  
   case returnWrongFormat
   case noExistBoard // 게시글이 존재하지않을 때 발생하는 에러
 }
@@ -91,6 +95,10 @@ extension HaramError {
       return "BA01"
     case .failedAuth:
       return "AUTH01"
+    case .requiredStudentID:
+      return "IN09"
+    case .wrongLoginInfo:
+      return "IN12"
     }
   }
   
@@ -132,6 +140,10 @@ extension HaramError {
       return "인증에 실패했습니다."
     case .noEqualPassword:
       return "비밀번호가 다릅니다."
+    case .requiredStudentID:
+      return "학번 인증이 필요합니다."
+    case .wrongLoginInfo:
+      return "로그인 정보가 정확하지 않습니다"
     }
   }
 }

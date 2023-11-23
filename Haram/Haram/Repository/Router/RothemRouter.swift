@@ -12,7 +12,7 @@ enum RothemRouter {
   case inquireAllRothemNotice
   case inquireRothemHomeInfo(String)
   case inquireRothemRoomInfo(Int)
-  case inquireRothemReservationAuthCode(String)
+  case inquireRothemReservationInfo(String)
   case checkTimeAvailableForRothemReservation(Int)
   case reserveStudyRoom(Int, ReserveStudyRoomRequest)
 }
@@ -21,7 +21,7 @@ extension RothemRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo, .inquireRothemReservationAuthCode, .checkTimeAvailableForRothemReservation:
+    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo, .inquireRothemReservationInfo, .checkTimeAvailableForRothemReservation:
       return .get
     case .reserveStudyRoom:
       return .post
@@ -38,8 +38,8 @@ extension RothemRouter: Router {
       return "/v1/rothem/main/\(userID)"
     case .inquireRothemRoomInfo(let roomSeq):
       return "/v1/rothem/rooms/\(roomSeq)"
-    case .inquireRothemReservationAuthCode(let userID):
-      return "/rothem/v1/reservations/\(userID)/auth"
+    case .inquireRothemReservationInfo(let userID):
+      return "/v1/rothem/reservation/\(userID)"
     case .checkTimeAvailableForRothemReservation(let roomSeq):
       return "/v1/rothem/rooms/\(roomSeq)/reservations"
     case let .reserveStudyRoom(roomSeq, _):
@@ -49,7 +49,7 @@ extension RothemRouter: Router {
   
   var parameters: ParameterType {
     switch self {
-    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo, .inquireRothemReservationAuthCode, .checkTimeAvailableForRothemReservation:
+    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo, .inquireRothemReservationInfo, .checkTimeAvailableForRothemReservation:
       return .plain
     case let .reserveStudyRoom(_, request):
       return .body(request)
@@ -58,7 +58,7 @@ extension RothemRouter: Router {
   
   var headers: HeaderType {
     switch self {
-    case .inquireRothemRoomInfo, .inquireRothemReservationAuthCode, .checkTimeAvailableForRothemReservation, .reserveStudyRoom:
+    case .inquireRothemRoomInfo, .inquireRothemReservationInfo, .checkTimeAvailableForRothemReservation, .reserveStudyRoom:
       return .withAccessToken
     case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo:
       return .noCache

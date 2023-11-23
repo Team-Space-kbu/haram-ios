@@ -62,6 +62,15 @@ final class ChapelViewController: BaseViewController {
     viewModel.isLoading
       .drive(indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        guard error == .requiredStudentID else { return }
+        let vc = IntranetCheckViewController()
+        vc.navigationItem.largeTitleDisplayMode = .never
+        owner.navigationController?.pushViewController(vc, animated: true)
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {

@@ -309,21 +309,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       print("배너클릭")
     case .shortcut:
       let type = ShortcutType.allCases[indexPath.row]
-      guard type != .eventSchedule else { return }
-      let vc: BaseViewController
-      switch type {
-      case .mileage, .chapel:
-//        if !UserManager.shared.hasIntranetToken {
-//          vc = IntranetCheckViewController()
-//          vc.modalPresentationStyle = .overFullScreen
-//          present(vc, animated: true)
-//          return
-//        } else {
-          vc = type.viewController
-//        }
-      default:
-        vc = type.viewController
-      }
+      
+      let vc = type.viewController
       vc.navigationItem.largeTitleDisplayMode = .never
       vc.hidesBottomBarWhenPushed = true
       navigationController?.interactivePopGestureRecognizer?.delegate = self

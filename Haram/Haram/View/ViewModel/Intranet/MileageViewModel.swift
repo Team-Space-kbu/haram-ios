@@ -12,6 +12,7 @@ protocol MileageViewModelType {
   var currentUserMileageInfo: Driver<[MileageTableViewCellModel]> { get }
   var currentAvailabilityPoint: Driver<MileageTableHeaderViewModel> { get }
   var isLoading: Driver<Bool> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class MileageViewModel {
@@ -21,6 +22,7 @@ final class MileageViewModel {
   private let currentUserMileageInfoRelay  = BehaviorRelay<[MileageTableViewCellModel]>(value: [])
   private let currentAvilabilityPointRelay = PublishRelay<MileageTableHeaderViewModel>()
   private let isLoadingSubject             = PublishSubject<Bool>()
+  private let errorMessageSubject          = PublishSubject<HaramError>()
   
   init() {
     inquireMileageInfo()
@@ -31,7 +33,7 @@ final class MileageViewModel {
     
     tryInquireMileageInfo
       .do(onSuccess: { [weak self] _ in self?.isLoadingSubject.onNext(true) })
-      .subscribe(with: self) { owner, response in
+      .subscribe(with: self, onSuccess: { owner, response in
         owner.currentUserMileageInfoRelay.accept(
           response.mileageDetails.map { MileageTableViewCellModel(
             mainText: $0.etc.replacingOccurrences(of: "성서대.", with: ""),
@@ -45,8 +47,12 @@ final class MileageViewModel {
         )
         
         owner.isLoadingSubject.onNext(false)
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageSubject.onNext(error)
+      })
       .disposed(by: disposeBag)
+    
   }
 }
 
@@ -61,5 +67,9 @@ extension MileageViewModel: MileageViewModelType {
   
   var isLoading: Driver<Bool> {
     isLoadingSubject.asDriver(onErrorJustReturn: false)
+  }
+  
+  var errorMessage: Signal<HaramError> {
+    errorMessageSubject.asSignal(onErrorSignalWith: .empty())
   }
 }

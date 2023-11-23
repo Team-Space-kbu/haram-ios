@@ -33,8 +33,8 @@ extension RothemService {
     service.betarequest(router: RothemRouter.inquireRothemRoomInfo(roomSeq), type: InquireRothemRoomInfoResponse.self)
   }
   
-  func inquireRothemReservationAuthCode(userID: String) -> Single<String> {
-    service.betarequest(router: RothemRouter.inquireRothemReservationAuthCode(userID), type: String.self)
+  func inquireRothemReservationInfo(userID: String) -> Single<InquireRothemReservationInfoResponse> {
+    service.betarequest(router: RothemRouter.inquireRothemReservationInfo(userID), type: InquireRothemReservationInfoResponse.self)
   }
   
   func checkTimeAvailableForRothemReservation(roomSeq: Int) -> Single<CheckTimeAvailableForRothemReservationResponse> {

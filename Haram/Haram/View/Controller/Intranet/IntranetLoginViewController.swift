@@ -134,6 +134,11 @@ final class IntranetLoginViewController: BaseViewController {
     removeNotifications()
   }
   
+  override func setupStyles() {
+    super.setupStyles()
+    navigationController?.setNavigationBarHidden(true, animated: true)
+  }
+  
   override func setupLayouts() {
     super.setupLayouts()
     [containerStackView, lastAuthButton, indicatorView].forEach { view.addSubview($0) }
@@ -186,7 +191,6 @@ final class IntranetLoginViewController: BaseViewController {
           return
         }
         owner.view.endEditing(true)
-        owner.viewModel.intranetLoginButtonTapped.onNext(())
         owner.viewModel.whichIntranetInfo.onNext((intranetID, intranetPWD))
       }
       .disposed(by: disposeBag)
@@ -194,16 +198,16 @@ final class IntranetLoginViewController: BaseViewController {
     lastAuthButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        UserManager.shared.clearIntranetInformation()
         owner.removeNotifications()
-        owner.dismiss(animated: true)
-//        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = HaramTabbarController()
+        owner.navigationController?.setNavigationBarHidden(false, animated: true)
+        owner.navigationController?.popToRootViewController(animated: true)
       }
       .disposed(by: disposeBag)
     
     viewModel.successIntranetLogin
       .emit(with: self) { owner, message in
-        owner.dismiss(animated: true)
+        owner.navigationController?.setNavigationBarHidden(false, animated: true)
+        owner.navigationController?.popToRootViewController(animated: true)
       }
       .disposed(by: disposeBag)
     
@@ -230,7 +234,7 @@ extension IntranetLoginViewController: UITextFieldDelegate {
             !intranetID.isEmpty && !intranetPWD.isEmpty else {
         return true
       }
-      viewModel.intranetLoginButtonTapped.onNext(())
+      
       viewModel.whichIntranetInfo.onNext((intranetID, intranetPWD))
     }
     return true

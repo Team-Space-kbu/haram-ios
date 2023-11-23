@@ -67,6 +67,15 @@ final class MileageViewController: BaseViewController {
         print("로딩중 \(isLoading)")
       }
       .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        guard error == .requiredStudentID else { return }
+        let vc = IntranetCheckViewController()
+        vc.modalPresentationStyle = .fullScreen
+        owner.present(vc, animated: true)
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {

@@ -13,7 +13,7 @@ import Then
 
 protocol BaseService {
   func request<T: Decodable>(router: URLRequestConvertible, type: T.Type) -> Observable<Result<T, HaramError>>
-  func intranetRequest(router: Alamofire.URLRequestConvertible) -> Observable<String>
+//  func intranetRequest(router: Alamofire.URLRequestConvertible) -> Observable<String>
   func betarequest<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Single<T> where T : Decodable
 }
 
@@ -126,56 +126,4 @@ final class ApiService: BaseService {
         return Disposables.create()
       }
     }
-
-  
-  func intranetRequest(router: Alamofire.URLRequestConvertible) -> Observable<String> {
-    Single.create { observer in
-      self.session.request(router)
-        .validate({ request, response, data in
-          if response.statusCode != 401 || response.statusCode != 402 {
-            return .success(Void())
-          }
-          
-          let reason = AFError.ResponseValidationFailureReason.unacceptableStatusCode(code: response.statusCode)
-          return .failure(AFError.responseValidationFailed(reason: reason))
-        })
-        .responseData { response in
-          switch response.result {
-          case .success(let data):
-            guard let statusCode = response.response?.statusCode
-            else {
-              observer(.failure(HaramError.unknownedError))
-              return
-            }
-            //            guard let decodedData = try? JSONDecoder().decode(T.self, from: data) else {
-            //              print("디코딩에러")
-            //              return observer(.failure(HaramError.decodedError))
-            //            }
-            
-            if let htmlString = String(data: data, encoding: .utf8) {
-              return observer(.success(htmlString))
-            }
-            
-            //            switch statusCode {
-            //            case 200..<300:
-            //              return observer(.success(decodedData))
-            //            case 400..<500:
-            //              print("리퀘스트 에러발생")
-            //              return observer(.failure(HaramError.requestError))
-            //            case 500..<600:
-            //              print("서버 에러발생")
-            //              return observer(.failure(HaramError.serverError))
-            //            default:
-            //              print("알 수 없는 에러발생")
-            //              return observer(.failure(HaramError.unknownedError))
-            //            }
-            
-          case .failure(let error):
-            observer(.failure(error))
-          }
-        }
-      return Disposables.create()
-    }
-    .asObservable()
-  }
 }

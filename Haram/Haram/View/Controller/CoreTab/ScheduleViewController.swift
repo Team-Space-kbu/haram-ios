@@ -59,12 +59,6 @@ final class ScheduleViewController: BaseViewController {
     }
   }
   
-  private let titleLabel = UILabel().then {
-    $0.textColor = .black
-    $0.font = .bold22
-    $0.text = "시간표"
-  }
-  
   private let elliotable = Elliotable().then {
     $0.roundCorner = .none
     $0.isFullBorder = true
@@ -85,36 +79,33 @@ final class ScheduleViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    viewModel.inquireSchedule.onNext(())
-  }
-  
   override func setupStyles() {
     super.setupStyles()
-//    title = "시간표"
+    
+    /// Set Delegate & DataSource
     elliotable.delegate = self
     elliotable.dataSource = self
-
-    navigationController?.setNavigationBarHidden(true, animated: true)
+    
+    /// Set Navigationbar
+    title = "시간표"
+    navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(named: Constants.backButton),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    _ = [titleLabel, elliotable, indicatorView].map { view.addSubview($0) }
+    _ = [elliotable, indicatorView].map { view.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    titleLabel.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide.snp.topMargin).offset(10)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-    }
-    
     elliotable.snp.makeConstraints {
-      $0.top.equalTo(titleLabel.snp.bottom).offset(12)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
     
     indicatorView.snp.makeConstraints {
@@ -131,6 +122,19 @@ final class ScheduleViewController: BaseViewController {
     viewModel.isLoading
       .drive(indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        guard error == .requiredStudentID else { return }
+        let vc = IntranetCheckViewController()
+        vc.navigationItem.largeTitleDisplayMode = .never
+        owner.navigationController?.pushViewController(vc, animated: true)
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  @objc private func didTappedBackButton() {
+    navigationController?.popViewController(animated: true)
   }
 }
 

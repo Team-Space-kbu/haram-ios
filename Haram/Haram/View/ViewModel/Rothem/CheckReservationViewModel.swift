@@ -17,15 +17,15 @@ final class CheckReservationViewModel {
   private let disposeBag = DisposeBag()
   
   init() {
-    inquireRothemReservationAuthCode()
+    inquireRothemReservationInfo()
   }
   
-  private func inquireRothemReservationAuthCode() {
-    let inquireRothemReservationAuthCode = RothemService.shared.inquireRothemReservationAuthCode(userID: UserManager.shared.userID!)
+  private func inquireRothemReservationInfo() {
+    let inquireRothemReservationInfo = RothemService.shared.inquireRothemReservationInfo(userID: UserManager.shared.userID!)
     
-    inquireRothemReservationAuthCode
-      .subscribe(with: self) { owner, authCode in
-        
+    inquireRothemReservationInfo
+      .subscribe(with: self) { owner, response in
+        print("들어오나 \(response)")
       }
       .disposed(by: disposeBag)
   }

@@ -17,7 +17,7 @@ enum ShortcutType: CaseIterable {
   case searchBook
   case searchBible
   case affiliate
-  case eventSchedule
+  case schedule
   case readingRoom
   
   var viewController: BaseViewController {
@@ -34,8 +34,8 @@ enum ShortcutType: CaseIterable {
       return BibleViewController()
     case .affiliate:
       return AffiliatedViewController()
-    case .eventSchedule:
-      return StudyListViewController()
+    case .schedule:
+      return ScheduleViewController()
     case .readingRoom:
       return StudyListViewController()
     }
@@ -55,8 +55,8 @@ enum ShortcutType: CaseIterable {
       return "성경검색"
     case .affiliate:
       return "제휴업체"
-    case .eventSchedule:
-      return "행사일정"
+    case .schedule:
+      return "시간표"
     case .readingRoom:
       return "열람식조회"
     }
@@ -76,8 +76,8 @@ enum ShortcutType: CaseIterable {
       return "bibleGreen"
     case .affiliate:
       return "flagGreen"
-    case .eventSchedule:
-      return "scheduleGreen"
+    case .schedule:
+      return "time"
     case .readingRoom:
       return "readingGreen"
     }

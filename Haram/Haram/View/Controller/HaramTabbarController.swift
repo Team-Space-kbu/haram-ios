@@ -20,13 +20,13 @@ final class HaramTabbarController: UITabBarController {
     )
   })
   
-  private lazy var scheduleViewController = UINavigationController(rootViewController: ScheduleViewController().then {
-    $0.tabBarItem = UITabBarItem(
-      title: "시간표",
-      image: UIImage(named: "time"),
-      tag: 1
-    )
-  })
+//  private lazy var scheduleViewController = UINavigationController(rootViewController: ScheduleViewController().then {
+//    $0.tabBarItem = UITabBarItem(
+//      title: "시간표",
+//      image: UIImage(named: "time"),
+//      tag: 1
+//    )
+//  })
   
   private lazy var boardViewController = UINavigationController(rootViewController: BoardViewController().then {
     $0.tabBarItem = UITabBarItem(
@@ -54,7 +54,7 @@ final class HaramTabbarController: UITabBarController {
   private func setupLayouts() {
     viewControllers = [
       homeViewController,
-      scheduleViewController,
+//      scheduleViewController,
       boardViewController,
       moreViewController
     ]

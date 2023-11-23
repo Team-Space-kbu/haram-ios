@@ -52,6 +52,12 @@ final class IntranetCheckViewController: BaseViewController {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
   }
+
+  
+  override func setupStyles() {
+    super.setupStyles()
+    navigationController?.setNavigationBarHidden(true, animated: true)
+  }
   
   override func setupLayouts() {
     super.setupLayouts()
@@ -93,7 +99,16 @@ final class IntranetCheckViewController: BaseViewController {
     
     lastButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.dismiss(animated: true)
+        owner.navigationController?.setNavigationBarHidden(false, animated: true)
+        owner.navigationController?.popToRootViewController(animated: true)
+      }
+      .disposed(by: disposeBag)
+    
+    loginButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let vc = IntranetLoginViewController()
+        vc.navigationItem.largeTitleDisplayMode = .never
+        owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
   }

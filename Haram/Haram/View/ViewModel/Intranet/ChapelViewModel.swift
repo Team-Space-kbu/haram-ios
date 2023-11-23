@@ -12,6 +12,8 @@ protocol ChapelViewModelType {
   var chapelListModel: Driver<[ChapelCollectionViewCellModel]> { get }
   var chapelHeaderModel: Driver<ChapelCollectionHeaderViewModel?> { get }
   var isLoading: Driver<Bool> { get }
+  
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class ChapelViewModel: ChapelViewModelType {
@@ -21,34 +23,19 @@ final class ChapelViewModel: ChapelViewModelType {
   let chapelListModel: Driver<[ChapelCollectionViewCellModel]>
   let chapelHeaderModel: Driver<ChapelCollectionHeaderViewModel?>
   let isLoading: Driver<Bool>
+  let errorMessage: Signal<HaramError>
   
   init() {
     
     let chapelListModelRelay   = BehaviorRelay<[ChapelCollectionViewCellModel]>(value: [])
     let chapelHeaderModelRelay = PublishRelay<ChapelCollectionHeaderViewModel?>()
     let isLoadingSubject       = BehaviorSubject<Bool>(value: true)
+    let errorMessageSubject    = PublishSubject<HaramError>()
     
     self.chapelListModel = chapelListModelRelay.asDriver()
     self.chapelHeaderModel = chapelHeaderModelRelay.asDriver(onErrorJustReturn: nil)
     self.isLoading = isLoadingSubject.distinctUntilChanged().asDriver(onErrorJustReturn: false)
-    
-//    let inquireChapelList = IntranetService.shared.inquireChapelList(
-//      request: .init(
-//        intranetToken: UserManager.shared.intranetToken!,
-//        xsrfToken: UserManager.shared.xsrfToken!,
-//        laravelSession: UserManager.shared.laravelSession!
-//      )
-//    )
-//      .do(onNext: { _ in isLoadingSubject.onNext(true) })
-//        
-//        inquireChapelList
-//        .subscribe(onNext: { result in
-//          guard case let .success(response) = result else { return }
-//          let chapelListModel = response.map { ChapelCollectionViewCellModel(response: $0) }
-//          chapelListModelRelay.accept(chapelListModel)
-//          isLoadingSubject.onNext(false)
-//        })
-//        .disposed(by: disposeBag)
+    self.errorMessage = errorMessageSubject.distinctUntilChanged().asSignal(onErrorSignalWith: .empty())
     
     let inquireChapelDetail = IntranetService.shared.inquireChapelDetail()
       .do(onSuccess: { _ in isLoadingSubject.onNext(true) })
@@ -58,17 +45,11 @@ final class ChapelViewModel: ChapelViewModelType {
         let chapelListModel = response.map { ChapelCollectionViewCellModel(response: $0) }
         chapelListModelRelay.accept(chapelListModel)
         isLoadingSubject.onNext(false)
+      }, onFailure: { error in
+        guard let error = error as? HaramError else { return }
+        errorMessageSubject.onNext(error)
       })
       .disposed(by: disposeBag)
-        
-//        let inquireChapelInfo = IntranetService.shared.inquireChapelInfo(
-//          request: .init(
-//            intranetToken: UserManager.shared.intranetToken!,
-//            xsrfToken: UserManager.shared.xsrfToken!,
-//            laravelSession: UserManager.shared.laravelSession!
-//          )
-//        )
-//        .do(onNext: { _ in isLoadingSubject.onNext(true) })
     
     let inquireChapelInfo = IntranetService.shared.inquireChapelInfo()
       .do(onSuccess: { _ in isLoadingSubject.onNext(true) })
@@ -87,6 +68,9 @@ final class ChapelViewModel: ChapelViewModelType {
               )
             )
             isLoadingSubject.onNext(false)
+          }, onFailure: { error in
+            guard let error = error as? HaramError else { return }
+            errorMessageSubject.onNext(error)
           })
           .disposed(by: disposeBag)
           }
