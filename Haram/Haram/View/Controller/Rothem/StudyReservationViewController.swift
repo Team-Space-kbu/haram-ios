@@ -116,14 +116,18 @@ final class StudyReservationViewController: BaseViewController {
     )
   }
   
-  private let reservationButton = UIButton().then {
-    $0.setTitleColor(.white, for: .normal)
-    $0.backgroundColor = .hex79BD9A
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    $0.titleLabel?.font = .bold22
-    $0.setTitle("예약하기", for: .normal)
+  private let reservationButton = HaramButton(type: .cancel).then {
+    $0.setTitleText(title: "예약하기")
   }
+  
+//  private let reservationButton = UIButton().then {
+//    $0.setTitleColor(.white, for: .normal)
+//    $0.backgroundColor = .hex79BD9A
+//    $0.layer.masksToBounds = true
+//    $0.layer.cornerRadius = 10
+//    $0.titleLabel?.font = .bold22
+//    $0.setTitle("예약하기", for: .normal)
+//  }
   
   init(viewModel: StudyReservationViewModelType) {
     self.viewModel = viewModel
@@ -178,7 +182,8 @@ final class StudyReservationViewController: BaseViewController {
     
     viewModel.isReservationButtonActivated
       .drive(with: self) { owner, isActivated in
-        print("활성화여부 \(isActivated)")
+        owner.reservationButton.isEnabled = isActivated
+        owner.reservationButton.setupButtonType(type: isActivated ? .apply : .cancel )
       }
       .disposed(by: disposeBag)
   }

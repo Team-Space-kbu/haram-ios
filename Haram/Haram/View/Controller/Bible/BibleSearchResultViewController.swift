@@ -74,7 +74,7 @@ final class BibleSearchResultViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    title = "성경"
+    
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: Constants.backButton),
       style: .plain,

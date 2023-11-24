@@ -22,7 +22,7 @@ final class IntranetCheckViewController: BaseViewController {
   
   private let subLabel = UILabel().then {
     $0.text = "한국성서대학교 인트라넷 로그인이 필요합니다.\n아이디와 패스워드는 성서몬에 저장하지 않으며\n핸드폰에 안전하게 암호화하여 저장합니다."
-    $0.numberOfLines = 3
+    $0.numberOfLines = 0
     $0.font = .regular14
     $0.textColor = .black
     $0.textAlignment = .center
@@ -82,17 +82,26 @@ final class IntranetCheckViewController: BaseViewController {
       $0.directionalHorizontalEdges.equalToSuperview().inset(60)
     }
     
-    lastButton.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(66)
-      $0.top.equalTo(subLabel.snp.bottom).offset(104)
-    }
-    
     loginButton.snp.makeConstraints {
+      $0.top.lessThanOrEqualTo(subLabel.snp.bottom).offset(104)
+      $0.bottom.equalToSuperview().inset(47)
       $0.trailing.equalToSuperview().inset(46)
-      $0.centerY.equalTo(lastButton)
       $0.height.equalTo(39)
       $0.width.equalTo(95)
     }
+    
+    lastButton.snp.makeConstraints {
+      $0.leading.equalToSuperview().inset(66)
+      $0.centerY.equalTo(loginButton)
+//      $0.top.equalTo(subLabel.snp.bottom).offset(104)
+    }
+    
+//    loginButton.snp.makeConstraints {
+//      $0.trailing.equalToSuperview().inset(46)
+//      $0.centerY.equalTo(lastButton)
+//      $0.height.equalTo(39)
+//      $0.width.equalTo(95)
+//    }
   }
   
   override func bind() {

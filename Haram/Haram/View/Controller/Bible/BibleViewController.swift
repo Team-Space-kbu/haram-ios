@@ -357,6 +357,7 @@ extension BibleViewController: BibleSearchViewDelgate {
       book: book,
       chapter: chapter
     ))
+    vc.title = "\(book) \(chapter)장"
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }

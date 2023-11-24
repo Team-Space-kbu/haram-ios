@@ -112,8 +112,7 @@ final class RegisterViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(scrollView)
-    view.addSubview(indicatorView)
+    _ = [scrollView, indicatorView].map { view.addSubview($0) }
     scrollView.addSubview(stackView)
 
     [titleLabel, alertLabel, idTextField, nicknameTextField, pwdTextField, repwdTextField, emailTextField, checkEmailTextField, registerButton].forEach { stackView.addArrangedSubview($0) }
@@ -240,7 +239,8 @@ final class RegisterViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     tapGesture.rx.event
-      .subscribe(with: self) { owner, _ in
+      .asDriver()
+      .drive(with: self) { owner, _ in
         owner.view.endEditing(true)
       }
       .disposed(by: disposeBag)
