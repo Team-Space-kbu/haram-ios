@@ -13,6 +13,7 @@ protocol IntranetLoginViewModelType {
   
   var successIntranetLogin: Signal<Void> { get }
   var isLoading: Driver<Bool> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class IntranetLoginViewModel {
@@ -22,6 +23,7 @@ final class IntranetLoginViewModel {
   private let intranetInfoSubject  = PublishSubject<(String, String)>()
   private let intranetLoginMessage = PublishSubject<Void>()
   private let isLoadingSubject     = BehaviorSubject<Bool>(value: false)
+  private let errorMessageRelay    = PublishRelay<HaramError>()
   
   init() {
     tryRequestIntranetToken()
@@ -47,8 +49,9 @@ final class IntranetLoginViewModel {
         case .success(_):
           owner.intranetLoginMessage.onNext(())
           owner.isLoadingSubject.onNext(false)
-        case .failure(_):
+        case .failure(let error):
           owner.isLoadingSubject.onNext(false)
+          owner.errorMessageRelay.accept(error)
         }
       })
       .disposed(by: disposeBag)
@@ -67,5 +70,9 @@ extension IntranetLoginViewModel: IntranetLoginViewModelType {
   
   var successIntranetLogin: Signal<Void> {
     intranetLoginMessage.asSignal(onErrorSignalWith: .empty())
+  }
+  
+  var errorMessage: Signal<HaramError> {
+    errorMessageRelay.asSignal(onErrorSignalWith: .empty())
   }
 }

@@ -49,7 +49,7 @@ final class IntranetLoginViewController: BaseViewController {
     $0.font = .regular14
   }
   
-  private lazy var idTextField = UITextField().then {
+  private let idTextField = UITextField().then {
     $0.attributedPlaceholder = NSAttributedString(
       string: "아이디",
       attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.hex9F9FA4]
@@ -63,10 +63,9 @@ final class IntranetLoginViewController: BaseViewController {
     $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
     $0.leftViewMode = .always
     $0.autocapitalizationType = .none
-    $0.delegate = self
   }
   
-  private lazy var pwTextField = UITextField().then {
+  private let pwTextField = UITextField().then {
     $0.attributedPlaceholder = NSAttributedString(
       string: "비밀번호",
       attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.hex9F9FA4]
@@ -80,7 +79,6 @@ final class IntranetLoginViewController: BaseViewController {
     $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
     $0.leftViewMode = .always
     $0.isSecureTextEntry = true
-    $0.delegate = self
   }
   
   private let loginButton = UIButton().then {
@@ -106,6 +104,11 @@ final class IntranetLoginViewController: BaseViewController {
     )
     $0.setAttributedTitle(attributedString, for: .normal)
     $0.backgroundColor = .clear
+  }
+  
+  private lazy var errorMessageLabel = UILabel().then {
+    $0.textColor = .red
+    $0.font = .regular14
   }
   
   private let indicatorView = UIActivityIndicatorView(style: .large)
@@ -136,7 +139,13 @@ final class IntranetLoginViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    
+    /// Set NavigationBar
     navigationController?.setNavigationBarHidden(true, animated: true)
+    
+    /// Set Delegate
+    idTextField.delegate = self
+    pwTextField.delegate = self
   }
   
   override func setupLayouts() {
@@ -160,6 +169,10 @@ final class IntranetLoginViewController: BaseViewController {
     logoImageView.snp.makeConstraints {
       $0.width.equalTo(300)
       $0.height.equalTo(210)
+    }
+    
+    errorMessageLabel.snp.makeConstraints {
+      $0.height.equalTo(18)
     }
     
     [idTextField, pwTextField].forEach {
@@ -190,6 +203,13 @@ final class IntranetLoginViewController: BaseViewController {
               !intranetID.isEmpty && !intranetPWD.isEmpty else {
           return
         }
+        let isContain = owner.containerStackView.subviews.contains(owner.errorMessageLabel)
+        
+        if isContain {
+          owner.errorMessageLabel.text = nil
+          owner.errorMessageLabel.removeFromSuperview()
+        }
+        
         owner.view.endEditing(true)
         owner.viewModel.whichIntranetInfo.onNext((intranetID, intranetPWD))
       }
@@ -214,6 +234,20 @@ final class IntranetLoginViewController: BaseViewController {
     viewModel.isLoading
       .drive(indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        guard error == .wrongLoginInfo else { return }
+        
+        let isContain = owner.containerStackView.subviews.contains(owner.errorMessageLabel)
+        
+        if !isContain {
+          owner.containerStackView.insertArrangedSubview(owner.errorMessageLabel, at: 5)
+          owner.errorMessageLabel.text = error.description
+        }
+        
+      }
+      .disposed(by: disposeBag)
   }
 }
 
@@ -233,6 +267,12 @@ extension IntranetLoginViewController: UITextFieldDelegate {
             let intranetPWD = self.pwTextField.text,
             !intranetID.isEmpty && !intranetPWD.isEmpty else {
         return true
+      }
+      
+      let isContain = self.containerStackView.subviews.contains(self.errorMessageLabel)
+      
+      if isContain {
+        self.errorMessageLabel.removeFromSuperview()
       }
       
       viewModel.whichIntranetInfo.onNext((intranetID, intranetPWD))

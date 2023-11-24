@@ -23,7 +23,7 @@ final class LoginViewModel {
   private let tryLoginRequestSubject = BehaviorSubject<(String, String)?>(value: nil)
   private let tokenForLogin          = BehaviorSubject<String?>(value: UserManager.shared.accessToken)
   private let refreshTokenForLogin   = BehaviorSubject<String?>(value: UserManager.shared.refreshToken)
-  private let errorMessageRelay      = PublishRelay<String>()
+  private let errorMessageRelay      = PublishRelay<String?>()
   private let isLoadingSubject       = BehaviorSubject<Bool>(value: false)
   
   init() {
@@ -40,13 +40,13 @@ extension LoginViewModel {
       .do(onNext: { [weak self] id, password in
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)
-        let message: String
+        let message: String?
         if id.isEmpty {
           message = password.isEmpty ? Constants.allEmptyMessage : Constants.idEmptyMessage
         } else if password.isEmpty && !id.isEmpty {
           message = Constants.passwordEmptyMessage
         } else {
-          message = ""
+          message = nil
         }
         self.errorMessageRelay.accept(message)
         self.isLoadingSubject.onNext(false)
@@ -84,8 +84,6 @@ extension LoginViewModel {
               owner.errorMessageRelay.accept(description)
           }
           owner.isLoadingSubject.onNext(false)
-        }, onDisposed: { _ in
-          
         })
         .disposed(by: disposeBag)
   }
@@ -111,8 +109,8 @@ extension LoginViewModel: LoginViewModelType {
   
   var errorMessage: Signal<String> {
     errorMessageRelay
-      .distinctUntilChanged()
-      .asSignal(onErrorJustReturn: "")
+      .compactMap { $0 }
+      .asSignal(onErrorSignalWith: .empty())
   }
   
   var tryLoginRequest: AnyObserver<(String, String)?> {
