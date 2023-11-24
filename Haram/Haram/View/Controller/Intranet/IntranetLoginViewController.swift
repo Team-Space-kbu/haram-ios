@@ -185,8 +185,8 @@ final class IntranetLoginViewController: BaseViewController {
     
     loginButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        guard let intranetID = owner.idTextField.text,
-              let intranetPWD = owner.pwTextField.text,
+        guard let intranetID = owner.idTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+              let intranetPWD = owner.pwTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               !intranetID.isEmpty && !intranetPWD.isEmpty else {
           return
         }

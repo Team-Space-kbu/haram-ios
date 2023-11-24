@@ -42,16 +42,16 @@ final class IntranetLoginViewModel {
           )
         )
       }
-      .subscribe(with: self, onNext: { owner, _ in
-        owner.intranetLoginMessage.onNext(())
-        owner.isLoadingSubject.onNext(false)
-      }, onError: { owner, error in
-        owner.isLoadingSubject.onNext(false)
+      .subscribe(with: self, onNext: { owner, result in
+        switch result {
+        case .success(_):
+          owner.intranetLoginMessage.onNext(())
+          owner.isLoadingSubject.onNext(false)
+        case .failure(_):
+          owner.isLoadingSubject.onNext(false)
+        }
       })
       .disposed(by: disposeBag)
-    
-    
-    
   }
   
 }

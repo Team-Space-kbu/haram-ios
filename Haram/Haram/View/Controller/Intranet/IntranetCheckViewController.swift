@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
 
 final class IntranetCheckViewController: BaseViewController {
   private let backgroudImageView = BackgroundImageView()
@@ -105,6 +106,7 @@ final class IntranetCheckViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     loginButton.rx.tap
+      .throttle(.seconds(1), scheduler: MainScheduler.instance)
       .subscribe(with: self) { owner, _ in
         let vc = IntranetLoginViewController()
         vc.navigationItem.largeTitleDisplayMode = .never

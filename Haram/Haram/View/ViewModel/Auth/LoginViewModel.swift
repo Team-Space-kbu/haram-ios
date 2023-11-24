@@ -84,6 +84,8 @@ extension LoginViewModel {
               owner.errorMessageRelay.accept(description)
           }
           owner.isLoadingSubject.onNext(false)
+        }, onDisposed: { _ in
+          
         })
         .disposed(by: disposeBag)
   }

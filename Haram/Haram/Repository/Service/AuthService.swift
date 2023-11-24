@@ -30,8 +30,8 @@ extension AuthService {
     service.request(router: AuthRouter.reissuanceAccessToken(userID), type: LoginResponse.self)
   }
   
-  func loginIntranet(request: IntranetLoginRequest) -> Single<EmptyModel> {
-    service.betarequest(router: AuthRouter.loginIntranet(request), type: EmptyModel.self)
+  func loginIntranet(request: IntranetLoginRequest) -> Observable<Result<EmptyModel, HaramError>> {
+    service.request(router: AuthRouter.loginIntranet(request), type: EmptyModel.self)
   }
   
   func logoutUser(userID: String) -> Observable<Result<EmptyModel, HaramError>> {

@@ -72,8 +72,8 @@ final class MileageViewController: BaseViewController {
       .emit(with: self) { owner, error in
         guard error == .requiredStudentID else { return }
         let vc = IntranetCheckViewController()
-        vc.modalPresentationStyle = .fullScreen
-        owner.present(vc, animated: true)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
   }
