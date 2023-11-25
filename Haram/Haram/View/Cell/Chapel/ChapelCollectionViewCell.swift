@@ -16,7 +16,7 @@ struct ChapelCollectionViewCellModel {
   
   init(response: InquireChapelDetailResponse) {
     title = response.attendance
-    chapelDate = DateformatterFactory.dateForChapel.date(from: response.date) ?? Date()
+    chapelDate = DateformatterFactory.dateForChapel1.date(from: response.date) ?? Date()
   }
 }
 
