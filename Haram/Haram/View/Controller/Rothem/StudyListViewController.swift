@@ -166,7 +166,7 @@ extension StudyListViewController: SkeletonCollectionViewDataSource {
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: StudyListCollectionViewCell.identifier, for: indexPath) as? StudyListCollectionViewCell ?? StudyListCollectionViewCell()
-    cell.configureUI(with: .init(rothemRoom: .init(roomSeq: -1, thumbnailPath: "", roomName: "Lorem ipsum dolor sit amet", roomExplanation: "Lorem ipsum dolor sit amet, consetetur\nsadipscing elitr, sed diam nonumy", peopleCount: 0, createdBy: "", createdAt: "", modifiedBy: "", modifiedAt: "")))
+    cell.configureUI(with: .init(rothemRoom: .init(roomSeq: -1, location: "", thumbnailPath: "", roomName: "Lorem ipsum dolor sit amet", roomExplanation: "Lorem ipsum dolor sit amet, consetetur\nsadipscing elitr, sed diam nonumy", peopleCount: 0, createdBy: "", createdAt: "", modifiedBy: "", modifiedAt: "")))
     return cell
   }
   

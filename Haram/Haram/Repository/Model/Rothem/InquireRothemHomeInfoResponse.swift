@@ -21,6 +21,7 @@ struct InquireRothemHomeInfoResponse: Decodable {
 
 struct RoomResponse: Decodable {
   let roomSeq: Int
+  let location: String
   let thumbnailPath: String
   let roomName: String
   let roomExplanation: String

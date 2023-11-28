@@ -226,6 +226,9 @@
 		70903C962ADFA8FE00C6FEF0 /* RerequestAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70903C952ADFA8FE00C6FEF0 /* RerequestAlertView.swift */; };
 		70909A822B0D8B4E00049265 /* ReserveStudyRoomRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70909A812B0D8B4E00049265 /* ReserveStudyRoomRequest.swift */; };
 		70909A862B0D9F1F00049265 /* InquireRothemReservationInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70909A852B0D9F1F00049265 /* InquireRothemReservationInfoResponse.swift */; };
+		70912FFA2B15EF2C005B88B4 /* RothemReservationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70912FF92B15EF2C005B88B4 /* RothemReservationInfoView.swift */; };
+		70912FFD2B15F463005B88B4 /* QRCode in Frameworks */ = {isa = PBXBuildFile; productRef = 70912FFC2B15F463005B88B4 /* QRCode */; };
+		70912FFF2B15FF7D005B88B4 /* CancelRothemReservationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70912FFE2B15FF7D005B88B4 /* CancelRothemReservationRequest.swift */; };
 		7095D38A2AD67C8F008DAA39 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095D3892AD67C8F008DAA39 /* Constants.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
@@ -474,6 +477,8 @@
 		70903C952ADFA8FE00C6FEF0 /* RerequestAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RerequestAlertView.swift; sourceTree = "<group>"; };
 		70909A812B0D8B4E00049265 /* ReserveStudyRoomRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveStudyRoomRequest.swift; sourceTree = "<group>"; };
 		70909A852B0D9F1F00049265 /* InquireRothemReservationInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireRothemReservationInfoResponse.swift; sourceTree = "<group>"; };
+		70912FF92B15EF2C005B88B4 /* RothemReservationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemReservationInfoView.swift; sourceTree = "<group>"; };
+		70912FFE2B15FF7D005B88B4 /* CancelRothemReservationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelRothemReservationRequest.swift; sourceTree = "<group>"; };
 		7095D3892AD67C8F008DAA39 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
@@ -505,6 +510,7 @@
 				70375EF82AA5B6110032F6B8 /* SkeletonView in Frameworks */,
 				705FD2CF2A24DE5B00F353FE /* Kingfisher in Frameworks */,
 				706BA0C529E6A32700AF12D4 /* RxSwift in Frameworks */,
+				70912FFD2B15F463005B88B4 /* QRCode in Frameworks */,
 				706BA0C029E6A26D00AF12D4 /* Then in Frameworks */,
 				76E4C9C9A6C0312E9E700CA7 /* Pods_Haram.framework in Frameworks */,
 				708312A62A7028B400F7E283 /* SwiftSoup in Frameworks */,
@@ -609,6 +615,7 @@
 				708ED79E2A8F65A100107CDF /* CheckReservationInfoView.swift */,
 				708ED7B02A90CC0C00107CDF /* StudyRoomInfoView.swift */,
 				708ED7B42A90D61000107CDF /* StudyRoomDetailView.swift */,
+				70912FF92B15EF2C005B88B4 /* RothemReservationInfoView.swift */,
 			);
 			path = Rothem;
 			sourceTree = "<group>";
@@ -1087,6 +1094,7 @@
 				708E1E672B09E1A70030FAA0 /* CheckTimeAvailableForRothemReservationResponse.swift */,
 				70909A812B0D8B4E00049265 /* ReserveStudyRoomRequest.swift */,
 				70909A852B0D9F1F00049265 /* InquireRothemReservationInfoResponse.swift */,
+				70912FFE2B15FF7D005B88B4 /* CancelRothemReservationRequest.swift */,
 			);
 			path = Rothem;
 			sourceTree = "<group>";
@@ -1253,6 +1261,7 @@
 				708312A52A7028B400F7E283 /* SwiftSoup */,
 				70375EF72AA5B6110032F6B8 /* SkeletonView */,
 				708E1E5F2B038A6E0030FAA0 /* FloatingPanel */,
+				70912FFC2B15F463005B88B4 /* QRCode */,
 			);
 			productName = Haram;
 			productReference = 70727A5129D87B25003DE956 /* Haram.app */;
@@ -1340,6 +1349,7 @@
 				70375EF62AA5B6110032F6B8 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				70375F122AB1ADDC0032F6B8 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				708E1E5E2B038A6E0030FAA0 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
+				70912FFB2B15F463005B88B4 /* XCRemoteSwiftPackageReference "QRCode" */,
 			);
 			productRefGroup = 70727A5229D87B25003DE956 /* Products */;
 			projectDirPath = "";
@@ -1506,6 +1516,7 @@
 				7051E5002ADAB75100C2134B /* InquireBoardlistResponse.swift in Sources */,
 				705FD2C52A2338DE00F353FE /* NoticeCollectionViewCell.swift in Sources */,
 				70727A9929D88A22003DE956 /* RegisterViewController.swift in Sources */,
+				70912FFF2B15FF7D005B88B4 /* CancelRothemReservationRequest.swift in Sources */,
 				708ED7A72A8FA1C500107CDF /* StudyReservationViewController.swift in Sources */,
 				701F29D72AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift in Sources */,
 				708ED79F2A8F65A100107CDF /* CheckReservationInfoView.swift in Sources */,
@@ -1652,6 +1663,7 @@
 				708312662A398C0D00F7E283 /* LibraryRentalListView.swift in Sources */,
 				70375EFE2AAA022A0032F6B8 /* LibraryRentalView.swift in Sources */,
 				705FD28C2A10F74D00F353FE /* UserManager.swift in Sources */,
+				70912FFA2B15EF2C005B88B4 /* RothemReservationInfoView.swift in Sources */,
 				70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */,
 				7051E5022ADABC4400C2134B /* Ex + UILabel.swift in Sources */,
 				708ED7892A8E02B800107CDF /* StudyListCollectionHeaderView.swift in Sources */,
@@ -2124,6 +2136,14 @@
 				minimumVersion = 2.8.0;
 			};
 		};
+		70912FFB2B15F463005B88B4 /* XCRemoteSwiftPackageReference "QRCode" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmrschmidt/QRCode";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2176,6 +2196,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 708E1E5E2B038A6E0030FAA0 /* XCRemoteSwiftPackageReference "FloatingPanel" */;
 			productName = FloatingPanel;
+		};
+		70912FFC2B15F463005B88B4 /* QRCode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70912FFB2B15F463005B88B4 /* XCRemoteSwiftPackageReference "QRCode" */;
+			productName = QRCode;
 		};
 /* End XCSwiftPackageProductDependency section */
 

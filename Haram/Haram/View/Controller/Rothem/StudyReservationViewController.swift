@@ -186,6 +186,12 @@ final class StudyReservationViewController: BaseViewController {
         owner.reservationButton.setupButtonType(type: isActivated ? .apply : .cancel )
       }
       .disposed(by: disposeBag)
+    
+    viewModel.successRothemReservation
+      .emit(with: self) { owner, _ in
+        owner.navigationController?.popViewController(animated: true)
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {

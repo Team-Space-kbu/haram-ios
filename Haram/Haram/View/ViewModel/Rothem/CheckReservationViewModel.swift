@@ -9,15 +9,24 @@ import RxSwift
 import RxCocoa
 
 protocol CheckReservationViewModelType {
+  var requestCancelReservation: AnyObserver<Void> { get }
   
+  var rothemReservationInfoViewModel: Driver<RothemReservationInfoViewModel> { get }
+  var successCancelReservation: Signal<Void> { get }
 }
 
 final class CheckReservationViewModel {
   
   private let disposeBag = DisposeBag()
   
+  private var reservationSeq: Int?
+  private let rothemReservationInfoViewRelay  = PublishRelay<RothemReservationInfoViewModel>()
+  private let cancelReservationSubject        = PublishSubject<Void>()
+  private let successCancelReservationSubject = PublishSubject<Void>()
+  
   init() {
     inquireRothemReservationInfo()
+    cancelReservation()
   }
   
   private func inquireRothemReservationInfo() {
@@ -25,12 +34,41 @@ final class CheckReservationViewModel {
     
     inquireRothemReservationInfo
       .subscribe(with: self) { owner, response in
-        print("들어오나 \(response)")
+        let model = RothemReservationInfoViewModel(response: response)
+        owner.rothemReservationInfoViewRelay.accept(model)
+        owner.reservationSeq = response.reservationSeq
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  private func cancelReservation() {
+    
+    cancelReservationSubject
+      .withUnretained(self)
+      .flatMapLatest { owner, _ in
+        RothemService.shared.cancelRothemReservation(
+          request: .init(
+            reservationSeq: owner.reservationSeq!,
+            userID: UserManager.shared.userID!
+          )
+        ) }
+      .subscribe(with: self) { owner, _ in
+        owner.successCancelReservationSubject.onNext(())
       }
       .disposed(by: disposeBag)
   }
 }
 
 extension CheckReservationViewModel: CheckReservationViewModelType {
+  var successCancelReservation: RxCocoa.Signal<Void> {
+    successCancelReservationSubject.asSignal(onErrorSignalWith: .empty())
+  }
   
+  var rothemReservationInfoViewModel: Driver<RothemReservationInfoViewModel> {
+    rothemReservationInfoViewRelay.asDriver(onErrorDriveWith: .empty())
+  }
+  
+  var requestCancelReservation: AnyObserver<Void> {
+    cancelReservationSubject.asObserver()
+  }
 }

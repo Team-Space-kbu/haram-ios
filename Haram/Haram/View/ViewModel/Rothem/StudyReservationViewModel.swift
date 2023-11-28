@@ -21,6 +21,7 @@ protocol StudyReservationViewModelType {
   var selectedTimeCollectionViewCellModel: Driver<[SelectedTimeCollectionViewCellModel]> { get }
   var selectedPolicyModel: Driver<[TermsOfUseCheckViewModel]> { get }
   var isReservationButtonActivated: Driver<Bool> { get }
+  var successRothemReservation: Signal<Void> { get }
 }
 
 final class StudyReservationViewModel {
@@ -38,6 +39,7 @@ final class StudyReservationViewModel {
   private let reservationPhoneNumerSubject = PublishSubject<String>()
   private let reservationButtonTappedSubject = PublishSubject<Void>()
   private let isReservationButtonActivatedSubject = PublishSubject<Bool>()
+  private let successRothemReservationSubject = PublishSubject<Void>()
   
   private let studyRoomInfoViewModelRelay = PublishRelay<StudyRoomInfoViewModel>()
   private let selectedDayCollectionViewCellModelRelay = BehaviorRelay<[SelectedDayCollectionViewCellModel]>(value: [])
@@ -153,6 +155,7 @@ final class StudyReservationViewModel {
       }
       .subscribe(with: self) { owner, _ in
         print("예약에 성공했습니다.")
+        owner.successRothemReservationSubject.onNext(())
       }
       .disposed(by: disposeBag)
   }
@@ -216,5 +219,9 @@ extension StudyReservationViewModel: StudyReservationViewModelType {
     isReservationButtonActivatedSubject
       .distinctUntilChanged()
       .asDriver(onErrorJustReturn: false)
+  }
+  
+  var successRothemReservation: Signal<Void> {
+    successRothemReservationSubject.asSignal(onErrorSignalWith: .empty())
   }
 }

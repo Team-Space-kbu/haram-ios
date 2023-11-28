@@ -44,4 +44,8 @@ extension RothemService {
   func reserveStudyRoom(roomSeq: Int, request: ReserveStudyRoomRequest) -> Single<EmptyModel> {
     service.betarequest(router: RothemRouter.reserveStudyRoom(roomSeq, request), type: EmptyModel.self)
   }
+  
+  func cancelRothemReservation(request: CancelRothemReservationRequest) -> Single<EmptyModel> {
+    service.betarequest(router: RothemRouter.cancelRothemReservation(request), type: EmptyModel.self)
+  }
 }
