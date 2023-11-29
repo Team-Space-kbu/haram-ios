@@ -41,8 +41,10 @@ final class PDFViewController: BaseViewController {
     )
     
     /// Set PDFView
-    guard let pdfURL = pdfURL else { return }
-    pdfView.document = PDFDocument(url: pdfURL)
+    DispatchQueue.main.async {
+      guard let pdfURL = self.pdfURL else { return }
+      self.pdfView.document = PDFDocument(url: pdfURL)
+    }
   }
   
   override func setupLayouts() {
