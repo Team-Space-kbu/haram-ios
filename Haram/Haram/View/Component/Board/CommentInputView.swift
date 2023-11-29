@@ -104,7 +104,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
       .withLatestFrom(commentTextView.rx.text.orEmpty)
       .observe(on: MainScheduler.instance)
       .subscribe(with: self) { owner, comment in
-        owner.commentTextView.textColor = .hexD0D0D0
+        owner.commentTextView.textColor = .hex9F9FA4
         owner.commentTextView.text = owner.placeHolder
         owner.delegate?.writeComment(comment)
       }
@@ -114,7 +114,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
       .asDriver()
       .drive(with: self) { owner, _ in
         if owner.commentTextView.text == owner.placeHolder &&
-           owner.commentTextView.textColor == .hexD0D0D0 {
+           owner.commentTextView.textColor == .hex9F9FA4 {
           owner.commentTextView.text = ""
           owner.commentTextView.textColor = .black
         }
@@ -127,7 +127,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
         if owner.commentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
            owner.commentTextView.textColor == .black {
           owner.commentTextView.text = owner.placeHolder
-          owner.commentTextView.textColor = .hexD0D0D0
+          owner.commentTextView.textColor = .hex9F9FA4
         }
         
         owner.updateTextViewHeightAutomatically()

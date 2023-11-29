@@ -98,7 +98,7 @@ final class StudyReservationViewController: BaseViewController {
     $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: .zero))
     $0.attributedPlaceholder = NSAttributedString(
       string: "이름",
-      attributes: [.foregroundColor: UIColor.black]
+      attributes: [.foregroundColor: UIColor.hex9F9FA4]
     )
   }
   
@@ -112,7 +112,7 @@ final class StudyReservationViewController: BaseViewController {
     $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: .zero))
     $0.attributedPlaceholder = NSAttributedString(
       string: "전화번호",
-      attributes: [.foregroundColor: UIColor.black]
+      attributes: [.foregroundColor: UIColor.hex9F9FA4]
     )
   }
   
@@ -120,14 +120,16 @@ final class StudyReservationViewController: BaseViewController {
     $0.setTitleText(title: "예약하기")
   }
   
-//  private let reservationButton = UIButton().then {
-//    $0.setTitleColor(.white, for: .normal)
-//    $0.backgroundColor = .hex79BD9A
-//    $0.layer.masksToBounds = true
-//    $0.layer.cornerRadius = 10
-//    $0.titleLabel?.font = .bold22
-//    $0.setTitle("예약하기", for: .normal)
-//  }
+  private let tapGesture = UITapGestureRecognizer(target: StudyReservationViewController.self, action: nil).then {
+    $0.numberOfTapsRequired = 1
+    $0.cancelsTouchesInView = false
+    $0.isEnabled = true
+  }
+  
+  private let panGesture = UIPanGestureRecognizer(target: StudyReservationViewController.self, action: nil).then {
+    $0.cancelsTouchesInView = false
+    $0.isEnabled = true
+  }
   
   init(viewModel: StudyReservationViewModelType) {
     self.viewModel = viewModel
@@ -136,6 +138,10 @@ final class StudyReservationViewController: BaseViewController {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  deinit {
+    removeNotifications()
   }
   
   override func bind() {
@@ -192,6 +198,20 @@ final class StudyReservationViewController: BaseViewController {
         owner.navigationController?.popToRootViewController(animated: true)
       }
       .disposed(by: disposeBag)
+    
+    tapGesture.rx.event
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.view.endEditing(true)
+      }
+      .disposed(by: disposeBag)
+    
+    panGesture.rx.event
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.view.endEditing(true)
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -203,6 +223,12 @@ final class StudyReservationViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
+    
+    view.addGestureRecognizer(tapGesture)
+    view.addGestureRecognizer(panGesture)
+    panGesture.delegate = self
+    
+    registerNotifications()
   }
   
   @objc private func didTappedBackButton() {
@@ -347,5 +373,20 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
         isSelected ? viewModel.deSelectTimeSeq.onNext(timeSeq) : viewModel.selectTimeSeq.onNext(timeSeq)
       }
     }
+  }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension StudyReservationViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
+    return true
+  }
+}
+
+extension StudyReservationViewController: KeyboardResponder {
+  public var targetView: UIView {
+    view
   }
 }
