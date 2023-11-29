@@ -84,7 +84,7 @@ final class CheckReservationViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.successCancelReservation
-      .emit(with: self) { _ in
+      .drive(with: self) { _ in
         print("취소성공")
       }
       .disposed(by: disposeBag)

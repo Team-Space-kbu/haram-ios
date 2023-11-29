@@ -44,6 +44,7 @@ final class LibraryRelatedBookCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     isSkeletonable = true
     contentView.isSkeletonable = true
+    contentView.addShadow(shadowRadius: 6, shadowOpacity: 1, shadowOffset: CGSize(width: 0, height: 3))
     
     layer.masksToBounds = true
     layer.cornerRadius = 10

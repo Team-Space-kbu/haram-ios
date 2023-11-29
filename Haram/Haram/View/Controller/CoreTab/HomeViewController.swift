@@ -103,9 +103,6 @@ final class HomeViewController: BaseViewController {
       $0.font = .bold26
     }
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
-    
-    print("날짜 \(DateFormatter().date(from: "20231113115900"))")
-    
   }
   
   override func setupLayouts() {

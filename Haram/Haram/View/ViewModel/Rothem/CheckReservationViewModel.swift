@@ -12,7 +12,7 @@ protocol CheckReservationViewModelType {
   var requestCancelReservation: AnyObserver<Void> { get }
   
   var rothemReservationInfoViewModel: Driver<RothemReservationInfoViewModel> { get }
-  var successCancelReservation: Signal<Void> { get }
+  var successCancelReservation: Driver<Void> { get }
 }
 
 final class CheckReservationViewModel {
@@ -60,8 +60,8 @@ final class CheckReservationViewModel {
 }
 
 extension CheckReservationViewModel: CheckReservationViewModelType {
-  var successCancelReservation: RxCocoa.Signal<Void> {
-    successCancelReservationSubject.asSignal(onErrorSignalWith: .empty())
+  var successCancelReservation: RxCocoa.Driver<Void> {
+    successCancelReservationSubject.asDriver(onErrorDriveWith: .empty())
   }
   
   var rothemReservationInfoViewModel: Driver<RothemReservationInfoViewModel> {

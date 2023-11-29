@@ -70,6 +70,8 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
   
   private func configureUI() {
     isSkeletonable = true
+    
+    contentView.addShadow(shadowRadius: 6, shadowOpacity: 1, shadowOffset: CGSize(width: 0, height: 3))
     contentView.isSkeletonable = true
     
     [bookImageView, mainLabel, subLabel, bottomLineView].forEach {

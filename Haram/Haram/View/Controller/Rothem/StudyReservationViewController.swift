@@ -189,7 +189,7 @@ final class StudyReservationViewController: BaseViewController {
     
     viewModel.successRothemReservation
       .emit(with: self) { owner, _ in
-        owner.navigationController?.popViewController(animated: true)
+        owner.navigationController?.popToRootViewController(animated: true)
       }
       .disposed(by: disposeBag)
   }

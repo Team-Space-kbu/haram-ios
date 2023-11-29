@@ -29,8 +29,6 @@ final class LibraryResultsViewController: BaseViewController {
     $0.isSkeletonable = true
   }
   
-  //  private let indicatorView = UIActivityIndicatorView(style: .large)
-  
   private lazy var emptyView = LibraryResultsEmptyView()
   
   init(viewModel: LibraryResultsViewModelType = LibraryResultsViewModel(), searchQuery: String) {
