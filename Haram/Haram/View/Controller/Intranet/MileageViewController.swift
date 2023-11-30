@@ -64,7 +64,6 @@ final class MileageViewController: BaseViewController {
       .filter { !$0 }
       .drive(with: self) { owner, isLoading in
         owner.view.hideSkeleton()
-        print("로딩중 \(isLoading)")
       }
       .disposed(by: disposeBag)
     

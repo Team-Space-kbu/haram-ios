@@ -68,6 +68,8 @@ final class LibraryViewController: BaseViewController {
       attributes: [.font: UIFont.regular18, .foregroundColor: UIColor.hex9F9FA4]
     )
     $0.searchBarStyle = .minimal
+    $0.isSkeletonable = true
+    $0.skeletonCornerRadius = 10
   }
   
   private let bannerImageView = UIImageView(image: UIImage(named: "banner")).then {
@@ -144,6 +146,8 @@ final class LibraryViewController: BaseViewController {
       .withLatestFrom(searchBar.rx.text.orEmpty)
       .filter { $0.trimmingCharacters(in: .whitespacesAndNewlines).count != 0 }
       .subscribe(with: self) { owner, searchQuery in
+        owner.view.endEditing(true)
+        
         let vc = LibraryResultsViewController(searchQuery: searchQuery)
         vc.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)

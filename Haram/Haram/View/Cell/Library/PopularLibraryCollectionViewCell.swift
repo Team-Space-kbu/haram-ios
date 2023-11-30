@@ -29,6 +29,7 @@ final class PopularLibraryCollectionViewCell: UICollectionViewCell {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
+    $0.skeletonCornerRadius = 10
   }
   
   override init(frame: CGRect) {
@@ -47,6 +48,7 @@ final class PopularLibraryCollectionViewCell: UICollectionViewCell {
   
   private func configureUI() {
     isSkeletonable = true
+    skeletonCornerRadius = 10
     
     contentView.addShadow(shadowRadius: 6, shadowOpacity: 1, shadowOffset: CGSize(width: 0, height: 3))
     contentView.addSubview(thumbnailImageView)

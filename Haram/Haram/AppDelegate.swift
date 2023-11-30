@@ -9,6 +9,7 @@ import UIKit
 import CoreData
 
 import NMapsMap
+import SkeletonView
 
 
 @main
@@ -106,6 +107,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // Set NaverMaps ClientID
     NMFAuthManager.shared().clientId = NaverMapKeyConstants.clientID
+    
+    SkeletonAppearance.default.textLineHeight = .relativeToFont
     
     return true
   }

@@ -49,6 +49,7 @@ final class NewLibraryCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     isSkeletonable = true
     
+    skeletonCornerRadius = 10
     contentView.addShadow(shadowRadius: 6, shadowOpacity: 1, shadowOffset: CGSize(width: 0, height: 3))
     contentView.addSubview(thumbnailImageView)
     thumbnailImageView.snp.makeConstraints {

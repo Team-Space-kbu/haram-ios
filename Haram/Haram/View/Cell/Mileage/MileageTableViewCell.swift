@@ -81,6 +81,7 @@ final class MileageTableViewCell: UITableViewCell {
     mileageImageView.snp.makeConstraints {
       $0.size.equalTo(44)
       $0.top.leading.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(20)
     }
     
     mainLabel.snp.makeConstraints {
