@@ -90,6 +90,11 @@ final class RegisterViewController: BaseViewController {
     $0.isEnabled = true
   }
   
+  private let panGesture = UIPanGestureRecognizer(target: RegisterViewController.self, action: nil).then {
+    $0.cancelsTouchesInView = false
+    $0.isEnabled = true
+  }
+  
   // MARK: - Initializations
   
   init(viewModel: RegisterViewModelType = RegisterViewModel()) {
@@ -101,6 +106,10 @@ final class RegisterViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotifications()
+  }
+  
   // MARK: - Configurations
   
   override func setupStyles() {
@@ -108,6 +117,12 @@ final class RegisterViewController: BaseViewController {
     navigationController?.navigationBar.isHidden = true
     view.addGestureRecognizer(tapGesture)
     [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField, checkEmailTextField].forEach { $0.textField.delegate = self }
+    
+    view.addGestureRecognizer(tapGesture)
+    view.addGestureRecognizer(panGesture)
+    panGesture.delegate = self
+    
+    registerNotifications()
   }
   
   override func setupLayouts() {
@@ -245,6 +260,13 @@ final class RegisterViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    panGesture.rx.event
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.view.endEditing(true)
+      }
+      .disposed(by: disposeBag)
+    
     viewModel.isLoading
       .drive(indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
@@ -335,5 +357,20 @@ extension RegisterViewController: UITextFieldDelegate {
       checkEmailTextField.textField.resignFirstResponder()
     }
     return true
+  }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension RegisterViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
+    return true
+  }
+}
+
+extension RegisterViewController: KeyboardResponder {
+  public var targetView: UIView {
+    view
   }
 }

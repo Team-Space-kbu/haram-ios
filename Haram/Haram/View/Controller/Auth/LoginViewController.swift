@@ -140,7 +140,10 @@ final class LoginViewController: BaseViewController {
         
         let vc = HaramTabbarController()
         vc.modalPresentationStyle = .fullScreen
-        owner.present(vc, animated: true)
+        owner.present(vc, animated: true) {
+          owner.emailTextField.text = nil
+          owner.passwordTextField.text = nil
+        }
       }
       .disposed(by: disposeBag)
     
