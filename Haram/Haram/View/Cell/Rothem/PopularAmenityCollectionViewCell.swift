@@ -9,6 +9,7 @@ import UIKit
 
 import Kingfisher
 import SnapKit
+import SkeletonView
 import Then
 
 struct PopularAmenityCollectionViewCellModel {
@@ -19,6 +20,7 @@ struct PopularAmenityCollectionViewCellModel {
     amenityImageURL = URL(string: response.filePath)
     amenityContent = response.title
   }
+
 }
 
 final class PopularAmenityCollectionViewCell: UICollectionViewCell {
@@ -48,6 +50,9 @@ final class PopularAmenityCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    
+    contentView.isSkeletonable = true
     contentView.backgroundColor = .clear
     [amenityImageView, amenityLabel].forEach { contentView.addSubview($0) }
     
@@ -57,7 +62,7 @@ final class PopularAmenityCollectionViewCell: UICollectionViewCell {
     }
     
     amenityImageView.snp.makeConstraints {
-      $0.bottom.lessThanOrEqualTo(amenityLabel.snp.top)
+      $0.bottom.equalTo(amenityLabel.snp.top)
       $0.centerX.top.equalToSuperview()
       $0.size.equalTo(40)
     }

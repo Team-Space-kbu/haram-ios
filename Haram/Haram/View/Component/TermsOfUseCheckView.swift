@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 enum TermsOfUseCheckViewType {
@@ -72,6 +73,8 @@ final class TermsOfUseCheckView: UIView {
   // MARK: - Configurations
   
   private func configureUI() {
+    isSkeletonable = true
+    
     [checkButton, alertLabel].forEach { addSubview($0) }
     checkButton.snp.makeConstraints {
       $0.size.equalTo(18)

@@ -13,6 +13,8 @@ import RxCocoa
 protocol StudyRoomDetailViewModelType {
   var rothemRoomDetailViewModel: Driver<RothemRoomDetailViewModel> { get }
   var rothemRoomThumbnailImage: Driver<URL?> { get }
+  
+  var isLoading: Driver<Bool> { get }
 }
 
 final class StudyRoomDetailViewModel {
@@ -21,6 +23,7 @@ final class StudyRoomDetailViewModel {
   private let disposeBag = DisposeBag()
   private let currentRothemRoomDetailViewModelRelay = PublishRelay<RothemRoomDetailViewModel>()
   private let currentRothemRoomThubnailImageRelay   = PublishRelay<URL?>()
+  private let isLoadingSubject                      = PublishSubject<Bool>()
   
   init(roomSeq: Int) {
     self.roomSeq = roomSeq
@@ -29,6 +32,10 @@ final class StudyRoomDetailViewModel {
   
   private func inquireRothemRoomInfo() {
     let inquireRothemRoomInfo = RothemService.shared.inquireRothemRoomInfo(roomSeq: roomSeq)
+      .do(onSuccess: { [weak self] _ in
+        guard let self = self else { return }
+        self.isLoadingSubject.onNext(true)
+      })
     
     inquireRothemRoomInfo
       .subscribe(with: self) { owner, response in
@@ -36,6 +43,7 @@ final class StudyRoomDetailViewModel {
         let rothemRoomDetailViewModel = RothemRoomDetailViewModel(response: response)
         owner.currentRothemRoomDetailViewModelRelay.accept(rothemRoomDetailViewModel)
         owner.currentRothemRoomThubnailImageRelay.accept(rothemRoomThubnailImageURL)
+        owner.isLoadingSubject.onNext(false)
       }
       .disposed(by: disposeBag)
   }
@@ -50,5 +58,9 @@ extension StudyRoomDetailViewModel: StudyRoomDetailViewModelType {
     currentRothemRoomThubnailImageRelay.asDriver(onErrorDriveWith: .empty())
   }
   
-  
+  var isLoading: Driver<Bool> {
+    isLoadingSubject
+      .distinctUntilChanged()
+      .asDriver(onErrorJustReturn: false)
+  }
 }

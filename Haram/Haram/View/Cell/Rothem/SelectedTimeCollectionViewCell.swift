@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 struct SelectedTimeCollectionViewCellModel: Hashable {
@@ -65,15 +66,12 @@ final class SelectedTimeCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-//  override func prepareForReuse() {
-//    super.prepareForReuse()
-//    timeLabel.text = nil
-//    contentView.isUserInteractionEnabled = true
-//    contentView.backgroundColor = nil
-//    self.isTimeSelected = false
-//  }
-  
   private func configureUI() {
+    
+    isSkeletonable = true
+    skeletonCornerRadius = 10
+    contentView.isSkeletonable = true
+    
     contentView.layer.masksToBounds = true
     contentView.layer.cornerRadius = 10
     contentView.layer.borderWidth = 1
@@ -87,12 +85,10 @@ final class SelectedTimeCollectionViewCell: UICollectionViewCell {
   
   private func updateIfNeeded() {
     if !isReserved {
-//      contentView.isUserInteractionEnabled = true
       contentView.backgroundColor = isTimeSelected ? .hex79BD9A : .white
       contentView.layer.borderColor = isTimeSelected ? UIColor.hex79BD9A.cgColor : UIColor.hex707070.cgColor
       timeLabel.textColor = isTimeSelected ? .hexF2F3F5 : .black
     } else {
-//      contentView.isUserInteractionEnabled = false
       contentView.backgroundColor = .lightGray
     }
   }

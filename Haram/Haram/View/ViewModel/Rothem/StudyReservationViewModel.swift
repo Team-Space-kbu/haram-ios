@@ -22,6 +22,7 @@ protocol StudyReservationViewModelType {
   var selectedPolicyModel: Driver<[TermsOfUseCheckViewModel]> { get }
   var isReservationButtonActivated: Driver<Bool> { get }
   var successRothemReservation: Signal<Void> { get }
+  var isLoading: Driver<Bool> { get }
 }
 
 final class StudyReservationViewModel {
@@ -32,18 +33,19 @@ final class StudyReservationViewModel {
   private var model: [CalendarResponse] = []
   private let timeTable = BehaviorRelay<[SelectedTimeCollectionViewCellModel]>(value: [])
   
-  private let calendarSeqSubject = PublishSubject<Int>()
-  private let selectTimeSeqSubject = PublishSubject<Int>()
-  private let deSelectTimeSeqSubject = PublishSubject<Int>()
-  private let reservationNameSubject = PublishSubject<String>()
-  private let reservationPhoneNumerSubject = PublishSubject<String>()
-  private let reservationButtonTappedSubject = PublishSubject<Void>()
-  private let isReservationButtonActivatedSubject = PublishSubject<Bool>()
-  private let successRothemReservationSubject = PublishSubject<Void>()
+  private let calendarSeqSubject                      = PublishSubject<Int>()
+  private let selectTimeSeqSubject                    = PublishSubject<Int>()
+  private let deSelectTimeSeqSubject                  = PublishSubject<Int>()
+  private let reservationNameSubject                  = PublishSubject<String>()
+  private let reservationPhoneNumerSubject            = PublishSubject<String>()
+  private let reservationButtonTappedSubject          = PublishSubject<Void>()
+  private let isReservationButtonActivatedSubject     = PublishSubject<Bool>()
+  private let successRothemReservationSubject         = PublishSubject<Void>()
+  private let isLoadingSubject                        = PublishSubject<Bool>()
   
-  private let studyRoomInfoViewModelRelay = PublishRelay<StudyRoomInfoViewModel>()
+  private let studyRoomInfoViewModelRelay             = PublishRelay<StudyRoomInfoViewModel>()
   private let selectedDayCollectionViewCellModelRelay = BehaviorRelay<[SelectedDayCollectionViewCellModel]>(value: [])
-  private let policyModelRelay = BehaviorRelay<[TermsOfUseCheckViewModel]>(value: [])
+  private let policyModelRelay                        = BehaviorRelay<[TermsOfUseCheckViewModel]>(value: [])
   
   init(roomSeq: Int) {
     self.roomSeq = roomSeq
@@ -57,6 +59,10 @@ final class StudyReservationViewModel {
   /// 예약하기위한 정보를 조회하는 함수, 맨 처음에만 호출
   private func inquireReservationInfo() {
     let inquireReservationInfo = RothemService.shared.checkTimeAvailableForRothemReservation(roomSeq: roomSeq)
+      .do(onSuccess: { [weak self] _ in
+        guard let self = self else { return }
+        self.isLoadingSubject.onNext(true)
+      })
     
     inquireReservationInfo
       .asObservable()
@@ -67,8 +73,10 @@ final class StudyReservationViewModel {
         owner.model = response.calendarResponses
         owner.policyModelRelay.accept(response.policyResponses.map { TermsOfUseCheckViewModel(response: $0) })
         
-        guard let model = response.calendarResponses.filter({ $0.isAvailable }).first else { return }
-        owner.calendarSeqSubject.onNext(model.calendarSeq)
+        if let model = response.calendarResponses.filter({ $0.isAvailable }).first {
+          owner.calendarSeqSubject.onNext(model.calendarSeq)
+        }
+        owner.isLoadingSubject.onNext(false)
       }
       .disposed(by: disposeBag)
   }
@@ -154,7 +162,6 @@ final class StudyReservationViewModel {
         RothemService.shared.reserveStudyRoom(roomSeq: owner.roomSeq, request: request)
       }
       .subscribe(with: self) { owner, _ in
-        print("예약에 성공했습니다.")
         owner.successRothemReservationSubject.onNext(())
       }
       .disposed(by: disposeBag)
@@ -223,5 +230,11 @@ extension StudyReservationViewModel: StudyReservationViewModelType {
   
   var successRothemReservation: Signal<Void> {
     successRothemReservationSubject.asSignal(onErrorSignalWith: .empty())
+  }
+  
+  var isLoading: Driver<Bool> {
+    isLoadingSubject
+      .distinctUntilChanged()
+      .asDriver(onErrorJustReturn: false)
   }
 }

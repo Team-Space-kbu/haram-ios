@@ -9,6 +9,7 @@ import UIKit
 
 import RxSwift
 import SnapKit
+import SkeletonView
 import Then
 
 struct RothemRoomDetailViewModel {
@@ -44,6 +45,7 @@ final class RothemRoomDetailView: UIView {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
     $0.showsVerticalScrollIndicator = false
+    $0.isSkeletonable = true
   }
   
   private let containerView = UIStackView().then {
@@ -52,39 +54,46 @@ final class RothemRoomDetailView: UIView {
     $0.spacing = 17
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = UIEdgeInsets(top: 16, left: 15, bottom: 42, right: 15)
+    $0.isSkeletonable = true
   }
   
   private let roomTitleLabel = UILabel().then {
     $0.font = .bold25
     $0.textColor = .black
+    $0.isSkeletonable = true
   }
   
   private let roomDestinationLabel = UILabel().then {
     $0.font = .regular12
     $0.textColor = .hex9F9FA4
     $0.sizeToFit()
+    $0.isSkeletonable = true
   }
   
   private let lineView = UIView().then {
     $0.backgroundColor = .hexD8D8DA
+    $0.isSkeletonable = true
   }
   
   private let roomDescriptionTitleLabel = UILabel().then {
     $0.font = .bold18
     $0.textColor = .black
     $0.text = "Description"
+    $0.isSkeletonable = true
   }
   
   private let roomDescriptionContentLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .hex9F9FA4
     $0.numberOfLines = 0
+    $0.isSkeletonable = true
   }
   
   private let popularAmenityTitleLabel = UILabel().then {
     $0.font = .bold18
     $0.textColor = .black
     $0.text = "Popular amenities"
+    $0.isSkeletonable = true
   }
   
   private lazy var popularAmenityCollectionView = UICollectionView(
@@ -96,6 +105,7 @@ final class RothemRoomDetailView: UIView {
     $0.register(PopularAmenityCollectionViewCell.self, forCellWithReuseIdentifier: PopularAmenityCollectionViewCell.identifier)
     $0.delegate = self
     $0.dataSource = self
+    $0.isSkeletonable = true
   }
   
   private let reservationButton = UIButton().then {
@@ -105,6 +115,7 @@ final class RothemRoomDetailView: UIView {
     $0.titleLabel?.font = .bold22
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -118,6 +129,9 @@ final class RothemRoomDetailView: UIView {
   }
   
   private func configureUI() {
+    
+    isSkeletonable = true
+    
     addSubview(scrollView)
     
     [containerView].forEach { scrollView.addSubview($0) }
@@ -176,6 +190,11 @@ final class RothemRoomDetailView: UIView {
   }
   
   func configureUI(with model: RothemRoomDetailViewModel) {
+    
+    roomTitleLabel.hideSkeleton()
+    roomDestinationLabel.hideSkeleton()
+    roomDescriptionContentLabel.hideSkeleton()
+    
     amenityModel = model.amenityModel
     roomTitleLabel.text = model.roomTitle
     
@@ -190,6 +209,8 @@ final class RothemRoomDetailView: UIView {
     roomDescriptionContentLabel.text = model.roomDescription
   }
 }
+
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 
 extension RothemRoomDetailView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -213,5 +234,20 @@ extension RothemRoomDetailView: UICollectionViewDelegate, UICollectionViewDataSo
       $0.sizeToFit()
     }
     return CGSize(width: label.frame.width, height: 56)
+  }
+}
+
+extension RothemRoomDetailView: SkeletonCollectionViewDataSource {
+  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+    PopularAmenityCollectionViewCell.identifier
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: PopularAmenityCollectionViewCell.identifier, for: indexPath) as? PopularAmenityCollectionViewCell ?? PopularAmenityCollectionViewCell()
+    return cell
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    amenityModel.count
   }
 }

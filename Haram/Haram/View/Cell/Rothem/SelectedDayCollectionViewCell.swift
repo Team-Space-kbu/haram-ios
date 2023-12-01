@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 struct SelectedDayCollectionViewCellModel {
@@ -56,6 +57,11 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    
+    isSkeletonable = true
+    skeletonCornerRadius = 10
+    contentView.isSkeletonable = true
+    
     contentView.layer.masksToBounds = true
     contentView.layer.cornerRadius = 10
     contentView.layer.borderWidth = 1
@@ -86,7 +92,6 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
     if !model.isAvailable {
       contentView.backgroundColor = .lightGray
     }
-//    self.isDaySelected = model.isSelected
   }
   
 }

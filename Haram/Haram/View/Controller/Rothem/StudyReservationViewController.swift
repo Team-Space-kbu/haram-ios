@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 final class StudyReservationViewController: BaseViewController {
@@ -30,6 +31,7 @@ final class StudyReservationViewController: BaseViewController {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
     $0.showsVerticalScrollIndicator = false
+    $0.isSkeletonable = true
   }
   
   private let containerView = UIStackView().then {
@@ -37,6 +39,7 @@ final class StudyReservationViewController: BaseViewController {
     $0.spacing = 16
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = UIEdgeInsets(top: .zero, left: 15, bottom: 4, right: 15)
+    $0.isSkeletonable = true
   }
   
   private let studyRoomInfoView = StudyRoomInfoView()
@@ -45,9 +48,10 @@ final class StudyReservationViewController: BaseViewController {
     $0.text = "날짜선택"
     $0.font = .bold18
     $0.textColor = .black
+    $0.isSkeletonable = true
   }
   
-  private lazy var selectedDayCollectionView = UICollectionView(
+  private let selectedDayCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
       $0.scrollDirection = .vertical
@@ -55,18 +59,18 @@ final class StudyReservationViewController: BaseViewController {
     }).then {
       $0.backgroundColor = .white
       $0.isScrollEnabled = false
-      $0.delegate = self
-      $0.dataSource = self
       $0.register(SelectedDayCollectionViewCell.self, forCellWithReuseIdentifier: SelectedDayCollectionViewCell.identifier)
+      $0.isSkeletonable = true
     }
   
   private let selectedTimeLabel = UILabel().then {
     $0.text = "시간선택"
     $0.font = .bold18
     $0.textColor = .black
+    $0.isSkeletonable = true
   }
   
-  private lazy var selectedTimeCollectionView = UICollectionView(
+  private let selectedTimeCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: LeftAlignedCollectionViewFlowLayout().then {
       $0.sectionInset = UIEdgeInsets(top: .zero, left: .zero, bottom: 19, right: .zero)
@@ -75,17 +79,19 @@ final class StudyReservationViewController: BaseViewController {
     }).then {
       $0.isScrollEnabled = false
       $0.backgroundColor = .white
-      $0.delegate = self
-      $0.dataSource = self
       $0.register(SelectedTimeCollectionViewCell.self, forCellWithReuseIdentifier: SelectedTimeCollectionViewCell.identifier)
       $0.register(SelectedTimeCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SelectedTimeCollectionHeaderView.identifier)
       $0.allowsMultipleSelection = true
+      $0.isSkeletonable = true
+      $0.isScrollEnabled = false
+      $0.showsVerticalScrollIndicator = false
     }
   
   private let reservationInfoLabel = UILabel().then {
     $0.text = "예약자정보"
     $0.font = .bold18
     $0.textColor = .black
+    $0.isSkeletonable = true
   }
   
   private let nameTextField = UITextField().then {
@@ -100,6 +106,7 @@ final class StudyReservationViewController: BaseViewController {
       string: "이름",
       attributes: [.foregroundColor: UIColor.hex9F9FA4]
     )
+    $0.isSkeletonable = true
   }
   
   private let phoneNumberTextField = UITextField().then {
@@ -114,10 +121,13 @@ final class StudyReservationViewController: BaseViewController {
       string: "전화번호",
       attributes: [.foregroundColor: UIColor.hex9F9FA4]
     )
+    $0.isSkeletonable = true
+    $0.keyboardType = .phonePad
   }
   
   private let reservationButton = HaramButton(type: .cancel).then {
     $0.setTitleText(title: "예약하기")
+    $0.isSkeletonable = true
   }
   
   private let tapGesture = UITapGestureRecognizer(target: StudyReservationViewController.self, action: nil).then {
@@ -195,7 +205,8 @@ final class StudyReservationViewController: BaseViewController {
     
     viewModel.successRothemReservation
       .emit(with: self) { owner, _ in
-        owner.navigationController?.popToRootViewController(animated: true)
+        let vc = owner.navigationController?.viewControllers[1]
+        owner.navigationController?.popToViewController(vc!, animated: true)
       }
       .disposed(by: disposeBag)
     
@@ -212,10 +223,19 @@ final class StudyReservationViewController: BaseViewController {
         owner.view.endEditing(true)
       }
       .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .filter { !$0 }
+      .drive(with: self) { owner, _ in
+        owner.view.hideSkeleton()
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
     super.setupStyles()
+    
+    /// Configure NavigationBar
     title = "예약하기"
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: Constants.backButton),
@@ -224,11 +244,28 @@ final class StudyReservationViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     
-    view.addGestureRecognizer(tapGesture)
-    view.addGestureRecognizer(panGesture)
+    /// Set Delegate & DataSource
+    selectedDayCollectionView.delegate = self
+    selectedDayCollectionView.dataSource = self
+    selectedTimeCollectionView.delegate = self
+    selectedTimeCollectionView.dataSource = self
+    
+    /// Set Gesture
+    _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
     panGesture.delegate = self
     
     registerNotifications()
+    
+    /// Configure Skeleton
+    view.isSkeletonable = true
+    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
+
+    let graient = SkeletonGradient(baseColor: .skeletonDefault)
+    view.showAnimatedGradientSkeleton(
+      usingGradient: graient,
+      animation: skeletonAnimation,
+      transition: .none
+    )
   }
   
   @objc private func didTappedBackButton() {
@@ -255,12 +292,10 @@ final class StudyReservationViewController: BaseViewController {
     
     studyRoomInfoView.snp.makeConstraints {
       $0.height.equalTo(98)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
     
     selectedDayLabel.snp.makeConstraints {
       $0.height.equalTo(22 + 16)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
     
     selectedDayCollectionView.snp.makeConstraints {
@@ -272,22 +307,20 @@ final class StudyReservationViewController: BaseViewController {
     }
     
     selectedTimeCollectionView.snp.makeConstraints {
-      $0.height.equalTo(131 + 33 + 6)
+//      $0.height.equalTo(131 + 33 + 6 + 33 + 6)
+      $0.height.equalTo(131 + 6 + 33 + 6 + 33 + 6 + 33 + 10)
     }
     
     nameTextField.snp.makeConstraints {
       $0.height.equalTo(40)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
     
     phoneNumberTextField.snp.makeConstraints {
       $0.height.equalTo(40)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
     
     reservationButton.snp.makeConstraints {
       $0.height.equalTo(49)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
     
     containerView.setCustomSpacing(26, after: selectedDayCollectionView)
@@ -373,6 +406,44 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
         isSelected ? viewModel.deSelectTimeSeq.onNext(timeSeq) : viewModel.selectTimeSeq.onNext(timeSeq)
       }
     }
+  }
+}
+
+// MARK: - SkeletonViewDataSource
+extension StudyReservationViewController: SkeletonCollectionViewDataSource {
+  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+    if skeletonView == selectedDayCollectionView {
+      return SelectedDayCollectionViewCell.identifier
+    }
+    return SelectedTimeCollectionViewCell.identifier
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+    if skeletonView == selectedDayCollectionView {
+      return skeletonView.dequeueReusableCell(withReuseIdentifier: SelectedDayCollectionViewCell.identifier, for: indexPath) as? SelectedDayCollectionViewCell
+    }
+    return skeletonView.dequeueReusableCell(withReuseIdentifier: SelectedTimeCollectionViewCell.identifier, for: indexPath) as? SelectedTimeCollectionViewCell
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    if skeletonView == selectedDayCollectionView {
+      return 5
+    }
+    return section == 0 ? 6 : 4
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
+    if skeletonView == selectedTimeCollectionView {
+      return SelectedTimeCollectionHeaderView.identifier
+    }
+    return nil
+  }
+  
+  func numSections(in collectionSkeletonView: UICollectionView) -> Int {
+    if collectionSkeletonView == selectedTimeCollectionView {
+      return 2
+    }
+    return 1
   }
 }
 

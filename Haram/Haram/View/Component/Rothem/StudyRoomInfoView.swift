@@ -9,6 +9,7 @@ import UIKit
 
 import Kingfisher
 import SnapKit
+import SkeletonView
 import Then
 
 struct StudyRoomInfoViewModel {
@@ -29,18 +30,24 @@ final class StudyRoomInfoView: UIView {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
+    $0.isSkeletonable = true
   }
   
   private let roomNameLabel = UILabel().then {
     $0.font = .bold18
     $0.textColor = .hex1A1E27
+    $0.sizeToFit()
+    $0.isSkeletonable = true
   }
   
   private let roomDescriptionLabel = UILabel().then {
+    $0.sizeToFit()
     $0.numberOfLines = 0
     $0.font = .regular14
     $0.textColor = .hex1A1E27
     $0.numberOfLines = 4
+    $0.isSkeletonable = true
+    $0.skeletonTextNumberOfLines = 3
   }
   
   override init(frame: CGRect) {
@@ -53,6 +60,8 @@ final class StudyRoomInfoView: UIView {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    
     [roomImageView, roomNameLabel, roomDescriptionLabel].forEach { addSubview($0) }
     roomImageView.snp.makeConstraints {
       $0.leading.directionalVerticalEdges.equalToSuperview()
@@ -73,6 +82,7 @@ final class StudyRoomInfoView: UIView {
   }
   
   func configureUI(with model: StudyRoomInfoViewModel) {
+    hideSkeleton()
     roomImageView.kf.setImage(with: model.roomImageURL)
     roomNameLabel.text = model.roomName
     roomDescriptionLabel.text = model.roomDescription

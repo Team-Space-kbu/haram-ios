@@ -309,7 +309,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       print("배너클릭")
     case .shortcut:
       let type = ShortcutType.allCases[indexPath.row]
-      
       let vc = type.viewController
       vc.navigationItem.largeTitleDisplayMode = .never
       vc.hidesBottomBarWhenPushed = true

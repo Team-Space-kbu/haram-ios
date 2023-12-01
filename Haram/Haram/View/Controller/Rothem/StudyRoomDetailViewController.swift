@@ -9,6 +9,7 @@ import UIKit
 
 import Kingfisher
 import SnapKit
+import SkeletonView
 import Then
 
 final class StudyRoomDetailViewController: BaseViewController {
@@ -18,6 +19,7 @@ final class StudyRoomDetailViewController: BaseViewController {
   
   private let studyRoomImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
+    $0.isSkeletonable = true
   }
   
   private lazy var studyRoomDetailView = RothemRoomDetailView().then {
@@ -28,6 +30,7 @@ final class StudyRoomDetailViewController: BaseViewController {
     )
     $0.delegate = self
     $0.backgroundColor = .white
+    $0.isSkeletonable = true
   }
   
   init(roomSeq: Int) {
@@ -48,6 +51,17 @@ final class StudyRoomDetailViewController: BaseViewController {
       style: .plain,
       target: self,
       action: #selector(didTappedBackButton)
+    )
+    
+    /// Configure Skeleton
+    view.isSkeletonable = true
+    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
+
+    let graient = SkeletonGradient(baseColor: .skeletonDefault)
+    view.showAnimatedGradientSkeleton(
+      usingGradient: graient,
+      animation: skeletonAnimation,
+      transition: .none
     )
     
   }
@@ -88,6 +102,14 @@ final class StudyRoomDetailViewController: BaseViewController {
     viewModel.rothemRoomThumbnailImage
       .drive(with: self) { owner, thumbnailImageURL in
         owner.studyRoomImageView.kf.setImage(with: thumbnailImageURL)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .filter { !$0 }
+      .drive(with: self) { owner, isLoading in
+        print("로딩중 \(isLoading)")
+        owner.view.hideSkeleton()
       }
       .disposed(by: disposeBag)
   }
