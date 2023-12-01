@@ -86,16 +86,23 @@ final class StudyListCollectionHeaderView: UICollectionReusableView {
   
   func configureUI(with model: StudyListHeaderViewModel?, type: StudyListCollectionHeaderViewType = .noReservation) {
     guard let model = model else { return }
-    
+    let isContain = containerView.subviews.contains(checkReservationInfoView)
     if type == .reservation {
-      containerView.insertArrangedSubview(checkReservationInfoView, at: 1)
-      checkReservationInfoView.snp.makeConstraints {
-        $0.height.equalTo(41)
-        $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      if !isContain {
+        containerView.insertArrangedSubview(checkReservationInfoView, at: 1)
+        checkReservationInfoView.snp.makeConstraints {
+          $0.height.equalTo(41)
+          $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+        }
+        containerView.setCustomSpacing(27, after: checkReservationInfoView)
       }
-      containerView.setCustomSpacing(27, after: checkReservationInfoView)
+      studyListHeaderView.configureUI(with: model)
+    } else {
+      if isContain {
+        checkReservationInfoView.removeFromSuperview()
+      }
+      studyListHeaderView.configureUI(with: model)
     }
-    studyListHeaderView.configureUI(with: model)
   }
 }
 

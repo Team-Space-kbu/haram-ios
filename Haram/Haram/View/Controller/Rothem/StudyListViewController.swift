@@ -16,7 +16,11 @@ final class StudyListViewController: BaseViewController {
   // MARK: - Properties
   
   private let viewModel: StudyListViewModelType
-  private var type: StudyListCollectionHeaderViewType = .noReservation 
+  private var type: StudyListCollectionHeaderViewType = .noReservation {
+    didSet {
+      studyListCollectionView.reloadData()
+    }
+  }
   
   // MARK: - UI Models
   
@@ -57,6 +61,11 @@ final class StudyListViewController: BaseViewController {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.requestStudyList.onNext(())
   }
   
   // MARK: - Configurations

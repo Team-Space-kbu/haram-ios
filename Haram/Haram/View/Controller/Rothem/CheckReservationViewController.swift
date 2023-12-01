@@ -84,8 +84,8 @@ final class CheckReservationViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.successCancelReservation
-      .drive(with: self) { _ in
-        print("취소성공")
+      .drive(with: self) { owner, _ in
+        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
   }
