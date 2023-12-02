@@ -9,6 +9,7 @@ import UIKit
 
 import Kingfisher
 import SnapKit
+import SkeletonView
 import Then
 
 struct AffiliatedCollectionViewCellModel: Equatable {
@@ -39,21 +40,27 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
+    $0.isSkeletonable = true
   }
   
   private let affiliatedTitleLabel = UILabel().then {
     $0.font = .bold20
     $0.textColor = .hex1A1E27
+    $0.isSkeletonable = true
+    $0.skeletonTextNumberOfLines = 1
   }
   
   private let affiliatedSubTitleLabel = UILabel().then {
     $0.numberOfLines = 0
     $0.font = .regular15
     $0.textColor = .hex1A1E27
+    $0.isSkeletonable = true
+    $0.skeletonTextNumberOfLines = 2
   }
   
   private let lineView = UIView().then {
     $0.backgroundColor = .hexD8D8DA
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -73,6 +80,8 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    contentView.isSkeletonable = true
     contentView.backgroundColor = .white
     
     [affiliatedImageView, affiliatedTitleLabel, affiliatedSubTitleLabel, lineView].forEach { contentView.addSubview($0) }
@@ -85,7 +94,7 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell {
     affiliatedTitleLabel.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.leading.equalTo(affiliatedImageView.snp.trailing).offset(23)
-      $0.trailing.lessThanOrEqualToSuperview()
+      $0.trailing.equalToSuperview()
     }
     
     affiliatedSubTitleLabel.snp.makeConstraints {

@@ -13,18 +13,20 @@ import SnapKit
 import Then
 
 final class AffiliatedViewController: BaseViewController {
-  
-  // MARK: - Property
-  
-  private let viewModel: AffiliatedViewModelType
-  
+ 
   // MARK: - UI Models
-  
-  private var affiliatedModel: [AffiliatedCollectionViewCellModel] = []
+ 
+  private var affiliatedModel: [AffiliatedCollectionViewCellModel] = [] {
+    didSet {
+      addMarkers(where: self.mapView.mapView, with: affiliatedModel)
+    }
+  }
   
   // MARK: - UI Components
   
-  private var affiliatedFloatingPanelViewController: AffiliatedFloatingPanelViewController?
+  private lazy var affiliatedFloatingPanelViewController = AffiliatedFloatingPanelViewController().then {
+    $0.delegate = self
+  }
   
   private lazy var floatingPanelVC = FloatingPanelController().then {
     let appearance = SurfaceAppearance()
@@ -66,31 +68,10 @@ final class AffiliatedViewController: BaseViewController {
     $0.isEnabled = true
   }
   
-  // MARK: - Initializations
-  
-  init(viewModel: AffiliatedViewModelType = AffiliatedViewModel()) {
-    self.viewModel = viewModel
-    super.init(nibName: nil, bundle: nil)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
   // MARK: - Configurations
   
   override func bind() {
     super.bind()
-    
-    viewModel.affiliatedModel
-      .drive(with: self) { owner, model in
-        owner.affiliatedModel = model
-        owner.affiliatedFloatingPanelViewController = AffiliatedFloatingPanelViewController(affiliateModel: model)
-        owner.affiliatedFloatingPanelViewController!.delegate = owner
-        owner.showFloatingPanel(owner.floatingPanelVC)
-        owner.addMarkers(where: owner.mapView.mapView, with: model)
-      }
-      .disposed(by: disposeBag)
     
     tapGesture.rx.event
       .asDriver()
@@ -114,6 +95,9 @@ final class AffiliatedViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    
+    self.showFloatingPanel(self.floatingPanelVC)
+    
     title = "제휴업체"
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       image: UIImage(named: Constants.backButton),
@@ -144,6 +128,10 @@ final class AffiliatedViewController: BaseViewController {
 // MARK: - AffiliatedFloatingPanelDelegate
 
 extension AffiliatedViewController: AffiliatedFloatingPanelDelegate {
+  func getAffiliatedMarkerModel(_ model: [AffiliatedCollectionViewCellModel]) {
+    self.affiliatedModel = model
+  }
+  
   func didTappedAffiliatedCollectionViewCell(_ model: AffiliatedCollectionViewCellModel) {
     moveCameraUpdate(mapView: mapView.mapView, where: MapCoordinate(affiliatedCollectionViewCellModel: model))
     floatingPanelVC.move(to: .half, animated: true)
@@ -155,14 +143,14 @@ extension AffiliatedViewController: AffiliatedFloatingPanelDelegate {
 extension AffiliatedViewController: FloatingPanelControllerDelegate {
   
   func showFloatingPanel(_ floatingPanelVC: FloatingPanelController) {
-    guard let affiliatedFloatingPanelViewController = affiliatedFloatingPanelViewController else { return }
+//    guard let affiliatedFloatingPanelViewController = affiliatedFloatingPanelViewController else { return }
     DispatchQueue.main.async {
       let layout = AffiliatedFloatingPanelLayout()
       floatingPanelVC.layout = layout
       floatingPanelVC.delegate = self
       floatingPanelVC.addPanel(toParent: self)
-      floatingPanelVC.set(contentViewController: affiliatedFloatingPanelViewController)
-//      floatingPanelVC.track(scrollView: affiliatedFloatingPanelViewController.affiliatedCollectionView)
+      floatingPanelVC.set(contentViewController: self.affiliatedFloatingPanelViewController)
+      floatingPanelVC.track(scrollView: self.affiliatedFloatingPanelViewController.affiliatedCollectionView)
       floatingPanelVC.show()
     }
   }
@@ -183,7 +171,7 @@ extension AffiliatedViewController: FloatingPanelControllerDelegate {
     
     DispatchQueue.global(qos: .default).async {
       var markers = [NMFMarker]()
-      guard let affiliatedFloatingPanelViewController = self.affiliatedFloatingPanelViewController else { return }
+
       for affiliatedCollectionViewCellModel in affiliatedCollectionViewCellModels {
         let mapCoordinate = MapCoordinate(affiliatedCollectionViewCellModel: affiliatedCollectionViewCellModel)
         let marker = NMFMarker()
@@ -241,8 +229,7 @@ class AffiliatedFloatingPanelLayout: FloatingPanelLayout {
     return [
       .full: FloatingPanelLayoutAnchor(fractionalInset: 0.8, edge: .bottom, referenceGuide: .safeArea),
       .half: FloatingPanelLayoutAnchor(absoluteInset: 254, edge: .bottom, referenceGuide: .safeArea),
-      .tip: FloatingPanelLayoutAnchor(fractionalInset: 0.3, edge: .bottom, referenceGuide: .safeArea), // tabbar에 가려져서 이에 맞춘 크기가 20이 적당하다생각
-//      .hidden: FloatingPanelLayoutAnchor(absoluteInset: 20, edge: .bottom, referenceGuide: .safeArea)
+      .tip: FloatingPanelLayoutAnchor(fractionalInset: 0.1, edge: .bottom, referenceGuide: .safeArea),
     ]
   }
 }

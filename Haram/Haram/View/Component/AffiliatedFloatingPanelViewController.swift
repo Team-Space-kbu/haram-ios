@@ -8,21 +8,33 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 protocol AffiliatedFloatingPanelDelegate: AnyObject {
   func didTappedAffiliatedCollectionViewCell(_ model: AffiliatedCollectionViewCellModel)
+  func getAffiliatedMarkerModel(_ model: [AffiliatedCollectionViewCellModel])
 }
 
 final class AffiliatedFloatingPanelViewController: BaseViewController {
   
+  // MARK: - Property
+  
+  private let viewModel: AffiliatedViewModelType
+  
+  // MARK: - UI Models
+  
+  private var affiliatedModel: [AffiliatedCollectionViewCellModel] = [] {
+    didSet {
+      affiliatedCollectionView.reloadData()
+    }
+  }
+  
   weak var delegate: AffiliatedFloatingPanelDelegate?
-  var touchHandler: ((Int) -> Void)?
+  private(set) var touchHandler: ((Int) -> Void)?
   
-  private let affiliatedModel: [AffiliatedCollectionViewCellModel]
-  
-  init(affiliateModel: [AffiliatedCollectionViewCellModel]) {
-    self.affiliatedModel = affiliateModel
+  init(viewModel: AffiliatedViewModelType = AffiliatedViewModel()) {
+    self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -30,7 +42,7 @@ final class AffiliatedFloatingPanelViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  private let affiliatedCollectionView = UICollectionView(
+  let affiliatedCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
       $0.scrollDirection = .vertical
@@ -43,6 +55,7 @@ final class AffiliatedFloatingPanelViewController: BaseViewController {
     $0.showsVerticalScrollIndicator = false
     $0.contentInset = UIEdgeInsets(top: 25, left: 15, bottom: 15, right: 15)
     $0.isScrollEnabled = true
+    $0.isSkeletonable = true
   }
   
   override func setupStyles() {
@@ -51,6 +64,18 @@ final class AffiliatedFloatingPanelViewController: BaseViewController {
     /// Set CollectionView delegate & dataSource
     affiliatedCollectionView.delegate = self
     affiliatedCollectionView.dataSource = self
+    
+    /// Configure Skeleton UI
+    view.isSkeletonable = true
+    
+    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
+    let graient = SkeletonGradient(baseColor: .skeletonDefault)
+    
+    view.showAnimatedGradientSkeleton(
+      usingGradient: graient,
+      animation: skeletonAnimation,
+      transition: .none
+    )
     
     touchHandler = { [weak self] row in
       guard let self = self else { return }
@@ -69,6 +94,23 @@ final class AffiliatedFloatingPanelViewController: BaseViewController {
       $0.top.equalToSuperview().inset(25)
       $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
+  }
+  
+  override func bind() {
+    super.bind()
+    viewModel.affiliatedModel
+      .drive(with: self) { owner, model in
+        owner.affiliatedModel = model
+        owner.delegate?.getAffiliatedMarkerModel(model)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .filter { !$0 }
+      .drive(with: self) { owner, isLoading in
+        owner.view.hideSkeleton()
+      }
+      .disposed(by: disposeBag)
   }
 }
 
@@ -102,12 +144,26 @@ extension AffiliatedFloatingPanelViewController: UICollectionViewDelegate, UICol
   
   /// 특정 인덱스로 스크롤하는 함수
   private func scrollToItem(at indexPath: IndexPath) {
-    self.affiliatedCollectionView.isPagingEnabled = false
     self.affiliatedCollectionView.scrollToItem(
       at: indexPath,
       at: .top,
       animated: true
     )
-    self.affiliatedCollectionView.isPagingEnabled = true
   }
+}
+
+extension AffiliatedFloatingPanelViewController: SkeletonCollectionViewDataSource {
+  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+    AffiliatedCollectionViewCell.identifier
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+    return skeletonView.dequeueReusableCell(withReuseIdentifier: AffiliatedCollectionViewCell.identifier, for: indexPath) as? AffiliatedCollectionViewCell
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    10
+  }
+  
+  
 }

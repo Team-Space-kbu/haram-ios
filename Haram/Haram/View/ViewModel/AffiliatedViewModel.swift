@@ -10,6 +10,7 @@ import RxCocoa
 
 protocol AffiliatedViewModelType {
   var affiliatedModel: Driver<[AffiliatedCollectionViewCellModel]> { get }
+  var isLoading: Driver<Bool> { get }
 }
 
 final class AffiliatedViewModel {
@@ -17,6 +18,7 @@ final class AffiliatedViewModel {
   private let disposeBag = DisposeBag()
   
   private let affiliatedModelRelay = BehaviorRelay<[AffiliatedCollectionViewCellModel]>(value: [])
+  private let isLoadingSubject     = PublishSubject<Bool>()
   
   init() {
     tryInquireAffiliated()
@@ -24,11 +26,16 @@ final class AffiliatedViewModel {
   
   private func tryInquireAffiliated() {
     let inquireAffiliatedList = HomeService.shared.inquireAffiliatedList()
+      .do(onSuccess: { [weak self] _ in
+        guard let self = self else { return }
+        self.isLoadingSubject.onNext(true)
+      })
     
     inquireAffiliatedList
       .map { $0.map { AffiliatedCollectionViewCellModel(response: $0) } }
       .subscribe(with: self) { owner, model in
         owner.affiliatedModelRelay.accept(model)
+        owner.isLoadingSubject.onNext(false)
       }
       .disposed(by: disposeBag)
     
@@ -42,5 +49,9 @@ final class AffiliatedViewModel {
 extension AffiliatedViewModel: AffiliatedViewModelType {
   var affiliatedModel: Driver<[AffiliatedCollectionViewCellModel]> {
     affiliatedModelRelay.filter { !$0.isEmpty }.asDriver(onErrorJustReturn: [])
+  }
+  
+  var isLoading: Driver<Bool> {
+    isLoadingSubject.asDriver(onErrorJustReturn: false)
   }
 }
