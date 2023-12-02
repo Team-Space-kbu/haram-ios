@@ -1,16 +1,20 @@
 PODS:
+  - Elliotable (1.2.5)
   - NMapsMap (3.16.0)
 
 DEPENDENCIES:
+  - Elliotable
   - NMapsMap
 
 SPEC REPOS:
   trunk:
+    - Elliotable
     - NMapsMap
 
 SPEC CHECKSUMS:
+  Elliotable: e669fa7a974658c4e0ee4be4b335f6a561f1b2cb
   NMapsMap: a2593320fca2bb09e521c05b4dffee4da42e96ed
 
-PODFILE CHECKSUM: 72fd92f2a292fb32725f27cb12e917e460a2c962
+PODFILE CHECKSUM: 7fc52af4ed65f719eddf066529ddac9e835d00b5
 
 COCOAPODS: 1.11.3
