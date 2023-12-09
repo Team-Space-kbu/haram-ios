@@ -31,7 +31,7 @@ enum DateformatterFactory {
   }
   
   static var dateWithHypen: DateFormatter {
-    formatter.then { $0.dateFormat = "yyyy-MM-dd" }
+    formatter.then { $0.dateFormat = "yyyy-MM-dd HH:mm:ss" }
   }
   
   static var dateForChapel: DateFormatter {

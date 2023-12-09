@@ -60,6 +60,7 @@ final class BibleViewModel {
       })
     
     inquireBibleMainNotice
+      .compactMap { $0.first }
       .subscribe(with: self) { owner, response in
         owner.bibleMainNoticeRelay.accept([BibleNoticeCollectionViewCellModel(response: response)])
         owner.isLoadingSubject.onNext(false)

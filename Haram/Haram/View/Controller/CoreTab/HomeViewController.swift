@@ -136,6 +136,8 @@ final class HomeViewController: BaseViewController {
       $0.bottom.lessThanOrEqualToSuperview()
       //      $0.height.equalTo(142 + 20 + 30.94 + 28 + 54 + 28.97 + 54 + 21 + 12 + 28 + 206)
     }
+    
+    
   }
   
   override func bind() {
@@ -245,7 +247,7 @@ final class HomeViewController: BaseViewController {
       
       let section = NSCollectionLayoutSection(group: group)
       section.boundarySupplementaryItems = [header]
-      section.orthogonalScrollingBehavior = .groupPaging
+      section.orthogonalScrollingBehavior = .continuous
       section.interGroupSpacing = 22
       return section
     }

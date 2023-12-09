@@ -17,7 +17,7 @@ struct BibleNoticeCollectionViewCellModel {
   let noticeContent: String
   
   init(response: InquireBibleMainNoticeResponse) {
-    noticeImageURL = URL(string: response.path)
+    noticeImageURL = URL(string: response.thumbnailPath)
     noticeContent = response.content
   }
 }

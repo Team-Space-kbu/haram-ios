@@ -55,6 +55,7 @@ final class CommentAuthorInfoView: UIView {
   }
   
   func configureUI(with model: CommentAuthorInfoViewModel) {
+    print("날짜 \(model.commentDate)")
     commentNameLabel.text = model.commentAuthorName
     commentDateLabel.text = DateformatterFactory.dateWithHypen.string(from: model.commentDate)
   }

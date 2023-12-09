@@ -29,7 +29,7 @@ extension BibleRouter: Router {
     case .inquireChapterToBible:
       return "/v1/bible/chapter"
     case .inquireBibleMainNotice:
-      return "/v1/bible/notices/main"
+      return "/v1/bibles/notices"
     }
   }
   
