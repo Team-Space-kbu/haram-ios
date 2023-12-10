@@ -24,6 +24,9 @@ final class LibraryDetailViewController: BaseViewController {
   
   private var relatedBookModel: [LibraryRelatedBookCollectionViewCellModel] = [] {
     didSet {
+      if relatedBookModel.isEmpty {
+        relatedBookLabel.removeFromSuperview()
+      }
       collectionView.reloadData()
     }
   }
@@ -176,6 +179,11 @@ final class LibraryDetailViewController: BaseViewController {
       owner.libraryDetailSubView.configureUI(with: subModel)
       owner.libraryDetailInfoView.configureUI(with: infoModel)
       owner.libraryRentalListView.configureUI(with: rentalModel)
+      
+      if bookModel.isEmpty {
+        owner.libraryRentalListView.removeLastIineView()
+      }
+      
       owner.relatedBookModel = bookModel
     }
     .disposed(by: disposeBag)
