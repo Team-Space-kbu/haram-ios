@@ -190,6 +190,11 @@ extension StudyListViewController: SkeletonCollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StudyListCollectionViewCell.identifier, for: indexPath) as? StudyListCollectionViewCell ?? StudyListCollectionViewCell()
     cell.configureUI(with: studyListModel[indexPath.row])
+    
+    /// 마지막 셀일 경우
+    if indexPath.row == studyListModel.count - 1 {
+      cell.removeLastLineView()
+    }
     return cell
   }
   

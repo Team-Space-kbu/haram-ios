@@ -77,7 +77,6 @@ final class StudyReservationViewController: BaseViewController {
       $0.minimumInteritemSpacing = 15
       $0.minimumLineSpacing = 6
     }).then {
-      $0.isScrollEnabled = false
       $0.backgroundColor = .white
       $0.register(SelectedTimeCollectionViewCell.self, forCellWithReuseIdentifier: SelectedTimeCollectionViewCell.identifier)
       $0.register(SelectedTimeCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SelectedTimeCollectionHeaderView.identifier)
@@ -186,6 +185,13 @@ final class StudyReservationViewController: BaseViewController {
           checkView.configureUI(with: model)
           owner.containerView.insertArrangedSubview(checkView, at: 1)
         }
+      }
+      .disposed(by: disposeBag)
+    
+    nameTextField.rx.text.orEmpty
+      .filter { $0 != "이름" }
+      .subscribe(with: self) { owner, userName in
+        owner.viewModel.whichReservationName.onNext(userName)
       }
       .disposed(by: disposeBag)
     
@@ -308,7 +314,8 @@ final class StudyReservationViewController: BaseViewController {
     
     selectedTimeCollectionView.snp.makeConstraints {
 //      $0.height.equalTo(131 + 33 + 6 + 33 + 6)
-      $0.height.equalTo(131 + 6 + 33 + 6 + 33 + 6 + 33 + 10)
+      // 33 * 5 + 3 * 6 + 23 * 2 + 19
+      $0.height.equalTo(33 * 5 + 3 * 6 + 23 * 2 + 19 * 2)
     }
     
     nameTextField.snp.makeConstraints {
@@ -379,7 +386,7 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
     if collectionView == selectedTimeCollectionView {
-      return CGSize(width: collectionView.frame.width - 30, height: 17 + 6)
+      return CGSize(width: collectionView.frame.width - 30, height: 23)
     }
     return .zero
   }

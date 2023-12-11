@@ -43,7 +43,9 @@ final class MileageViewModel {
         )
         
         owner.currentAvilabilityPointRelay.accept(
-          MileageTableHeaderViewModel(totalMileage: Int(String(response.mileagePayInfo.availabilityPoint.replacingOccurrences(of: ",", with: ""))) ?? 0)
+          MileageTableHeaderViewModel(
+            totalMileage: Int(String(response.mileagePayInfo.availabilityPoint.replacingOccurrences(of: ",", with: ""))) ?? 0
+          )
         )
         
         owner.isLoadingSubject.onNext(false)

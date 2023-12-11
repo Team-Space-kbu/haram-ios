@@ -8,7 +8,7 @@
 import Foundation
 
 struct ReserveStudyRoomRequest: Encodable {
-  let userId: String
+  let userName: String
   let phoneNum: String
   let calendarSeq: Int
   let reservationPolicyRequests: [ReservationPolicyRequest]
