@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 struct BoardListCollectionViewCellModel: Hashable {
@@ -62,6 +63,8 @@ final class BoardListCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    skeletonCornerRadius = 10
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
     contentView.backgroundColor = .hexF8F8F8
