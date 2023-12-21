@@ -122,7 +122,7 @@ final class LibraryViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    
+
     viewModel.newBookModel
       .drive(rx.newBookModel)
       .disposed(by: disposeBag)
@@ -172,7 +172,7 @@ final class LibraryViewController: BaseViewController {
       .filter { !$0 }
       .drive(with: self) { owner, isLoading in
         owner.libraryCollectionView.reloadData()
-        owner.view.hideSkeleton()
+//        owner.view.hideSkeleton()
       }
       .disposed(by: disposeBag)
   }

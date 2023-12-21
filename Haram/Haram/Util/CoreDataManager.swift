@@ -12,10 +12,10 @@ final class CoreDataManager {
   static let shared = CoreDataManager()
   private init() {}
   
-  let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
-  lazy var context = appDelegate?.persistentContainer.viewContext
+  private let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
+  private lazy var context = appDelegate?.persistentContainer.viewContext
   
-  let modelName: String = "RevisionOfTranslation"
+  private let modelName: String = "RevisionOfTranslation"
   
   func getRevisionOfTranslation(ascending: Bool = false) -> [RevisionOfTranslationModel] {
     var models: [RevisionOfTranslationModel] = [RevisionOfTranslationModel]()

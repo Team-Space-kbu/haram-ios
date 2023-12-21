@@ -34,9 +34,10 @@ final class BibleSearchResultViewController: BaseViewController {
   private let bibleTitleView = BibleTitleView()
   
   private let contentLabel = UILabel().then {
-    $0.font = .regular14
+    $0.font = .bold18
     $0.textColor = .black
     $0.numberOfLines = 0
+    $0.textAlignment = .justified
   }
   
   // MARK: - Initializations

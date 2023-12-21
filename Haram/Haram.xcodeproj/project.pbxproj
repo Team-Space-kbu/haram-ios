@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		09872F43B35D02CBC743B071 /* Pods_Haram_HaramUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560454918CB66291AC01BE50 /* Pods_Haram_HaramUITests.framework */; };
 		5E15FD44DC3072E540FA1C8F /* Pods_HaramTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAC35EABE917C0BCEC6F2EE /* Pods_HaramTests.framework */; };
+		70107F852B2EFC9A00BFEF1F /* HaramLibraryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70107F842B2EFC9A00BFEF1F /* HaramLibraryViewModelTests.swift */; };
 		701F29C42AE6750100E3E68B /* InquireBoardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29C32AE6750100E3E68B /* InquireBoardResponse.swift */; };
 		701F29C62AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29C52AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift */; };
 		701F29D72AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29D62AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift */; };
@@ -93,7 +94,7 @@
 		70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A5629D87B25003DE956 /* SceneDelegate.swift */; };
 		70727A5E29D87B27003DE956 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70727A5D29D87B27003DE956 /* Assets.xcassets */; };
 		70727A6129D87B27003DE956 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70727A5F29D87B27003DE956 /* LaunchScreen.storyboard */; };
-		70727A6C29D87B27003DE956 /* HaramTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A6B29D87B27003DE956 /* HaramTests.swift */; };
+		70727A6C29D87B27003DE956 /* HaramPropertyWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A6B29D87B27003DE956 /* HaramPropertyWrapperTests.swift */; };
 		70727A7629D87B27003DE956 /* HaramUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A7529D87B27003DE956 /* HaramUITests.swift */; };
 		70727A7829D87B27003DE956 /* HaramUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A7729D87B27003DE956 /* HaramUITestsLaunchTests.swift */; };
 		70727A8829D87E0E003DE956 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A8729D87E0E003DE956 /* Config.swift */; };
@@ -246,6 +247,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		70107F7F2B2EFB0100BFEF1F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 70727A4929D87B25003DE956 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 70727A5029D87B25003DE956;
+			remoteInfo = Haram;
+		};
 		70727A6829D87B27003DE956 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 70727A4929D87B25003DE956 /* Project object */;
@@ -267,6 +275,8 @@
 		560454918CB66291AC01BE50 /* Pods_Haram_HaramUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram_HaramUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B797AF901DCF1B5F1437F95 /* Pods-HaramTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaramTests.debug.xcconfig"; path = "Target Support Files/Pods-HaramTests/Pods-HaramTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6318D8E47B36D3D6D8223CC2 /* Pods-Haram-HaramUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.release.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.release.xcconfig"; sourceTree = "<group>"; };
+		70107F7B2B2EFB0100BFEF1F /* HaramLibraryViewModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HaramLibraryViewModelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		70107F842B2EFC9A00BFEF1F /* HaramLibraryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramLibraryViewModelTests.swift; sourceTree = "<group>"; };
 		701F29C32AE6750100E3E68B /* InquireBoardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBoardResponse.swift; sourceTree = "<group>"; };
 		701F29C52AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireRothemHomeInfoResponse.swift; sourceTree = "<group>"; };
 		701F29D62AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireRothemRoomInfoResponse.swift; sourceTree = "<group>"; };
@@ -346,7 +356,7 @@
 		70727A6029D87B27003DE956 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		70727A6229D87B27003DE956 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70727A6729D87B27003DE956 /* HaramTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HaramTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		70727A6B29D87B27003DE956 /* HaramTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramTests.swift; sourceTree = "<group>"; };
+		70727A6B29D87B27003DE956 /* HaramPropertyWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramPropertyWrapperTests.swift; sourceTree = "<group>"; };
 		70727A7129D87B27003DE956 /* HaramUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HaramUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		70727A7529D87B27003DE956 /* HaramUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramUITests.swift; sourceTree = "<group>"; };
 		70727A7729D87B27003DE956 /* HaramUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -502,6 +512,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		70107F782B2EFB0100BFEF1F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		70727A4E29D87B25003DE956 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -793,6 +810,7 @@
 				70727A5129D87B25003DE956 /* Haram.app */,
 				70727A6729D87B27003DE956 /* HaramTests.xctest */,
 				70727A7129D87B27003DE956 /* HaramUITests.xctest */,
+				70107F7B2B2EFB0100BFEF1F /* HaramLibraryViewModelTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -820,7 +838,8 @@
 		70727A6A29D87B27003DE956 /* HaramTests */ = {
 			isa = PBXGroup;
 			children = (
-				70727A6B29D87B27003DE956 /* HaramTests.swift */,
+				70727A6B29D87B27003DE956 /* HaramPropertyWrapperTests.swift */,
+				70107F842B2EFC9A00BFEF1F /* HaramLibraryViewModelTests.swift */,
 			);
 			path = HaramTests;
 			sourceTree = "<group>";
@@ -1241,6 +1260,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		70107F7A2B2EFB0100BFEF1F /* HaramLibraryViewModelTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70107F812B2EFB0100BFEF1F /* Build configuration list for PBXNativeTarget "HaramLibraryViewModelTests" */;
+			buildPhases = (
+				70107F772B2EFB0100BFEF1F /* Sources */,
+				70107F782B2EFB0100BFEF1F /* Frameworks */,
+				70107F792B2EFB0100BFEF1F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				70107F802B2EFB0100BFEF1F /* PBXTargetDependency */,
+			);
+			name = HaramLibraryViewModelTests;
+			productName = HaramLibraryViewModelTests;
+			productReference = 70107F7B2B2EFB0100BFEF1F /* HaramLibraryViewModelTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		70727A5029D87B25003DE956 /* Haram */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70727A7B29D87B27003DE956 /* Build configuration list for PBXNativeTarget "Haram" */;
@@ -1319,9 +1356,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1420;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					70107F7A2B2EFB0100BFEF1F = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = 70727A5029D87B25003DE956;
+					};
 					70727A5029D87B25003DE956 = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -1364,11 +1405,19 @@
 				70727A5029D87B25003DE956 /* Haram */,
 				70727A6629D87B27003DE956 /* HaramTests */,
 				70727A7029D87B27003DE956 /* HaramUITests */,
+				70107F7A2B2EFB0100BFEF1F /* HaramLibraryViewModelTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		70107F792B2EFB0100BFEF1F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		70727A4F29D87B25003DE956 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1510,6 +1559,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		70107F772B2EFB0100BFEF1F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		70727A4D29D87B25003DE956 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1726,7 +1782,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70727A6C29D87B27003DE956 /* HaramTests.swift in Sources */,
+				70107F852B2EFC9A00BFEF1F /* HaramLibraryViewModelTests.swift in Sources */,
+				70727A6C29D87B27003DE956 /* HaramPropertyWrapperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1742,6 +1799,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		70107F802B2EFB0100BFEF1F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 70727A5029D87B25003DE956 /* Haram */;
+			targetProxy = 70107F7F2B2EFB0100BFEF1F /* PBXContainerItemProxy */;
+		};
 		70727A6929D87B27003DE956 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 70727A5029D87B25003DE956 /* Haram */;
@@ -1766,6 +1828,57 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		70107F822B2EFB0100BFEF1F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Jun.HaramLibraryViewModelTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Haram.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Haram";
+			};
+			name = Debug;
+		};
+		70107F832B2EFB0100BFEF1F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Jun.HaramLibraryViewModelTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Haram.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Haram";
+			};
+			name = Release;
+		};
 		70727A7929D87B27003DE956 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2025,6 +2138,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		70107F812B2EFB0100BFEF1F /* Build configuration list for PBXNativeTarget "HaramLibraryViewModelTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70107F822B2EFB0100BFEF1F /* Debug */,
+				70107F832B2EFB0100BFEF1F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		70727A4C29D87B25003DE956 /* Build configuration list for PBXProject "Haram" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
