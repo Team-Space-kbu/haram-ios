@@ -142,15 +142,16 @@ final class StudyReservationViewModel {
     reservationButtonTappedSubject
       .withLatestFrom(
         Observable.combineLatest(
+          reservationNameSubject,
           reservationPhoneNumerSubject,
           calendarSeqSubject,
           policyModelRelay.map { $0.map { ReservationPolicyRequest(policySeq: $0.policySeq, policyAgreeYn: "Y") } },
           timeTable.map { $0.filter { $0.isTimeSelected }.map { TimeRequest(timeSeq: $0.timeSeq) } }
-        ) { ($0, $1, $2, $3) }
+        ) { ($0, $1, $2, $3, $4) }
       )
-      .map { (phoneNum, calendarSeq, reservationPolicyRequests, timeRequests) in
+      .map { (userName, phoneNum, calendarSeq, reservationPolicyRequests, timeRequests) in
         return ReserveStudyRoomRequest(
-          userId: UserManager.shared.userID!,
+          userName: userName,
           phoneNum: phoneNum,
           calendarSeq: calendarSeq,
           reservationPolicyRequests: reservationPolicyRequests,

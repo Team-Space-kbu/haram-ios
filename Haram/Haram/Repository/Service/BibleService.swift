@@ -25,8 +25,8 @@ extension BibleService {
     service.betarequest(router: BibleRouter.inquireChapterToBible(request), type: [InquireChapterToBibleResponse].self)
   }
   
-  func inquireBibleMainNotice() -> Single<InquireBibleMainNoticeResponse> {
-    service.betarequest(router: BibleRouter.inquireBibleMainNotice, type: InquireBibleMainNoticeResponse.self)
+  func inquireBibleMainNotice() -> Single<[InquireBibleMainNoticeResponse]> {
+    service.betarequest(router: BibleRouter.inquireBibleMainNotice, type: [InquireBibleMainNoticeResponse].self)
   }
 }
 

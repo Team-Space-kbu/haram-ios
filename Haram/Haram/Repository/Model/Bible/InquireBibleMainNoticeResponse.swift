@@ -8,8 +8,12 @@
 import Foundation
 
 struct InquireBibleMainNoticeResponse: Decodable {
-  let bibleNoticeSeq: Int
-  let path: String
+  let modifiedBy: String
   let content: String
-  let status: Bool
+  let modifiedAt: String
+  let title: String
+  let createdBy: String
+  let thumbnailPath: String
+  let createdAt: String
+  let bibleNoticeSeq: Int
 }

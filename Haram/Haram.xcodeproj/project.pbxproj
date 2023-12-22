@@ -147,7 +147,6 @@
 		7083129B2A6A909C00F7E283 /* ChapelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */; };
 		7083129F2A6D25E100F7E283 /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */; };
 		708312A32A6EC9D700F7E283 /* IntranetLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */; };
-		708312A62A7028B400F7E283 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 708312A52A7028B400F7E283 /* SwiftSoup */; };
 		708312AA2A723B4D00F7E283 /* NoticeCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312A92A723B4D00F7E283 /* NoticeCollectionHeaderView.swift */; };
 		708312AC2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312AB2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		708312AE2A73936E00F7E283 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312AD2A73936E00F7E283 /* CategoryCollectionViewCell.swift */; };
@@ -517,7 +516,6 @@
 				70912FFD2B15F463005B88B4 /* QRCode in Frameworks */,
 				706BA0C029E6A26D00AF12D4 /* Then in Frameworks */,
 				76E4C9C9A6C0312E9E700CA7 /* Pods_Haram.framework in Frameworks */,
-				708312A62A7028B400F7E283 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1264,7 +1262,6 @@
 				706BA0C729E6E51100AF12D4 /* WebRTC */,
 				705FD27B2A10D3EA00F353FE /* Alamofire */,
 				705FD2CE2A24DE5B00F353FE /* Kingfisher */,
-				708312A52A7028B400F7E283 /* SwiftSoup */,
 				70375EF72AA5B6110032F6B8 /* SkeletonView */,
 				708E1E5F2B038A6E0030FAA0 /* FloatingPanel */,
 				70912FFC2B15F463005B88B4 /* QRCode */,
@@ -1319,7 +1316,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1420;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					70727A5029D87B25003DE956 = {
@@ -1816,7 +1813,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1870,7 +1867,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1898,7 +1895,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1922,7 +1919,7 @@
 				CODE_SIGN_ENTITLEMENTS = Haram/HaramRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8DWJ9326S4;
+				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Haram/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Application needs camera access to publish stream";
@@ -1931,7 +1928,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2194,11 +2191,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC" */;
 			productName = WebRTC;
-		};
-		708312A52A7028B400F7E283 /* SwiftSoup */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 708312A42A7028B400F7E283 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
-			productName = SwiftSoup;
 		};
 		708E1E5F2B038A6E0030FAA0 /* FloatingPanel */ = {
 			isa = XCSwiftPackageProductDependency;

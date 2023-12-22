@@ -25,11 +25,11 @@ extension BibleRouter: Router {
   var path: String {
     switch self {
     case .inquireTodayWords:
-      return "/v1/bible/today"
+      return "/v1/bibles/today"
     case .inquireChapterToBible:
-      return "/v1/bible/chapter"
+      return "/v1/bibles/chapter"
     case .inquireBibleMainNotice:
-      return "/v1/bible/notices/main"
+      return "/v1/bibles/notices"
     }
   }
   

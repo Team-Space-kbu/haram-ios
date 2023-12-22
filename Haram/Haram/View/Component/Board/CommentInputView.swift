@@ -67,6 +67,8 @@ final class CommentInputView: UIView, UITextViewDelegate {
   private func setupStyles() {
     commentTextView.text = placeHolder
     commentTextView.delegate = self
+    
+//    backgroundView.layer.shadowPath = UIBezierPath(roundedRect: backgroundView.bounds, cornerRadius: backgroundView.layer.cornerRadius).cgPath
   }
   
   private func setupLayouts() {

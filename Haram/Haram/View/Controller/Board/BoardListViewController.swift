@@ -9,6 +9,7 @@ import UIKit
 
 import RxSwift
 import SnapKit
+import SkeletonView
 import Then
 
 final class BoardListViewController: BaseViewController {
@@ -32,6 +33,7 @@ final class BoardListViewController: BaseViewController {
     $0.register(BoardListCollectionViewCell.self, forCellWithReuseIdentifier: BoardListCollectionViewCell.identifier)
     $0.contentInset = UIEdgeInsets(top: 32, left: 15, bottom: .zero, right: 15)
     $0.alwaysBounceVertical = true
+    $0.isSkeletonable = true
   }
   
   private let editBoardButton = UIButton().then {
@@ -42,6 +44,8 @@ final class BoardListViewController: BaseViewController {
     $0.layer.shadowOpacity = 1
     $0.layer.shadowRadius = 5
     $0.layer.shadowOffset = CGSize(width: 0, height: 8)
+    $0.isSkeletonable = true
+    $0.skeletonCornerRadius = 25
   }
   
   init(type: BoardType) {
@@ -68,6 +72,18 @@ final class BoardListViewController: BaseViewController {
       target: self,
       action: #selector(didTappedBackButton)
     )
+    
+    /// Configure Skeleton UI
+    view.isSkeletonable = true
+    
+    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
+    let graient = SkeletonGradient(baseColor: .skeletonDefault)
+    
+    view.showAnimatedGradientSkeleton(
+      usingGradient: graient,
+      animation: skeletonAnimation,
+      transition: .none
+    )
   }
   
   override func setupLayouts() {
@@ -93,6 +109,13 @@ final class BoardListViewController: BaseViewController {
     
     viewModel.boardListModel
       .drive(rx.boardListModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .filter { !$0 }
+      .drive(with: self) { owner, isLoading in
+        owner.view.hideSkeleton()
+      }
       .disposed(by: disposeBag)
   }
   
@@ -124,11 +147,17 @@ extension BoardListViewController: UICollectionViewDelegateFlowLayout, UICollect
   }
 }
 
-// MARK: - Section For DiffableDataSource
-
-extension BoardListViewController {
-  enum Section: CaseIterable {
-    case main
-    case second
+extension BoardListViewController: SkeletonCollectionViewDataSource {
+  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+    BoardListCollectionViewCell.identifier
   }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+    skeletonView.dequeueReusableCell(withReuseIdentifier: BoardListCollectionViewCell.identifier, for: indexPath) as? BoardListCollectionViewCell
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    10
+  }
+  
 }

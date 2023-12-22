@@ -12,7 +12,7 @@ struct InquireMileageInfoResponse: Decodable {
   let mileageDetails: [MileageDetail]
 }
 
-struct MileagePayInfo: Codable {
+struct MileagePayInfo: Decodable {
   let adjustPoints: String
   let availabilityPoint: String
   let paymentsCount: String

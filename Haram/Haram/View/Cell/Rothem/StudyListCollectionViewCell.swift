@@ -108,9 +108,12 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: StudyListCollectionViewCellModel) {
-    
     studyTitleLabel.text = model.title
     studyDescriptionLabel.addLineSpacing(lineSpacing: 3, string: model.description)
     studyImageView.kf.setImage(with: model.imageURL)
+  }
+  
+  func removeLastLineView() {
+    lineView.removeFromSuperview()
   }
 }

@@ -161,12 +161,6 @@ final class MoreViewController: BaseViewController {
     viewModel.successMessage
       .emit(with: self) { owner, message in
         owner.dismiss(animated: true)
-//        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.68, initialSpringVelocity: 3, options: .curveEaseOut) {
-//          let vc = LoginViewController()
-//          (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
-//        }
-//        let vc = LoginViewController()
-//        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
       }
       .disposed(by: disposeBag)
   }

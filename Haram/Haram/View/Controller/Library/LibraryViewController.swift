@@ -122,7 +122,7 @@ final class LibraryViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    
+
     viewModel.newBookModel
       .drive(rx.newBookModel)
       .disposed(by: disposeBag)

@@ -109,6 +109,10 @@ final class LibraryRentalListView: UIView {
     }
     containerView.addArrangedSubview(vw)
   }
+  
+  func removeLastIineView() {
+    lineView.removeFromSuperview()
+  }
 }
 
 // MARK: - LibraryRentalView Model
