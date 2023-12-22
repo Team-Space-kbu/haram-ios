@@ -24,10 +24,7 @@ final class LibraryDetailViewController: BaseViewController {
   
   private var relatedBookModel: [LibraryRelatedBookCollectionViewCellModel] = [] {
     didSet {
-      if relatedBookModel.isEmpty {
-        relatedBookLabel.removeFromSuperview()
-      }
-      collectionView.reloadData()
+      relatedBookCollectionView.reloadData()
     }
   }
   
@@ -64,14 +61,14 @@ final class LibraryDetailViewController: BaseViewController {
     $0.textColor = .black
   }
   
-  private lazy var collectionView = UICollectionView(
+  private lazy var relatedBookCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
       $0.scrollDirection = .horizontal
       $0.minimumInteritemSpacing = 40
     }
   ).then {
-    $0.backgroundColor = .white
+    $0.backgroundColor = .clear
     $0.register(LibraryRelatedBookCollectionViewCell.self, forCellWithReuseIdentifier: LibraryRelatedBookCollectionViewCell.identifier)
     $0.delegate = self
     $0.dataSource = self
@@ -103,7 +100,7 @@ final class LibraryDetailViewController: BaseViewController {
       action: #selector(didTappedBackButton)
     )
     title = "도서 상세"
-    _ = [view, scrollView, containerView, libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, collectionView].map { $0.isSkeletonable = true }
+    _ = [view, scrollView, containerView, libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, relatedBookCollectionView].map { $0.isSkeletonable = true }
 
     let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
 
@@ -120,7 +117,7 @@ final class LibraryDetailViewController: BaseViewController {
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
     
-    [libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, collectionView].forEach { containerView.addArrangedSubview($0) }
+    [libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, relatedBookCollectionView].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -147,7 +144,7 @@ final class LibraryDetailViewController: BaseViewController {
       $0.trailing.lessThanOrEqualToSuperview()
     }
     
-    collectionView.snp.makeConstraints {
+    relatedBookCollectionView.snp.makeConstraints {
       $0.height.equalTo(165)
       $0.directionalHorizontalEdges.equalToSuperview()
     }
@@ -161,32 +158,72 @@ final class LibraryDetailViewController: BaseViewController {
     
     viewModel.whichRequestBookPath.onNext(path)
     
-    Driver.combineLatest(
-      viewModel.detailMainModel,
-      viewModel.detailSubModel,
-      viewModel.detailInfoModel,
-      viewModel.detailRentalModel,
-      viewModel.relatedBookModel
-    )
-    .drive(with: self) { owner, result in
-      let (mainModel, subModel, infoModel, rentalModel, bookModel) = result
-      owner.libraryDetailMainView.hideSkeleton()
-      owner.libraryDetailSubView.hideSkeleton()
-      owner.libraryDetailInfoView.hideSkeleton()
-      owner.libraryRentalListView.hideSkeleton()
-      
-      owner.libraryDetailMainView.configureUI(with: mainModel)
-      owner.libraryDetailSubView.configureUI(with: subModel)
-      owner.libraryDetailInfoView.configureUI(with: infoModel)
-      owner.libraryRentalListView.configureUI(with: rentalModel)
-      
-      if bookModel.isEmpty {
-        owner.libraryRentalListView.removeLastIineView()
+    viewModel.detailMainModel
+      .drive(with: self) { owner, mainModel in
+        owner.libraryDetailMainView.hideSkeleton()
+        owner.libraryDetailMainView.configureUI(with: mainModel)
       }
-      
-      owner.relatedBookModel = bookModel
-    }
-    .disposed(by: disposeBag)
+      .disposed(by: disposeBag)
+    
+    viewModel.detailSubModel
+      .drive(with: self) { owner, subModel in
+        owner.libraryDetailSubView.hideSkeleton()
+        owner.libraryDetailSubView.configureUI(with: subModel)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.detailInfoModel
+      .drive(with: self) { owner, infoModel in
+        owner.libraryDetailInfoView.hideSkeleton()
+        owner.libraryDetailInfoView.configureUI(with: infoModel)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.detailRentalModel
+      .skip(1)
+      .drive(with: self) { owner, rentalModel in
+        owner.libraryRentalListView.hideSkeleton()
+        owner.libraryRentalListView.configureUI(with: rentalModel)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.relatedBookModel
+      .skip(1)
+      .drive(with: self) { owner, bookModel in
+        if bookModel.isEmpty {
+          owner.relatedBookLabel.removeFromSuperview()
+          owner.libraryRentalListView.removeLastIineView()
+        }
+        owner.relatedBookModel = bookModel
+      }
+      .disposed(by: disposeBag)
+    
+//    Driver.combineLatest(
+//      viewModel.detailMainModel,
+//      viewModel.detailSubModel,
+//      viewModel.detailInfoModel,
+//      viewModel.detailRentalModel,
+//      viewModel.relatedBookModel
+//    )
+//    .drive(with: self) { owner, result in
+//      let (mainModel, subModel, infoModel, rentalModel, bookModel) = result
+//      owner.libraryDetailMainView.hideSkeleton()
+//      owner.libraryDetailSubView.hideSkeleton()
+//      owner.libraryDetailInfoView.hideSkeleton()
+//      owner.libraryRentalListView.hideSkeleton()
+//      
+//      owner.libraryDetailMainView.configureUI(with: mainModel)
+//      owner.libraryDetailSubView.configureUI(with: subModel)
+//      owner.libraryDetailInfoView.configureUI(with: infoModel)
+//      owner.libraryRentalListView.configureUI(with: rentalModel)
+//      
+//      if bookModel.isEmpty {
+//        owner.libraryRentalListView.removeLastIineView()
+//      }
+////      owner.collectionView.isHidden = bookModel.isEmpty
+//      owner.relatedBookModel = bookModel
+//    }
+//    .disposed(by: disposeBag)
     
     viewModel.isLoading
       .filter { !$0 }
@@ -231,6 +268,7 @@ extension LibraryDetailViewController: UICollectionViewDelegate, UICollectionVie
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }
+  
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -249,7 +287,7 @@ extension LibraryDetailViewController: SkeletonCollectionViewDelegate, SkeletonC
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryRelatedBookCollectionViewCell.identifier, for: indexPath) as? LibraryRelatedBookCollectionViewCell ?? LibraryRelatedBookCollectionViewCell()
+    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: LibraryRelatedBookCollectionViewCell.identifier, for: indexPath) as? LibraryRelatedBookCollectionViewCell ?? LibraryRelatedBookCollectionViewCell()
     return cell
   }
   
