@@ -22,4 +22,4 @@ jobs:
     # shell 이용해서 하나의 command 수행
     - name: Start xcode build 🛠
       run: |
-        pod install --repo-update --clean-install --project-directory=Haram/xcodebuild clean test -workspace Haram/Haram.xcworkspace -scheme Haram -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=latest'
+        pod install --repo-update --clean-install --project-directory=Haram/Haram/xcodebuild clean test -workspace Haram/Haram/Haram.xcworkspace -scheme Haram -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=latest'
