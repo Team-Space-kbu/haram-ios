@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol RegisterViewModelType {
-  var tappedRegisterButton: AnyObserver<Void> { get }
+  func registerMember()
   
   var registerID: AnyObserver<String> { get }
   var registerEmail: AnyObserver<String> { get }
@@ -27,7 +27,6 @@ protocol RegisterViewModelType {
 final class RegisterViewModel {
   private let disposeBag = DisposeBag()
   
-  private let tappedRegisterButtonSubject    = PublishSubject<Void>()
   private let registerIDSubject              = PublishSubject<String>()
   private let registerPWDSubject             = PublishSubject<String>()
   private let registerRePWDSubject           = PublishSubject<String>()
@@ -39,40 +38,16 @@ final class RegisterViewModel {
   private let signupSuccessMessageRelay      = PublishRelay<String>()
   private let isLoadingSubject               = PublishSubject<Bool>()
   
-  init() {
-    checkIsRegisterButtonEnabled()
-    tryRegisterMember()
-  }
-  
-  private func checkIsRegisterButtonEnabled() {
-    Observable.combineLatest(
+  func registerMember() {
+    
+    let tryRegisterMember = Observable.combineLatest(
       registerIDSubject,
       registerEmailSubject,
       registerPWDSubject,
       registerRePWDSubject,
       registerNicknameSubject,
       registerAuthCodeSubject
-    ) { !$0.isEmpty && !$1.isEmpty && !$2.isEmpty && !$3.isEmpty && !$4.isEmpty && !$5.isEmpty }
-      .subscribe(with: self) { owner, isEnabled in
-        owner.isRegisterButtonEnabledSubject.onNext(isEnabled)
-      }
-      .disposed(by: disposeBag)
-    
-  }
-  
-  private func tryRegisterMember() {
-    
-    let tryRegisterMember = tappedRegisterButtonSubject
-      .withLatestFrom(
-        Observable.combineLatest(
-          registerIDSubject,
-          registerEmailSubject,
-          registerPWDSubject,
-          registerRePWDSubject,
-          registerNicknameSubject,
-          registerAuthCodeSubject
-        ) { ($0, $1, $2, $3, $4, $5) }
-      )
+    ) { ($0, $1, $2, $3, $4, $5) }
       .filter { [weak self] result in
         guard let self = self else { return false }
         self.isLoadingSubject.onNext(true)
@@ -121,16 +96,19 @@ extension RegisterViewModel: RegisterViewModelType {
     registerRePWDSubject.asObserver()
   }
   
-  var tappedRegisterButton: RxSwift.AnyObserver<Void> {
-    tappedRegisterButtonSubject.asObserver()
-  }
-  
   var registerAuthCode: RxSwift.AnyObserver<String> {
     registerAuthCodeSubject.asObserver()
   }
   
   var isRegisterButtonEnabled: RxCocoa.Driver<Bool> {
-    isRegisterButtonEnabledSubject
+    Observable.combineLatest(
+      registerIDSubject,
+      registerEmailSubject,
+      registerPWDSubject,
+      registerRePWDSubject,
+      registerNicknameSubject,
+      registerAuthCodeSubject
+    ) { !$0.isEmpty && !$1.isEmpty && !$2.isEmpty && !$3.isEmpty && !$4.isEmpty && !$5.isEmpty }
       .distinctUntilChanged()
       .asDriver(onErrorJustReturn: false)
   }

@@ -231,7 +231,7 @@ final class RegisterViewController: BaseViewController {
       .subscribe(with: self) { owner, _ in
         owner.idTextField.removeError()
         owner.repwdTextField.removeError()
-        owner.viewModel.tappedRegisterButton.onNext(())
+        owner.viewModel.registerMember()
       }
       .disposed(by: disposeBag)
     

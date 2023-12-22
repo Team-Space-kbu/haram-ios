@@ -561,24 +561,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		701F29DA2AEB072C00E3E68B /* Board */ = {
-			isa = PBXGroup;
-			children = (
-				708312B12A76940600F7E283 /* BoardListViewController.swift */,
-				7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */,
-			);
-			path = Board;
-			sourceTree = "<group>";
-		};
-		701F29DF2AEEA0A700E3E68B /* Board */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7812A8CC70700107CDF /* BoardListViewModel.swift */,
-				7051E5052ADAF4EF00C2134B /* BoardDetailViewModel.swift */,
-			);
-			path = Board;
-			sourceTree = "<group>";
-		};
 		7031E3CC2ABA74520027DC0A /* Board */ = {
 			isa = PBXGroup;
 			children = (
@@ -733,34 +715,6 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
-		705FD2A62A16030E00F353FE /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				701F29DF2AEEA0A700E3E68B /* Board */,
-				708ED7D92A923B2300107CDF /* Bible */,
-				708ED7922A8E670B00107CDF /* Home */,
-				708ED78F2A8E0AE400107CDF /* Rothem */,
-				708ED7802A8CC6E000107CDF /* Intranet */,
-				708312972A691D0000F7E283 /* Library */,
-				705FD2A72A16031300F353FE /* Auth */,
-				708312922A65638200F7E283 /* MoreViewModel.swift */,
-				708312AF2A73E07300F7E283 /* NoticeViewModel.swift */,
-				708ED7EE2A9E232A00107CDF /* AffiliatedViewModel.swift */,
-				709130022B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		705FD2A72A16031300F353FE /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				708312BB2A79247500F7E283 /* RegisterViewModel.swift */,
-				705FD2A82A16031900F353FE /* LoginViewModel.swift */,
-				708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
 		705FD2CA2A23BA5E00F353FE /* Library */ = {
 			isa = PBXGroup;
 			children = (
@@ -798,6 +752,8 @@
 		70727A5329D87B25003DE956 /* Haram */ = {
 			isa = PBXGroup;
 			children = (
+				705E70B429E1C79500156B1F /* Component */,
+				708DACF52B35A44D00E3AD45 /* Presentation */,
 				7095D3882AD67C85008DAA39 /* Constants */,
 				70E4D1552AD638BF00351B35 /* LaunchScreen */,
 				708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */,
@@ -805,7 +761,6 @@
 				70727AB629D95E2A003DE956 /* Extension */,
 				70727AAB29D95575003DE956 /* Font */,
 				70727A8629D87DFA003DE956 /* Repository */,
-				70727A8D29D88928003DE956 /* View */,
 				70727A5429D87B25003DE956 /* AppDelegate.swift */,
 				70727A5629D87B25003DE956 /* SceneDelegate.swift */,
 				70727A5D29D87B27003DE956 /* Assets.xcassets */,
@@ -845,71 +800,6 @@
 				705FD2832A10E47F00F353FE /* HaramError.swift */,
 			);
 			path = Repository;
-			sourceTree = "<group>";
-		};
-		70727A8D29D88928003DE956 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				705E70B429E1C79500156B1F /* Component */,
-				705FD2A62A16030E00F353FE /* ViewModel */,
-				70727AA429D93B2A003DE956 /* Cell */,
-				70727A8E29D8892C003DE956 /* Controller */,
-				7034AF1929F0064B009C7676 /* WebViewController.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		70727A8E29D8892C003DE956 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				701F29DA2AEB072C00E3E68B /* Board */,
-				708ED7D02A9203CC00107CDF /* Bible */,
-				708ED7A52A8FA19F00107CDF /* Rothem */,
-				708ED7A42A8F948500107CDF /* Library */,
-				708ED7A32A8F944A00107CDF /* Intranet */,
-				70727A8F29D88935003DE956 /* BaseViewController.swift */,
-				70727A9329D889BE003DE956 /* CoreTab */,
-				708ED7A22A8F942500107CDF /* Auth */,
-				705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */,
-				705FD2C22A2337C800F353FE /* NoticeViewController.swift */,
-				708ED7AE2A8FDA7700107CDF /* NoticeDetailViewController.swift */,
-				708ED7EA2A9DD1D000107CDF /* AffiliatedViewController.swift */,
-				7051E5032ADAD42700C2134B /* BaseNavigationController.swift */,
-				708E1E632B0778CD0030FAA0 /* PDFViewController.swift */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		70727A9329D889BE003DE956 /* CoreTab */ = {
-			isa = PBXGroup;
-			children = (
-				70727A9429D889C6003DE956 /* HomeViewController.swift */,
-				70727A9E29D88AAA003DE956 /* BoardViewController.swift */,
-				70727AA029D88AD0003DE956 /* MoreViewController.swift */,
-				70727AA229D88AEE003DE956 /* ScheduleViewController.swift */,
-			);
-			path = CoreTab;
-			sourceTree = "<group>";
-		};
-		70727AA429D93B2A003DE956 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7C42A911E4000107CDF /* Bible */,
-				708ED78E2A8E037800107CDF /* Board */,
-				708ED78D2A8E037300107CDF /* Mileage */,
-				708ED78C2A8E036F00107CDF /* Chapel */,
-				708ED78B2A8E036700107CDF /* Library */,
-				708ED78A2A8E035C00107CDF /* Home */,
-				708ED7872A8E01DC00107CDF /* Rothem */,
-				705FD2C42A2338DE00F353FE /* NoticeCollectionViewCell.swift */,
-				708312572A31A23200F7E283 /* PagingSectionFooterView.swift */,
-				708312A92A723B4D00F7E283 /* NoticeCollectionHeaderView.swift */,
-				708312AD2A73936E00F7E283 /* CategoryCollectionViewCell.swift */,
-				708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */,
-				708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */,
-				708ED7EC2A9E1D7400107CDF /* AffiliatedCollectionViewCell.swift */,
-			);
-			path = Cell;
 			sourceTree = "<group>";
 		};
 		70727AAB29D95575003DE956 /* Font */ = {
@@ -980,7 +870,180 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
-		708312972A691D0000F7E283 /* Library */ = {
+		708DACF52B35A44D00E3AD45 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				7034AF1929F0064B009C7676 /* WebViewController.swift */,
+				70727A8F29D88935003DE956 /* BaseViewController.swift */,
+				705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */,
+				7051E5032ADAD42700C2134B /* BaseNavigationController.swift */,
+				708ED7A22A8F942500107CDF /* Auth */,
+				708DACF62B35A45700E3AD45 /* CoreTab */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		708DACF62B35A45700E3AD45 /* CoreTab */ = {
+			isa = PBXGroup;
+			children = (
+				708DACF72B35A47600E3AD45 /* Home */,
+				708DACF82B35A48000E3AD45 /* Board */,
+				708DACF92B35A48400E3AD45 /* MyPage */,
+			);
+			path = CoreTab;
+			sourceTree = "<group>";
+		};
+		708DACF72B35A47600E3AD45 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				708DACFF2B35A63600E3AD45 /* ViewModel */,
+				708DACFB2B35A54C00E3AD45 /* View */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		708DACF82B35A48000E3AD45 /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				708DAD002B35A6B200E3AD45 /* ViewModel */,
+				708DACFC2B35A57300E3AD45 /* View */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
+		708DACF92B35A48400E3AD45 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				708DAD122B35ACB900E3AD45 /* ViewModel */,
+				708DACFA2B35A53300E3AD45 /* View */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		708DACFA2B35A53300E3AD45 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				708DAD1A2B35AE5C00E3AD45 /* Cells */,
+				70727AA029D88AD0003DE956 /* MoreViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		708DACFB2B35A54C00E3AD45 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				708DACFD2B35A5AE00E3AD45 /* Cells */,
+				708DAD012B35A7B800E3AD45 /* Shortcut */,
+				70727A9429D889C6003DE956 /* HomeViewController.swift */,
+				708E1E632B0778CD0030FAA0 /* PDFViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		708DACFC2B35A57300E3AD45 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				708DACFE2B35A5E300E3AD45 /* Cells */,
+				70727A9E29D88AAA003DE956 /* BoardViewController.swift */,
+				708312B12A76940600F7E283 /* BoardListViewController.swift */,
+				7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		708DACFD2B35A5AE00E3AD45 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				708312552A31975C00F7E283 /* HomeBannerCollectionViewCell.swift */,
+				70727AA529D93B42003DE956 /* HomeShortcutCollectionViewCell.swift */,
+				70727AA729D93F24003DE956 /* HomeNewsCollectionViewCell.swift */,
+				70727AA929D94482003DE956 /* HomeCollectionHeaderView.swift */,
+				708312572A31A23200F7E283 /* PagingSectionFooterView.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		708DACFE2B35A5E300E3AD45 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */,
+				708312B32A76945000F7E283 /* BoardListCollectionViewCell.swift */,
+				708312B52A779D1A00F7E283 /* BoardTableHeaderView.swift */,
+				7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */,
+				7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */,
+				7031E3D32ABA89160027DC0A /* BoardDetailCommentHeaderView.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		708DACFF2B35A63600E3AD45 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7932A8E671200107CDF /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		708DAD002B35A6B200E3AD45 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7812A8CC70700107CDF /* BoardListViewModel.swift */,
+				7051E5052ADAF4EF00C2134B /* BoardDetailViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		708DAD012B35A7B800E3AD45 /* Shortcut */ = {
+			isa = PBXGroup;
+			children = (
+				708DAD032B35A7C300E3AD45 /* ViewModel */,
+				708DAD022B35A7BE00E3AD45 /* View */,
+			);
+			path = Shortcut;
+			sourceTree = "<group>";
+		};
+		708DAD022B35A7BE00E3AD45 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				708DAD0B2B35AB8800E3AD45 /* Cells */,
+				708DAD102B35AC6D00E3AD45 /* Notice */,
+				708DAD082B35AAC000E3AD45 /* Bible */,
+				708DAD062B35AA3100E3AD45 /* Rothem */,
+				708DAD042B35A9A800E3AD45 /* Library */,
+				708DAD0E2B35AC0A00E3AD45 /* Affiliated */,
+				70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */,
+				70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */,
+				70727AA229D88AEE003DE956 /* ScheduleViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		708DAD032B35A7C300E3AD45 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				708DAD132B35ACD100E3AD45 /* Affiliated */,
+				708DAD112B35AC8000E3AD45 /* Notice */,
+				708DAD092B35AAD400E3AD45 /* Bible */,
+				708DAD072B35AA4200E3AD45 /* Rothem */,
+				708DAD052B35AA1000E3AD45 /* Library */,
+				7083125F2A388D8B00F7E283 /* ScheduleViewModel.swift */,
+				708312982A691D1700F7E283 /* MileageViewModel.swift */,
+				7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		708DAD042B35A9A800E3AD45 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				705FD2AC2A16160100F353FE /* LibraryViewController.swift */,
+				705FD2AE2A16246F00F353FE /* LibraryResultsViewController.swift */,
+				705FD2BC2A1A4CEE00F353FE /* LibraryDetailViewController.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		708DAD052B35AA1000E3AD45 /* Library */ = {
 			isa = PBXGroup;
 			children = (
 				705FD2D02A24DEFC00F353FE /* LibraryViewModel.swift */,
@@ -990,14 +1053,195 @@
 			path = Library;
 			sourceTree = "<group>";
 		};
-		708ED7802A8CC6E000107CDF /* Intranet */ = {
+		708DAD062B35AA3100E3AD45 /* Rothem */ = {
 			isa = PBXGroup;
 			children = (
-				7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */,
-				7083125F2A388D8B00F7E283 /* ScheduleViewModel.swift */,
-				708312982A691D1700F7E283 /* MileageViewModel.swift */,
+				708ED7832A8E017A00107CDF /* StudyListViewController.swift */,
+				708ED7A02A8F922900107CDF /* CheckReservationViewController.swift */,
+				708ED7A62A8FA1C500107CDF /* StudyReservationViewController.swift */,
+				708ED7B22A90D4ED00107CDF /* StudyRoomDetailViewController.swift */,
+			);
+			path = Rothem;
+			sourceTree = "<group>";
+		};
+		708DAD072B35AA4200E3AD45 /* Rothem */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7902A8E0AED00107CDF /* StudyListViewModel.swift */,
+				701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */,
+				701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */,
+				708E1E652B09E0330030FAA0 /* StudyReservationViewModel.swift */,
+			);
+			path = Rothem;
+			sourceTree = "<group>";
+		};
+		708DAD082B35AAC000E3AD45 /* Bible */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7C22A911B4800107CDF /* BibleViewController.swift */,
+				708ED7D12A9203DF00107CDF /* BibleSearchResultViewController.swift */,
+			);
+			path = Bible;
+			sourceTree = "<group>";
+		};
+		708DAD092B35AAD400E3AD45 /* Bible */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7DA2A923B2A00107CDF /* BibleViewModel.swift */,
+				70375F0A2AB055360032F6B8 /* BibleSearchResultViewModel.swift */,
+			);
+			path = Bible;
+			sourceTree = "<group>";
+		};
+		708DAD0B2B35AB8800E3AD45 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				708DAD192B35AE2700E3AD45 /* Notice */,
+				708DAD0F2B35AC3000E3AD45 /* Affiliated */,
+				708ED7872A8E01DC00107CDF /* Rothem */,
+				708ED78B2A8E036700107CDF /* Library */,
+				708ED78C2A8E036F00107CDF /* Chapel */,
+				708DAD0D2B35ABCB00E3AD45 /* Mileage */,
+				708DAD0C2B35ABB000E3AD45 /* Bible */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		708DAD0C2B35ABB000E3AD45 /* Bible */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7C52A911E6C00107CDF /* TodayPrayCollectionViewCell.swift */,
+				708ED7C82A911E8700107CDF /* BibleCollectionHeaderView.swift */,
+				708ED7CA2A91224B00107CDF /* TodayBibleWordCollectionViewCell.swift */,
+				708ED7CC2A9122F900107CDF /* BibleNoticeCollectionViewCell.swift */,
+				708ED7D72A92357600107CDF /* BibleCollectionViewCell.swift */,
+			);
+			path = Bible;
+			sourceTree = "<group>";
+		};
+		708DAD0D2B35ABCB00E3AD45 /* Mileage */ = {
+			isa = PBXGroup;
+			children = (
+				70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */,
+				708312892A655BD900F7E283 /* MileageTableHeaderView.swift */,
+			);
+			path = Mileage;
+			sourceTree = "<group>";
+		};
+		708DAD0E2B35AC0A00E3AD45 /* Affiliated */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7EA2A9DD1D000107CDF /* AffiliatedViewController.swift */,
+			);
+			path = Affiliated;
+			sourceTree = "<group>";
+		};
+		708DAD0F2B35AC3000E3AD45 /* Affiliated */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7EC2A9E1D7400107CDF /* AffiliatedCollectionViewCell.swift */,
+			);
+			path = Affiliated;
+			sourceTree = "<group>";
+		};
+		708DAD102B35AC6D00E3AD45 /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				705FD2C22A2337C800F353FE /* NoticeViewController.swift */,
+				708ED7AE2A8FDA7700107CDF /* NoticeDetailViewController.swift */,
+			);
+			path = Notice;
+			sourceTree = "<group>";
+		};
+		708DAD112B35AC8000E3AD45 /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				708312AF2A73E07300F7E283 /* NoticeViewModel.swift */,
+			);
+			path = Notice;
+			sourceTree = "<group>";
+		};
+		708DAD122B35ACB900E3AD45 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				708312922A65638200F7E283 /* MoreViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		708DAD132B35ACD100E3AD45 /* Affiliated */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7EE2A9E232A00107CDF /* AffiliatedViewModel.swift */,
+				709130022B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift */,
+			);
+			path = Affiliated;
+			sourceTree = "<group>";
+		};
+		708DAD142B35AD3F00E3AD45 /* Intranet */ = {
+			isa = PBXGroup;
+			children = (
+				708DAD182B35ADB900E3AD45 /* ViewModel */,
+				708DAD152B35AD4300E3AD45 /* View */,
 			);
 			path = Intranet;
+			sourceTree = "<group>";
+		};
+		708DAD152B35AD4300E3AD45 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				708312452A2F34DB00F7E283 /* IntranetLoginViewController.swift */,
+				70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		708DAD162B35AD9400E3AD45 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */,
+				70727A9829D88A22003DE956 /* RegisterViewController.swift */,
+				70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */,
+				70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */,
+				70727A9129D889AE003DE956 /* LoginViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		708DAD172B35AD9D00E3AD45 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				708312BB2A79247500F7E283 /* RegisterViewModel.swift */,
+				705FD2A82A16031900F353FE /* LoginViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		708DAD182B35ADB900E3AD45 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		708DAD192B35AE2700E3AD45 /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				708312AD2A73936E00F7E283 /* CategoryCollectionViewCell.swift */,
+				708312A92A723B4D00F7E283 /* NoticeCollectionHeaderView.swift */,
+				705FD2C42A2338DE00F353FE /* NoticeCollectionViewCell.swift */,
+			);
+			path = Notice;
+			sourceTree = "<group>";
+		};
+		708DAD1A2B35AE5C00E3AD45 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */,
+				708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		708ED7872A8E01DC00107CDF /* Rothem */ = {
@@ -1011,17 +1255,6 @@
 				708ED7DC2A93490E00107CDF /* PopularAmenityCollectionViewCell.swift */,
 			);
 			path = Rothem;
-			sourceTree = "<group>";
-		};
-		708ED78A2A8E035C00107CDF /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				708312552A31975C00F7E283 /* HomeBannerCollectionViewCell.swift */,
-				70727AA529D93B42003DE956 /* HomeShortcutCollectionViewCell.swift */,
-				70727AA729D93F24003DE956 /* HomeNewsCollectionViewCell.swift */,
-				70727AA929D94482003DE956 /* HomeCollectionHeaderView.swift */,
-			);
-			path = Home;
 			sourceTree = "<group>";
 		};
 		708ED78B2A8E036700107CDF /* Library */ = {
@@ -1047,47 +1280,6 @@
 			path = Chapel;
 			sourceTree = "<group>";
 		};
-		708ED78D2A8E037300107CDF /* Mileage */ = {
-			isa = PBXGroup;
-			children = (
-				70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */,
-				708312892A655BD900F7E283 /* MileageTableHeaderView.swift */,
-			);
-			path = Mileage;
-			sourceTree = "<group>";
-		};
-		708ED78E2A8E037800107CDF /* Board */ = {
-			isa = PBXGroup;
-			children = (
-				70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */,
-				708312B32A76945000F7E283 /* BoardListCollectionViewCell.swift */,
-				708312B52A779D1A00F7E283 /* BoardTableHeaderView.swift */,
-				7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */,
-				7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */,
-				7031E3D32ABA89160027DC0A /* BoardDetailCommentHeaderView.swift */,
-			);
-			path = Board;
-			sourceTree = "<group>";
-		};
-		708ED78F2A8E0AE400107CDF /* Rothem */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7902A8E0AED00107CDF /* StudyListViewModel.swift */,
-				701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */,
-				701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */,
-				708E1E652B09E0330030FAA0 /* StudyReservationViewModel.swift */,
-			);
-			path = Rothem;
-			sourceTree = "<group>";
-		};
-		708ED7922A8E670B00107CDF /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7932A8E671200107CDF /* HomeViewModel.swift */,
-			);
-			path = Home;
-			sourceTree = "<group>";
-		};
 		708ED7992A8E6FD100107CDF /* Rothem */ = {
 			isa = PBXGroup;
 			children = (
@@ -1106,45 +1298,11 @@
 		708ED7A22A8F942500107CDF /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */,
-				70727A9829D88A22003DE956 /* RegisterViewController.swift */,
-				70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */,
-				70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */,
-				70727A9129D889AE003DE956 /* LoginViewController.swift */,
+				708DAD172B35AD9D00E3AD45 /* ViewModel */,
+				708DAD162B35AD9400E3AD45 /* View */,
+				708DAD142B35AD3F00E3AD45 /* Intranet */,
 			);
 			path = Auth;
-			sourceTree = "<group>";
-		};
-		708ED7A32A8F944A00107CDF /* Intranet */ = {
-			isa = PBXGroup;
-			children = (
-				708312452A2F34DB00F7E283 /* IntranetLoginViewController.swift */,
-				70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */,
-				70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */,
-				70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */,
-			);
-			path = Intranet;
-			sourceTree = "<group>";
-		};
-		708ED7A42A8F948500107CDF /* Library */ = {
-			isa = PBXGroup;
-			children = (
-				705FD2AC2A16160100F353FE /* LibraryViewController.swift */,
-				705FD2AE2A16246F00F353FE /* LibraryResultsViewController.swift */,
-				705FD2BC2A1A4CEE00F353FE /* LibraryDetailViewController.swift */,
-			);
-			path = Library;
-			sourceTree = "<group>";
-		};
-		708ED7A52A8FA19F00107CDF /* Rothem */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7832A8E017A00107CDF /* StudyListViewController.swift */,
-				708ED7A02A8F922900107CDF /* CheckReservationViewController.swift */,
-				708ED7A62A8FA1C500107CDF /* StudyReservationViewController.swift */,
-				708ED7B22A90D4ED00107CDF /* StudyRoomDetailViewController.swift */,
-			);
-			path = Rothem;
 			sourceTree = "<group>";
 		};
 		708ED7BA2A91196B00107CDF /* Bible */ = {
@@ -1172,36 +1330,6 @@
 				7051E4FC2ADAB71200C2134B /* BoardService.swift */,
 			);
 			path = Service;
-			sourceTree = "<group>";
-		};
-		708ED7C42A911E4000107CDF /* Bible */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7C52A911E6C00107CDF /* TodayPrayCollectionViewCell.swift */,
-				708ED7C82A911E8700107CDF /* BibleCollectionHeaderView.swift */,
-				708ED7CA2A91224B00107CDF /* TodayBibleWordCollectionViewCell.swift */,
-				708ED7CC2A9122F900107CDF /* BibleNoticeCollectionViewCell.swift */,
-				708ED7D72A92357600107CDF /* BibleCollectionViewCell.swift */,
-			);
-			path = Bible;
-			sourceTree = "<group>";
-		};
-		708ED7D02A9203CC00107CDF /* Bible */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7C22A911B4800107CDF /* BibleViewController.swift */,
-				708ED7D12A9203DF00107CDF /* BibleSearchResultViewController.swift */,
-			);
-			path = Bible;
-			sourceTree = "<group>";
-		};
-		708ED7D92A923B2300107CDF /* Bible */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7DA2A923B2A00107CDF /* BibleViewModel.swift */,
-				70375F0A2AB055360032F6B8 /* BibleSearchResultViewModel.swift */,
-			);
-			path = Bible;
 			sourceTree = "<group>";
 		};
 		708ED7E32A94B60200107CDF /* CoreData */ = {
@@ -1813,7 +1941,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1867,7 +1995,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1895,7 +2023,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1928,7 +2056,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

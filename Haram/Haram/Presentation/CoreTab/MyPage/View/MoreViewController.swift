@@ -151,6 +151,7 @@ final class MoreViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    viewModel.inquireUserInfo()
     
     viewModel.currentUserInfo
       .drive(with: self) { owner, profileInfoViewModel in
@@ -252,7 +253,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if tableView == settingTableView && SettingType.allCases[indexPath.row] == .logout {
-      viewModel.requestLogoutUser.onNext(())
+      viewModel.requestLogoutUser()
     }
     
   }
