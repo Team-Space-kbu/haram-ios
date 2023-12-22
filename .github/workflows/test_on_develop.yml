@@ -23,4 +23,4 @@ jobs:
     - name: Start xcode build 🛠
       run: |
         pod install --repo-update --clean-install --project-directory=Haram/Haram/
-        xcodebuild clean test -workspace Haram/Haram/HappyChuseok.xcworkspace -scheme Haram -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=latest'
+        xcodebuild clean test -workspace Haram/Haram/Haram.xcworkspace -scheme Haram -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=latest'
