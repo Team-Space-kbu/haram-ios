@@ -27,20 +27,29 @@ extension UIColor {
       alpha: CGFloat(alpha)
     )
   }
+  
+  static var ramdomColor: UIColor {
+    return UIColor(
+      red: CGFloat.random(in: 0.5...1),
+      green: CGFloat.random(in: 0.5...1),
+      blue: CGFloat.random(in: 0.5...1),
+      alpha: 1
+    )
+  }
 }
 
 // MARK: - Plub Color Palette
 
 extension UIColor {
-  static let hex3B8686                = UIColor(hex: 0x3B8686)
-  static let hex79BD9A             = UIColor(hex: 0x79BD9A)
+  static let hex3B8686          = UIColor(hex: 0x3B8686)
+  static let hex79BD9A          = UIColor(hex: 0x79BD9A)
   static let hexA8DBA8          = UIColor(hex: 0xA8DBA8)
-  static let hexCFF09E       = UIColor(hex: 0xCFF09E)
-  static let hex56CCF2            = UIColor(hex: 0x56CCF2)
+  static let hexCFF09E          = UIColor(hex: 0xCFF09E)
+  static let hex56CCF2          = UIColor(hex: 0x56CCF2)
   static let hex2D9CDB          = UIColor(hex: 0x2D9CDB)
-  static let hex2F80ED           = UIColor(hex: 0x2F80ED)
-  static let hexF8F8F8               = UIColor(hex: 0xF8F8F8)
-  static let hexD8D8DA               = UIColor(hex: 0xD8D8DA)
+  static let hex2F80ED          = UIColor(hex: 0x2F80ED)
+  static let hexF8F8F8          = UIColor(hex: 0xF8F8F8)
+  static let hexD8D8DA          = UIColor(hex: 0xD8D8DA)
   static let hex545E6A          = UIColor(hex: 0x545E6A)
   static let hex1A1E27          = UIColor(hex: 0x1A1E27)
   static let hex9F9FA4          = UIColor(hex: 0x9F9FA4)
@@ -51,5 +60,19 @@ extension UIColor {
   static let hex4548CC          = UIColor(hex: 0x4548CC)
   static let hex6242C2          = UIColor(hex: 0x6242C2)
   static let hex4666B5          = UIColor(hex: 0x4666B5)
+  static let hexF5F5F5          = UIColor(hex: 0xF5F5F5)
+  static let hexD0D0D0          = UIColor(hex: 0xD0D0D0)
+  static let hexD6D4D6          = UIColor(hex: 0xD6D4D6)
+  static let hex4B81EE          = UIColor(hex: 0x4B81EE)
+  static let hex1477F9          = UIColor(hex: 0x1477F9)
+  static let hex707070          = UIColor(hex: 0x707070)
+  static let hex02162E          = UIColor(hex: 0x02162E)
+  static let hexEEF0F3          = UIColor(hex: 0xEEF0F3)
+  static let hexF02828          = UIColor(hex: 0xF02828)
+  static let hex95989A          = UIColor(hex: 0x95989A)
+  static let hex8B8B8E          = UIColor(hex: 0x8B8B8E)
+  static let hexC9C9C9          = UIColor(hex: 0xC9C9C9)
+  static let hexD9D9D9          = UIColor(hex: 0xD9D9D9)
+  static let hexF4F4F4          = UIColor(hex: 0xF4F4F4)
 }
 
