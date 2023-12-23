@@ -35,6 +35,7 @@ final class MoreViewModel {
   
   func requestLogoutUser() {
     AuthService.shared.logoutUser(userID: UserManager.shared.userID!)
+      .take(1)
       .subscribe(with: self) { owner, _ in
         UserManager.shared.clearAllInformations()
         owner.successMessageRelay.accept("로그아웃 성공하였습니다.")

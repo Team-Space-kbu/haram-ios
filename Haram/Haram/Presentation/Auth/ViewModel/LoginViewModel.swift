@@ -9,10 +9,10 @@ import RxSwift
 import RxCocoa
 
 protocol LoginViewModelType {
-  var tryLoginRequest: AnyObserver<(String, String)?> { get }
+  func loginMember(userID: String, password: String)
   
-  var loginToken: Driver<(String?, String?)> { get }
   var errorMessage: Signal<String> { get }
+  var successLogin: Signal<Void> { get }
   var isLoading: Driver<Bool> { get }
 }
 
@@ -20,73 +20,63 @@ final class LoginViewModel {
   
   private let disposeBag = DisposeBag()
   
-  private let tryLoginRequestSubject = BehaviorSubject<(String, String)?>(value: nil)
-  private let tokenForLogin          = BehaviorSubject<String?>(value: UserManager.shared.accessToken)
-  private let refreshTokenForLogin   = BehaviorSubject<String?>(value: UserManager.shared.refreshToken)
   private let errorMessageRelay      = PublishRelay<String?>()
   private let isLoadingSubject       = BehaviorSubject<Bool>(value: false)
+  private let successLoginRelay      = PublishRelay<Void>()
   
-  init() {
-    tryLogin()
-  }
 }
 
 // MARK: - Functionality
 
 extension LoginViewModel {
-  private func tryLogin() {
-    tryLoginRequestSubject
-      .compactMap { $0 }
-      .do(onNext: { [weak self] id, password in
-        guard let self = self else { return }
-        self.isLoadingSubject.onNext(true)
-        let message: String?
-        if id.isEmpty {
-          message = password.isEmpty ? Constants.allEmptyMessage : Constants.idEmptyMessage
-        } else if password.isEmpty && !id.isEmpty {
-          message = Constants.passwordEmptyMessage
-        } else {
-          message = nil
-        }
-        self.errorMessageRelay.accept(message)
-        self.isLoadingSubject.onNext(false)
-      })
-        .filter { !$0.isEmpty && !$1.isEmpty }
-        .do(onNext: { [weak self] _ in
-          guard let self = self else { return }
-          self.isLoadingSubject.onNext(true)
-        })
-        .flatMapLatest {
-          AuthService.shared.loginMember(
-            request: .init(
-              userID: $0,
-              password: $1
-            )
+  
+  func loginMember(userID: String, password: String) {
+    isLoadingSubject.onNext(true)
+    let message: String?
+    if userID.isEmpty {
+      message = password.isEmpty ? Constants.allEmptyMessage : Constants.idEmptyMessage
+    } else if password.isEmpty && !userID.isEmpty {
+      message = Constants.passwordEmptyMessage
+    } else {
+      message = nil
+    }
+    self.errorMessageRelay.accept(message)
+    self.isLoadingSubject.onNext(false)
+    
+    guard !userID.isEmpty && !password.isEmpty else { return }
+    
+    self.isLoadingSubject.onNext(true)
+    
+    AuthService.shared.loginMember(
+      request: .init(
+        userID: userID,
+        password: password
+      )
+    )
+    .subscribe(with: self, onNext: { owner, result in
+      switch result {
+        case .success(let response):
+          
+          UserManager.shared.updateHaramToken(
+            accessToken: response.accessToken,
+            refreshToken: response.refreshToken
           )
-        }
-        .subscribe(with: self, onNext: { owner, result in
-          switch result {
-            case .success(let response):
-              guard let (userID, _) = try? owner.tryLoginRequestSubject.value() else { return }
-              
-              UserManager.shared.updateHaramToken(
-                accessToken: response.accessToken,
-                refreshToken: response.refreshToken
-              )
-              
-              UserManager.shared.set(userID: userID)
-              
-              owner.tokenForLogin.onNext(UserManager.shared.accessToken)
-              owner.refreshTokenForLogin.onNext(UserManager.shared.refreshToken)
-            case .failure(let error):
-              guard let description = error.description else { return }
-              /// TODO: -로그인 실패 시 처리해야함
-              owner.errorMessageRelay.accept(description)
-          }
-          owner.isLoadingSubject.onNext(false)
-        })
-        .disposed(by: disposeBag)
+          
+          UserManager.shared.set(userID: userID)
+        owner.successLoginRelay.accept(())
+
+        case .failure(let error):
+          guard let description = error.description else { return }
+          /// TODO: -로그인 실패 시 처리해야함
+          owner.errorMessageRelay.accept(description)
+      }
+      owner.isLoadingSubject.onNext(false)
+    })
+    .disposed(by: disposeBag)
+    
   }
+  
+  
 }
 
 // MARK: - Constants
@@ -100,6 +90,10 @@ extension LoginViewModel {
 }
 
 extension LoginViewModel: LoginViewModelType {
+  var successLogin: RxCocoa.Signal<Void> {
+    successLoginRelay.asSignal()
+  }
+  
   var isLoading: RxCocoa.Driver<Bool> {
     isLoadingSubject
       .distinctUntilChanged()
@@ -112,15 +106,5 @@ extension LoginViewModel: LoginViewModelType {
       .compactMap { $0 }
       .asSignal(onErrorSignalWith: .empty())
   }
-  
-  var tryLoginRequest: AnyObserver<(String, String)?> {
-    tryLoginRequestSubject.asObserver()
-  }
-  
-  var loginToken: Driver<(String?, String?)> {
-    Observable.zip(
-      tokenForLogin, refreshTokenForLogin
-    )
-    .asDriver(onErrorDriveWith: .empty())
-  }
+
 }

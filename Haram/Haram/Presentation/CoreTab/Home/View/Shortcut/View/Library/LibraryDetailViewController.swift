@@ -156,7 +156,7 @@ final class LibraryDetailViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    viewModel.whichRequestBookPath.onNext(path)
+    viewModel.requestBookInfo(path: path)
     
     viewModel.detailMainModel
       .drive(with: self) { owner, mainModel in
@@ -197,33 +197,6 @@ final class LibraryDetailViewController: BaseViewController {
         owner.relatedBookModel = bookModel
       }
       .disposed(by: disposeBag)
-    
-//    Driver.combineLatest(
-//      viewModel.detailMainModel,
-//      viewModel.detailSubModel,
-//      viewModel.detailInfoModel,
-//      viewModel.detailRentalModel,
-//      viewModel.relatedBookModel
-//    )
-//    .drive(with: self) { owner, result in
-//      let (mainModel, subModel, infoModel, rentalModel, bookModel) = result
-//      owner.libraryDetailMainView.hideSkeleton()
-//      owner.libraryDetailSubView.hideSkeleton()
-//      owner.libraryDetailInfoView.hideSkeleton()
-//      owner.libraryRentalListView.hideSkeleton()
-//      
-//      owner.libraryDetailMainView.configureUI(with: mainModel)
-//      owner.libraryDetailSubView.configureUI(with: subModel)
-//      owner.libraryDetailInfoView.configureUI(with: infoModel)
-//      owner.libraryRentalListView.configureUI(with: rentalModel)
-//      
-//      if bookModel.isEmpty {
-//        owner.libraryRentalListView.removeLastIineView()
-//      }
-////      owner.collectionView.isHidden = bookModel.isEmpty
-//      owner.relatedBookModel = bookModel
-//    }
-//    .disposed(by: disposeBag)
     
     viewModel.isLoading
       .filter { !$0 }

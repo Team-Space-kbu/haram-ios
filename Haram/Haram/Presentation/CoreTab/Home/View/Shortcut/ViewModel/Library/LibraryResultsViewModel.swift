@@ -1,10 +1,3 @@
-//
-//  LibraryResultsViewModel.swift
-//  Haram
-//
-//  Created by 이건준 on 2023/09/04.
-//
-
 import RxSwift
 import RxCocoa
 

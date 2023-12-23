@@ -9,7 +9,8 @@ import RxSwift
 import RxCocoa
 
 protocol CheckReservationViewModelType {
-  var requestCancelReservation: AnyObserver<Void> { get }
+  
+  func cancelReservation()
   
   var rothemReservationInfoViewModel: Driver<RothemReservationInfoViewModel> { get }
   var successCancelReservation: Driver<Void> { get }
@@ -21,12 +22,10 @@ final class CheckReservationViewModel {
   
   private var reservationSeq: Int?
   private let rothemReservationInfoViewRelay  = PublishRelay<RothemReservationInfoViewModel>()
-  private let cancelReservationSubject        = PublishSubject<Void>()
   private let successCancelReservationSubject = PublishSubject<Void>()
   
   init() {
     inquireRothemReservationInfo()
-    cancelReservation()
   }
   
   private func inquireRothemReservationInfo() {
@@ -40,26 +39,26 @@ final class CheckReservationViewModel {
       }
       .disposed(by: disposeBag)
   }
-  
-  private func cancelReservation() {
-    
-    cancelReservationSubject
-      .withUnretained(self)
-      .flatMapLatest { owner, _ in
-        RothemService.shared.cancelRothemReservation(
-          request: .init(
-            reservationSeq: owner.reservationSeq!,
-            userID: UserManager.shared.userID!
-          )
-        ) }
-      .subscribe(with: self) { owner, _ in
-        owner.successCancelReservationSubject.onNext(())
-      }
-      .disposed(by: disposeBag)
-  }
 }
 
 extension CheckReservationViewModel: CheckReservationViewModelType {
+  
+  func cancelReservation() {
+    
+    guard let reservationSeq = reservationSeq else { return }
+    
+    RothemService.shared.cancelRothemReservation(
+      request: .init(
+        reservationSeq: reservationSeq,
+        userID: UserManager.shared.userID!
+      )
+    )
+    .subscribe(with: self) { owner, _ in
+      owner.successCancelReservationSubject.onNext(())
+    }
+    .disposed(by: disposeBag)
+  }
+  
   var successCancelReservation: RxCocoa.Driver<Void> {
     successCancelReservationSubject.asDriver(onErrorDriveWith: .empty())
   }
@@ -68,7 +67,4 @@ extension CheckReservationViewModel: CheckReservationViewModelType {
     rothemReservationInfoViewRelay.asDriver(onErrorDriveWith: .empty())
   }
   
-  var requestCancelReservation: AnyObserver<Void> {
-    cancelReservationSubject.asObserver()
-  }
 }

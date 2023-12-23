@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol BibleSearchResultViewModelType {
-  var whichRequestForSearch: AnyObserver<InquireChapterToBibleRequest> { get }
+  func searchBible(request: InquireChapterToBibleRequest)
   
   var searchResultContent: Driver<String> { get }
 }
@@ -17,35 +17,24 @@ protocol BibleSearchResultViewModelType {
 final class BibleSearchResultViewModel {
   
   private let disposeBag = DisposeBag()
+  private let searchResultContentRelay = PublishRelay<String>()
   
-  private let requestTypeForSearchSubject = PublishSubject<InquireChapterToBibleRequest>()
-  private let searchResultContentRelay    = PublishRelay<String>()
+}
+
+extension BibleSearchResultViewModel: BibleSearchResultViewModelType {
   
-  init() {
-    inquireChapterToBible()
-  }
-  
-  private func inquireChapterToBible() {
-    let tryInquireChapterToBible = requestTypeForSearchSubject
-      .flatMapLatest(BibleService.shared.inquireChapterToBible(request: ))
-    
-    tryInquireChapterToBible
+  func searchBible(request: InquireChapterToBibleRequest) {
+    BibleService.shared.inquireChapterToBible(request: request)
       .subscribe(with: self) { owner, responses in
         owner.searchResultContentRelay.accept(responses.toStringWithWhiteSpace)
       }
       .disposed(by: disposeBag)
   }
   
-}
-
-extension BibleSearchResultViewModel: BibleSearchResultViewModelType {
   var searchResultContent: RxCocoa.Driver<String> {
     searchResultContentRelay.asDriver(onErrorDriveWith: .empty())
   }
   
-  var whichRequestForSearch: AnyObserver<InquireChapterToBibleRequest> {
-    requestTypeForSearchSubject.asObserver()
-  }
 }
 
 

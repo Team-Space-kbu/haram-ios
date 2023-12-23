@@ -37,7 +37,7 @@ enum ShortcutType: CaseIterable {
     case .schedule:
       return ScheduleViewController()
     case .readingRoom:
-      return StudyListViewController()
+      return RothemRoomListViewController()
     }
   }
   

@@ -39,7 +39,6 @@ final class StudyReservationViewModel {
   private let reservationNameSubject                  = PublishSubject<String>()
   private let reservationPhoneNumerSubject            = PublishSubject<String>()
   private let reservationButtonTappedSubject          = PublishSubject<Void>()
-  private let isReservationButtonActivatedSubject     = PublishSubject<Bool>()
   private let successRothemReservationSubject         = PublishSubject<Void>()
   private let isLoadingSubject                        = PublishSubject<Bool>()
   
@@ -53,7 +52,6 @@ final class StudyReservationViewModel {
     getTimeInfoForReservation()
     saveTimeInfoForReservation()
     tryReserveStudyRoom()
-    checkReservationInfoIsValid()
   }
   
   /// 예약하기위한 정보를 조회하는 함수, 맨 처음에만 호출
@@ -168,18 +166,6 @@ final class StudyReservationViewModel {
       .disposed(by: disposeBag)
   }
   
-  /// 예약정보가 올바르게 입력되었는지 확인하는 함수, 버튼 활성화 통제
-  private func checkReservationInfoIsValid() {
-    Observable.combineLatest(
-      reservationPhoneNumerSubject,
-      policyModelRelay,
-      timeTable.map { $0.filter { $0.isTimeSelected } }
-    ) { !$0.isEmpty && !$1.isEmpty && !$2.isEmpty }
-      .subscribe(with: self) { owner, isActivated in
-        owner.isReservationButtonActivatedSubject.onNext(isActivated)
-      }
-      .disposed(by: disposeBag)
-  }
 }
 
 extension StudyReservationViewModel: StudyReservationViewModelType {
@@ -224,7 +210,11 @@ extension StudyReservationViewModel: StudyReservationViewModelType {
   }
   
   var isReservationButtonActivated: Driver<Bool> {
-    isReservationButtonActivatedSubject
+    Observable.combineLatest(
+      reservationPhoneNumerSubject,
+      policyModelRelay,
+      timeTable.map { $0.filter { $0.isTimeSelected } }
+    ) { !$0.isEmpty && !$1.isEmpty && !$2.isEmpty }
       .distinctUntilChanged()
       .asDriver(onErrorJustReturn: false)
   }

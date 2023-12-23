@@ -17,7 +17,7 @@ final class LibraryResultsViewController: BaseViewController {
   
   private var model: [LibraryResultsCollectionViewCellModel] = []
   
-  private lazy var collectionView = UICollectionView(
+  private lazy var searchResultsCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout()
   ).then {
@@ -45,6 +45,7 @@ final class LibraryResultsViewController: BaseViewController {
     super.bind()
     viewModel.searchResults
       .drive(with: self) { owner, model in
+        print("모델 \(model)")
         owner.emptyView.isHidden = !model.isEmpty
         owner.model = model
       }
@@ -53,17 +54,17 @@ final class LibraryResultsViewController: BaseViewController {
     viewModel.isLoading
       .filter { !$0 }
       .drive(with: self) { owner, isLoading in
-        owner.collectionView.reloadData()
+        owner.searchResultsCollectionView.reloadData()
         owner.view.hideSkeleton()
       }
       .disposed(by: disposeBag)
     
-    collectionView.rx.didScroll
+    searchResultsCollectionView.rx.didScroll
       .subscribe(with: self, onNext: { owner, _ in
-        let offSetY = owner.collectionView.contentOffset.y
-        let contentHeight = owner.collectionView.contentSize.height
+        let offSetY = owner.searchResultsCollectionView.contentOffset.y
+        let contentHeight = owner.searchResultsCollectionView.contentSize.height
         
-        if offSetY > (contentHeight - owner.collectionView.frame.size.height - (112 + 15 + 1) * 3) {
+        if offSetY > (contentHeight - owner.searchResultsCollectionView.frame.size.height - (112 + 15 + 1) * 3) {
           owner.viewModel.fetchMoreDatas.onNext(())
         }
       })
@@ -98,12 +99,12 @@ final class LibraryResultsViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    _ = [collectionView, emptyView].map { view.addSubview($0) }
+    _ = [searchResultsCollectionView, emptyView].map { view.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
-    collectionView.snp.makeConstraints {
+    searchResultsCollectionView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
     

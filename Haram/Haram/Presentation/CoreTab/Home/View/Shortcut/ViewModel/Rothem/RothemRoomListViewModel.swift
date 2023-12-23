@@ -10,9 +10,9 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol StudyListViewModelType {
+protocol RothemRoomListViewModelType {
   
-  var requestStudyList: AnyObserver<Void> { get }
+  func inquireRothemRoomList()
   
   var currentStudyReservationList: Driver<[StudyListCollectionViewCellModel]> { get }
   var currentRothemMainNotice: Driver<StudyListHeaderViewModel?> { get }
@@ -20,30 +20,23 @@ protocol StudyListViewModelType {
   var isReservation: Driver<StudyListCollectionHeaderViewType> { get }
 }
 
-final class StudyListViewModel {
+final class RothemRoomListViewModel {
   
   private let disposeBag = DisposeBag()
   
-  private let requestStudyListSubject   = PublishSubject<Void>()
   private let studyReservationListRelay = BehaviorRelay<[StudyListCollectionViewCellModel]>(value: [])
   private let rothemMainNoticeRelay     = BehaviorRelay<StudyListHeaderViewModel?>(value: nil)
   private let isLoadingSubject          = PublishSubject<Bool>()
   private let isReservationSubject      = BehaviorSubject<Bool>(value: false)
-  
-  init() {
-    inquireRothemHomeInfo()
-    
-  }
+
 }
 
-extension StudyListViewModel {
+
+extension RothemRoomListViewModel: RothemRoomListViewModelType {
   
-  private func inquireRothemHomeInfo() {
-    let inquireRothemHomeInfo = requestStudyListSubject
-      .flatMapLatest { RothemService.shared.inquireRothemHomeInfo(userID: UserManager.shared.userID!) }
-    
-    inquireRothemHomeInfo
-      .do(onNext: { [weak self] _ in
+  func inquireRothemRoomList() {
+    RothemService.shared.inquireRothemHomeInfo(userID: UserManager.shared.userID!)
+      .do(onSuccess: { [weak self] _ in
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)
       })
@@ -56,9 +49,7 @@ extension StudyListViewModel {
       }
       .disposed(by: disposeBag)
   }
-}
-
-extension StudyListViewModel: StudyListViewModelType {
+  
   var currentRothemMainNotice: RxCocoa.Driver<StudyListHeaderViewModel?> {
     rothemMainNoticeRelay
       .asDriver(onErrorJustReturn: nil)
@@ -78,8 +69,5 @@ extension StudyListViewModel: StudyListViewModelType {
       .map { $0 ? .reservation : .noReservation }
       .asDriver(onErrorDriveWith: .empty())
   }
-  
-  var requestStudyList: AnyObserver<Void> {
-    requestStudyListSubject.asObserver()
-  }
+
 }

@@ -120,7 +120,13 @@ final class LoginViewController: BaseViewController {
     }
     
     removeNotifications()
-    (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = HaramTabbarController()
+    
+    guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else { return }
+    
+    UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromLeft, animations: {
+      window.rootViewController = HaramTabbarController()
+       })
+    
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -133,9 +139,8 @@ final class LoginViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    viewModel.loginToken
-      .skip(1)
-      .drive(with: self) { owner, result in
+    viewModel.successLogin
+      .emit(with: self) { owner, result in
         guard UserManager.shared.hasToken else { return }
         
         let vc = HaramTabbarController()
@@ -154,6 +159,7 @@ final class LoginViewController: BaseViewController {
         if !isContain {
           owner.errorMessageLabel.text = error
           owner.containerView.insertArrangedSubview(owner.errorMessageLabel, at: 5)
+          
         }
         
       }
@@ -237,7 +243,19 @@ extension LoginViewController: LoginButtonDelegate {
     }
     
     view.endEditing(true)
-    viewModel.tryLoginRequest.onNext((userID, password))
+    viewModel.loginMember(userID: userID, password: password)
+//    guard let userID = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+//          let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+//    
+//    let isContain = self.containerView.subviews.contains(self.errorMessageLabel)
+//    
+//    if isContain {
+//      self.errorMessageLabel.text = nil
+//      self.errorMessageLabel.removeFromSuperview()
+//    }
+//    
+//    view.endEditing(true)
+//    viewModel.loginMember(userID: userID, password: password)
   }
   
   func didTappedFindPasswordButton() {
@@ -266,7 +284,7 @@ extension LoginViewController: UITextFieldDelegate {
       }
       
       view.endEditing(true)
-      viewModel.tryLoginRequest.onNext((userID, password))
+      viewModel.loginMember(userID: userID, password: password)
     }
     return true
   }

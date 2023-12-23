@@ -79,7 +79,7 @@ final class CheckReservationViewController: BaseViewController {
     reservationCancelButton.rx.tap
       .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
       .subscribe(with: self) { owner, _ in
-        owner.viewModel.requestCancelReservation.onNext(())
+        owner.viewModel.cancelReservation()
       }
       .disposed(by: disposeBag)
     

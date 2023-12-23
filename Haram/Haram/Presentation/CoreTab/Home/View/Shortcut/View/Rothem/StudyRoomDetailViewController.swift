@@ -33,9 +33,9 @@ final class StudyRoomDetailViewController: BaseViewController {
     $0.isSkeletonable = true
   }
   
-  init(roomSeq: Int) {
-    self.viewModel = StudyRoomDetailViewModel(roomSeq: roomSeq)
+  init(roomSeq: Int, viewModel: StudyRoomDetailViewModelType = StudyRoomDetailViewModel()) {
     self.roomSeq = roomSeq
+    self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -93,6 +93,9 @@ final class StudyRoomDetailViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
+    viewModel.inquireRothemRoomInfo(roomSeq: roomSeq)
+    
     viewModel.rothemRoomDetailViewModel
       .drive(with: self) { owner, rothemRoomDetailViewModel in
         owner.studyRoomDetailView.configureUI(with: rothemRoomDetailViewModel)

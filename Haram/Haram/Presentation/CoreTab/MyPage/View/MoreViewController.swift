@@ -102,23 +102,23 @@ final class MoreViewController: BaseViewController {
     $0.backgroundColor = .clear
     $0.showsVerticalScrollIndicator = false
   }
-
+  
   private let contentView = UIView().then {
     $0.backgroundColor = .clear
   }
-
+  
   private let moreLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold26
     $0.text = "더보기"
   }
-
+  
   private let settingLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold22
     $0.text = "설정"
   }
-
+  
   private let profileInfoView = ProfileInfoView().then {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
@@ -126,7 +126,7 @@ final class MoreViewController: BaseViewController {
     $0.layer.borderColor = UIColor.hexD8D8DA.cgColor
     $0.backgroundColor = .hexF8F8F8
   }
-
+  
   private let lineView = UIView().then {
     $0.backgroundColor = .hexD8D8DA
   }
@@ -161,7 +161,11 @@ final class MoreViewController: BaseViewController {
     
     viewModel.successMessage
       .emit(with: self) { owner, message in
-        owner.dismiss(animated: true)
+        guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else { return }
+        
+        UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromLeft, animations: {
+          window.rootViewController = LoginViewController()
+        })
       }
       .disposed(by: disposeBag)
   }

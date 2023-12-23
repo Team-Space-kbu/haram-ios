@@ -11,11 +11,11 @@ import SnapKit
 import SkeletonView
 import Then
 
-final class StudyListViewController: BaseViewController {
+final class RothemRoomListViewController: BaseViewController {
   
   // MARK: - Properties
   
-  private let viewModel: StudyListViewModelType
+  private let viewModel: RothemRoomListViewModelType
   private var type: StudyListCollectionHeaderViewType = .noReservation {
     didSet {
       studyListCollectionView.reloadData()
@@ -54,7 +54,7 @@ final class StudyListViewController: BaseViewController {
   
   // MARK: - Initializations
   
-  init(viewModel: StudyListViewModelType = StudyListViewModel()) {
+  init(viewModel: RothemRoomListViewModelType = RothemRoomListViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -65,7 +65,7 @@ final class StudyListViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    viewModel.requestStudyList.onNext(())
+    viewModel.inquireRothemRoomList()
   }
   
   // MARK: - Configurations
@@ -84,6 +84,8 @@ final class StudyListViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    
+    
     viewModel.currentStudyReservationList
       .drive(rx.studyListModel)
       .disposed(by: disposeBag)
@@ -134,7 +136,7 @@ final class StudyListViewController: BaseViewController {
   }
 }
 
-extension StudyListViewController: UICollectionViewDelegate {
+extension RothemRoomListViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let vc = StudyRoomDetailViewController(roomSeq: studyListModel[indexPath.row].roomSeq)
     vc.title = studyListModel[indexPath.row].title
@@ -143,7 +145,7 @@ extension StudyListViewController: UICollectionViewDelegate {
   }
 }
 
-extension StudyListViewController: UICollectionViewDelegateFlowLayout {
+extension RothemRoomListViewController: UICollectionViewDelegateFlowLayout {
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
     /// 헤더뷰랑 로뎀스터디룸예약 라벨 사이의 간격을 모르겠음 30을 수정해야함
@@ -160,7 +162,7 @@ extension StudyListViewController: UICollectionViewDelegateFlowLayout {
   }
 }
 
-extension StudyListViewController: StudyListCollectionHeaderViewDelegate {
+extension RothemRoomListViewController: StudyListCollectionHeaderViewDelegate {
   func didTappedCheckButton() {
     let vc = CheckReservationViewController()
     vc.navigationItem.largeTitleDisplayMode = .never
@@ -168,7 +170,7 @@ extension StudyListViewController: StudyListCollectionHeaderViewDelegate {
   }
 }
 
-extension StudyListViewController: SkeletonCollectionViewDataSource {
+extension RothemRoomListViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
     StudyListCollectionViewCell.identifier
   }

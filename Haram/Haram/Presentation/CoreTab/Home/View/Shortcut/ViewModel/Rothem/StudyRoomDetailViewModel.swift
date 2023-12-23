@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 
 protocol StudyRoomDetailViewModelType {
+  func inquireRothemRoomInfo(roomSeq: Int)
   var rothemRoomDetailViewModel: Driver<RothemRoomDetailViewModel> { get }
   var rothemRoomThumbnailImage: Driver<URL?> { get }
   
@@ -19,18 +20,12 @@ protocol StudyRoomDetailViewModelType {
 
 final class StudyRoomDetailViewModel {
   
-  private let roomSeq: Int
   private let disposeBag = DisposeBag()
   private let currentRothemRoomDetailViewModelRelay = PublishRelay<RothemRoomDetailViewModel>()
   private let currentRothemRoomThubnailImageRelay   = PublishRelay<URL?>()
   private let isLoadingSubject                      = PublishSubject<Bool>()
   
-  init(roomSeq: Int) {
-    self.roomSeq = roomSeq
-    inquireRothemRoomInfo()
-  }
-  
-  private func inquireRothemRoomInfo() {
+  func inquireRothemRoomInfo(roomSeq: Int) {
     let inquireRothemRoomInfo = RothemService.shared.inquireRothemRoomInfo(roomSeq: roomSeq)
       .do(onSuccess: { [weak self] _ in
         guard let self = self else { return }

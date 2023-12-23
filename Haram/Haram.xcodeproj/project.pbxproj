@@ -176,10 +176,10 @@
 		708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */; };
 		708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */; };
 		708ED7822A8CC70700107CDF /* BoardListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7812A8CC70700107CDF /* BoardListViewModel.swift */; };
-		708ED7842A8E017A00107CDF /* StudyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7832A8E017A00107CDF /* StudyListViewController.swift */; };
+		708ED7842A8E017A00107CDF /* RothemRoomListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7832A8E017A00107CDF /* RothemRoomListViewController.swift */; };
 		708ED7862A8E01CC00107CDF /* StudyListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7852A8E01CC00107CDF /* StudyListCollectionViewCell.swift */; };
 		708ED7892A8E02B800107CDF /* StudyListCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7882A8E02B800107CDF /* StudyListCollectionHeaderView.swift */; };
-		708ED7912A8E0AED00107CDF /* StudyListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7902A8E0AED00107CDF /* StudyListViewModel.swift */; };
+		708ED7912A8E0AED00107CDF /* RothemRoomListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7902A8E0AED00107CDF /* RothemRoomListViewModel.swift */; };
 		708ED7942A8E671200107CDF /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7932A8E671200107CDF /* HomeViewModel.swift */; };
 		708ED7962A8E6F2700107CDF /* RothemRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7952A8E6F2700107CDF /* RothemRouter.swift */; };
 		708ED7982A8E6F8F00107CDF /* RothemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7972A8E6F8F00107CDF /* RothemService.swift */; };
@@ -429,10 +429,10 @@
 		708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
 		708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		708ED7812A8CC70700107CDF /* BoardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListViewModel.swift; sourceTree = "<group>"; };
-		708ED7832A8E017A00107CDF /* StudyListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyListViewController.swift; sourceTree = "<group>"; };
+		708ED7832A8E017A00107CDF /* RothemRoomListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemRoomListViewController.swift; sourceTree = "<group>"; };
 		708ED7852A8E01CC00107CDF /* StudyListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyListCollectionViewCell.swift; sourceTree = "<group>"; };
 		708ED7882A8E02B800107CDF /* StudyListCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyListCollectionHeaderView.swift; sourceTree = "<group>"; };
-		708ED7902A8E0AED00107CDF /* StudyListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyListViewModel.swift; sourceTree = "<group>"; };
+		708ED7902A8E0AED00107CDF /* RothemRoomListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemRoomListViewModel.swift; sourceTree = "<group>"; };
 		708ED7932A8E671200107CDF /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		708ED7952A8E6F2700107CDF /* RothemRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemRouter.swift; sourceTree = "<group>"; };
 		708ED7972A8E6F8F00107CDF /* RothemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemService.swift; sourceTree = "<group>"; };
@@ -1056,7 +1056,7 @@
 		708DAD062B35AA3100E3AD45 /* Rothem */ = {
 			isa = PBXGroup;
 			children = (
-				708ED7832A8E017A00107CDF /* StudyListViewController.swift */,
+				708ED7832A8E017A00107CDF /* RothemRoomListViewController.swift */,
 				708ED7A02A8F922900107CDF /* CheckReservationViewController.swift */,
 				708ED7A62A8FA1C500107CDF /* StudyReservationViewController.swift */,
 				708ED7B22A90D4ED00107CDF /* StudyRoomDetailViewController.swift */,
@@ -1067,7 +1067,7 @@
 		708DAD072B35AA4200E3AD45 /* Rothem */ = {
 			isa = PBXGroup;
 			children = (
-				708ED7902A8E0AED00107CDF /* StudyListViewModel.swift */,
+				708ED7902A8E0AED00107CDF /* RothemRoomListViewModel.swift */,
 				701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */,
 				701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */,
 				708E1E652B09E0330030FAA0 /* StudyReservationViewModel.swift */,
@@ -1693,7 +1693,7 @@
 				70C9CCAE2A066B8F00BEB5F2 /* ChapelInfoView.swift in Sources */,
 				70903C942ADEB1F500C6FEF0 /* Ex + Array.swift in Sources */,
 				708312C02A7A448300F7E283 /* TermsOfUseCheckView.swift in Sources */,
-				708ED7842A8E017A00107CDF /* StudyListViewController.swift in Sources */,
+				708ED7842A8E017A00107CDF /* RothemRoomListViewController.swift in Sources */,
 				705FD2CC2A23BA6A00F353FE /* InquireLibraryResponse.swift in Sources */,
 				70727A9029D88935003DE956 /* BaseViewController.swift in Sources */,
 				705FD28E2A10FC0200F353FE /* KeyChainWrapper.swift in Sources */,
@@ -1822,7 +1822,7 @@
 				708ED7CB2A91224B00107CDF /* TodayBibleWordCollectionViewCell.swift in Sources */,
 				70909A822B0D8B4E00049265 /* ReserveStudyRoomRequest.swift in Sources */,
 				7083124F2A31927600F7E283 /* HomeRouter.swift in Sources */,
-				708ED7912A8E0AED00107CDF /* StudyListViewModel.swift in Sources */,
+				708ED7912A8E0AED00107CDF /* RothemRoomListViewModel.swift in Sources */,
 				708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */,
 				70727AA629D93B43003DE956 /* HomeShortcutCollectionViewCell.swift in Sources */,
 				70864F302AF69FB100CD4124 /* InquireChapelDetailResponse.swift in Sources */,

@@ -34,7 +34,7 @@ final class BibleSearchResultViewController: BaseViewController {
   private let bibleTitleView = BibleTitleView()
   
   private let contentLabel = UILabel().then {
-    $0.font = .bold18
+    $0.font = .regular18
     $0.textColor = .black
     $0.numberOfLines = 0
     $0.textAlignment = .justified
@@ -59,7 +59,7 @@ final class BibleSearchResultViewController: BaseViewController {
   
   func bind(request: InquireChapterToBibleRequest) {
     super.bind()
-    viewModel.whichRequestForSearch.onNext(request)
+    viewModel.searchBible(request: request)
     
     viewModel.searchResultContent
       .drive(with: self) { owner, content in
