@@ -27,12 +27,12 @@ protocol RegisterViewModelType {
 final class RegisterViewModel {
   private let disposeBag = DisposeBag()
   
-  private let registerIDSubject              = PublishSubject<String>()
-  private let registerPWDSubject             = PublishSubject<String>()
-  private let registerRePWDSubject           = PublishSubject<String>()
-  private let registerEmailSubject           = PublishSubject<String>()
-  private let registerNicknameSubject        = PublishSubject<String>()
-  private let registerAuthCodeSubject        = PublishSubject<String>()
+  private let registerIDSubject              = BehaviorSubject<String>(value: "")
+  private let registerPWDSubject             = BehaviorSubject<String>(value: "")
+  private let registerRePWDSubject           = BehaviorSubject<String>(value: "")
+  private let registerEmailSubject           = BehaviorSubject<String>(value: "")
+  private let registerNicknameSubject        = BehaviorSubject<String>(value: "")
+  private let registerAuthCodeSubject        = BehaviorSubject<String>(value: "")
   private let isRegisterButtonEnabledSubject = BehaviorSubject<Bool>(value: false)
   private let errorMessageRelay              = PublishRelay<HaramError>()
   private let signupSuccessMessageRelay      = PublishRelay<String>()
@@ -40,7 +40,7 @@ final class RegisterViewModel {
   
   func registerMember() {
     
-    let tryRegisterMember = Observable.combineLatest(
+    let tryRegisterMember = Observable.zip(
       registerIDSubject,
       registerEmailSubject,
       registerPWDSubject,

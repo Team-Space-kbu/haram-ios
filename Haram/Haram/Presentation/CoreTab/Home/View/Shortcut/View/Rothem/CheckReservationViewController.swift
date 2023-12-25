@@ -11,7 +11,7 @@ import SnapKit
 import Then
 import RxSwift
 
-final class CheckReservationViewController: BaseViewController {
+final class CheckReservationViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: CheckReservationViewModelType
   
@@ -38,12 +38,7 @@ final class CheckReservationViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     title = "예약확인하기"
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
+    setupBackButton()
   }
   
   override func setupLayouts() {
@@ -90,7 +85,7 @@ final class CheckReservationViewController: BaseViewController {
       .disposed(by: disposeBag)
   }
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
   

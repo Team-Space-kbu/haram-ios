@@ -30,7 +30,7 @@ enum LibraryType: CaseIterable {
   }
 }
 
-final class LibraryViewController: BaseViewController {
+final class LibraryViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - Properties
   
@@ -181,13 +181,8 @@ final class LibraryViewController: BaseViewController {
     super.setupStyles()
     
     /// Configure Navigation Bar
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
     title = "도서"
+    setupBackButton()
     
     /// Set tapGesture & panGesture
     _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
@@ -280,7 +275,7 @@ final class LibraryViewController: BaseViewController {
     return section
   }
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
 }

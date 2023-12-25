@@ -11,7 +11,7 @@ import SnapKit
 import SkeletonView
 import Then
 
-final class StudyReservationViewController: BaseViewController {
+final class StudyReservationViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: StudyReservationViewModelType
   
@@ -243,12 +243,7 @@ final class StudyReservationViewController: BaseViewController {
     
     /// Configure NavigationBar
     title = "예약하기"
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
+    setupBackButton()
     
     /// Set Delegate & DataSource
     selectedDayCollectionView.delegate = self
@@ -274,7 +269,7 @@ final class StudyReservationViewController: BaseViewController {
     )
   }
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
   

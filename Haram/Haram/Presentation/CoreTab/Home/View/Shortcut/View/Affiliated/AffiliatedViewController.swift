@@ -12,7 +12,7 @@ import FloatingPanel
 import SnapKit
 import Then
 
-final class AffiliatedViewController: BaseViewController {
+final class AffiliatedViewController: BaseViewController, BackButtonHandler {
  
   // MARK: - UI Models
  
@@ -99,12 +99,7 @@ final class AffiliatedViewController: BaseViewController {
     self.showFloatingPanel(self.floatingPanelVC)
     
     title = "제휴업체"
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
+    setupBackButton()
     
     view.addGestureRecognizer(tapGesture)
     
@@ -120,7 +115,7 @@ final class AffiliatedViewController: BaseViewController {
   
   // MARK: - Action Function
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
 }

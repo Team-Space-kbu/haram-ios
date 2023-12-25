@@ -39,7 +39,7 @@ enum CategorySectionType: CaseIterable {
   }
 }
 
-final class NoticeViewController: BaseViewController {
+final class NoticeViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: NoticeViewModelType
   
@@ -84,13 +84,7 @@ final class NoticeViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     title = "공지사항"
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
-    
+    setupBackButton()
     navigationItem.rightBarButtonItem = UIBarButtonItem(
       image: UIImage(named: "searchLightGray"),
       style: .plain,
@@ -144,7 +138,7 @@ final class NoticeViewController: BaseViewController {
     return section
   }
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
   

@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class ChapelViewController: BaseViewController {
+final class ChapelViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: ChapelViewModelType
   
@@ -92,15 +92,10 @@ final class ChapelViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     title = "채플조회"
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .done,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
+    setupBackButton()
   }
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     self.navigationController?.popViewController(animated: true)
   }
 }

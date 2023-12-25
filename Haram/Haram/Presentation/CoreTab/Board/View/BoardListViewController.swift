@@ -12,7 +12,7 @@ import SnapKit
 import SkeletonView
 import Then
 
-final class BoardListViewController: BaseViewController {
+final class BoardListViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: BoardListViewModelType
   private let type: BoardType
@@ -66,12 +66,7 @@ final class BoardListViewController: BaseViewController {
     boardListCollectionView.dataSource = self
     
     /// Set Navigationbar
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
+    setupBackButton()
     
     /// Configure Skeleton UI
     view.isSkeletonable = true
@@ -119,7 +114,7 @@ final class BoardListViewController: BaseViewController {
       .disposed(by: disposeBag)
   }
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
 }

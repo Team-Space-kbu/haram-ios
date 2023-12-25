@@ -12,18 +12,18 @@ import RxCocoa
 import SnapKit
 import Then
 
-protocol RegisterTextFieldDelegate: AnyObject {
+protocol HaramTextFieldDelegate: AnyObject {
   func didTappedButton()
   func didTappedReturnKey()
 }
 
-final class RegisterTextField: UIView {
+final class HaramTextField: UIView {
   
   // MARK: - Property
   
-  weak var delegate: RegisterTextFieldDelegate?
+  weak var delegate: HaramTextFieldDelegate?
   private let disposeBag = DisposeBag()
-  private let options: RegisterTextFieldOptions
+  private let options: HaramTextFieldOptions
   
   // MARK: - UI Components
   
@@ -40,7 +40,7 @@ final class RegisterTextField: UIView {
     $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
     $0.backgroundColor = .hexF5F5F5
     $0.leftViewMode = .always
-    $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 31 - 15, height: .zero))
+    $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: .zero))
     $0.autocapitalizationType = .none
   }
   
@@ -63,9 +63,9 @@ final class RegisterTextField: UIView {
   // MARK: - Initializations
   
   init(
-    title: String,
+    title: String? = nil,
     placeholder: String,
-    options: RegisterTextFieldOptions = []
+    options: HaramTextFieldOptions = []
   ) {
     self.options = options
     super.init(frame: .zero)
@@ -93,39 +93,46 @@ final class RegisterTextField: UIView {
       .disposed(by: disposeBag)
   }
   
-  private func configureUI(title: String, placeholder: String) {
+  private func configureUI(title: String?, placeholder: String) {
     textField.attributedPlaceholder = NSAttributedString(
       string: placeholder,
       attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.hex9F9FA4]
     )
-    titleLabel.text = title
     
-    [titleLabel, textField].forEach { addSubview($0) }
-    titleLabel.snp.makeConstraints {
-      $0.top.leading.equalToSuperview()
-      $0.trailing.lessThanOrEqualToSuperview()
+    /// 만약에 타이틀이 존재하는 경우
+    if let title = title {
+      titleLabel.text = title
+      addSubview(titleLabel)
+      addSubview(textField)
+      titleLabel.snp.makeConstraints {
+        $0.top.leading.equalToSuperview()
+        $0.trailing.lessThanOrEqualToSuperview()
+        $0.height.equalTo(18)
+      }
+      
+      textField.snp.makeConstraints {
+        $0.top.equalTo(titleLabel.snp.bottom).offset(10)
+        $0.directionalHorizontalEdges.equalToSuperview()
+        $0.height.equalTo(46)
+      }
+    } else {
+      /// 모든 HaramTextField는 textField를 가지고있음
+      addSubview(textField)
+      textField.snp.makeConstraints {
+        $0.top.directionalHorizontalEdges.equalToSuperview()
+        $0.height.equalTo(46)
+      }
     }
+    
     
     if options.contains(.addButton) {
       addSubview(haramButton)
-      textField.snp.makeConstraints {
-        $0.top.equalTo(titleLabel.snp.bottom).offset(10)
-        $0.leading.equalToSuperview()
-        $0.height.equalTo(46)
-      }
-      
       haramButton.snp.makeConstraints {
         $0.leading.equalTo(textField.snp.trailing).offset(196 - 15 - 167)
         $0.centerY.equalTo(textField)
         $0.trailing.equalToSuperview()
         $0.height.equalTo(46)
         $0.width.equalTo(167)
-      }
-    } else {
-      textField.snp.makeConstraints {
-        $0.top.equalTo(titleLabel.snp.bottom).offset(10)
-        $0.directionalHorizontalEdges.equalToSuperview()
-        $0.height.equalTo(46)
       }
     }
     
@@ -134,12 +141,48 @@ final class RegisterTextField: UIView {
       textField.rightView = defaultLabel
     }
     
+    //    titleLabel.text = title
+    //
+    //    [titleLabel, textField].forEach { addSubview($0) }
+    //    titleLabel.snp.makeConstraints {
+    //      $0.top.leading.equalToSuperview()
+    //      $0.trailing.lessThanOrEqualToSuperview()
+    //    }
+    //
+    //    if options.contains(.addButton) {
+    //      addSubview(haramButton)
+    //      textField.snp.makeConstraints {
+    //        $0.top.equalTo(titleLabel.snp.bottom).offset(10)
+    //        $0.leading.equalToSuperview()
+    //        $0.height.equalTo(46)
+    //      }
+    //
+    //      haramButton.snp.makeConstraints {
+    //        $0.leading.equalTo(textField.snp.trailing).offset(196 - 15 - 167)
+    //        $0.centerY.equalTo(textField)
+    //        $0.trailing.equalToSuperview()
+    //        $0.height.equalTo(46)
+    //        $0.width.equalTo(167)
+    //      }
+    //    } else {
+    //      textField.snp.makeConstraints {
+    //        $0.top.equalTo(titleLabel.snp.bottom).offset(10)
+    //        $0.directionalHorizontalEdges.equalToSuperview()
+    //        $0.height.equalTo(46)
+    //      }
+    //    }
+    //
+    //    if options.contains(.defaultEmail) {
+    //      textField.rightViewMode = .always
+    //      textField.rightView = defaultLabel
+    //    }
+    
   }
 }
 
 // MARK: - Public Functions
 
-extension RegisterTextField {
+extension HaramTextField {
   func removeError() {
     guard options.contains(.errorLabel) else { return }
     if subviews.contains(errorLabel) {
@@ -159,15 +202,16 @@ extension RegisterTextField {
   }
 }
 
-struct RegisterTextFieldOptions: OptionSet {
+struct HaramTextFieldOptions: OptionSet {
   let rawValue: UInt
   
-  static let defaultEmail = RegisterTextFieldOptions(rawValue: 1 << 0) // 디폴트 이메일
-  static let addButton = RegisterTextFieldOptions(rawValue: 1 << 1) // 버튼 추가
-  static let errorLabel = RegisterTextFieldOptions(rawValue: 1 << 2) // 에러 라벨 추가
+  static let defaultEmail = HaramTextFieldOptions(rawValue: 1 << 0) // 디폴트 이메일
+  static let addButton = HaramTextFieldOptions(rawValue: 1 << 1) // 버튼 추가
+  static let errorLabel = HaramTextFieldOptions(rawValue: 1 << 2) // 에러 라벨 추가
+  
 }
 
-extension Reactive where Base: RegisterTextField {
+extension Reactive where Base: HaramTextField {
   var text: ControlProperty<String?> {
     return base.textField.rx.text
   }

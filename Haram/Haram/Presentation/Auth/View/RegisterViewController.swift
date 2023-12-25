@@ -44,35 +44,35 @@ final class RegisterViewController: BaseViewController {
     $0.numberOfLines = 0
   }
   
-  private let idTextField = RegisterTextField(
+  private let idTextField = HaramTextField(
     title: Constants.id.title,
     placeholder: Constants.id.placeholder,
     options: [.errorLabel]
   )
   
-  private let pwdTextField = RegisterTextField(
+  private let pwdTextField = HaramTextField(
     title: Constants.password.title,
     placeholder: Constants.password.placeholder
   )
   
-  private let repwdTextField = RegisterTextField(
+  private let repwdTextField = HaramTextField(
     title: Constants.repassword.title,
     placeholder: Constants.repassword.placeholder,
     options: [.errorLabel]
   )
   
-  private let nicknameTextField = RegisterTextField(
+  private let nicknameTextField = HaramTextField(
     title: Constants.nickname.title,
     placeholder: Constants.nickname.placeholder
   )
   
-  private let emailTextField = RegisterTextField(
+  private let emailTextField = HaramTextField(
     title: Constants.schoolEmail.title,
     placeholder: Constants.schoolEmail.placeholder,
     options: [.defaultEmail]
   )
   
-  private let checkEmailTextField = RegisterTextField(
+  private let checkEmailTextField = HaramTextField(
     title: Constants.checkEmail.title,
     placeholder: Constants.checkEmail.placeholder,
     options: [.addButton]
@@ -157,7 +157,7 @@ final class RegisterViewController: BaseViewController {
     
     [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField, checkEmailTextField].forEach {
       $0.snp.makeConstraints {
-        $0.height.greaterThanOrEqualTo(74)
+        $0.height.greaterThanOrEqualTo(46 + 18 + 10)
       }
     }
   }
@@ -327,7 +327,7 @@ extension RegisterViewController {
 
 // MARK: - RegisterTextFieldDelegate
 
-extension RegisterViewController: RegisterTextFieldDelegate {
+extension RegisterViewController: HaramTextFieldDelegate {
   func didTappedButton() {
     print("확인코드발송 선택")
     view.endEditing(true)

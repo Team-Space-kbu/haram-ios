@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class BibleSearchResultViewController: BaseViewController {
+final class BibleSearchResultViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - Property
   
@@ -76,12 +76,7 @@ final class BibleSearchResultViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
+    setupBackButton()
   }
   
   override func setupLayouts() {
@@ -111,7 +106,7 @@ final class BibleSearchResultViewController: BaseViewController {
   
   // MARK: - Action Function
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
 }

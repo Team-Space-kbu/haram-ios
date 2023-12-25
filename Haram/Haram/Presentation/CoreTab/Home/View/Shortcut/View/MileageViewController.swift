@@ -11,7 +11,7 @@ import SkeletonView
 import SnapKit
 import Then
 
-final class MileageViewController: BaseViewController {
+final class MileageViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: MileageViewModelType
   
@@ -80,12 +80,7 @@ final class MileageViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     title = "마일리지"
-    self.navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .done,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
+    setupBackButton()
     
     /// Configure Skeleton UI
     view.isSkeletonable = true
@@ -114,7 +109,7 @@ final class MileageViewController: BaseViewController {
     }
   }
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     self.navigationController?.popViewController(animated: true)
   }
 }

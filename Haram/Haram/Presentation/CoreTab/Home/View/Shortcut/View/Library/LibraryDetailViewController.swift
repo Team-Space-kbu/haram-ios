@@ -13,7 +13,7 @@ import SnapKit
 import SkeletonView
 import Then
 
-final class LibraryDetailViewController: BaseViewController {
+final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - Properties
   
@@ -93,13 +93,9 @@ final class LibraryDetailViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
     title = "도서 상세"
+    setupBackButton()
+    
     _ = [view, scrollView, containerView, libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, relatedBookCollectionView].map { $0.isSkeletonable = true }
 
     let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
@@ -213,7 +209,7 @@ final class LibraryDetailViewController: BaseViewController {
       .disposed(by: disposeBag)
   }
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
 }
@@ -272,3 +268,4 @@ extension LibraryDetailViewController: SkeletonCollectionViewDelegate, SkeletonC
     LibraryRelatedBookCollectionViewCell.identifier
   }
 }
+

@@ -30,7 +30,7 @@ enum BibleViewType: CaseIterable {
   }
 }
 
-final class BibleViewController: BaseViewController {
+final class BibleViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - Property
   
@@ -119,12 +119,7 @@ final class BibleViewController: BaseViewController {
     /// Configure NavigationBar
     super.setupStyles()
     title = "성경"
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
+    setupBackButton()
     
     /// Configure Skeleton
     view.isSkeletonable = true
@@ -246,7 +241,7 @@ final class BibleViewController: BaseViewController {
   
   // MARK: - Action
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
 }

@@ -12,7 +12,7 @@ import SnapKit
 import SkeletonView
 import Then
 
-final class StudyRoomDetailViewController: BaseViewController {
+final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: StudyRoomDetailViewModelType
   private let roomSeq: Int
@@ -46,12 +46,7 @@ final class StudyRoomDetailViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
 
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
+    setupBackButton()
     
     /// Configure Skeleton
     view.isSkeletonable = true
@@ -66,7 +61,7 @@ final class StudyRoomDetailViewController: BaseViewController {
     
   }
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
   

@@ -11,7 +11,7 @@ import SnapKit
 import SkeletonView
 import Then
 
-final class RothemRoomListViewController: BaseViewController {
+final class RothemRoomListViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - Properties
   
@@ -112,12 +112,7 @@ final class RothemRoomListViewController: BaseViewController {
     
     /// Configure NavigationBar
     title = "스터디"
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
+    setupBackButton()
     
     /// Configure Skeleton
     view.isSkeletonable = true
@@ -131,7 +126,7 @@ final class RothemRoomListViewController: BaseViewController {
     )
   }
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
 }

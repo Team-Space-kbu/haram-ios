@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class NoticeDetailViewController: BaseViewController {
+final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -47,12 +47,7 @@ final class NoticeDetailViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     title = "공지사항"
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
+    setupBackButton()
   }
   
   override func setupLayouts() {
@@ -77,7 +72,7 @@ final class NoticeDetailViewController: BaseViewController {
     containerView.setCustomSpacing(16, after: writerInfoLabel)
   }
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
 }

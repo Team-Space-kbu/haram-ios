@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class BoardDetailViewController: BaseViewController {
+final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - Property
   
@@ -74,12 +74,7 @@ final class BoardDetailViewController: BaseViewController {
     
     /// Set NavigationBar
     title = "게시판"
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
+    setupBackButton()
     
     /// Set GestureRecognizer
     view.addGestureRecognizer(tapGesture)
@@ -127,7 +122,7 @@ final class BoardDetailViewController: BaseViewController {
   
   // MARK: - Action Function
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
   

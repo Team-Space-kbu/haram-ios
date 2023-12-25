@@ -154,7 +154,7 @@
 		708312B22A76940600F7E283 /* BoardListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B12A76940600F7E283 /* BoardListViewController.swift */; };
 		708312B42A76945000F7E283 /* BoardListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B32A76945000F7E283 /* BoardListCollectionViewCell.swift */; };
 		708312B62A779D1A00F7E283 /* BoardTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B52A779D1A00F7E283 /* BoardTableHeaderView.swift */; };
-		708312B82A77E36900F7E283 /* RegisterTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B72A77E36900F7E283 /* RegisterTextField.swift */; };
+		708312B82A77E36900F7E283 /* HaramTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B72A77E36900F7E283 /* HaramTextField.swift */; };
 		708312BA2A78D0A300F7E283 /* HaramButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312B92A78D0A300F7E283 /* HaramButton.swift */; };
 		708312BC2A79247500F7E283 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312BB2A79247500F7E283 /* RegisterViewModel.swift */; };
 		708312BE2A7A3C6200F7E283 /* SignupMemberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312BD2A7A3C6200F7E283 /* SignupMemberRequest.swift */; };
@@ -167,6 +167,7 @@
 		70864F382B014A2D00CD4124 /* CreateCommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F372B014A2D00CD4124 /* CreateCommentRequest.swift */; };
 		70864F3A2B014AD400CD4124 /* CreateCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F392B014AD400CD4124 /* CreateCommentResponse.swift */; };
 		70864F3C2B021FA900CD4124 /* IntranetCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */; };
+		708DAD1C2B36DE6C00E3AD45 /* Ex + UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708DAD1B2B36DE6C00E3AD45 /* Ex + UIViewController.swift */; };
 		708E1E602B038A6E0030FAA0 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = 708E1E5F2B038A6E0030FAA0 /* FloatingPanel */; };
 		708E1E622B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708E1E612B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift */; };
 		708E1E642B0778CD0030FAA0 /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708E1E632B0778CD0030FAA0 /* PDFViewController.swift */; };
@@ -407,7 +408,7 @@
 		708312B12A76940600F7E283 /* BoardListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListViewController.swift; sourceTree = "<group>"; };
 		708312B32A76945000F7E283 /* BoardListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListCollectionViewCell.swift; sourceTree = "<group>"; };
 		708312B52A779D1A00F7E283 /* BoardTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableHeaderView.swift; sourceTree = "<group>"; };
-		708312B72A77E36900F7E283 /* RegisterTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTextField.swift; sourceTree = "<group>"; };
+		708312B72A77E36900F7E283 /* HaramTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramTextField.swift; sourceTree = "<group>"; };
 		708312B92A78D0A300F7E283 /* HaramButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramButton.swift; sourceTree = "<group>"; };
 		708312BB2A79247500F7E283 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		708312BD2A7A3C6200F7E283 /* SignupMemberRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupMemberRequest.swift; sourceTree = "<group>"; };
@@ -420,6 +421,7 @@
 		70864F372B014A2D00CD4124 /* CreateCommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommentRequest.swift; sourceTree = "<group>"; };
 		70864F392B014AD400CD4124 /* CreateCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommentResponse.swift; sourceTree = "<group>"; };
 		70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetCheckViewController.swift; sourceTree = "<group>"; };
+		708DAD1B2B36DE6C00E3AD45 /* Ex + UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIViewController.swift"; sourceTree = "<group>"; };
 		708E1E612B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedFloatingPanelViewController.swift; sourceTree = "<group>"; };
 		708E1E632B0778CD0030FAA0 /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
 		708E1E652B09E0330030FAA0 /* StudyReservationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyReservationViewModel.swift; sourceTree = "<group>"; };
@@ -647,13 +649,12 @@
 				705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */,
 				70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */,
 				708312AB2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift */,
-				708312B72A77E36900F7E283 /* RegisterTextField.swift */,
+				708312B72A77E36900F7E283 /* HaramTextField.swift */,
 				708312B92A78D0A300F7E283 /* HaramButton.swift */,
 				708312BF2A7A448300F7E283 /* TermsOfUseCheckView.swift */,
 				708312C12A7A6F2900F7E283 /* PaddingLabel.swift */,
 				708ED7D32A9228D200107CDF /* BottomSheetViewController.swift */,
 				70375F152AB1B0500032F6B8 /* HaramToast.swift */,
-				708E1E612B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -823,6 +824,7 @@
 				70903C912ADDB1D900C6FEF0 /* Ex + KeyboardResponder.swift */,
 				70903C932ADEB1F500C6FEF0 /* Ex + Array.swift */,
 				709130002B176344005B88B4 /* Ex + UIView.swift */,
+				708DAD1B2B36DE6C00E3AD45 /* Ex + UIViewController.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1131,6 +1133,7 @@
 		708DAD0E2B35AC0A00E3AD45 /* Affiliated */ = {
 			isa = PBXGroup;
 			children = (
+				708E1E612B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift */,
 				708ED7EA2A9DD1D000107CDF /* AffiliatedViewController.swift */,
 			);
 			path = Affiliated;
@@ -1785,7 +1788,7 @@
 				705FD2A32A15FD8100F353FE /* LoginResponse.swift in Sources */,
 				708ED7DB2A923B2A00107CDF /* BibleViewModel.swift in Sources */,
 				70727A9B29D88A3A003DE956 /* FindPasswordViewController.swift in Sources */,
-				708312B82A77E36900F7E283 /* RegisterTextField.swift in Sources */,
+				708312B82A77E36900F7E283 /* HaramTextField.swift in Sources */,
 				70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */,
 				708ED7822A8CC70700107CDF /* BoardListViewModel.swift in Sources */,
 				70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */,
@@ -1802,6 +1805,7 @@
 				708312442A2F1E6500F7E283 /* InquireChapelInfoResponse.swift in Sources */,
 				705FD2D32A2645D200F353FE /* SearchBookResponse.swift in Sources */,
 				705FD29F2A15F21F00F353FE /* LoginButton.swift in Sources */,
+				708DAD1C2B36DE6C00E3AD45 /* Ex + UIViewController.swift in Sources */,
 				7083125E2A3887B700F7E283 /* InquireScheduleInfoResponse.swift in Sources */,
 				708312BA2A78D0A300F7E283 /* HaramButton.swift in Sources */,
 				70864F3A2B014AD400CD4124 /* CreateCommentResponse.swift in Sources */,

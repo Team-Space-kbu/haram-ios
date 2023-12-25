@@ -11,7 +11,7 @@ import PDFKit
 import SnapKit
 import Then
 
-final class PDFViewController: BaseViewController {
+final class PDFViewController: BaseViewController, BackButtonHandler {
   
   private let pdfURL: URL?
   
@@ -33,12 +33,7 @@ final class PDFViewController: BaseViewController {
     super.setupStyles()
     
     /// Set Navigationbar
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
+    setupBackButton()
     
     /// Set PDFView
     DispatchQueue.main.async {
@@ -59,7 +54,7 @@ final class PDFViewController: BaseViewController {
     }
   }
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
   

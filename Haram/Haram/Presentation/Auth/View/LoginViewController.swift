@@ -45,42 +45,16 @@ final class LoginViewController: BaseViewController {
     $0.text = "한국성서대학교인트라넷"
   }
   
-  private lazy var emailTextField = UITextField().then {
-    $0.attributedPlaceholder = NSAttributedString(
-      string: "Email",
-      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.hex9F9FA4]
-    )
-    $0.backgroundColor = .hexF5F5F5
-    $0.textColor = .black
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
-    $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
-    $0.leftViewMode = .always
-    $0.returnKeyType = .next
-    $0.autocapitalizationType = .none
-    $0.delegate = self
-    $0.keyboardType = .emailAddress
+  private lazy var emailTextField = HaramTextField(placeholder: "아이디").then {
+    $0.textField.delegate = self
+    $0.textField.keyboardType = .emailAddress
+    $0.textField.returnKeyType = .next
   }
   
-  private lazy var passwordTextField = UITextField().then {
-    $0.attributedPlaceholder = NSAttributedString(
-      string: "Password",
-      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.hex9F9FA4]
-    )
-    $0.backgroundColor = .hexF5F5F5
-    $0.textColor = .black
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
-    $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
-    $0.leftViewMode = .always
-    $0.returnKeyType = .join
-    $0.isSecureTextEntry = true
-    $0.autocapitalizationType = .none
-    $0.delegate = self
+  private lazy var passwordTextField = HaramTextField(placeholder: "비밀번호").then {
+    $0.textField.delegate = self
+    $0.textField.isSecureTextEntry = true
+    $0.textField.returnKeyType = .join
   }
   
   private lazy var errorMessageLabel = UILabel().then {
@@ -146,8 +120,8 @@ final class LoginViewController: BaseViewController {
         let vc = HaramTabbarController()
         vc.modalPresentationStyle = .fullScreen
         owner.present(vc, animated: true) {
-          owner.emailTextField.text = nil
-          owner.passwordTextField.text = nil
+          owner.emailTextField.textField.text = nil
+          owner.passwordTextField.textField.text = nil
         }
       }
       .disposed(by: disposeBag)
@@ -232,8 +206,8 @@ final class LoginViewController: BaseViewController {
 
 extension LoginViewController: LoginButtonDelegate {
   func didTappedLoginButton() {
-    guard let userID = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-          let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+    guard let userID = emailTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+          let password = passwordTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
     
     let isContain = self.containerView.subviews.contains(self.errorMessageLabel)
     
@@ -244,24 +218,15 @@ extension LoginViewController: LoginButtonDelegate {
     
     view.endEditing(true)
     viewModel.loginMember(userID: userID, password: password)
-//    guard let userID = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-//          let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
-//    
-//    let isContain = self.containerView.subviews.contains(self.errorMessageLabel)
-//    
-//    if isContain {
-//      self.errorMessageLabel.text = nil
-//      self.errorMessageLabel.removeFromSuperview()
-//    }
-//    
-//    view.endEditing(true)
-//    viewModel.loginMember(userID: userID, password: password)
   }
   
   func didTappedFindPasswordButton() {
     let vc = UINavigationController(rootViewController: FindPasswordViewController())
     vc.modalPresentationStyle = .fullScreen
-    present(vc, animated: true)
+    present(vc, animated: true) {
+      self.errorMessageLabel.removeFromSuperview()
+      self.errorMessageLabel.text = nil
+    }
   }
 }
 
@@ -269,12 +234,12 @@ extension LoginViewController: LoginButtonDelegate {
 
 extension LoginViewController: UITextFieldDelegate {
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    if textField == emailTextField {
-      passwordTextField.becomeFirstResponder()
-    } else if textField == passwordTextField {
+    if textField == emailTextField.textField {
+      passwordTextField.textField.becomeFirstResponder()
+    } else if textField == passwordTextField.textField {
       passwordTextField.resignFirstResponder()
-      guard let userID = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-            let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return true }
+      guard let userID = emailTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+            let password = passwordTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return true }
       
       let isContain = self.containerView.subviews.contains(self.errorMessageLabel)
       
@@ -296,7 +261,10 @@ extension LoginViewController: LoginAlertViewDelegate {
   func didTappedRegisterButton() {
     let vc = UINavigationController(rootViewController: TermsOfUseViewController())
     vc.modalPresentationStyle = .fullScreen
-    present(vc, animated: true)
+    present(vc, animated: true) {
+      self.errorMessageLabel.removeFromSuperview()
+      self.errorMessageLabel.text = nil
+    }
   }
   
   

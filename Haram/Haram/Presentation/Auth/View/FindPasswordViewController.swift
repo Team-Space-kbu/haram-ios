@@ -30,7 +30,7 @@ final class FindPasswordViewController: BaseViewController {
     $0.numberOfLines = 0
   }
   
-  private let schoolEmailTextField = RegisterTextField(
+  private let schoolEmailTextField = HaramTextField(
     title: "학교 이메일",
     placeholder: "Email",
     options: [.defaultEmail]

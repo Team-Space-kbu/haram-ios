@@ -11,7 +11,7 @@ import SnapKit
 import SkeletonView
 import Then
 
-final class LibraryResultsViewController: BaseViewController {
+final class LibraryResultsViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: LibraryResultsViewModelType
   
@@ -76,12 +76,8 @@ final class LibraryResultsViewController: BaseViewController {
     
     /// Configure NavigationBar
     title = "도서 검색"
-    navigationItem.leftBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: Constants.backButton),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedBackButton)
-    )
+    setupBackButton()
+
     emptyView.isHidden = true
     
     /// Configure Skeleton
@@ -113,7 +109,7 @@ final class LibraryResultsViewController: BaseViewController {
     }
   }
   
-  @objc private func didTappedBackButton() {
+  @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
 }
@@ -182,3 +178,4 @@ extension LibraryResultsViewController {
     10
   }
 }
+
