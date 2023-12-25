@@ -223,7 +223,9 @@ extension LoginViewController: LoginButtonDelegate {
   func didTappedFindPasswordButton() {
     let vc = UINavigationController(rootViewController: FindPasswordViewController())
     vc.modalPresentationStyle = .fullScreen
-    present(vc, animated: true) {
+
+    present(vc, animated: true) { [weak self] in
+      guard let self = self else { return }
       self.errorMessageLabel.removeFromSuperview()
       self.errorMessageLabel.text = nil
     }
@@ -261,7 +263,8 @@ extension LoginViewController: LoginAlertViewDelegate {
   func didTappedRegisterButton() {
     let vc = UINavigationController(rootViewController: TermsOfUseViewController())
     vc.modalPresentationStyle = .fullScreen
-    present(vc, animated: true) {
+    present(vc, animated: true) { [weak self] in
+      guard let self = self else { return }
       self.errorMessageLabel.removeFromSuperview()
       self.errorMessageLabel.text = nil
     }

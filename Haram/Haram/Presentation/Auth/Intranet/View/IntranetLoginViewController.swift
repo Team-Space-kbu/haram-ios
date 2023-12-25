@@ -49,36 +49,10 @@ final class IntranetLoginViewController: BaseViewController {
     $0.font = .regular14
   }
   
-  private let idTextField = UITextField().then {
-    $0.attributedPlaceholder = NSAttributedString(
-      string: "아이디",
-      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.hex9F9FA4]
-    )
-    $0.backgroundColor = .hexF5F5F5
-    $0.textColor = .black
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
-    $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
-    $0.leftViewMode = .always
-    $0.autocapitalizationType = .none
-  }
+  private let idTextField = HaramTextField(placeholder: "아이디")
   
-  private let pwTextField = UITextField().then {
-    $0.attributedPlaceholder = NSAttributedString(
-      string: "비밀번호",
-      attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.hex9F9FA4]
-    )
-    $0.backgroundColor = .hexF5F5F5
-    $0.textColor = .black
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
-    $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: 55))
-    $0.leftViewMode = .always
-    $0.isSecureTextEntry = true
+  private let pwTextField = HaramTextField(placeholder: "비밀번호").then {
+    $0.textField.isSecureTextEntry = true
   }
   
   private let loginButton = UIButton().then {
@@ -144,8 +118,8 @@ final class IntranetLoginViewController: BaseViewController {
     navigationController?.setNavigationBarHidden(true, animated: true)
     
     /// Set Delegate
-    idTextField.delegate = self
-    pwTextField.delegate = self
+    idTextField.textField.delegate = self
+    pwTextField.textField.delegate = self
   }
   
   override func setupLayouts() {
@@ -198,8 +172,8 @@ final class IntranetLoginViewController: BaseViewController {
     
     loginButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        guard let intranetID = owner.idTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-              let intranetPWD = owner.pwTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+        guard let intranetID = owner.idTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+              let intranetPWD = owner.pwTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               !intranetID.isEmpty && !intranetPWD.isEmpty else {
           return
         }
@@ -259,12 +233,13 @@ extension IntranetLoginViewController: KeyboardResponder {
 
 extension IntranetLoginViewController: UITextFieldDelegate {
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    if textField == idTextField {
-      pwTextField.becomeFirstResponder()
-    } else if textField == pwTextField {
-      pwTextField.resignFirstResponder()
-      guard let intranetID = self.idTextField.text,
-            let intranetPWD = self.pwTextField.text,
+    if textField == idTextField.textField {
+      pwTextField.textField.becomeFirstResponder()
+    } else if textField == pwTextField.textField {
+      pwTextField.textField.resignFirstResponder()
+      
+      guard let intranetID = self.idTextField.textField.text,
+            let intranetPWD = self.pwTextField.textField.text,
             !intranetID.isEmpty && !intranetPWD.isEmpty else {
         return true
       }

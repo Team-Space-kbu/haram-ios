@@ -93,35 +93,13 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     $0.isSkeletonable = true
   }
   
-  private let nameTextField = UITextField().then {
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
-    $0.backgroundColor = .hexF5F5F5
-    $0.leftViewMode = .always
-    $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: .zero))
-    $0.attributedPlaceholder = NSAttributedString(
-      string: "이름",
-      attributes: [.foregroundColor: UIColor.hex9F9FA4]
-    )
+  private let nameTextField = HaramTextField(placeholder: "이름").then {
     $0.isSkeletonable = true
   }
   
-  private let phoneNumberTextField = UITextField().then {
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    $0.layer.borderWidth = 1
-    $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
-    $0.backgroundColor = .hexF5F5F5
-    $0.leftViewMode = .always
-    $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: .zero))
-    $0.attributedPlaceholder = NSAttributedString(
-      string: "전화번호",
-      attributes: [.foregroundColor: UIColor.hex9F9FA4]
-    )
+  private let phoneNumberTextField = HaramTextField(placeholder: "전화번호").then {
+    $0.textField.keyboardType = .phonePad
     $0.isSkeletonable = true
-    $0.keyboardType = .phonePad
   }
   
   private let reservationButton = HaramButton(type: .cancel).then {
