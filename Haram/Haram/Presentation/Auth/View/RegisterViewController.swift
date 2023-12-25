@@ -344,12 +344,12 @@ extension RegisterViewController: HaramTextFieldDelegate {
 extension RegisterViewController: UITextFieldDelegate {
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     if textField == idTextField.textField {
+      nicknameTextField.textField.becomeFirstResponder()
+    } else if textField == nicknameTextField.textField {
       pwdTextField.textField.becomeFirstResponder()
     } else if textField == pwdTextField.textField {
       repwdTextField.textField.becomeFirstResponder()
     } else if textField == repwdTextField.textField {
-      nicknameTextField.textField.becomeFirstResponder()
-    } else if textField == nicknameTextField.textField {
       emailTextField.textField.becomeFirstResponder()
     } else if textField == emailTextField.textField {
       checkEmailTextField.textField.becomeFirstResponder()

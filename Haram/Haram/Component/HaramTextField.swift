@@ -112,7 +112,8 @@ final class HaramTextField: UIView {
       
       textField.snp.makeConstraints {
         $0.top.equalTo(titleLabel.snp.bottom).offset(10)
-        $0.directionalHorizontalEdges.equalToSuperview()
+        $0.leading.equalToSuperview()
+        $0.width.equalTo(UIScreen.main.bounds.width - 30)
         $0.height.equalTo(46)
       }
     } else {
@@ -127,6 +128,11 @@ final class HaramTextField: UIView {
     
     if options.contains(.addButton) {
       addSubview(haramButton)
+      
+      textField.snp.updateConstraints {
+        $0.width.equalTo(182)
+      }
+      
       haramButton.snp.makeConstraints {
         $0.leading.equalTo(textField.snp.trailing).offset(196 - 15 - 167)
         $0.centerY.equalTo(textField)
