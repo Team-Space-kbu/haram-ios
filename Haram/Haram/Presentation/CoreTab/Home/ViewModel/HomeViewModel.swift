@@ -12,6 +12,7 @@ protocol HomeViewModelType {
   var newsModel: Driver<[HomeNewsCollectionViewCellModel]> { get }
   var bannerModel: Driver<[HomebannerCollectionViewCellModel]> { get }
   var noticeModel: Signal<HomeNoticeViewModel> { get }
+  var shortcutModel: Driver<[HomeShortcutCollectionViewCellModel]> { get }
   
   var isLoading: Driver<Bool> { get }
 }
@@ -22,6 +23,7 @@ final class HomeViewModel {
   
   private let newsModelRelay   = BehaviorRelay<[HomeNewsCollectionViewCellModel]>(value: [])
   private let bannerModelRelay = BehaviorRelay<[HomebannerCollectionViewCellModel]>(value: [])
+  private let shortcutModelRelay = BehaviorRelay<[HomeShortcutCollectionViewCellModel]>(value: [])
   private let noticeModelRelay = PublishRelay<HomeNoticeViewModel>()
   private let isLoadingSubject = PublishSubject<Bool>()
   
@@ -44,6 +46,8 @@ extension HomeViewModel {
         let news = response.kokkoks.kokkoksNews.map { HomeNewsCollectionViewCellModel(kokkoksNews: $0) }
         let banners = response.banner.banners.map { HomebannerCollectionViewCellModel(subBanner: $0) }
         let notices = HomeNoticeViewModel(subNotice: subNotice)
+        let shortcut = response.homes
+        
         owner.newsModelRelay.accept(news)
         owner.bannerModelRelay.accept(banners)
         owner.noticeModelRelay.accept(notices)
@@ -54,6 +58,10 @@ extension HomeViewModel {
 }
 
 extension HomeViewModel: HomeViewModelType {
+  var shortcutModel: RxCocoa.Driver<[HomeShortcutCollectionViewCellModel]> {
+    shortcutModelRelay.asDriver()
+  }
+  
   var newsModel: Driver<[HomeNewsCollectionViewCellModel]> {
     newsModelRelay.asDriver()
   }

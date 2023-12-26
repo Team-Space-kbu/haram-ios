@@ -44,7 +44,7 @@ struct CalendarResponse: Decodable {
   let month: String
   let date: String
   let isAvailable: Bool
-  let times: [Time]
+  let times: [Time]?
 }
 
 struct Time: Decodable {

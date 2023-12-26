@@ -84,12 +84,12 @@ final class StudyReservationViewModel {
     calendarSeqSubject
       .distinctUntilChanged()
       .subscribe(with: self) { owner, calendarSeq in
-        let findModel = owner.model.filter({ $0.calendarSeq == calendarSeq })
+        let findModel = owner.model.filter({ $0.calendarSeq == calendarSeq }).first!
         
         /// 이용가능한 날짜만 선택가능
-        guard findModel.first!.isAvailable else { return }
+        guard findModel.isAvailable,
+              let filterModel = findModel.times else { return }
         
-        let filterModel = findModel.flatMap { $0.times  }
         owner.timeTable.accept(filterModel.map { SelectedTimeCollectionViewCellModel(time: $0) })
       }
       .disposed(by: disposeBag)
