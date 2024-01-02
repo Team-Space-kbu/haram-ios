@@ -98,7 +98,7 @@ final class HomeViewController: BaseViewController {
     $0.isSkeletonable = true
   }
   
-  private lazy var homeCollectionView = UICollectionView(
+  private lazy var shortcutCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
       $0.minimumLineSpacing = 28.97
@@ -177,7 +177,7 @@ final class HomeViewController: BaseViewController {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(scrollContainerView)
-    [homeNoticeView, bannerCollectionView, pageControl, homeCollectionView, newsTitleLabel, newsCollectionView].forEach { scrollContainerView.addSubview($0) }
+    [homeNoticeView, bannerCollectionView, pageControl, shortcutCollectionView, newsTitleLabel, newsCollectionView].forEach { scrollContainerView.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -209,14 +209,14 @@ final class HomeViewController: BaseViewController {
       $0.height.equalTo(20)
     }
     
-    homeCollectionView.snp.makeConstraints {
+    shortcutCollectionView.snp.makeConstraints {
       $0.top.equalTo(pageControl.snp.bottom)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(194)
     }
     
     newsTitleLabel.snp.makeConstraints {
-      $0.top.equalTo(homeCollectionView.snp.bottom).offset(22)
+      $0.top.equalTo(shortcutCollectionView.snp.bottom).offset(22)
       $0.leading.equalToSuperview().inset(15)
       $0.height.equalTo(27)
     }
@@ -274,7 +274,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     
-    if collectionView == homeCollectionView {
+    if collectionView == shortcutCollectionView {
       return CGSize(width: (collectionView.frame.width - 30) / 4, height: 54)
     } else if collectionView == newsCollectionView {
       return CGSize(width: 118, height: 165 + 17 + 6)
@@ -283,7 +283,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    if collectionView == homeCollectionView {
+    if collectionView == shortcutCollectionView {
       return CGSize(width: collectionView.frame.width - 30, height: 30.94 + 28)
     }
     return .zero
@@ -304,7 +304,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
-    if collectionView == homeCollectionView {
+    if collectionView == shortcutCollectionView {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeShortcutCollectionViewCell.identifier, for: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
       let type = ShortcutType.allCases[indexPath.row]
       cell.configureUI(with: .init(title: type.title, imageName: type.imageName))
@@ -320,7 +320,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    if collectionView == homeCollectionView {
+    if collectionView == shortcutCollectionView {
       let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeCollectionHeaderView.identifier, for: indexPath) as? HomeCollectionHeaderView ?? HomeCollectionHeaderView()
       header.configureUI(with: HomeType.shortcut.title)
       return header
@@ -330,7 +330,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     
-    if collectionView == homeCollectionView {
+    if collectionView == shortcutCollectionView {
       let type = ShortcutType.allCases[indexPath.row]
       let vc = type.viewController
       vc.navigationItem.largeTitleDisplayMode = .never
@@ -352,7 +352,7 @@ extension HomeViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     if skeletonView == bannerCollectionView {
       return skeletonView.dequeueReusableCell(withReuseIdentifier: HomeBannerCollectionViewCell.identifier, for: indexPath) as? HomeBannerCollectionViewCell
-    } else if skeletonView == homeCollectionView {
+    } else if skeletonView == shortcutCollectionView {
       return skeletonView.dequeueReusableCell(withReuseIdentifier: HomeShortcutCollectionViewCell.identifier, for: indexPath) as? HomeShortcutCollectionViewCell
     }
     return skeletonView.dequeueReusableCell(withReuseIdentifier: HomeNewsCollectionViewCell.identifier, for: indexPath) as? HomeNewsCollectionViewCell
@@ -365,14 +365,14 @@ extension HomeViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
     if skeletonView == bannerCollectionView {
       return HomeBannerCollectionViewCell.identifier
-    } else if skeletonView == homeCollectionView {
+    } else if skeletonView == shortcutCollectionView {
       return HomeShortcutCollectionViewCell.identifier
     }
     return HomeNewsCollectionViewCell.identifier
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
-    if skeletonView == homeCollectionView {
+    if skeletonView == shortcutCollectionView {
       return HomeCollectionHeaderView.identifier
     }
     return nil
