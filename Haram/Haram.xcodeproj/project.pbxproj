@@ -130,7 +130,6 @@
 		708312512A3192D900F7E283 /* HomeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312502A3192D900F7E283 /* HomeService.swift */; };
 		708312542A31930300F7E283 /* InquireHomeInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312532A31930300F7E283 /* InquireHomeInfoResponse.swift */; };
 		708312562A31975C00F7E283 /* HomeBannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312552A31975C00F7E283 /* HomeBannerCollectionViewCell.swift */; };
-		708312582A31A23200F7E283 /* PagingSectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312572A31A23200F7E283 /* PagingSectionFooterView.swift */; };
 		7083125E2A3887B700F7E283 /* InquireScheduleInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083125D2A3887B700F7E283 /* InquireScheduleInfoResponse.swift */; };
 		708312602A388D8B00F7E283 /* ScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083125F2A388D8B00F7E283 /* ScheduleViewModel.swift */; };
 		708312642A3977B500F7E283 /* LibraryDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312632A3977B500F7E283 /* LibraryDetailViewModel.swift */; };
@@ -384,7 +383,6 @@
 		708312502A3192D900F7E283 /* HomeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeService.swift; sourceTree = "<group>"; };
 		708312532A31930300F7E283 /* InquireHomeInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireHomeInfoResponse.swift; sourceTree = "<group>"; };
 		708312552A31975C00F7E283 /* HomeBannerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBannerCollectionViewCell.swift; sourceTree = "<group>"; };
-		708312572A31A23200F7E283 /* PagingSectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingSectionFooterView.swift; sourceTree = "<group>"; };
 		7083125D2A3887B700F7E283 /* InquireScheduleInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireScheduleInfoResponse.swift; sourceTree = "<group>"; };
 		7083125F2A388D8B00F7E283 /* ScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewModel.swift; sourceTree = "<group>"; };
 		708312632A3977B500F7E283 /* LibraryDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryDetailViewModel.swift; sourceTree = "<group>"; };
@@ -960,7 +958,6 @@
 				70727AA529D93B42003DE956 /* HomeShortcutCollectionViewCell.swift */,
 				70727AA729D93F24003DE956 /* HomeNewsCollectionViewCell.swift */,
 				70727AA929D94482003DE956 /* HomeCollectionHeaderView.swift */,
-				708312572A31A23200F7E283 /* PagingSectionFooterView.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1754,7 +1751,6 @@
 				708E1E662B09E0330030FAA0 /* StudyReservationViewModel.swift in Sources */,
 				705FD2862A10E58600F353FE /* HeaderType.swift in Sources */,
 				705FD2802A10DE8800F353FE /* ApiService.swift in Sources */,
-				708312582A31A23200F7E283 /* PagingSectionFooterView.swift in Sources */,
 				705FD2882A10E5E500F353FE /* ParameterType.swift in Sources */,
 				70C9CCB42A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift in Sources */,
 				708ED7CD2A9122F900107CDF /* BibleNoticeCollectionViewCell.swift in Sources */,
