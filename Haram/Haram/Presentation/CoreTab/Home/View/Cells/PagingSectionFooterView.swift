@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SnapKit
+import SkeletonView
 import Then
 
 protocol PagingSectionFooterViewDelegate: AnyObject {
@@ -40,6 +41,7 @@ final class PagingSectionFooterView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    isSkeletonable = true
     addSubview(pageControl)
     pageControl.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()

@@ -9,6 +9,7 @@ import UIKit
 
 import Kingfisher
 import SnapKit
+import SkeletonView
 import Then
 
 struct HomebannerCollectionViewCellModel {
@@ -44,6 +45,9 @@ final class HomeBannerCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    skeletonCornerRadius = 10
+    contentView.isSkeletonable = true
     contentView.addSubview(bannerImageView)
     bannerImageView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()

@@ -9,6 +9,7 @@ import UIKit
 
 import Kingfisher
 import SnapKit
+import SkeletonView
 import Then
 
 struct HomeNewsCollectionViewCellModel {
@@ -56,6 +57,9 @@ final class HomeNewsCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    skeletonCornerRadius = 10
+    contentView.isSkeletonable = true
     contentView.addShadow(shadowRadius: 6, shadowOpacity: 1, shadowOffset: CGSize(width: 0, height: 3))
     
     [newsImageView, titleLabel].forEach { contentView.addSubview($0) }
