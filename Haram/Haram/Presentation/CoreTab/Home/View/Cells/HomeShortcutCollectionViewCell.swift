@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 enum ShortcutType: CaseIterable {
@@ -119,8 +120,11 @@ final class HomeShortcutCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    contentView.isSkeletonable = true
     [shortcutImageView, titleLabel].forEach { contentView.addSubview($0) }
     shortcutImageView.snp.makeConstraints {
+      $0.top.equalToSuperview()
       $0.size.equalTo(20.03)
       $0.centerX.equalToSuperview()
     }

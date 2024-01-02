@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 final class HomeCollectionHeaderView: UICollectionReusableView {
@@ -34,10 +35,12 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    
     addSubview(titleLabel)
     titleLabel.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
-      $0.bottom.equalToSuperview().inset(12)
+      $0.bottom.equalToSuperview().inset(13)
     }
   }
   
@@ -45,3 +48,4 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
     titleLabel.text = model
   }
 }
+
