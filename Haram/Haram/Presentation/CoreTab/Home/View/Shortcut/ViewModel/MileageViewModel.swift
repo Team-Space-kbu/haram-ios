@@ -18,18 +18,20 @@ protocol MileageViewModelType {
 final class MileageViewModel {
   
   private let disposeBag = DisposeBag()
+  private let intranetRepository: IntranetRepository
   
   private let currentUserMileageInfoRelay  = BehaviorRelay<[MileageTableViewCellModel]>(value: [])
   private let currentAvilabilityPointRelay = PublishRelay<MileageTableHeaderViewModel>()
   private let isLoadingSubject             = PublishSubject<Bool>()
   private let errorMessageSubject          = PublishSubject<HaramError>()
   
-  init() {
+  init(intranetRepository: IntranetRepository = IntranetRepositoryImpl()) {
+    self.intranetRepository = intranetRepository
     inquireMileageInfo()
   }
   
   private func inquireMileageInfo() {
-    let tryInquireMileageInfo = IntranetService.shared.inquireMileageInfo()
+    let tryInquireMileageInfo = intranetRepository.inquireMileageInfo()
     
     tryInquireMileageInfo
       .do(onSuccess: { [weak self] _ in self?.isLoadingSubject.onNext(true) })

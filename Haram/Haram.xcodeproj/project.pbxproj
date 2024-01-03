@@ -42,10 +42,9 @@
 		7051E4F72AD6A75800C2134B /* space_0.75x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7051E4F02AD6A75800C2134B /* space_0.75x.png */; };
 		7051E4F92AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4F82AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift */; };
 		7051E4FB2ADAB6C700C2134B /* BoardRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4FA2ADAB6C700C2134B /* BoardRouter.swift */; };
-		7051E4FD2ADAB71200C2134B /* BoardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4FC2ADAB71200C2134B /* BoardService.swift */; };
+		7051E4FD2ADAB71200C2134B /* BoardRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4FC2ADAB71200C2134B /* BoardRepositoryImpl.swift */; };
 		7051E5002ADAB75100C2134B /* InquireBoardlistResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4FF2ADAB75100C2134B /* InquireBoardlistResponse.swift */; };
 		7051E5022ADABC4400C2134B /* Ex + UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E5012ADABC4400C2134B /* Ex + UILabel.swift */; };
-		7051E5042ADAD42700C2134B /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E5032ADAD42700C2134B /* BaseNavigationController.swift */; };
 		7051E5062ADAF4EF00C2134B /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E5052ADAF4EF00C2134B /* BoardDetailViewModel.swift */; };
 		705E70B829E1C8ED00156B1F /* HomeNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */; };
 		705FD2792A10D3C500F353FE /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2782A10D3C500F353FE /* Router.swift */; };
@@ -59,7 +58,7 @@
 		705FD28C2A10F74D00F353FE /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD28B2A10F74D00F353FE /* UserManager.swift */; };
 		705FD28E2A10FC0200F353FE /* KeyChainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD28D2A10FC0200F353FE /* KeyChainWrapper.swift */; };
 		705FD2902A10FD6D00F353FE /* Interceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD28F2A10FD6D00F353FE /* Interceptor.swift */; };
-		705FD2922A13B9E600F353FE /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2912A13B9E600F353FE /* AuthService.swift */; };
+		705FD2922A13B9E600F353FE /* AuthRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2912A13B9E600F353FE /* AuthRepositoryImpl.swift */; };
 		705FD2952A13BB4300F353FE /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2942A13BB4300F353FE /* AuthRouter.swift */; };
 		705FD2992A13BC1700F353FE /* RegisterMemberResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2982A13BC1700F353FE /* RegisterMemberResponse.swift */; };
 		705FD29B2A13C19A00F353FE /* SignupUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD29A2A13C19A00F353FE /* SignupUserRequest.swift */; };
@@ -80,7 +79,7 @@
 		705FD2C32A2337C800F353FE /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2C22A2337C800F353FE /* NoticeViewController.swift */; };
 		705FD2C52A2338DE00F353FE /* NoticeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2C42A2338DE00F353FE /* NoticeCollectionViewCell.swift */; };
 		705FD2C72A23B9AD00F353FE /* LibraryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2C62A23B9AD00F353FE /* LibraryRouter.swift */; };
-		705FD2C92A23BA3000F353FE /* LibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2C82A23BA3000F353FE /* LibraryService.swift */; };
+		705FD2C92A23BA3000F353FE /* LibraryRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2C82A23BA3000F353FE /* LibraryRepositoryImpl.swift */; };
 		705FD2CC2A23BA6A00F353FE /* InquireLibraryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2CB2A23BA6A00F353FE /* InquireLibraryResponse.swift */; };
 		705FD2CF2A24DE5B00F353FE /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 705FD2CE2A24DE5B00F353FE /* Kingfisher */; };
 		705FD2D12A24DEFC00F353FE /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FD2D02A24DEFC00F353FE /* LibraryViewModel.swift */; };
@@ -117,7 +116,7 @@
 		70727AB829D95E32003DE956 /* Ex + UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727AB729D95E32003DE956 /* Ex + UIFont.swift */; };
 		708312372A2CA50300F7E283 /* IntranetRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312362A2CA50300F7E283 /* IntranetRouter.swift */; };
 		7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312392A2CA59400F7E283 /* InquireChapelListRequest.swift */; };
-		7083123C2A2CA5E500F7E283 /* IntranetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083123B2A2CA5E500F7E283 /* IntranetService.swift */; };
+		7083123C2A2CA5E500F7E283 /* IntranetRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083123B2A2CA5E500F7E283 /* IntranetRepositoryImpl.swift */; };
 		7083123E2A2CA62A00F7E283 /* InquireChapelListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083123D2A2CA62A00F7E283 /* InquireChapelListResponse.swift */; };
 		708312402A2CA79D00F7E283 /* IntranetLoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083123F2A2CA79D00F7E283 /* IntranetLoginRequest.swift */; };
 		708312422A2CAA1800F7E283 /* RequestIntranetTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312412A2CAA1800F7E283 /* RequestIntranetTokenResponse.swift */; };
@@ -127,7 +126,7 @@
 		7083124A2A2F856700F7E283 /* LibraryDetailInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312492A2F856700F7E283 /* LibraryDetailInfoView.swift */; };
 		7083124C2A2F88EE00F7E283 /* RequestBookInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083124B2A2F88EE00F7E283 /* RequestBookInfoResponse.swift */; };
 		7083124F2A31927600F7E283 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083124E2A31927600F7E283 /* HomeRouter.swift */; };
-		708312512A3192D900F7E283 /* HomeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312502A3192D900F7E283 /* HomeService.swift */; };
+		708312512A3192D900F7E283 /* HomeRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312502A3192D900F7E283 /* HomeRepositoryImpl.swift */; };
 		708312542A31930300F7E283 /* InquireHomeInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312532A31930300F7E283 /* InquireHomeInfoResponse.swift */; };
 		708312562A31975C00F7E283 /* HomeBannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312552A31975C00F7E283 /* HomeBannerCollectionViewCell.swift */; };
 		7083125E2A3887B700F7E283 /* InquireScheduleInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083125D2A3887B700F7E283 /* InquireScheduleInfoResponse.swift */; };
@@ -138,7 +137,7 @@
 		7083126A2A39DEF300F7E283 /* LibraryRelatedBookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312692A39DEF300F7E283 /* LibraryRelatedBookCollectionViewCell.swift */; };
 		7083128A2A655BD900F7E283 /* MileageTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312892A655BD900F7E283 /* MileageTableHeaderView.swift */; };
 		7083128C2A6561CD00F7E283 /* MyPageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083128B2A6561CD00F7E283 /* MyPageRouter.swift */; };
-		7083128E2A65626E00F7E283 /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083128D2A65626E00F7E283 /* MyPageService.swift */; };
+		7083128E2A65626E00F7E283 /* MyPageRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083128D2A65626E00F7E283 /* MyPageRepositoryImpl.swift */; };
 		708312912A6562D100F7E283 /* InquireUserInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312902A6562D100F7E283 /* InquireUserInfoResponse.swift */; };
 		708312932A65638200F7E283 /* MoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312922A65638200F7E283 /* MoreViewModel.swift */; };
 		708312962A691AAD00F7E283 /* NumberformatterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312952A691AAD00F7E283 /* NumberformatterFactory.swift */; };
@@ -182,7 +181,7 @@
 		708ED7912A8E0AED00107CDF /* RothemRoomListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7902A8E0AED00107CDF /* RothemRoomListViewModel.swift */; };
 		708ED7942A8E671200107CDF /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7932A8E671200107CDF /* HomeViewModel.swift */; };
 		708ED7962A8E6F2700107CDF /* RothemRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7952A8E6F2700107CDF /* RothemRouter.swift */; };
-		708ED7982A8E6F8F00107CDF /* RothemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7972A8E6F8F00107CDF /* RothemService.swift */; };
+		708ED7982A8E6F8F00107CDF /* RothemRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7972A8E6F8F00107CDF /* RothemRepositoryImpl.swift */; };
 		708ED79B2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED79A2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift */; };
 		708ED79D2A8E817F00107CDF /* LibraryResultsEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED79C2A8E817F00107CDF /* LibraryResultsEmptyView.swift */; };
 		708ED79F2A8F65A100107CDF /* CheckReservationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED79E2A8F65A100107CDF /* CheckReservationInfoView.swift */; };
@@ -197,7 +196,7 @@
 		708ED7B52A90D61100107CDF /* StudyRoomDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7B42A90D61000107CDF /* StudyRoomDetailView.swift */; };
 		708ED7B92A91191C00107CDF /* BibleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7B82A91191C00107CDF /* BibleRouter.swift */; };
 		708ED7BC2A9119CC00107CDF /* InquireTodayWordsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7BB2A9119CC00107CDF /* InquireTodayWordsRequest.swift */; };
-		708ED7BF2A911AB800107CDF /* BibleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7BE2A911AB800107CDF /* BibleService.swift */; };
+		708ED7BF2A911AB800107CDF /* BibleRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7BE2A911AB800107CDF /* BibleRepositoryImpl.swift */; };
 		708ED7C12A911AFF00107CDF /* InquireTodayWordsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7C02A911AFF00107CDF /* InquireTodayWordsResponse.swift */; };
 		708ED7C32A911B4800107CDF /* BibleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7C22A911B4800107CDF /* BibleViewController.swift */; };
 		708ED7C62A911E6C00107CDF /* TodayPrayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7C52A911E6C00107CDF /* TodayPrayCollectionViewCell.swift */; };
@@ -297,10 +296,9 @@
 		7051E4F02AD6A75800C2134B /* space_0.75x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = space_0.75x.png; sourceTree = "<group>"; };
 		7051E4F82AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireAllRothemNoticeResponse.swift; sourceTree = "<group>"; };
 		7051E4FA2ADAB6C700C2134B /* BoardRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardRouter.swift; sourceTree = "<group>"; };
-		7051E4FC2ADAB71200C2134B /* BoardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardService.swift; sourceTree = "<group>"; };
+		7051E4FC2ADAB71200C2134B /* BoardRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardRepositoryImpl.swift; sourceTree = "<group>"; };
 		7051E4FF2ADAB75100C2134B /* InquireBoardlistResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBoardlistResponse.swift; sourceTree = "<group>"; };
 		7051E5012ADABC4400C2134B /* Ex + UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UILabel.swift"; sourceTree = "<group>"; };
-		7051E5032ADAD42700C2134B /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		7051E5052ADAF4EF00C2134B /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
 		705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNoticeView.swift; sourceTree = "<group>"; };
 		705FD2782A10D3C500F353FE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -313,7 +311,7 @@
 		705FD28B2A10F74D00F353FE /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		705FD28D2A10FC0200F353FE /* KeyChainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainWrapper.swift; sourceTree = "<group>"; };
 		705FD28F2A10FD6D00F353FE /* Interceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptor.swift; sourceTree = "<group>"; };
-		705FD2912A13B9E600F353FE /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		705FD2912A13B9E600F353FE /* AuthRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepositoryImpl.swift; sourceTree = "<group>"; };
 		705FD2942A13BB4300F353FE /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		705FD2982A13BC1700F353FE /* RegisterMemberResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterMemberResponse.swift; sourceTree = "<group>"; };
 		705FD29A2A13C19A00F353FE /* SignupUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupUserRequest.swift; sourceTree = "<group>"; };
@@ -334,7 +332,7 @@
 		705FD2C22A2337C800F353FE /* NoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		705FD2C42A2338DE00F353FE /* NoticeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCollectionViewCell.swift; sourceTree = "<group>"; };
 		705FD2C62A23B9AD00F353FE /* LibraryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRouter.swift; sourceTree = "<group>"; };
-		705FD2C82A23BA3000F353FE /* LibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryService.swift; sourceTree = "<group>"; };
+		705FD2C82A23BA3000F353FE /* LibraryRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRepositoryImpl.swift; sourceTree = "<group>"; };
 		705FD2CB2A23BA6A00F353FE /* InquireLibraryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireLibraryResponse.swift; sourceTree = "<group>"; };
 		705FD2D02A24DEFC00F353FE /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		705FD2D22A2645D200F353FE /* SearchBookResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBookResponse.swift; sourceTree = "<group>"; };
@@ -370,7 +368,7 @@
 		70727AB729D95E32003DE956 /* Ex + UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIFont.swift"; sourceTree = "<group>"; };
 		708312362A2CA50300F7E283 /* IntranetRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetRouter.swift; sourceTree = "<group>"; };
 		708312392A2CA59400F7E283 /* InquireChapelListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireChapelListRequest.swift; sourceTree = "<group>"; };
-		7083123B2A2CA5E500F7E283 /* IntranetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetService.swift; sourceTree = "<group>"; };
+		7083123B2A2CA5E500F7E283 /* IntranetRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetRepositoryImpl.swift; sourceTree = "<group>"; };
 		7083123D2A2CA62A00F7E283 /* InquireChapelListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireChapelListResponse.swift; sourceTree = "<group>"; };
 		7083123F2A2CA79D00F7E283 /* IntranetLoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetLoginRequest.swift; sourceTree = "<group>"; };
 		708312412A2CAA1800F7E283 /* RequestIntranetTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestIntranetTokenResponse.swift; sourceTree = "<group>"; };
@@ -380,7 +378,7 @@
 		708312492A2F856700F7E283 /* LibraryDetailInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryDetailInfoView.swift; sourceTree = "<group>"; };
 		7083124B2A2F88EE00F7E283 /* RequestBookInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBookInfoResponse.swift; sourceTree = "<group>"; };
 		7083124E2A31927600F7E283 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
-		708312502A3192D900F7E283 /* HomeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeService.swift; sourceTree = "<group>"; };
+		708312502A3192D900F7E283 /* HomeRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRepositoryImpl.swift; sourceTree = "<group>"; };
 		708312532A31930300F7E283 /* InquireHomeInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireHomeInfoResponse.swift; sourceTree = "<group>"; };
 		708312552A31975C00F7E283 /* HomeBannerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBannerCollectionViewCell.swift; sourceTree = "<group>"; };
 		7083125D2A3887B700F7E283 /* InquireScheduleInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireScheduleInfoResponse.swift; sourceTree = "<group>"; };
@@ -391,7 +389,7 @@
 		708312692A39DEF300F7E283 /* LibraryRelatedBookCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRelatedBookCollectionViewCell.swift; sourceTree = "<group>"; };
 		708312892A655BD900F7E283 /* MileageTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageTableHeaderView.swift; sourceTree = "<group>"; };
 		7083128B2A6561CD00F7E283 /* MyPageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageRouter.swift; sourceTree = "<group>"; };
-		7083128D2A65626E00F7E283 /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
+		7083128D2A65626E00F7E283 /* MyPageRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageRepositoryImpl.swift; sourceTree = "<group>"; };
 		708312902A6562D100F7E283 /* InquireUserInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireUserInfoResponse.swift; sourceTree = "<group>"; };
 		708312922A65638200F7E283 /* MoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewModel.swift; sourceTree = "<group>"; };
 		708312952A691AAD00F7E283 /* NumberformatterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberformatterFactory.swift; sourceTree = "<group>"; };
@@ -435,7 +433,7 @@
 		708ED7902A8E0AED00107CDF /* RothemRoomListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemRoomListViewModel.swift; sourceTree = "<group>"; };
 		708ED7932A8E671200107CDF /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		708ED7952A8E6F2700107CDF /* RothemRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemRouter.swift; sourceTree = "<group>"; };
-		708ED7972A8E6F8F00107CDF /* RothemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemService.swift; sourceTree = "<group>"; };
+		708ED7972A8E6F8F00107CDF /* RothemRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemRepositoryImpl.swift; sourceTree = "<group>"; };
 		708ED79A2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireAllRoomInfoResponse.swift; sourceTree = "<group>"; };
 		708ED79C2A8E817F00107CDF /* LibraryResultsEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryResultsEmptyView.swift; sourceTree = "<group>"; };
 		708ED79E2A8F65A100107CDF /* CheckReservationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReservationInfoView.swift; sourceTree = "<group>"; };
@@ -450,7 +448,7 @@
 		708ED7B42A90D61000107CDF /* StudyRoomDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyRoomDetailView.swift; sourceTree = "<group>"; };
 		708ED7B82A91191C00107CDF /* BibleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleRouter.swift; sourceTree = "<group>"; };
 		708ED7BB2A9119CC00107CDF /* InquireTodayWordsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireTodayWordsRequest.swift; sourceTree = "<group>"; };
-		708ED7BE2A911AB800107CDF /* BibleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleService.swift; sourceTree = "<group>"; };
+		708ED7BE2A911AB800107CDF /* BibleRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleRepositoryImpl.swift; sourceTree = "<group>"; };
 		708ED7C02A911AFF00107CDF /* InquireTodayWordsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireTodayWordsResponse.swift; sourceTree = "<group>"; };
 		708ED7C22A911B4800107CDF /* BibleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleViewController.swift; sourceTree = "<group>"; };
 		708ED7C52A911E6C00107CDF /* TodayPrayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayPrayCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -876,7 +874,6 @@
 				7034AF1929F0064B009C7676 /* WebViewController.swift */,
 				70727A8F29D88935003DE956 /* BaseViewController.swift */,
 				705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */,
-				7051E5032ADAD42700C2134B /* BaseNavigationController.swift */,
 				708ED7A22A8F942500107CDF /* Auth */,
 				708DACF62B35A45700E3AD45 /* CoreTab */,
 			);
@@ -1320,14 +1317,14 @@
 		708ED7BD2A911A9B00107CDF /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				705FD2912A13B9E600F353FE /* AuthService.swift */,
-				705FD2C82A23BA3000F353FE /* LibraryService.swift */,
-				7083123B2A2CA5E500F7E283 /* IntranetService.swift */,
-				708312502A3192D900F7E283 /* HomeService.swift */,
-				7083128D2A65626E00F7E283 /* MyPageService.swift */,
-				708ED7972A8E6F8F00107CDF /* RothemService.swift */,
-				708ED7BE2A911AB800107CDF /* BibleService.swift */,
-				7051E4FC2ADAB71200C2134B /* BoardService.swift */,
+				705FD2912A13B9E600F353FE /* AuthRepositoryImpl.swift */,
+				705FD2C82A23BA3000F353FE /* LibraryRepositoryImpl.swift */,
+				7083123B2A2CA5E500F7E283 /* IntranetRepositoryImpl.swift */,
+				708312502A3192D900F7E283 /* HomeRepositoryImpl.swift */,
+				7083128D2A65626E00F7E283 /* MyPageRepositoryImpl.swift */,
+				708ED7972A8E6F8F00107CDF /* RothemRepositoryImpl.swift */,
+				708ED7BE2A911AB800107CDF /* BibleRepositoryImpl.swift */,
+				7051E4FC2ADAB71200C2134B /* BoardRepositoryImpl.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1652,7 +1649,7 @@
 				701F29D72AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift in Sources */,
 				708ED79F2A8F65A100107CDF /* CheckReservationInfoView.swift in Sources */,
 				708312562A31975C00F7E283 /* HomeBannerCollectionViewCell.swift in Sources */,
-				708ED7BF2A911AB800107CDF /* BibleService.swift in Sources */,
+				708ED7BF2A911AB800107CDF /* BibleRepositoryImpl.swift in Sources */,
 				70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */,
 				7031E3D02ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift in Sources */,
 				705FD2C72A23B9AD00F353FE /* LibraryRouter.swift in Sources */,
@@ -1701,11 +1698,11 @@
 				708312682A39C4B000F7E283 /* LoginInfoRememberView.swift in Sources */,
 				708ED7EB2A9DD1D000107CDF /* AffiliatedViewController.swift in Sources */,
 				708ED7D42A9228D200107CDF /* BottomSheetViewController.swift in Sources */,
-				708312512A3192D900F7E283 /* HomeService.swift in Sources */,
+				708312512A3192D900F7E283 /* HomeRepositoryImpl.swift in Sources */,
 				708ED7C92A911E8700107CDF /* BibleCollectionHeaderView.swift in Sources */,
 				708ED7B12A90CC0C00107CDF /* StudyRoomInfoView.swift in Sources */,
 				708312602A388D8B00F7E283 /* ScheduleViewModel.swift in Sources */,
-				708ED7982A8E6F8F00107CDF /* RothemService.swift in Sources */,
+				708ED7982A8E6F8F00107CDF /* RothemRepositoryImpl.swift in Sources */,
 				708ED7B52A90D61100107CDF /* StudyRoomDetailView.swift in Sources */,
 				7083128A2A655BD900F7E283 /* MileageTableHeaderView.swift in Sources */,
 				7051E4FB2ADAB6C700C2134B /* BoardRouter.swift in Sources */,
@@ -1727,14 +1724,13 @@
 				7083129F2A6D25E100F7E283 /* TermsOfUseViewController.swift in Sources */,
 				70375F0E2AB1AA9F0032F6B8 /* BibleTitleView.swift in Sources */,
 				708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */,
-				7051E5042ADAD42700C2134B /* BaseNavigationController.swift in Sources */,
 				7083123E2A2CA62A00F7E283 /* InquireChapelListResponse.swift in Sources */,
 				70375F072AB04F7B0032F6B8 /* InquireChapterToBibleRequest.swift in Sources */,
 				708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */,
 				708ED79B2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift in Sources */,
 				70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */,
 				708ED7E72A94B61100107CDF /* RevisionOfTranslation+CoreDataProperties.swift in Sources */,
-				705FD2922A13B9E600F353FE /* AuthService.swift in Sources */,
+				705FD2922A13B9E600F353FE /* AuthRepositoryImpl.swift in Sources */,
 				70375EFA2AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift in Sources */,
 				701F29C42AE6750100E3E68B /* InquireBoardResponse.swift in Sources */,
 				705FD2B12A1625EF00F353FE /* NewLibraryCollectionViewCell.swift in Sources */,
@@ -1766,7 +1762,7 @@
 				705FD2A52A15FDB500F353FE /* LoginRequest.swift in Sources */,
 				7031E3C82ABA72C10027DC0A /* BoardDetailViewController.swift in Sources */,
 				708ED7D82A92357600107CDF /* BibleCollectionViewCell.swift in Sources */,
-				7083123C2A2CA5E500F7E283 /* IntranetService.swift in Sources */,
+				7083123C2A2CA5E500F7E283 /* IntranetRepositoryImpl.swift in Sources */,
 				708312912A6562D100F7E283 /* InquireUserInfoResponse.swift in Sources */,
 				708312462A2F34DB00F7E283 /* IntranetLoginViewController.swift in Sources */,
 				70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */,
@@ -1774,7 +1770,7 @@
 				70864F362AFE1F3600CD4124 /* InquireMileageInfoResponse.swift in Sources */,
 				7031E3D22ABA80BA0027DC0A /* CommentAuthorInfoView.swift in Sources */,
 				708ED7F12A9E24D000107CDF /* InquireAffiliatedListResponse.swift in Sources */,
-				705FD2C92A23BA3000F353FE /* LibraryService.swift in Sources */,
+				705FD2C92A23BA3000F353FE /* LibraryRepositoryImpl.swift in Sources */,
 				708312B02A73E07300F7E283 /* NoticeViewModel.swift in Sources */,
 				708312A32A6EC9D700F7E283 /* IntranetLoginViewModel.swift in Sources */,
 				70864F322AF9502600CD4124 /* CommentInputView.swift in Sources */,
@@ -1788,7 +1784,7 @@
 				70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */,
 				708ED7822A8CC70700107CDF /* BoardListViewModel.swift in Sources */,
 				70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */,
-				7083128E2A65626E00F7E283 /* MyPageService.swift in Sources */,
+				7083128E2A65626E00F7E283 /* MyPageRepositoryImpl.swift in Sources */,
 				70727A9529D889C6003DE956 /* HomeViewController.swift in Sources */,
 				70864F3C2B021FA900CD4124 /* IntranetCheckViewController.swift in Sources */,
 				708312662A398C0D00F7E283 /* LibraryRentalListView.swift in Sources */,
@@ -1842,7 +1838,7 @@
 				708312AA2A723B4D00F7E283 /* NoticeCollectionHeaderView.swift in Sources */,
 				708312AC2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				708ED7D22A9203DF00107CDF /* BibleSearchResultViewController.swift in Sources */,
-				7051E4FD2ADAB71200C2134B /* BoardService.swift in Sources */,
+				7051E4FD2ADAB71200C2134B /* BoardRepositoryImpl.swift in Sources */,
 				705FD2AF2A16246F00F353FE /* LibraryResultsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

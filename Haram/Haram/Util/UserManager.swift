@@ -14,6 +14,7 @@ final class UserManager {
   // MARK: - Properties
   
   static let shared = UserManager()
+  private let authRepository: AuthRepository
   
   // MARK: - User Options
   
@@ -35,7 +36,9 @@ final class UserManager {
   
   // MARK: - Initialization
   
-  private init() { }
+  private init() { 
+    self.authRepository = AuthRepositoryImpl()
+  }
 }
 
 extension UserManager {
@@ -62,7 +65,7 @@ extension UserManager {
   
   /// 가지고 있는 `refresh token`을 가지고 새로운 `access token`과 `refresh token`을 발급받습니다.
   func reissuanceAccessToken() -> Observable<Void> {
-    return AuthService.shared.reissuanceAccessToken(userID: UserManager.shared.userID ?? "")
+    return authRepository.reissuanceAccessToken(userID: UserManager.shared.userID ?? "")
       .map { result in
         switch result {
         case .success(let tokenData):

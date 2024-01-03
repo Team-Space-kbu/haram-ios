@@ -19,13 +19,15 @@ protocol ChapelViewModelType {
 final class ChapelViewModel: ChapelViewModelType {
   
   private let disposeBag = DisposeBag()
+  private let intranetRepository: IntranetRepository
   
   let chapelListModel: Driver<[ChapelCollectionViewCellModel]>
   let chapelHeaderModel: Driver<ChapelCollectionHeaderViewModel?>
   let isLoading: Driver<Bool>
   let errorMessage: Signal<HaramError>
   
-  init() {
+  init(intranetRepository: IntranetRepository = IntranetRepositoryImpl()) {
+    self.intranetRepository = intranetRepository
     
     let chapelListModelRelay   = BehaviorRelay<[ChapelCollectionViewCellModel]>(value: [])
     let chapelHeaderModelRelay = PublishRelay<ChapelCollectionHeaderViewModel?>()
@@ -37,7 +39,7 @@ final class ChapelViewModel: ChapelViewModelType {
     self.isLoading = isLoadingSubject.distinctUntilChanged().asDriver(onErrorJustReturn: false)
     self.errorMessage = errorMessageSubject.distinctUntilChanged().asSignal(onErrorSignalWith: .empty())
     
-    let inquireChapelDetail = IntranetService.shared.inquireChapelDetail()
+    let inquireChapelDetail = intranetRepository.inquireChapelDetail()
       .do(onSuccess: { _ in isLoadingSubject.onNext(true) })
     
     inquireChapelDetail
@@ -51,7 +53,7 @@ final class ChapelViewModel: ChapelViewModelType {
       })
       .disposed(by: disposeBag)
     
-    let inquireChapelInfo = IntranetService.shared.inquireChapelInfo()
+    let inquireChapelInfo = intranetRepository.inquireChapelInfo()
       .do(onSuccess: { _ in isLoadingSubject.onNext(true) })
           
           inquireChapelInfo

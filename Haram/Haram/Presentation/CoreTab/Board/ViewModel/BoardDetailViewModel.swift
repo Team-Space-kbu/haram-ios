@@ -18,6 +18,7 @@ protocol BoardDetailViewModelType {
 
 final class BoardDetailViewModel {
   
+  private let boardRepository: BoardRepository
   private let disposeBag = DisposeBag()
   
   private let boardType: BoardType
@@ -27,7 +28,8 @@ final class BoardDetailViewModel {
   private let currentBoardInfoRelay = BehaviorRelay<[BoardDetailHeaderViewModel]>(value: [])
   
   
-  init(boardType: BoardType, boardSeq: Int) {
+  init(boardRepository: BoardRepository = BoardRepositoryImpl(), boardType: BoardType, boardSeq: Int) {
+    self.boardRepository = boardRepository
     self.boardType = boardType
     self.boardSeq = boardSeq
     inquireBoard()
@@ -38,7 +40,7 @@ extension BoardDetailViewModel {
   
   /// 게시글에 대한 정보를 조회합니다
   private func inquireBoard() {
-    let inquireBoard = BoardService.shared.inquireBoard(boardType: boardType, boardSeq: boardSeq)
+    let inquireBoard = boardRepository.inquireBoard(boardType: boardType, boardSeq: boardSeq)
     
     inquireBoard
       .subscribe(with: self) { owner, response in
@@ -62,7 +64,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   /// 해당 게시글에 대한 댓글을 생성합니다
   func createComment(boardComment: String) {
     
-    BoardService.shared.createComment(
+    boardRepository.createComment(
       request: .init(
         boardSeq: boardSeq,
         userID: UserManager.shared.userID!,

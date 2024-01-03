@@ -7,17 +7,24 @@
 
 import RxSwift
 
-final class LibraryService {
-  
-  static let shared = LibraryService()
+protocol LibraryRepository {
+  func inquireLibrary() -> Single<InquireLibraryResponse>
+  func searchBook(query: String, page: Int) -> Single<SearchBookResponse>
+  func requestBookInfo(text: Int) -> Single<RequestBookInfoResponse>
+  func requestBookLoanStatus(path: Int) -> Single<RequestBookLoanStatusResponse>
+}
+
+final class LibraryRepositoryImpl {
   
   private let service: BaseService
   
-  private init() { self.service = ApiService() }
+  init(service: BaseService = ApiService()) {
+    self.service = service
+  }
   
 }
 
-extension LibraryService {
+extension LibraryRepositoryImpl: LibraryRepository {
   func inquireLibrary() -> Single<InquireLibraryResponse> {
     service.betarequest(router: LibraryRouter.inquireLibrary, type: InquireLibraryResponse.self)
   }

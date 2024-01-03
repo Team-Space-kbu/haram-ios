@@ -7,17 +7,25 @@
 
 import RxSwift
 
-final class AuthService {
-  
-  static let shared = AuthService()
+protocol AuthRepository {
+  func signupUser(request: SignupUserRequest) -> Observable<Result<EmptyModel, HaramError>>
+  func loginMember(request: LoginRequest) -> Observable<Result<LoginResponse, HaramError>>
+  func reissuanceAccessToken(userID: String) -> Observable<Result<LoginResponse, HaramError>>
+  func loginIntranet(request: IntranetLoginRequest) -> Observable<Result<EmptyModel, HaramError>>
+  func logoutUser(userID: String) -> Observable<Result<EmptyModel, HaramError>>
+}
+
+final class AuthRepositoryImpl {
   
   private let service: BaseService
   
-  private init() { self.service = ApiService() }
+  init(service: BaseService = ApiService()) {
+    self.service = service
+  }
   
 }
 
-extension AuthService {
+extension AuthRepositoryImpl: AuthRepository {
   func signupUser(request: SignupUserRequest) -> Observable<Result<EmptyModel, HaramError>> {
     service.request(router: AuthRouter.signupUser(request), type: EmptyModel.self)
   }

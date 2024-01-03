@@ -19,17 +19,19 @@ protocol CheckReservationViewModelType {
 final class CheckReservationViewModel {
   
   private let disposeBag = DisposeBag()
+  private let rothemRepository: RothemRepository
   
   private var reservationSeq: Int?
   private let rothemReservationInfoViewRelay  = PublishRelay<RothemReservationInfoViewModel>()
   private let successCancelReservationSubject = PublishSubject<Void>()
   
-  init() {
+  init(rothemRepository: RothemRepository = RothemRepositoryImpl()) {
+    self.rothemRepository = rothemRepository
     inquireRothemReservationInfo()
   }
   
   private func inquireRothemReservationInfo() {
-    let inquireRothemReservationInfo = RothemService.shared.inquireRothemReservationInfo(userID: UserManager.shared.userID!)
+    let inquireRothemReservationInfo = rothemRepository.inquireRothemReservationInfo(userID: UserManager.shared.userID!)
     
     inquireRothemReservationInfo
       .subscribe(with: self) { owner, response in
@@ -47,7 +49,7 @@ extension CheckReservationViewModel: CheckReservationViewModelType {
     
     guard let reservationSeq = reservationSeq else { return }
     
-    RothemService.shared.cancelRothemReservation(
+    rothemRepository.cancelRothemReservation(
       request: .init(
         reservationSeq: reservationSeq,
         userID: UserManager.shared.userID!

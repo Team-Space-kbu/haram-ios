@@ -65,17 +65,7 @@ final class AffiliatedFloatingPanelViewController: BaseViewController {
     affiliatedCollectionView.delegate = self
     affiliatedCollectionView.dataSource = self
     
-    /// Configure Skeleton UI
-    view.isSkeletonable = true
-    
-    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
-    let graient = SkeletonGradient(baseColor: .skeletonDefault)
-    
-    view.showAnimatedGradientSkeleton(
-      usingGradient: graient,
-      animation: skeletonAnimation,
-      transition: .none
-    )
+    setupSkeletonView()
     
     touchHandler = { [weak self] row in
       guard let self = self else { return }

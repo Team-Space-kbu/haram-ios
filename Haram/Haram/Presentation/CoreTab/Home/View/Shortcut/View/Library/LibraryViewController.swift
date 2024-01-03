@@ -188,17 +188,7 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
     _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
     panGesture.delegate = self
     
-    /// Configure Skeleton UI
-    view.isSkeletonable = true
-    
-    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
-    let graient = SkeletonGradient(baseColor: .skeletonDefault)
-    
-    view.showAnimatedGradientSkeleton(
-      usingGradient: graient,
-      animation: skeletonAnimation,
-      transition: .none
-    )
+    setupSkeletonView()
     
   }
   

@@ -23,19 +23,24 @@ protocol RothemRoomListViewModelType {
 final class RothemRoomListViewModel {
   
   private let disposeBag = DisposeBag()
+  private let rothemRepository: RothemRepository
   
   private let studyReservationListRelay = BehaviorRelay<[StudyListCollectionViewCellModel]>(value: [])
   private let rothemMainNoticeRelay     = BehaviorRelay<StudyListHeaderViewModel?>(value: nil)
   private let isLoadingSubject          = PublishSubject<Bool>()
   private let isReservationSubject      = BehaviorSubject<Bool>(value: false)
 
+  init(rothemRepository: RothemRepository = RothemRepositoryImpl()) {
+    self.rothemRepository = rothemRepository
+  }
+  
 }
 
 
 extension RothemRoomListViewModel: RothemRoomListViewModelType {
   
   func inquireRothemRoomList() {
-    RothemService.shared.inquireRothemHomeInfo(userID: UserManager.shared.userID!)
+    rothemRepository.inquireRothemHomeInfo(userID: UserManager.shared.userID!)
       .do(onSuccess: { [weak self] _ in
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)

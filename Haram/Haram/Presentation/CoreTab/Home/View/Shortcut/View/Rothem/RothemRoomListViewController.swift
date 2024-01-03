@@ -114,16 +114,7 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
     title = "스터디"
     setupBackButton()
     
-    /// Configure Skeleton
-    view.isSkeletonable = true
-    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
-
-    let graient = SkeletonGradient(baseColor: .skeletonDefault)
-    view.showAnimatedGradientSkeleton(
-      usingGradient: graient,
-      animation: skeletonAnimation,
-      transition: .none
-    )
+    setupSkeletonView()
   }
   
   @objc func didTappedBackButton() {

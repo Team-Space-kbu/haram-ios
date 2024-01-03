@@ -98,14 +98,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     
     _ = [view, scrollView, containerView, libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, relatedBookCollectionView].map { $0.isSkeletonable = true }
 
-    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
-
-    let graient = SkeletonGradient(baseColor: .skeletonDefault)
-    view.showAnimatedGradientSkeleton(
-      usingGradient: graient,
-      animation: skeletonAnimation,
-      transition: .none
-    )
+    setupSkeletonView()
   }
   
   override func setupLayouts() {

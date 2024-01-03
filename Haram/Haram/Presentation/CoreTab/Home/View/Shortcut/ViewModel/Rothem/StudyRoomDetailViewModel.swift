@@ -21,12 +21,18 @@ protocol StudyRoomDetailViewModelType {
 final class StudyRoomDetailViewModel {
   
   private let disposeBag = DisposeBag()
+  private let rothemRepository: RothemRepository
+  
   private let currentRothemRoomDetailViewModelRelay = PublishRelay<RothemRoomDetailViewModel>()
   private let currentRothemRoomThubnailImageRelay   = PublishRelay<URL?>()
   private let isLoadingSubject                      = PublishSubject<Bool>()
   
+  init(rothemRepository: RothemRepository = RothemRepositoryImpl()) {
+    self.rothemRepository = rothemRepository
+  }
+  
   func inquireRothemRoomInfo(roomSeq: Int) {
-    let inquireRothemRoomInfo = RothemService.shared.inquireRothemRoomInfo(roomSeq: roomSeq)
+    let inquireRothemRoomInfo = rothemRepository.inquireRothemRoomInfo(roomSeq: roomSeq)
       .do(onSuccess: { [weak self] _ in
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)

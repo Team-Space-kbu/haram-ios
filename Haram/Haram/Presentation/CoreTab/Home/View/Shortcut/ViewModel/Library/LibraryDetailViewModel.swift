@@ -25,6 +25,7 @@ protocol LibraryDetailViewModelType {
 final class LibraryDetailViewModel {
   
   private let disposeBag = DisposeBag()
+  private let libraryRepository: LibraryRepository
   
   private let currentDetailBookInfo    = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
   private let currentDetailMainModel   = BehaviorRelay<LibraryDetailMainViewModel?>(value: nil)
@@ -35,6 +36,10 @@ final class LibraryDetailViewModel {
   private let isLoadingSubject         = BehaviorSubject<Bool>(value: false)
   private let errorMessageRelay        = PublishRelay<HaramError>()
   
+  init(libraryRepository: LibraryRepository = LibraryRepositoryImpl()) {
+    self.libraryRepository = libraryRepository
+  }
+  
 }
 
 extension LibraryDetailViewModel: LibraryDetailViewModelType {
@@ -43,7 +48,7 @@ extension LibraryDetailViewModel: LibraryDetailViewModelType {
     
     self.isLoadingSubject.onNext(true)
     
-    LibraryService.shared.requestBookInfo(text: path)
+    libraryRepository.requestBookInfo(text: path)
       .subscribe(with: self, onSuccess: { owner, response in
         
         owner.currentDetailMainModel.accept(LibraryDetailMainViewModel(response: response))
@@ -75,7 +80,7 @@ extension LibraryDetailViewModel: LibraryDetailViewModelType {
       })
       .disposed(by: disposeBag)
     
-    LibraryService.shared.requestBookLoanStatus(path: path)
+    libraryRepository.requestBookLoanStatus(path: path)
       .subscribe(with: self) { owner, response in
         
         owner.currentDetailRentalModel.accept(
