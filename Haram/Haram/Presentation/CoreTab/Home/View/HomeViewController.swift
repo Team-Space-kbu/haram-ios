@@ -160,17 +160,7 @@ final class HomeViewController: BaseViewController {
     }
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
     
-    /// Configure Skeleton UI
-    view.isSkeletonable = true
-    
-    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
-    let graient = SkeletonGradient(baseColor: .skeletonDefault)
-    
-    view.showAnimatedGradientSkeleton(
-      usingGradient: graient,
-      animation: skeletonAnimation,
-      transition: .none
-    )
+    setupSkeletonView()
   }
   
   override func setupLayouts() {

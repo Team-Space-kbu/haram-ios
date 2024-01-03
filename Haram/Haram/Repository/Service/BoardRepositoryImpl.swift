@@ -7,17 +7,23 @@
 
 import RxSwift
 
-final class BoardService {
-  
-  static let shared = BoardService()
+protocol BoardRepository {
+  func inquireBoardlist(boardType: BoardType) -> Single<[InquireBoardlistResponse]>
+  func inquireBoard(boardType: BoardType, boardSeq: Int) -> Single<InquireBoardResponse>
+  func createComment(request: CreateCommentRequest) -> Single<CreateCommentResponse>
+}
+
+final class BoardRepositoryImpl {
   
   private let service: BaseService
   
-  private init() { self.service = ApiService() }
+  init(service: BaseService = ApiService()) {
+    self.service = service
+  }
   
 }
 
-extension BoardService {
+extension BoardRepositoryImpl: BoardRepository {
   func inquireBoardlist(boardType: BoardType) -> Single<[InquireBoardlistResponse]> {
     service.betarequest(router: BoardRouter.inquireBoardList(boardType), type: [InquireBoardlistResponse].self)
   }

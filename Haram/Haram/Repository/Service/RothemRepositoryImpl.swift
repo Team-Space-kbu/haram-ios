@@ -7,16 +7,28 @@
 
 import RxSwift
 
-final class RothemService {
-  static let shared = RothemService()
+protocol RothemRepository {
+  func inquireAllRoomInfo() -> Single<[InquireAllRoomInfoResponse]>
+  func inquireAllRothemNotice() -> Single<[InquireAllRothemNoticeResponse]>
+  func inquireRothemHomeInfo(userID: String) -> Single<InquireRothemHomeInfoResponse>
+  func inquireRothemRoomInfo(roomSeq: Int) -> Single<InquireRothemRoomInfoResponse>
+  func inquireRothemReservationInfo(userID: String) -> Single<InquireRothemReservationInfoResponse>
+  func checkTimeAvailableForRothemReservation(roomSeq: Int) -> Single<CheckTimeAvailableForRothemReservationResponse>
+  func reserveStudyRoom(roomSeq: Int, request: ReserveStudyRoomRequest) -> Single<EmptyModel>
+  func cancelRothemReservation(request: CancelRothemReservationRequest) -> Single<EmptyModel>
+}
+
+final class RothemRepositoryImpl {
   
   private let service: BaseService
   
-  private init() { self.service = ApiService() }
+  init(service: BaseService = ApiService()) {
+    self.service = service
+  }
   
 }
 
-extension RothemService {
+extension RothemRepositoryImpl: RothemRepository {
   func inquireAllRoomInfo() -> Single<[InquireAllRoomInfoResponse]> {
     service.betarequest(router: RothemRouter.inquireAllRoomInfo, type: [InquireAllRoomInfoResponse].self)
   }

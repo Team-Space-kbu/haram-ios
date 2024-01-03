@@ -19,10 +19,15 @@ protocol LoginViewModelType {
 final class LoginViewModel {
   
   private let disposeBag = DisposeBag()
+  private let authRepository: AuthRepository
   
   private let errorMessageRelay      = PublishRelay<String?>()
   private let isLoadingSubject       = BehaviorSubject<Bool>(value: false)
   private let successLoginRelay      = PublishRelay<Void>()
+  
+  init(authRepository: AuthRepository = AuthRepositoryImpl()) {
+    self.authRepository = authRepository
+  }
   
 }
 
@@ -47,7 +52,7 @@ extension LoginViewModel {
     
     self.isLoadingSubject.onNext(true)
     
-    AuthService.shared.loginMember(
+    authRepository.loginMember(
       request: .init(
         userID: userID,
         password: password

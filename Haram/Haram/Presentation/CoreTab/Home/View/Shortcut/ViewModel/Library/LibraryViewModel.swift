@@ -21,7 +21,7 @@ protocol LibraryViewModelType {
 final class LibraryViewModel: LibraryViewModelType {
   
   private let disposeBag = DisposeBag()
-  
+  private let libraryRepository: LibraryRepository
   
   let newBookModel: Driver<[NewLibraryCollectionViewCellModel]>
   let bestBookModel: Driver<[PopularLibraryCollectionViewCellModel]>
@@ -29,7 +29,8 @@ final class LibraryViewModel: LibraryViewModelType {
   let bannerImage: Signal<URL?>
   let isLoading: Driver<Bool>
   
-  init() {
+  init(libraryRepostory: LibraryRepository = LibraryRepositoryImpl()) {
+    self.libraryRepository = libraryRepostory
     
     let currentNewBookModel    = BehaviorRelay<[NewLibraryCollectionViewCellModel]>(value: [])
     let currentBestBookModel   = BehaviorRelay<[PopularLibraryCollectionViewCellModel]>(value: [])
@@ -37,7 +38,7 @@ final class LibraryViewModel: LibraryViewModelType {
     let bannerImageRelay       = PublishRelay<String?>()
     let isLoadingSubject       = PublishSubject<Bool>()
     
-    let inquireLibrary = LibraryService.shared.inquireLibrary()
+    let inquireLibrary = libraryRepostory.inquireLibrary()
     
     inquireLibrary
       .do(onSuccess: { _ in isLoadingSubject.onNext(true) })

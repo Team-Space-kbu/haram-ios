@@ -26,6 +26,7 @@ protocol RegisterViewModelType {
 
 final class RegisterViewModel {
   private let disposeBag = DisposeBag()
+  private let authRepository: AuthRepository
   
   private let registerIDSubject              = BehaviorSubject<String>(value: "")
   private let registerPWDSubject             = BehaviorSubject<String>(value: "")
@@ -37,6 +38,10 @@ final class RegisterViewModel {
   private let errorMessageRelay              = PublishRelay<HaramError>()
   private let signupSuccessMessageRelay      = PublishRelay<String>()
   private let isLoadingSubject               = PublishSubject<Bool>()
+  
+  init(authRepository: AuthRepository = AuthRepositoryImpl()) {
+    self.authRepository = authRepository
+  }
   
   func registerMember() {
     
@@ -59,9 +64,10 @@ final class RegisterViewModel {
         }
         return true
       }
-      .flatMapLatest { result in
+      .withUnretained(self)
+      .flatMapLatest { owner, result in
         let (id, email, password, _, nickname, authcode) = result
-        return AuthService.shared.signupUser(
+        return owner.authRepository.signupUser(
           request: .init(
             userID: id,
             email: email,

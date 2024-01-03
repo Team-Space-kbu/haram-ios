@@ -7,17 +7,22 @@
 
 import RxSwift
 
-final class HomeService {
-  
-  static let shared = HomeService()
+protocol HomeRepository {
+  func inquireHomeInfo() -> Single<InquireHomeInfoResponse>
+  func inquireAffiliatedList() -> Single<[InquireAffiliatedResponse]>
+}
+
+final class HomeRepositoryImpl {
   
   private let service: BaseService
   
-  private init() { self.service = ApiService() }
+  init(service: BaseService = ApiService()) {
+    self.service = service
+  }
   
 }
 
-extension HomeService {
+extension HomeRepositoryImpl: HomeRepository {
   func inquireHomeInfo() -> Single<InquireHomeInfoResponse> {
     service.betarequest(router: HomeRouter.inquireHomeInfo, type: InquireHomeInfoResponse.self)
   }

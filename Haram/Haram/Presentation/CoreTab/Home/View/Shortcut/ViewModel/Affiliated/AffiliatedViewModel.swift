@@ -16,16 +16,18 @@ protocol AffiliatedViewModelType {
 final class AffiliatedViewModel {
   
   private let disposeBag = DisposeBag()
+  private let homeRepository: HomeRepository
   
   private let affiliatedModelRelay = BehaviorRelay<[AffiliatedCollectionViewCellModel]>(value: [])
   private let isLoadingSubject     = PublishSubject<Bool>()
   
-  init() {
+  init(homeRepository: HomeRepository = HomeRepositoryImpl()) {
+    self.homeRepository = homeRepository
     tryInquireAffiliated()
   }
   
   private func tryInquireAffiliated() {
-    let inquireAffiliatedList = HomeService.shared.inquireAffiliatedList()
+    let inquireAffiliatedList = homeRepository.inquireAffiliatedList()
       .do(onSuccess: { [weak self] _ in
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)

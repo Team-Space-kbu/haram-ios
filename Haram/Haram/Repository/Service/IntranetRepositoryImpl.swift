@@ -7,17 +7,24 @@
 
 import RxSwift
 
-final class IntranetService {
-  
-  static let shared = IntranetService()
+protocol IntranetRepository {
+  func inquireChapelInfo() -> Single<InquireChapelInfoResponse>
+  func inquireChapelDetail() -> Single<[InquireChapelDetailResponse]>
+  func inquireScheduleInfo() -> Single<[InquireScheduleInfoResponse]>
+  func inquireMileageInfo() -> Single<InquireMileageInfoResponse>
+}
+
+final class IntranetRepositoryImpl {
   
   private let service: BaseService
   
-  private init() { self.service = ApiService() }
+  init(service: BaseService = ApiService()) {
+    self.service = service
+  }
   
 }
 
-extension IntranetService {
+extension IntranetRepositoryImpl: IntranetRepository {
   
   func inquireChapelInfo() -> Single<InquireChapelInfoResponse> {
     service.betarequest(router: IntranetRouter.inquireChapelInfo, type: InquireChapelInfoResponse.self)

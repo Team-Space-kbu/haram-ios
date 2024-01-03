@@ -19,13 +19,19 @@ protocol MoreViewModelType {
 final class MoreViewModel {
   
   private let disposeBag = DisposeBag()
+  private let authRepository: AuthRepository
+  private let myPageRepository: MyPageRepository
   
   private let currentUserInfoRelay     = BehaviorRelay<ProfileInfoViewModel?>(value: nil)
   private let successMessageRelay      = PublishRelay<String>()
   
+  init(authRepository: AuthRepository = AuthRepositoryImpl(), myPageRepository: MyPageRepository = MyPageRepositoryImpl()) {
+    self.authRepository = authRepository
+    self.myPageRepository = myPageRepository
+  }
   
   func inquireUserInfo() {
-    MyPageService.shared.inquireUserInfo(userID: UserManager.shared.userID!)
+    myPageRepository.inquireUserInfo(userID: UserManager.shared.userID!)
       .subscribe(with: self) { owner, response in
         let profileInfoViewModel = ProfileInfoViewModel(response: response)
         owner.currentUserInfoRelay.accept(profileInfoViewModel)
@@ -34,7 +40,7 @@ final class MoreViewModel {
   }
   
   func requestLogoutUser() {
-    AuthService.shared.logoutUser(userID: UserManager.shared.userID!)
+    authRepository.logoutUser(userID: UserManager.shared.userID!)
       .take(1)
       .subscribe(with: self) { owner, _ in
         UserManager.shared.clearAllInformations()

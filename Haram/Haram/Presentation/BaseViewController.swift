@@ -8,6 +8,7 @@
 import UIKit.UIViewController
 
 import class RxSwift.DisposeBag
+import SkeletonView
 
 class BaseViewController: UIViewController {
   
@@ -80,5 +81,19 @@ class BaseViewController: UIViewController {
   /// }
   /// ```
   func bind() { }
+  
+  func setupSkeletonView() {
+    /// Configure Skeleton UI
+    view.isSkeletonable = true
+    
+    let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
+    let graient = SkeletonGradient(baseColor: .skeletonDefault)
+    
+    view.showAnimatedGradientSkeleton(
+      usingGradient: graient,
+      animation: skeletonAnimation,
+      transition: .none
+    )
+  }
 }
 

@@ -7,17 +7,21 @@
 
 import RxSwift
 
-final class MyPageService {
-  
-  static let shared = MyPageService()
+protocol MyPageRepository {
+  func inquireUserInfo(userID: String) -> Single<InquireUserInfoResponse>
+}
+
+final class MyPageRepositoryImpl {
   
   private let service: BaseService
   
-  private init() { self.service = ApiService() }
+  init(service: BaseService = ApiService()) {
+    self.service = service
+  }
   
 }
 
-extension MyPageService {
+extension MyPageRepositoryImpl: MyPageRepository {
   func inquireUserInfo(userID: String) -> Single<InquireUserInfoResponse> {
     service.betarequest(router: MyPageRouter.inquireUserInfo(userID), type: InquireUserInfoResponse.self)
   }

@@ -27,6 +27,7 @@ protocol StudyReservationViewModelType {
 
 final class StudyReservationViewModel {
   
+  private let rothemRepository: RothemRepository
   private let disposeBag = DisposeBag()
   private let roomSeq: Int
   
@@ -46,7 +47,8 @@ final class StudyReservationViewModel {
   private let selectedDayCollectionViewCellModelRelay = BehaviorRelay<[SelectedDayCollectionViewCellModel]>(value: [])
   private let policyModelRelay                        = BehaviorRelay<[TermsOfUseCheckViewModel]>(value: [])
   
-  init(roomSeq: Int) {
+  init(rothemRepository: RothemRepository = RothemRepositoryImpl(), roomSeq: Int) {
+    self.rothemRepository = rothemRepository
     self.roomSeq = roomSeq
     inquireReservationInfo()
     getTimeInfoForReservation()
@@ -56,7 +58,7 @@ final class StudyReservationViewModel {
   
   /// 예약하기위한 정보를 조회하는 함수, 맨 처음에만 호출
   private func inquireReservationInfo() {
-    let inquireReservationInfo = RothemService.shared.checkTimeAvailableForRothemReservation(roomSeq: roomSeq)
+    let inquireReservationInfo = rothemRepository.checkTimeAvailableForRothemReservation(roomSeq: roomSeq)
       .do(onSuccess: { [weak self] _ in
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)
@@ -158,7 +160,7 @@ final class StudyReservationViewModel {
       }
       .withUnretained(self)
       .flatMapLatest { owner, request in
-        RothemService.shared.reserveStudyRoom(roomSeq: owner.roomSeq, request: request)
+        owner.rothemRepository.reserveStudyRoom(roomSeq: owner.roomSeq, request: request)
       }
       .subscribe(with: self) { owner, _ in
         owner.successRothemReservationSubject.onNext(())

@@ -18,6 +18,7 @@ protocol BibleViewModelType {
 
 final class BibleViewModel {
   
+  private let bibleRepository: BibleRepository
   private let disposeBag = DisposeBag()
   
   private let todayBibleWordListRelay = BehaviorRelay<[String]>(value: [])
@@ -25,13 +26,14 @@ final class BibleViewModel {
   private let bibleMainNoticeRelay    = BehaviorRelay<[BibleNoticeCollectionViewCellModel]>(value: [])
   private let isLoadingSubject        = PublishSubject<Bool>()
   
-  init() {
+  init(bibleRepository: BibleRepository = BibleRepositoryImpl()) {
+    self.bibleRepository = bibleRepository
     inquireTodayBibleWord()
     inquireBibleMainNotice()
   }
   
   private func inquireTodayBibleWord() {
-    let tryInquireTodayBibleWord = BibleService.shared.inquireTodayWords(request: .init(bibleType: .RT))
+    let tryInquireTodayBibleWord = bibleRepository.inquireTodayWords(request: .init(bibleType: .RT))
       .do(onSuccess: { [weak self] _ in
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)
@@ -53,7 +55,7 @@ final class BibleViewModel {
   }
   
   private func inquireBibleMainNotice() {
-    let inquireBibleMainNotice = BibleService.shared.inquireBibleMainNotice()
+    let inquireBibleMainNotice = bibleRepository.inquireBibleMainNotice()
       .do(onSuccess: { [weak self] _ in
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)

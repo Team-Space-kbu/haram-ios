@@ -7,16 +7,23 @@
 
 import RxSwift
 
-final class BibleService {
-  static let shared = BibleService()
+protocol BibleRepository {
+  func inquireTodayWords(request: InquireTodayWordsRequest) -> Single<[InquireTodayWordsResponse]>
+  func inquireChapterToBible(request: InquireChapterToBibleRequest) -> Single<[InquireChapterToBibleResponse]>
+  func inquireBibleMainNotice() -> Single<[InquireBibleMainNoticeResponse]>
+}
+
+final class BibleRepositoryImpl {
   
   private let service: BaseService
   
-  private init() { self.service = ApiService() }
+  init(service: BaseService = ApiService()) {
+    self.service = service
+  }
   
 }
 
-extension BibleService {
+extension BibleRepositoryImpl: BibleRepository {
   func inquireTodayWords(request: InquireTodayWordsRequest) -> Single<[InquireTodayWordsResponse]> {
     service.betarequest(router: BibleRouter.inquireTodayWords(request), type: [InquireTodayWordsResponse].self)
   }

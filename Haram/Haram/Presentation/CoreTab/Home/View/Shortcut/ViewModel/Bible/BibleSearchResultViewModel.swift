@@ -16,15 +16,20 @@ protocol BibleSearchResultViewModelType {
 
 final class BibleSearchResultViewModel {
   
+  private let bibleRepository: BibleRepository
   private let disposeBag = DisposeBag()
   private let searchResultContentRelay = PublishRelay<String>()
+  
+  init(bibleRepository: BibleRepository = BibleRepositoryImpl()) {
+    self.bibleRepository = bibleRepository
+  }
   
 }
 
 extension BibleSearchResultViewModel: BibleSearchResultViewModelType {
   
   func searchBible(request: InquireChapterToBibleRequest) {
-    BibleService.shared.inquireChapterToBible(request: request)
+    bibleRepository.inquireChapterToBible(request: request)
       .subscribe(with: self) { owner, responses in
         owner.searchResultContentRelay.accept(responses.toStringWithWhiteSpace)
       }

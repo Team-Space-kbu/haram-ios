@@ -25,8 +25,10 @@ final class ScheduleViewModel: ScheduleViewModelType {
   let errorMessage: Signal<HaramError>
   
   private let disposeBag = DisposeBag()
+  private let intranetRepository: IntranetRepository
   
-  init() {
+  init(intranetRepository: IntranetRepository = IntranetRepositoryImpl()) {
+    self.intranetRepository = intranetRepository
     
     let schedulingInfo    = PublishRelay<[ElliottEvent]>()
     let isLoadingSubject  = BehaviorSubject<Bool>(value: true)
@@ -36,7 +38,7 @@ final class ScheduleViewModel: ScheduleViewModelType {
     self.isLoading = isLoadingSubject.distinctUntilChanged().asDriver(onErrorJustReturn: false)
     self.errorMessage = errorMessageSubject.asSignal(onErrorSignalWith: .empty())
     
-    IntranetService.shared.inquireScheduleInfo()
+    intranetRepository.inquireScheduleInfo()
       .do(onSuccess: { _ in isLoadingSubject.onNext(true) })
       .subscribe(onSuccess: { response in
         let scheduleModel = response.compactMap { model -> ElliottEvent? in

@@ -15,13 +15,15 @@ protocol BoardListViewModelType {
 
 final class BoardListViewModel {
   
+  private let boardRepository: BoardRepository
   private let disposeBag = DisposeBag()
   
   private let boardType: BoardType
   private let currentBoardListRelay = BehaviorRelay<[BoardListCollectionViewCellModel]>(value: [])
   private let isLoadingSubject      = PublishSubject<Bool>()
   
-  init(boardType: BoardType) {
+  init(boardRepository: BoardRepository = BoardRepositoryImpl(), boardType: BoardType) {
+    self.boardRepository = boardRepository
     self.boardType = boardType
     inquireBoardList()
   }
@@ -29,7 +31,7 @@ final class BoardListViewModel {
 
 extension BoardListViewModel {
   private func inquireBoardList() {
-    let inquireBoardList = BoardService.shared.inquireBoardlist(boardType: boardType)
+    let inquireBoardList = boardRepository.inquireBoardlist(boardType: boardType)
     
     inquireBoardList
       .do(onSuccess: { [weak self] _ in

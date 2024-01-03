@@ -19,13 +19,16 @@ protocol IntranetLoginViewModelType {
 final class IntranetLoginViewModel {
   
   private let disposeBag           = DisposeBag()
+  private let authRepository: AuthRepository
+  
   
   private let intranetInfoSubject  = PublishSubject<(String, String)>()
   private let intranetLoginMessage = PublishSubject<Void>()
   private let isLoadingSubject     = BehaviorSubject<Bool>(value: false)
   private let errorMessageRelay    = PublishRelay<HaramError>()
   
-  init() {
+  init(authRepository: AuthRepository = AuthRepositoryImpl()) {
+    self.authRepository = authRepository
     tryRequestIntranetToken()
   }
   
@@ -36,8 +39,10 @@ final class IntranetLoginViewModel {
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)
       })
-      .flatMapLatest { (intranetID, intranetPWD) in
-        AuthService.shared.loginIntranet(
+      .withUnretained(self)
+      .flatMapLatest { owner, intranetInfo in
+        let (intranetID, intranetPWD) = intranetInfo
+        return owner.authRepository.loginIntranet(
           request: .init(
             intranetID: intranetID,
             intranetPWD: intranetPWD

@@ -12,13 +12,16 @@ protocol LibraryResultsViewModelType {
 final class LibraryResultsViewModel: LibraryResultsViewModelType {
   
   private let disposeBag = DisposeBag()
+  private let libraryRepository: LibraryRepository
   
   let whichSearchText: AnyObserver<String>
   let searchResults:Driver<[LibraryResultsCollectionViewCellModel]>
   let isLoading: Driver<Bool>
   let fetchMoreDatas: AnyObserver<Void>
   
-  init() {
+  init(libraryRepository: LibraryRepository = LibraryRepositoryImpl()) {
+    self.libraryRepository = libraryRepository
+    
     let whichSearchingText = PublishSubject<String>()
     let isLoadingRelay     = BehaviorRelay<Bool>(value: false)
     let searchBookResults  = BehaviorRelay<[LibraryResultsCollectionViewCellModel]>(value: [])
@@ -34,7 +37,7 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
       currentPageSubject
     )
       .do(onNext: { _ in isLoadingRelay.accept(true) })
-      .flatMapLatest(LibraryService.shared.searchBook)
+      .flatMapLatest(libraryRepository.searchBook)
     
     requestSearchBook.subscribe(onNext: { response in
       

@@ -20,6 +20,7 @@ protocol HomeViewModelType {
 final class HomeViewModel {
   
   private let disposeBag = DisposeBag()
+  private let homeRepository: HomeRepository
   
   private let newsModelRelay   = BehaviorRelay<[HomeNewsCollectionViewCellModel]>(value: [])
   private let bannerModelRelay = BehaviorRelay<[HomebannerCollectionViewCellModel]>(value: [])
@@ -27,14 +28,15 @@ final class HomeViewModel {
   private let noticeModelRelay = PublishRelay<HomeNoticeViewModel>()
   private let isLoadingSubject = PublishSubject<Bool>()
   
-  init() {
+  init(homeRepository: HomeRepository = HomeRepositoryImpl()) {
+    self.homeRepository = homeRepository
     inquireHomeInfo()
   }
 }
 
 extension HomeViewModel {
   private func inquireHomeInfo() {
-    let inquireHomeInfo = HomeService.shared.inquireHomeInfo()
+    let inquireHomeInfo = homeRepository.inquireHomeInfo()
     
     inquireHomeInfo
       .do(onSuccess: { [weak self] _ in
