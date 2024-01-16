@@ -67,8 +67,6 @@ final class CommentInputView: UIView, UITextViewDelegate {
   private func setupStyles() {
     commentTextView.text = placeHolder
     commentTextView.delegate = self
-    
-//    backgroundView.layer.shadowPath = UIBezierPath(roundedRect: backgroundView.bounds, cornerRadius: backgroundView.layer.cornerRadius).cgPath
   }
   
   private func setupLayouts() {
@@ -103,10 +101,13 @@ final class CommentInputView: UIView, UITextViewDelegate {
   private func bind() {
     
     sendButton.rx.tap
+      .throttle(.seconds(1), scheduler: MainScheduler.instance)
       .withLatestFrom(commentTextView.rx.text.orEmpty)
-      .observe(on: MainScheduler.instance)
       .subscribe(with: self) { owner, comment in
-        owner.commentTextView.textColor = .hex9F9FA4
+        let commentText = owner.commentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard commentText != owner.placeHolder else { return }
+        
+        owner.commentTextView.textColor = .hexD0D0D0
         owner.commentTextView.text = owner.placeHolder
         owner.delegate?.writeComment(comment)
       }
@@ -115,10 +116,10 @@ final class CommentInputView: UIView, UITextViewDelegate {
     commentTextView.rx.didBeginEditing
       .asDriver()
       .drive(with: self) { owner, _ in
-        if owner.commentTextView.text == owner.placeHolder &&
-           owner.commentTextView.textColor == .hex9F9FA4 {
+        if owner.commentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines) == owner.placeHolder &&
+           owner.commentTextView.textColor == .hexD0D0D0 {
           owner.commentTextView.text = ""
-          owner.commentTextView.textColor = .black
+          owner.commentTextView.textColor = .hex545E6A
         }
       }
       .disposed(by: disposeBag)
@@ -127,9 +128,9 @@ final class CommentInputView: UIView, UITextViewDelegate {
       .asDriver()
       .drive(with: self) { owner, _ in
         if owner.commentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-           owner.commentTextView.textColor == .black {
+           owner.commentTextView.textColor == .hex545E6A {
           owner.commentTextView.text = owner.placeHolder
-          owner.commentTextView.textColor = .hex9F9FA4
+          owner.commentTextView.textColor = .hexD0D0D0
         }
         
         owner.updateTextViewHeightAutomatically()
@@ -137,10 +138,10 @@ final class CommentInputView: UIView, UITextViewDelegate {
       .disposed(by: disposeBag)
     
     commentTextView.rx.text
-      .withUnretained(self)
-      .subscribe(onNext: { owner, text in
+      .asDriver()
+      .drive(with: self){ owner, text in
         owner.updateTextViewHeightAutomatically()
-      })
+      }
       .disposed(by: disposeBag)
   }
   

@@ -17,7 +17,7 @@ final class BibleRepositoryImpl {
   
   private let service: BaseService
   
-  init(service: BaseService = ApiService()) {
+  init(service: BaseService = ApiService.shared) {
     self.service = service
   }
   

@@ -11,12 +11,11 @@ import SnapKit
 import SkeletonView
 import Then
 
-struct BoardListCollectionViewCellModel: Hashable {
+struct BoardListCollectionViewCellModel {
   let boardSeq: Int
   let title: String
   let subTitle: String
   let boardType: [String]
-  let identifier = UUID()
   
   init(response: InquireBoardlistResponse) {
     boardSeq = response.boardSeq
@@ -91,6 +90,7 @@ final class BoardListCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: BoardListCollectionViewCellModel) {
+    print("게시판1 \(model)")
     titleLabel.text = model.title
     subLabel.text = model.subTitle
     

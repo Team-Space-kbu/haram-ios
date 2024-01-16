@@ -36,6 +36,7 @@ final class HomeViewController: BaseViewController {
   // MARK: - Properties
   
   private let viewModel: HomeViewModelType
+  weak var coordinator: HomeCoordinator?
   
   private let currentBannerPage = PublishSubject<Int>()
   
@@ -104,7 +105,7 @@ final class HomeViewController: BaseViewController {
       $0.minimumLineSpacing = 28.97
     }
   ).then {
-    $0.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: 22, right: .zero)
+//    $0.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: 22, right: .zero)
     $0.backgroundColor = .white
     $0.delegate = self
     $0.dataSource = self
@@ -113,6 +114,7 @@ final class HomeViewController: BaseViewController {
     
     $0.showsVerticalScrollIndicator = false
     $0.isScrollEnabled = false
+    $0.bounces = false
     $0.isSkeletonable = true
   }
   
@@ -159,7 +161,7 @@ final class HomeViewController: BaseViewController {
       $0.font = .bold26
     }
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
-    
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
     setupSkeletonView()
   }
   
@@ -202,7 +204,7 @@ final class HomeViewController: BaseViewController {
     shortcutCollectionView.snp.makeConstraints {
       $0.top.equalTo(pageControl.snp.bottom)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-      $0.height.equalTo(194)
+      $0.height.equalTo(30.94 + 28 + 54 + 54 + 28.97 + 22)
     }
     
     newsTitleLabel.snp.makeConstraints {
@@ -247,7 +249,7 @@ final class HomeViewController: BaseViewController {
     
     pageControl.rx.controlEvent(.valueChanged)
       .subscribe(with: self) { owner,  _ in
-        owner.bannerCollectionView.scrollToItem(at: .init(row: owner.pageControl.currentPage, section: 0), at: .left, animated: true)
+        owner.pageControlValueChanged(currentPage: owner.pageControl.currentPage)
       }
       .disposed(by: disposeBag)
     
@@ -255,6 +257,12 @@ final class HomeViewController: BaseViewController {
       .asDriver(onErrorDriveWith: .empty())
       .drive(pageControl.rx.currentPage)
       .disposed(by: disposeBag)
+  }
+  
+  private func pageControlValueChanged(currentPage: Int) {
+    bannerCollectionView.isPagingEnabled = false
+    bannerCollectionView.scrollToItem(at: .init(row: currentPage, section: 0), at: .left, animated: true)
+    bannerCollectionView.isPagingEnabled = true
   }
 }
 
@@ -269,7 +277,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     } else if collectionView == newsCollectionView {
       return CGSize(width: 118, height: 165 + 17 + 6)
     }
-    return CGSize(width: collectionView.frame.width - 30, height: 142)
+    return CGSize(width: collectionView.frame.width, height: 142)
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -322,18 +330,21 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     if collectionView == shortcutCollectionView {
       let type = ShortcutType.allCases[indexPath.row]
-      let vc = type.viewController
-      vc.navigationItem.largeTitleDisplayMode = .never
-      vc.hidesBottomBarWhenPushed = true
-      navigationController?.interactivePopGestureRecognizer?.delegate = self
-      navigationController?.pushViewController(vc, animated: true)
+      coordinator?.didTappedShortcut(type: type)
+//      let vc = type.viewController
+//      vc.navigationItem.largeTitleDisplayMode = .never
+//      vc.hidesBottomBarWhenPushed = true
+//      navigationController?.interactivePopGestureRecognizer?.delegate = self
+//      navigationController?.pushViewController(vc, animated: true)
     } else if collectionView == newsCollectionView {
-      let vc = PDFViewController(pdfURL: newsModel[indexPath.row].pdfURL)
-      vc.title = newsModel[indexPath.row].title
-      vc.navigationItem.largeTitleDisplayMode = .never
-      vc.hidesBottomBarWhenPushed = true
-      navigationController?.interactivePopGestureRecognizer?.delegate = self
-      navigationController?.pushViewController(vc, animated: true)
+      let newsModel = newsModel[indexPath.row]
+      coordinator?.didTappedNews(newsModel: newsModel)
+//      let vc = PDFViewController(pdfURL: newsModel[indexPath.row].pdfURL)
+//      vc.title = newsModel[indexPath.row].title
+//      vc.navigationItem.largeTitleDisplayMode = .never
+//      vc.hidesBottomBarWhenPushed = true
+//      navigationController?.interactivePopGestureRecognizer?.delegate = self
+//      navigationController?.pushViewController(vc, animated: true)
     }
   }
 }

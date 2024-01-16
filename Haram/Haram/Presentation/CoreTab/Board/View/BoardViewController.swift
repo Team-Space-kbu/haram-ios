@@ -12,6 +12,8 @@ import Then
 
 final class BoardViewController: BaseViewController {
   
+  var coordinator: BoardCoordinator?
+  
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
@@ -117,13 +119,7 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let vc = BoardListViewController(
-      type: indexPath.section == 0 ? BoardType.allCases[0...2][indexPath.row] : BoardType.allCases[3...8][indexPath.row + 3]
-    )
-    vc.title = "게시판"
-    vc.navigationItem.largeTitleDisplayMode = .never
-    vc.hidesBottomBarWhenPushed = true
-    navigationController?.pushViewController(vc, animated: true)
+    coordinator?.didTappedBoardList(type: indexPath.section == 0 ? BoardType.allCases[0...2][indexPath.row] : BoardType.allCases[3...8][indexPath.row + 3])
   }
 }
 

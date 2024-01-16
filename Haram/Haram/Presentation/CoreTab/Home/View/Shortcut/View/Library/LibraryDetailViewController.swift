@@ -184,15 +184,17 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
           owner.libraryRentalListView.removeLastIineView()
         }
         owner.relatedBookModel = bookModel
+        owner.relatedBookCollectionView.hideSkeleton()
+        owner.relatedBookLabel.hideSkeleton()
       }
       .disposed(by: disposeBag)
     
-    viewModel.isLoading
-      .filter { !$0 }
-      .drive(with: self) { owner, _ in
-        owner.view.hideSkeleton()
-      }
-      .disposed(by: disposeBag)
+//    viewModel.isLoading
+//      .filter { !$0 }
+//      .drive(with: self) { owner, _ in
+////        owner.view.hideSkeleton()
+//      }
+//      .disposed(by: disposeBag)
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in

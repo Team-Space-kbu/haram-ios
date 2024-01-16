@@ -10,7 +10,8 @@ import RxCocoa
 import Foundation
 
 protocol BoardDetailViewModelType {
-  func createComment(boardComment: String)
+  func createComment(boardComment: String, boardSeq: Int)
+  func inquireBoardDetail(boardType: BoardType, boardSeq: Int)
   
   var boardInfoModel: Driver<[BoardDetailHeaderViewModel]> { get }
   var boardCommentModel: Driver<[BoardDetailCollectionViewCellModel]> { get }
@@ -21,25 +22,19 @@ final class BoardDetailViewModel {
   private let boardRepository: BoardRepository
   private let disposeBag = DisposeBag()
   
-  private let boardType: BoardType
-  private let boardSeq: Int
-  
   private let currentBoardListRelay = BehaviorRelay<[BoardDetailCollectionViewCellModel]>(value: [])
   private let currentBoardInfoRelay = BehaviorRelay<[BoardDetailHeaderViewModel]>(value: [])
   
   
-  init(boardRepository: BoardRepository = BoardRepositoryImpl(), boardType: BoardType, boardSeq: Int) {
+  init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
     self.boardRepository = boardRepository
-    self.boardType = boardType
-    self.boardSeq = boardSeq
-    inquireBoard()
   }
 }
 
-extension BoardDetailViewModel {
+extension BoardDetailViewModel: BoardDetailViewModelType {
   
   /// 게시글에 대한 정보를 조회합니다
-  private func inquireBoard() {
+  func inquireBoardDetail(boardType: BoardType, boardSeq: Int) {
     let inquireBoard = boardRepository.inquireBoard(boardType: boardType, boardSeq: boardSeq)
     
     inquireBoard
@@ -57,12 +52,9 @@ extension BoardDetailViewModel {
       .disposed(by: disposeBag)
   }
   
-}
-
-extension BoardDetailViewModel: BoardDetailViewModelType {
   
   /// 해당 게시글에 대한 댓글을 생성합니다
-  func createComment(boardComment: String) {
+  func createComment(boardComment: String, boardSeq: Int) {
     
     boardRepository.createComment(
       request: .init(
