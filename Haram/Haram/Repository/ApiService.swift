@@ -18,6 +18,11 @@ protocol BaseService {
 }
 
 final class ApiService: BaseService {
+  
+  public static let shared: BaseService = ApiService()
+  
+  private init() {}
+  
   private let configuration = URLSessionConfiguration.af.default
   
   private let monitor = APIEventLogger()

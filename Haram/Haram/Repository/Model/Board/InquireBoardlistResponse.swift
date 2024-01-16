@@ -12,7 +12,7 @@ struct InquireBoardlistResponse: Decodable {
   let boardTitle: String
   let userID: String
   let boardContent: String
-  let boardType: String
+  let boardType: BoardType
   let files: String?
   
   enum CodingKeys: String, CodingKey {

@@ -12,34 +12,19 @@ import SnapKit
 import Then
 
 enum MoreType: CaseIterable {
-  case graduationCondition
-  case inquireEmptyClass
-  case todayPray
-  case civilComplaint
+  case studyPlan
   
   var title: String {
     switch self {
-    case .graduationCondition:
-      return "졸업조건확인"
-    case .inquireEmptyClass:
-      return "빈강의실조회"
-    case .todayPray:
-      return "오늘의기도"
-    case .civilComplaint:
-      return "민원건의"
+    case .studyPlan:
+      return "강의계획서"
     }
   }
   
   var imageName: String {
     switch self {
-    case .graduationCondition:
+    case .studyPlan:
       return "scholarGreen"
-    case .inquireEmptyClass:
-      return "monitorRed"
-    case .todayPray:
-      return "starBlue"
-    case .civilComplaint:
-      return "warningYellow"
     }
   }
 }

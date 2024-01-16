@@ -9,6 +9,9 @@ import RxSwift
 import RxCocoa
 
 protocol BoardListViewModelType {
+  
+  func inquireBoardList(boardType: BoardType)
+  
   var boardListModel: Driver<[BoardListCollectionViewCellModel]> { get }
   var isLoading: Driver<Bool> { get }
 }
@@ -18,19 +21,16 @@ final class BoardListViewModel {
   private let boardRepository: BoardRepository
   private let disposeBag = DisposeBag()
   
-  private let boardType: BoardType
   private let currentBoardListRelay = BehaviorRelay<[BoardListCollectionViewCellModel]>(value: [])
   private let isLoadingSubject      = PublishSubject<Bool>()
   
-  init(boardRepository: BoardRepository = BoardRepositoryImpl(), boardType: BoardType) {
+  init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
     self.boardRepository = boardRepository
-    self.boardType = boardType
-    inquireBoardList()
   }
 }
 
-extension BoardListViewModel {
-  private func inquireBoardList() {
+extension BoardListViewModel: BoardListViewModelType {
+  func inquireBoardList(boardType: BoardType) {
     let inquireBoardList = boardRepository.inquireBoardlist(boardType: boardType)
     
     inquireBoardList
@@ -49,9 +49,7 @@ extension BoardListViewModel {
       })
       .disposed(by: disposeBag)
   }
-}
-
-extension BoardListViewModel: BoardListViewModelType {
+  
   var boardListModel: Driver<[BoardListCollectionViewCellModel]> {
     currentBoardListRelay.asDriver()
   }

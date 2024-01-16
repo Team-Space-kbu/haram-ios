@@ -19,7 +19,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   
   private var boardListModel: [BoardListCollectionViewCellModel] = [] {
     didSet {
-      boardListCollectionView.reloadSections([0])
+      boardListCollectionView.reloadData()
     }
   }
   
@@ -48,8 +48,8 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     $0.skeletonCornerRadius = 25
   }
   
-  init(type: BoardType) {
-    self.viewModel = BoardListViewModel(boardType: type)
+  init(type: BoardType, viewModel: BoardListViewModelType = BoardListViewModel()) {
+    self.viewModel = viewModel
     self.type = type
     super.init(nibName: nil, bundle: nil)
   }
@@ -91,6 +91,8 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   
   override func bind() {
     super.bind()
+    
+    viewModel.inquireBoardList(boardType: type)
     
     viewModel.boardListModel
       .drive(rx.boardListModel)

@@ -15,6 +15,8 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   // MARK: - Property
   
   private let viewModel: BoardDetailViewModelType
+  private let boardSeq: Int
+  private let boardType: BoardType
   
   // MARK: - UI Models
   
@@ -54,8 +56,10 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   }
   
   // MARK: - Initializations
-  init(boardType: BoardType, boardSeq: Int) {
-    self.viewModel = BoardDetailViewModel(boardType: boardType, boardSeq: boardSeq)
+  init(boardType: BoardType, boardSeq: Int, viewModel: BoardDetailViewModelType = BoardDetailViewModel()) {
+    self.viewModel = viewModel
+    self.boardSeq = boardSeq
+    self.boardType = boardType
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -64,6 +68,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   }
   
   deinit {
+    print(#function)
     removeNotifications()
   }
   
@@ -104,6 +109,8 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   
   override func bind() {
     super.bind()
+    
+    viewModel.inquireBoardDetail(boardType: boardType, boardSeq: boardSeq)
     
     viewModel.boardInfoModel
       .drive(rx.boardModel)

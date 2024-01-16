@@ -19,7 +19,7 @@ final class AuthRepositoryImpl {
   
   private let service: BaseService
   
-  init(service: BaseService = ApiService()) {
+  init(service: BaseService = ApiService.shared) {
     self.service = service
   }
   

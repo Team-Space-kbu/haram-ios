@@ -114,6 +114,10 @@
 		70727AB329D955AC003DE956 /* Spoqa Han Sans Neo Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 70727AB229D955AC003DE956 /* Spoqa Han Sans Neo Regular.otf */; };
 		70727AB529D95637003DE956 /* Spoqa Han Sans Neo Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 70727AB429D95637003DE956 /* Spoqa Han Sans Neo Thin.otf */; };
 		70727AB829D95E32003DE956 /* Ex + UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727AB729D95E32003DE956 /* Ex + UIFont.swift */; };
+		70747C822B455D65001F08EE /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70747C812B455D65001F08EE /* Coordinator.swift */; };
+		70747C842B455EBA001F08EE /* HomeDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70747C832B455EBA001F08EE /* HomeDIContainer.swift */; };
+		70747C862B45776C001F08EE /* HomeCoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70747C852B45776C001F08EE /* HomeCoordinatorDelegate.swift */; };
+		70747C882B45AC5C001F08EE /* CompositionRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70747C872B45AC5C001F08EE /* CompositionRoot.swift */; };
 		708312372A2CA50300F7E283 /* IntranetRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312362A2CA50300F7E283 /* IntranetRouter.swift */; };
 		7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312392A2CA59400F7E283 /* InquireChapelListRequest.swift */; };
 		7083123C2A2CA5E500F7E283 /* IntranetRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083123B2A2CA5E500F7E283 /* IntranetRepositoryImpl.swift */; };
@@ -366,6 +370,10 @@
 		70727AB229D955AC003DE956 /* Spoqa Han Sans Neo Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Spoqa Han Sans Neo Regular.otf"; sourceTree = "<group>"; };
 		70727AB429D95637003DE956 /* Spoqa Han Sans Neo Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Spoqa Han Sans Neo Thin.otf"; sourceTree = "<group>"; };
 		70727AB729D95E32003DE956 /* Ex + UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIFont.swift"; sourceTree = "<group>"; };
+		70747C812B455D65001F08EE /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		70747C832B455EBA001F08EE /* HomeDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDIContainer.swift; sourceTree = "<group>"; };
+		70747C852B45776C001F08EE /* HomeCoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinatorDelegate.swift; sourceTree = "<group>"; };
+		70747C872B45AC5C001F08EE /* CompositionRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionRoot.swift; sourceTree = "<group>"; };
 		708312362A2CA50300F7E283 /* IntranetRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetRouter.swift; sourceTree = "<group>"; };
 		708312392A2CA59400F7E283 /* InquireChapelListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireChapelListRequest.swift; sourceTree = "<group>"; };
 		7083123B2A2CA5E500F7E283 /* IntranetRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetRepositoryImpl.swift; sourceTree = "<group>"; };
@@ -749,6 +757,7 @@
 		70727A5329D87B25003DE956 /* Haram */ = {
 			isa = PBXGroup;
 			children = (
+				70747C802B455D5A001F08EE /* Coordinator */,
 				705E70B429E1C79500156B1F /* Component */,
 				708DACF52B35A44D00E3AD45 /* Presentation */,
 				7095D3882AD67C85008DAA39 /* Constants */,
@@ -823,6 +832,17 @@
 				708DAD1B2B36DE6C00E3AD45 /* Ex + UIViewController.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		70747C802B455D5A001F08EE /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				70747C812B455D65001F08EE /* Coordinator.swift */,
+				70747C832B455EBA001F08EE /* HomeDIContainer.swift */,
+				70747C852B45776C001F08EE /* HomeCoordinatorDelegate.swift */,
+				70747C872B45AC5C001F08EE /* CompositionRoot.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		708312382A2CA58B00F7E283 /* Intranet */ = {
@@ -1658,7 +1678,9 @@
 				708312992A691D1700F7E283 /* MileageViewModel.swift in Sources */,
 				708312402A2CA79D00F7E283 /* IntranetLoginRequest.swift in Sources */,
 				708E1E682B09E1A70030FAA0 /* CheckTimeAvailableForRothemReservationResponse.swift in Sources */,
+				70747C822B455D65001F08EE /* Coordinator.swift in Sources */,
 				701F29DC2AEBB29C00E3E68B /* InquireBibleMainNoticeResponse.swift in Sources */,
+				70747C882B45AC5C001F08EE /* CompositionRoot.swift in Sources */,
 				705FD2BD2A1A4CEE00F353FE /* LibraryDetailViewController.swift in Sources */,
 				7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */,
 				708ED7A12A8F922900107CDF /* CheckReservationViewController.swift in Sources */,
@@ -1736,6 +1758,7 @@
 				705FD2B12A1625EF00F353FE /* NewLibraryCollectionViewCell.swift in Sources */,
 				708312372A2CA50300F7E283 /* IntranetRouter.swift in Sources */,
 				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
+				70747C862B45776C001F08EE /* HomeCoordinatorDelegate.swift in Sources */,
 				708ED7E02A94B2E700107CDF /* RevisionOfTranslation.xcdatamodeld in Sources */,
 				705FD2BB2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift in Sources */,
 				708ED7E22A94B49000107CDF /* CoreDataManager.swift in Sources */,
@@ -1790,6 +1813,7 @@
 				708312662A398C0D00F7E283 /* LibraryRentalListView.swift in Sources */,
 				70375EFE2AAA022A0032F6B8 /* LibraryRentalView.swift in Sources */,
 				705FD28C2A10F74D00F353FE /* UserManager.swift in Sources */,
+				70747C842B455EBA001F08EE /* HomeDIContainer.swift in Sources */,
 				70912FFA2B15EF2C005B88B4 /* RothemReservationInfoView.swift in Sources */,
 				70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */,
 				7051E5022ADABC4400C2134B /* Ex + UILabel.swift in Sources */,

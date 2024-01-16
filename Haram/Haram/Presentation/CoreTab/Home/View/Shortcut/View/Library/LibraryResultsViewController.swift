@@ -45,7 +45,6 @@ final class LibraryResultsViewController: BaseViewController, BackButtonHandler 
     super.bind()
     viewModel.searchResults
       .drive(with: self) { owner, model in
-        print("모델 \(model)")
         owner.emptyView.isHidden = !model.isEmpty
         owner.model = model
       }
