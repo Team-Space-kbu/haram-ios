@@ -10,9 +10,14 @@ import UIKit
 import SnapKit
 import Then
 
+protocol NoticeCollectionHeaderViewDelegate: AnyObject {
+  func didTappedCategory(category: CategorySectionType)
+}
+
 final class NoticeCollectionHeaderView: UICollectionReusableView {
   
   static let identifier = "NoticeCollectionHeaderView"
+  weak var delegate: NoticeCollectionHeaderViewDelegate?
   
   private let categoryLabel = UILabel().then {
     $0.font = .medium16
@@ -86,5 +91,9 @@ extension NoticeCollectionHeaderView: UICollectionViewDelegate, UICollectionView
       $0.sizeToFit()
     }
     return CGSize(width: label.frame.size.width + 30, height: 41)
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    delegate?.didTappedCategory(category: CategorySectionType.allCases[indexPath.row])
   }
 }

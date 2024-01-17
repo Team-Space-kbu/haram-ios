@@ -20,6 +20,7 @@
 		7031E3D02ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */; };
 		7031E3D22ABA80BA0027DC0A /* CommentAuthorInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3D12ABA80BA0027DC0A /* CommentAuthorInfoView.swift */; };
 		7031E3D42ABA89160027DC0A /* BoardDetailCommentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3D32ABA89160027DC0A /* BoardDetailCommentHeaderView.swift */; };
+		7032FD5B2B57E9CE00B8481C /* SelectedCategoryNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7032FD5A2B57E9CE00B8481C /* SelectedCategoryNoticeViewController.swift */; };
 		7034AF1A29F0064B009C7676 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7034AF1929F0064B009C7676 /* WebViewController.swift */; };
 		70375EF82AA5B6110032F6B8 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 70375EF72AA5B6110032F6B8 /* SkeletonView */; };
 		70375EFA2AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375EF92AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift */; };
@@ -280,6 +281,7 @@
 		7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		7031E3D12ABA80BA0027DC0A /* CommentAuthorInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAuthorInfoView.swift; sourceTree = "<group>"; };
 		7031E3D32ABA89160027DC0A /* BoardDetailCommentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCommentHeaderView.swift; sourceTree = "<group>"; };
+		7032FD5A2B57E9CE00B8481C /* SelectedCategoryNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryNoticeViewController.swift; sourceTree = "<group>"; };
 		7034AF1929F0064B009C7676 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		70375EF92AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularLibraryCollectionViewCell.swift; sourceTree = "<group>"; };
 		70375EFB2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryResultsViewModel.swift; sourceTree = "<group>"; };
@@ -1166,6 +1168,7 @@
 			children = (
 				705FD2C22A2337C800F353FE /* NoticeViewController.swift */,
 				708ED7AE2A8FDA7700107CDF /* NoticeDetailViewController.swift */,
+				7032FD5A2B57E9CE00B8481C /* SelectedCategoryNoticeViewController.swift */,
 			);
 			path = Notice;
 			sourceTree = "<group>";
@@ -1733,6 +1736,7 @@
 				705FD29B2A13C19A00F353FE /* SignupUserRequest.swift in Sources */,
 				70375F052AAD804C0032F6B8 /* SearchBookRequest.swift in Sources */,
 				708ED7C32A911B4800107CDF /* BibleViewController.swift in Sources */,
+				7032FD5B2B57E9CE00B8481C /* SelectedCategoryNoticeViewController.swift in Sources */,
 				7051E4F92AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift in Sources */,
 				708312B42A76945000F7E283 /* BoardListCollectionViewCell.swift in Sources */,
 				708ED7E92A94BADD00107CDF /* RevisionOfTranslationModel.swift in Sources */,
