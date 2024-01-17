@@ -128,17 +128,17 @@ final class IntranetCheckViewController: BaseViewController {
 extension IntranetCheckViewController {
   final private class BackgroundImageView: UIView {
     private let mainImageView = UIImageView().then {
-      $0.image = UIImage(named: "intranetMain")
+      $0.image = UIImage(resource: .intranetMain)
       $0.contentMode = .scaleAspectFill
     }
     
     private let leftSubImageView = UIImageView().then {
-      $0.image = UIImage(named: "intranetSubLeft")
+      $0.image = UIImage(resource: .intranetSubLeft)
       $0.contentMode = .scaleAspectFill
     }
     
     private let rightSubImageView = UIImageView().then {
-      $0.image = UIImage(named: "intranetSubRight")
+      $0.image = UIImage(resource: .intranetSubRight)
       $0.contentMode = .scaleAspectFill
     }
     

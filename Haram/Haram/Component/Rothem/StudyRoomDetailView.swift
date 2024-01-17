@@ -200,7 +200,7 @@ final class RothemRoomDetailView: UIView {
     
     let attributedString = NSMutableAttributedString(string: "")
     let imageAttachment = NSTextAttachment()
-    imageAttachment.image = UIImage(named: "locationGray")
+    imageAttachment.image = UIImage(resource: .locationGray)
     imageAttachment.bounds = CGRect(x: 0, y: 0, width: 10, height: 12)
     attributedString.append(NSAttributedString(attachment: imageAttachment))
     attributedString.append(NSAttributedString(string: model.roomDestination))

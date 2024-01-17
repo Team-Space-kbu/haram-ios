@@ -43,7 +43,7 @@ final class ProfileInfoView: UIView {
   }
   
   private let indicatorButton = UIButton().then {
-    $0.setImage(UIImage(named: "rightIndicator"), for: .normal)
+    $0.setImage(UIImage(resource: .rightIndicator), for: .normal)
   }
   
   override init(frame: CGRect) {

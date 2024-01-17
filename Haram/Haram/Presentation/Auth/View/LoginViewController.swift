@@ -29,7 +29,7 @@ final class LoginViewController: BaseViewController {
   }
   
   private let loginImageView = UIImageView().then {
-    $0.image = UIImage(named: "login")
+    $0.image = UIImage(resource: .login)
     $0.contentMode = .scaleAspectFit
   }
   

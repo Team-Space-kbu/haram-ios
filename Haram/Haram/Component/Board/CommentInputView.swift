@@ -49,7 +49,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
   
   private let sendButton = UIButton().then {
     $0.backgroundColor = .clear
-    $0.setImage(UIImage(named: "rightIndicatorBlue"), for: .normal)
+    $0.setImage(UIImage(resource: .rightIndicatorBlue), for: .normal)
   }
   
   override init(frame: CGRect) {

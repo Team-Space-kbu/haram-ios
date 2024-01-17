@@ -63,31 +63,31 @@ enum ShortcutType: CaseIterable {
     }
   }
   
-  var imageName: String {
+  var imageResource: ImageResource {
     switch self {
     case .mileage:
-      return "boxGreen"
+      return .boxGreen
     case .chapel:
-      return "chapelGreen"
+      return .chapelGreen
     case .notice:
-      return "noticeGreen"
+      return .noticeGreen
     case .searchBook:
-      return "bookGreen"
+      return .bookGreen
     case .searchBible:
-      return "bibleGreen"
+      return .bibleGreen
     case .affiliate:
-      return "flagGreen"
+      return .flagGreen
     case .schedule:
-      return "time"
+      return .time
     case .readingRoom:
-      return "readingGreen"
+      return .readingGreen
     }
   }
 }
 
 struct HomeShortcutCollectionViewCellModel {
   let title: String
-  let imageName: String
+  let imageResource: ImageResource
 }
 
 final class HomeShortcutCollectionViewCell: UICollectionViewCell {
@@ -136,7 +136,7 @@ final class HomeShortcutCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: HomeShortcutCollectionViewCellModel) {
-    shortcutImageView.image = UIImage(named: model.imageName)
+    shortcutImageView.image = UIImage(resource: model.imageResource)
     titleLabel.text = model.title
   }
 }

@@ -33,7 +33,7 @@ final class MoreTableViewCell: UITableViewCell {
   }
   
   private let indicatorButton = UIButton().then {
-    $0.setImage(UIImage(named: "darkIndicator"), for: .normal)
+    $0.setImage(UIImage(resource: .darkIndicator), for: .normal)
   }
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
