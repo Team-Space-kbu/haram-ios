@@ -37,7 +37,7 @@ final class NoticeCollectionViewCell: UICollectionViewCell {
   }
   
   private let indicatorButton = UIButton().then {
-    $0.setImage(UIImage(named: "indicator"), for: .normal)
+    $0.setImage(UIImage(named: "darkIndicator"), for: .normal)
   }
   
   override init(frame: CGRect) {
