@@ -22,9 +22,8 @@ struct HomeNoticeViewModel {
 
 final class HomeNoticeView: UIView {
   
-  private let noticeImageView = UIImageView().then {
+  private let noticeImageView = UIImageView(image: UIImage(resource: .faceGray)).then {
     $0.contentMode = .scaleAspectFit
-    $0.image = UIImage(named: "faceGray")
   }
   
   private let noticeLabel = UILabel().then {

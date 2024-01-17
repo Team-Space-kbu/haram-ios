@@ -30,7 +30,7 @@ final class HomeCoordinator: Coordinator {
     let homeViewController = HomeViewController().then {
       $0.tabBarItem = UITabBarItem(
         title: "하람",
-        image: UIImage(named: "home"),
+        image: UIImage(resource: .home),
         tag: 0
       )
     }
@@ -71,7 +71,7 @@ final class BoardCoordinator: Coordinator {
     let boardViewController = BoardViewController().then {
       $0.tabBarItem = UITabBarItem(
         title: "게시판",
-        image: UIImage(named: "board"),
+        image: UIImage(resource: .board),
         tag: 2
       )
     }
@@ -104,7 +104,7 @@ final class MoreCoordinator: Coordinator {
     let moreViewController = MoreViewController().then {
       $0.tabBarItem = UITabBarItem(
         title: "더보기",
-        image: UIImage(named: "more"),
+        image: UIImage(resource: .more),
         tag: 3
       )
     }

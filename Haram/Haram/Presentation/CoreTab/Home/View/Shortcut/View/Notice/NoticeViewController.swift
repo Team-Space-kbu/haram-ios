@@ -86,7 +86,7 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
     title = "공지사항"
     setupBackButton()
     navigationItem.rightBarButtonItem = UIBarButtonItem(
-      image: UIImage(named: "searchLightGray"),
+      image: UIImage(resource: .searchLightGray),
       style: .plain,
       target: self,
       action: #selector(didTappedSearch)

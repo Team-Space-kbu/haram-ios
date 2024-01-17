@@ -33,7 +33,7 @@ final class IntranetLoginViewController: BaseViewController {
   }
   
   private let logoImageView = UIImageView().then {
-    $0.image = UIImage(named: "intranetLoginLogo")
+    $0.image = UIImage(resource: .intranetLoginLogo)
     $0.contentMode = .scaleAspectFit
   }
   

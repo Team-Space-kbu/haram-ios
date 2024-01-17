@@ -105,7 +105,6 @@ final class HomeViewController: BaseViewController {
       $0.minimumLineSpacing = 28.97
     }
   ).then {
-//    $0.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: 22, right: .zero)
     $0.backgroundColor = .white
     $0.delegate = self
     $0.dataSource = self
@@ -305,7 +304,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     if collectionView == shortcutCollectionView {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeShortcutCollectionViewCell.identifier, for: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
       let type = ShortcutType.allCases[indexPath.row]
-      cell.configureUI(with: .init(title: type.title, imageName: type.imageName))
+      cell.configureUI(with: .init(title: type.title, imageResource: type.imageResource))
       return cell
     } else if collectionView == newsCollectionView {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeNewsCollectionViewCell.identifier, for: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()

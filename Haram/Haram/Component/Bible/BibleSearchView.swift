@@ -122,15 +122,6 @@ enum BibleSearchControlType {
       return "1장"
     }
   }
-  
-  var imageName: String {
-    switch self {
-    case .jeol:
-      return "bibleBook"
-    case .chapter:
-      return "bibleChapter"
-    }
-  }
 }
 
 // MARK: - BibleSearchControl
@@ -164,7 +155,7 @@ final class BibleSearchControl: UIControl {
     layer.borderWidth = 1
     layer.borderColor = UIColor.hexD8D8DA.cgColor
     
-    typeImageView.image = UIImage(named: type.imageName)
+    typeImageView.image = UIImage(resource: type == .chapter ? .bibleChapter : .bibleBook)
     
     [typeImageView, typeLabel].forEach { addSubview($0) }
     typeImageView.snp.makeConstraints {

@@ -39,7 +39,7 @@ final class TermsOfUseCheckView: UIView {
   // MARK: - UI Components
   
   private let checkButton = UIButton().then {
-    $0.setImage(UIImage(named: Constants.checkImageName), for: .normal)
+    $0.setImage(UIImage(resource: .markBlack), for: .normal)
   }
   
   private let alertLabel = UILabel().then {
@@ -104,6 +104,5 @@ final class TermsOfUseCheckView: UIView {
   
   enum Constants {
     static let alertText = "아래 약관에 모두 동의합니다."
-    static let checkImageName = "markBlack"
   }
 }
