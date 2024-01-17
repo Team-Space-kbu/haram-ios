@@ -10,7 +10,7 @@ import RxCocoa
 
 protocol MoreViewModelType {
   func requestLogoutUser()
-  func inquireUserInfo()
+//  func inquireUserInfo()
   
   var currentUserInfo: Driver<ProfileInfoViewModel> { get }
   var successMessage: Signal<String> { get }
@@ -25,9 +25,13 @@ final class MoreViewModel {
   private let currentUserInfoRelay     = BehaviorRelay<ProfileInfoViewModel?>(value: nil)
   private let successMessageRelay      = PublishRelay<String>()
   
-  init(authRepository: AuthRepository = AuthRepositoryImpl(), myPageRepository: MyPageRepository = MyPageRepositoryImpl()) {
+  init(
+    authRepository: AuthRepository = AuthRepositoryImpl(),
+    myPageRepository: MyPageRepository = MyPageRepositoryImpl()
+  ) {
     self.authRepository = authRepository
     self.myPageRepository = myPageRepository
+    inquireUserInfo()
   }
   
   func inquireUserInfo() {

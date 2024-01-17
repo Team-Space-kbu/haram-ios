@@ -122,7 +122,10 @@ final class HomeShortcutCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     isSkeletonable = true
     contentView.isSkeletonable = true
-    [shortcutImageView, titleLabel].forEach { contentView.addSubview($0) }
+    [shortcutImageView, titleLabel].forEach {
+      $0.isSkeletonable = true
+      contentView.addSubview($0)
+    }
     shortcutImageView.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.size.equalTo(20.03)
