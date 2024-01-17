@@ -15,6 +15,7 @@ struct MileageTableViewCellModel {
   let mainText: String
   let subText: String
   let mileage: Int
+  let imageSource: ImageResource
 }
 
 final class MileageTableViewCell: UITableViewCell {
@@ -104,14 +105,17 @@ final class MileageTableViewCell: UITableViewCell {
   
   func configureUI(with model: MileageTableViewCellModel) {
     let mileage = model.mileage
+    let mainText = model.mainText
+    
     if mileage >= 0 {
       mileageLabel.textColor = .hex4B81EE
     }
     let formatter = NumberformatterFactory.decimal
     let decimalMileage = formatter.string(for: mileage) ?? "0"
     
-    mainLabel.text = model.mainText
+    mainLabel.text = mainText
     subLabel.text = model.subText
     mileageLabel.text = decimalMileage
+    mileageImageView.image = UIImage(resource: model.imageSource)
   }
 }

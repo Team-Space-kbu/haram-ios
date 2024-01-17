@@ -37,10 +37,25 @@ final class MileageViewModel {
       .do(onSuccess: { [weak self] _ in self?.isLoadingSubject.onNext(true) })
       .subscribe(with: self, onSuccess: { owner, response in
         owner.currentUserMileageInfoRelay.accept(
-          response.mileageDetails.map { MileageTableViewCellModel(
-            mainText: $0.etc,
-            subText: $0.changeDate,
-            mileage: Int(String($0.point.replacingOccurrences(of: ",", with: ""))) ?? 0)
+          response.mileageDetails.map { mileageDetail -> MileageTableViewCellModel in
+            let mainText = mileageDetail.etc
+            let imageSource: ImageResource
+            if mainText.contains("카페") {
+              imageSource = .cafeCostes
+            } else if mainText.contains("헬스장") {
+              imageSource = .gym
+            } else if mainText.contains("매점") {
+              imageSource = .store
+            } else {
+              imageSource = .cafeCostes
+            }
+            
+            return MileageTableViewCellModel(
+              mainText: mainText,
+              subText: mileageDetail.changeDate,
+              mileage: Int(String(mileageDetail.point.replacingOccurrences(of: ",", with: ""))) ?? 0,
+              imageSource: imageSource
+            )
           }
         )
         
