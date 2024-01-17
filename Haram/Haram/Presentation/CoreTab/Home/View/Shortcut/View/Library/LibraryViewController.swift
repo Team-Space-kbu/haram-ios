@@ -72,7 +72,7 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
     $0.skeletonCornerRadius = 10
   }
   
-  private let bannerImageView = UIImageView(image: UIImage(named: "banner")).then {
+  private let bannerImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
