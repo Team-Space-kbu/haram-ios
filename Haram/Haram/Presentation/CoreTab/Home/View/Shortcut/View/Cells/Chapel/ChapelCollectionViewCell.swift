@@ -7,16 +7,43 @@
 
 import UIKit
 
+import Kingfisher
 import SnapKit
 import Then
 
 struct ChapelCollectionViewCellModel {
-  let title: String
+  let chapelResult: ChapelResultType
   let chapelDate: Date
   
   init(response: InquireChapelDetailResponse) {
-    title = response.attendance
+    chapelResult = ChapelResultType.allCases.filter { $0.title == response.attendance }.first!
     chapelDate = DateformatterFactory.dateForChapel1.date(from: response.date) ?? Date()
+  }
+}
+
+enum ChapelResultType: CaseIterable {
+  case attendance // 출석
+  case late // 지각
+  case absence // 결석
+  
+  var title: String {
+    switch self {
+    case .attendance:
+      return "출석"
+    case .late:
+      return "지각"
+    case .absence:
+      return "결석"
+    }
+  }
+  
+  var imageName: String {
+    switch self {
+    case .attendance:
+      return "smileBlue"
+    case .late, .absence:
+      return "sadGray"
+    }
   }
 }
 
@@ -80,8 +107,8 @@ final class ChapelCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: ChapelCollectionViewCellModel) {
-//    guard let chapelDate = model.chapelDate else { return }
-    chapelTitleLabel.text = model.title
+    chapelImageView.image = UIImage(named: model.chapelResult.imageName)
+    chapelTitleLabel.text = model.chapelResult.title
     chapelSubTitleLabel.text = DateformatterFactory.dateForChapel.string(from: model.chapelDate)
   }
 }
