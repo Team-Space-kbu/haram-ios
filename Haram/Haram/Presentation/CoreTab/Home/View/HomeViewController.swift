@@ -80,6 +80,7 @@ final class HomeViewController: BaseViewController {
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
       $0.scrollDirection = .horizontal
+      $0.minimumLineSpacing = .zero
     }
   ).then {
     $0.backgroundColor = .white
@@ -218,8 +219,6 @@ final class HomeViewController: BaseViewController {
       $0.height.equalTo(165 + 17 + 6)
       $0.bottom.lessThanOrEqualToSuperview().inset(10)
     }
-    
-    
   }
   
   override func bind() {
@@ -275,8 +274,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       return CGSize(width: (collectionView.frame.width - 30) / 4, height: 54)
     } else if collectionView == newsCollectionView {
       return CGSize(width: 118, height: 165 + 17 + 6)
+    } else if collectionView == bannerCollectionView {
+      return CGSize(width: collectionView.frame.width, height: 142)
     }
-    return CGSize(width: collectionView.frame.width, height: 142)
+    return .zero
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -284,10 +285,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       return CGSize(width: collectionView.frame.width - 30, height: 30.94 + 28)
     }
     return .zero
-  }
-  
-  func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 1
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
