@@ -59,7 +59,6 @@ final class HomeViewController: BaseViewController {
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
-    $0.showsVerticalScrollIndicator = true
     $0.showsHorizontalScrollIndicator = false
     $0.contentInsetAdjustmentBehavior = .always
     $0.showsVerticalScrollIndicator = false
@@ -67,9 +66,12 @@ final class HomeViewController: BaseViewController {
     $0.isSkeletonable = true
   }
   
-  private let scrollContainerView = UIView().then {
+  private let scrollContainerView = UIStackView().then {
     $0.backgroundColor = .clear
     $0.isSkeletonable = true
+    $0.axis = .vertical
+    $0.isLayoutMarginsRelativeArrangement = true
+    $0.layoutMargins = .init(top: 10, left: 15, bottom: 10, right: 15)
   }
   
   private let homeNoticeView = HomeNoticeView().then {
@@ -169,7 +171,7 @@ final class HomeViewController: BaseViewController {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(scrollContainerView)
-    [homeNoticeView, bannerCollectionView, pageControl, shortcutCollectionView, newsTitleLabel, newsCollectionView].forEach { scrollContainerView.addSubview($0) }
+    [homeNoticeView, bannerCollectionView, pageControl, shortcutCollectionView, newsTitleLabel, newsCollectionView].forEach { scrollContainerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -184,41 +186,31 @@ final class HomeViewController: BaseViewController {
     }
     
     homeNoticeView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(10)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(35) //공지 뷰
     }
     
     bannerCollectionView.snp.makeConstraints {
-      $0.top.equalTo(homeNoticeView.snp.bottom).offset(20)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(142)
     }
     
     pageControl.snp.makeConstraints {
-      $0.top.equalTo(bannerCollectionView.snp.bottom)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(20)
     }
     
     shortcutCollectionView.snp.makeConstraints {
-      $0.top.equalTo(pageControl.snp.bottom)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(30.94 + 28 + 54 + 54 + 28.97 + 22)
     }
     
     newsTitleLabel.snp.makeConstraints {
-      $0.top.equalTo(shortcutCollectionView.snp.bottom).offset(22)
-      $0.leading.equalToSuperview().inset(15)
       $0.height.equalTo(27)
     }
     
     newsCollectionView.snp.makeConstraints {
-      $0.top.equalTo(newsTitleLabel.snp.bottom).offset(13)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(165 + 17 + 6)
-      $0.bottom.lessThanOrEqualToSuperview().inset(10)
     }
+    scrollContainerView.setCustomSpacing(20, after: homeNoticeView)
+    scrollContainerView.setCustomSpacing(22, after: pageControl)
+    scrollContainerView.setCustomSpacing(13, after: newsTitleLabel)
   }
   
   override func bind() {

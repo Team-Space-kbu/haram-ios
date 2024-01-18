@@ -9,6 +9,7 @@ import UIKit
 
 import QRCode
 import SnapKit
+import SkeletonView
 import Then
 
 struct RothemReservationInfoViewModel {
@@ -30,20 +31,24 @@ final class RothemReservationInfoView: UIView {
   private let rothemRoomNameLabel = UILabel().then {
     $0.font = .bold25
     $0.textColor = .white
+    $0.isSkeletonable = true
   }
   
   private let rothemLocationLabel = UILabel().then {
     $0.font = .regular12
     $0.textColor = .white
+    $0.isSkeletonable = true
   }
   
   private let reservationNameLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .white
+    $0.isSkeletonable = true
   }
   
   private let qrCodeView = QRCodeView().then {
     $0.backgroundColor = .clear
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -56,6 +61,7 @@ final class RothemReservationInfoView: UIView {
   }
   
   private func configureUI() {
+    
     backgroundColor = .hexA8DBA8
     layer.masksToBounds = true
     layer.cornerRadius = 10

@@ -39,22 +39,12 @@ final class MileageViewModel {
         owner.currentUserMileageInfoRelay.accept(
           response.mileageDetails.map { mileageDetail -> MileageTableViewCellModel in
             let mainText = mileageDetail.etc
-            let imageSource: ImageResource
-            if mainText.contains("카페") {
-              imageSource = .cafeCostes
-            } else if mainText.contains("헬스장") {
-              imageSource = .gym
-            } else if mainText.contains("매점") {
-              imageSource = .store
-            } else {
-              imageSource = .cafeCostes
-            }
             
             return MileageTableViewCellModel(
               mainText: mainText,
               subText: mileageDetail.changeDate,
               mileage: Int(String(mileageDetail.point.replacingOccurrences(of: ",", with: ""))) ?? 0,
-              imageSource: imageSource
+              imageSource: owner.getMileageImageResource(which: mainText)
             )
           }
         )
@@ -72,6 +62,20 @@ final class MileageViewModel {
       })
       .disposed(by: disposeBag)
     
+  }
+}
+
+extension MileageViewModel {
+  private func getMileageImageResource(which mainText: String) -> ImageResource {
+    if mainText.contains("카페") {
+      return .cafeCostes
+    } else if mainText.contains("헬스장") {
+      return .gym
+    } else if mainText.contains("매점") {
+      return .store
+    } else {
+      return .cafeCostes
+    }
   }
 }
 

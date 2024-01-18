@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 import RxSwift
 
@@ -15,7 +16,9 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
   
   private let viewModel: CheckReservationViewModelType
   
-  private let rothemReservationInfoView = RothemReservationInfoView()
+  private let rothemReservationInfoView = RothemReservationInfoView().then {
+    $0.isSkeletonable = true
+  }
   
   private let reservationCancelButton = UIButton().then {
     $0.titleLabel?.font = .bold14
@@ -24,6 +27,7 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     $0.backgroundColor = .hex79BD9A
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
+    $0.isSkeletonable = true
   }
   
   init(viewModel: CheckReservationViewModelType = CheckReservationViewModel()) {
@@ -39,6 +43,7 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     super.setupStyles()
     title = "예약확인하기"
     setupBackButton()
+    setupSkeletonView()
   }
   
   override func setupLayouts() {
@@ -81,6 +86,13 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     viewModel.successCancelReservation
       .drive(with: self) { owner, _ in
         owner.navigationController?.popViewController(animated: true)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .filter { !$0 }
+      .drive(with: self) { owner, isLoading in
+        owner.view.hideSkeleton()
       }
       .disposed(by: disposeBag)
   }
