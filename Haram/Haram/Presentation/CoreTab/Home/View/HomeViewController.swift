@@ -78,6 +78,8 @@ final class HomeViewController: BaseViewController {
     $0.isSkeletonable = true
   }
   
+  private lazy var checkChapelDayView = CheckChapelDayView()
+  
   private lazy var bannerCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
@@ -171,7 +173,7 @@ final class HomeViewController: BaseViewController {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(scrollContainerView)
-    [homeNoticeView, bannerCollectionView, pageControl, shortcutCollectionView, newsTitleLabel, newsCollectionView].forEach { scrollContainerView.addArrangedSubview($0) }
+    [homeNoticeView, bannerCollectionView, pageControl, checkChapelDayView, shortcutCollectionView, newsTitleLabel, newsCollectionView].forEach { scrollContainerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -187,6 +189,10 @@ final class HomeViewController: BaseViewController {
     
     homeNoticeView.snp.makeConstraints {
       $0.height.equalTo(35) //공지 뷰
+    }
+    
+    checkChapelDayView.snp.makeConstraints {
+      $0.height.equalTo(73)
     }
     
     bannerCollectionView.snp.makeConstraints {
