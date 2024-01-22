@@ -8,6 +8,7 @@
 import UIKit
   
 import SnapKit
+import SkeletonView
 import Then
 
 enum ChapelViewType: CaseIterable {
@@ -61,7 +62,11 @@ final class ChapelView: UIView {
   
   private func configureUI() {
     titleLabel.text = type.title
-    [titleLabel, dayLabel].forEach { addSubview($0) }
+    [titleLabel, dayLabel].forEach {
+      $0.isSkeletonable = true
+      addSubview($0)
+    }
+    
     titleLabel.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
     }
@@ -105,8 +110,13 @@ final class ChapelInfoView: UIView {
   }
   
   private func configureUI() {
+    contentStackView.isSkeletonable = true
+    
     addSubview(contentStackView)
-    [attendanceView, lineView, remainView, lineView1, tardyView].forEach { contentStackView.addArrangedSubview($0) }
+    [attendanceView, lineView, remainView, lineView1, tardyView].forEach {
+      $0.isSkeletonable = true
+      contentStackView.addArrangedSubview($0)
+    }
     
     contentStackView.snp.makeConstraints {
       $0.directionalVerticalEdges.leading.equalToSuperview()

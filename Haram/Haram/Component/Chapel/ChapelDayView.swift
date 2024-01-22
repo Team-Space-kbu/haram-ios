@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 final class ChapelDayView: UIView {
@@ -22,7 +23,8 @@ final class ChapelDayView: UIView {
   private let dayLabel = UILabel().then {
     $0.textColor = .hex4B81EE
     $0.font = .bold44
-    $0.sizeToFit()
+//    $0.sizeToFit()
+    $0.text = "55일"
   }
   
   override init(frame: CGRect) {
@@ -35,7 +37,11 @@ final class ChapelDayView: UIView {
   }
   
   private func configureUI() {
-    [titleLabel, dayLabel].forEach { addSubview($0) }
+    [titleLabel, dayLabel].forEach {
+      $0.isSkeletonable = true
+      addSubview($0)
+    }
+    
     titleLabel.snp.makeConstraints {
       $0.top.centerX.equalToSuperview()
     }

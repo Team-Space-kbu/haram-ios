@@ -9,6 +9,7 @@ import UIKit
 
 import Kingfisher
 import SnapKit
+import SkeletonView
 import Then
 
 struct ChapelCollectionViewCellModel {
@@ -18,6 +19,11 @@ struct ChapelCollectionViewCellModel {
   init(response: InquireChapelDetailResponse) {
     chapelResult = ChapelResultType.allCases.filter { $0.title == response.attendance }.first!
     chapelDate = DateformatterFactory.dateForChapel1.date(from: response.date) ?? Date()
+  }
+  
+  init(chapelResult: ChapelResultType) {
+    self.chapelResult = chapelResult
+    chapelDate = Date()
   }
 }
 
@@ -61,7 +67,6 @@ final class ChapelCollectionViewCell: UICollectionViewCell {
   private let chapelTitleLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold18
-    $0.sizeToFit()
   }
   
   private let chapelSubTitleLabel = UILabel().then {
@@ -85,8 +90,13 @@ final class ChapelCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
-    contentView.backgroundColor = .white
-    [chapelImageView, chapelTitleLabel, chapelSubTitleLabel].forEach { contentView.addSubview($0) }
+    isSkeletonable = true
+    contentView.isSkeletonable = true
+    
+    [chapelImageView, chapelTitleLabel, chapelSubTitleLabel].forEach {
+      $0.isSkeletonable = true
+      contentView.addSubview($0)
+    }
     
     chapelImageView.snp.makeConstraints {
       $0.size.equalTo(44)
@@ -109,6 +119,6 @@ final class ChapelCollectionViewCell: UICollectionViewCell {
   func configureUI(with model: ChapelCollectionViewCellModel) {
     chapelImageView.image = UIImage(named: model.chapelResult.imageName)
     chapelTitleLabel.text = model.chapelResult.title
-    chapelSubTitleLabel.text = DateformatterFactory.dateForChapel.string(from: model.chapelDate)
+    chapelSubTitleLabel.text = DateformatterFactory.dateForHaram.string(from: model.chapelDate)
   }
 }
