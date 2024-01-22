@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 final class ChapelViewController: BaseViewController, BackButtonHandler {
@@ -35,9 +36,8 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
     $0.delegate = self
     $0.backgroundColor = .white
     $0.contentInset = .init(top: .zero, left: 15, bottom: .zero, right: 15)
+    $0.isSkeletonable = true
   }
-  
-  private let indicatorView = UIActivityIndicatorView(style: .large)
   
   init(viewModel: ChapelViewModelType = ChapelViewModel()) {
     self.viewModel = viewModel
@@ -60,7 +60,11 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
       .disposed(by: disposeBag)
     
     viewModel.isLoading
-      .drive(indicatorView.rx.isAnimating)
+      .filter { !$0 }
+      .drive(with: self) { owner, isLoading in
+        owner.chapelCollectionView.reloadData()
+        owner.view.hideSkeleton()
+      }
       .disposed(by: disposeBag)
     
     viewModel.errorMessage
@@ -75,16 +79,12 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
   
   override func setupLayouts() {
     super.setupLayouts()
-    _ = [chapelCollectionView, indicatorView].map { view.addSubview($0) }
+    _ = [chapelCollectionView].map { view.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()  
     chapelCollectionView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
-    }
-    
-    indicatorView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
   }
@@ -93,6 +93,7 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
     super.setupStyles()
     title = "채플조회"
     setupBackButton()
+    setupSkeletonView()
   }
   
   @objc func didTappedBackButton() {
@@ -129,5 +130,25 @@ extension ChapelViewController: UICollectionViewDelegateFlowLayout {
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
     return CGSize(width: collectionView.bounds.width, height: 28 + 14 + 320)
+  }
+}
+
+extension ChapelViewController: SkeletonCollectionViewDataSource {
+  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+    ChapelCollectionViewCell.identifier
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: ChapelCollectionViewCell.identifier, for: indexPath) as? ChapelCollectionViewCell
+    cell?.configureUI(with: .init(chapelResult: .absence))
+    return cell
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return 10
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
+    ChapelCollectionHeaderView.identifier
   }
 }

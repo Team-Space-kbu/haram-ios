@@ -34,7 +34,8 @@ enum DateformatterFactory {
     formatter.then { $0.dateFormat = "yyyy-MM-dd HH:mm:ss" }
   }
   
-  static var dateForChapel: DateFormatter {
+  /// Haram 어플에서 시간데이터를 보여주기위한 형식
+  static var dateForHaram: DateFormatter {
     formatter.then { $0.dateFormat = "yyyy.MM.dd HH시mm분" }
   }
   

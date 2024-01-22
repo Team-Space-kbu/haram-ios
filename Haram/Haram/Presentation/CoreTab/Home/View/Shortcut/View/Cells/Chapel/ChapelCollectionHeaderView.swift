@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 struct ChapelCollectionHeaderViewModel {
@@ -40,7 +41,6 @@ final class ChapelCollectionHeaderView: UICollectionReusableView {
   private let sectionTitleLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .bold22
-    $0.sizeToFit()
     $0.text = "채플정보"
   }
   
@@ -54,8 +54,14 @@ final class ChapelCollectionHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    containerStackView.isSkeletonable = true
+    
     addSubview(containerStackView)
-    [chapelDayView, lineView, chapelInfoView, lineView1, sectionTitleLabel].forEach { containerStackView.addArrangedSubview($0) }
+    [chapelDayView, lineView, chapelInfoView, lineView1, sectionTitleLabel].forEach {
+      $0.isSkeletonable = true
+      containerStackView.addArrangedSubview($0)
+    }
     
     containerStackView.snp.makeConstraints {
       $0.top.equalToSuperview().inset(59)
