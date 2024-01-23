@@ -16,7 +16,7 @@ protocol HomeViewModelType {
   
   var newsModel: Driver<[HomeNewsCollectionViewCellModel]> { get }
   var bannerModel: Driver<[HomebannerCollectionViewCellModel]> { get }
-  var noticeModel: Signal<HomeNoticeViewModel> { get }
+  var noticeModel: Driver<HomeNoticeViewModel> { get }
   var shortcutModel: Driver<[HomeShortcutCollectionViewCellModel]> { get }
   
   var isLoading: Driver<Bool> { get }
@@ -77,8 +77,8 @@ extension HomeViewModel: HomeViewModelType {
   var bannerModel: Driver<[HomebannerCollectionViewCellModel]> {
     bannerModelRelay.asDriver()
   }
-  var noticeModel: Signal<HomeNoticeViewModel> {
-    noticeModelRelay.asSignal()
+  var noticeModel: Driver<HomeNoticeViewModel> {
+    noticeModelRelay.asDriver(onErrorDriveWith: .empty())
   }
   
   var isLoading: RxCocoa.Driver<Bool> {
@@ -103,13 +103,13 @@ extension HomeViewModel: HomeViewModelType {
     
     // 시작 시간 설정 (예: 오전 11시30분)
     var startComponents = DateComponents()
-    startComponents.hour = 19
-    startComponents.minute = 42
+    startComponents.hour = 20
+    startComponents.minute = 48
     
     // 끝 시간 설정 (예: 오후 1시)
     var endComponents = DateComponents()
-    endComponents.hour = 19
-    endComponents.minute = 44
+    endComponents.hour = 20
+    endComponents.minute = 50
     
     // 특정 시간과 현재 시간 비교
     if let startDate = calendar.date(bySettingHour: startComponents.hour!, minute: startComponents.minute!, second: 0, of: currentDate),
