@@ -11,6 +11,7 @@ import RxSwift
 import SnapKit
 import SkeletonView
 import Then
+import RxCocoa
 
 // MARK: - HomeType
 
@@ -80,6 +81,7 @@ final class HomeViewController: BaseViewController {
   
   private lazy var checkChapelDayView = CheckChapelDayView().then {
     $0.delegate = self
+    $0.isSkeletonable = true
   }
   
   private lazy var bannerCollectionView = UICollectionView(
@@ -117,7 +119,6 @@ final class HomeViewController: BaseViewController {
     $0.dataSource = self
     $0.register(HomeShortcutCollectionViewCell.self, forCellWithReuseIdentifier: HomeShortcutCollectionViewCell.identifier)
     $0.register(HomeCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCollectionHeaderView.identifier)
-    
     $0.showsVerticalScrollIndicator = false
     $0.isScrollEnabled = false
     $0.bounces = false
@@ -157,6 +158,8 @@ final class HomeViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  // MARK: - Life Cycle
+  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     viewModel.inquireSimpleChapelInfo()
@@ -171,6 +174,7 @@ final class HomeViewController: BaseViewController {
       $0.textColor = .black
       $0.font = .bold26
     }
+    
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
     navigationController?.interactivePopGestureRecognizer?.delegate = self
     setupSkeletonView()
@@ -198,10 +202,6 @@ final class HomeViewController: BaseViewController {
       $0.height.equalTo(35) //공지 뷰
     }
     
-//    checkChapelDayView.snp.makeConstraints {
-//      $0.height.equalTo(73)
-//    }
-    
     bannerCollectionView.snp.makeConstraints {
       $0.height.equalTo(142)
     }
@@ -221,6 +221,7 @@ final class HomeViewController: BaseViewController {
     newsCollectionView.snp.makeConstraints {
       $0.height.equalTo(165 + 17 + 6)
     }
+    
     scrollContainerView.setCustomSpacing(20, after: homeNoticeView)
     scrollContainerView.setCustomSpacing(22, after: pageControl)
     scrollContainerView.setCustomSpacing(13, after: newsTitleLabel)
@@ -229,26 +230,52 @@ final class HomeViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    viewModel.newsModel
-      .drive(rx.newsModel)
-      .disposed(by: disposeBag)
-    
-    viewModel.bannerModel
-      .drive(rx.bannerModel)
-      .disposed(by: disposeBag)
-    
-    viewModel.noticeModel
-      .emit(with: self) { owner, model in
-        owner.homeNoticeView.configureUI(with: model)
+    Driver.combineLatest(
+      viewModel.newsModel,
+      viewModel.bannerModel,
+      viewModel.noticeModel,
+      viewModel.isAvailableSimpleChapelModal
+    )
+    .drive(with: self) { owner, result in
+      let (newsModel, bannerModel, noticeModel, isAvailableSimpleChapelModal) = result
+      
+      let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
+      
+      
+      if isAvailableSimpleChapelModal && !isContain {
+        owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
+      } else if !isAvailableSimpleChapelModal && isContain {
+        owner.checkChapelDayView.removeFromSuperview()
       }
-      .disposed(by: disposeBag)
+      
+      owner.newsModel = newsModel
+      owner.bannerModel = bannerModel
+      owner.homeNoticeView.configureUI(with: noticeModel)
+      
+      owner.view.hideSkeleton()
+    }
+    .disposed(by: disposeBag)
     
-    viewModel.isLoading
-      .filter { !$0 }
-      .drive(with: self) { owner, _ in
-        owner.view.hideSkeleton()
-      }
-      .disposed(by: disposeBag)
+//    viewModel.newsModel
+//      .drive(rx.newsModel)
+//      .disposed(by: disposeBag)
+//    
+//    viewModel.bannerModel
+//      .drive(rx.bannerModel)
+//      .disposed(by: disposeBag)
+//    
+//    viewModel.noticeModel
+//      .drive(with: self) { owner, model in
+//        owner.homeNoticeView.configureUI(with: model)
+//      }
+//      .disposed(by: disposeBag)
+    
+//    viewModel.isLoading
+//      .filter { !$0 }
+//      .drive(with: self) { owner, _ in
+//        owner.view.hideSkeleton()
+//      }
+//      .disposed(by: disposeBag)
     
     pageControl.rx.controlEvent(.valueChanged)
       .subscribe(with: self) { owner,  _ in
@@ -261,18 +288,24 @@ final class HomeViewController: BaseViewController {
       .drive(pageControl.rx.currentPage)
       .disposed(by: disposeBag)
     
-    viewModel.isAvailableSimpleChapelModal
-      .drive(with: self) { owner, isAvailableSimpleChapelModal in
-        
-        let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
-        
-        if isAvailableSimpleChapelModal && !isContain {
-          owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
-        } else if !isAvailableSimpleChapelModal && isContain {
-          owner.checkChapelDayView.removeFromSuperview()
-        }
-      }
-      .disposed(by: disposeBag)
+//    viewModel.isAvailableSimpleChapelModal
+//      .drive(with: self) { owner, isAvailableSimpleChapelModal in
+//        
+////        owner.view.hideSkeleton()
+//
+//        let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
+//        
+//        
+//        if isAvailableSimpleChapelModal && !isContain {
+//          owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
+//        } else if !isAvailableSimpleChapelModal && isContain {
+//          owner.checkChapelDayView.removeFromSuperview()
+//        }
+//        
+////        owner.view.hideSkeleton()
+//        
+//      }
+//      .disposed(by: disposeBag)
   }
   
   private func pageControlValueChanged(currentPage: Int) {

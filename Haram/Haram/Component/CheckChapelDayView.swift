@@ -54,6 +54,9 @@ final class CheckChapelDayView: UIView {
   }
   
   private func configureUI() {
+    
+    skeletonCornerRadius = 10
+    
     backgroundColor = .hex3B8686
     layer.masksToBounds = true
     layer.cornerRadius = 10
@@ -77,16 +80,6 @@ final class CheckChapelDayView: UIView {
       $0.leading.equalTo(dayImageView.snp.trailing).offset(105 - 15 - 40 - 19)
       $0.trailing.equalTo(xButton.snp.leading).offset(-26)
     }
-    
-//    regulatedCheckChapelLabelView.snp.makeConstraints {
-//      $0.top.equalToSuperview().inset(351 - 337)
-//      $0.leading.equalTo(dayImageView.snp.trailing).offset(105 - 15 - 40 - 19)
-//      $0.bottom.lessThanOrEqualToSuperview()
-//    }
-//    
-//    chapelCheckChapelLabelView.snp.makeConstraints {
-//      
-//    }
     
     verticalLineView.snp.makeConstraints {
       $0.width.equalTo(1)
