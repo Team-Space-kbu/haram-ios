@@ -78,7 +78,9 @@ final class HomeViewController: BaseViewController {
     $0.isSkeletonable = true
   }
   
-  private lazy var checkChapelDayView = CheckChapelDayView()
+  private lazy var checkChapelDayView = CheckChapelDayView().then {
+    $0.delegate = self
+  }
   
   private lazy var bannerCollectionView = UICollectionView(
     frame: .zero,
@@ -155,6 +157,11 @@ final class HomeViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.inquireSimpleChapelInfo()
+  }
+  
   // MARK: - Configurations
   
   override func setupStyles() {
@@ -173,7 +180,7 @@ final class HomeViewController: BaseViewController {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(scrollContainerView)
-    [homeNoticeView, bannerCollectionView, pageControl, checkChapelDayView, shortcutCollectionView, newsTitleLabel, newsCollectionView].forEach { scrollContainerView.addArrangedSubview($0) }
+    [homeNoticeView, bannerCollectionView, pageControl, shortcutCollectionView, newsTitleLabel, newsCollectionView].forEach { scrollContainerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -191,9 +198,9 @@ final class HomeViewController: BaseViewController {
       $0.height.equalTo(35) //공지 뷰
     }
     
-    checkChapelDayView.snp.makeConstraints {
-      $0.height.equalTo(73)
-    }
+//    checkChapelDayView.snp.makeConstraints {
+//      $0.height.equalTo(73)
+//    }
     
     bannerCollectionView.snp.makeConstraints {
       $0.height.equalTo(142)
@@ -252,6 +259,19 @@ final class HomeViewController: BaseViewController {
     currentBannerPage
       .asDriver(onErrorDriveWith: .empty())
       .drive(pageControl.rx.currentPage)
+      .disposed(by: disposeBag)
+    
+    viewModel.isAvailableSimpleChapelModal
+      .drive(with: self) { owner, isAvailableSimpleChapelModal in
+        
+        let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
+        
+        if isAvailableSimpleChapelModal && !isContain {
+          owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
+        } else if !isAvailableSimpleChapelModal && isContain {
+          owner.checkChapelDayView.removeFromSuperview()
+        }
+      }
       .disposed(by: disposeBag)
   }
   
@@ -325,20 +345,20 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     if collectionView == shortcutCollectionView {
       let type = ShortcutType.allCases[indexPath.row]
       coordinator?.didTappedShortcut(type: type)
-//      let vc = type.viewController
-//      vc.navigationItem.largeTitleDisplayMode = .never
-//      vc.hidesBottomBarWhenPushed = true
-//      navigationController?.interactivePopGestureRecognizer?.delegate = self
-//      navigationController?.pushViewController(vc, animated: true)
+      //      let vc = type.viewController
+      //      vc.navigationItem.largeTitleDisplayMode = .never
+      //      vc.hidesBottomBarWhenPushed = true
+      //      navigationController?.interactivePopGestureRecognizer?.delegate = self
+      //      navigationController?.pushViewController(vc, animated: true)
     } else if collectionView == newsCollectionView {
       let newsModel = newsModel[indexPath.row]
       coordinator?.didTappedNews(newsModel: newsModel)
-//      let vc = PDFViewController(pdfURL: newsModel[indexPath.row].pdfURL)
-//      vc.title = newsModel[indexPath.row].title
-//      vc.navigationItem.largeTitleDisplayMode = .never
-//      vc.hidesBottomBarWhenPushed = true
-//      navigationController?.interactivePopGestureRecognizer?.delegate = self
-//      navigationController?.pushViewController(vc, animated: true)
+      //      let vc = PDFViewController(pdfURL: newsModel[indexPath.row].pdfURL)
+      //      vc.title = newsModel[indexPath.row].title
+      //      vc.navigationItem.largeTitleDisplayMode = .never
+      //      vc.hidesBottomBarWhenPushed = true
+      //      navigationController?.interactivePopGestureRecognizer?.delegate = self
+      //      navigationController?.pushViewController(vc, animated: true)
     }
   }
 }
@@ -387,5 +407,13 @@ extension HomeViewController: UIScrollViewDelegate {
     let bannerIndex = Int(max(0, round(contentOffset.x / scrollView.bounds.width)))
     
     self.currentBannerPage.onNext(bannerIndex)
+  }
+}
+
+extension HomeViewController: CheckChapelDayViewDelegate {
+  func didTappedXButton() {
+    if scrollContainerView.contains(checkChapelDayView) {
+      checkChapelDayView.removeFromSuperview()
+    }
   }
 }
