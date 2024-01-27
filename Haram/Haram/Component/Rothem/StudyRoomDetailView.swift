@@ -26,14 +26,7 @@ struct RothemRoomDetailViewModel {
   }
 }
 
-protocol RothemRoomDetailViewDelegate: AnyObject {
-  func didTappedReservationButton()
-}
-
 final class RothemRoomDetailView: UIView {
-  
-  weak var delegate: RothemRoomDetailViewDelegate?
-  private let disposeBag = DisposeBag()
   
   private var amenityModel: [PopularAmenityCollectionViewCellModel] = [] {
     didSet {
@@ -53,7 +46,7 @@ final class RothemRoomDetailView: UIView {
     $0.backgroundColor = .clear
     $0.spacing = 17
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: 16, left: 15, bottom: 42, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: 16, left: 15, bottom: .zero, right: 15)
     $0.isSkeletonable = true
   }
   
@@ -108,20 +101,9 @@ final class RothemRoomDetailView: UIView {
     $0.isSkeletonable = true
   }
   
-  private let reservationButton = UIButton().then {
-    $0.setTitle("예약하기", for: .normal)
-    $0.setTitleColor(.white, for: .normal)
-    $0.backgroundColor = .hex79BD9A
-    $0.titleLabel?.font = .bold22
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    $0.isSkeletonable = true
-  }
-  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
-    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -136,7 +118,7 @@ final class RothemRoomDetailView: UIView {
     
     [containerView].forEach { scrollView.addSubview($0) }
     
-    [roomTitleLabel, roomDestinationLabel, lineView, roomDescriptionTitleLabel, roomDescriptionContentLabel, popularAmenityTitleLabel, popularAmenityCollectionView, reservationButton].forEach { containerView.addArrangedSubview($0) }
+    [roomTitleLabel, roomDestinationLabel, lineView, roomDescriptionTitleLabel, roomDescriptionContentLabel, popularAmenityTitleLabel, popularAmenityCollectionView].forEach { containerView.addArrangedSubview($0) }
     
     scrollView.snp.makeConstraints {
       $0.directionalEdges.width.equalToSuperview()
@@ -170,23 +152,10 @@ final class RothemRoomDetailView: UIView {
       $0.height.equalTo(56)
     }
     
-    reservationButton.snp.makeConstraints {
-      $0.height.equalTo(49)
-    }
-    
     containerView.setCustomSpacing(5, after: roomTitleLabel)
     containerView.setCustomSpacing(7, after: roomDescriptionTitleLabel)
     containerView.setCustomSpacing(20, after: roomDescriptionContentLabel)
     containerView.setCustomSpacing(11, after: popularAmenityTitleLabel)
-    containerView.setCustomSpacing(65, after: popularAmenityCollectionView)
-  }
-  
-  private func bind() {
-    reservationButton.rx.tap
-      .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedReservationButton()
-      }
-      .disposed(by: disposeBag)
   }
   
   func configureUI(with model: RothemRoomDetailViewModel) {
@@ -206,7 +175,7 @@ final class RothemRoomDetailView: UIView {
     attributedString.append(NSAttributedString(string: model.roomDestination))
     roomDestinationLabel.attributedText = attributedString
     
-    roomDescriptionContentLabel.text = model.roomDescription
+    roomDescriptionContentLabel.text = model.roomDescription + "dsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdf"
   }
 }
 

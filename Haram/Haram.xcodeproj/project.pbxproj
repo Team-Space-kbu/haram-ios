@@ -22,6 +22,7 @@
 		7031E3D42ABA89160027DC0A /* BoardDetailCommentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3D32ABA89160027DC0A /* BoardDetailCommentHeaderView.swift */; };
 		7032FD5B2B57E9CE00B8481C /* SelectedCategoryNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7032FD5A2B57E9CE00B8481C /* SelectedCategoryNoticeViewController.swift */; };
 		7032FD5E2B594AC500B8481C /* CheckChapelDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7032FD5D2B594AC500B8481C /* CheckChapelDayView.swift */; };
+		7032FD822B656AEE00B8481C /* InquireBibleHomeInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7032FD812B656AEE00B8481C /* InquireBibleHomeInfoResponse.swift */; };
 		7034AF1A29F0064B009C7676 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7034AF1929F0064B009C7676 /* WebViewController.swift */; };
 		70375EF82AA5B6110032F6B8 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 70375EF72AA5B6110032F6B8 /* SkeletonView */; };
 		70375EFA2AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375EF92AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift */; };
@@ -284,6 +285,7 @@
 		7031E3D32ABA89160027DC0A /* BoardDetailCommentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCommentHeaderView.swift; sourceTree = "<group>"; };
 		7032FD5A2B57E9CE00B8481C /* SelectedCategoryNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryNoticeViewController.swift; sourceTree = "<group>"; };
 		7032FD5D2B594AC500B8481C /* CheckChapelDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckChapelDayView.swift; sourceTree = "<group>"; };
+		7032FD812B656AEE00B8481C /* InquireBibleHomeInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBibleHomeInfoResponse.swift; sourceTree = "<group>"; };
 		7034AF1929F0064B009C7676 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		70375EF92AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularLibraryCollectionViewCell.swift; sourceTree = "<group>"; };
 		70375EFB2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryResultsViewModel.swift; sourceTree = "<group>"; };
@@ -1344,6 +1346,7 @@
 				70375F062AB04F7B0032F6B8 /* InquireChapterToBibleRequest.swift */,
 				70375F082AB050E00032F6B8 /* InquireChapterToBibleResponse.swift */,
 				701F29DB2AEBB29C00E3E68B /* InquireBibleMainNoticeResponse.swift */,
+				7032FD812B656AEE00B8481C /* InquireBibleHomeInfoResponse.swift */,
 			);
 			path = Bible;
 			sourceTree = "<group>";
@@ -1768,6 +1771,7 @@
 				708ED79B2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift in Sources */,
 				70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */,
 				708ED7E72A94B61100107CDF /* RevisionOfTranslation+CoreDataProperties.swift in Sources */,
+				7032FD822B656AEE00B8481C /* InquireBibleHomeInfoResponse.swift in Sources */,
 				705FD2922A13B9E600F353FE /* AuthRepositoryImpl.swift in Sources */,
 				70375EFA2AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift in Sources */,
 				701F29C42AE6750100E3E68B /* InquireBoardResponse.swift in Sources */,

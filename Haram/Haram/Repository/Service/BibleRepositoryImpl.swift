@@ -11,6 +11,7 @@ protocol BibleRepository {
   func inquireTodayWords(request: InquireTodayWordsRequest) -> Single<[InquireTodayWordsResponse]>
   func inquireChapterToBible(request: InquireChapterToBibleRequest) -> Single<[InquireChapterToBibleResponse]>
   func inquireBibleMainNotice() -> Single<[InquireBibleMainNoticeResponse]>
+  func inquireBibleHomeInfo() -> Single<InquireBibleHomeInfoResponse>
 }
 
 final class BibleRepositoryImpl {
@@ -34,6 +35,10 @@ extension BibleRepositoryImpl: BibleRepository {
   
   func inquireBibleMainNotice() -> Single<[InquireBibleMainNoticeResponse]> {
     service.betarequest(router: BibleRouter.inquireBibleMainNotice, type: [InquireBibleMainNoticeResponse].self)
+  }
+  
+  func inquireBibleHomeInfo() -> Single<InquireBibleHomeInfoResponse> {
+    service.betarequest(router: BibleRouter.inquireBibleHomeInfo, type: InquireBibleHomeInfoResponse.self)
   }
 }
 

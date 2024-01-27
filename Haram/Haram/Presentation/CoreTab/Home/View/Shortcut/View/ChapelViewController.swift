@@ -35,7 +35,7 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
     $0.dataSource = self
     $0.delegate = self
     $0.backgroundColor = .white
-    $0.contentInset = .init(top: .zero, left: 15, bottom: .zero, right: 15)
+    $0.contentInset = .init(top: .zero, left: 15, bottom: 15, right: 15)
     $0.isSkeletonable = true
   }
   

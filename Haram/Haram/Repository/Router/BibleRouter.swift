@@ -11,13 +11,14 @@ enum BibleRouter {
   case inquireTodayWords(InquireTodayWordsRequest)
   case inquireChapterToBible(InquireChapterToBibleRequest)
   case inquireBibleMainNotice
+  case inquireBibleHomeInfo
 }
 
 extension BibleRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .inquireTodayWords, .inquireChapterToBible, .inquireBibleMainNotice:
+    case .inquireTodayWords, .inquireChapterToBible, .inquireBibleMainNotice, .inquireBibleHomeInfo:
       return .get
     }
   }
@@ -30,6 +31,8 @@ extension BibleRouter: Router {
       return "/v1/bibles/chapter"
     case .inquireBibleMainNotice:
       return "/v1/bibles/notices"
+    case .inquireBibleHomeInfo:
+      return "/v1/bibles/home"
     }
   }
   
@@ -39,7 +42,7 @@ extension BibleRouter: Router {
       return .query(request)
     case let .inquireChapterToBible(request):
       return .query(request)
-    case .inquireBibleMainNotice:
+    case .inquireBibleMainNotice, .inquireBibleHomeInfo:
       return .plain
     }
   }
@@ -48,7 +51,7 @@ extension BibleRouter: Router {
     switch self {
     case .inquireTodayWords, .inquireChapterToBible:
       return .noCache
-    case .inquireBibleMainNotice:
+    case .inquireBibleMainNotice, .inquireBibleHomeInfo:
       return .withAccessToken
     }
   }

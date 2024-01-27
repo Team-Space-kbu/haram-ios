@@ -181,6 +181,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
       .drive(with: self) { owner, bookModel in
         if bookModel.isEmpty {
           owner.relatedBookLabel.removeFromSuperview()
+          owner.relatedBookCollectionView.removeFromSuperview()
           owner.libraryRentalListView.removeLastIineView()
         }
         owner.relatedBookModel = bookModel
