@@ -49,44 +49,6 @@ final class BibleViewModel {
       }
       .disposed(by: disposeBag)
   }
-  
-  private func inquireTodayBibleWord() {
-    let tryInquireTodayBibleWord = bibleRepository.inquireTodayWords(request: .init(bibleType: .RT))
-      .do(onSuccess: { [weak self] _ in
-        guard let self = self else { return }
-        self.isLoadingSubject.onNext(true)
-      })
-    
-    tryInquireTodayBibleWord
-      .subscribe(with: self, onSuccess: { owner, response in
-        guard let content = response.first?.content else { return }
-        owner.todayBibleWordListRelay.accept([content])
-        owner.isLoadingSubject.onNext(false)
-      }, onFailure:  { owner, error in
-        guard let error = error as? HaramError else { return }
-        owner.todayBibleWordListRelay.accept([error.description!])
-        owner.isLoadingSubject.onNext(false)
-      })
-      .disposed(by: disposeBag)
-    
-    
-  }
-  
-  private func inquireBibleMainNotice() {
-    let inquireBibleMainNotice = bibleRepository.inquireBibleMainNotice()
-      .do(onSuccess: { [weak self] _ in
-        guard let self = self else { return }
-        self.isLoadingSubject.onNext(true)
-      })
-    
-    inquireBibleMainNotice
-      .compactMap { $0.first }
-      .subscribe(with: self) { owner, response in
-        owner.bibleMainNoticeRelay.accept([BibleNoticeCollectionViewCellModel(response: response)])
-        owner.isLoadingSubject.onNext(false)
-      }
-      .disposed(by: disposeBag)
-  }
 }
 
 extension BibleViewModel: BibleViewModelType {

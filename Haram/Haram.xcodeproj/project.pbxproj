@@ -13,7 +13,7 @@
 		701F29C62AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29C52AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift */; };
 		701F29D72AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29D62AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift */; };
 		701F29D92AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */; };
-		701F29DC2AEBB29C00E3E68B /* InquireBibleMainNoticeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29DB2AEBB29C00E3E68B /* InquireBibleMainNoticeResponse.swift */; };
+		701F29DC2AEBB29C00E3E68B /* BibleNoticeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29DB2AEBB29C00E3E68B /* BibleNoticeResponse.swift */; };
 		701F29DE2AEBB7FF00E3E68B /* CheckReservationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */; };
 		7031E3C82ABA72C10027DC0A /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */; };
 		7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */; };
@@ -204,7 +204,6 @@
 		708ED7B92A91191C00107CDF /* BibleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7B82A91191C00107CDF /* BibleRouter.swift */; };
 		708ED7BC2A9119CC00107CDF /* InquireTodayWordsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7BB2A9119CC00107CDF /* InquireTodayWordsRequest.swift */; };
 		708ED7BF2A911AB800107CDF /* BibleRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7BE2A911AB800107CDF /* BibleRepositoryImpl.swift */; };
-		708ED7C12A911AFF00107CDF /* InquireTodayWordsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7C02A911AFF00107CDF /* InquireTodayWordsResponse.swift */; };
 		708ED7C32A911B4800107CDF /* BibleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7C22A911B4800107CDF /* BibleViewController.swift */; };
 		708ED7C62A911E6C00107CDF /* TodayPrayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7C52A911E6C00107CDF /* TodayPrayCollectionViewCell.swift */; };
 		708ED7C92A911E8700107CDF /* BibleCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7C82A911E8700107CDF /* BibleCollectionHeaderView.swift */; };
@@ -276,7 +275,7 @@
 		701F29C52AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireRothemHomeInfoResponse.swift; sourceTree = "<group>"; };
 		701F29D62AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireRothemRoomInfoResponse.swift; sourceTree = "<group>"; };
 		701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyRoomDetailViewModel.swift; sourceTree = "<group>"; };
-		701F29DB2AEBB29C00E3E68B /* InquireBibleMainNoticeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBibleMainNoticeResponse.swift; sourceTree = "<group>"; };
+		701F29DB2AEBB29C00E3E68B /* BibleNoticeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleNoticeResponse.swift; sourceTree = "<group>"; };
 		701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReservationViewModel.swift; sourceTree = "<group>"; };
 		7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewController.swift; sourceTree = "<group>"; };
 		7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailHeaderView.swift; sourceTree = "<group>"; };
@@ -463,7 +462,6 @@
 		708ED7B82A91191C00107CDF /* BibleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleRouter.swift; sourceTree = "<group>"; };
 		708ED7BB2A9119CC00107CDF /* InquireTodayWordsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireTodayWordsRequest.swift; sourceTree = "<group>"; };
 		708ED7BE2A911AB800107CDF /* BibleRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleRepositoryImpl.swift; sourceTree = "<group>"; };
-		708ED7C02A911AFF00107CDF /* InquireTodayWordsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireTodayWordsResponse.swift; sourceTree = "<group>"; };
 		708ED7C22A911B4800107CDF /* BibleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleViewController.swift; sourceTree = "<group>"; };
 		708ED7C52A911E6C00107CDF /* TodayPrayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayPrayCollectionViewCell.swift; sourceTree = "<group>"; };
 		708ED7C82A911E8700107CDF /* BibleCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleCollectionHeaderView.swift; sourceTree = "<group>"; };
@@ -1342,10 +1340,9 @@
 			isa = PBXGroup;
 			children = (
 				708ED7BB2A9119CC00107CDF /* InquireTodayWordsRequest.swift */,
-				708ED7C02A911AFF00107CDF /* InquireTodayWordsResponse.swift */,
 				70375F062AB04F7B0032F6B8 /* InquireChapterToBibleRequest.swift */,
 				70375F082AB050E00032F6B8 /* InquireChapterToBibleResponse.swift */,
-				701F29DB2AEBB29C00E3E68B /* InquireBibleMainNoticeResponse.swift */,
+				701F29DB2AEBB29C00E3E68B /* BibleNoticeResponse.swift */,
 				7032FD812B656AEE00B8481C /* InquireBibleHomeInfoResponse.swift */,
 			);
 			path = Bible;
@@ -1696,7 +1693,7 @@
 				708312402A2CA79D00F7E283 /* IntranetLoginRequest.swift in Sources */,
 				708E1E682B09E1A70030FAA0 /* CheckTimeAvailableForRothemReservationResponse.swift in Sources */,
 				70747C822B455D65001F08EE /* Coordinator.swift in Sources */,
-				701F29DC2AEBB29C00E3E68B /* InquireBibleMainNoticeResponse.swift in Sources */,
+				701F29DC2AEBB29C00E3E68B /* BibleNoticeResponse.swift in Sources */,
 				70747C882B45AC5C001F08EE /* CompositionRoot.swift in Sources */,
 				705FD2BD2A1A4CEE00F353FE /* LibraryDetailViewController.swift in Sources */,
 				7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */,
@@ -1801,7 +1798,6 @@
 				70375F032AAD78E20032F6B8 /* RentalLibraryCollectionViewCell.swift in Sources */,
 				708ED7B32A90D4ED00107CDF /* StudyRoomDetailViewController.swift in Sources */,
 				705FD2A12A15F75900F353FE /* LoginAlertView.swift in Sources */,
-				708ED7C12A911AFF00107CDF /* InquireTodayWordsResponse.swift in Sources */,
 				705FD2A52A15FDB500F353FE /* LoginRequest.swift in Sources */,
 				7031E3C82ABA72C10027DC0A /* BoardDetailViewController.swift in Sources */,
 				708ED7D82A92357600107CDF /* BibleCollectionViewCell.swift in Sources */,
