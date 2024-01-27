@@ -8,9 +8,7 @@
 import RxSwift
 
 protocol BibleRepository {
-  func inquireTodayWords(request: InquireTodayWordsRequest) -> Single<[InquireTodayWordsResponse]>
   func inquireChapterToBible(request: InquireChapterToBibleRequest) -> Single<[InquireChapterToBibleResponse]>
-  func inquireBibleMainNotice() -> Single<[InquireBibleMainNoticeResponse]>
   func inquireBibleHomeInfo() -> Single<InquireBibleHomeInfoResponse>
 }
 
@@ -25,16 +23,9 @@ final class BibleRepositoryImpl {
 }
 
 extension BibleRepositoryImpl: BibleRepository {
-  func inquireTodayWords(request: InquireTodayWordsRequest) -> Single<[InquireTodayWordsResponse]> {
-    service.betarequest(router: BibleRouter.inquireTodayWords(request), type: [InquireTodayWordsResponse].self)
-  }
   
   func inquireChapterToBible(request: InquireChapterToBibleRequest) -> Single<[InquireChapterToBibleResponse]> {
     service.betarequest(router: BibleRouter.inquireChapterToBible(request), type: [InquireChapterToBibleResponse].self)
-  }
-  
-  func inquireBibleMainNotice() -> Single<[InquireBibleMainNoticeResponse]> {
-    service.betarequest(router: BibleRouter.inquireBibleMainNotice, type: [InquireBibleMainNoticeResponse].self)
   }
   
   func inquireBibleHomeInfo() -> Single<InquireBibleHomeInfoResponse> {

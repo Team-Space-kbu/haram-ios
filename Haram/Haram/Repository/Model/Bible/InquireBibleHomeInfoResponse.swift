@@ -9,7 +9,7 @@ import Foundation
 
 struct InquireBibleHomeInfoResponse: Decodable {
   let bibleRandomVerse: BibleRandomVerse
-  let bibleNoticeResponses: [InquireBibleMainNoticeResponse]
+  let bibleNoticeResponses: [BibleNoticeResponse]
 }
 
 struct BibleRandomVerse: Decodable {
