@@ -15,12 +15,19 @@ struct BoardDetailHeaderViewModel {
   let boardContent: String
   let boardDate: Date
   let boardAuthorName: String
+  let boardImageCollectionViewCellModel: [BoardImageCollectionViewCellModel]
 }
 
 final class BoardDetailHeaderView: UICollectionReusableView {
   
   static let identifier = "BoardDetailHeaderView"
   
+  private var boardImageCollectionViewCellModel: [BoardImageCollectionViewCellModel] = [] {
+    didSet {
+      boardImageCollectionView.reloadData()
+    }
+  }
+   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.backgroundColor = .clear
@@ -53,6 +60,14 @@ final class BoardDetailHeaderView: UICollectionReusableView {
   
   private let lineView = UIView().then {
     $0.backgroundColor = .hexD8D8DA
+  }
+  
+  private lazy var boardImageCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
+    $0.scrollDirection = .horizontal
+  }).then {
+    $0.delegate = self
+    $0.dataSource = self
+    $0.register(BoardImageCollectionViewCell.self, forCellWithReuseIdentifier: BoardImageCollectionViewCell.identifier)
   }
   
   override init(frame: CGRect) {
@@ -97,5 +112,32 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     postingDescriptionLabel.addLineSpacing(lineSpacing: 2, string: model.boardContent)
     postingAuthorNameLabel.text = model.boardAuthorName
     postingDateLabel.text = DateformatterFactory.dateWithHypen.string(from: model.boardDate)
+    
+    if !model.boardImageCollectionViewCellModel.isEmpty {
+      containerView.addArrangedSubview(boardImageCollectionView)
+      boardImageCollectionView.snp.makeConstraints {
+        $0.height.equalTo(188)
+      }
+      
+      boardImageCollectionViewCellModel = model.boardImageCollectionViewCellModel
+    }
+  }
+}
+
+extension BoardDetailHeaderView: UICollectionViewDataSource {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    boardImageCollectionViewCellModel.count
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardImageCollectionViewCell.identifier, for: indexPath) as? BoardImageCollectionViewCell ?? BoardImageCollectionViewCell()
+    cell.configureUI(with: boardImageCollectionViewCellModel[indexPath.row])
+    return cell
+  }
+}
+
+extension BoardDetailHeaderView: UICollectionViewDelegateFlowLayout {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return CGSize(width: collectionView.frame.width, height: 188)
   }
 }

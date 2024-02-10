@@ -89,13 +89,6 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
         owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
-    
-//    viewModel.isLoading
-//      .filter { !$0 }
-//      .drive(with: self) { owner, isLoading in
-//        owner.view.hideSkeleton()
-//      }
-//      .disposed(by: disposeBag)
   }
   
   @objc func didTappedBackButton() {

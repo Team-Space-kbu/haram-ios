@@ -150,7 +150,6 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
       ),
       subitems: [item]
     )
-//    verticalGroup.interItemSpacing = .fixed(16)
     
     let header = NSCollectionLayoutBoundarySupplementaryItem(
       layoutSize: NSCollectionLayoutSize(
