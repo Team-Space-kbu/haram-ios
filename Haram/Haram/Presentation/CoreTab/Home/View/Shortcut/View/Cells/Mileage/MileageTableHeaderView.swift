@@ -19,7 +19,7 @@ struct MileageTableHeaderViewModel {
 final class MileageTableHeaderView: UITableViewHeaderFooterView {
   
   static let identifier = "MileageTableHeaderView"
-  private let disposeBag = DisposeBag()
+  private var disposeBag = DisposeBag()
   
   private let totalMileageLabel = UILabel().then {
     $0.textColor = .hex1A1E27
@@ -47,6 +47,7 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
   override func prepareForReuse() {
     super.prepareForReuse()
     totalMileageLabel.text = nil
+    self.disposeBag = DisposeBag()
   }
   
   private func configureUI() {

@@ -90,7 +90,6 @@ final class BoardListCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: BoardListCollectionViewCellModel) {
-    print("게시판1 \(model)")
     titleLabel.text = model.title
     subLabel.text = model.subTitle
     

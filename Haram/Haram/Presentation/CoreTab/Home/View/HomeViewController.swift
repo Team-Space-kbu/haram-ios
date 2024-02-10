@@ -37,7 +37,7 @@ final class HomeViewController: BaseViewController {
   // MARK: - Properties
   
   private let viewModel: HomeViewModelType
-  weak var coordinator: HomeCoordinator?
+//  weak var coordinator: HomeCoordinator?
   
   private let currentBannerPage = PublishSubject<Int>()
   
@@ -256,27 +256,6 @@ final class HomeViewController: BaseViewController {
     }
     .disposed(by: disposeBag)
     
-//    viewModel.newsModel
-//      .drive(rx.newsModel)
-//      .disposed(by: disposeBag)
-//    
-//    viewModel.bannerModel
-//      .drive(rx.bannerModel)
-//      .disposed(by: disposeBag)
-//    
-//    viewModel.noticeModel
-//      .drive(with: self) { owner, model in
-//        owner.homeNoticeView.configureUI(with: model)
-//      }
-//      .disposed(by: disposeBag)
-    
-//    viewModel.isLoading
-//      .filter { !$0 }
-//      .drive(with: self) { owner, _ in
-//        owner.view.hideSkeleton()
-//      }
-//      .disposed(by: disposeBag)
-    
     pageControl.rx.controlEvent(.valueChanged)
       .subscribe(with: self) { owner,  _ in
         owner.pageControlValueChanged(currentPage: owner.pageControl.currentPage)
@@ -287,25 +266,6 @@ final class HomeViewController: BaseViewController {
       .asDriver(onErrorDriveWith: .empty())
       .drive(pageControl.rx.currentPage)
       .disposed(by: disposeBag)
-    
-//    viewModel.isAvailableSimpleChapelModal
-//      .drive(with: self) { owner, isAvailableSimpleChapelModal in
-//        
-////        owner.view.hideSkeleton()
-//
-//        let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
-//        
-//        
-//        if isAvailableSimpleChapelModal && !isContain {
-//          owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
-//        } else if !isAvailableSimpleChapelModal && isContain {
-//          owner.checkChapelDayView.removeFromSuperview()
-//        }
-//        
-////        owner.view.hideSkeleton()
-//        
-//      }
-//      .disposed(by: disposeBag)
   }
   
   private func pageControlValueChanged(currentPage: Int) {
@@ -377,21 +337,21 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     if collectionView == shortcutCollectionView {
       let type = ShortcutType.allCases[indexPath.row]
-      coordinator?.didTappedShortcut(type: type)
-      //      let vc = type.viewController
-      //      vc.navigationItem.largeTitleDisplayMode = .never
-      //      vc.hidesBottomBarWhenPushed = true
-      //      navigationController?.interactivePopGestureRecognizer?.delegate = self
-      //      navigationController?.pushViewController(vc, animated: true)
+//      coordinator?.didTappedShortcut(type: type)
+            let vc = type.viewController
+            vc.navigationItem.largeTitleDisplayMode = .never
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.interactivePopGestureRecognizer?.delegate = self
+            navigationController?.pushViewController(vc, animated: true)
     } else if collectionView == newsCollectionView {
-      let newsModel = newsModel[indexPath.row]
-      coordinator?.didTappedNews(newsModel: newsModel)
-      //      let vc = PDFViewController(pdfURL: newsModel[indexPath.row].pdfURL)
-      //      vc.title = newsModel[indexPath.row].title
-      //      vc.navigationItem.largeTitleDisplayMode = .never
-      //      vc.hidesBottomBarWhenPushed = true
-      //      navigationController?.interactivePopGestureRecognizer?.delegate = self
-      //      navigationController?.pushViewController(vc, animated: true)
+//      let newsModel = newsModel[indexPath.row]
+//      coordinator?.didTappedNews(newsModel: newsModel)
+            let vc = PDFViewController(pdfURL: newsModel[indexPath.row].pdfURL)
+            vc.title = newsModel[indexPath.row].title
+            vc.navigationItem.largeTitleDisplayMode = .never
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.interactivePopGestureRecognizer?.delegate = self
+            navigationController?.pushViewController(vc, animated: true)
     }
   }
 }

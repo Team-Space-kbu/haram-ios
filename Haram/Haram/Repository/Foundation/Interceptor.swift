@@ -27,16 +27,16 @@ final class Interceptor: RequestInterceptor {
       // 토큰 만료인 경우 토큰 값 갱신
       guard UserManager.shared.hasToken else { return }
       UserManager.shared.reissuanceAccessToken()
-        .subscribe { _ in
+        .subscribe(onNext: { _ in
           // 재발급을 성공했다면 기존에 발생했던 요청 재시도
           completion(.retry)
-        } onError: { plubError in
+        }, onError: { plubError in
           // 재발급 실패시 retry를 하지 않고 Error 전달
           completion(.doNotRetryWithError(plubError))
-        }
+        })
         .disposed(by: disposeBag)
-    } else if statusCode == 402 {
-      // 상태코드 402은 refreshToken 만료
+    } else if statusCode == 402 || statusCode == 499 {
+      // 상태코드 402은 refreshToken 만료, 499는 다른 uuid를 이용해 로그인 시 기존 로그인이 취소되었음을 알림
       UserManager.shared.clearAllInformations()
       
       DispatchQueue.main.async {

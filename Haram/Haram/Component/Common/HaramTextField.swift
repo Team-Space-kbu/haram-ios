@@ -42,6 +42,8 @@ final class HaramTextField: UIView {
     $0.leftViewMode = .always
     $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 20, height: .zero))
     $0.autocapitalizationType = .none
+    $0.spellCheckingType = .no
+    $0.autocorrectionType = .no
   }
   
   private lazy var errorLabel = UILabel().then {

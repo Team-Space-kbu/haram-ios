@@ -5,6 +5,8 @@
 //  Created by 이건준 on 2023/05/18.
 //
 
+import Foundation
+
 import RxSwift
 import RxCocoa
 
@@ -55,7 +57,8 @@ extension LoginViewModel {
     authRepository.loginMember(
       request: .init(
         userID: userID,
-        password: password
+        password: password,
+        uuid: UserManager.shared.uuid!
       )
     )
     .subscribe(with: self, onNext: { owner, result in

@@ -30,17 +30,18 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
     )
     $0.backgroundColor = .white
     $0.isSkeletonable = true
+    $0.delegate = self
   }
   
-  private let reservationButton = UIButton().then {
-    $0.setTitle("예약하기", for: .normal)
-    $0.setTitleColor(.white, for: .normal)
-    $0.backgroundColor = .hex79BD9A
-    $0.titleLabel?.font = .bold22
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    $0.isSkeletonable = true
-  }
+//  private let reservationButton = UIButton().then {
+//    $0.setTitle("예약하기", for: .normal)
+//    $0.setTitleColor(.white, for: .normal)
+//    $0.backgroundColor = .hex79BD9A
+//    $0.titleLabel?.font = .bold22
+//    $0.layer.masksToBounds = true
+//    $0.layer.cornerRadius = 10
+//    $0.isSkeletonable = true
+//  }
   
   init(roomSeq: Int, viewModel: StudyRoomDetailViewModelType = StudyRoomDetailViewModel()) {
     self.roomSeq = roomSeq
@@ -67,24 +68,23 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
   
   override func setupLayouts() {
     super.setupLayouts()
-    [studyRoomImageView, studyRoomDetailView, reservationButton].forEach { view.addSubview($0) }
+    [studyRoomImageView, studyRoomDetailView].forEach { view.addSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    reservationButton.snp.makeConstraints {
-      $0.height.equalTo(49)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-      $0.bottom.equalToSuperview().inset(42)
-    }
+//    reservationButton.snp.makeConstraints {
+//      $0.height.equalTo(49)
+//      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+//      $0.bottom.equalToSuperview().inset(42)
+//    }
     
     studyRoomDetailView.snp.makeConstraints {
-      $0.bottom.equalTo(reservationButton.snp.top)
+      $0.bottom.equalToSuperview()
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo((((UIScreen.main.bounds.height - UINavigationController().navigationBar.frame.height) / 3) * 2) - 49)
     }
-    
     
     studyRoomImageView.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -119,12 +119,22 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
       }
       .disposed(by: disposeBag)
     
-    reservationButton.rx.tap
-      .subscribe(with: self) { owner, _ in
-        let vc = StudyReservationViewController(viewModel: StudyReservationViewModel(roomSeq: owner.roomSeq))
-        vc.navigationItem.largeTitleDisplayMode = .never
-        owner.navigationController?.pushViewController(vc, animated: true)
-      }
-      .disposed(by: disposeBag)
+//    reservationButton.rx.tap
+//      .subscribe(with: self) { owner, _ in
+//        let vc = StudyReservationViewController(viewModel: StudyReservationViewModel(roomSeq: owner.roomSeq))
+//        vc.navigationItem.largeTitleDisplayMode = .never
+//        owner.navigationController?.pushViewController(vc, animated: true)
+//      }
+//      .disposed(by: disposeBag)
   }
+}
+
+extension StudyRoomDetailViewController: RothemRoomDetailViewDelegate {
+  func didTappedReservationButton() {
+    let vc = StudyReservationViewController(viewModel: StudyReservationViewModel(roomSeq: roomSeq))
+    vc.navigationItem.largeTitleDisplayMode = .never
+    navigationController?.pushViewController(vc, animated: true)
+  }
+  
+  
 }

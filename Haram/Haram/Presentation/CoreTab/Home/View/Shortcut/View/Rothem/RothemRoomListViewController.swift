@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import SkeletonView
 import Then
+import RxCocoa
 
 final class RothemRoomListViewController: BaseViewController, BackButtonHandler {
   
@@ -85,6 +86,21 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
   override func bind() {
     super.bind()
     
+//    Driver.combineLatest(
+//      viewModel.currentStudyReservationList,
+//      viewModel.currentRothemMainNotice,
+//      viewModel.isReservation
+//    )
+//    .drive(with: self) { owner, result in
+//      let (studyListModel, rothemMainNoticeModel, type) = result
+//      owner.studyListModel = studyListModel
+//      owner.rothemMainNoticeModel = rothemMainNoticeModel
+//      owner.type = type
+//      
+//      owner.studyListCollectionView.reloadData()
+//      owner.view.hideSkeleton()
+//    }
+//    .disposed(by: disposeBag)
     
     viewModel.currentStudyReservationList
       .drive(rx.studyListModel)

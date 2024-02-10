@@ -34,7 +34,7 @@ final class MoreViewModel {
     inquireUserInfo()
   }
   
-  func inquireUserInfo() {
+  private func inquireUserInfo() {
     myPageRepository.inquireUserInfo(userID: UserManager.shared.userID!)
       .subscribe(with: self) { owner, response in
         let profileInfoViewModel = ProfileInfoViewModel(response: response)
@@ -44,7 +44,11 @@ final class MoreViewModel {
   }
   
   func requestLogoutUser() {
-    authRepository.logoutUser(userID: UserManager.shared.userID!)
+    authRepository.logoutUser(
+      request: .init(
+        userID: UserManager.shared.userID!,
+        uuid: UserManager.shared.uuid!
+      ))
       .take(1)
       .subscribe(with: self) { owner, _ in
         UserManager.shared.clearAllInformations()
@@ -56,7 +60,10 @@ final class MoreViewModel {
 
 extension MoreViewModel: MoreViewModelType {
   var currentUserInfo: Driver<ProfileInfoViewModel> {
-    currentUserInfoRelay.compactMap { $0 }.asDriver(onErrorDriveWith: .empty())
+    currentUserInfoRelay
+      .compactMap { $0 }
+      .take(1)
+      .asDriver(onErrorDriveWith: .empty())
   }
   
   var successMessage: Signal<String> {

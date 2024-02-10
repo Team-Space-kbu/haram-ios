@@ -5,6 +5,7 @@
 //  Created by 이건준 on 2023/08/17.
 //
 
+import CoreImage
 import UIKit
 
 import SnapKit
@@ -137,6 +138,7 @@ extension StudyListCollectionHeaderView {
     
     private func configureUI() {
       isSkeletonable = true
+      
       addSubview(backgroudImageView)
       [titleLabel, descriptionLabel].forEach { backgroudImageView.addSubview($0) }
       
@@ -161,6 +163,30 @@ extension StudyListCollectionHeaderView {
       titleLabel.text = model.title
       descriptionLabel.text = model.description
       backgroudImageView.kf.setImage(with: model.thumbnailImageURL)
+      
+//      DispatchQueue.global().async {
+//        if let data = try? Data(contentsOf: model.thumbnailImageURL!) {
+//          DispatchQueue.main.async {
+//            self.backgroudImageView.image = self.darkenImage(UIImage(data: data)!, darkness: -0.3)
+//          }
+//        }
+//      }
+    }
+    
+    // 이미지를 어둡게 조정하는 함수
+    func darkenImage(_ image: UIImage, darkness: Float) -> UIImage? {
+        guard let ciImage = CIImage(image: image) else { return nil }
+        
+        let filter = CIFilter(name: "CIColorControls")
+        filter?.setValue(ciImage, forKey: kCIInputImageKey)
+        filter?.setValue(darkness, forKey: kCIInputBrightnessKey)
+        
+        guard let outputImage = filter?.outputImage else { return nil }
+        
+        let context = CIContext(options: nil)
+        guard let cgImage = context.createCGImage(outputImage, from: outputImage.extent) else { return nil }
+        
+        return UIImage(cgImage: cgImage)
     }
   }
 }
@@ -187,3 +213,4 @@ extension StudyListCollectionHeaderView: CheckReservationInfoViewDelegate {
     delegate?.didTappedCheckButton()
   }
 }
+

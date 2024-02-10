@@ -1,20 +1,18 @@
 //
-//  LoginRequest.swift
+//  LogoutUserRequest.swift
 //  Haram
 //
-//  Created by 이건준 on 2023/05/18.
+//  Created by 이건준 on 2/3/24.
 //
 
 import Foundation
 
-struct LoginRequest: Encodable {
+struct LogoutUserRequest: Encodable {
   let userID: String
-  let password: String
   let uuid: String
   
   enum CodingKeys: String, CodingKey {
     case userID = "userId"
-    case password = "userPassword"
     case uuid
   }
 }

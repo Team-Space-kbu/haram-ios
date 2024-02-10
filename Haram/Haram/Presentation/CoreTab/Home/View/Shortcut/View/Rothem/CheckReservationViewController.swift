@@ -60,7 +60,7 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     }
     
     reservationCancelButton.snp.makeConstraints {
-      $0.top.equalTo(rothemReservationInfoView.snp.bottom).offset(228 - 58 - 48)
+      $0.top.greaterThanOrEqualTo(rothemReservationInfoView.snp.bottom)
       $0.width.equalTo(141)
       $0.height.equalTo(48)
       $0.bottom.equalToSuperview().inset(58)
@@ -72,6 +72,7 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     super.bind()
     viewModel.rothemReservationInfoViewModel
       .drive(with: self) { owner, model in
+        owner.view.hideSkeleton()
         owner.rothemReservationInfoView.configureUI(with: model)
       }
       .disposed(by: disposeBag)
@@ -89,12 +90,12 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
       }
       .disposed(by: disposeBag)
     
-    viewModel.isLoading
-      .filter { !$0 }
-      .drive(with: self) { owner, isLoading in
-        owner.view.hideSkeleton()
-      }
-      .disposed(by: disposeBag)
+//    viewModel.isLoading
+//      .filter { !$0 }
+//      .drive(with: self) { owner, isLoading in
+//        owner.view.hideSkeleton()
+//      }
+//      .disposed(by: disposeBag)
   }
   
   @objc func didTappedBackButton() {

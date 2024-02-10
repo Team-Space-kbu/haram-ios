@@ -10,8 +10,8 @@ import Alamofire
 enum AuthRouter {
   case signupUser(SignupUserRequest)
   case loginMember(LoginRequest)
-  case logoutUser(String)
-  case reissuanceAccessToken(String)
+  case logoutUser(LogoutUserRequest)
+  case reissuanceAccessToken(ReissuanceAccessTokenRequest)
   
   case loginIntranet(IntranetLoginRequest)
 }
@@ -55,12 +55,12 @@ extension AuthRouter: Router {
       return .body(request)
     case .loginMember(let request):
       return .body(request)
-    case .reissuanceAccessToken(let userID):
-      return .body(["userId": userID])
+    case .reissuanceAccessToken(let request):
+      return .body(request)
     case .loginIntranet(let request):
       return .body(request)
-    case .logoutUser(let userID):
-      return .body(["userId":userID])
+    case .logoutUser(let request):
+      return .body(request)
     }
   }
   
