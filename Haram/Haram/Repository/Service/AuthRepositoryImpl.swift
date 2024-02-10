@@ -10,9 +10,9 @@ import RxSwift
 protocol AuthRepository {
   func signupUser(request: SignupUserRequest) -> Observable<Result<EmptyModel, HaramError>>
   func loginMember(request: LoginRequest) -> Observable<Result<LoginResponse, HaramError>>
-  func reissuanceAccessToken(userID: String) -> Observable<Result<LoginResponse, HaramError>>
+  func reissuanceAccessToken(request: ReissuanceAccessTokenRequest) -> Observable<Result<LoginResponse, HaramError>>
   func loginIntranet(request: IntranetLoginRequest) -> Observable<Result<EmptyModel, HaramError>>
-  func logoutUser(userID: String) -> Observable<Result<EmptyModel, HaramError>>
+  func logoutUser(request: LogoutUserRequest) -> Observable<Result<EmptyModel, HaramError>>
 }
 
 final class AuthRepositoryImpl {
@@ -34,16 +34,16 @@ extension AuthRepositoryImpl: AuthRepository {
     service.request(router: AuthRouter.loginMember(request), type: LoginResponse.self)
   }
   
-  func reissuanceAccessToken(userID: String) -> Observable<Result<LoginResponse, HaramError>> {
-    service.request(router: AuthRouter.reissuanceAccessToken(userID), type: LoginResponse.self)
+  func reissuanceAccessToken(request: ReissuanceAccessTokenRequest) -> Observable<Result<LoginResponse, HaramError>> {
+    service.request(router: AuthRouter.reissuanceAccessToken(request), type: LoginResponse.self)
   }
   
   func loginIntranet(request: IntranetLoginRequest) -> Observable<Result<EmptyModel, HaramError>> {
     service.request(router: AuthRouter.loginIntranet(request), type: EmptyModel.self)
   }
   
-  func logoutUser(userID: String) -> Observable<Result<EmptyModel, HaramError>> {
-    service.request(router: AuthRouter.logoutUser(userID), type: EmptyModel.self)
+  func logoutUser(request: LogoutUserRequest) -> Observable<Result<EmptyModel, HaramError>> {
+    service.request(router: AuthRouter.logoutUser(request), type: EmptyModel.self)
   }
   
 }

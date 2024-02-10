@@ -70,6 +70,9 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
     $0.searchBarStyle = .minimal
     $0.isSkeletonable = true
     $0.skeletonCornerRadius = 10
+    $0.autocorrectionType = .no
+    $0.spellCheckingType = .no
+    $0.autocapitalizationType = .none
   }
   
   private let bannerImageView = UIImageView().then {

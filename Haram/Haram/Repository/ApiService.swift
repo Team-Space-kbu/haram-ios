@@ -85,7 +85,10 @@ final class ApiService: BaseService {
       Single.create { observer in
         self.session.request(router)
           .validate({ request, response, data in
-            if response.statusCode != 401 || response.statusCode != 402 {
+            print("상태코드 \(response.statusCode)")
+            let statusCode = response.statusCode
+            
+            if ![401, 402, 499].contains(statusCode) {
               return .success(Void())
             }
             

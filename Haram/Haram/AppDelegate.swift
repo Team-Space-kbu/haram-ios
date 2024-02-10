@@ -110,6 +110,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     SkeletonAppearance.default.textLineHeight = .relativeToFont
     
+    if !UserManager.shared.hasUUID {
+      UserManager.shared.set(uuid: UUID().uuidString)
+    }
+    
     return true
   }
   

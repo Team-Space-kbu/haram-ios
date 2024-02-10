@@ -136,7 +136,6 @@ final class MoreViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-//    viewModel.inquireUserInfo()
     
     viewModel.currentUserInfo
       .drive(with: self) { owner, profileInfoViewModel in

@@ -22,6 +22,9 @@ final class UserManager {
   @UserDefaultsWrapper<String>(key: "userID")
   private(set) var userID
   
+  @KeyChainWrapper<String>(key: "uuid")
+  private(set) var uuid
+  
   // MARK: - Haram Token
   
   @KeyChainWrapper<String>(key: "accessToken")
@@ -32,6 +35,10 @@ final class UserManager {
   
   var hasToken: Bool {
     return accessToken != nil && refreshToken != nil && userID != nil
+  }
+  
+  var hasUUID: Bool {
+    return uuid != nil
   }
   
   // MARK: - Initialization
@@ -56,6 +63,10 @@ extension UserManager {
     self.userID = userID
   }
   
+  func set(uuid: String) {
+    self.uuid = uuid
+  }
+  
   /// 유저의 정보를 전부 초기화합니다.
   func clearAllInformations() {
     self.userID = nil
@@ -65,7 +76,11 @@ extension UserManager {
   
   /// 가지고 있는 `refresh token`을 가지고 새로운 `access token`과 `refresh token`을 발급받습니다.
   func reissuanceAccessToken() -> Observable<Void> {
-    return authRepository.reissuanceAccessToken(userID: UserManager.shared.userID ?? "")
+    return authRepository.reissuanceAccessToken(
+      request: .init(
+        userID: UserManager.shared.userID ?? "",
+        uuid: UserManager.shared.uuid!
+      ))
       .map { result in
         switch result {
         case .success(let tokenData):

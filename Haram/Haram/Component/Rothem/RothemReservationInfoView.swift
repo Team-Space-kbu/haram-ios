@@ -11,6 +11,7 @@ import QRCode
 import SnapKit
 import SkeletonView
 import Then
+import ZXingObjC
 
 struct RothemReservationInfoViewModel {
   let rothemRoomName: String
@@ -51,6 +52,10 @@ final class RothemReservationInfoView: UIView {
     $0.isSkeletonable = true
   }
   
+  private let barCodeView = UIImageView().then {
+    $0.contentMode = .scaleAspectFit
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -67,22 +72,33 @@ final class RothemReservationInfoView: UIView {
     layer.cornerRadius = 10
     
     /// Set Layout
-    _ = [rothemRoomNameLabel, rothemLocationLabel, reservationNameLabel, qrCodeView].map { addSubview($0) }
+    _ = [rothemRoomNameLabel, rothemLocationLabel, reservationNameLabel, qrCodeView, barCodeView].map { addSubview($0) }
     
     /// Set Constraints
     rothemRoomNameLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(174 - 158)
       $0.leading.equalToSuperview().inset(30 - 15)
+      $0.trailing.lessThanOrEqualToSuperview().inset(15)
+      $0.height.equalTo(30)
     }
     
     rothemLocationLabel.snp.makeConstraints {
       $0.top.equalTo(rothemRoomNameLabel.snp.bottom).offset(5)
       $0.leading.equalTo(rothemRoomNameLabel)
+      $0.trailing.lessThanOrEqualToSuperview().inset(15)
+      $0.height.equalTo(14)
+    }
+    
+    barCodeView.snp.makeConstraints {
+      $0.top.equalTo(rothemLocationLabel.snp.bottom).offset(5)
+      $0.height.equalTo(115)
+      $0.directionalHorizontalEdges.equalToSuperview()
+      
     }
     
     reservationNameLabel.snp.makeConstraints {
       $0.leading.equalTo(rothemLocationLabel.snp.leading)
-      $0.top.equalTo(rothemLocationLabel.snp.bottom).offset(10)
+      $0.top.equalTo(barCodeView.snp.bottom).offset(5)
     }
     
     qrCodeView.snp.makeConstraints {
@@ -90,12 +106,27 @@ final class RothemReservationInfoView: UIView {
       $0.directionalHorizontalEdges.equalToSuperview().inset(146 - 15)
       $0.bottom.equalToSuperview().inset(273 - 228)
     }
+    
+    
   }
   
   func configureUI(with model: RothemReservationInfoViewModel) {
+    
     rothemRoomNameLabel.text = model.rothemRoomName
     rothemLocationLabel.text = model.rothemLocation
     reservationNameLabel.text = model.reservationName
     qrCodeView.qrCode = QRCode(string: model.authCode)
+    
+    let write = ZXMultiFormatWriter.init()
+    
+    do {
+      let result = try write.encode(model.authCode, format: kBarcodeFormatCode128, width: Int32(UIScreen.main.bounds.width) - 30, height: 85)
+      guard let image = ZXImage(matrix: result) else { return }
+      barCodeView.image = UIImage(cgImage: image.cgimage)
+    } catch {
+      print("errors")
+    }
+    
+    hideSkeleton()
   }
 }

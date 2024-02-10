@@ -45,6 +45,8 @@ final class CommentInputView: UIView, UITextViewDelegate {
     $0.layer.cornerRadius = 8
     $0.layer.borderColor = UIColor.hexD0D0D0.cgColor
     $0.layer.borderWidth = 1
+    $0.autocorrectionType = .no
+    $0.spellCheckingType = .no
   }
   
   private let sendButton = UIButton().then {

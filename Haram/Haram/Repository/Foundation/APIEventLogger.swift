@@ -16,13 +16,6 @@ final class APIEventLogger: EventMonitor {
   func requestDidFinish(_ request: Request) {
     print("⭐️Reqeust LOG")
     print(request.description)
-    
-    print(
-//      "URL: " + (request.request?.url?.absoluteString ?? "")  + "\n"
-//      + "Method: " + (request.request?.httpMethod ?? "") + "\n"
-//      + "Headers: " + "\(request.request?.allHTTPHeaderFields ?? [:])" + "\n"
-    )
-//    print("Authorization: " + (request.request?.headers["Authorization"] ?? ""))
     print("Body: " + (request.request?.httpBody?.toPrettyPrintedString ?? ""))
   }
   //3

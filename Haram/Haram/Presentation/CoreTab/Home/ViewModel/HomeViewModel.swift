@@ -55,7 +55,6 @@ extension HomeViewModel {
         let news = response.kokkoks.kokkoksNews.map { HomeNewsCollectionViewCellModel(kokkoksNews: $0) }
         let banners = response.banner.banners.map { HomebannerCollectionViewCellModel(subBanner: $0) }
         let notices = HomeNoticeViewModel(subNotice: subNotice)
-        let shortcut = response.homes
         
         owner.newsModelRelay.accept(news)
         owner.bannerModelRelay.accept(banners)
