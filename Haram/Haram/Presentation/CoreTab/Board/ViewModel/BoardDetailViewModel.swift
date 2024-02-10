@@ -44,7 +44,10 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
             boardTitle: response.boardTitle,
             boardContent: response.boardContent,
             boardDate: DateformatterFactory.dateWithHypen.date(from: response.createdAt) ?? Date(),
-            boardAuthorName: "익명"
+            boardAuthorName: "익명", 
+            boardImageCollectionViewCellModel: response.boardFileList.map({
+              BoardImageCollectionViewCellModel(imageURL: URL(string: $0.path))
+            })
           )])
         
         owner.currentBoardListRelay.accept(response.commentDtoList.map { BoardDetailCollectionViewCellModel(commentDto: $0) })

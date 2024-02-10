@@ -14,7 +14,6 @@ protocol CheckReservationViewModelType {
   
   var rothemReservationInfoViewModel: Driver<RothemReservationInfoViewModel> { get }
   var successCancelReservation: Driver<Void> { get }
-  var isLoading: Driver<Bool> { get }
 }
 
 final class CheckReservationViewModel {
@@ -25,7 +24,6 @@ final class CheckReservationViewModel {
   private var reservationSeq: Int?
   private let rothemReservationInfoViewRelay  = PublishRelay<RothemReservationInfoViewModel>()
   private let successCancelReservationSubject = PublishSubject<Void>()
-  private let isLoadingSubject                = PublishSubject<Bool>()
   
   init(rothemRepository: RothemRepository = RothemRepositoryImpl()) {
     self.rothemRepository = rothemRepository
@@ -34,17 +32,12 @@ final class CheckReservationViewModel {
   
   private func inquireRothemReservationInfo() {
     let inquireRothemReservationInfo = rothemRepository.inquireRothemReservationInfo(userID: UserManager.shared.userID!)
-      .do(onSuccess: { [weak self] _ in
-        guard let self = self else { return }
-        self.isLoadingSubject.onNext(true)
-      })
     
     inquireRothemReservationInfo
       .subscribe(with: self) { owner, response in
         let model = RothemReservationInfoViewModel(response: response)
         owner.rothemReservationInfoViewRelay.accept(model)
         owner.reservationSeq = response.reservationSeq
-        owner.isLoadingSubject.onNext(false)
       }
       .disposed(by: disposeBag)
   }
@@ -74,9 +67,5 @@ extension CheckReservationViewModel: CheckReservationViewModelType {
   
   var rothemReservationInfoViewModel: Driver<RothemReservationInfoViewModel> {
     rothemReservationInfoViewRelay.asDriver(onErrorDriveWith: .empty())
-  }
-  
-  var isLoading: Driver<Bool> {
-    isLoadingSubject.asDriver(onErrorJustReturn: false)
   }
 }
