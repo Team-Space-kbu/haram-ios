@@ -50,7 +50,6 @@ final class HomeNoticeView: UIView {
       $0.leading.equalToSuperview().inset(11.39)
       $0.directionalVerticalEdges.equalToSuperview().inset(9)
       $0.width.equalTo(18.59)
-      $0.height.equalTo(16.98)
     }
     
     noticeLabel.snp.makeConstraints {
