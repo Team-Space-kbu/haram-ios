@@ -10,12 +10,17 @@ import UIKit
 import SnapKit
 import Then
 
-final class LibraryResultsEmptyView: UIView {
+final class EmptyView: UIView {
   
   private let alertLabel = UILabel().then {
     $0.font = .bold20
     $0.textColor = .black
-    $0.text = "검색정보가없습니다."
+  }
+  
+  init(text: String) {
+    super.init(frame: .zero)
+    configureUI()
+    alertLabel.text = text
   }
   
   override init(frame: CGRect) {

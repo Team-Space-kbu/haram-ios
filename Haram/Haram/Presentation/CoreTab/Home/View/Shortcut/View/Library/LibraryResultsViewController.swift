@@ -29,7 +29,7 @@ final class LibraryResultsViewController: BaseViewController, BackButtonHandler 
     $0.isSkeletonable = true
   }
   
-  private lazy var emptyView = LibraryResultsEmptyView()
+  private lazy var emptyView = EmptyView(text: "검색정보가없습니다.")
   
   init(viewModel: LibraryResultsViewModelType = LibraryResultsViewModel(), searchQuery: String) {
     self.viewModel = viewModel

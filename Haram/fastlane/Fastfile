@@ -36,14 +36,14 @@ platform :ios do
 
   lane :tests do
 scan(scheme: "Haram",
-       slack_url: "https://hooks.slack.com/services/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")
+       slack_url: "https://hooks.slack.com/services/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")
   end
 
   error do |lane, exception, options|
     slack(
       message: "에러 발생 : #{exception}",
       success: false,
-      slack_url: "https://hooks.slack.com/services/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",
+      slack_url: "https://hooks.slack.com/services/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",
     )
   end
 end

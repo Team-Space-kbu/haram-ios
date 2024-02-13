@@ -48,6 +48,8 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     $0.skeletonCornerRadius = 25
   }
   
+  private lazy var emptyView = EmptyView(text: "게시글이 없습니다.")
+  
   init(type: BoardType, viewModel: BoardListViewModelType = BoardListViewModel()) {
     self.viewModel = viewModel
     self.type = type
@@ -69,11 +71,12 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     setupBackButton()
     
     setupSkeletonView()
+    emptyView.isHidden = true
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    _ = [boardListCollectionView, editBoardButton].map { view.addSubview($0) }
+    _ = [boardListCollectionView, editBoardButton, emptyView].map { view.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -82,11 +85,16 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
       $0.directionalEdges.equalToSuperview()
     }
     
+    emptyView.snp.makeConstraints { 
+      $0.directionalEdges.equalToSuperview()
+    }
+    
     editBoardButton.snp.makeConstraints {
       $0.size.equalTo(50)
       $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottomMargin).offset(-54)
       $0.trailing.equalToSuperview().inset(15)
     }
+    
   }
   
   override func bind() {
@@ -102,6 +110,13 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
       .filter { !$0 }
       .drive(with: self) { owner, isLoading in
         owner.view.hideSkeleton()
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        guard error == .noExistBoard else { return }
+        owner.emptyView.isHidden = false
       }
       .disposed(by: disposeBag)
   }
