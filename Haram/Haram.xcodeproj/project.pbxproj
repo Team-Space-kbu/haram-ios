@@ -190,7 +190,7 @@
 		708ED7962A8E6F2700107CDF /* RothemRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7952A8E6F2700107CDF /* RothemRouter.swift */; };
 		708ED7982A8E6F8F00107CDF /* RothemRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7972A8E6F8F00107CDF /* RothemRepositoryImpl.swift */; };
 		708ED79B2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED79A2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift */; };
-		708ED79D2A8E817F00107CDF /* LibraryResultsEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED79C2A8E817F00107CDF /* LibraryResultsEmptyView.swift */; };
+		708ED79D2A8E817F00107CDF /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED79C2A8E817F00107CDF /* EmptyView.swift */; };
 		708ED79F2A8F65A100107CDF /* CheckReservationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED79E2A8F65A100107CDF /* CheckReservationInfoView.swift */; };
 		708ED7A12A8F922900107CDF /* CheckReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7A02A8F922900107CDF /* CheckReservationViewController.swift */; };
 		708ED7A72A8FA1C500107CDF /* StudyReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7A62A8FA1C500107CDF /* StudyReservationViewController.swift */; };
@@ -452,7 +452,7 @@
 		708ED7952A8E6F2700107CDF /* RothemRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemRouter.swift; sourceTree = "<group>"; };
 		708ED7972A8E6F8F00107CDF /* RothemRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemRepositoryImpl.swift; sourceTree = "<group>"; };
 		708ED79A2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireAllRoomInfoResponse.swift; sourceTree = "<group>"; };
-		708ED79C2A8E817F00107CDF /* LibraryResultsEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryResultsEmptyView.swift; sourceTree = "<group>"; };
+		708ED79C2A8E817F00107CDF /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		708ED79E2A8F65A100107CDF /* CheckReservationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReservationInfoView.swift; sourceTree = "<group>"; };
 		708ED7A02A8F922900107CDF /* CheckReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReservationViewController.swift; sourceTree = "<group>"; };
 		708ED7A62A8FA1C500107CDF /* StudyReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyReservationViewController.swift; sourceTree = "<group>"; };
@@ -579,6 +579,7 @@
 		7032FD5C2B594A7800B8481C /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				708ED79C2A8E817F00107CDF /* EmptyView.swift */,
 				708312B72A77E36900F7E283 /* HaramTextField.swift */,
 				708312B92A78D0A300F7E283 /* HaramButton.swift */,
 				708312BF2A7A448300F7E283 /* TermsOfUseCheckView.swift */,
@@ -594,7 +595,6 @@
 			isa = PBXGroup;
 			children = (
 				70375EFD2AAA022A0032F6B8 /* LibraryRentalView.swift */,
-				708ED79C2A8E817F00107CDF /* LibraryResultsEmptyView.swift */,
 				705FD2BE2A1A4D2E00F353FE /* LibraryDetailMainView.swift */,
 				708312472A2F7EC300F7E283 /* LibraryDetailSubView.swift */,
 				708312492A2F856700F7E283 /* LibraryDetailInfoView.swift */,
@@ -1766,7 +1766,7 @@
 				708312B62A779D1A00F7E283 /* BoardTableHeaderView.swift in Sources */,
 				708312962A691AAD00F7E283 /* NumberformatterFactory.swift in Sources */,
 				709130012B176344005B88B4 /* Ex + UIView.swift in Sources */,
-				708ED79D2A8E817F00107CDF /* LibraryResultsEmptyView.swift in Sources */,
+				708ED79D2A8E817F00107CDF /* EmptyView.swift in Sources */,
 				708ED7962A8E6F2700107CDF /* RothemRouter.swift in Sources */,
 				705FD2792A10D3C500F353FE /* Router.swift in Sources */,
 				7083129F2A6D25E100F7E283 /* TermsOfUseViewController.swift in Sources */,

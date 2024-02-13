@@ -14,6 +14,7 @@ protocol BoardListViewModelType {
   
   var boardListModel: Driver<[BoardListCollectionViewCellModel]> { get }
   var isLoading: Driver<Bool> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class BoardListViewModel {
@@ -23,6 +24,7 @@ final class BoardListViewModel {
   
   private let currentBoardListRelay = BehaviorRelay<[BoardListCollectionViewCellModel]>(value: [])
   private let isLoadingSubject      = PublishSubject<Bool>()
+  private let errorMessageSubject   = PublishSubject<HaramError>()
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
     self.boardRepository = boardRepository
@@ -43,20 +45,26 @@ extension BoardListViewModel: BoardListViewModelType {
         owner.currentBoardListRelay.accept(model)
         owner.isLoadingSubject.onNext(false)
       }, onFailure: { owner, error in
-        guard let error = error as? HaramError,
-              error == .noExistBoard else { return }
+        guard let error = error as? HaramError else { return }
         owner.isLoadingSubject.onNext(false)
+        owner.errorMessageSubject.onNext(error)
       })
       .disposed(by: disposeBag)
   }
   
   var boardListModel: Driver<[BoardListCollectionViewCellModel]> {
-    currentBoardListRelay.asDriver()
+    currentBoardListRelay
+      .asDriver(onErrorDriveWith: .empty())
   }
   
   var isLoading: Driver<Bool> {
     isLoadingSubject
       .distinctUntilChanged()
       .asDriver(onErrorJustReturn: false)
+  }
+  
+  var errorMessage: Signal<HaramError> {
+    errorMessageSubject
+      .asSignal(onErrorSignalWith: .empty())
   }
 }
