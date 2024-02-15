@@ -46,14 +46,11 @@ final class RothemRoomDetailView: UIView {
     $0.alwaysBounceVertical = true
     $0.showsVerticalScrollIndicator = false
     $0.isSkeletonable = true
+    $0.contentInsetAdjustmentBehavior = .never
   }
   
-  private let containerView = UIStackView().then {
-    $0.axis = .vertical
+  private let containerView = UIView().then {
     $0.backgroundColor = .clear
-    $0.spacing = 17
-    $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: 16, left: 15, bottom: .zero, right: 15)
     $0.isSkeletonable = true
   }
   
@@ -144,7 +141,7 @@ final class RothemRoomDetailView: UIView {
     
     scrollView.addSubview(containerView)
     
-    [roomTitleLabel, roomDestinationLabel, lineView, roomDescriptionTitleLabel, roomDescriptionContentLabel, popularAmenityTitleLabel, popularAmenityCollectionView, reservationButton].forEach { containerView.addArrangedSubview($0) }
+    [roomTitleLabel, roomDestinationLabel, lineView, roomDescriptionTitleLabel, roomDescriptionContentLabel, popularAmenityTitleLabel, popularAmenityCollectionView, reservationButton].forEach { containerView.addSubview($0) }
     
     scrollView.snp.makeConstraints {
       $0.directionalEdges.width.equalToSuperview()
@@ -152,42 +149,56 @@ final class RothemRoomDetailView: UIView {
     
     containerView.snp.makeConstraints {
       $0.directionalVerticalEdges.width.equalToSuperview()
+      $0.height.greaterThanOrEqualToSuperview()
     }
     
     roomTitleLabel.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(16)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(30)
     }
     
     roomDestinationLabel.snp.makeConstraints {
+      $0.top.equalTo(roomTitleLabel.snp.bottom).offset(5)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(14)
     }
     
     lineView.snp.makeConstraints {
+      $0.top.equalTo(roomDestinationLabel.snp.bottom).offset(17)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(1)
     }
     
-    roomDestinationLabel.snp.makeConstraints {
+    roomDescriptionTitleLabel.snp.makeConstraints {
+      $0.top.equalTo(lineView.snp.bottom).offset(17)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(22)
     }
     
+    roomDescriptionContentLabel.snp.makeConstraints {
+      $0.top.equalTo(roomDescriptionTitleLabel.snp.bottom).offset(7)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+    }
+    
     popularAmenityTitleLabel.snp.makeConstraints {
+      $0.top.equalTo(roomDescriptionContentLabel.snp.bottom).offset(20)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(22)
     }
     
     popularAmenityCollectionView.snp.makeConstraints {
+      $0.top.equalTo(popularAmenityTitleLabel.snp.bottom).offset(11)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(56)
     }
     
     reservationButton.snp.makeConstraints {
+      $0.top.greaterThanOrEqualTo(popularAmenityCollectionView.snp.bottom).offset(17)
       $0.height.equalTo(49)
-//      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-//      $0.bottom.equalToSuperview().inset(42)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      $0.bottom.equalToSuperview().inset(Device.bottomInset)
     }
-    
-    containerView.setCustomSpacing(5, after: roomTitleLabel)
-    containerView.setCustomSpacing(7, after: roomDescriptionTitleLabel)
-    containerView.setCustomSpacing(20, after: roomDescriptionContentLabel)
-    containerView.setCustomSpacing(11, after: popularAmenityTitleLabel)
   }
   
   func configureUI(with model: RothemRoomDetailViewModel) {

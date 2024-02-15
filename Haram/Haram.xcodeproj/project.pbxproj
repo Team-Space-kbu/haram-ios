@@ -36,6 +36,7 @@
 		70375F0E2AB1AA9F0032F6B8 /* BibleTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375F0D2AB1AA9F0032F6B8 /* BibleTitleView.swift */; };
 		70375F162AB1B0500032F6B8 /* HaramToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375F152AB1B0500032F6B8 /* HaramToast.swift */; };
 		703C5C0D29E6A1ED00B5D091 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 703C5C0C29E6A1ED00B5D091 /* SnapKit */; };
+		70430A822B7E29D200B64545 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70430A812B7E29D200B64545 /* Device.swift */; };
 		7051E4F12AD6A75800C2134B /* space_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7051E4EA2AD6A75800C2134B /* space_2x.png */; };
 		7051E4F22AD6A75800C2134B /* space_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7051E4EB2AD6A75800C2134B /* space_3x.png */; };
 		7051E4F32AD6A75800C2134B /* space_1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7051E4EC2AD6A75800C2134B /* space_1x.png */; };
@@ -300,6 +301,7 @@
 		70375F0A2AB055360032F6B8 /* BibleSearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleSearchResultViewModel.swift; sourceTree = "<group>"; };
 		70375F0D2AB1AA9F0032F6B8 /* BibleTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleTitleView.swift; sourceTree = "<group>"; };
 		70375F152AB1B0500032F6B8 /* HaramToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramToast.swift; sourceTree = "<group>"; };
+		70430A812B7E29D200B64545 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		7051E4EA2AD6A75800C2134B /* space_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = space_2x.png; sourceTree = "<group>"; };
 		7051E4EB2AD6A75800C2134B /* space_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = space_3x.png; sourceTree = "<group>"; };
 		7051E4EC2AD6A75800C2134B /* space_1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = space_1x.png; sourceTree = "<group>"; };
@@ -895,6 +897,7 @@
 				708312952A691AAD00F7E283 /* NumberformatterFactory.swift */,
 				708ED7DE2A94B2E700107CDF /* RevisionOfTranslation.xcdatamodeld */,
 				708ED7E12A94B49000107CDF /* CoreDataManager.swift */,
+				70430A812B7E29D200B64545 /* Device.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1870,6 +1873,7 @@
 				708ED7CB2A91224B00107CDF /* TodayBibleWordCollectionViewCell.swift in Sources */,
 				70909A822B0D8B4E00049265 /* ReserveStudyRoomRequest.swift in Sources */,
 				7083124F2A31927600F7E283 /* HomeRouter.swift in Sources */,
+				70430A822B7E29D200B64545 /* Device.swift in Sources */,
 				708ED7912A8E0AED00107CDF /* RothemRoomListViewModel.swift in Sources */,
 				708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */,
 				70727AA629D93B43003DE956 /* HomeShortcutCollectionViewCell.swift in Sources */,
