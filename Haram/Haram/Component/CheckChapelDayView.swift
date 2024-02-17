@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
@@ -18,6 +19,7 @@ protocol CheckChapelDayViewDelegate: AnyObject {
 final class CheckChapelDayView: UIView {
   
   weak var delegate: CheckChapelDayViewDelegate?
+  private let disposeBag = DisposeBag()
   
   private let dayImageView = UIImageView(image: UIImage(resource: .bibleCheck)).then {
     $0.layer.masksToBounds = true
@@ -41,16 +43,24 @@ final class CheckChapelDayView: UIView {
   
   private let xButton = UIButton().then {
     $0.setImage(UIImage(resource: .xMarkWhite), for: .normal)
-    $0.addTarget(self, action: #selector(didTappedXButton), for: .touchUpInside)
   }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func bind() {
+    xButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedXButton()
+      }
+      .disposed(by: disposeBag)
   }
   
   private func configureUI() {
@@ -85,11 +95,6 @@ final class CheckChapelDayView: UIView {
       $0.width.equalTo(1)
       $0.directionalVerticalEdges.equalToSuperview().inset(350.5 - 337)
     }
-  }
-  
-  @objc
-  private func didTappedXButton() {
-    delegate?.didTappedXButton()
   }
 }
 
