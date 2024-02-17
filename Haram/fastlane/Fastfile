@@ -29,21 +29,21 @@ platform :ios do
     )
     upload_to_testflight
     slack(
-      message: "Testflight 배포 성공",
-      slack_url: "https://hooks.slack.com/services/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"
+      message: "Test-flight 배포 성공",
+      slack_url: ENV['SLACK_URL']
     )
   end
 
   lane :tests do
 scan(scheme: "Haram",
-       slack_url: "https://hooks.slack.com/services/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")
+       slack_url: ENV['SLACK_URL'])
   end
 
   error do |lane, exception, options|
     slack(
       message: "에러 발생 : #{exception}",
       success: false,
-      slack_url: "https://hooks.slack.com/services/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",
+      slack_url: ENV['SLACK_URL'],
     )
   end
 end
