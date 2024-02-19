@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1DA693D658BAB5ABC19C9CD9 /* Pods_HaramTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09A40B3BC914D1A2919D5F57 /* Pods_HaramTests.framework */; };
+		3DC159BDF32A558887F5A00D /* Pods_Haram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B52140915633B48F612AEF22 /* Pods_Haram.framework */; };
+		669EFE3CDA314DC8B6A831AB /* Pods_Haram_HaramUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8845B9C9436D1FA7867A3DCC /* Pods_Haram_HaramUITests.framework */; };
 		7001DA892B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7001DA882B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift */; };
 		7001DA8B2B6E17C10037D599 /* LogoutUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7001DA8A2B6E17C10037D599 /* LogoutUserRequest.swift */; };
 		701F29C42AE6750100E3E68B /* InquireBoardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29C32AE6750100E3E68B /* InquireBoardResponse.swift */; };
@@ -248,9 +251,6 @@
 		70C9CCB22A067D8000BEB5F2 /* ChapelDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */; };
 		70C9CCB42A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */; };
 		70C9CCB62A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */; };
-		D32A531CF3EC2538DDD5E178 /* Pods_Haram_HaramUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D443D539BEC2DEAC41C9F4B /* Pods_Haram_HaramUITests.framework */; };
-		F5036BCCB629B20F81153C39 /* Pods_HaramTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D66C4BC584FC03C1605FBC35 /* Pods_HaramTests.framework */; };
-		F58DFC07FEDE2D0BF360D350 /* Pods_Haram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E62C9494A50EB8FA421CBD28 /* Pods_Haram.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -271,9 +271,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0180B27F9832E5E3C839E6ED /* Pods-HaramTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaramTests.debug.xcconfig"; path = "Target Support Files/Pods-HaramTests/Pods-HaramTests.debug.xcconfig"; sourceTree = "<group>"; };
-		42713D33A3DFBFD19E8156D5 /* Pods-Haram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram.release.xcconfig"; path = "Target Support Files/Pods-Haram/Pods-Haram.release.xcconfig"; sourceTree = "<group>"; };
-		4D443D539BEC2DEAC41C9F4B /* Pods_Haram_HaramUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram_HaramUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		09A40B3BC914D1A2919D5F57 /* Pods_HaramTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HaramTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		109072779F4F9792406EA9F0 /* Pods-HaramTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaramTests.debug.xcconfig"; path = "Target Support Files/Pods-HaramTests/Pods-HaramTests.debug.xcconfig"; sourceTree = "<group>"; };
+		20342B93EE798F313B694610 /* Pods-Haram-HaramUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.debug.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		7001DA882B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceAccessTokenRequest.swift; sourceTree = "<group>"; };
 		7001DA8A2B6E17C10037D599 /* LogoutUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutUserRequest.swift; sourceTree = "<group>"; };
 		701F29C32AE6750100E3E68B /* InquireBoardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBoardResponse.swift; sourceTree = "<group>"; };
@@ -510,12 +510,12 @@
 		70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelDayView.swift; sourceTree = "<group>"; };
 		70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelCollectionViewCell.swift; sourceTree = "<group>"; };
 		70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelCollectionHeaderView.swift; sourceTree = "<group>"; };
-		7E7FB7A3BCF48B0969BBC457 /* Pods-Haram-HaramUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.debug.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		C1D7982151B04DCCEE75AD17 /* Pods-Haram-HaramUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.release.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.release.xcconfig"; sourceTree = "<group>"; };
-		C24D86347E96A31C17862F30 /* Pods-Haram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram.debug.xcconfig"; path = "Target Support Files/Pods-Haram/Pods-Haram.debug.xcconfig"; sourceTree = "<group>"; };
-		D66C4BC584FC03C1605FBC35 /* Pods_HaramTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HaramTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E62C9494A50EB8FA421CBD28 /* Pods_Haram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E7C77536DB40021C0E0E4C51 /* Pods-HaramTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaramTests.release.xcconfig"; path = "Target Support Files/Pods-HaramTests/Pods-HaramTests.release.xcconfig"; sourceTree = "<group>"; };
+		8845B9C9436D1FA7867A3DCC /* Pods_Haram_HaramUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram_HaramUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9DDE38C9EBE442D85409B34 /* Pods-Haram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram.release.xcconfig"; path = "Target Support Files/Pods-Haram/Pods-Haram.release.xcconfig"; sourceTree = "<group>"; };
+		B52140915633B48F612AEF22 /* Pods_Haram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6C6B2363EEA1D6F2D2E49A0 /* Pods-Haram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram.debug.xcconfig"; path = "Target Support Files/Pods-Haram/Pods-Haram.debug.xcconfig"; sourceTree = "<group>"; };
+		E1A6B0D1FFF4E579EC288793 /* Pods-Haram-HaramUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.release.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.release.xcconfig"; sourceTree = "<group>"; };
+		E7E49B9366AB4A1A3C09E90A /* Pods-HaramTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaramTests.release.xcconfig"; path = "Target Support Files/Pods-HaramTests/Pods-HaramTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -533,7 +533,7 @@
 				706BA0C529E6A32700AF12D4 /* RxSwift in Frameworks */,
 				70912FFD2B15F463005B88B4 /* QRCode in Frameworks */,
 				706BA0C029E6A26D00AF12D4 /* Then in Frameworks */,
-				F58DFC07FEDE2D0BF360D350 /* Pods_Haram.framework in Frameworks */,
+				3DC159BDF32A558887F5A00D /* Pods_Haram.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -541,7 +541,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5036BCCB629B20F81153C39 /* Pods_HaramTests.framework in Frameworks */,
+				1DA693D658BAB5ABC19C9CD9 /* Pods_HaramTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,7 +549,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D32A531CF3EC2538DDD5E178 /* Pods_Haram_HaramUITests.framework in Frameworks */,
+				669EFE3CDA314DC8B6A831AB /* Pods_Haram_HaramUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,12 +559,12 @@
 		6E09D3E6DC98743DF61C4308 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C24D86347E96A31C17862F30 /* Pods-Haram.debug.xcconfig */,
-				42713D33A3DFBFD19E8156D5 /* Pods-Haram.release.xcconfig */,
-				7E7FB7A3BCF48B0969BBC457 /* Pods-Haram-HaramUITests.debug.xcconfig */,
-				C1D7982151B04DCCEE75AD17 /* Pods-Haram-HaramUITests.release.xcconfig */,
-				0180B27F9832E5E3C839E6ED /* Pods-HaramTests.debug.xcconfig */,
-				E7C77536DB40021C0E0E4C51 /* Pods-HaramTests.release.xcconfig */,
+				C6C6B2363EEA1D6F2D2E49A0 /* Pods-Haram.debug.xcconfig */,
+				A9DDE38C9EBE442D85409B34 /* Pods-Haram.release.xcconfig */,
+				20342B93EE798F313B694610 /* Pods-Haram-HaramUITests.debug.xcconfig */,
+				E1A6B0D1FFF4E579EC288793 /* Pods-Haram-HaramUITests.release.xcconfig */,
+				109072779F4F9792406EA9F0 /* Pods-HaramTests.debug.xcconfig */,
+				E7E49B9366AB4A1A3C09E90A /* Pods-HaramTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -753,7 +753,7 @@
 				70727A7429D87B27003DE956 /* HaramUITests */,
 				70727A5229D87B25003DE956 /* Products */,
 				6E09D3E6DC98743DF61C4308 /* Pods */,
-				FDCBA5D9957CC3CEB6140806 /* Frameworks */,
+				9FB0ECFBEBC0795C64E27079 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1397,12 +1397,12 @@
 			path = LaunchScreen;
 			sourceTree = "<group>";
 		};
-		FDCBA5D9957CC3CEB6140806 /* Frameworks */ = {
+		9FB0ECFBEBC0795C64E27079 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E62C9494A50EB8FA421CBD28 /* Pods_Haram.framework */,
-				4D443D539BEC2DEAC41C9F4B /* Pods_Haram_HaramUITests.framework */,
-				D66C4BC584FC03C1605FBC35 /* Pods_HaramTests.framework */,
+				B52140915633B48F612AEF22 /* Pods_Haram.framework */,
+				8845B9C9436D1FA7867A3DCC /* Pods_Haram_HaramUITests.framework */,
+				09A40B3BC914D1A2919D5F57 /* Pods_HaramTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1414,11 +1414,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70727A7B29D87B27003DE956 /* Build configuration list for PBXNativeTarget "Haram" */;
 			buildPhases = (
-				F514B47B1D57B8651D476F9D /* [CP] Check Pods Manifest.lock */,
+				28FB1F89CAD31005F30327AA /* [CP] Check Pods Manifest.lock */,
 				70727A4D29D87B25003DE956 /* Sources */,
 				70727A4E29D87B25003DE956 /* Frameworks */,
 				70727A4F29D87B25003DE956 /* Resources */,
-				0B265A754B8EA863FC3DCE27 /* [CP] Embed Pods Frameworks */,
+				49875D3ABE5A4DE3C72BB159 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1445,7 +1445,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70727A7E29D87B27003DE956 /* Build configuration list for PBXNativeTarget "HaramTests" */;
 			buildPhases = (
-				5F2B1A2ECF33303BD7C3D11D /* [CP] Check Pods Manifest.lock */,
+				4499A996FB402608C912ACCB /* [CP] Check Pods Manifest.lock */,
 				70727A6329D87B27003DE956 /* Sources */,
 				70727A6429D87B27003DE956 /* Frameworks */,
 				70727A6529D87B27003DE956 /* Resources */,
@@ -1464,11 +1464,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70727A8129D87B27003DE956 /* Build configuration list for PBXNativeTarget "HaramUITests" */;
 			buildPhases = (
-				2B37B0446DB3EF1B736D8677 /* [CP] Check Pods Manifest.lock */,
+				1C4BAD3B8B480F9C89F7138C /* [CP] Check Pods Manifest.lock */,
 				70727A6D29D87B27003DE956 /* Sources */,
 				70727A6E29D87B27003DE956 /* Frameworks */,
 				70727A6F29D87B27003DE956 /* Resources */,
-				6408D470A709C5B390E265E8 /* [CP] Embed Pods Frameworks */,
+				43C95CDE6243CB26F7AC912F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1515,10 +1515,10 @@
 			packageReferences = (
 				703C5C0B29E6A1ED00B5D091 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				706BA0BE29E6A26D00AF12D4 /* XCRemoteSwiftPackageReference "Then" */,
-				706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift" */,
-				706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC" */,
+				706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift.git" */,
+				706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC.git" */,
 				705FD27A2A10D3EA00F353FE /* XCRemoteSwiftPackageReference "Alamofire" */,
-				705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher.git" */,
 				708312A42A7028B400F7E283 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				70375EF62AA5B6110032F6B8 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				70375F122AB1ADDC0032F6B8 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
@@ -1575,24 +1575,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0B265A754B8EA863FC3DCE27 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2B37B0446DB3EF1B736D8677 /* [CP] Check Pods Manifest.lock */ = {
+		1C4BAD3B8B480F9C89F7138C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1614,7 +1597,46 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5F2B1A2ECF33303BD7C3D11D /* [CP] Check Pods Manifest.lock */ = {
+		28FB1F89CAD31005F30327AA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Haram-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		43C95CDE6243CB26F7AC912F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4499A996FB402608C912ACCB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1636,43 +1658,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6408D470A709C5B390E265E8 /* [CP] Embed Pods Frameworks */ = {
+		49875D3ABE5A4DE3C72BB159 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F514B47B1D57B8651D476F9D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Haram-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Haram/Pods-Haram-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1977,8 +1977,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2037,8 +2039,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2059,7 +2063,7 @@
 		};
 		70727A7C29D87B27003DE956 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C24D86347E96A31C17862F30 /* Pods-Haram.debug.xcconfig */;
+			baseConfigurationReference = C6C6B2363EEA1D6F2D2E49A0 /* Pods-Haram.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2091,7 +2095,7 @@
 		};
 		70727A7D29D87B27003DE956 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 42713D33A3DFBFD19E8156D5 /* Pods-Haram.release.xcconfig */;
+			baseConfigurationReference = A9DDE38C9EBE442D85409B34 /* Pods-Haram.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2125,7 +2129,7 @@
 		};
 		70727A7F29D87B27003DE956 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0180B27F9832E5E3C839E6ED /* Pods-HaramTests.debug.xcconfig */;
+			baseConfigurationReference = 109072779F4F9792406EA9F0 /* Pods-HaramTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2145,7 +2149,7 @@
 		};
 		70727A8029D87B27003DE956 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E7C77536DB40021C0E0E4C51 /* Pods-HaramTests.release.xcconfig */;
+			baseConfigurationReference = E7E49B9366AB4A1A3C09E90A /* Pods-HaramTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2165,7 +2169,7 @@
 		};
 		70727A8229D87B27003DE956 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7E7FB7A3BCF48B0969BBC457 /* Pods-Haram-HaramUITests.debug.xcconfig */;
+			baseConfigurationReference = 20342B93EE798F313B694610 /* Pods-Haram-HaramUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -2183,7 +2187,7 @@
 		};
 		70727A8329D87B27003DE956 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C1D7982151B04DCCEE75AD17 /* Pods-Haram-HaramUITests.release.xcconfig */;
+			baseConfigurationReference = E1A6B0D1FFF4E579EC288793 /* Pods-Haram-HaramUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -2273,7 +2277,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+		705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
 			requirement = {
@@ -2289,7 +2293,7 @@
 				minimumVersion = 3.0.0;
 			};
 		};
-		706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+		706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
 			requirement = {
@@ -2297,7 +2301,7 @@
 				kind = branch;
 			};
 		};
-		706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC" */ = {
+		706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/stasel/WebRTC.git";
 			requirement = {
@@ -2349,7 +2353,7 @@
 		};
 		705FD2CE2A24DE5B00F353FE /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			package = 705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher.git" */;
 			productName = Kingfisher;
 		};
 		706BA0BF29E6A26D00AF12D4 /* Then */ = {
@@ -2359,17 +2363,17 @@
 		};
 		706BA0C229E6A32700AF12D4 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			package = 706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift.git" */;
 			productName = RxCocoa;
 		};
 		706BA0C429E6A32700AF12D4 /* RxSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			package = 706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift.git" */;
 			productName = RxSwift;
 		};
 		706BA0C729E6E51100AF12D4 /* WebRTC */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC" */;
+			package = 706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC.git" */;
 			productName = WebRTC;
 		};
 		708E1E5F2B038A6E0030FAA0 /* FloatingPanel */ = {

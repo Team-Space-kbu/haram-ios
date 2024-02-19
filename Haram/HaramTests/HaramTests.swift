@@ -17,15 +17,6 @@ final class HaramTests: XCTestCase {
 //    self.userManager = UserManager.shared
   }
   
-  func test_tokenUpdateIsValid() {
-//    userManager.updateHaramToken(accessToken: "", refreshToken: "")
-//    userManager.clearAllInformations()
-//    
-//    XCTAssertNil(userManager.accessToken, "AccessToken is Nil")
-//    XCTAssertNil(userManager.refreshToken, "AccessToken is Nil")
-    XCTAssert(true)
-  }
-  
   override func tearDownWithError() throws {
     try super.tearDownWithError()
 //    userManager = nil
