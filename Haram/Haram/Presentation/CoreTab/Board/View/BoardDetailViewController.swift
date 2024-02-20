@@ -40,6 +40,11 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     $0.isEnabled = true
   }
   
+  private let panGesture = UIPanGestureRecognizer(target: RegisterViewController.self, action: nil).then {
+    $0.cancelsTouchesInView = false
+    $0.isEnabled = true
+  }
+  
   // MARK: - UI Component
   
   private let commentInputView = CommentInputView()
@@ -83,9 +88,11 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     
     /// Set GestureRecognizer
     view.addGestureRecognizer(tapGesture)
+    view.addGestureRecognizer(panGesture)
     
     /// Set Delegate
     commentInputView.delegate = self
+    panGesture.delegate = self
     registerNotifications()
   }
   
@@ -122,6 +129,13 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     
     tapGesture.rx.event
       .subscribe(with: self) { owner, _ in
+        owner.view.endEditing(true)
+      }
+      .disposed(by: disposeBag)
+    
+    panGesture.rx.event
+      .asDriver()
+      .drive(with: self) { owner, _ in
         owner.view.endEditing(true)
       }
       .disposed(by: disposeBag)
@@ -234,6 +248,6 @@ extension BoardDetailViewController: CommentInputViewDelegate {
 
 extension BoardDetailViewController: KeyboardResponder {
   var targetView: UIView {
-    return view
+    return commentInputView
   }
 }
