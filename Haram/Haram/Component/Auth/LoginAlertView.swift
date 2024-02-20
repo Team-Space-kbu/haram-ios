@@ -61,8 +61,9 @@ final class LoginAlertView: UIView {
     [alertLabel, registerButton].forEach { containerView.addArrangedSubview($0) }
     
     containerView.snp.makeConstraints {
-      $0.leading.directionalVerticalEdges.equalToSuperview()
-      $0.trailing.lessThanOrEqualToSuperview()
+      $0.directionalEdges.equalToSuperview()
+//      $0.leading.directionalVerticalEdges.equalToSuperview()
+//      $0.trailing.lessThanOrEqualToSuperview()
     }
     
     alertLabel.snp.makeConstraints {
