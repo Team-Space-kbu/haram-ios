@@ -152,10 +152,6 @@ final class LoginViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
-    
-    loginImageView.snp.makeConstraints {
-      $0.height.equalTo(248.669)
-    }
 
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
@@ -164,6 +160,10 @@ final class LoginViewController: BaseViewController {
     
     indicatorView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
+    }
+    
+    loginImageView.snp.makeConstraints {
+      $0.height.equalTo(249)
     }
     
     [emailTextField, passwordTextField].forEach {
