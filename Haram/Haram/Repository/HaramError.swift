@@ -21,7 +21,7 @@ enum HaramError: Error, CaseIterable {
   case failedAuth // 인증에 실패했을 때 발생하는 에러입니다.
   
   /// 도서관관련 에러
-  case loanInfoEmptyError // 대여정보가 비어있어 처리할 수 없는 상태입니다.
+//  case loanInfoEmptyError // 대여정보가 비어있어 처리할 수 없는 상태입니다.
   case noExistSearchInfo // 검색된 정보가 존재하지않은 상태입니다.
   case noRequestFromNaver // 네이버로부터 요청 값을 처리할 수 없는 상태입니다.
   case noEnglishRequest // 영문도서에 대한 요청을 처리할 수 없는 상태입니다.
@@ -69,8 +69,8 @@ extension HaramError {
       return nil
     case .notFindUserError:
       return "USER01"
-    case .loanInfoEmptyError:
-      return "LIB07"
+//    case .loanInfoEmptyError:
+//      return "LIB07"
     case .wrongPasswordError:
       return "USER02"
     case .existSameUserError:
@@ -114,8 +114,8 @@ extension HaramError {
       return "하람 서버에러가 발생하였습니다"
     case .notFindUserError, .wrongPasswordError:
       return "아이디 또는 비밀번호가 유효하지 않습니다."
-    case .loanInfoEmptyError:
-      return "대여 정보가 비어 있습니다."
+//    case .loanInfoEmptyError:
+//      return "대여 정보가 비어 있습니다."
     case .existSameUserError:
       return "이미 아이디가 존재합니다."
     case .wrongEmailAuthcodeError:
