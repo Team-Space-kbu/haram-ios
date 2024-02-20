@@ -37,6 +37,7 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
     $0.backgroundColor = .white
     $0.contentInset = .init(top: .zero, left: 15, bottom: 15, right: 15)
     $0.isSkeletonable = true
+    $0.alwaysBounceVertical = true
   }
   
   init(viewModel: ChapelViewModelType = ChapelViewModel()) {
