@@ -11,13 +11,18 @@ import SnapKit
 import Then
 
 protocol NoticeCollectionHeaderViewDelegate: AnyObject {
-  func didTappedCategory(category: CategorySectionType)
+  func didTappedCategory(noticeType: NoticeType)
 }
 
 final class NoticeCollectionHeaderView: UICollectionReusableView {
   
   static let identifier = "NoticeCollectionHeaderView"
   weak var delegate: NoticeCollectionHeaderViewDelegate?
+  private var model: [MainNoticeType] = [] {
+    didSet {
+      categoryCollectionView.reloadData()
+    }
+  }
   
   private let categoryLabel = UILabel().then {
     $0.font = .medium16
@@ -68,32 +73,32 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
     }
   }
   
-  func configureUI(with model: String) {
-    
+  func configureUI(with model: [MainNoticeType]) {
+    self.model = model
   }
 }
 
 extension NoticeCollectionHeaderView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return CategorySectionType.allCases.count
+    return model.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as? CategoryCollectionViewCell ?? CategoryCollectionViewCell()
-    cell.configureUI(with: CategorySectionType.allCases[indexPath.row].title)
+    cell.configureUI(with: model[indexPath.row])
     return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     let label = UILabel().then {
       $0.font = .medium18
-      $0.text = CategorySectionType.allCases[indexPath.row].title
+      $0.text = model[indexPath.row].tag
       $0.sizeToFit()
     }
     return CGSize(width: label.frame.size.width + 30, height: 41)
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    delegate?.didTappedCategory(category: CategorySectionType.allCases[indexPath.row])
+    delegate?.didTappedCategory(noticeType: model[indexPath.row].key)
   }
 }

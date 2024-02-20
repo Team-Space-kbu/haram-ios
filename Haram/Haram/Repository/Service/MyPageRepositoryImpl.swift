@@ -22,6 +22,7 @@ final class MyPageRepositoryImpl {
 }
 
 extension MyPageRepositoryImpl: MyPageRepository {
+  
   func inquireUserInfo(userID: String) -> Single<InquireUserInfoResponse> {
     service.betarequest(router: MyPageRouter.inquireUserInfo(userID), type: InquireUserInfoResponse.self)
   }

@@ -202,6 +202,9 @@ extension BoardDetailViewController: UICollectionViewDataSource {
     guard indexPath.section == 1 else { return UICollectionViewCell() }
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardDetailCollectionViewCell.identifier, for: indexPath) as? BoardDetailCollectionViewCell ?? BoardDetailCollectionViewCell()
     cell.configureUI(with: cellModel[indexPath.row])
+    if cellModel.count - 1 == indexPath.row { // 마지막 댓글이라면 라인 삭제
+      cell.removeLineView()
+    }
     return cell
   }
   
@@ -246,6 +249,8 @@ extension BoardDetailViewController: CommentInputViewDelegate {
     }
   }
 }
+
+// MARK: - Keyboard Notifications
 
 extension BoardDetailViewController {
   func registerNotifications() {
