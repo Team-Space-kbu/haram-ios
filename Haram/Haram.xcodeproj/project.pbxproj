@@ -241,6 +241,12 @@
 		709130032B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709130022B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift */; };
 		7095D38A2AD67C8F008DAA39 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095D3892AD67C8F008DAA39 /* Constants.swift */; };
 		709AB6452B77E19B004B0F59 /* BoardImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709AB6442B77E19B004B0F59 /* BoardImageCollectionViewCell.swift */; };
+		70A731C12B84E0DC007EA1B4 /* InquireNoticeInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C02B84E0DC007EA1B4 /* InquireNoticeInfoRequest.swift */; };
+		70A731C32B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C22B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift */; };
+		70A731C52B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C42B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift */; };
+		70AD2A5E2B851F0E00CB9791 /* NoticeRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A5D2B851F0D00CB9791 /* NoticeRepositoryImpl.swift */; };
+		70AD2A612B85205500CB9791 /* InquireMainNoticeListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A602B85205500CB9791 /* InquireMainNoticeListResponse.swift */; };
+		70AD2A632B85211D00CB9791 /* NoticeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A622B85211D00CB9791 /* NoticeRouter.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -500,6 +506,12 @@
 		709130022B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfiliatedFloatingPanelViewModel.swift; sourceTree = "<group>"; };
 		7095D3892AD67C8F008DAA39 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		709AB6442B77E19B004B0F59 /* BoardImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		70A731C02B84E0DC007EA1B4 /* InquireNoticeInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeInfoRequest.swift; sourceTree = "<group>"; };
+		70A731C22B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeInfoResponse.swift; sourceTree = "<group>"; };
+		70A731C42B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryNoticeViewModel.swift; sourceTree = "<group>"; };
+		70AD2A5D2B851F0D00CB9791 /* NoticeRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeRepositoryImpl.swift; sourceTree = "<group>"; };
+		70AD2A602B85205500CB9791 /* InquireMainNoticeListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireMainNoticeListResponse.swift; sourceTree = "<group>"; };
+		70AD2A622B85211D00CB9791 /* NoticeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeRouter.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -697,6 +709,7 @@
 				708ED7952A8E6F2700107CDF /* RothemRouter.swift */,
 				708ED7B82A91191C00107CDF /* BibleRouter.swift */,
 				7051E4FA2ADAB6C700C2134B /* BoardRouter.swift */,
+				70AD2A622B85211D00CB9791 /* NoticeRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -704,6 +717,7 @@
 		705FD2962A13BC0000F353FE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				70AD2A5F2B85204700CB9791 /* Notice */,
 				7051E4FE2ADAB74700C2134B /* Board */,
 				708ED7E32A94B60200107CDF /* CoreData */,
 				708ED7BA2A91196B00107CDF /* Bible */,
@@ -1190,6 +1204,7 @@
 			isa = PBXGroup;
 			children = (
 				708312AF2A73E07300F7E283 /* NoticeViewModel.swift */,
+				70A731C42B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift */,
 			);
 			path = Notice;
 			sourceTree = "<group>";
@@ -1361,6 +1376,7 @@
 				708ED7972A8E6F8F00107CDF /* RothemRepositoryImpl.swift */,
 				708ED7BE2A911AB800107CDF /* BibleRepositoryImpl.swift */,
 				7051E4FC2ADAB71200C2134B /* BoardRepositoryImpl.swift */,
+				70AD2A5D2B851F0D00CB9791 /* NoticeRepositoryImpl.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1381,6 +1397,16 @@
 				7095D3892AD67C8F008DAA39 /* Constants.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		70AD2A5F2B85204700CB9791 /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				70A731C22B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift */,
+				70A731C02B84E0DC007EA1B4 /* InquireNoticeInfoRequest.swift */,
+				70AD2A602B85205500CB9791 /* InquireMainNoticeListResponse.swift */,
+			);
+			path = Notice;
 			sourceTree = "<group>";
 		};
 		70E4D1552AD638BF00351B35 /* LaunchScreen */ = {
@@ -1515,10 +1541,10 @@
 			packageReferences = (
 				703C5C0B29E6A1ED00B5D091 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				706BA0BE29E6A26D00AF12D4 /* XCRemoteSwiftPackageReference "Then" */,
-				706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift.git" */,
-				706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC.git" */,
+				706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC" */,
 				705FD27A2A10D3EA00F353FE /* XCRemoteSwiftPackageReference "Alamofire" */,
-				705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher.git" */,
+				705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				708312A42A7028B400F7E283 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				70375EF62AA5B6110032F6B8 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				70375F122AB1ADDC0032F6B8 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
@@ -1720,6 +1746,7 @@
 				709AB6452B77E19B004B0F59 /* BoardImageCollectionViewCell.swift in Sources */,
 				7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */,
 				708312AE2A73936E00F7E283 /* CategoryCollectionViewCell.swift in Sources */,
+				70A731C52B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift in Sources */,
 				70864F382B014A2D00CD4124 /* CreateCommentRequest.swift in Sources */,
 				70375F092AB050E00032F6B8 /* InquireChapterToBibleResponse.swift in Sources */,
 				7034AF1A29F0064B009C7676 /* WebViewController.swift in Sources */,
@@ -1754,6 +1781,7 @@
 				708312602A388D8B00F7E283 /* ScheduleViewModel.swift in Sources */,
 				708ED7982A8E6F8F00107CDF /* RothemRepositoryImpl.swift in Sources */,
 				708ED7B52A90D61100107CDF /* StudyRoomDetailView.swift in Sources */,
+				70AD2A612B85205500CB9791 /* InquireMainNoticeListResponse.swift in Sources */,
 				7083128A2A655BD900F7E283 /* MileageTableHeaderView.swift in Sources */,
 				7051E4FB2ADAB6C700C2134B /* BoardRouter.swift in Sources */,
 				7083128C2A6561CD00F7E283 /* MyPageRouter.swift in Sources */,
@@ -1766,6 +1794,7 @@
 				708312B42A76945000F7E283 /* BoardListCollectionViewCell.swift in Sources */,
 				708ED7E92A94BADD00107CDF /* RevisionOfTranslationModel.swift in Sources */,
 				708312422A2CAA1800F7E283 /* RequestIntranetTokenResponse.swift in Sources */,
+				70A731C32B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift in Sources */,
 				708312B62A779D1A00F7E283 /* BoardTableHeaderView.swift in Sources */,
 				708312962A691AAD00F7E283 /* NumberformatterFactory.swift in Sources */,
 				709130012B176344005B88B4 /* Ex + UIView.swift in Sources */,
@@ -1821,6 +1850,7 @@
 				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
 				70864F362AFE1F3600CD4124 /* InquireMileageInfoResponse.swift in Sources */,
 				7031E3D22ABA80BA0027DC0A /* CommentAuthorInfoView.swift in Sources */,
+				70AD2A5E2B851F0E00CB9791 /* NoticeRepositoryImpl.swift in Sources */,
 				708ED7F12A9E24D000107CDF /* InquireAffiliatedListResponse.swift in Sources */,
 				705FD2C92A23BA3000F353FE /* LibraryRepositoryImpl.swift in Sources */,
 				708312B02A73E07300F7E283 /* NoticeViewModel.swift in Sources */,
@@ -1830,12 +1860,14 @@
 				705FD2D12A24DEFC00F353FE /* LibraryViewModel.swift in Sources */,
 				705FD2902A10FD6D00F353FE /* Interceptor.swift in Sources */,
 				705FD2A32A15FD8100F353FE /* LoginResponse.swift in Sources */,
+				70AD2A632B85211D00CB9791 /* NoticeRouter.swift in Sources */,
 				7001DA892B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift in Sources */,
 				708ED7DB2A923B2A00107CDF /* BibleViewModel.swift in Sources */,
 				70727A9B29D88A3A003DE956 /* FindPasswordViewController.swift in Sources */,
 				708312B82A77E36900F7E283 /* HaramTextField.swift in Sources */,
 				70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */,
 				7001DA8B2B6E17C10037D599 /* LogoutUserRequest.swift in Sources */,
+				70A731C12B84E0DC007EA1B4 /* InquireNoticeInfoRequest.swift in Sources */,
 				708ED7822A8CC70700107CDF /* BoardListViewModel.swift in Sources */,
 				70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */,
 				7083128E2A65626E00F7E283 /* MyPageRepositoryImpl.swift in Sources */,
@@ -2135,6 +2167,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MARKETING_VERSION = 1.0;
@@ -2155,6 +2188,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MARKETING_VERSION = 1.0;
@@ -2174,6 +2208,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Jun.HaramUITests;
@@ -2192,6 +2227,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Jun.HaramUITests;
@@ -2277,7 +2313,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher.git" */ = {
+		705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
 			requirement = {
@@ -2293,7 +2329,7 @@
 				minimumVersion = 3.0.0;
 			};
 		};
-		706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift.git" */ = {
+		706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
 			requirement = {
@@ -2301,7 +2337,7 @@
 				kind = branch;
 			};
 		};
-		706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC.git" */ = {
+		706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/stasel/WebRTC.git";
 			requirement = {
@@ -2353,7 +2389,7 @@
 		};
 		705FD2CE2A24DE5B00F353FE /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher.git" */;
+			package = 705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
 		};
 		706BA0BF29E6A26D00AF12D4 /* Then */ = {
@@ -2363,17 +2399,17 @@
 		};
 		706BA0C229E6A32700AF12D4 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift.git" */;
+			package = 706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxCocoa;
 		};
 		706BA0C429E6A32700AF12D4 /* RxSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift.git" */;
+			package = 706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
 		};
 		706BA0C729E6E51100AF12D4 /* WebRTC */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC.git" */;
+			package = 706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC" */;
 			productName = WebRTC;
 		};
 		708E1E5F2B038A6E0030FAA0 /* FloatingPanel */ = {

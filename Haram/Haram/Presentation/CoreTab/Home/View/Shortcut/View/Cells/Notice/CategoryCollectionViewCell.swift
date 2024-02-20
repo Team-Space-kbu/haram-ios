@@ -40,13 +40,13 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  func configureUI(with model: String) {
-    categoryLabel.text = model
+  func configureUI(with model: MainNoticeType) {
+    categoryLabel.text = model.tag
   }
 }
 
 extension CategoryCollectionViewCell {
-  static func estimatedCellSize(_ targetSize: CGSize, model: String) -> CGSize {
+  static func estimatedCellSize(_ targetSize: CGSize, model: MainNoticeType) -> CGSize {
     let cell = CategoryCollectionViewCell()
     cell.configureUI(with: model)
     return cell.contentView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)

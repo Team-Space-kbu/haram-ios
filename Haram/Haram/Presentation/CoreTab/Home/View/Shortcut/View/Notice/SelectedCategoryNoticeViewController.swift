@@ -12,7 +12,7 @@ import Then
 
 final class SelectedCategoryNoticeViewController: BaseViewController {
   
-  private let category: CategorySectionType
+  private let noticeType: NoticeType
   
   private var noticeModel: [NoticeCollectionViewCellModel] = [] {
     didSet {
@@ -32,8 +32,8 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
     $0.contentInsetAdjustmentBehavior = .always
   }
   
-  init(category: CategorySectionType) {
-    self.category = category
+  init(noticeType: NoticeType) {
+    self.noticeType = noticeType
     super.init(nibName: nil, bundle: nil)
   }
   

@@ -10,40 +10,17 @@ import UIKit
 import SnapKit
 import Then
 
-enum CategorySectionType: CaseIterable {
-  case haramNotice // 하람공지
-  case haksa // 학사/취창업
-  case scholarShip // 장학/등록금
-  case chapel // 신앙/채플
-  case lmsNotice // LMS 공지
-  case library // 도서관
-  case aiNavi // AI NAVI
-  
-  var title: String {
-    switch self {
-    case .haramNotice:
-      return "하람공지"
-    case .haksa:
-      return "학사/취창업"
-    case .scholarShip:
-      return "장학/등록금"
-    case .chapel:
-      return "신앙/채플"
-    case .lmsNotice:
-      return "LMS공지"
-    case .library:
-      return "도서관"
-    case .aiNavi:
-      return "AI NAVI"
-    }
-  }
-}
-
 final class NoticeViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: NoticeViewModelType
   
   private var noticeModel: [NoticeCollectionViewCellModel] = [] {
+    didSet {
+      noticeCollectionView.reloadData()
+    }
+  }
+  
+  private var noticeTagModel: [MainNoticeType] = [] {
     didSet {
       noticeCollectionView.reloadData()
     }
@@ -78,6 +55,10 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
     super.bind()
     viewModel.noticeModel
       .drive(rx.noticeModel)
+      .disposed(by: disposeBag)
+    
+    viewModel.noticeTagModel
+      .drive(rx.noticeTagModel)
       .disposed(by: disposeBag)
   }
   
@@ -165,6 +146,7 @@ extension NoticeViewController: UICollectionViewDelegate, UICollectionViewDataSo
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: NoticeCollectionHeaderView.identifier, for: indexPath) as? NoticeCollectionHeaderView ?? NoticeCollectionHeaderView()
     header.delegate = self
+    header.configureUI(with: noticeTagModel)
     return header
   }
   
@@ -176,8 +158,8 @@ extension NoticeViewController: UICollectionViewDelegate, UICollectionViewDataSo
 }
 
 extension NoticeViewController: NoticeCollectionHeaderViewDelegate {
-  func didTappedCategory(category: CategorySectionType) {
-    let vc = SelectedCategoryNoticeViewController(category: category)
+  func didTappedCategory(noticeType: NoticeType) {
+    let vc = SelectedCategoryNoticeViewController(noticeType: noticeType)
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }

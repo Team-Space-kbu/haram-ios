@@ -75,6 +75,10 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     }
   }
   
+  func removeLineView() {
+    lineView.removeFromSuperview()
+  }
+  
   func configureUI(with model: BoardDetailCollectionViewCellModel) {
     commentAuthorInfoView.configureUI(with: model.commentAuthorInfoModel)
     commentLabel.addLineSpacing(lineSpacing: 2, string: model.comment)
