@@ -14,6 +14,7 @@ struct NoticeCollectionViewCellModel {
   let title: String
   let description: String
   let noticeType: [String]
+  let path: String
 }
 
 final class NoticeCollectionViewCell: UICollectionViewCell {
