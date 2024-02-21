@@ -10,7 +10,16 @@ import UIKit
 import SnapKit
 import Then
 
+struct NoticeDetailModel {
+  let title: String
+  let writerInfo: String
+  let content: String
+}
+
 final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
+  
+  private let viewModel: NoticeDetailViewModelType
+  private let path: String
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -28,7 +37,6 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   private let titleLabel = UILabel().then {
     $0.font = .regular15
     $0.textColor = .black
-    $0.text = "공지사항 제목"
   }
   
   private let writerInfoLabel = UILabel().then {
@@ -41,7 +49,29 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     $0.font = .regular15
     $0.textColor = .black
     $0.numberOfLines = 0
-    $0.text = "공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용공지사항내용"
+  }
+  
+  init(path: String, viewModel: NoticeDetailViewModelType = NoticeDetailViewModel()) {
+    self.viewModel = viewModel
+    self.path = path
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func bind() {
+    super.bind()
+    viewModel.inquireNoticeDetailInfo(path: path)
+    
+    viewModel.noticeDetailModel
+      .drive(with: self) { owner, model in
+        owner.titleLabel.text = model.title
+        owner.writerInfoLabel.text = model.writerInfo
+        owner.contentLabel.text = model.content
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {

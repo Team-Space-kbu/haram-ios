@@ -94,7 +94,6 @@
 		706BA0C029E6A26D00AF12D4 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 706BA0BF29E6A26D00AF12D4 /* Then */; };
 		706BA0C329E6A32700AF12D4 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 706BA0C229E6A32700AF12D4 /* RxCocoa */; };
 		706BA0C529E6A32700AF12D4 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 706BA0C429E6A32700AF12D4 /* RxSwift */; };
-		706BA0C829E6E51100AF12D4 /* WebRTC in Frameworks */ = {isa = PBXBuildFile; productRef = 706BA0C729E6E51100AF12D4 /* WebRTC */; };
 		70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A5429D87B25003DE956 /* AppDelegate.swift */; };
 		70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727A5629D87B25003DE956 /* SceneDelegate.swift */; };
 		70727A5E29D87B27003DE956 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70727A5D29D87B27003DE956 /* Assets.xcassets */; };
@@ -151,7 +150,7 @@
 		7083128E2A65626E00F7E283 /* MyPageRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083128D2A65626E00F7E283 /* MyPageRepositoryImpl.swift */; };
 		708312912A6562D100F7E283 /* InquireUserInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312902A6562D100F7E283 /* InquireUserInfoResponse.swift */; };
 		708312932A65638200F7E283 /* MoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312922A65638200F7E283 /* MoreViewModel.swift */; };
-		708312962A691AAD00F7E283 /* NumberformatterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312952A691AAD00F7E283 /* NumberformatterFactory.swift */; };
+		708312962A691AAD00F7E283 /* FormatterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312952A691AAD00F7E283 /* FormatterFactory.swift */; };
 		708312992A691D1700F7E283 /* MileageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312982A691D1700F7E283 /* MileageViewModel.swift */; };
 		7083129B2A6A909C00F7E283 /* ChapelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */; };
 		7083129F2A6D25E100F7E283 /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */; };
@@ -241,12 +240,15 @@
 		709130032B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709130022B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift */; };
 		7095D38A2AD67C8F008DAA39 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095D3892AD67C8F008DAA39 /* Constants.swift */; };
 		709AB6452B77E19B004B0F59 /* BoardImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709AB6442B77E19B004B0F59 /* BoardImageCollectionViewCell.swift */; };
-		70A731C12B84E0DC007EA1B4 /* InquireNoticeInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C02B84E0DC007EA1B4 /* InquireNoticeInfoRequest.swift */; };
+		70A731C12B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C02B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift */; };
 		70A731C32B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C22B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift */; };
 		70A731C52B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C42B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift */; };
 		70AD2A5E2B851F0E00CB9791 /* NoticeRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A5D2B851F0D00CB9791 /* NoticeRepositoryImpl.swift */; };
 		70AD2A612B85205500CB9791 /* InquireMainNoticeListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A602B85205500CB9791 /* InquireMainNoticeListResponse.swift */; };
 		70AD2A632B85211D00CB9791 /* NoticeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A622B85211D00CB9791 /* NoticeRouter.swift */; };
+		70AD2A652B85FF7000CB9791 /* InquireNoticeDetailInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A642B85FF7000CB9791 /* InquireNoticeDetailInfoRequest.swift */; };
+		70AD2A672B86001600CB9791 /* InquireNoticeDetailInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A662B86001600CB9791 /* InquireNoticeDetailInfoResponse.swift */; };
+		70AD2A692B86014100CB9791 /* NoticeDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A682B86014100CB9791 /* NoticeDetailViewModel.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -417,7 +419,7 @@
 		7083128D2A65626E00F7E283 /* MyPageRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageRepositoryImpl.swift; sourceTree = "<group>"; };
 		708312902A6562D100F7E283 /* InquireUserInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireUserInfoResponse.swift; sourceTree = "<group>"; };
 		708312922A65638200F7E283 /* MoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewModel.swift; sourceTree = "<group>"; };
-		708312952A691AAD00F7E283 /* NumberformatterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberformatterFactory.swift; sourceTree = "<group>"; };
+		708312952A691AAD00F7E283 /* FormatterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatterFactory.swift; sourceTree = "<group>"; };
 		708312982A691D1700F7E283 /* MileageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MileageViewModel.swift; sourceTree = "<group>"; };
 		7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelViewModel.swift; sourceTree = "<group>"; };
 		7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewController.swift; sourceTree = "<group>"; };
@@ -506,12 +508,15 @@
 		709130022B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfiliatedFloatingPanelViewModel.swift; sourceTree = "<group>"; };
 		7095D3892AD67C8F008DAA39 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		709AB6442B77E19B004B0F59 /* BoardImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardImageCollectionViewCell.swift; sourceTree = "<group>"; };
-		70A731C02B84E0DC007EA1B4 /* InquireNoticeInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeInfoRequest.swift; sourceTree = "<group>"; };
+		70A731C02B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeTypeInfoRequest.swift; sourceTree = "<group>"; };
 		70A731C22B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeInfoResponse.swift; sourceTree = "<group>"; };
 		70A731C42B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryNoticeViewModel.swift; sourceTree = "<group>"; };
 		70AD2A5D2B851F0D00CB9791 /* NoticeRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeRepositoryImpl.swift; sourceTree = "<group>"; };
 		70AD2A602B85205500CB9791 /* InquireMainNoticeListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireMainNoticeListResponse.swift; sourceTree = "<group>"; };
 		70AD2A622B85211D00CB9791 /* NoticeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeRouter.swift; sourceTree = "<group>"; };
+		70AD2A642B85FF7000CB9791 /* InquireNoticeDetailInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeDetailInfoRequest.swift; sourceTree = "<group>"; };
+		70AD2A662B86001600CB9791 /* InquireNoticeDetailInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeDetailInfoResponse.swift; sourceTree = "<group>"; };
+		70AD2A682B86014100CB9791 /* NoticeDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewModel.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -537,7 +542,6 @@
 			files = (
 				706BA0C329E6A32700AF12D4 /* RxCocoa in Frameworks */,
 				705FD27C2A10D3EA00F353FE /* Alamofire in Frameworks */,
-				706BA0C829E6E51100AF12D4 /* WebRTC in Frameworks */,
 				703C5C0D29E6A1ED00B5D091 /* SnapKit in Frameworks */,
 				708E1E602B038A6E0030FAA0 /* FloatingPanel in Frameworks */,
 				70375EF82AA5B6110032F6B8 /* SkeletonView in Frameworks */,
@@ -908,7 +912,7 @@
 				705FD2892A10F6C300F353FE /* UserDefaultsWrapper.swift */,
 				705FD28D2A10FC0200F353FE /* KeyChainWrapper.swift */,
 				705FD28B2A10F74D00F353FE /* UserManager.swift */,
-				708312952A691AAD00F7E283 /* NumberformatterFactory.swift */,
+				708312952A691AAD00F7E283 /* FormatterFactory.swift */,
 				708ED7DE2A94B2E700107CDF /* RevisionOfTranslation.xcdatamodeld */,
 				708ED7E12A94B49000107CDF /* CoreDataManager.swift */,
 				70430A812B7E29D200B64545 /* Device.swift */,
@@ -1205,6 +1209,7 @@
 			children = (
 				708312AF2A73E07300F7E283 /* NoticeViewModel.swift */,
 				70A731C42B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift */,
+				70AD2A682B86014100CB9791 /* NoticeDetailViewModel.swift */,
 			);
 			path = Notice;
 			sourceTree = "<group>";
@@ -1403,8 +1408,10 @@
 			isa = PBXGroup;
 			children = (
 				70A731C22B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift */,
-				70A731C02B84E0DC007EA1B4 /* InquireNoticeInfoRequest.swift */,
+				70A731C02B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift */,
 				70AD2A602B85205500CB9791 /* InquireMainNoticeListResponse.swift */,
+				70AD2A642B85FF7000CB9791 /* InquireNoticeDetailInfoRequest.swift */,
+				70AD2A662B86001600CB9791 /* InquireNoticeDetailInfoResponse.swift */,
 			);
 			path = Notice;
 			sourceTree = "<group>";
@@ -1456,7 +1463,6 @@
 				706BA0BF29E6A26D00AF12D4 /* Then */,
 				706BA0C229E6A32700AF12D4 /* RxCocoa */,
 				706BA0C429E6A32700AF12D4 /* RxSwift */,
-				706BA0C729E6E51100AF12D4 /* WebRTC */,
 				705FD27B2A10D3EA00F353FE /* Alamofire */,
 				705FD2CE2A24DE5B00F353FE /* Kingfisher */,
 				70375EF72AA5B6110032F6B8 /* SkeletonView */,
@@ -1542,7 +1548,6 @@
 				703C5C0B29E6A1ED00B5D091 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				706BA0BE29E6A26D00AF12D4 /* XCRemoteSwiftPackageReference "Then" */,
 				706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift" */,
-				706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC" */,
 				705FD27A2A10D3EA00F353FE /* XCRemoteSwiftPackageReference "Alamofire" */,
 				705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				708312A42A7028B400F7E283 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
@@ -1764,6 +1769,7 @@
 				705FD2AB2A160C1800F353FE /* HaramTabbarController.swift in Sources */,
 				70375EFC2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift in Sources */,
 				705FD2A92A16031900F353FE /* LoginViewModel.swift in Sources */,
+				70AD2A652B85FF7000CB9791 /* InquireNoticeDetailInfoRequest.swift in Sources */,
 				70C9CCAE2A066B8F00BEB5F2 /* ChapelInfoView.swift in Sources */,
 				70903C942ADEB1F500C6FEF0 /* Ex + Array.swift in Sources */,
 				708312C02A7A448300F7E283 /* TermsOfUseCheckView.swift in Sources */,
@@ -1796,7 +1802,7 @@
 				708312422A2CAA1800F7E283 /* RequestIntranetTokenResponse.swift in Sources */,
 				70A731C32B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift in Sources */,
 				708312B62A779D1A00F7E283 /* BoardTableHeaderView.swift in Sources */,
-				708312962A691AAD00F7E283 /* NumberformatterFactory.swift in Sources */,
+				708312962A691AAD00F7E283 /* FormatterFactory.swift in Sources */,
 				709130012B176344005B88B4 /* Ex + UIView.swift in Sources */,
 				708ED79D2A8E817F00107CDF /* EmptyView.swift in Sources */,
 				708ED7962A8E6F2700107CDF /* RothemRouter.swift in Sources */,
@@ -1840,12 +1846,14 @@
 				70375F032AAD78E20032F6B8 /* RentalLibraryCollectionViewCell.swift in Sources */,
 				708ED7B32A90D4ED00107CDF /* StudyRoomDetailViewController.swift in Sources */,
 				705FD2A12A15F75900F353FE /* LoginAlertView.swift in Sources */,
+				70AD2A672B86001600CB9791 /* InquireNoticeDetailInfoResponse.swift in Sources */,
 				705FD2A52A15FDB500F353FE /* LoginRequest.swift in Sources */,
 				7031E3C82ABA72C10027DC0A /* BoardDetailViewController.swift in Sources */,
 				708ED7D82A92357600107CDF /* BibleCollectionViewCell.swift in Sources */,
 				7083123C2A2CA5E500F7E283 /* IntranetRepositoryImpl.swift in Sources */,
 				708312912A6562D100F7E283 /* InquireUserInfoResponse.swift in Sources */,
 				708312462A2F34DB00F7E283 /* IntranetLoginViewController.swift in Sources */,
+				70AD2A692B86014100CB9791 /* NoticeDetailViewModel.swift in Sources */,
 				70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */,
 				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
 				70864F362AFE1F3600CD4124 /* InquireMileageInfoResponse.swift in Sources */,
@@ -1867,7 +1875,7 @@
 				708312B82A77E36900F7E283 /* HaramTextField.swift in Sources */,
 				70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */,
 				7001DA8B2B6E17C10037D599 /* LogoutUserRequest.swift in Sources */,
-				70A731C12B84E0DC007EA1B4 /* InquireNoticeInfoRequest.swift in Sources */,
+				70A731C12B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift in Sources */,
 				708ED7822A8CC70700107CDF /* BoardListViewModel.swift in Sources */,
 				70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */,
 				7083128E2A65626E00F7E283 /* MyPageRepositoryImpl.swift in Sources */,
@@ -2101,16 +2109,15 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ASZ874HB9K;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = TK287254JR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Haram/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Application needs camera access to publish stream";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2119,9 +2126,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.space.biblemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -2134,16 +2144,15 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Haram/HaramRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ASZ874HB9K;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = TK287254JR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Haram/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Application needs camera access to publish stream";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2153,9 +2162,12 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.space.biblemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -2166,7 +2178,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
@@ -2187,7 +2199,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
@@ -2207,7 +2219,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -2226,7 +2238,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -2337,14 +2349,6 @@
 				kind = branch;
 			};
 		};
-		706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/stasel/WebRTC.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 96.0.0;
-			};
-		};
 		708312A42A7028B400F7E283 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup";
@@ -2406,11 +2410,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
-		};
-		706BA0C729E6E51100AF12D4 /* WebRTC */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 706BA0C629E6E51100AF12D4 /* XCRemoteSwiftPackageReference "WebRTC" */;
-			productName = WebRTC;
 		};
 		708E1E5F2B038A6E0030FAA0 /* FloatingPanel */ = {
 			isa = XCSwiftPackageProductDependency;

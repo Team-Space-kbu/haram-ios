@@ -62,9 +62,9 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
 
 extension SelectedCategoryNoticeViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = NoticeDetailViewController()
-    vc.navigationItem.largeTitleDisplayMode = .never
-    navigationController?.pushViewController(vc, animated: true)
+//    let vc = NoticeDetailViewController()
+//    vc.navigationItem.largeTitleDisplayMode = .never
+//    navigationController?.pushViewController(vc, animated: true)
   }
 }
 
