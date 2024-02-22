@@ -12,6 +12,7 @@ import Then
 
 final class SelectedCategoryNoticeViewController: BaseViewController {
   
+  private let viewModel: SelectedCategoryNoticeViewModelType
   private let noticeType: NoticeType
   
   private var noticeModel: [NoticeCollectionViewCellModel] = [] {
@@ -32,13 +33,24 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
     $0.contentInsetAdjustmentBehavior = .always
   }
   
-  init(noticeType: NoticeType) {
+  init(noticeType: NoticeType, viewModel: SelectedCategoryNoticeViewModelType = SelectedCategoryNoticeViewModel()) {
+    self.viewModel = viewModel
     self.noticeType = noticeType
     super.init(nibName: nil, bundle: nil)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func bind() {
+    super.bind()
+    
+    viewModel.inquireNoticeList(type: noticeType)
+    
+    viewModel.noticeCollectionViewCellModel
+      .drive(rx.noticeModel)
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -68,7 +80,7 @@ extension SelectedCategoryNoticeViewController: UICollectionViewDelegate {
   }
 }
 
-extension SelectedCategoryNoticeViewController: UICollectionViewDataSource {
+extension SelectedCategoryNoticeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 1
   }
@@ -81,6 +93,10 @@ extension SelectedCategoryNoticeViewController: UICollectionViewDataSource {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoticeCollectionViewCell.identifier, for: indexPath) as? NoticeCollectionViewCell ?? NoticeCollectionViewCell()
     cell.configureUI(with: noticeModel[indexPath.row])
     return cell
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    CGSize(width: collectionView.frame.width - 30, height: 92)
   }
 }
 

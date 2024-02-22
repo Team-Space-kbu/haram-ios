@@ -6,27 +6,53 @@
 //
 
 import RxSwift
+import RxCocoa
 
 protocol SelectedCategoryNoticeViewModelType {
-//  func inquireNoticeList(type: NoticeType)
+  func inquireNoticeList(type: NoticeType)
+  
+  var noticeCollectionViewCellModel: Driver<[NoticeCollectionViewCellModel]> { get }
 }
 
-final class SelectedCategoryNoticeViewModel: SelectedCategoryNoticeViewModelType {
+final class SelectedCategoryNoticeViewModel {
   
   private let disposeBag = DisposeBag()
   private let noticeRepository: NoticeRepository
   
+  private let noticeCollectionViewCellModelRelay = BehaviorRelay<[NoticeCollectionViewCellModel]>(value: [])
+  
   init(noticeRepository: NoticeRepository = NoticeRepositoryImpl()) {
     self.noticeRepository = noticeRepository
-    inquireMainNoticeList()
   }
   
-  private func inquireMainNoticeList() {
-    noticeRepository.inquireMainNoticeList()
-      .subscribe(with: self) { owner, response in
-        
-      }
-      .disposed(by: disposeBag)
+}
+
+extension SelectedCategoryNoticeViewModel: SelectedCategoryNoticeViewModelType {
+  var noticeCollectionViewCellModel: RxCocoa.Driver<[NoticeCollectionViewCellModel]> {
+    noticeCollectionViewCellModelRelay.asDriver()
   }
+  
+  func inquireNoticeList(type: NoticeType) {
+    noticeRepository.inquireNoticeInfo(
+      request: .init(
+        type: type,
+        page: 1
+      )
+    )
+    .subscribe(with: self) { owner, response in
+      owner.noticeCollectionViewCellModelRelay.accept(response.notices.map {
+        
+        let iso8607Date = DateformatterFactory.iso8601.date(from: $0.regDate)!
+        
+        return NoticeCollectionViewCellModel(
+          title: $0.title,
+          description: DateformatterFactory.noticeWithHypen.string(from: iso8607Date) + " | " + $0.name,
+          noticeType: $0.loopnum,
+          path: $0.path)
+      })
+    }
+    .disposed(by: disposeBag)
+  }
+  
   
 }
