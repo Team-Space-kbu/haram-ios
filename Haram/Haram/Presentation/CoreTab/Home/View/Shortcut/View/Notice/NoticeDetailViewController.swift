@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import WebKit
 
 import SnapKit
 import Then
@@ -31,7 +32,7 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     $0.backgroundColor = .clear
     $0.spacing = 11
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: 34, left: 15, bottom: .zero, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: 34, left: 15, bottom: 15, right: 15)
   }
   
   private let titleLabel = UILabel().then {
@@ -42,14 +43,9 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   private let writerInfoLabel = UILabel().then {
     $0.font = .regular15
     $0.textColor = .black
-    $0.text = "2022-12-28|이건준"
   }
   
-  private let contentLabel = UILabel().then {
-    $0.font = .regular15
-    $0.textColor = .black
-    $0.numberOfLines = 0
-  }
+  private let webView = WKWebView()
   
   init(path: String, viewModel: NoticeDetailViewModelType = NoticeDetailViewModel()) {
     self.viewModel = viewModel
@@ -69,7 +65,7 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
       .drive(with: self) { owner, model in
         owner.titleLabel.text = model.title
         owner.writerInfoLabel.text = model.writerInfo
-        owner.contentLabel.text = model.content
+        owner.webView.loadHTMLString(model.content, baseURL: nil)
       }
       .disposed(by: disposeBag)
   }
@@ -84,7 +80,7 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
-    [titleLabel, writerInfoLabel, contentLabel].forEach { containerView.addArrangedSubview($0) }
+    [titleLabel, writerInfoLabel, webView].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -96,7 +92,7 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.width.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
+      $0.height.greaterThanOrEqualToSuperview()
     }
     
     containerView.setCustomSpacing(16, after: writerInfoLabel)
