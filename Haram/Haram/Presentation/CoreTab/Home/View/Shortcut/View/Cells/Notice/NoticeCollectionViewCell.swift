@@ -50,6 +50,13 @@ final class NoticeCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    mainLabel.text = nil
+    subLabel.text = nil
+    _ = typeStackView.subviews.map { $0.removeFromSuperview() }
+  }
+  
   private func configureUI() {
     contentView.backgroundColor = .hexF8F8F8
     contentView.layer.cornerRadius = 10
@@ -59,7 +66,7 @@ final class NoticeCollectionViewCell: UICollectionViewCell {
     
     mainLabel.snp.makeConstraints {
       $0.top.leading.equalToSuperview().inset(12)
-      $0.trailing.lessThanOrEqualToSuperview().inset(12)
+      $0.trailing.lessThanOrEqualToSuperview().inset(20)
     }
     
     subLabel.snp.makeConstraints {

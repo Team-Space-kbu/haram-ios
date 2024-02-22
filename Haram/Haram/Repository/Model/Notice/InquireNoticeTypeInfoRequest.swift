@@ -8,7 +8,7 @@
 import Foundation
 
 struct InquireNoticeTypeInfoRequest: Encodable {
-  let noticeType: NoticeType
+  let type: NoticeType
   let page: Int
 }
 
