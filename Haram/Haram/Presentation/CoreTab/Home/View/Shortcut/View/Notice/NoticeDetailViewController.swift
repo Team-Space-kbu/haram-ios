@@ -25,6 +25,7 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
+//    $0.contentInsetAdjustmentBehavior = .never
   }
   
   private let containerView = UIStackView().then {
@@ -45,7 +46,19 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     $0.textColor = .black
   }
   
-  private let webView = WKWebView()
+  private let configuration = WKWebViewConfiguration().then {
+    let preferences = WKPreferences()
+//        preferences.javaScriptEnabled = true
+        preferences.javaScriptCanOpenWindowsAutomatically = true
+    $0.preferences = preferences
+  }
+  
+  
+  private lazy var webView = WKWebView(frame: .zero, configuration: configuration).then {
+    $0.scrollView.showsVerticalScrollIndicator = false
+    $0.scrollView.bounces = false
+    $0.navigationDelegate = self
+  }
   
   init(path: String, viewModel: NoticeDetailViewModelType = NoticeDetailViewModel()) {
     self.viewModel = viewModel
@@ -91,8 +104,11 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     }
     
     containerView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.width.equalToSuperview()
-      $0.height.greaterThanOrEqualToSuperview()
+      $0.directionalEdges.width.equalToSuperview()
+    }
+    
+    webView.snp.makeConstraints {
+      $0.height.equalTo(webView.scrollView.contentSize.height)
     }
     
     containerView.setCustomSpacing(16, after: writerInfoLabel)
@@ -100,5 +116,19 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   
   @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
+  }
+}
+
+extension NoticeDetailViewController: WKNavigationDelegate {
+  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    webView.evaluateJavaScript("document.readyState") { complete, error in
+      if complete != nil {
+        webView.evaluateJavaScript("document.body.scrollHeight") { height, error in
+          self.webView.snp.updateConstraints {
+            $0.height.equalTo(height as! CGFloat)
+          }
+        }
+      }
+    }
   }
 }
