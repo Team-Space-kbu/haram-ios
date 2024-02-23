@@ -8,51 +8,51 @@
 import Alamofire
 
 enum BoardRouter {
-  case inquireBoardList(BoardType)
-  case inquireBoard(BoardType, Int)
   
-  /// Comment
-  case createComment(CreateCommentRequest)
+  case inquireBoardCategory
+  case inquireBoardListInCategory(Int)
+  case inquireBoardDetail(Int, Int)
+  case createBoard(Int)
+  case createComment(CreateCommentRequest, Int, Int)
 }
 
 extension BoardRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .inquireBoardList, .inquireBoard:
+    case .inquireBoardCategory, .inquireBoardListInCategory, .inquireBoardDetail:
       return .get
-    case .createComment:
+    case .createComment, .createBoard:
       return .post
     }
   }
   
   var path: String {
     switch self {
-    case .inquireBoardList(let boardType):
-      return "/v1/boards/\(boardType)"
-    case let .inquireBoard(boardType, boardSeq):
-      return "/v1/boards/\(boardType)/\(boardSeq)"
-    case .createComment:
-      return "/v1/comments"
+    case .inquireBoardCategory:
+      return "/v1/board-categories"
+    case let .inquireBoardListInCategory(categorySeq):
+      return "/v1/board-categories/\(categorySeq)/boards"
+    case let .inquireBoardDetail(categorySeq, boardSeq):
+      return "/v1/board-categories/\(categorySeq)/boards/\(boardSeq)"
+    case let .createBoard(categorySeq):
+      return "/v1/board-categories/\(categorySeq)/boards"
+    case let .createComment(_, categorySeq, boardSeq):
+      return "/v1/board-categories/\(categorySeq)/boards/\(boardSeq)/comments"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireBoardList, .inquireBoard:
+    case .inquireBoardCategory, .inquireBoardListInCategory, .inquireBoardDetail, .createBoard:
       return .plain
-    case let .createComment(request):
+    case let .createComment(request, _, _):
       return .body(request)
     }
   }
   
   var headers: HeaderType {
-    switch self {
-    case .createComment:
-      return .withAccessToken
-    case .inquireBoardList, .inquireBoard:
-      return .noCache
-    }
+    return .withAccessToken
   }
 }
 

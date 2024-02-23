@@ -17,10 +17,10 @@ struct BoardListCollectionViewCellModel {
   let subTitle: String
   let boardType: [String]
   
-  init(response: InquireBoardlistResponse) {
-    boardSeq = response.boardSeq
-    title = response.boardTitle
-    subTitle = response.boardContent
+  init(board: Board) {
+    boardSeq = board.boardSeq
+    title = board.title
+    subTitle = board.contents
     boardType = []
   }
 }

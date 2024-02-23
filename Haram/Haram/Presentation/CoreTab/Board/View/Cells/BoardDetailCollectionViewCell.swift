@@ -14,14 +14,6 @@ struct BoardDetailCollectionViewCellModel {
   let commentAuthorInfoModel: CommentAuthorInfoViewModel
   let comment: String
   
-  init(commentDto: CommentDto) {
-    comment = commentDto.commentContent
-    commentAuthorInfoModel = CommentAuthorInfoViewModel(
-      commentAuthorName: commentDto.userID,
-      commentDate: DateformatterFactory.dateWithHypen.date(from: commentDto.createdAt) ?? Date()
-    )
-  }
-  
   init(comment: String, createdAt: String) {
     self.comment = comment
     commentAuthorInfoModel = CommentAuthorInfoViewModel(

@@ -16,7 +16,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: BoardDetailViewModelType
   private let boardSeq: Int
-  private let boardType: BoardType
+  private let categorySeq: Int
   
   // MARK: - UI Models
   
@@ -61,10 +61,10 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   }
   
   // MARK: - Initializations
-  init(boardType: BoardType, boardSeq: Int, viewModel: BoardDetailViewModelType = BoardDetailViewModel()) {
+  init(categorySeq: Int, boardSeq: Int, viewModel: BoardDetailViewModelType = BoardDetailViewModel()) {
     self.viewModel = viewModel
     self.boardSeq = boardSeq
-    self.boardType = boardType
+    self.categorySeq = categorySeq
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -118,7 +118,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   override func bind() {
     super.bind()
     
-    viewModel.inquireBoardDetail(boardType: boardType, boardSeq: boardSeq)
+    viewModel.inquireBoardDetail(categorySeq: categorySeq, boardSeq: boardSeq)
     
     viewModel.boardInfoModel
       .drive(rx.boardModel)
