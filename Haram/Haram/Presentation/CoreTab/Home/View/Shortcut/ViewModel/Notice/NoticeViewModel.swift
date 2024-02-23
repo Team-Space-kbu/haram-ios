@@ -12,6 +12,7 @@ protocol NoticeViewModelType {
   
   var noticeModel: Driver<[NoticeCollectionViewCellModel]> { get }
   var noticeTagModel: Driver<[MainNoticeType]> { get }
+  var isLoading: Driver<Bool> { get }
 }
 
 final class NoticeViewModel {
@@ -21,6 +22,7 @@ final class NoticeViewModel {
   
   private let noticeModelRelay = BehaviorRelay<[NoticeCollectionViewCellModel]>(value: [])
   private let noticeTagModelRelay = BehaviorRelay<[MainNoticeType]>(value: [])
+  private let isLoadingSubject = BehaviorSubject<Bool>(value: true)
   
   init(noticeRepository: NoticeRepository = NoticeRepositoryImpl()) {
     self.noticeRepository = noticeRepository
@@ -30,6 +32,7 @@ final class NoticeViewModel {
   private func inquireMainNoticeList() {
     noticeRepository.inquireMainNoticeList()
       .subscribe(with: self) { owner, response in
+
         owner.noticeTagModelRelay.accept(response.noticeType)
         
         owner.noticeModelRelay.accept(
@@ -44,12 +47,18 @@ final class NoticeViewModel {
               path: $0.path
             )
           })
+        
+        owner.isLoadingSubject.onNext(false)
       }
       .disposed(by: disposeBag)
   }
 }
 
 extension NoticeViewModel: NoticeViewModelType {
+  var isLoading: RxCocoa.Driver<Bool> {
+    isLoadingSubject.asDriver(onErrorJustReturn: true)
+  }
+  
   
   var noticeModel: Driver<[NoticeCollectionViewCellModel]> {
     noticeModelRelay.asDriver()
@@ -58,4 +67,6 @@ extension NoticeViewModel: NoticeViewModelType {
   var noticeTagModel: Driver<[MainNoticeType]> {
     noticeTagModelRelay.asDriver()
   }
+  
+  
 }

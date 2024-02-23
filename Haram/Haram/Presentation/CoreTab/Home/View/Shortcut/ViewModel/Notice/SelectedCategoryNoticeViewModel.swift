@@ -12,6 +12,7 @@ protocol SelectedCategoryNoticeViewModelType {
   func inquireNoticeList(type: NoticeType)
   
   var noticeCollectionViewCellModel: Driver<[NoticeCollectionViewCellModel]> { get }
+  var isLoading: Driver<Bool> { get }
 }
 
 final class SelectedCategoryNoticeViewModel {
@@ -20,6 +21,7 @@ final class SelectedCategoryNoticeViewModel {
   private let noticeRepository: NoticeRepository
   
   private let noticeCollectionViewCellModelRelay = BehaviorRelay<[NoticeCollectionViewCellModel]>(value: [])
+  private let isLoadingSubject = BehaviorSubject<Bool>(value: true)
   
   init(noticeRepository: NoticeRepository = NoticeRepositoryImpl()) {
     self.noticeRepository = noticeRepository
@@ -28,6 +30,10 @@ final class SelectedCategoryNoticeViewModel {
 }
 
 extension SelectedCategoryNoticeViewModel: SelectedCategoryNoticeViewModelType {
+  var isLoading: RxCocoa.Driver<Bool> {
+    isLoadingSubject.asDriver(onErrorJustReturn: true)
+  }
+  
   var noticeCollectionViewCellModel: RxCocoa.Driver<[NoticeCollectionViewCellModel]> {
     noticeCollectionViewCellModelRelay.asDriver()
   }
@@ -50,6 +56,8 @@ extension SelectedCategoryNoticeViewModel: SelectedCategoryNoticeViewModelType {
           noticeType: $0.loopnum,
           path: $0.path)
       })
+      
+      owner.isLoadingSubject.onNext(false)
     }
     .disposed(by: disposeBag)
   }

@@ -9,6 +9,7 @@ import UIKit
 import WebKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 struct NoticeDetailModel {
@@ -25,7 +26,7 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
-//    $0.contentInsetAdjustmentBehavior = .never
+    $0.isSkeletonable = true
   }
   
   private let containerView = UIStackView().then {
@@ -34,16 +35,20 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     $0.spacing = 11
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = UIEdgeInsets(top: 34, left: 15, bottom: 15, right: 15)
+    $0.isSkeletonable = true
   }
   
   private let titleLabel = UILabel().then {
     $0.font = .regular15
     $0.textColor = .black
+    $0.isSkeletonable = true
+    $0.numberOfLines = 0
   }
   
   private let writerInfoLabel = UILabel().then {
     $0.font = .regular15
     $0.textColor = .black
+    $0.isSkeletonable = true
   }
   
   private let configuration = WKWebViewConfiguration().then {
@@ -58,6 +63,7 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     $0.scrollView.showsVerticalScrollIndicator = false
     $0.scrollView.bounces = false
     $0.navigationDelegate = self
+    $0.isSkeletonable = true
   }
   
   init(path: String, viewModel: NoticeDetailViewModelType = NoticeDetailViewModel()) {
@@ -76,17 +82,23 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     
     viewModel.noticeDetailModel
       .drive(with: self) { owner, model in
+        
+        owner.view.hideSkeleton()
+        
         owner.titleLabel.text = model.title
         owner.writerInfoLabel.text = model.writerInfo
         owner.webView.loadHTMLString(model.content, baseURL: nil)
+        
       }
       .disposed(by: disposeBag)
+    
   }
   
   override func setupStyles() {
     super.setupStyles()
     title = "공지사항"
     setupBackButton()
+    setupSkeletonView()
   }
   
   override func setupLayouts() {

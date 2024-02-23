@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 final class CategoryCollectionViewCell: UICollectionViewCell {
@@ -30,6 +31,11 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    
+    isSkeletonable = true
+    contentView.isSkeletonable = true
+    contentView.skeletonCornerRadius = 10
+    
     contentView.backgroundColor = .hexEEF0F3
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true
