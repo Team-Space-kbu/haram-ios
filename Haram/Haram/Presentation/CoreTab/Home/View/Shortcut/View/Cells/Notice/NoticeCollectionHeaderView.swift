@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 protocol NoticeCollectionHeaderViewDelegate: AnyObject {
@@ -28,6 +29,7 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
     $0.font = .medium16
     $0.textColor = .hex02162E
     $0.text = "카테고리"
+//    $0.isSkeletonable = true
   }
   
   private let categoryCollectionView = UICollectionView(
@@ -41,6 +43,7 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
     $0.showsVerticalScrollIndicator = false
     $0.isScrollEnabled = false
     $0.backgroundColor = .clear
+//    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -53,6 +56,8 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    
+    isSkeletonable = true
     
     /// Set CollectionView delegate & dataSource
     categoryCollectionView.delegate = self
@@ -102,3 +107,19 @@ extension NoticeCollectionHeaderView: UICollectionViewDelegate, UICollectionView
     delegate?.didTappedCategory(noticeType: model[indexPath.row].key)
   }
 }
+
+//extension NoticeCollectionHeaderView: SkeletonCollectionViewDataSource {
+//  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+//    CategoryCollectionViewCell.identifier
+//  }
+//  
+//  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+//    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as? CategoryCollectionViewCell
+//    cell?.configureUI(with: model[indexPath.row])
+//    return cell
+//  }
+//  
+//  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//    model.count
+//  }
+//}

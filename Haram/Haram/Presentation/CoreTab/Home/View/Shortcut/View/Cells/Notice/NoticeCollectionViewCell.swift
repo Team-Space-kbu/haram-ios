@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 struct NoticeCollectionViewCellModel {
@@ -58,6 +59,12 @@ final class NoticeCollectionViewCell: UICollectionViewCell {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    skeletonCornerRadius = 10
+//    contentView.isSkeletonable = true
+//    contentView.layer.masksToBounds = true
+//    contentView.skeletonCornerRadius = 10
+    
     contentView.backgroundColor = .hexF8F8F8
     contentView.layer.cornerRadius = 10
     contentView.layer.masksToBounds = true

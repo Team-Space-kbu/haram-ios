@@ -13,6 +13,7 @@ protocol NoticeDetailViewModelType {
   func inquireNoticeDetailInfo(path: String)
   
   var noticeDetailModel: Driver<NoticeDetailModel> { get }
+
 }
 
 final class NoticeDetailViewModel {
@@ -29,6 +30,7 @@ final class NoticeDetailViewModel {
 }
 
 extension NoticeDetailViewModel: NoticeDetailViewModelType {
+  
   var noticeDetailModel: RxCocoa.Driver<NoticeDetailModel> {
     noticeDetailModelRelay.asDriver(onErrorDriveWith: .empty())
   }
@@ -49,6 +51,7 @@ extension NoticeDetailViewModel: NoticeDetailViewModelType {
           content: response.content + headerString
         )
       )
+      
     }
     .disposed(by: disposeBag)
   }

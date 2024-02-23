@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 final class NoticeViewController: BaseViewController, BackButtonHandler {
@@ -40,6 +41,7 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
     $0.dataSource = self
     $0.showsVerticalScrollIndicator = false
     $0.contentInsetAdjustmentBehavior = .always
+    $0.isSkeletonable = true
   }
   
   init(viewModel: NoticeViewModelType = NoticeViewModel()) {
@@ -60,12 +62,21 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
     viewModel.noticeTagModel
       .drive(rx.noticeTagModel)
       .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .filter { !$0 }
+      .drive(with: self) { owner, _ in
+        owner.view.hideSkeleton()
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
     super.setupStyles()
     title = "공지사항"
     setupBackButton()
+    setupSkeletonView()
+    
     navigationItem.rightBarButtonItem = UIBarButtonItem(
       image: UIImage(resource: .searchLightGray),
       style: .plain,
@@ -165,4 +176,23 @@ extension NoticeViewController: NoticeCollectionHeaderViewDelegate {
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }
+}
+
+extension NoticeViewController: SkeletonCollectionViewDataSource {
+  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+    NoticeCollectionViewCell.identifier
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+    skeletonView.dequeueReusableCell(withReuseIdentifier: NoticeCollectionViewCell.identifier, for: indexPath) as? NoticeCollectionViewCell
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    10
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
+    NoticeCollectionHeaderView.identifier
+  }
+  
 }

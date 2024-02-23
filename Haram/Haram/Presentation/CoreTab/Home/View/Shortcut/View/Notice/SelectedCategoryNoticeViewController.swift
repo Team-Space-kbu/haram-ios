@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 final class SelectedCategoryNoticeViewController: BaseViewController {
@@ -31,6 +32,7 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
     $0.dataSource = self
     $0.showsVerticalScrollIndicator = false
     $0.contentInsetAdjustmentBehavior = .always
+    $0.isSkeletonable = true
   }
   
   init(noticeType: NoticeType, viewModel: SelectedCategoryNoticeViewModelType = SelectedCategoryNoticeViewModel()) {
@@ -51,12 +53,20 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
     viewModel.noticeCollectionViewCellModel
       .drive(rx.noticeModel)
       .disposed(by: disposeBag)
+    
+    viewModel.isLoading
+      .filter { !$0 }
+      .drive(with: self) { owner, _ in
+        owner.view.hideSkeleton()
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
     super.setupStyles()
     title = "공지사항"
     setupBackButton()
+    setupSkeletonView()
   }
   
   override func setupLayouts() {
@@ -106,4 +116,20 @@ extension SelectedCategoryNoticeViewController: BackButtonHandler {
   func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
+}
+
+extension SelectedCategoryNoticeViewController: SkeletonCollectionViewDataSource {
+  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+    NoticeCollectionViewCell.identifier
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+    skeletonView.dequeueReusableCell(withReuseIdentifier: NoticeCollectionViewCell.identifier, for: indexPath) as? NoticeCollectionViewCell
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    10
+  }
+  
+  
 }
