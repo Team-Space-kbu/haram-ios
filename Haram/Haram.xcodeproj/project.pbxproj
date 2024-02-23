@@ -12,7 +12,7 @@
 		669EFE3CDA314DC8B6A831AB /* Pods_Haram_HaramUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8845B9C9436D1FA7867A3DCC /* Pods_Haram_HaramUITests.framework */; };
 		7001DA892B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7001DA882B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift */; };
 		7001DA8B2B6E17C10037D599 /* LogoutUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7001DA8A2B6E17C10037D599 /* LogoutUserRequest.swift */; };
-		701F29C42AE6750100E3E68B /* InquireBoardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29C32AE6750100E3E68B /* InquireBoardResponse.swift */; };
+		701F29C42AE6750100E3E68B /* InquireBoardDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29C32AE6750100E3E68B /* InquireBoardDetailResponse.swift */; };
 		701F29C62AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29C52AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift */; };
 		701F29D72AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29D62AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift */; };
 		701F29D92AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */; };
@@ -50,7 +50,7 @@
 		7051E4F92AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4F82AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift */; };
 		7051E4FB2ADAB6C700C2134B /* BoardRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4FA2ADAB6C700C2134B /* BoardRouter.swift */; };
 		7051E4FD2ADAB71200C2134B /* BoardRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4FC2ADAB71200C2134B /* BoardRepositoryImpl.swift */; };
-		7051E5002ADAB75100C2134B /* InquireBoardlistResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4FF2ADAB75100C2134B /* InquireBoardlistResponse.swift */; };
+		7051E5002ADAB75100C2134B /* InquireBoardListInCategoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E4FF2ADAB75100C2134B /* InquireBoardListInCategoryResponse.swift */; };
 		7051E5022ADABC4400C2134B /* Ex + UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E5012ADABC4400C2134B /* Ex + UILabel.swift */; };
 		7051E5062ADAF4EF00C2134B /* BoardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051E5052ADAF4EF00C2134B /* BoardDetailViewModel.swift */; };
 		705E70B829E1C8ED00156B1F /* HomeNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */; };
@@ -173,7 +173,6 @@
 		70864F322AF9502600CD4124 /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F312AF9502600CD4124 /* CommentInputView.swift */; };
 		70864F362AFE1F3600CD4124 /* InquireMileageInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F352AFE1F3600CD4124 /* InquireMileageInfoResponse.swift */; };
 		70864F382B014A2D00CD4124 /* CreateCommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F372B014A2D00CD4124 /* CreateCommentRequest.swift */; };
-		70864F3A2B014AD400CD4124 /* CreateCommentResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F392B014AD400CD4124 /* CreateCommentResponse.swift */; };
 		70864F3C2B021FA900CD4124 /* IntranetCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */; };
 		708DAD1C2B36DE6C00E3AD45 /* Ex + UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708DAD1B2B36DE6C00E3AD45 /* Ex + UIViewController.swift */; };
 		708E1E602B038A6E0030FAA0 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = 708E1E5F2B038A6E0030FAA0 /* FloatingPanel */; };
@@ -249,6 +248,8 @@
 		70AD2A652B85FF7000CB9791 /* InquireNoticeDetailInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A642B85FF7000CB9791 /* InquireNoticeDetailInfoRequest.swift */; };
 		70AD2A672B86001600CB9791 /* InquireNoticeDetailInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A662B86001600CB9791 /* InquireNoticeDetailInfoResponse.swift */; };
 		70AD2A692B86014100CB9791 /* NoticeDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A682B86014100CB9791 /* NoticeDetailViewModel.swift */; };
+		70AD2A6D2B88976500CB9791 /* InquireBoardCategoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A6C2B88976500CB9791 /* InquireBoardCategoryResponse.swift */; };
+		70AD2A6F2B889B1C00CB9791 /* BoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A6E2B889B1C00CB9791 /* BoardViewModel.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -284,7 +285,7 @@
 		20342B93EE798F313B694610 /* Pods-Haram-HaramUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.debug.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		7001DA882B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceAccessTokenRequest.swift; sourceTree = "<group>"; };
 		7001DA8A2B6E17C10037D599 /* LogoutUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutUserRequest.swift; sourceTree = "<group>"; };
-		701F29C32AE6750100E3E68B /* InquireBoardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBoardResponse.swift; sourceTree = "<group>"; };
+		701F29C32AE6750100E3E68B /* InquireBoardDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBoardDetailResponse.swift; sourceTree = "<group>"; };
 		701F29C52AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireRothemHomeInfoResponse.swift; sourceTree = "<group>"; };
 		701F29D62AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireRothemRoomInfoResponse.swift; sourceTree = "<group>"; };
 		701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyRoomDetailViewModel.swift; sourceTree = "<group>"; };
@@ -320,7 +321,7 @@
 		7051E4F82AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireAllRothemNoticeResponse.swift; sourceTree = "<group>"; };
 		7051E4FA2ADAB6C700C2134B /* BoardRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardRouter.swift; sourceTree = "<group>"; };
 		7051E4FC2ADAB71200C2134B /* BoardRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardRepositoryImpl.swift; sourceTree = "<group>"; };
-		7051E4FF2ADAB75100C2134B /* InquireBoardlistResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBoardlistResponse.swift; sourceTree = "<group>"; };
+		7051E4FF2ADAB75100C2134B /* InquireBoardListInCategoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBoardListInCategoryResponse.swift; sourceTree = "<group>"; };
 		7051E5012ADABC4400C2134B /* Ex + UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UILabel.swift"; sourceTree = "<group>"; };
 		7051E5052ADAF4EF00C2134B /* BoardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewModel.swift; sourceTree = "<group>"; };
 		705E70B729E1C8ED00156B1F /* HomeNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNoticeView.swift; sourceTree = "<group>"; };
@@ -442,7 +443,6 @@
 		70864F312AF9502600CD4124 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		70864F352AFE1F3600CD4124 /* InquireMileageInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireMileageInfoResponse.swift; sourceTree = "<group>"; };
 		70864F372B014A2D00CD4124 /* CreateCommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommentRequest.swift; sourceTree = "<group>"; };
-		70864F392B014AD400CD4124 /* CreateCommentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommentResponse.swift; sourceTree = "<group>"; };
 		70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetCheckViewController.swift; sourceTree = "<group>"; };
 		708DAD1B2B36DE6C00E3AD45 /* Ex + UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIViewController.swift"; sourceTree = "<group>"; };
 		708E1E612B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedFloatingPanelViewController.swift; sourceTree = "<group>"; };
@@ -517,6 +517,8 @@
 		70AD2A642B85FF7000CB9791 /* InquireNoticeDetailInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeDetailInfoRequest.swift; sourceTree = "<group>"; };
 		70AD2A662B86001600CB9791 /* InquireNoticeDetailInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeDetailInfoResponse.swift; sourceTree = "<group>"; };
 		70AD2A682B86014100CB9791 /* NoticeDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewModel.swift; sourceTree = "<group>"; };
+		70AD2A6C2B88976500CB9791 /* InquireBoardCategoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBoardCategoryResponse.swift; sourceTree = "<group>"; };
+		70AD2A6E2B889B1C00CB9791 /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -665,10 +667,10 @@
 		7051E4FE2ADAB74700C2134B /* Board */ = {
 			isa = PBXGroup;
 			children = (
-				7051E4FF2ADAB75100C2134B /* InquireBoardlistResponse.swift */,
-				701F29C32AE6750100E3E68B /* InquireBoardResponse.swift */,
+				7051E4FF2ADAB75100C2134B /* InquireBoardListInCategoryResponse.swift */,
+				701F29C32AE6750100E3E68B /* InquireBoardDetailResponse.swift */,
 				70864F372B014A2D00CD4124 /* CreateCommentRequest.swift */,
-				70864F392B014AD400CD4124 /* CreateCommentResponse.swift */,
+				70AD2A6C2B88976500CB9791 /* InquireBoardCategoryResponse.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -1038,6 +1040,7 @@
 			children = (
 				708ED7812A8CC70700107CDF /* BoardListViewModel.swift */,
 				7051E5052ADAF4EF00C2134B /* BoardDetailViewModel.swift */,
+				70AD2A6E2B889B1C00CB9791 /* BoardViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1718,7 +1721,7 @@
 				705FD2AD2A16160100F353FE /* LibraryViewController.swift in Sources */,
 				708ED7DD2A93490E00107CDF /* PopularAmenityCollectionViewCell.swift in Sources */,
 				708ED7AB2A8FA53F00107CDF /* SelectedTimeCollectionHeaderView.swift in Sources */,
-				7051E5002ADAB75100C2134B /* InquireBoardlistResponse.swift in Sources */,
+				7051E5002ADAB75100C2134B /* InquireBoardListInCategoryResponse.swift in Sources */,
 				705FD2C52A2338DE00F353FE /* NoticeCollectionViewCell.swift in Sources */,
 				70727A9929D88A22003DE956 /* RegisterViewController.swift in Sources */,
 				70912FFF2B15FF7D005B88B4 /* CancelRothemReservationRequest.swift in Sources */,
@@ -1748,6 +1751,7 @@
 				705FD2B32A16278700F353FE /* LibraryCollectionHeaderView.swift in Sources */,
 				70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */,
 				708ED7EF2A9E232A00107CDF /* AffiliatedViewModel.swift in Sources */,
+				70AD2A6D2B88976500CB9791 /* InquireBoardCategoryResponse.swift in Sources */,
 				709AB6452B77E19B004B0F59 /* BoardImageCollectionViewCell.swift in Sources */,
 				7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */,
 				708312AE2A73936E00F7E283 /* CategoryCollectionViewCell.swift in Sources */,
@@ -1819,7 +1823,7 @@
 				7032FD822B656AEE00B8481C /* InquireBibleHomeInfoResponse.swift in Sources */,
 				705FD2922A13B9E600F353FE /* AuthRepositoryImpl.swift in Sources */,
 				70375EFA2AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift in Sources */,
-				701F29C42AE6750100E3E68B /* InquireBoardResponse.swift in Sources */,
+				701F29C42AE6750100E3E68B /* InquireBoardDetailResponse.swift in Sources */,
 				705FD2B12A1625EF00F353FE /* NewLibraryCollectionViewCell.swift in Sources */,
 				708312372A2CA50300F7E283 /* IntranetRouter.swift in Sources */,
 				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
@@ -1895,7 +1899,6 @@
 				708DAD1C2B36DE6C00E3AD45 /* Ex + UIViewController.swift in Sources */,
 				7083125E2A3887B700F7E283 /* InquireScheduleInfoResponse.swift in Sources */,
 				708312BA2A78D0A300F7E283 /* HaramButton.swift in Sources */,
-				70864F3A2B014AD400CD4124 /* CreateCommentResponse.swift in Sources */,
 				708ED7AD2A8FAAF600107CDF /* SelectedDayCollectionViewCell.swift in Sources */,
 				70C9CCB22A067D8000BEB5F2 /* ChapelDayView.swift in Sources */,
 				70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */,
@@ -1908,6 +1911,7 @@
 				709130032B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift in Sources */,
 				708E1E622B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift in Sources */,
 				70909A862B0D9F1F00049265 /* InquireRothemReservationInfoResponse.swift in Sources */,
+				70AD2A6F2B889B1C00CB9791 /* BoardViewModel.swift in Sources */,
 				705FD2BF2A1A4D2E00F353FE /* LibraryDetailMainView.swift in Sources */,
 				70375F162AB1B0500032F6B8 /* HaramToast.swift in Sources */,
 				708ED7CB2A91224B00107CDF /* TodayBibleWordCollectionViewCell.swift in Sources */,

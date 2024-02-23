@@ -12,7 +12,8 @@ import SnapKit
 import Then
 
 struct BoardTableViewCellModel {
-  let imageName: String
+  let categorySeq: Int
+  let imageURL: URL?
   let title: String
 }
 
@@ -84,7 +85,7 @@ final class BoardTableViewCell: UITableViewCell {
   }
   
   func configureUI(with model: BoardTableViewCellModel) {
-    boardImageView.image = UIImage(named: model.imageName)
+    boardImageView.kf.setImage(with: model.imageURL)
     titleLabel.text = model.title
   }
 }

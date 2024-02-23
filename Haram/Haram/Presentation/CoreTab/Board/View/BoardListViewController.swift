@@ -15,7 +15,7 @@ import Then
 final class BoardListViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: BoardListViewModelType
-  private let type: BoardType
+  private let categorySeq: Int
   
   private var boardListModel: [BoardListCollectionViewCellModel] = [] {
     didSet {
@@ -50,9 +50,9 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   
   private lazy var emptyView = EmptyView(text: "게시글이 없습니다.")
   
-  init(type: BoardType, viewModel: BoardListViewModelType = BoardListViewModel()) {
+  init(categorySeq: Int, viewModel: BoardListViewModelType = BoardListViewModel()) {
     self.viewModel = viewModel
-    self.type = type
+    self.categorySeq = categorySeq
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -100,7 +100,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   override func bind() {
     super.bind()
     
-    viewModel.inquireBoardList(boardType: type)
+    viewModel.inquireBoardList(categorySeq: categorySeq)
     
     viewModel.boardListModel
       .drive(rx.boardListModel)
@@ -143,7 +143,7 @@ extension BoardListViewController: UICollectionViewDelegateFlowLayout, UICollect
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = BoardDetailViewController(boardType: type, boardSeq: boardListModel[indexPath.row].boardSeq)
+    let vc = BoardDetailViewController(categorySeq: categorySeq, boardSeq: boardListModel[indexPath.row].boardSeq)
     vc.navigationItem.largeTitleDisplayMode = .never
     self.navigationController?.pushViewController(vc, animated: true)
   }

@@ -10,7 +10,7 @@ import RxCocoa
 
 protocol BoardListViewModelType {
   
-  func inquireBoardList(boardType: BoardType)
+  func inquireBoardList(categorySeq: Int)
   
   var boardListModel: Driver<[BoardListCollectionViewCellModel]> { get }
   var isLoading: Driver<Bool> { get }
@@ -32,15 +32,15 @@ final class BoardListViewModel {
 }
 
 extension BoardListViewModel: BoardListViewModelType {
-  func inquireBoardList(boardType: BoardType) {
-    let inquireBoardList = boardRepository.inquireBoardlist(boardType: boardType)
+  func inquireBoardList(categorySeq: Int) {
+    let inquireBoardList = boardRepository.inquireBoardListInCategory(categorySeq: categorySeq)
     
     inquireBoardList
       .do(onSuccess: { [weak self] _ in
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)
       })
-      .map { $0.map { BoardListCollectionViewCellModel(response: $0) } }
+      .map { $0.boards.map { BoardListCollectionViewCellModel(board: $0) } }
       .subscribe(with: self, onSuccess: { owner, model in
         owner.currentBoardListRelay.accept(model)
         owner.isLoadingSubject.onNext(false)

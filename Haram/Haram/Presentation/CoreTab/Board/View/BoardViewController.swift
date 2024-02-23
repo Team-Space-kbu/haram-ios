@@ -12,7 +12,13 @@ import Then
 
 final class BoardViewController: BaseViewController {
   
-//  var coordinator: BoardCoordinator?
+  private let viewModel: BoardViewModelType
+  
+  private var boardModel: [BoardTableViewCellModel] = [] {
+    didSet {
+      boardTableView.reloadData()
+    }
+  }
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -44,6 +50,22 @@ final class BoardViewController: BaseViewController {
     $0.textColor = .black
     $0.text = "게시판"
     $0.font = .bold26
+  }
+  
+  init(viewModel: BoardViewModelType = BoardViewModel()) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func bind() {
+    super.bind()
+    viewModel.boardModel
+      .drive(rx.boardModel)
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -80,37 +102,22 @@ final class BoardViewController: BaseViewController {
 extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   
   func numberOfSections(in tableView: UITableView) -> Int {
-    return 2
+    return 1
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if section == 0 {
-      return 3
-    }
-    return 6
+    boardModel.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let section = indexPath.section
     let cell = tableView.dequeueReusableCell(withIdentifier: BoardTableViewCell.identifier, for: indexPath) as? BoardTableViewCell ?? BoardTableViewCell()
-    if section == 0 {
-      let model: BoardType = [.STUDENT_COUNCIL, .CLUB, .DEPARTMENT][indexPath.row]
-      cell.configureUI(with: .init(imageName: model.imageName, title: model.title))
-    } else if section == 1{
-      let model: BoardType = [.FREE, .SECRET, .WORRIES, .INFORMATION, .DATING, .STUDY][indexPath.row]
-      cell.configureUI(with: .init(imageName: model.imageName, title: model.title))
-    }
-    
+    cell.configureUI(with: boardModel[indexPath.row])
     return cell
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: BoardTableHeaderView.identifier) as? BoardTableHeaderView ?? BoardTableHeaderView()
-    if section == 0 {
-      headerView.configureUI(with: "학교게시판")
-    } else if section == 1 {
-      headerView.configureUI(with: "일반게시판")
-    }
+    headerView.configureUI(with: "일반 게시판")
     return headerView
   }
   
@@ -119,12 +126,11 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let vc = BoardListViewController(type: indexPath.section == 0 ? BoardType.allCases[0...2][indexPath.row] : BoardType.allCases[3...8][indexPath.row + 3])
+    let vc = BoardListViewController(categorySeq: boardModel[indexPath.row].categorySeq)
     vc.title = "게시판"
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.hidesBottomBarWhenPushed = true
     navigationController?.pushViewController(vc, animated: true)
-//    coordinator?.didTappedBoardLis/*t(type: indexPath.section == 0 ? BoardType.allCases[0...2][indexPath.row] : BoardType.allCases[3...8][indexPath.row + 3])*/
   }
 }
 
