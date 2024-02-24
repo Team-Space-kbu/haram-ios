@@ -42,18 +42,28 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
     
     inquireBoard
       .subscribe(with: self) { owner, response in
-//        owner.currentBoardInfoRelay.accept([
-//          BoardDetailHeaderViewModel(
-//            boardTitle: response.boardTitle,
-//            boardContent: response.boardContent,
-//            boardDate: DateformatterFactory.dateWithHypen.date(from: response.createdAt) ?? Date(),
-//            boardAuthorName: "익명", 
-//            boardImageCollectionViewCellModel: response.boardFileList.map({
-//              BoardImageCollectionViewCellModel(imageURL: URL(string: $0.path))
-//            })
-//          )])
-//        
-//        owner.currentBoardListRelay.accept(response.commentDtoList.map { BoardDetailCollectionViewCellModel(commentDto: $0) })
+        owner.currentBoardInfoRelay.accept([
+          BoardDetailHeaderViewModel(
+            boardTitle: response.title,
+            boardContent: response.contents,
+            boardDate: DateformatterFactory.iso8601.date(from: response.createdAt) ?? Date(),
+            boardAuthorName: response.createdBy,
+            boardImageCollectionViewCellModel: response.files.map {
+              BoardImageCollectionViewCellModel(imageURL: URL(string: $0.fileUrl))
+            })
+        ])
+
+        owner.currentBoardListRelay.accept(
+          response.comments.map {
+            BoardDetailCollectionViewCellModel(
+              commentAuthorInfoModel: .init(
+                commentAuthorName: $0.createdBy,
+                commentDate: DateformatterFactory.iso8601.date(from: $0.createdAt) ?? Date()
+              ),
+              comment: $0.contents
+            )
+          }
+        )
       }
       .disposed(by: disposeBag)
   }

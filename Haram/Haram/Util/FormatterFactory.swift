@@ -48,6 +48,10 @@ enum DateformatterFactory {
   }
   
   static var iso8601: DateFormatter {
+    formatter.then { $0.dateFormat = "yyyy-MM-dd'T'HH:mm:ss" }
+  }
+  
+  static var iso8601_2: DateFormatter {
     formatter.then { $0.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ" }
   }
   

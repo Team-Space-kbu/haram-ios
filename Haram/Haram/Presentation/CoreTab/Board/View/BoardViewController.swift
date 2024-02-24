@@ -126,7 +126,11 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let vc = BoardListViewController(categorySeq: boardModel[indexPath.row].categorySeq)
+    let boardModel = boardModel[indexPath.row]
+    let vc = BoardListViewController(
+      categorySeq: boardModel.categorySeq,
+      writeableBoard: boardModel.writeableBoard
+    )
     vc.title = "게시판"
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.hidesBottomBarWhenPushed = true

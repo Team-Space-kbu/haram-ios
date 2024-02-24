@@ -16,6 +16,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: BoardListViewModelType
   private let categorySeq: Int
+  private let writeableBoard: Bool
   
   private var boardListModel: [BoardListCollectionViewCellModel] = [] {
     didSet {
@@ -36,7 +37,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     $0.isSkeletonable = true
   }
   
-  private let editBoardButton = UIButton().then {
+  private lazy var editBoardButton = UIButton().then {
     $0.layer.cornerRadius = 25
     $0.backgroundColor = .hex79BD9A
     $0.setImage(UIImage(resource: .editButton), for: .normal)
@@ -50,9 +51,10 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   
   private lazy var emptyView = EmptyView(text: "게시글이 없습니다.")
   
-  init(categorySeq: Int, viewModel: BoardListViewModelType = BoardListViewModel()) {
+  init(categorySeq: Int, writeableBoard: Bool, viewModel: BoardListViewModelType = BoardListViewModel()) {
     self.viewModel = viewModel
     self.categorySeq = categorySeq
+    self.writeableBoard = writeableBoard
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -76,7 +78,12 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   
   override func setupLayouts() {
     super.setupLayouts()
-    _ = [boardListCollectionView, editBoardButton, emptyView].map { view.addSubview($0) }
+    
+    _ = [boardListCollectionView, emptyView].map { view.addSubview($0) }
+    
+    if writeableBoard {
+      view.addSubview(editBoardButton)
+    }
   }
   
   override func setupConstraints() {
@@ -89,10 +96,12 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
       $0.directionalEdges.equalToSuperview()
     }
     
-    editBoardButton.snp.makeConstraints {
-      $0.size.equalTo(50)
-      $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottomMargin).offset(-54)
-      $0.trailing.equalToSuperview().inset(15)
+    if writeableBoard {
+      editBoardButton.snp.makeConstraints {
+        $0.size.equalTo(50)
+        $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottomMargin).offset(-54)
+        $0.trailing.equalToSuperview().inset(15)
+      }
     }
     
   }
@@ -103,7 +112,11 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     viewModel.inquireBoardList(categorySeq: categorySeq)
     
     viewModel.boardListModel
-      .drive(rx.boardListModel)
+      .skip(1)
+      .drive(with: self) { owner, model in
+        owner.emptyView.isHidden = !model.isEmpty
+        owner.boardListModel = model
+      }
       .disposed(by: disposeBag)
     
     viewModel.isLoading
@@ -113,15 +126,16 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
       }
       .disposed(by: disposeBag)
     
-    viewModel.errorMessage
-      .emit(with: self) { owner, error in
-        guard error == .noExistBoard else { return }
-        owner.emptyView.isHidden = false
-      }
-      .disposed(by: disposeBag)
+//    viewModel.errorMessage
+//      .emit(with: self) { owner, error in
+//        guard error == .noExistBoard else { return }
+//        owner.emptyView.isHidden = false
+//      }
+//      .disposed(by: disposeBag)
   }
   
-  @objc func didTappedBackButton() {
+  @objc
+  func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
 }
