@@ -8,6 +8,7 @@
 import UIKit
 
 import RxSwift
+import SVGKit
 import SnapKit
 import Then
 
@@ -85,7 +86,18 @@ final class BoardTableViewCell: UITableViewCell {
   }
   
   func configureUI(with model: BoardTableViewCellModel) {
-    boardImageView.kf.setImage(with: model.imageURL)
-    titleLabel.text = model.title
+    
+    URLSession.shared.dataTask(with: model.imageURL!) { data, _, error in
+      
+      guard let svgImage = SVGKImage(data: data),
+            let image = svgImage.uiImage else { return }
+      
+      DispatchQueue.main.async {
+        self.boardImageView.image = image
+      }
+    }.resume()
+
+    self.titleLabel.text = model.title
+    
   }
 }
