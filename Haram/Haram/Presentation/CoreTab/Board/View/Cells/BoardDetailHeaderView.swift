@@ -64,10 +64,13 @@ final class BoardDetailHeaderView: UICollectionReusableView {
   
   private lazy var boardImageCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
     $0.scrollDirection = .horizontal
+    $0.minimumLineSpacing = 0
   }).then {
     $0.delegate = self
     $0.dataSource = self
     $0.register(BoardImageCollectionViewCell.self, forCellWithReuseIdentifier: BoardImageCollectionViewCell.identifier)
+    $0.isPagingEnabled = true
+    $0.showsHorizontalScrollIndicator = false
   }
   
   override init(frame: CGRect) {
