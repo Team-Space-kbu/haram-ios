@@ -38,7 +38,7 @@ final class NoticeViewModel {
         owner.noticeModelRelay.accept(
           response.notices.map {
             
-            let iso8607Date = DateformatterFactory.iso8601.date(from: $0.regDate)!
+            let iso8607Date = DateformatterFactory.iso8601_2.date(from: $0.regDate)!
             
             return NoticeCollectionViewCellModel(
               title: $0.title,

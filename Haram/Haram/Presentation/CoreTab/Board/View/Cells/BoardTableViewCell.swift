@@ -16,6 +16,7 @@ struct BoardTableViewCellModel {
   let categorySeq: Int
   let imageURL: URL?
   let title: String
+  let writeableBoard: Bool
 }
 
 final class BoardTableViewCell: UITableViewCell {
@@ -89,14 +90,21 @@ final class BoardTableViewCell: UITableViewCell {
     
     URLSession.shared.dataTask(with: model.imageURL!) { data, _, error in
       
-      guard let svgImage = SVGKImage(data: data),
-            let image = svgImage.uiImage else { return }
-      
-      DispatchQueue.main.async {
-        self.boardImageView.image = image
+      if let data = data, error == nil {
+        guard let svgImage = SVGKImage(data: data) else {
+          print("뭐야")
+          return
+        }
+        let image = svgImage.uiImage
+        DispatchQueue.main.async {
+          
+          self.boardImageView.image = image
+        }
       }
+      
     }.resume()
-
+    
+    
     self.titleLabel.text = model.title
     
   }

@@ -33,7 +33,8 @@ final class BoardViewModel {
           BoardTableViewCellModel(
             categorySeq: $0.categorySeq,
             imageURL: URL(string: $0.iconUrl),
-            title: $0.categoryName
+            title: $0.categoryName, 
+            writeableBoard: $0.writeableBoard
           )
         })
       }

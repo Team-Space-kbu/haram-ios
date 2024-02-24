@@ -14,11 +14,16 @@ struct BoardDetailCollectionViewCellModel {
   let commentAuthorInfoModel: CommentAuthorInfoViewModel
   let comment: String
   
+  init(commentAuthorInfoModel: CommentAuthorInfoViewModel, comment: String) {
+    self.commentAuthorInfoModel = commentAuthorInfoModel
+    self.comment = comment
+  }
+  
   init(comment: String, createdAt: String) {
     self.comment = comment
     commentAuthorInfoModel = CommentAuthorInfoViewModel(
       commentAuthorName: UserManager.shared.userID!,
-      commentDate: DateformatterFactory.dateWithHypen.date(from: createdAt) ?? Date())
+      commentDate: DateformatterFactory.iso8601.date(from: createdAt) ?? Date())
   }
 }
 
