@@ -252,7 +252,8 @@
 		70AD2A6F2B889B1C00CB9791 /* BoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A6E2B889B1C00CB9791 /* BoardViewModel.swift */; };
 		70AD2A722B89CC6600CB9791 /* SVGKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70AD2A712B89CC6600CB9791 /* SVGKit */; };
 		70AD2A742B89CC6600CB9791 /* SVGKitSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 70AD2A732B89CC6600CB9791 /* SVGKitSwift */; };
-		70AD2A772B89FADE00CB9791 /* SwiftSVG in Frameworks */ = {isa = PBXBuildFile; productRef = 70AD2A762B89FADE00CB9791 /* SwiftSVG */; };
+		70AD2A792B8B1B4F00CB9791 /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A782B8B1B4F00CB9791 /* LogHelper.swift */; };
+		70AD2A7B2B8B2A6A00CB9791 /* OSLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70AD2A7A2B8B2A6A00CB9791 /* OSLog.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -522,6 +523,8 @@
 		70AD2A682B86014100CB9791 /* NoticeDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewModel.swift; sourceTree = "<group>"; };
 		70AD2A6C2B88976500CB9791 /* InquireBoardCategoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBoardCategoryResponse.swift; sourceTree = "<group>"; };
 		70AD2A6E2B889B1C00CB9791 /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
+		70AD2A782B8B1B4F00CB9791 /* LogHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
+		70AD2A7A2B8B2A6A00CB9791 /* OSLog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OSLog.framework; path = System/Library/Frameworks/OSLog.framework; sourceTree = SDKROOT; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -545,6 +548,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70AD2A7B2B8B2A6A00CB9791 /* OSLog.framework in Frameworks */,
 				70AD2A742B89CC6600CB9791 /* SVGKitSwift in Frameworks */,
 				706BA0C329E6A32700AF12D4 /* RxCocoa in Frameworks */,
 				705FD27C2A10D3EA00F353FE /* Alamofire in Frameworks */,
@@ -557,7 +561,6 @@
 				706BA0C029E6A26D00AF12D4 /* Then in Frameworks */,
 				70AD2A722B89CC6600CB9791 /* SVGKit in Frameworks */,
 				3DC159BDF32A558887F5A00D /* Pods_Haram.framework in Frameworks */,
-				70AD2A772B89FADE00CB9791 /* SwiftSVG in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -924,6 +927,7 @@
 				708ED7DE2A94B2E700107CDF /* RevisionOfTranslation.xcdatamodeld */,
 				708ED7E12A94B49000107CDF /* CoreDataManager.swift */,
 				70430A812B7E29D200B64545 /* Device.swift */,
+				70AD2A782B8B1B4F00CB9791 /* LogHelper.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1442,6 +1446,7 @@
 		9FB0ECFBEBC0795C64E27079 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				70AD2A7A2B8B2A6A00CB9791 /* OSLog.framework */,
 				B52140915633B48F612AEF22 /* Pods_Haram.framework */,
 				8845B9C9436D1FA7867A3DCC /* Pods_Haram_HaramUITests.framework */,
 				09A40B3BC914D1A2919D5F57 /* Pods_HaramTests.framework */,
@@ -1479,7 +1484,6 @@
 				70912FFC2B15F463005B88B4 /* QRCode */,
 				70AD2A712B89CC6600CB9791 /* SVGKit */,
 				70AD2A732B89CC6600CB9791 /* SVGKitSwift */,
-				70AD2A762B89FADE00CB9791 /* SwiftSVG */,
 			);
 			productName = Haram;
 			productReference = 70727A5129D87B25003DE956 /* Haram.app */;
@@ -1568,7 +1572,6 @@
 				708E1E5E2B038A6E0030FAA0 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
 				70912FFB2B15F463005B88B4 /* XCRemoteSwiftPackageReference "QRCode" */,
 				70AD2A702B89CC1F00CB9791 /* XCRemoteSwiftPackageReference "SVGKit" */,
-				70AD2A752B89FADE00CB9791 /* XCRemoteSwiftPackageReference "SwiftSVG" */,
 			);
 			productRefGroup = 70727A5229D87B25003DE956 /* Products */;
 			projectDirPath = "";
@@ -1773,6 +1776,7 @@
 				708312542A31930300F7E283 /* InquireHomeInfoResponse.swift in Sources */,
 				708ED7BC2A9119CC00107CDF /* InquireTodayWordsRequest.swift in Sources */,
 				70375F0B2AB055360032F6B8 /* BibleSearchResultViewModel.swift in Sources */,
+				70AD2A792B8B1B4F00CB9791 /* LogHelper.swift in Sources */,
 				7083124C2A2F88EE00F7E283 /* RequestBookInfoResponse.swift in Sources */,
 				708312C22A7A6F2900F7E283 /* PaddingLabel.swift in Sources */,
 				708312642A3977B500F7E283 /* LibraryDetailViewModel.swift in Sources */,
@@ -2396,14 +2400,6 @@
 				minimumVersion = 3.0.0;
 			};
 		};
-		70AD2A752B89FADE00CB9791 /* XCRemoteSwiftPackageReference "SwiftSVG" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mchoe/SwiftSVG";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2461,11 +2457,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 70AD2A702B89CC1F00CB9791 /* XCRemoteSwiftPackageReference "SVGKit" */;
 			productName = SVGKitSwift;
-		};
-		70AD2A762B89FADE00CB9791 /* SwiftSVG */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 70AD2A752B89FADE00CB9791 /* XCRemoteSwiftPackageReference "SwiftSVG" */;
-			productName = SwiftSVG;
 		};
 /* End XCSwiftPackageProductDependency section */
 

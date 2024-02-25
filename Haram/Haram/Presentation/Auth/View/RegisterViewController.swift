@@ -329,12 +329,12 @@ extension RegisterViewController {
 
 extension RegisterViewController: HaramTextFieldDelegate {
   func didTappedButton() {
-    print("확인코드발송 선택")
+    LogHelper.log("확인코드발송 선택", level: .debug)
     view.endEditing(true)
   }
   
   func didTappedReturnKey() {
-    print("리턴 선택")
+    LogHelper.log("리턴 선택", level: .debug)
     view.endEditing(true)
   }
 }

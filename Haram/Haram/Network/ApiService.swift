@@ -73,7 +73,7 @@ final class ApiService: BaseService {
             }
             
           case .failure(_):
-            print("APIService 에러")
+            LogHelper.log("API를 호출하는데 문제가 발생하였습니다. 확인해주세요 !!", level: .error)
           }
         }
       return Disposables.create()
@@ -85,7 +85,6 @@ final class ApiService: BaseService {
       Single.create { observer in
         self.session.request(router)
           .validate({ request, response, data in
-            print("상태코드 \(response.statusCode)")
             let statusCode = response.statusCode
             
             if ![401, 402, 499].contains(statusCode) {

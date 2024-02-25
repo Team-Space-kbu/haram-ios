@@ -92,7 +92,7 @@ final class BoardTableViewCell: UITableViewCell {
       
       if let data = data, error == nil {
         guard let svgImage = SVGKImage(data: data) else {
-          print("뭐야")
+          LogHelper.log("게시글 카테고리 SVG이미지를 가져오는데 실패했습니다.", level: .error)
           return
         }
         let image = svgImage.uiImage

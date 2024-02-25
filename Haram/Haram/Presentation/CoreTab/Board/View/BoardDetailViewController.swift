@@ -73,7 +73,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   }
   
   deinit {
-    print(#function)
+    LogHelper.log(#function, level: .debug)
     removeNotifications()
   }
   
