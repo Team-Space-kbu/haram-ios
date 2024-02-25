@@ -114,18 +114,10 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
     viewModel.isLoading
       .filter { !$0 }
       .drive(with: self) { owner, isLoading in
-        print("로딩중 \(isLoading)")
         owner.view.hideSkeleton()
       }
       .disposed(by: disposeBag)
-    
-//    reservationButton.rx.tap
-//      .subscribe(with: self) { owner, _ in
-//        let vc = StudyReservationViewController(viewModel: StudyReservationViewModel(roomSeq: owner.roomSeq))
-//        vc.navigationItem.largeTitleDisplayMode = .never
-//        owner.navigationController?.pushViewController(vc, animated: true)
-//      }
-//      .disposed(by: disposeBag)
+
   }
 }
 

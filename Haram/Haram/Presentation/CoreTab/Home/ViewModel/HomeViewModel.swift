@@ -104,13 +104,13 @@ extension HomeViewModel: HomeViewModelType {
     
     // 시작 시간 설정 (예: 오전 11시30분)
     var startComponents = DateComponents()
-    startComponents.hour = 20
-    startComponents.minute = 48
+    startComponents.hour = 11
+    startComponents.minute = 30
     
     // 끝 시간 설정 (예: 오후 1시)
     var endComponents = DateComponents()
-    endComponents.hour = 20
-    endComponents.minute = 50
+    endComponents.hour = 13
+    endComponents.minute = 00
     
     // 특정 시간과 현재 시간 비교
     if let startDate = calendar.date(bySettingHour: startComponents.hour!, minute: startComponents.minute!, second: 0, of: currentDate),
