@@ -7,9 +7,7 @@
 
 import UIKit
 
-final class FindPasswordViewController: BaseViewController {
-  
-  private let viewModel: FindPasswordViewModelType
+final class CheckEmailViewController: BaseViewController {
   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
@@ -20,22 +18,21 @@ final class FindPasswordViewController: BaseViewController {
   }
   
   private let titleLabel = UILabel().then {
-    $0.text = "비밀번호 찾기🔐"
+    $0.text = "비밀번호 찾기📩"
     $0.textColor = .black
     $0.font = .bold24
   }
   
   private let alertLabel = UILabel().then {
-    $0.text = "비밀번호를 재설정하기 위해 코드를 인증해야합니다.\n사용자 이메일을 입력해주세요"
+    $0.text = "입력하신 이메일로 인증 코드를 발송했습니다.\n이메일을 확인해주세요📬"
     $0.textColor = .hex545E6A
     $0.font = .regular14
     $0.numberOfLines = 0
   }
   
-  private let schoolEmailTextField = HaramTextField(
-    title: "학교 이메일",
-    placeholder: "Email",
-    options: [.defaultEmail]
+  private let checkEmailTextField = HaramTextField(
+    title: "이메일 확인",
+    placeholder: "확인코드"
   )
   
   private let buttonStackView = UIStackView().then {
@@ -50,18 +47,11 @@ final class FindPasswordViewController: BaseViewController {
     $0.setTitleText(title: "취소")
   }
   
-  private let continueButton = HaramButton(type: .cancel).then {
+  private let continueButton = HaramButton(type: .apply).then {
     $0.setTitleText(title: "계속하기")
   }
   
-  init(viewModel: FindPasswordViewModelType = FindPasswordViewModel()) {
-    self.viewModel = viewModel
-    super.init(nibName: nil, bundle: nil)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
+  private lazy var reRequestAlertView = RerequestAlertView()
   
   deinit {
     removeKeyboardNotification()
@@ -77,7 +67,7 @@ final class FindPasswordViewController: BaseViewController {
     super.setupLayouts()
     [containerView, buttonStackView].forEach { view.addSubview($0) }
     [cancelButton, continueButton].forEach { buttonStackView.addArrangedSubview($0) }
-    [titleLabel, alertLabel, schoolEmailTextField].forEach { containerView.addArrangedSubview($0) }
+    [titleLabel, alertLabel, checkEmailTextField, reRequestAlertView].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -88,8 +78,12 @@ final class FindPasswordViewController: BaseViewController {
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
-    schoolEmailTextField.snp.makeConstraints {
+    checkEmailTextField.snp.makeConstraints {
       $0.height.equalTo(73)
+    }
+    
+    reRequestAlertView.snp.makeConstraints {
+      $0.height.equalTo(19)
     }
     
     containerView.setCustomSpacing(7, after: titleLabel)
@@ -103,39 +97,22 @@ final class FindPasswordViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    
-    schoolEmailTextField.textField.rx.text.orEmpty
-      .filter { $0 != "Email" }
-      .distinctUntilChanged()
-      .skip(1)
-      .subscribe(with: self) { owner, text in
-        owner.viewModel.findPasswordEmail.onNext(text)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.isContinueButtonEnabled
-      .drive(with: self) { owner, isContinueButtonEnabled in
-        owner.continueButton.isEnabled = isContinueButtonEnabled
-        owner.continueButton.setupButtonType(type: isContinueButtonEnabled ? .apply : .cancel)
-      }
-      .disposed(by: disposeBag)
-    
     continueButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        let vc = CheckEmailViewController()
+        let vc = UpdatePasswordViewController()
         owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
     
     cancelButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.dismiss(animated: true)
+        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
   }
 }
 
-extension FindPasswordViewController {
+extension CheckEmailViewController {
   func registerKeyboardNotification() {
     NotificationCenter.default.addObserver(
       self, selector: #selector(keyboardWillShow(_:)),
