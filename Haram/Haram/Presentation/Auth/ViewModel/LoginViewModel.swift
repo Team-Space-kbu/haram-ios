@@ -39,20 +39,6 @@ extension LoginViewModel {
   
   func loginMember(userID: String, password: String) {
     isLoadingSubject.onNext(true)
-    let message: String?
-    if userID.isEmpty {
-      message = password.isEmpty ? Constants.allEmptyMessage : Constants.idEmptyMessage
-    } else if password.isEmpty && !userID.isEmpty {
-      message = Constants.passwordEmptyMessage
-    } else {
-      message = nil
-    }
-    self.errorMessageRelay.accept(message)
-    self.isLoadingSubject.onNext(false)
-    
-    guard !userID.isEmpty && !password.isEmpty else { return }
-    
-    self.isLoadingSubject.onNext(true)
     
     authRepository.loginMember(
       request: .init(
@@ -87,16 +73,6 @@ extension LoginViewModel {
   
 }
 
-// MARK: - Constants
-
-extension LoginViewModel {
-  enum Constants {
-    static let idEmptyMessage = "아이디를 입력해주세요."
-    static let passwordEmptyMessage = "비밀번호를 입력해주세요."
-    static let allEmptyMessage = "아이디와 비밀번호를 입력해주세요."
-  }
-}
-
 extension LoginViewModel: LoginViewModelType {
   var successLogin: RxCocoa.Signal<Void> {
     successLoginRelay.asSignal()
@@ -112,6 +88,7 @@ extension LoginViewModel: LoginViewModelType {
   var errorMessage: Signal<String> {
     errorMessageRelay
       .compactMap { $0 }
+      .distinctUntilChanged()
       .asSignal(onErrorSignalWith: .empty())
   }
 

@@ -19,6 +19,8 @@ enum HaramError: Error, CaseIterable {
   case notFindUserError // 사용자를 찾을 수 없는 상태입니다.
   case wrongPasswordError // 패스워드가 틀렸을 때 발생하는 에러입니다.
   case failedAuth // 인증에 실패했을 때 발생하는 에러입니다.
+  case noUserID // 로그인 시 userID가 빈 문자열일 때 발생하는 에러
+  case noPWD // 로그인 시 password가 빈 문자열일 때 발생하는 에러
   
   /// 도서관관련 에러
 //  case loanInfoEmptyError // 대여정보가 비어있어 처리할 수 없는 상태입니다.
@@ -99,6 +101,10 @@ extension HaramError {
       return "IN09"
     case .wrongLoginInfo:
       return "IN12"
+    case .noUserID:
+      return "AUTH02"
+    case .noPWD:
+      return "AUTH03"
     }
   }
   
@@ -144,6 +150,10 @@ extension HaramError {
       return "학번 인증이 필요합니다."
     case .wrongLoginInfo:
       return "로그인 정보가 정확하지 않습니다"
+    case .noUserID:
+      return "UserID가 없습니다."
+    case .noPWD:
+      return "Password가 없습니다."
     }
   }
 }
