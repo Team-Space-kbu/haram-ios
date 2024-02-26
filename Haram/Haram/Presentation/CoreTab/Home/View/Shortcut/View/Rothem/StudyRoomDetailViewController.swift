@@ -87,7 +87,7 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
     }
     
     studyRoomImageView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.topMargin.equalToSuperview()
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.equalTo(studyRoomDetailView.snp.top).offset(40)
     }

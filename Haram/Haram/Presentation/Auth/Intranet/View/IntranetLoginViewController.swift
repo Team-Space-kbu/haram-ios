@@ -131,7 +131,7 @@ final class IntranetLoginViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     containerStackView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.topMargin.equalToSuperview()
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
@@ -161,7 +161,7 @@ final class IntranetLoginViewController: BaseViewController {
     
     lastAuthButton.snp.makeConstraints {
       $0.centerX.equalToSuperview()
-      $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-20)
+      $0.bottomMargin.equalToSuperview().inset(20)
     }
     
     containerStackView.setCustomSpacing(28, after: intranetLabel)
