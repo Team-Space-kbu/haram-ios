@@ -148,43 +148,6 @@ final class HaramTextField: UIView {
       textField.rightViewMode = .always
       textField.rightView = defaultLabel
     }
-    
-    //    titleLabel.text = title
-    //
-    //    [titleLabel, textField].forEach { addSubview($0) }
-    //    titleLabel.snp.makeConstraints {
-    //      $0.top.leading.equalToSuperview()
-    //      $0.trailing.lessThanOrEqualToSuperview()
-    //    }
-    //
-    //    if options.contains(.addButton) {
-    //      addSubview(haramButton)
-    //      textField.snp.makeConstraints {
-    //        $0.top.equalTo(titleLabel.snp.bottom).offset(10)
-    //        $0.leading.equalToSuperview()
-    //        $0.height.equalTo(46)
-    //      }
-    //
-    //      haramButton.snp.makeConstraints {
-    //        $0.leading.equalTo(textField.snp.trailing).offset(196 - 15 - 167)
-    //        $0.centerY.equalTo(textField)
-    //        $0.trailing.equalToSuperview()
-    //        $0.height.equalTo(46)
-    //        $0.width.equalTo(167)
-    //      }
-    //    } else {
-    //      textField.snp.makeConstraints {
-    //        $0.top.equalTo(titleLabel.snp.bottom).offset(10)
-    //        $0.directionalHorizontalEdges.equalToSuperview()
-    //        $0.height.equalTo(46)
-    //      }
-    //    }
-    //
-    //    if options.contains(.defaultEmail) {
-    //      textField.rightViewMode = .always
-    //      textField.rightView = defaultLabel
-    //    }
-    
   }
 }
 
@@ -207,6 +170,11 @@ extension HaramTextField {
       $0.leading.bottom.equalToSuperview()
     }
     errorLabel.text = description
+  }
+  
+  func setButtonType(isEnabled: Bool) {
+    haramButton.isEnabled = isEnabled
+    haramButton.setupButtonType(type: isEnabled ? .apply : .cancel )
   }
 }
 

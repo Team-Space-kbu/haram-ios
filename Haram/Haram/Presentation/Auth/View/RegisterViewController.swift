@@ -72,11 +72,13 @@ final class RegisterViewController: BaseViewController {
     options: [.defaultEmail]
   )
   
-  private let checkEmailTextField = HaramTextField(
+  private lazy var checkEmailTextField = HaramTextField(
     title: Constants.checkEmail.title,
     placeholder: Constants.checkEmail.placeholder,
     options: [.addButton]
-  )
+  ).then {
+    $0.delegate = self
+  }
   
   private let registerButton = HaramButton(type: .cancel).then {
     $0.setTitleText(title: "회원가입")
@@ -277,6 +279,19 @@ final class RegisterViewController: BaseViewController {
         owner.registerButton.setupButtonType(type: isEnabled ? .apply : .cancel )
       }
       .disposed(by: disposeBag)
+    
+    viewModel.isSendAuthCodeButtonEnabled
+      .drive(with: self) { owner, isEnabled in
+        owner.checkEmailTextField.setButtonType(isEnabled: isEnabled)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.isSuccessRequestAuthCode
+      .filter { $0 }
+      .drive(with: self) { owner, isSuccess in
+        print("이메일 요청 성공")
+      }
+      .disposed(by: disposeBag)
   }
 }
 
@@ -330,6 +345,7 @@ extension RegisterViewController {
 extension RegisterViewController: HaramTextFieldDelegate {
   func didTappedButton() {
     LogHelper.log("확인코드발송 선택", level: .debug)
+    viewModel.requestEmailAuthCode()
     view.endEditing(true)
   }
   

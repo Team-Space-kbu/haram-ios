@@ -14,15 +14,14 @@ enum AuthRouter {
   case reissuanceAccessToken(ReissuanceAccessTokenRequest)
   
   case loginIntranet(IntranetLoginRequest)
+  case requestEmailAuthCode(String)
 }
 
 extension AuthRouter: Router {
   
   var baseURL: String {
     switch self {
-    case .signupUser, .loginMember, .reissuanceAccessToken, .logoutUser:
-      return URLConstants.baseURL
-    case .loginIntranet:
+    case .signupUser, .loginMember, .reissuanceAccessToken, .logoutUser, .loginIntranet, .requestEmailAuthCode:
       return URLConstants.baseURL
     }
   }
@@ -31,6 +30,8 @@ extension AuthRouter: Router {
     switch self {
     case .signupUser, .reissuanceAccessToken, .loginMember, .loginIntranet, .logoutUser:
       return .post
+    case .requestEmailAuthCode:
+      return .get
     }
   }
   
@@ -46,6 +47,8 @@ extension AuthRouter: Router {
       return "/v2/intranet/student"
     case .logoutUser:
       return "/v1/auth/logout"
+    case .requestEmailAuthCode(let userEmail):
+      return "/v1/mail/\(userEmail)"
     }
   }
   
@@ -61,6 +64,8 @@ extension AuthRouter: Router {
       return .body(request)
     case .logoutUser(let request):
       return .body(request)
+    case .requestEmailAuthCode(_):
+      return .plain
     }
   }
   
@@ -68,9 +73,7 @@ extension AuthRouter: Router {
     switch self {
     case .signupUser, .loginMember:
       return .default
-    case .logoutUser:
-      return .withAccessToken
-    case .loginIntranet:
+    case .logoutUser, .loginIntranet, .requestEmailAuthCode:
       return .withAccessToken
     case .reissuanceAccessToken:
       return .withRefreshToken

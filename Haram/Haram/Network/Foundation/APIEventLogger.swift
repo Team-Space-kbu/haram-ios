@@ -14,20 +14,17 @@ final class APIEventLogger: EventMonitor {
   let queue = DispatchQueue(label: "com.Jun.Haram")
   //2
   func requestDidFinish(_ request: Request) {
-    LogHelper.log("⭐️Reqeust LOG", level: .debug)
-    LogHelper.log(request.description, level: .debug)
-    LogHelper.log("Body: " + (request.request?.httpBody?.toPrettyPrintedString ?? ""), level: .debug)
+    LogHelper.log("⭐️Reqeust LOG\n" + request.description + "\nBody: " + (request.request?.httpBody?.toPrettyPrintedString ?? ""), level: .info)
   }
   //3
   func request<Value>(
     _ request: DataRequest,
     didParseResponse response: DataResponse<Value, AFError>
   ) {
-    LogHelper.log("⭐️RESPONSE LOG", level: .debug)
-    LogHelper.log("URL: " + (request.request?.url?.absoluteString ?? "") + "\n"
+    LogHelper.log("⭐️RESPONSE LOG\n" + "URL: " + (request.request?.url?.absoluteString ?? "") + "\n"
                   + "Result: " + "\(response.result)" + "\n"
                   + "StatusCode: " + "\(response.response?.statusCode ?? 0)" + "\n"
-                  + "Data: \(response.data?.toPrettyPrintedString ?? "")", level: .debug)
+                  + "Data: \(response.data?.toPrettyPrintedString ?? "")", level: .info)
   }
 }
 
