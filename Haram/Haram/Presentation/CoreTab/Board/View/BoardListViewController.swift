@@ -99,7 +99,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     if writeableBoard {
       editBoardButton.snp.makeConstraints {
         $0.size.equalTo(50)
-        $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottomMargin).offset(-54)
+        $0.bottomMargin.equalToSuperview().inset(54)
         $0.trailing.equalToSuperview().inset(15)
       }
     }

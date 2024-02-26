@@ -91,7 +91,7 @@ final class FindPasswordViewController: BaseViewController {
     containerView.setCustomSpacing(7, after: titleLabel)
     
     buttonStackView.snp.makeConstraints {
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-24)
+      $0.bottomMargin.equalToSuperview().inset(24)
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(48)
     }
@@ -102,6 +102,7 @@ final class FindPasswordViewController: BaseViewController {
     continueButton.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.reRequestAlertView.isHidden = false
+        owner.alertLabel.text = "입력하신 이메일로 인증 코드를 발송했습니다.\n이메일을 확인해주세요📬"
       }
       .disposed(by: disposeBag)
     
@@ -140,8 +141,8 @@ extension FindPasswordViewController {
 
     let keyboardHeight = keyboardSize.height
 
-    continueButton.snp.updateConstraints {
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(24 + keyboardHeight)
+    buttonStackView.snp.updateConstraints {
+      $0.bottomMargin.equalToSuperview().inset(24 + keyboardHeight)
     }
 
     UIView.animate(withDuration: 1) {
@@ -152,8 +153,8 @@ extension FindPasswordViewController {
   @objc
   func keyboardWillHide(_ sender: Notification) {
 
-    continueButton.snp.updateConstraints {
-      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(24)
+    buttonStackView.snp.updateConstraints {
+      $0.bottomMargin.equalToSuperview().inset(24)
     }
     UIView.animate(withDuration: 1) {
       self.view.layoutIfNeeded()
