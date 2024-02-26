@@ -117,6 +117,11 @@ final class LoginViewController: BaseViewController {
       .emit(with: self) { owner, result in
         guard UserManager.shared.hasToken else { return }
         
+        let isContain = owner.containerView.subviews.contains(owner.errorMessageLabel)
+        if isContain {
+          owner.errorMessageLabel.removeFromSuperview()
+        }
+        
         let vc = HaramTabbarController()
         vc.modalPresentationStyle = .fullScreen
         owner.present(vc, animated: true) {
@@ -133,7 +138,8 @@ final class LoginViewController: BaseViewController {
         if !isContain {
           owner.errorMessageLabel.text = error
           owner.containerView.insertArrangedSubview(owner.errorMessageLabel, at: 5)
-          
+        } else {
+          owner.errorMessageLabel.text = error
         }
         
       }
@@ -209,12 +215,12 @@ extension LoginViewController: LoginButtonDelegate {
     guard let userID = emailTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
           let password = passwordTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
     
-    let isContain = self.containerView.subviews.contains(self.errorMessageLabel)
-    
-    if isContain {
-      self.errorMessageLabel.text = nil
-      self.errorMessageLabel.removeFromSuperview()
-    }
+//    let isContain = self.containerView.subviews.contains(self.errorMessageLabel)
+//    
+//    if isContain {
+//      self.errorMessageLabel.text = nil
+//      self.errorMessageLabel.removeFromSuperview()
+//    }
     
     view.endEditing(true)
     viewModel.loginMember(userID: userID, password: password)
@@ -243,12 +249,12 @@ extension LoginViewController: UITextFieldDelegate {
       guard let userID = emailTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             let password = passwordTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return true }
       
-      let isContain = self.containerView.subviews.contains(self.errorMessageLabel)
-      
-      if isContain {
-        self.errorMessageLabel.text = nil
-        self.errorMessageLabel.removeFromSuperview()
-      }
+//      let isContain = self.containerView.subviews.contains(self.errorMessageLabel)
+//      
+//      if isContain {
+//        self.errorMessageLabel.text = nil
+//        self.errorMessageLabel.removeFromSuperview()
+//      }
       
       view.endEditing(true)
       viewModel.loginMember(userID: userID, password: password)
