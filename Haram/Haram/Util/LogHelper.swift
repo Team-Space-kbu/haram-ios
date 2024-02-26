@@ -10,10 +10,6 @@ import os.log
 
 extension Logger {
   static let subsystem = Bundle.main.bundleIdentifier!
-  static let network = Logger(subsystem: subsystem, category: "Network")
-  static let debug = Logger(subsystem: subsystem, category: "Debug")
-  static let info = Logger(subsystem: subsystem, category: "Info")
-  static let error = Logger(subsystem: subsystem, category: "Error")
 }
 
 struct LogHelper {
@@ -25,6 +21,7 @@ struct LogHelper {
     if #available(iOS 14.0, *) {
       let logger = Logger(subsystem: Logger.subsystem, category: level.category)
       let logMessage = "\(message)"
+      
       switch level {
       case .debug,
           .custom:
@@ -65,21 +62,6 @@ extension LogHelper {
         return "🔴 ERROR"
       case .custom(let category):
         return "🟢 \(category)"
-      }
-    }
-    
-    fileprivate var logger: Logger {
-      switch self {
-      case .debug:
-        return Logger.debug
-      case .info:
-        return Logger.info
-      case .network:
-        return Logger.network
-      case .error:
-        return Logger.error
-      case .custom:
-        return Logger.debug
       }
     }
 

@@ -13,6 +13,7 @@ protocol AuthRepository {
   func reissuanceAccessToken(request: ReissuanceAccessTokenRequest) -> Observable<Result<LoginResponse, HaramError>>
   func loginIntranet(request: IntranetLoginRequest) -> Observable<Result<EmptyModel, HaramError>>
   func logoutUser(request: LogoutUserRequest) -> Observable<Result<EmptyModel, HaramError>>
+  func requestEmailAuthCode(userEmail: String) -> Single<Bool>
 }
 
 final class AuthRepositoryImpl {
@@ -26,6 +27,10 @@ final class AuthRepositoryImpl {
 }
 
 extension AuthRepositoryImpl: AuthRepository {
+  func requestEmailAuthCode(userEmail: String) -> RxSwift.Single<Bool> {
+    service.betarequest(router: AuthRouter.requestEmailAuthCode(userEmail), type: Bool.self)
+  }
+  
   func signupUser(request: SignupUserRequest) -> Observable<Result<EmptyModel, HaramError>> {
     service.request(router: AuthRouter.signupUser(request), type: EmptyModel.self)
   }

@@ -5,6 +5,8 @@
 //  Created by 이건준 on 2023/08/01.
 //
 
+import Foundation
+
 import RxSwift
 import RxCocoa
 
@@ -17,11 +19,14 @@ protocol RegisterViewModelType {
   var registerRePWD: AnyObserver<String> { get }
   var registerNickname: AnyObserver<String> { get }
   var registerAuthCode: AnyObserver<String> { get }
+  func requestEmailAuthCode()
   
   var isRegisterButtonEnabled: Driver<Bool> { get }
+  var isSendAuthCodeButtonEnabled: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
   var signupSuccessMessage: Signal<String> { get }
   var isLoading: Driver<Bool> { get }
+  var isSuccessRequestAuthCode: Driver<Bool> { get }
 }
 
 final class RegisterViewModel {
@@ -38,6 +43,7 @@ final class RegisterViewModel {
   private let errorMessageRelay              = PublishRelay<HaramError>()
   private let signupSuccessMessageRelay      = PublishRelay<String>()
   private let isLoadingSubject               = PublishSubject<Bool>()
+  private let isSuccessRequestAuthCodeSubject = BehaviorSubject<Bool>(value: false)
   
   init(authRepository: AuthRepository = AuthRepositoryImpl()) {
     self.authRepository = authRepository
@@ -94,6 +100,36 @@ final class RegisterViewModel {
 }
 
 extension RegisterViewModel: RegisterViewModelType {
+  var isSendAuthCodeButtonEnabled: RxCocoa.Driver<Bool> {
+    registerEmailSubject
+      .map {
+        let emailRegex = #"^[a-zA-Z0-9._%+-]+@bible\.ac\.kr$"#
+        
+        // NSPredicate를 사용하여 정규표현식과 매칭하는지 확인
+        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegex)
+        
+        // 입력된 이메일이 유효한지 확인
+        return emailPredicate.evaluate(with: $0 + "@bible.ac.kr")
+      }
+      .distinctUntilChanged()
+      .asDriver(onErrorDriveWith: .empty())
+  }
+  
+  var isSuccessRequestAuthCode: RxCocoa.Driver<Bool> {
+    isSuccessRequestAuthCodeSubject.asDriver(onErrorJustReturn: false)
+  }
+  
+  func requestEmailAuthCode() {
+    
+    registerEmailSubject
+      .map { $0 + "@bible.ac.kr" }
+      .flatMapLatest(authRepository.requestEmailAuthCode(userEmail: ))
+      .subscribe(with: self) { owner, _ in
+        owner.isSuccessRequestAuthCodeSubject.onNext(true)
+      }
+      .disposed(by: disposeBag)
+  }
+  
   var errorMessage: RxCocoa.Signal<HaramError> {
     errorMessageRelay.asSignal()
   }

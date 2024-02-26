@@ -49,6 +49,7 @@ final class ApiService: BaseService {
               return
             }
             guard let decodedData = try? JSONDecoder().decode(BaseEntity<T>.self, from: data) else {
+              LogHelper.log("Decoding Error: \(router.urlRequest!)", level: .error)
               return observer.onNext(.failure(HaramError.decodedError))
             }
             
@@ -103,6 +104,7 @@ final class ApiService: BaseService {
                 return
               }
               guard let decodedData = try? JSONDecoder().decode(BaseEntity<T>.self, from: data) else {
+                LogHelper.log("Decoding Error: \(response.request!)", level: .error)
                 return observer(.failure(HaramError.decodedError))
               }
               
