@@ -256,6 +256,7 @@
 		70AD2A7B2B8B2A6A00CB9791 /* OSLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70AD2A7A2B8B2A6A00CB9791 /* OSLog.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		70AD2A812B8CB8B400CB9791 /* FindPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A802B8CB8B400CB9791 /* FindPasswordViewModel.swift */; };
 		70AD2A832B8CBA7200CB9791 /* CheckEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A822B8CBA7200CB9791 /* CheckEmailViewController.swift */; };
+		70AD2A852B8CE16C00CB9791 /* UpdatePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A842B8CE16C00CB9791 /* UpdatePasswordViewModel.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -529,6 +530,7 @@
 		70AD2A7A2B8B2A6A00CB9791 /* OSLog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OSLog.framework; path = System/Library/Frameworks/OSLog.framework; sourceTree = SDKROOT; };
 		70AD2A802B8CB8B400CB9791 /* FindPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewModel.swift; sourceTree = "<group>"; };
 		70AD2A822B8CBA7200CB9791 /* CheckEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckEmailViewController.swift; sourceTree = "<group>"; };
+		70AD2A842B8CE16C00CB9791 /* UpdatePasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePasswordViewModel.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -1285,6 +1287,7 @@
 				708312BB2A79247500F7E283 /* RegisterViewModel.swift */,
 				705FD2A82A16031900F353FE /* LoginViewModel.swift */,
 				70AD2A802B8CB8B400CB9791 /* FindPasswordViewModel.swift */,
+				70AD2A842B8CE16C00CB9791 /* UpdatePasswordViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1770,6 +1773,7 @@
 				7095D38A2AD67C8F008DAA39 /* Constants.swift in Sources */,
 				705FD2B32A16278700F353FE /* LibraryCollectionHeaderView.swift in Sources */,
 				70727A9229D889AE003DE956 /* LoginViewController.swift in Sources */,
+				70AD2A852B8CE16C00CB9791 /* UpdatePasswordViewModel.swift in Sources */,
 				708ED7EF2A9E232A00107CDF /* AffiliatedViewModel.swift in Sources */,
 				70AD2A6D2B88976500CB9791 /* InquireBoardCategoryResponse.swift in Sources */,
 				709AB6452B77E19B004B0F59 /* BoardImageCollectionViewCell.swift in Sources */,
