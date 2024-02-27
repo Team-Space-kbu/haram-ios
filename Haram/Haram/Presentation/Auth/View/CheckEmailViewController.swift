@@ -33,7 +33,9 @@ final class CheckEmailViewController: BaseViewController {
   private let checkEmailTextField = HaramTextField(
     title: "이메일 확인",
     placeholder: "확인코드"
-  )
+  ).then {
+    $0.textField.keyboardType = .numberPad
+  }
   
   private let buttonStackView = UIStackView().then {
     $0.axis = .horizontal

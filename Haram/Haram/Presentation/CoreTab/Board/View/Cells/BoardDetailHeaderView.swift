@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
@@ -21,10 +22,13 @@ struct BoardDetailHeaderViewModel {
 final class BoardDetailHeaderView: UICollectionReusableView {
   
   static let identifier = "BoardDetailHeaderView"
+  private let disposeBag = DisposeBag()
+  private let currentBannerPage = PublishSubject<Int>()
   
   private var boardImageCollectionViewCellModel: [BoardImageCollectionViewCellModel] = [] {
     didSet {
       boardImageCollectionView.reloadData()
+      pageControl.numberOfPages = boardImageCollectionViewCellModel.count
     }
   }
    
@@ -73,9 +77,17 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     $0.showsHorizontalScrollIndicator = false
   }
   
+  private let pageControl = UIPageControl().then {
+    $0.currentPage = 0
+    $0.pageIndicatorTintColor = .systemGray2
+    $0.currentPageIndicatorTintColor = UIColor.hex79BD9A
+    $0.isSkeletonable = true
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -88,6 +100,25 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     postingDescriptionLabel.text = nil
     postingAuthorNameLabel.text = nil
     postingDateLabel.text = nil
+  }
+  
+  private func pageControlValueChanged(currentPage: Int) {
+    boardImageCollectionView.isPagingEnabled = false
+    boardImageCollectionView.scrollToItem(at: .init(row: currentPage, section: 0), at: .left, animated: true)
+    boardImageCollectionView.isPagingEnabled = true
+  }
+  
+  private func bind() {
+    pageControl.rx.controlEvent(.valueChanged)
+      .subscribe(with: self) { owner,  _ in
+        owner.pageControlValueChanged(currentPage: owner.pageControl.currentPage)
+      }
+      .disposed(by: disposeBag)
+    
+    currentBannerPage
+      .asDriver(onErrorDriveWith: .empty())
+      .drive(pageControl.rx.currentPage)
+      .disposed(by: disposeBag)
   }
   
   private func configureUI() {
@@ -117,9 +148,14 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     postingDateLabel.text = DateformatterFactory.dateWithHypen.string(from: model.boardDate)
     
     if !model.boardImageCollectionViewCellModel.isEmpty {
-      containerView.addArrangedSubview(boardImageCollectionView)
+      [boardImageCollectionView, pageControl].forEach { containerView.addArrangedSubview($0) }
+      
       boardImageCollectionView.snp.makeConstraints {
         $0.height.equalTo(188)
+      }
+      
+      pageControl.snp.makeConstraints {
+        $0.height.equalTo(20)
       }
       
       boardImageCollectionViewCellModel = model.boardImageCollectionViewCellModel
@@ -142,5 +178,15 @@ extension BoardDetailHeaderView: UICollectionViewDataSource {
 extension BoardDetailHeaderView: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: collectionView.frame.width, height: 188)
+  }
+}
+
+extension BoardDetailHeaderView: UIScrollViewDelegate {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    guard scrollView == boardImageCollectionView else { return }
+    let contentOffset = scrollView.contentOffset
+    let bannerIndex = Int(max(0, round(contentOffset.x / scrollView.bounds.width)))
+    
+    self.currentBannerPage.onNext(bannerIndex)
   }
 }
