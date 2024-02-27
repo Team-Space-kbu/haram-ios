@@ -95,7 +95,7 @@ final class FindPasswordViewController: BaseViewController {
     containerView.setCustomSpacing(7, after: titleLabel)
     
     buttonStackView.snp.makeConstraints {
-      $0.bottomMargin.equalToSuperview().inset(24)
+      $0.bottom.equalToSuperview().inset(24)
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(48)
     }
@@ -122,6 +122,7 @@ final class FindPasswordViewController: BaseViewController {
     
     continueButton.rx.tap
       .subscribe(with: self) { owner, _ in
+        owner.view.endEditing(true)
         let vc = CheckEmailViewController()
         owner.navigationController?.pushViewController(vc, animated: true)
       }
@@ -163,7 +164,7 @@ extension FindPasswordViewController {
     let keyboardHeight = keyboardSize.height
 
     buttonStackView.snp.updateConstraints {
-      $0.bottomMargin.equalToSuperview().inset(24 + keyboardHeight)
+      $0.bottom.equalToSuperview().inset(24 + keyboardHeight)
     }
 
     UIView.animate(withDuration: 1) {
@@ -175,7 +176,7 @@ extension FindPasswordViewController {
   func keyboardWillHide(_ sender: Notification) {
 
     buttonStackView.snp.updateConstraints {
-      $0.bottomMargin.equalToSuperview().inset(24)
+      $0.bottom.equalToSuperview().inset(24)
     }
     UIView.animate(withDuration: 1) {
       self.view.layoutIfNeeded()

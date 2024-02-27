@@ -106,7 +106,7 @@ final class UpdatePasswordViewController: BaseViewController {
     containerView.setCustomSpacing(10, after: passwordTextField)
     
     buttonStackView.snp.makeConstraints {
-      $0.bottomMargin.equalToSuperview().inset(24)
+      $0.bottom.equalToSuperview().inset(24)
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(48)
     }
@@ -119,6 +119,7 @@ final class UpdatePasswordViewController: BaseViewController {
       .subscribe(with: self) { owner, _ in
         guard let password = owner.passwordTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               let repassword = owner.checkPasswordTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+        owner.view.endEditing(true)
         owner.viewModel.requestUpdatePassword(password: password, repassword: repassword)
       }
       .disposed(by: disposeBag)
@@ -165,7 +166,7 @@ extension UpdatePasswordViewController {
     let keyboardHeight = keyboardSize.height
 
     buttonStackView.snp.updateConstraints {
-      $0.bottomMargin.equalToSuperview().inset(24 + keyboardHeight)
+      $0.bottom.equalToSuperview().inset(24 + keyboardHeight)
     }
 
     UIView.animate(withDuration: 1) {
@@ -177,7 +178,7 @@ extension UpdatePasswordViewController {
   func keyboardWillHide(_ sender: Notification) {
 
     buttonStackView.snp.updateConstraints {
-      $0.bottomMargin.equalToSuperview().inset(24)
+      $0.bottom.equalToSuperview().inset(24)
     }
     UIView.animate(withDuration: 1) {
       self.view.layoutIfNeeded()
