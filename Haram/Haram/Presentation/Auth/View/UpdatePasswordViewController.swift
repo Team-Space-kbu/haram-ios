@@ -42,7 +42,9 @@ final class UpdatePasswordViewController: BaseViewController {
     title: "비밀번호 확인",
     placeholder: "Password",
     options: .errorLabel
-  )
+  ).then {
+    $0.textField.isSecureTextEntry = true
+  }
   
   private let buttonStackView = UIStackView().then {
     $0.axis = .horizontal

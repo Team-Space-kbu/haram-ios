@@ -78,6 +78,7 @@ final class RegisterViewController: BaseViewController {
     options: [.addButton]
   ).then {
     $0.delegate = self
+    $0.textField.isSecureTextEntry = true
   }
   
   private let registerButton = HaramButton(type: .cancel).then {

@@ -39,7 +39,7 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   }
   
   private let titleLabel = UILabel().then {
-    $0.font = .regular15
+    $0.font = .bold16
     $0.textColor = .black
     $0.isSkeletonable = true
     $0.numberOfLines = 0
