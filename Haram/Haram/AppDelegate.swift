@@ -10,6 +10,7 @@ import CoreData
 
 import NMapsMap
 import SkeletonView
+import SDWebImageSVGCoder
 
 
 @main
@@ -113,6 +114,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     if !UserManager.shared.hasUUID {
       UserManager.shared.set(uuid: UUID().uuidString)
     }
+    
+    let SVGCoder = SDImageSVGCoder.shared
+    SDImageCodersManager.shared.addCoder(SVGCoder)
     
     return true
   }

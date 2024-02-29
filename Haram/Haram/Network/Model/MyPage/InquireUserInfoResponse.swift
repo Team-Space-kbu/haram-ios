@@ -11,11 +11,11 @@ struct InquireUserInfoResponse: Decodable {
   let userID: String
   let userEmail: String
   let userNickname: String
-  let userStatus: Bool
   let role: String
   
   enum CodingKeys: String, CodingKey {
     case userID = "userId"
-    case userEmail, userNickname, userStatus, role
+    case role = "userRole"
+    case userEmail, userNickname
   }
 }

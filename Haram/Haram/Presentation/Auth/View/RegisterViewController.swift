@@ -52,7 +52,8 @@ final class RegisterViewController: BaseViewController {
   
   private let pwdTextField = HaramTextField(
     title: Constants.password.title,
-    placeholder: Constants.password.placeholder
+    placeholder: Constants.password.placeholder,
+    options: [.errorLabel]
   )
   
   private let repwdTextField = HaramTextField(
@@ -63,19 +64,20 @@ final class RegisterViewController: BaseViewController {
   
   private let nicknameTextField = HaramTextField(
     title: Constants.nickname.title,
-    placeholder: Constants.nickname.placeholder
+    placeholder: Constants.nickname.placeholder,
+    options: [.errorLabel]
   )
   
   private let emailTextField = HaramTextField(
     title: Constants.schoolEmail.title,
     placeholder: Constants.schoolEmail.placeholder,
-    options: [.defaultEmail]
+    options: [.defaultEmail, .errorLabel]
   )
   
   private lazy var checkEmailTextField = HaramTextField(
     title: Constants.checkEmail.title,
     placeholder: Constants.checkEmail.placeholder,
-    options: [.addButton]
+    options: [.addButton, .errorLabel]
   ).then {
     $0.delegate = self
     $0.textField.isSecureTextEntry = true
@@ -168,6 +170,12 @@ final class RegisterViewController: BaseViewController {
   override func bind() {
     super.bind()
     
+    idTextField.textField.rx.controlEvent(.editingDidEnd)
+      .subscribe(with: self) { owner, _ in
+        owner.viewModel.checkUserIDIsValid()
+      }
+      .disposed(by: disposeBag)
+    
     idTextField.rx.text
       .orEmpty
       .filter { $0 != Constants.id.placeholder }
@@ -244,6 +252,37 @@ final class RegisterViewController: BaseViewController {
           owner.repwdTextField.setError(description: error.description!)
         } else if error == .existSameUserError {
           owner.idTextField.setError(description: error.description!)
+        } else if error == .unvalidpasswordFormat {
+          owner.pwdTextField.setError(description: error.description!)
+        } else if error == .unvalidAuthCode {
+          owner.checkEmailTextField.setError(description: error.description!)
+        } else if error == .unvalidNicknameFormat {
+          owner.nicknameTextField.setError(description: error.description!)
+        } else if error == .unvalidUserIDFormat {
+          owner.idTextField.setError(description: error.description!)
+        } else if error == .unvalidEmailFormat {
+          owner.emailTextField.setError(description: error.description!)
+        }
+        
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successMessage
+      .emit(with: self) { owner, success in
+        if success == .noEqualPassword {
+          owner.repwdTextField.removeError()
+        } else if success == .existSameUserError {
+          owner.idTextField.removeError()
+        } else if success == .unvalidpasswordFormat {
+          owner.pwdTextField.removeError()
+        } else if success == .unvalidAuthCode {
+          owner.checkEmailTextField.removeError()
+        } else if success == .unvalidNicknameFormat {
+          owner.nicknameTextField.removeError()
+        } else if success == .unvalidUserIDFormat {
+          owner.idTextField.removeError()
+        } else if success == .unvalidEmailFormat {
+          owner.emailTextField.removeError()
         }
         
       }

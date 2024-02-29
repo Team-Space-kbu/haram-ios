@@ -8,7 +8,7 @@
 import UIKit
 
 import RxSwift
-import SVGKit
+import SDWebImageSVGCoder
 import SnapKit
 import Then
 
@@ -87,25 +87,9 @@ final class BoardTableViewCell: UITableViewCell {
   }
   
   func configureUI(with model: BoardTableViewCellModel) {
-    
-    URLSession.shared.dataTask(with: model.imageURL!) { data, _, error in
-      
-      if let data = data, error == nil {
-        guard let svgImage = SVGKImage(data: data) else {
-          LogHelper.log("게시글 카테고리 SVG이미지를 가져오는데 실패했습니다.", level: .error)
-          return
-        }
-        let image = svgImage.uiImage
-        DispatchQueue.main.async {
-          
-          self.boardImageView.image = image
-        }
-      }
-      
-    }.resume()
-    
-    
-    self.titleLabel.text = model.title
+
+    boardImageView.sd_setImage(with: model.imageURL)
+    titleLabel.text = model.title
     
   }
 }
