@@ -39,9 +39,7 @@ extension LoginViewModel {
   
   func loginMember(userID: String, password: String) {
     isLoadingSubject.onNext(true)
-    print("모델이름 \(UIDevice.current.getModelName())")
-    print("os버전 \(UIDevice.current.getOsVersion())")
-    print("모델 \(UIDevice.current.getModel())")
+
     authRepository.loginMember(
       request: .init(
         userID: userID,
@@ -49,9 +47,9 @@ extension LoginViewModel {
         uuid: UserManager.shared.uuid!, 
         deviceInfo: .init(
           maker: "Apple",
-          model: UIDevice.current.getModelName(),
+          model: Device.getModelName(),
           osType: .IOS,
-          osVersion: UIDevice.current.getOsVersion()
+          osVersion: Device.getOsVersion()
         )
       )
     )
