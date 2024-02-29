@@ -22,6 +22,7 @@ final class UserManager {
   @UserDefaultsWrapper<String>(key: "userID")
   private(set) var userID
   
+  /// 로그인한 디바이스에 대한 uuid
   @KeyChainWrapper<String>(key: "uuid")
   private(set) var uuid
   
