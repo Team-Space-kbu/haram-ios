@@ -33,6 +33,11 @@ enum HaramError: Error, CaseIterable {
   case wrongEmailAuthcodeError // 이메일 인증코드가 틀렸을 때 발생하는 에러
   case failedRegisterError // 회원가입에 실패했을 때 발생하는 에러
   case noEqualPassword // 비밀번호와 비밀번호확인이 동일하지않을 때 발생하는 에러
+  case unvalidEmailFormat // 옳지않은 이메일 형식일 경우
+  case unvalidNicknameFormat // 옳지않은 닉네임 형식일 경우
+  case unvalidpasswordFormat // 옳지않은 비밀번호 형식일 경우
+  case unvalidUserIDFormat // 옳지않은 유저 아이디 형식일 경우
+  case unvalidAuthCode // 옳지않은 인증코드 형식일 경우
   
   /// 성경관련 에러
   case noExistTodayBibleWord // 오늘의 성경말씀이 존재하지않을 때 발생하는 에러
@@ -67,12 +72,10 @@ extension HaramError {
 extension HaramError {
   var code: String? { // 하람 서버에서 제공하는 code, Notion 참고
     switch self {
-    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword:
+    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidEmailFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .unvalidAuthCode:
       return nil
     case .notFindUserError:
       return "USER01"
-//    case .loanInfoEmptyError:
-//      return "LIB07"
     case .wrongPasswordError:
       return "USER02"
     case .existSameUserError:
@@ -120,8 +123,6 @@ extension HaramError {
       return "하람 서버에러가 발생하였습니다"
     case .notFindUserError, .wrongPasswordError:
       return "아이디 또는 비밀번호가 유효하지 않습니다."
-//    case .loanInfoEmptyError:
-//      return "대여 정보가 비어 있습니다."
     case .existSameUserError:
       return "이미 아이디가 존재합니다."
     case .wrongEmailAuthcodeError:
@@ -143,7 +144,7 @@ extension HaramError {
     case .noExistBoard:
       return "게시글이 존재하지 않습니다."
     case .failedAuth:
-      return "인증에 실패했습니다."
+      return "패스워드가 틀립니다."
     case .noEqualPassword:
       return "비밀번호가 다릅니다."
     case .requiredStudentID:
@@ -154,6 +155,16 @@ extension HaramError {
       return "UserID가 없습니다."
     case .noPWD:
       return "Password가 없습니다."
+    case .unvalidEmailFormat:
+      return "이메일 규칙이 맞지 않습니다."
+    case .unvalidNicknameFormat:
+      return "닉네임 규칙이 맞지 않습니다."
+    case .unvalidpasswordFormat:
+      return "암호 규칙이 맞지 않습니다."
+    case .unvalidUserIDFormat:
+      return "사용자 아이디 규칙이 맞지 않습니다."
+    case .unvalidAuthCode:
+      return "인증코드 규칙이 맞지 않습니다."
     }
   }
 }

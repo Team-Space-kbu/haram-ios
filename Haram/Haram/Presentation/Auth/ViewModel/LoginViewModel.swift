@@ -5,7 +5,7 @@
 //  Created by 이건준 on 2023/05/18.
 //
 
-import Foundation
+import UIKit
 
 import RxSwift
 import RxCocoa
@@ -39,12 +39,20 @@ extension LoginViewModel {
   
   func loginMember(userID: String, password: String) {
     isLoadingSubject.onNext(true)
-    
+    print("모델이름 \(UIDevice.current.getModelName())")
+    print("os버전 \(UIDevice.current.getOsVersion())")
+    print("모델 \(UIDevice.current.getModel())")
     authRepository.loginMember(
       request: .init(
         userID: userID,
         password: password,
-        uuid: UserManager.shared.uuid!
+        uuid: UserManager.shared.uuid!, 
+        deviceInfo: .init(
+          maker: "Apple",
+          model: UIDevice.current.getModelName(),
+          osType: .IOS,
+          osVersion: UIDevice.current.getOsVersion()
+        )
       )
     )
     .subscribe(with: self, onNext: { owner, result in
