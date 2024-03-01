@@ -174,6 +174,7 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
     viewModel.isLoading
       .filter { !$0 }
       .drive(with: self) { owner, isLoading in
+        print("로딩중 \(isLoading)")
         owner.libraryCollectionView.reloadData()
         owner.view.hideSkeleton()
       }

@@ -303,6 +303,48 @@ final class RegisterViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
+    emailTextField.rx.text.orEmpty
+      .skip(1)
+      .subscribe(with: self) { owner, email in
+        owner.viewModel.registerEmail.onNext(email)
+      }
+      .disposed(by: disposeBag)
+    
+    nicknameTextField.rx.text.orEmpty
+      .skip(1)
+      .subscribe(with: self) { owner, nickname in
+        owner.viewModel.registerNickname.onNext(nickname)
+      }
+      .disposed(by: disposeBag)
+    
+    idTextField.rx.text.orEmpty
+      .skip(1)
+      .subscribe(with: self) { owner, id in
+        owner.viewModel.registerID.onNext(id)
+      }
+      .disposed(by: disposeBag)
+    
+    pwdTextField.rx.text.orEmpty
+      .skip(1)
+      .subscribe(with: self) { owner, password in
+        owner.viewModel.registerPassword.onNext(password)
+      }
+      .disposed(by: disposeBag)
+    
+    repwdTextField.rx.text.orEmpty
+      .skip(1)
+      .subscribe(with: self) { owner, repassword in
+        owner.viewModel.registerRePassword.onNext(repassword)
+      }
+      .disposed(by: disposeBag)
+    
+    checkEmailTextField.rx.text.orEmpty
+      .skip(1)
+      .subscribe(with: self) { owner, authCode in
+        owner.viewModel.registerAuthCode.onNext(authCode)
+      }
+      .disposed(by: disposeBag)
+    
     viewModel.isSendAuthCodeButtonEnabled
       .drive(with: self) { owner, isEnabled in
         owner.checkEmailTextField.setButtonType(isEnabled: isEnabled)

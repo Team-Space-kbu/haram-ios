@@ -65,6 +65,7 @@ final class IntranetCheckViewController: BaseViewController {
   
   @objc func handleSwipeBackGesture(_ gesture: UIScreenEdgePanGestureRecognizer) {
     if gesture.state == .began {
+      navigationController?.setNavigationBarHidden(false, animated: true)
       navigationController?.popToRootViewController(animated: true)
     }
   }

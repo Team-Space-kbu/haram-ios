@@ -65,7 +65,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
       $0.scrollDirection = .horizontal
-      $0.minimumInteritemSpacing = 40
+      $0.minimumLineSpacing = 20
     }
   ).then {
     $0.backgroundColor = .clear
