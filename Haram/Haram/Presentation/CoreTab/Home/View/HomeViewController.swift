@@ -177,6 +177,7 @@ final class HomeViewController: BaseViewController {
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
     navigationController?.interactivePopGestureRecognizer?.delegate = self
+//    navigationController?.delegate = self
     setupSkeletonView()
   }
   
@@ -386,6 +387,9 @@ extension HomeViewController: SkeletonCollectionViewDataSource {
 
 extension HomeViewController: UIGestureRecognizerDelegate {
   func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+//    if let _ = navigationController?.topViewController as? IntranetCheckViewController {
+//      return false
+//    }
     return true // or false
   }
 }
@@ -407,3 +411,13 @@ extension HomeViewController: CheckChapelDayViewDelegate {
     }
   }
 }
+
+//extension HomeViewController: UINavigationControllerDelegate {
+//  func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+//    // interactivePopGestureRecognizer를 통해 백 제스처가 발생한 경우
+//    if navigationController.interactivePopGestureRecognizer?.state == .ended {
+//      // 여기에 사용자가 백 제스처를 했을 때 수행할 동작을 추가합니다.
+//      print("백 제스처 감지됨")
+//    }
+//  }
+//}

@@ -243,6 +243,8 @@ final class RegisterViewController: BaseViewController {
           owner.idTextField.setError(description: error.description!)
         } else if error == .unvalidEmailFormat {
           owner.emailTextField.setError(description: error.description!)
+        } else if error == .expireAuthCode {
+          owner.checkEmailTextField.setError(description: error.description!)
         }
         
       }
