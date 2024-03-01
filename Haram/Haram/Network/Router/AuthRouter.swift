@@ -15,13 +15,15 @@ enum AuthRouter {
   
   case loginIntranet(IntranetLoginRequest)
   case requestEmailAuthCode(String)
+  case updatePassword(UpdatePasswordRequest, String)
+  case verifyMailAuthCode(String, String)
 }
 
 extension AuthRouter: Router {
   
   var baseURL: String {
     switch self {
-    case .signupUser, .loginMember, .reissuanceAccessToken, .logoutUser, .loginIntranet, .requestEmailAuthCode:
+    case .signupUser, .loginMember, .reissuanceAccessToken, .logoutUser, .loginIntranet, .requestEmailAuthCode, .updatePassword, .verifyMailAuthCode:
       return URLConstants.baseURL
     }
   }
@@ -30,8 +32,10 @@ extension AuthRouter: Router {
     switch self {
     case .signupUser, .reissuanceAccessToken, .loginMember, .loginIntranet, .logoutUser:
       return .post
-    case .requestEmailAuthCode:
+    case .requestEmailAuthCode, .verifyMailAuthCode:
       return .get
+    case .updatePassword:
+      return .put
     }
   }
   
@@ -49,6 +53,10 @@ extension AuthRouter: Router {
       return "/v1/auth/logout"
     case .requestEmailAuthCode(let userEmail):
       return "/v1/mail/\(userEmail)"
+    case let .updatePassword(_, userEmail):
+      return "/v1/users/\(userEmail)/password/init"
+    case let .verifyMailAuthCode(userEmail, authCode):
+      return "/v1/mail/\(userEmail)/\(authCode)"
     }
   }
   
@@ -64,16 +72,18 @@ extension AuthRouter: Router {
       return .body(request)
     case .logoutUser(let request):
       return .body(request)
-    case .requestEmailAuthCode(_):
+    case .requestEmailAuthCode, .verifyMailAuthCode:
       return .plain
+    case let .updatePassword(request, _):
+      return .body(request)
     }
   }
   
   var headers: HeaderType {
     switch self {
-    case .signupUser, .loginMember:
+    case .signupUser, .loginMember, .verifyMailAuthCode:
       return .default
-    case .logoutUser, .loginIntranet, .requestEmailAuthCode:
+    case .logoutUser, .loginIntranet, .requestEmailAuthCode, .updatePassword:
       return .withAccessToken
     case .reissuanceAccessToken:
       return .withRefreshToken

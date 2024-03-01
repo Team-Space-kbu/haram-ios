@@ -256,6 +256,8 @@
 		70AD2A832B8CBA7200CB9791 /* CheckEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A822B8CBA7200CB9791 /* CheckEmailViewController.swift */; };
 		70AD2A852B8CE16C00CB9791 /* UpdatePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A842B8CE16C00CB9791 /* UpdatePasswordViewModel.swift */; };
 		70AD2A8E2B90AF4900CB9791 /* SDWebImageSVGCoder in Frameworks */ = {isa = PBXBuildFile; productRef = 70AD2A8D2B90AF4900CB9791 /* SDWebImageSVGCoder */; };
+		70AD2A902B90CC5000CB9791 /* UpdatePasswordRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A8F2B90CC5000CB9791 /* UpdatePasswordRequest.swift */; };
+		70AD2A922B90DBEA00CB9791 /* CheckEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A912B90DBEA00CB9791 /* CheckEmailViewModel.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -530,6 +532,8 @@
 		70AD2A802B8CB8B400CB9791 /* FindPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewModel.swift; sourceTree = "<group>"; };
 		70AD2A822B8CBA7200CB9791 /* CheckEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckEmailViewController.swift; sourceTree = "<group>"; };
 		70AD2A842B8CE16C00CB9791 /* UpdatePasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePasswordViewModel.swift; sourceTree = "<group>"; };
+		70AD2A8F2B90CC5000CB9791 /* UpdatePasswordRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePasswordRequest.swift; sourceTree = "<group>"; };
+		70AD2A912B90DBEA00CB9791 /* CheckEmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckEmailViewModel.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -762,6 +766,7 @@
 				708312BD2A7A3C6200F7E283 /* SignupMemberRequest.swift */,
 				7001DA882B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift */,
 				7001DA8A2B6E17C10037D599 /* LogoutUserRequest.swift */,
+				70AD2A8F2B90CC5000CB9791 /* UpdatePasswordRequest.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1286,6 +1291,7 @@
 				705FD2A82A16031900F353FE /* LoginViewModel.swift */,
 				70AD2A802B8CB8B400CB9791 /* FindPasswordViewModel.swift */,
 				70AD2A842B8CE16C00CB9791 /* UpdatePasswordViewModel.swift */,
+				70AD2A912B90DBEA00CB9791 /* CheckEmailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1848,6 +1854,7 @@
 				70375EFA2AA5EBF30032F6B8 /* PopularLibraryCollectionViewCell.swift in Sources */,
 				701F29C42AE6750100E3E68B /* InquireBoardDetailResponse.swift in Sources */,
 				705FD2B12A1625EF00F353FE /* NewLibraryCollectionViewCell.swift in Sources */,
+				70AD2A902B90CC5000CB9791 /* UpdatePasswordRequest.swift in Sources */,
 				708312372A2CA50300F7E283 /* IntranetRouter.swift in Sources */,
 				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
 				70747C862B45776C001F08EE /* HomeCoordinatorDelegate.swift in Sources */,
@@ -1930,6 +1937,7 @@
 				705FD2842A10E47F00F353FE /* HaramError.swift in Sources */,
 				70C9CCB62A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift in Sources */,
 				708ED7AF2A8FDA7700107CDF /* NoticeDetailViewController.swift in Sources */,
+				70AD2A922B90DBEA00CB9791 /* CheckEmailViewModel.swift in Sources */,
 				705FD2C32A2337C800F353FE /* NoticeViewController.swift in Sources */,
 				7083129B2A6A909C00F7E283 /* ChapelViewModel.swift in Sources */,
 				709130032B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift in Sources */,

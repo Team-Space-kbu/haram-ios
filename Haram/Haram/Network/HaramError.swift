@@ -39,6 +39,9 @@ enum HaramError: Error, CaseIterable {
   case unvalidUserIDFormat // 옳지않은 유저 아이디 형식일 경우
   case unvalidAuthCode // 옳지않은 인증코드 형식일 경우
   
+  /// 비밀번호변경 시 에러
+  case expireAuthCode
+  
   /// 성경관련 에러
   case noExistTodayBibleWord // 오늘의 성경말씀이 존재하지않을 때 발생하는 에러
   
@@ -108,6 +111,8 @@ extension HaramError {
       return "AUTH02"
     case .noPWD:
       return "AUTH03"
+    case .expireAuthCode:
+      return "MAIL02"
     }
   }
   
@@ -165,6 +170,8 @@ extension HaramError {
       return "사용자 아이디 규칙이 맞지 않습니다."
     case .unvalidAuthCode:
       return "인증코드 규칙이 맞지 않습니다."
+    case .expireAuthCode:
+      return "만료된 인증 코드입니다."
     }
   }
 }

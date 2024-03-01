@@ -213,67 +213,6 @@ final class RegisterViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-//    idTextField.rx.text
-//      .orEmpty
-//      .filter { $0 != Constants.id.placeholder }
-//      .distinctUntilChanged()
-//      .skip(1)
-//      .subscribe(with: self) { owner, ID in
-//        owner.viewModel.registerID.onNext(ID)
-//      }
-//      .disposed(by: disposeBag)
-//    
-//    pwdTextField.rx.text
-//      .orEmpty
-//      .filter { $0 != Constants.password.placeholder }
-//      .distinctUntilChanged()
-//      .skip(1)
-//      .subscribe(with: self) { owner, PWD in
-//        owner.viewModel.registerPWD.onNext(PWD)
-//      }
-//      .disposed(by: disposeBag)
-//    
-//    repwdTextField.rx.text
-//      .orEmpty
-//      .filter { $0 != Constants.repassword.placeholder }
-//      .distinctUntilChanged()
-//      .skip(1)
-//      .subscribe(with: self) { owner, rePWD in
-//        owner.viewModel.registerRePWD.onNext(rePWD)
-//      }
-//      .disposed(by: disposeBag)
-//    
-//    nicknameTextField.rx.text
-//      .orEmpty
-//      .filter { $0 != Constants.nickname.placeholder }
-//      .distinctUntilChanged()
-//      .skip(1)
-//      .subscribe(with: self) { owner, nickname in
-//        owner.viewModel.registerNickname.onNext(nickname)
-//      }
-//      .disposed(by: disposeBag)
-//    
-//    emailTextField.rx.text
-//      .orEmpty
-//      .filter { $0 != Constants.schoolEmail.placeholder }
-//      .distinctUntilChanged()
-//      .skip(1)
-//      .subscribe(with: self) { owner, email in
-//        owner.viewModel.registerEmail.onNext(email)
-//      }
-//      .disposed(by: disposeBag)
-//    
-//    checkEmailTextField.rx.text
-//      .orEmpty
-//      .filter { $0 != Constants.checkEmail.placeholder }
-//      .distinctUntilChanged()
-//      .skip(1)
-//      .subscribe(with: self) { owner, authCode in
-//        owner.viewModel.registerAuthCode.onNext(authCode)
-//      }
-//      .disposed(by: disposeBag)
-    
-    
     registerButton.rx.tap
       .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .subscribe(with: self) { owner, _ in

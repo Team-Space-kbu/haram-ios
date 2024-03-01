@@ -7,7 +7,12 @@
 
 import UIKit
 
+import RxSwift
+
 final class CheckEmailViewController: BaseViewController {
+  
+  private let userMail: String
+  private let viewModel: CheckEmailViewModelType
   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
@@ -32,7 +37,8 @@ final class CheckEmailViewController: BaseViewController {
   
   private let checkEmailTextField = HaramTextField(
     title: "이메일 확인",
-    placeholder: "확인코드"
+    placeholder: "확인코드",
+    options: .errorLabel
   ).then {
     $0.textField.keyboardType = .numberPad
   }
@@ -54,6 +60,16 @@ final class CheckEmailViewController: BaseViewController {
   }
   
   private lazy var reRequestAlertView = RerequestAlertView()
+  
+  init(userMail: String, viewModel: CheckEmailViewModelType = CheckEmailViewModel()) {
+    self.userMail = userMail
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   deinit {
     removeKeyboardNotification()
@@ -81,7 +97,7 @@ final class CheckEmailViewController: BaseViewController {
     }
     
     checkEmailTextField.snp.makeConstraints {
-      $0.height.equalTo(73)
+      $0.height.greaterThanOrEqualTo(73)
     }
     
     reRequestAlertView.snp.makeConstraints {
@@ -95,15 +111,47 @@ final class CheckEmailViewController: BaseViewController {
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(48)
     }
+    
+    [cancelButton, continueButton].forEach {
+      $0.snp.makeConstraints {
+        $0.height.equalTo(48)
+      }
+    }
   }
   
   override func bind() {
     super.bind()
+    
+    checkEmailTextField.rx.text.orEmpty
+      .skip(1)
+      .subscribe(with: self) { owner, authCode in
+        owner.viewModel.emailAuthCode.onNext(authCode)
+      }
+      .disposed(by: disposeBag)
+    
     continueButton.rx.tap
-      .subscribe(with: self) { owner, _ in
+      .throttle(.seconds(1), scheduler: MainScheduler.instance)
+      .withLatestFrom(checkEmailTextField.rx.text.orEmpty)
+      .subscribe(with: self) { owner, authCode in
         owner.view.endEditing(true)
-        let vc = UpdatePasswordViewController()
-        owner.navigationController?.pushViewController(vc, animated: true)
+        owner.viewModel.verifyEmailAuthCode(userMail: owner.userMail, authCode: authCode)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.isVerifyEmailAuthCode
+      .emit(with: self) { owner, isVerify in
+        if isVerify {
+          owner.checkEmailTextField.removeError()
+          let authCode = owner.checkEmailTextField.textField.text!
+          let vc = UpdatePasswordViewController(userEmail: owner.userMail, authCode: authCode)
+          owner.navigationController?.pushViewController(vc, animated: true)
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        owner.checkEmailTextField.setError(description: error.description!)
       }
       .disposed(by: disposeBag)
     
@@ -112,6 +160,14 @@ final class CheckEmailViewController: BaseViewController {
         owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
+    
+    viewModel.continueButtonIsEnabled
+      .drive(with: self) { owner, isEnabled in
+        owner.continueButton.isEnabled = isEnabled
+        owner.continueButton.setupButtonType(type: isEnabled ? .apply : .cancel )
+      }
+      .disposed(by: disposeBag)
+    
   }
 }
 
