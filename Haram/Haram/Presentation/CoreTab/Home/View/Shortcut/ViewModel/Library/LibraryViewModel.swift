@@ -14,7 +14,7 @@ protocol LibraryViewModelType {
   var newBookModel: Driver<[NewLibraryCollectionViewCellModel]> { get }
   var bestBookModel: Driver<[PopularLibraryCollectionViewCellModel]> { get }
   var rentalBookModel: Driver<[RentalLibraryCollectionViewCellModel]> { get }
-  var bannerImage: Signal<URL?> { get }
+  var bannerImage: Driver<URL?> { get }
   var isLoading: Driver<Bool> { get }
 }
 
@@ -26,7 +26,7 @@ final class LibraryViewModel: LibraryViewModelType {
   let newBookModel: Driver<[NewLibraryCollectionViewCellModel]>
   let bestBookModel: Driver<[PopularLibraryCollectionViewCellModel]>
   let rentalBookModel: Driver<[RentalLibraryCollectionViewCellModel]>
-  let bannerImage: Signal<URL?>
+  let bannerImage: Driver<URL?>
   let isLoading: Driver<Bool>
   
   init(libraryRepostory: LibraryRepository = LibraryRepositoryImpl()) {
@@ -36,12 +36,11 @@ final class LibraryViewModel: LibraryViewModelType {
     let currentBestBookModel   = BehaviorRelay<[PopularLibraryCollectionViewCellModel]>(value: [])
     let currentRentalBookModel = BehaviorRelay<[RentalLibraryCollectionViewCellModel]>(value: [])
     let bannerImageRelay       = PublishRelay<String?>()
-    let isLoadingSubject       = PublishSubject<Bool>()
+    let isLoadingSubject       = BehaviorSubject<Bool>(value: true)
     
     let inquireLibrary = libraryRepostory.inquireLibrary()
     
     inquireLibrary
-      .do(onSuccess: { _ in isLoadingSubject.onNext(true) })
       .subscribe(onSuccess: { response in
         currentNewBookModel.accept(response.newBook.map { NewLibraryCollectionViewCellModel(bookInfo: $0) })
         currentBestBookModel.accept(response.bestBook.map { PopularLibraryCollectionViewCellModel(bookInfo: $0) })
@@ -66,9 +65,9 @@ final class LibraryViewModel: LibraryViewModelType {
     bannerImage = bannerImageRelay
       .compactMap { $0 }
       .map { URL(string: $0) }
-      .asSignal(onErrorJustReturn: nil)
+      .asDriver(onErrorJustReturn: nil)
     
     isLoading = isLoadingSubject
-      .asDriver(onErrorJustReturn: false)
+      .asDriver(onErrorJustReturn: true)
   }
 }
