@@ -36,7 +36,9 @@ final class FindPasswordViewController: BaseViewController {
     title: "학교 이메일",
     placeholder: "Email",
     options: [.defaultEmail]
-  )
+  ).then {
+    $0.textField.keyboardType = .emailAddress
+  }
   
   private let buttonStackView = UIStackView().then {
     $0.axis = .horizontal
