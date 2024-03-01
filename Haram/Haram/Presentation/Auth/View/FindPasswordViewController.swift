@@ -99,6 +99,12 @@ final class FindPasswordViewController: BaseViewController {
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(48)
     }
+    
+    [cancelButton, continueButton].forEach {
+      $0.snp.makeConstraints {
+        $0.height.equalTo(48)
+      }
+    }
   }
   
   override func bind() {
@@ -121,9 +127,10 @@ final class FindPasswordViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     continueButton.rx.tap
-      .subscribe(with: self) { owner, _ in
+      .withLatestFrom(schoolEmailTextField.rx.text.orEmpty)
+      .subscribe(with: self) { owner, userMail in
         owner.view.endEditing(true)
-        let vc = CheckEmailViewController()
+        let vc = CheckEmailViewController(userMail: userMail)
         owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
@@ -178,6 +185,7 @@ extension FindPasswordViewController {
     buttonStackView.snp.updateConstraints {
       $0.bottom.equalToSuperview().inset(24)
     }
+    
     UIView.animate(withDuration: 1) {
       self.view.layoutIfNeeded()
     }

@@ -11,6 +11,8 @@ import RxSwift
 final class UpdatePasswordViewController: BaseViewController {
   
   private let viewModel: UpdatePasswordViewModelType
+  private let userEmail: String
+  private let authCode: String
   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
@@ -62,8 +64,10 @@ final class UpdatePasswordViewController: BaseViewController {
     $0.setTitleText(title: "계속하기")
   }
   
-  init(viewModel: UpdatePasswordViewModelType = UpdatePasswordViewModel()) {
+  init(userEmail: String, authCode: String, viewModel: UpdatePasswordViewModelType = UpdatePasswordViewModel()) {
+    self.authCode = authCode
     self.viewModel = viewModel
+    self.userEmail = userEmail
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -112,17 +116,36 @@ final class UpdatePasswordViewController: BaseViewController {
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(48)
     }
+    
+    [cancelButton, continueButton].forEach {
+      $0.snp.makeConstraints {
+        $0.height.equalTo(48)
+      }
+    }
   }
   
   override func bind() {
     super.bind()
+    
+    checkPasswordTextField.textField.rx.controlEvent(.editingDidEnd)
+      .withLatestFrom(
+        Observable.combineLatest(
+          passwordTextField.rx.text.orEmpty,
+          checkPasswordTextField.rx.text.orEmpty
+        )
+      )
+      .subscribe(with: self) { owner, result in
+        let (password, repassword) = result
+        owner.viewModel.checkPassword(password: password, repassword: repassword)
+      }
+      .disposed(by: disposeBag)
+    
     continueButton.rx.tap
       .throttle(.seconds(1), scheduler: MainScheduler.instance)
       .subscribe(with: self) { owner, _ in
-        guard let password = owner.passwordTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-              let repassword = owner.checkPasswordTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+        guard let password = owner.passwordTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
         owner.view.endEditing(true)
-        owner.viewModel.requestUpdatePassword(password: password, repassword: repassword)
+        owner.viewModel.requestUpdatePassword(password: password, authCode: owner.authCode, userMail: owner.userEmail)
       }
       .disposed(by: disposeBag)
     
@@ -135,6 +158,18 @@ final class UpdatePasswordViewController: BaseViewController {
     viewModel.updatePasswordError
       .emit(with: self) { owner, errorMessage in
         owner.checkPasswordTextField.setError(description: errorMessage)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.isContinueButtonEnabled
+      .drive(with: self) { owner, isEnabled in
+        
+        if isEnabled {
+          owner.checkPasswordTextField.removeError()
+        }
+        
+        owner.continueButton.isEnabled = isEnabled
+        owner.continueButton.setupButtonType(type: isEnabled ? .apply : .cancel )
       }
       .disposed(by: disposeBag)
   }
