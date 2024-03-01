@@ -29,7 +29,6 @@ final class PopularLibraryCollectionViewCell: UICollectionViewCell {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
-    $0.skeletonCornerRadius = 10
   }
   
   override init(frame: CGRect) {

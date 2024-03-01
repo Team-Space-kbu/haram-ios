@@ -27,9 +27,9 @@ final class LibraryRelatedBookCollectionViewCell: UICollectionViewCell {
   static let identifier = "LibraryRelatedBookCollectionViewCell"
   
   private let bookImageView = UIImageView().then {
-    $0.backgroundColor = .systemGray
     $0.contentMode = .scaleAspectFill
-    $0.isSkeletonable = true
+    $0.layer.masksToBounds = true
+    $0.layer.cornerRadius = 10
   }
   
   override init(frame: CGRect) {
@@ -43,12 +43,9 @@ final class LibraryRelatedBookCollectionViewCell: UICollectionViewCell {
   
   private func configureUI() {
     isSkeletonable = true
-    contentView.isSkeletonable = true
-    contentView.addShadow(shadowRadius: 6, shadowOpacity: 1, shadowOffset: CGSize(width: 0, height: 3))
     
-    layer.masksToBounds = true
-    layer.cornerRadius = 10
-    backgroundColor = .systemGray
+    skeletonCornerRadius = 10
+    contentView.addShadow(shadowRadius: 6, shadowOpacity: 1, shadowOffset: CGSize(width: 0, height: 3))
     
     contentView.addSubview(bookImageView)
     bookImageView.snp.makeConstraints {
@@ -57,6 +54,7 @@ final class LibraryRelatedBookCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: LibraryRelatedBookCollectionViewCellModel) {
+    hideSkeleton()
     bookImageView.kf.setImage(with: model.bookImageURL)
   }
 }
