@@ -9,6 +9,7 @@ import UIKit
 
 import Kingfisher
 import RxSwift
+import RxCocoa
 import SkeletonView
 import SnapKit
 import Then
@@ -126,23 +127,22 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
   override func bind() {
     super.bind()
 
-    viewModel.newBookModel
-      .drive(rx.newBookModel)
-      .disposed(by: disposeBag)
-    
-    viewModel.bestBookModel
-      .drive(rx.bestBookModel)
-      .disposed(by: disposeBag)
-    
-    viewModel.rentalBookModel
-      .drive(rx.rentalBookModel)
-      .disposed(by: disposeBag)
-    
-    viewModel.bannerImage
-      .emit(with: self) { owner, imageURL in
-        owner.bannerImageView.kf.setImage(with: imageURL)
-      }
-      .disposed(by: disposeBag)
+    Driver.combineLatest(
+      viewModel.newBookModel,
+      viewModel.bestBookModel,
+      viewModel.rentalBookModel,
+      viewModel.bannerImage
+    )
+    .drive(with: self) { owner, result in
+      let (newBookModel, bestBookModel, rentalBookModel, bannerImage) = result
+      owner.newBookModel = newBookModel
+      owner.bestBookModel = bestBookModel
+      owner.rentalBookModel = rentalBookModel
+      owner.bannerImageView.kf.setImage(with: bannerImage)
+      
+      owner.view.hideSkeleton()
+    }
+    .disposed(by: disposeBag)
     
     searchBar.rx.searchButtonClicked
       .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
@@ -174,7 +174,6 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
     viewModel.isLoading
       .filter { !$0 }
       .drive(with: self) { owner, isLoading in
-        print("로딩중 \(isLoading)")
         owner.libraryCollectionView.reloadData()
         owner.view.hideSkeleton()
       }
