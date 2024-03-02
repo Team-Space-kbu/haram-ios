@@ -33,16 +33,6 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
     $0.delegate = self
   }
   
-//  private let reservationButton = UIButton().then {
-//    $0.setTitle("예약하기", for: .normal)
-//    $0.setTitleColor(.white, for: .normal)
-//    $0.backgroundColor = .hex79BD9A
-//    $0.titleLabel?.font = .bold22
-//    $0.layer.masksToBounds = true
-//    $0.layer.cornerRadius = 10
-//    $0.isSkeletonable = true
-//  }
-  
   init(roomSeq: Int, viewModel: StudyRoomDetailViewModelType = StudyRoomDetailViewModel()) {
     self.roomSeq = roomSeq
     self.viewModel = viewModel
@@ -73,12 +63,6 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
   
   override func setupConstraints() {
     super.setupConstraints()
-    
-//    reservationButton.snp.makeConstraints {
-//      $0.height.equalTo(49)
-//      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-//      $0.bottom.equalToSuperview().inset(42)
-//    }
     
     studyRoomDetailView.snp.makeConstraints {
       $0.bottom.equalToSuperview()

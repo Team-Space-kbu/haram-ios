@@ -31,7 +31,7 @@ final class BoardViewController: BaseViewController {
     $0.backgroundColor = .clear
     $0.spacing = 20
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: .zero, left: 15, bottom: 69 - 21, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: 20, left: 15, bottom: 69 - 21, right: 15)
   }
   
   private lazy var boardTableView = UITableView(frame: .zero, style: .grouped).then {
@@ -46,11 +46,11 @@ final class BoardViewController: BaseViewController {
     $0.isScrollEnabled = false
   }
   
-  private let boardLabel = UILabel().then {
-    $0.textColor = .black
-    $0.text = "게시판"
-    $0.font = .bold26
-  }
+//  private let boardLabel = UILabel().then {
+//    $0.textColor = .black
+//    $0.text = "게시판"
+//    $0.font = .bold26
+//  }
   
   init(viewModel: BoardViewModelType = BoardViewModel()) {
     self.viewModel = viewModel
@@ -70,6 +70,13 @@ final class BoardViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    let label = UILabel().then {
+      $0.text = "게시판"
+      $0.textColor = .black
+      $0.font = .bold26
+    }
+    
+    navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
     navigationController?.interactivePopGestureRecognizer?.delegate = self
   }
   
@@ -77,7 +84,7 @@ final class BoardViewController: BaseViewController {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
-    [boardLabel, boardTableView].forEach { containerView.addArrangedSubview($0) }
+    [boardTableView].forEach { containerView.addArrangedSubview($0) }
     
   }
   
@@ -117,7 +124,7 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: BoardTableHeaderView.identifier) as? BoardTableHeaderView ?? BoardTableHeaderView()
-    headerView.configureUI(with: "일반 게시판")
+    headerView.configureUI(with: "학교 게시판")
     return headerView
   }
   

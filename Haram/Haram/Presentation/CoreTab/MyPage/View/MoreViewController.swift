@@ -92,11 +92,11 @@ final class MoreViewController: BaseViewController {
     $0.backgroundColor = .clear
   }
   
-  private let moreLabel = UILabel().then {
-    $0.textColor = .hex1A1E27
-    $0.font = .bold26
-    $0.text = "더보기"
-  }
+//  private let moreLabel = UILabel().then {
+//    $0.textColor = .hex1A1E27
+//    $0.font = .bold26
+//    $0.text = "더보기"
+//  }
   
   private let settingLabel = UILabel().then {
     $0.textColor = .hex1A1E27
@@ -131,7 +131,14 @@ final class MoreViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    navigationController?.navigationBar.isHidden = true
+    let label = UILabel().then {
+      $0.text = "더보기"
+      $0.textColor = .black
+      $0.font = .bold26
+    }
+    
+    navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
+//    navigationController?.navigationBar.isHidden = true
   }
   
   override func bind() {
@@ -158,7 +165,7 @@ final class MoreViewController: BaseViewController {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(contentView)
-    [moreLabel, profileInfoView, moreTableView, lineView, settingLabel, settingTableView].forEach { contentView.addSubview($0) }
+    [profileInfoView, moreTableView, lineView, settingLabel, settingTableView].forEach { contentView.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -172,13 +179,13 @@ final class MoreViewController: BaseViewController {
       $0.directionalEdges.width.equalToSuperview()
     }
     
-    moreLabel.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(64)
-      $0.leading.equalToSuperview().inset(15)
-    }
+//    moreLabel.snp.makeConstraints {
+//      $0.top.equalToSuperview().inset(64)
+//      $0.leading.equalToSuperview().inset(15)
+//    }
     
     profileInfoView.snp.makeConstraints {
-      $0.top.equalTo(moreLabel.snp.bottom).offset(20)
+      $0.top.equalToSuperview().inset(20)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(131)
     }
