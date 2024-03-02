@@ -38,6 +38,8 @@ final class ChapelCollectionHeaderView: UICollectionReusableView {
   
   private let chapelInfoView = ChapelInfoView()
   
+  private let chapelAlertView = IntranetAlertView(type: .chapel)
+  
   private let sectionTitleLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .bold22
@@ -58,7 +60,7 @@ final class ChapelCollectionHeaderView: UICollectionReusableView {
     containerStackView.isSkeletonable = true
     
     addSubview(containerStackView)
-    [chapelDayView, lineView, chapelInfoView, lineView1, sectionTitleLabel].forEach {
+    [chapelDayView, lineView, chapelInfoView, lineView1, chapelAlertView, sectionTitleLabel].forEach {
       $0.isSkeletonable = true
       containerStackView.addArrangedSubview($0)
     }
@@ -87,8 +89,16 @@ final class ChapelCollectionHeaderView: UICollectionReusableView {
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
     
+    containerStackView.setCustomSpacing(20, after: lineView1)
+    containerStackView.setCustomSpacing(20, after: chapelAlertView)
+    
     sectionTitleLabel.snp.makeConstraints {
       $0.leading.equalToSuperview()
+    }
+    
+    chapelAlertView.snp.makeConstraints {
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(45)
     }
     
     containerStackView.setCustomSpacing(72, after: chapelDayView)
