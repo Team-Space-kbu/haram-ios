@@ -162,31 +162,30 @@ extension StudyListCollectionHeaderView {
     func configureUI(with model: StudyListHeaderViewModel) {
       titleLabel.text = model.title
       descriptionLabel.text = model.description
-      backgroudImageView.kf.setImage(with: model.thumbnailImageURL)
       
-//      DispatchQueue.global().async {
-//        if let data = try? Data(contentsOf: model.thumbnailImageURL!) {
-//          DispatchQueue.main.async {
-//            self.backgroudImageView.image = self.darkenImage(UIImage(data: data)!, darkness: -0.3)
-//          }
-//        }
-//      }
+      URLSession.shared.dataTask(with: model.thumbnailImageURL!) { data, _, error in
+        if let data = data, error == nil {
+          let thumbnailImage = UIImage(data: data)
+          DispatchQueue.main.async {
+            self.backgroudImageView.image = self.applyDarkFilter(to: thumbnailImage!)
+          }
+        }
+      }.resume()
     }
     
-    // 이미지를 어둡게 조정하는 함수
-    func darkenImage(_ image: UIImage, darkness: Float) -> UIImage? {
-        guard let ciImage = CIImage(image: image) else { return nil }
-        
-        let filter = CIFilter(name: "CIColorControls")
-        filter?.setValue(ciImage, forKey: kCIInputImageKey)
-        filter?.setValue(darkness, forKey: kCIInputBrightnessKey)
-        
-        guard let outputImage = filter?.outputImage else { return nil }
-        
-        let context = CIContext(options: nil)
-        guard let cgImage = context.createCGImage(outputImage, from: outputImage.extent) else { return nil }
-        
-        return UIImage(cgImage: cgImage)
+    func applyDarkFilter(to image: UIImage) -> UIImage? {
+      let context = CIContext(options: nil)
+      if let filter = CIFilter(name: "CIColorControls") {
+        let ciImage = CIImage(image: image)
+        filter.setValue(ciImage, forKey: kCIInputImageKey)
+        filter.setValue(-0.5, forKey: kCIInputBrightnessKey) // 어두움 정도를 조절할 수 있습니다. 0에 가까울수록 어두워집니다.
+        if let output = filter.outputImage {
+          if let cgImage = context.createCGImage(output, from: output.extent) {
+            return UIImage(cgImage: cgImage)
+          }
+        }
+      }
+      return nil
     }
   }
 }
