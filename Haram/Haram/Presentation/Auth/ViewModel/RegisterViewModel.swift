@@ -40,11 +40,11 @@ final class RegisterViewModel {
   private let disposeBag = DisposeBag()
   private let authRepository: AuthRepository
   
-  private let isValidIDSubject              = BehaviorSubject<Bool>(value: false)
-  private let isValidPWDSubject             = BehaviorSubject<Bool>(value: false)
-  private let isValidRePWDSubject           = BehaviorSubject<Bool>(value: false)
-  private let isValidEmailSubject           = BehaviorSubject<Bool>(value: false)
-  private let isValidNicknameSubject        = BehaviorSubject<Bool>(value: false)
+//  private let isValidIDSubject              = BehaviorSubject<Bool>(value: false)
+//  private let isValidPWDSubject             = BehaviorSubject<Bool>(value: false)
+//  private let isValidRePWDSubject           = BehaviorSubject<Bool>(value: false)
+//  private let isValidEmailSubject           = BehaviorSubject<Bool>(value: false)
+//  private let isValidNicknameSubject        = BehaviorSubject<Bool>(value: false)
   private let isValidAuthCodeSubject        = BehaviorSubject<Bool>(value: false)
   
   private let isRegisterButtonEnabledSubject = BehaviorSubject<Bool>(value: false)
@@ -151,7 +151,7 @@ extension RegisterViewModel: RegisterViewModelType {
     } else {
       errorMessageRelay.accept(.noEqualPassword)
     }
-    isValidRePWDSubject.onNext(password == repassword)
+//    isValidRePWDSubject.onNext(password == repassword)
   }
   
   var successMessage: RxCocoa.Signal<HaramError> {
@@ -163,7 +163,7 @@ extension RegisterViewModel: RegisterViewModelType {
     // userId가 4~30자, 영어 or 숫자만 가능
     
     let isUnValid = 4 > id.count || 30 < id.count || !isValidAlphanumeric(id)
-    isValidIDSubject.onNext(!isUnValid)
+//    isValidIDSubject.onNext(!isUnValid)
     LogHelper.log("아이디 유효안함 \(isUnValid)", level: .debug)
     if isUnValid {
       errorMessageRelay.accept(.unvalidUserIDFormat)
@@ -176,7 +176,7 @@ extension RegisterViewModel: RegisterViewModelType {
     
     let isUnValid = !isValidPassword(password)
     LogHelper.log("비번 유효안함 \(isUnValid)", level: .debug)
-    isValidPWDSubject.onNext(!isUnValid)
+//    isValidPWDSubject.onNext(!isUnValid)
     if isUnValid {
       errorMessageRelay.accept(.unvalidpasswordFormat)
     } else {
@@ -192,7 +192,7 @@ extension RegisterViewModel: RegisterViewModelType {
     
     // 입력된 이메일이 유효한지 확인
     let isValid = emailPredicate.evaluate(with: email + "@bible.ac.kr")
-    isValidEmailSubject.onNext(isValid)
+//    isValidEmailSubject.onNext(isValid)
     LogHelper.log("이메일 유효 \(isValid)", level: .debug)
     
     if isValid {
@@ -206,7 +206,7 @@ extension RegisterViewModel: RegisterViewModelType {
   func checkAuthCodeIsValid(authCode: String) {
     
     let isUnValid = authCode.count != 6
-    isValidAuthCodeSubject.onNext(!isUnValid)
+//    isValidAuthCodeSubject.onNext(!isUnValid)
     LogHelper.log("인증코드 유효안함 \(isUnValid)", level: .debug)
     if isUnValid {
       errorMessageRelay.accept(.unvalidAuthCode)
@@ -219,7 +219,7 @@ extension RegisterViewModel: RegisterViewModelType {
   func checkNicknameIsValid(nickname: String) {
     
     let isUnValid = 0..<2 ~= nickname.count || 15 < nickname.count || !isValidKoreanAlphanumeric(nickname)
-    isValidNicknameSubject.onNext(!isUnValid)
+//    isValidNicknameSubject.onNext(!isUnValid)
     LogHelper.log("닉네임 유효안함 \(isUnValid)", level: .debug)
     if isUnValid {
       errorMessageRelay.accept(.unvalidNicknameFormat)
@@ -251,7 +251,8 @@ extension RegisterViewModel: RegisterViewModelType {
     
     authRepository.requestEmailAuthCode(userEmail: email + "@bible.ac.kr")
       .subscribe(with: self) { owner, _ in
-        owner.isSuccessRequestAuthCodeSubject.onNext(true)
+        owner.isValidAuthCodeSubject.onNext(true)
+//        owner.isSuccessRequestAuthCodeSubject.onNext(true)
       }
       .disposed(by: disposeBag)
   }
@@ -275,11 +276,12 @@ extension RegisterViewModel: RegisterViewModelType {
       registerPasswordSubject,
       registerRepasswordSubject,
       registerEmailSubject,
-      registerAuthcodeSubject
+      registerAuthcodeSubject,
+      isValidAuthCodeSubject
     )
     .withUnretained(self)
     .map { owner, result in
-      let (id, nickname, password, repassword, email, authCode) = result
+      let (id, nickname, password, repassword, email, authCode, isValidAuthCode) = result
       
       let emailRegex = #"^[a-zA-Z0-9._%+-]+@bible\.ac\.kr$"#
       
@@ -293,7 +295,7 @@ extension RegisterViewModel: RegisterViewModelType {
       let isNicknameUnValid = 0..<2 ~= nickname.count || 15 < nickname.count || !owner.isValidKoreanAlphanumeric(nickname)
       let isAuthCodeUnValid = authCode.count != 6
       
-      return !isIDUnValid && isEmailValid && !isPWDUnValid && !isNicknameUnValid && !isAuthCodeUnValid && password == repassword
+      return !isIDUnValid && isEmailValid && !isPWDUnValid && !isNicknameUnValid && !isAuthCodeUnValid && password == repassword && isValidAuthCode
     }
     .distinctUntilChanged()
     .asDriver(onErrorJustReturn: false)

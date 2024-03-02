@@ -258,6 +258,7 @@
 		70AD2A8E2B90AF4900CB9791 /* SDWebImageSVGCoder in Frameworks */ = {isa = PBXBuildFile; productRef = 70AD2A8D2B90AF4900CB9791 /* SDWebImageSVGCoder */; };
 		70AD2A902B90CC5000CB9791 /* UpdatePasswordRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A8F2B90CC5000CB9791 /* UpdatePasswordRequest.swift */; };
 		70AD2A922B90DBEA00CB9791 /* CheckEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A912B90DBEA00CB9791 /* CheckEmailViewModel.swift */; };
+		70AD2A962B93738000CB9791 /* VerifyEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A952B93738000CB9791 /* VerifyEmailViewController.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -534,6 +535,7 @@
 		70AD2A842B8CE16C00CB9791 /* UpdatePasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePasswordViewModel.swift; sourceTree = "<group>"; };
 		70AD2A8F2B90CC5000CB9791 /* UpdatePasswordRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePasswordRequest.swift; sourceTree = "<group>"; };
 		70AD2A912B90DBEA00CB9791 /* CheckEmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckEmailViewModel.swift; sourceTree = "<group>"; };
+		70AD2A952B93738000CB9791 /* VerifyEmailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailViewController.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -1280,6 +1282,7 @@
 				70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */,
 				70727A9129D889AE003DE956 /* LoginViewController.swift */,
 				70AD2A822B8CBA7200CB9791 /* CheckEmailViewController.swift */,
+				70AD2A952B93738000CB9791 /* VerifyEmailViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1822,6 +1825,7 @@
 				708ED7B52A90D61100107CDF /* StudyRoomDetailView.swift in Sources */,
 				70AD2A612B85205500CB9791 /* InquireMainNoticeListResponse.swift in Sources */,
 				7083128A2A655BD900F7E283 /* MileageTableHeaderView.swift in Sources */,
+				70AD2A962B93738000CB9791 /* VerifyEmailViewController.swift in Sources */,
 				7051E4FB2ADAB6C700C2134B /* BoardRouter.swift in Sources */,
 				7083128C2A6561CD00F7E283 /* MyPageRouter.swift in Sources */,
 				708ED7B92A91191C00107CDF /* BibleRouter.swift in Sources */,

@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 struct MoreTableViewCellModel {
-  let imageName: String
+  let imageResource: ImageResource
   let title: String
 }
 
@@ -73,6 +73,6 @@ final class MoreTableViewCell: UITableViewCell {
   
   func configureUI(with model: MoreTableViewCellModel) {
     titleLabel.text = model.title
-    moreImageView.image = UIImage(named: model.imageName)
+    moreImageView.image = UIImage(resource: model.imageResource)
   }
 }
