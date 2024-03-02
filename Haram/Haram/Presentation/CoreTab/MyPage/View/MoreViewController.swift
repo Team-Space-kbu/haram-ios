@@ -12,36 +12,35 @@ import SnapKit
 import Then
 
 enum MoreType: CaseIterable {
-  case studyPlan
+  case employmentInformation
+  case churchRecruitmentNotice
   
   var title: String {
     switch self {
-    case .studyPlan:
-      return "강의계획서"
+    case .employmentInformation:
+      return "취업정보"
+    case .churchRecruitmentNotice:
+      return "교회(사역) 채용공고"
     }
   }
   
-  var imageName: String {
+  var imageResource: ImageResource {
     switch self {
-    case .studyPlan:
-      return "scholarGreen"
+    case .employmentInformation:
+      return .blueRocket
+    case .churchRecruitmentNotice:
+      return .yellowHeart
     }
   }
 }
 
 enum SettingType: CaseIterable {
-  case haramQA
-  case version
   case provision
   case license
   case logout
   
   var title: String {
     switch self {
-    case .haramQA:
-      return "하람 Q&A"
-    case .version:
-      return "버전관리"
     case .provision:
       return "하람서비스약관"
     case .license:
@@ -231,7 +230,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if tableView == moreTableView {
       let cell = tableView.dequeueReusableCell(withIdentifier: MoreTableViewCell.identifier, for: indexPath) as? MoreTableViewCell ?? MoreTableViewCell()
-      cell.configureUI(with: .init(imageName: MoreType.allCases[indexPath.row].imageName, title: MoreType.allCases[indexPath.row].title))
+      cell.configureUI(with: .init(imageResource: MoreType.allCases[indexPath.row].imageResource, title: MoreType.allCases[indexPath.row].title))
       return cell
     }
     let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier, for: indexPath) as? SettingTableViewCell ?? SettingTableViewCell()
@@ -247,9 +246,18 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    if tableView == settingTableView && SettingType.allCases[indexPath.row] == .logout {
-      viewModel.requestLogoutUser()
+    if tableView == settingTableView {
+      let settingType = SettingType.allCases[indexPath.row]
+      if settingType == .logout {
+        viewModel.requestLogoutUser()
+      }
+    } else {
+      let moreType = MoreType.allCases[indexPath.row]
+      let vc = SelectedCategoryNoticeViewController(noticeType: moreType == .employmentInformation ? .jobStudent : .jobChurch)
+      vc.title = moreType.title
+      vc.navigationItem.largeTitleDisplayMode = .never
+      vc.hidesBottomBarWhenPushed = true
+      navigationController?.pushViewController(vc, animated: true)
     }
-    
   }
 }

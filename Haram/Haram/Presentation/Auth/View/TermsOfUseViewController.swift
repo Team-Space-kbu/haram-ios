@@ -59,7 +59,7 @@ final class TermsOfUseViewController: BaseViewController {
     super.bind()
     applyButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        let vc = RegisterViewController()
+        let vc = VerifyEmailViewController()
         vc.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)
       }

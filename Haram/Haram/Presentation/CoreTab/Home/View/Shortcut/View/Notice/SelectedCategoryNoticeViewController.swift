@@ -64,7 +64,6 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    title = "공지사항"
     setupBackButton()
     setupSkeletonView()
   }

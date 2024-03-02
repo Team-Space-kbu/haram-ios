@@ -40,7 +40,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
   private let containerView = UIStackView().then {
     $0.backgroundColor = .clear
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: 42, left: 30, bottom: 30, right: 30)
+    $0.layoutMargins = .init(top: 42, left: 15, bottom: 15, right: 15)
     $0.axis = .vertical
     $0.alignment = .center
     $0.distribution = .fill
@@ -72,7 +72,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     $0.register(LibraryRelatedBookCollectionViewCell.self, forCellWithReuseIdentifier: LibraryRelatedBookCollectionViewCell.identifier)
     $0.delegate = self
     $0.dataSource = self
-    $0.contentInset = .init(top: .zero, left: 30, bottom: .zero, right: 30)
+    $0.contentInset = .init(top: .zero, left: 15, bottom: .zero, right: 15)
     $0.showsHorizontalScrollIndicator = false
     $0.isPagingEnabled = true
   }
@@ -123,12 +123,12 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     
     [libraryDetailSubView, libraryRentalListView].forEach {
       $0.snp.makeConstraints {
-        $0.directionalHorizontalEdges.equalToSuperview().inset(30)
+        $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       }
     }
     
     relatedBookLabel.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(30)
+      $0.leading.equalToSuperview().inset(15)
       $0.height.equalTo(23)
       $0.trailing.lessThanOrEqualToSuperview()
     }

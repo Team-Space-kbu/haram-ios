@@ -173,6 +173,7 @@ extension NoticeViewController: UICollectionViewDelegate, UICollectionViewDataSo
 extension NoticeViewController: NoticeCollectionHeaderViewDelegate {
   func didTappedCategory(noticeType: NoticeType) {
     let vc = SelectedCategoryNoticeViewController(noticeType: noticeType)
+    vc.title = "공지사항"
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }

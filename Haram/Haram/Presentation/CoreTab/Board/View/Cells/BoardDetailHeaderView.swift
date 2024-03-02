@@ -145,7 +145,7 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     postingTitleLabel.text = model.boardTitle
     postingDescriptionLabel.addLineSpacing(lineSpacing: 2, string: model.boardContent)
     postingAuthorNameLabel.text = model.boardAuthorName
-    postingDateLabel.text = DateformatterFactory.dateWithHypen.string(from: model.boardDate)
+    postingDateLabel.text = DateformatterFactory.dateWithSlash.string(from: model.boardDate)
     
     if !model.boardImageCollectionViewCellModel.isEmpty {
       [boardImageCollectionView, pageControl].forEach { containerView.addArrangedSubview($0) }
