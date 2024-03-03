@@ -2,6 +2,11 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+import SnapKit
+import Then
+
 final class VerifyEmailViewController: BaseViewController {
   
   private let viewModel: VerifyEmailViewModelType
@@ -102,6 +107,13 @@ final class VerifyEmailViewController: BaseViewController {
   override func bind() {
     super.bind()
     
+    checkEmailTextField.rx.text.orEmpty
+      .skip(1)
+      .subscribe(with: self) { owner, authCode in
+        owner.viewModel.authCode.onNext(authCode)
+      }
+      .disposed(by: disposeBag)
+    
     viewModel.successSendAuthCode
       .emit(with: self) { owner, message in
         owner.schoolEmailTextField.snp.updateConstraints {
@@ -111,15 +123,29 @@ final class VerifyEmailViewController: BaseViewController {
         owner.checkEmailTextField.setError(description: message, textColor: .hex2F80ED)
         owner.checkEmailTextField.setButtonType(isEnabled: false)
         owner.schoolEmailTextField.removeError()
+        owner.schoolEmailTextField.textField.isEnabled = false
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successVerifyAuthCode
+      .emit(with: self) { owner, _ in
+        let userMail = owner.schoolEmailTextField.textField.text!
+        let vc = RegisterViewController(email: userMail)
+        owner.navigationItem.largeTitleDisplayMode = .never
+        owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
-        owner.schoolEmailTextField.snp.updateConstraints {
-          $0.height.equalTo(74 + 28)
+        if error == .unvalidEmailFormat {
+          owner.schoolEmailTextField.snp.updateConstraints {
+            $0.height.equalTo(74 + 28)
+          }
+          owner.schoolEmailTextField.setError(description: error.description!)
+        } else if error == .expireAuthCode {
+          owner.checkEmailTextField.setError(description: error.description!)
         }
-        owner.schoolEmailTextField.setError(description: error.description!)
       }
       .disposed(by: disposeBag)
     
@@ -131,12 +157,16 @@ final class VerifyEmailViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     continueButton.rx.tap
-      .withLatestFrom(schoolEmailTextField.rx.text.orEmpty)
-      .subscribe(with: self) { owner, userMail in
+      .withLatestFrom(
+        Observable.zip(
+          schoolEmailTextField.rx.text.orEmpty,
+          checkEmailTextField.rx.text.orEmpty
+        )
+      )
+      .subscribe(with: self) { owner, result in
+        let (userMail, authCode) = result
+        owner.viewModel.verifyEmailAuthCode(userMail: userMail, authCode: authCode)
         owner.view.endEditing(true)
-        let vc = RegisterViewController(email: userMail)
-        owner.navigationItem.largeTitleDisplayMode = .never
-        owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
   }
