@@ -35,7 +35,7 @@ final class MileageViewController: BaseViewController, BackButtonHandler {
     $0.dataSource = self
     $0.backgroundColor = .white
     $0.showsVerticalScrollIndicator = false
-    $0.sectionHeaderHeight = 69.97 + 135 + 14 + 17 + 44
+    $0.sectionHeaderHeight = 69.97 + 135 + 14 + 17 + 14
     $0.sectionFooterHeight = .leastNonzeroMagnitude
     $0.isSkeletonable = true
   }

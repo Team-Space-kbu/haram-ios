@@ -167,14 +167,12 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
       .disposed(by: disposeBag)
     
     nameTextField.rx.text.orEmpty
-      .filter { $0 != "이름" }
       .subscribe(with: self) { owner, userName in
         owner.viewModel.whichReservationName.onNext(userName)
       }
       .disposed(by: disposeBag)
     
     phoneNumberTextField.rx.text.orEmpty
-      .filter { $0 != "전화번호" }
       .subscribe(with: self) { owner, phoneNum in
         owner.viewModel.whichReservationPhoneNumber.onNext(phoneNum)
       }

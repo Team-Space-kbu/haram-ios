@@ -75,8 +75,10 @@ extension HaramError {
 extension HaramError {
   var code: String? { // 하람 서버에서 제공하는 code, Notion 참고
     switch self {
-    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidEmailFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .unvalidAuthCode:
+    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .unvalidAuthCode:
       return nil
+    case .unvalidEmailFormat:
+      return "MAIL04"
     case .notFindUserError:
       return "USER01"
     case .wrongPasswordError:
@@ -161,7 +163,7 @@ extension HaramError {
     case .noPWD:
       return "Password가 없습니다."
     case .unvalidEmailFormat:
-      return "이메일 규칙이 맞지 않습니다."
+      return "이메일 형식이 맞지 않습니다."
     case .unvalidNicknameFormat:
       return "닉네임 규칙이 맞지 않습니다."
     case .unvalidpasswordFormat:

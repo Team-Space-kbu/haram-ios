@@ -48,12 +48,12 @@ final class HaramTextField: UIView {
   
   private lazy var errorLabel = UILabel().then {
     $0.textColor = .red
-    $0.font = .regular14
+    $0.font = .regular14    
   }
   
   private lazy var defaultLabel = UILabel().then {
     $0.font = .regular14
-    $0.textColor = .black
+    $0.textColor = .hex9F9FA4
     $0.text = "@bible.ac.kr  "
     $0.textAlignment = .left
   }
@@ -115,6 +115,7 @@ final class HaramTextField: UIView {
       textField.snp.makeConstraints {
         $0.top.equalTo(titleLabel.snp.bottom).offset(10)
         $0.leading.equalToSuperview()
+//        $0.directionalHorizontalEdges.equalToSuperview().inset(15)
         $0.width.equalTo(UIScreen.main.bounds.width - 30)
         $0.height.equalTo(46)
       }
@@ -161,15 +162,18 @@ extension HaramTextField {
     }
   }
   
-  func setError(description: String) {
+  func setError(description: String, textColor: UIColor = .red) {
     guard options.contains(.errorLabel) else { return }
     addSubview(errorLabel)
     errorLabel.snp.makeConstraints {
       $0.top.equalTo(textField.snp.bottom).offset(10)
       $0.trailing.lessThanOrEqualToSuperview()
-      $0.leading.bottom.equalToSuperview()
+      $0.leading.equalToSuperview()
+//      $0.height.equalTo(18)
+      $0.bottom.lessThanOrEqualToSuperview()
     }
     errorLabel.text = description
+    errorLabel.textColor = textColor
   }
   
   func setButtonType(isEnabled: Bool) {
