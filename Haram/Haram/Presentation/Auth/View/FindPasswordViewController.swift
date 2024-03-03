@@ -113,7 +113,6 @@ final class FindPasswordViewController: BaseViewController {
     super.bind()
     
     schoolEmailTextField.textField.rx.text.orEmpty
-      .filter { $0 != "Email" }
       .distinctUntilChanged()
       .skip(1)
       .subscribe(with: self) { owner, text in

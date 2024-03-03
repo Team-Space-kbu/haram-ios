@@ -17,6 +17,7 @@ final class RegisterViewController: BaseViewController {
   // MARK: - Property
   
   private let viewModel: RegisterViewModelType
+  private let email: String
   
   // MARK: - UI Components
   
@@ -72,15 +73,8 @@ final class RegisterViewController: BaseViewController {
     title: Constants.schoolEmail.title,
     placeholder: Constants.schoolEmail.placeholder,
     options: [.defaultEmail, .errorLabel]
-  )
-  
-  private lazy var checkEmailTextField = HaramTextField(
-    title: Constants.checkEmail.title,
-    placeholder: Constants.checkEmail.placeholder,
-    options: [.addButton, .errorLabel]
   ).then {
-    $0.delegate = self
-    $0.textField.isSecureTextEntry = true
+    $0.isUserInteractionEnabled = false
   }
   
   private let registerButton = HaramButton(type: .cancel).then {
@@ -102,8 +96,9 @@ final class RegisterViewController: BaseViewController {
   
   // MARK: - Initializations
   
-  init(viewModel: RegisterViewModelType = RegisterViewModel()) {
+  init(email: String, viewModel: RegisterViewModelType = RegisterViewModel()) {
     self.viewModel = viewModel
+    self.email = email
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -121,13 +116,14 @@ final class RegisterViewController: BaseViewController {
     super.setupStyles()
     navigationController?.navigationBar.isHidden = true
     view.addGestureRecognizer(tapGesture)
-    [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField, checkEmailTextField].forEach { $0.textField.delegate = self }
+    [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField].forEach { $0.textField.delegate = self }
     
-    view.addGestureRecognizer(tapGesture)
-    view.addGestureRecognizer(panGesture)
+    _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
     panGesture.delegate = self
     
     registerNotifications()
+    
+    emailTextField.textField.text = email
   }
   
   override func setupLayouts() {
@@ -135,7 +131,7 @@ final class RegisterViewController: BaseViewController {
     _ = [scrollView, indicatorView].map { view.addSubview($0) }
     scrollView.addSubview(stackView)
 
-    [titleLabel, alertLabel, idTextField, nicknameTextField, pwdTextField, repwdTextField, emailTextField, checkEmailTextField, registerButton].forEach { stackView.addArrangedSubview($0) }
+    [titleLabel, alertLabel, idTextField, nicknameTextField, pwdTextField, repwdTextField, emailTextField, registerButton].forEach { stackView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -160,7 +156,7 @@ final class RegisterViewController: BaseViewController {
       $0.height.equalTo(48)
     }
     
-    [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField, checkEmailTextField].forEach {
+    [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField].forEach {
       $0.snp.makeConstraints {
         $0.height.greaterThanOrEqualTo(46 + 18 + 10)
       }
@@ -191,25 +187,11 @@ final class RegisterViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    emailTextField.textField.rx.controlEvent(.editingDidEnd)
-      .subscribe(with: self) { owner, _ in
-        guard let email = owner.emailTextField.textField.text else { return }
-        owner.viewModel.checkEmailIsValid(email: email)
-      }
-      .disposed(by: disposeBag)
-    
     repwdTextField.textField.rx.controlEvent(.editingDidEnd)
       .subscribe(with: self) { owner, _ in
         guard let password = owner.pwdTextField.textField.text,
               let repassword = owner.repwdTextField.textField.text else { return }
         owner.viewModel.checkRepasswordIsEqual(password: password, repassword: repassword)
-      }
-      .disposed(by: disposeBag)
-    
-    checkEmailTextField.textField.rx.controlEvent(.editingDidEnd)
-      .subscribe(with: self) { owner, _ in
-        guard let authCode = owner.checkEmailTextField.textField.text else { return }
-        owner.viewModel.checkAuthCodeIsValid(authCode: authCode)
       }
       .disposed(by: disposeBag)
     
@@ -221,9 +203,8 @@ final class RegisterViewController: BaseViewController {
         guard let id = owner.idTextField.textField.text,
               let email = owner.emailTextField.textField.text,
               let password = owner.pwdTextField.textField.text,
-              let nickname = owner.nicknameTextField.textField.text,
-              let authCode = owner.checkEmailTextField.textField.text else { return }
-        owner.viewModel.registerMember(id: id, email: email, password: password, nickname: nickname, authCode: authCode)
+              let nickname = owner.nicknameTextField.textField.text else { return }
+        owner.viewModel.registerMember(id: id, email: email, password: password, nickname: nickname, authCode: "authCode")
       }
       .disposed(by: disposeBag)
     
@@ -235,18 +216,11 @@ final class RegisterViewController: BaseViewController {
           owner.idTextField.setError(description: error.description!)
         } else if error == .unvalidpasswordFormat {
           owner.pwdTextField.setError(description: error.description!)
-        } else if error == .unvalidAuthCode {
-          owner.checkEmailTextField.setError(description: error.description!)
         } else if error == .unvalidNicknameFormat {
           owner.nicknameTextField.setError(description: error.description!)
         } else if error == .unvalidUserIDFormat {
           owner.idTextField.setError(description: error.description!)
-        } else if error == .unvalidEmailFormat {
-          owner.emailTextField.setError(description: error.description!)
-        } else if error == .expireAuthCode {
-          owner.checkEmailTextField.setError(description: error.description!)
         }
-        
       }
       .disposed(by: disposeBag)
     
@@ -258,16 +232,11 @@ final class RegisterViewController: BaseViewController {
           owner.idTextField.removeError()
         } else if success == .unvalidpasswordFormat {
           owner.pwdTextField.removeError()
-        } else if success == .unvalidAuthCode {
-          owner.checkEmailTextField.removeError()
         } else if success == .unvalidNicknameFormat {
           owner.nicknameTextField.removeError()
         } else if success == .unvalidUserIDFormat {
           owner.idTextField.removeError()
-        } else if success == .unvalidEmailFormat {
-          owner.emailTextField.removeError()
         }
-        
       }
       .disposed(by: disposeBag)
     
@@ -303,13 +272,6 @@ final class RegisterViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    emailTextField.rx.text.orEmpty
-      .skip(1)
-      .subscribe(with: self) { owner, email in
-        owner.viewModel.registerEmail.onNext(email)
-      }
-      .disposed(by: disposeBag)
-    
     nicknameTextField.rx.text.orEmpty
       .skip(1)
       .subscribe(with: self) { owner, nickname in
@@ -335,26 +297,6 @@ final class RegisterViewController: BaseViewController {
       .skip(1)
       .subscribe(with: self) { owner, repassword in
         owner.viewModel.registerRePassword.onNext(repassword)
-      }
-      .disposed(by: disposeBag)
-    
-    checkEmailTextField.rx.text.orEmpty
-      .skip(1)
-      .subscribe(with: self) { owner, authCode in
-        owner.viewModel.registerAuthCode.onNext(authCode)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.isSendAuthCodeButtonEnabled
-      .drive(with: self) { owner, isEnabled in
-        owner.checkEmailTextField.setButtonType(isEnabled: isEnabled)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.isSuccessRequestAuthCode
-      .filter { $0 }
-      .drive(with: self) { owner, isSuccess in
-        print("이메일 요청 성공")
       }
       .disposed(by: disposeBag)
   }
@@ -405,21 +347,6 @@ extension RegisterViewController {
   }
 }
 
-// MARK: - RegisterTextFieldDelegate
-
-extension RegisterViewController: HaramTextFieldDelegate {
-  func didTappedButton() {
-    guard let email = emailTextField.textField.text else { return }
-    viewModel.requestEmailAuthCode(email: email)
-    view.endEditing(true)
-  }
-  
-  func didTappedReturnKey() {
-    LogHelper.log("리턴 선택", level: .debug)
-    view.endEditing(true)
-  }
-}
-
 // MARK: - UITextFieldDelegate
 
 extension RegisterViewController: UITextFieldDelegate {
@@ -431,11 +358,7 @@ extension RegisterViewController: UITextFieldDelegate {
     } else if textField == pwdTextField.textField {
       repwdTextField.textField.becomeFirstResponder()
     } else if textField == repwdTextField.textField {
-      emailTextField.textField.becomeFirstResponder()
-    } else if textField == emailTextField.textField {
-      checkEmailTextField.textField.becomeFirstResponder()
-    } else if textField == checkEmailTextField.textField {
-      checkEmailTextField.textField.resignFirstResponder()
+      view.endEditing(true)
     }
     return true
   }

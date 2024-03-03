@@ -4,7 +4,7 @@ import UIKit
 
 final class VerifyEmailViewController: BaseViewController {
   
-  private let viewModel: FindPasswordViewModelType
+  private let viewModel: VerifyEmailViewModelType
   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
@@ -30,7 +30,7 @@ final class VerifyEmailViewController: BaseViewController {
   private let schoolEmailTextField = HaramTextField(
     title: "학교 이메일",
     placeholder: "Email",
-    options: [.defaultEmail]
+    options: [.defaultEmail, .errorLabel]
   ).then {
     $0.textField.keyboardType = .emailAddress
   }
@@ -44,23 +44,11 @@ final class VerifyEmailViewController: BaseViewController {
     $0.textField.isSecureTextEntry = true
   }
   
-  private let buttonStackView = UIStackView().then {
-    $0.axis = .horizontal
-//    $0.spacing = 17
-    $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
-//    $0.distribution = .fillEqually
-  }
-  
-  //  private let cancelButton = HaramButton(type: .cancel).then {
-  //    $0.setTitleText(title: "취소")
-  //  }
-  
   private let continueButton = HaramButton(type: .cancel).then {
     $0.setTitleText(title: "계속하기")
   }
   
-  init(viewModel: FindPasswordViewModelType = FindPasswordViewModel()) {
+  init(viewModel: VerifyEmailViewModelType = VerifyEmailViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -81,8 +69,7 @@ final class VerifyEmailViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [containerView, buttonStackView].forEach { view.addSubview($0) }
-    [continueButton].forEach { buttonStackView.addArrangedSubview($0) }
+    [containerView, continueButton].forEach { view.addSubview($0) }
     [titleLabel, alertLabel, schoolEmailTextField, checkEmailTextField].forEach { containerView.addArrangedSubview($0) }
   }
   
@@ -95,22 +82,18 @@ final class VerifyEmailViewController: BaseViewController {
     }
     
     schoolEmailTextField.snp.makeConstraints {
-      $0.height.equalTo(73)
+      $0.height.equalTo(74) // 에러라벨이 없는 경우 높이 74, 있다면 74 + 28
     }
     
     checkEmailTextField.snp.makeConstraints {
-      $0.height.greaterThanOrEqualTo(73)
+      $0.height.greaterThanOrEqualTo(74)
     }
     
     containerView.setCustomSpacing(7, after: titleLabel)
     
-    buttonStackView.snp.makeConstraints {
-      $0.bottom.equalToSuperview().inset(24)
-      $0.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo(48)
-    }
-    
     continueButton.snp.makeConstraints {
+      $0.bottom.equalToSuperview().inset(24)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(48)
     }
     
@@ -119,12 +102,24 @@ final class VerifyEmailViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    schoolEmailTextField.textField.rx.text.orEmpty
-      .filter { $0 != "Email" }
-      .distinctUntilChanged()
-      .skip(1)
-      .subscribe(with: self) { owner, text in
-        owner.viewModel.findPasswordEmail.onNext(text)
+    viewModel.successSendAuthCode
+      .emit(with: self) { owner, message in
+        owner.schoolEmailTextField.snp.updateConstraints {
+          $0.height.equalTo(74)
+        }
+        
+        owner.checkEmailTextField.setError(description: message, textColor: .hex2F80ED)
+        owner.checkEmailTextField.setButtonType(isEnabled: false)
+        owner.schoolEmailTextField.removeError()
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        owner.schoolEmailTextField.snp.updateConstraints {
+          $0.height.equalTo(74 + 28)
+        }
+        owner.schoolEmailTextField.setError(description: error.description!)
       }
       .disposed(by: disposeBag)
     
@@ -139,7 +134,7 @@ final class VerifyEmailViewController: BaseViewController {
       .withLatestFrom(schoolEmailTextField.rx.text.orEmpty)
       .subscribe(with: self) { owner, userMail in
         owner.view.endEditing(true)
-        let vc = RegisterViewController()
+        let vc = RegisterViewController(email: userMail)
         owner.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)
       }
@@ -149,8 +144,8 @@ final class VerifyEmailViewController: BaseViewController {
 
 extension VerifyEmailViewController: HaramTextFieldDelegate {
   func didTappedButton() {
-    guard let email = checkEmailTextField.textField.text else { return }
-    //    viewModel.requestEmailAuthCode(email: email)
+    guard let email = schoolEmailTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+    viewModel.requestEmailAuthCode(email: email)
     view.endEditing(true)
   }
   
@@ -187,7 +182,7 @@ extension VerifyEmailViewController {
     
     let keyboardHeight = keyboardSize.height
     
-    buttonStackView.snp.updateConstraints {
+    continueButton.snp.updateConstraints {
       $0.bottom.equalToSuperview().inset(24 + keyboardHeight)
     }
     
@@ -199,7 +194,7 @@ extension VerifyEmailViewController {
   @objc
   func keyboardWillHide(_ sender: Notification) {
     
-    buttonStackView.snp.updateConstraints {
+    continueButton.snp.updateConstraints {
       $0.bottom.equalToSuperview().inset(24)
     }
     

@@ -15,25 +15,25 @@ protocol RegisterViewModelType {
   var registerID: AnyObserver<String> { get }
   var registerPassword: AnyObserver<String> { get }
   var registerRePassword: AnyObserver<String> { get }
-  var registerAuthCode: AnyObserver<String> { get }
+//  var registerAuthCode: AnyObserver<String> { get }
   var registerNickname: AnyObserver<String> { get }
-  var registerEmail: AnyObserver<String> { get }
+//  var registerEmail: AnyObserver<String> { get }
   func registerMember(id: String, email: String, password: String, nickname: String, authCode: String)
   func checkUserIDIsValid(id: String)
   func checkPasswordIsValid(password: String)
-  func checkEmailIsValid(email: String) -> Bool
-  func checkAuthCodeIsValid(authCode: String)
+//  func checkEmailIsValid(email: String) -> Bool
+//  func checkAuthCodeIsValid(authCode: String)
   func checkNicknameIsValid(nickname: String)
   func checkRepasswordIsEqual(password: String, repassword: String)
-  func requestEmailAuthCode(email: String)
+//  func requestEmailAuthCode(email: String)
   
   var isRegisterButtonEnabled: Driver<Bool> { get }
-  var isSendAuthCodeButtonEnabled: Driver<Bool> { get }
+//  var isSendAuthCodeButtonEnabled: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
   var successMessage: Signal<HaramError> { get }
   var signupSuccessMessage: Signal<String> { get }
   var isLoading: Driver<Bool> { get }
-  var isSuccessRequestAuthCode: Driver<Bool> { get }
+//  var isSuccessRequestAuthCode: Driver<Bool> { get }
 }
 
 final class RegisterViewModel {
@@ -45,7 +45,7 @@ final class RegisterViewModel {
 //  private let isValidRePWDSubject           = BehaviorSubject<Bool>(value: false)
 //  private let isValidEmailSubject           = BehaviorSubject<Bool>(value: false)
 //  private let isValidNicknameSubject        = BehaviorSubject<Bool>(value: false)
-  private let isValidAuthCodeSubject        = BehaviorSubject<Bool>(value: false)
+//  private let isValidAuthCodeSubject        = BehaviorSubject<Bool>(value: false)
   
   private let isRegisterButtonEnabledSubject = BehaviorSubject<Bool>(value: false)
   private let errorMessageRelay              = PublishRelay<HaramError>()
@@ -53,7 +53,7 @@ final class RegisterViewModel {
   private let signupSuccessMessageRelay      = PublishRelay<String>()
   private let isLoadingSubject               = PublishSubject<Bool>()
   private let isSuccessRequestAuthCodeSubject = BehaviorSubject<Bool>(value: false)
-  private let registerEmailSubject            = BehaviorSubject<String>(value: "")
+//  private let registerEmailSubject            = BehaviorSubject<String>(value: "")
   private let registerIDSubject            = BehaviorSubject<String>(value: "")
   private let registerPasswordSubject            = BehaviorSubject<String>(value: "")
   private let registerNicknameSubject            = BehaviorSubject<String>(value: "")
@@ -130,18 +130,18 @@ extension RegisterViewModel: RegisterViewModelType {
   var registerRePassword: RxSwift.AnyObserver<String> {
     registerRepasswordSubject.asObserver()
   }
-  
-  var registerAuthCode: RxSwift.AnyObserver<String> {
-    registerAuthcodeSubject.asObserver()
-  }
+//  
+//  var registerAuthCode: RxSwift.AnyObserver<String> {
+//    registerAuthcodeSubject.asObserver()
+//  }
   
   var registerNickname: RxSwift.AnyObserver<String> {
     registerNicknameSubject.asObserver()
   }
   
-  var registerEmail: RxSwift.AnyObserver<String> {
-    registerEmailSubject.asObserver()
-  }
+//  var registerEmail: RxSwift.AnyObserver<String> {
+//    registerEmailSubject.asObserver()
+//  }
   
   func checkRepasswordIsEqual(password: String, repassword: String) {
     
@@ -184,37 +184,37 @@ extension RegisterViewModel: RegisterViewModelType {
     }
   }
   
-  func checkEmailIsValid(email: String) -> Bool {
-    let emailRegex = #"^[a-zA-Z0-9._%+-]+@bible\.ac\.kr$"#
-    
-    // NSPredicate를 사용하여 정규표현식과 매칭하는지 확인
-    let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegex)
-    
-    // 입력된 이메일이 유효한지 확인
-    let isValid = emailPredicate.evaluate(with: email + "@bible.ac.kr")
-//    isValidEmailSubject.onNext(isValid)
-    LogHelper.log("이메일 유효 \(isValid)", level: .debug)
-    
-    if isValid {
-      successMessageRelay.accept(.unvalidEmailFormat)
-    } else {
-      errorMessageRelay.accept(.unvalidEmailFormat)
-    }
-    return isValid
-  }
+//  func checkEmailIsValid(email: String) -> Bool {
+//    let emailRegex = #"^[a-zA-Z0-9._%+-]+@bible\.ac\.kr$"#
+//    
+//    // NSPredicate를 사용하여 정규표현식과 매칭하는지 확인
+//    let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegex)
+//    
+//    // 입력된 이메일이 유효한지 확인
+//    let isValid = emailPredicate.evaluate(with: email + "@bible.ac.kr")
+////    isValidEmailSubject.onNext(isValid)
+//    LogHelper.log("이메일 유효 \(isValid)", level: .debug)
+//    
+//    if isValid {
+//      successMessageRelay.accept(.unvalidEmailFormat)
+//    } else {
+//      errorMessageRelay.accept(.unvalidEmailFormat)
+//    }
+//    return isValid
+//  }
   
-  func checkAuthCodeIsValid(authCode: String) {
-    
-    let isUnValid = authCode.count != 6
-//    isValidAuthCodeSubject.onNext(!isUnValid)
-    LogHelper.log("인증코드 유효안함 \(isUnValid)", level: .debug)
-    if isUnValid {
-      errorMessageRelay.accept(.unvalidAuthCode)
-    } else {
-      successMessageRelay.accept(.unvalidAuthCode)
-    }
-    
-  }
+//  func checkAuthCodeIsValid(authCode: String) {
+//    
+//    let isUnValid = authCode.count != 6
+////    isValidAuthCodeSubject.onNext(!isUnValid)
+//    LogHelper.log("인증코드 유효안함 \(isUnValid)", level: .debug)
+//    if isUnValid {
+//      errorMessageRelay.accept(.unvalidAuthCode)
+//    } else {
+//      successMessageRelay.accept(.unvalidAuthCode)
+//    }
+//    
+//  }
   
   func checkNicknameIsValid(nickname: String) {
     
@@ -228,34 +228,30 @@ extension RegisterViewModel: RegisterViewModelType {
     }
   }
   
-  var isSendAuthCodeButtonEnabled: RxCocoa.Driver<Bool> {
-    registerEmailSubject
-      .map {
-        let emailRegex = #"^[a-zA-Z0-9._%+-]+@bible\.ac\.kr$"#
-        
-        // NSPredicate를 사용하여 정규표현식과 매칭하는지 확인
-        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegex)
-        
-        // 입력된 이메일이 유효한지 확인
-        return emailPredicate.evaluate(with: $0 + "@bible.ac.kr")
-      }
-      .distinctUntilChanged()
-      .asDriver(onErrorDriveWith: .empty())
-  }
+//  var isSendAuthCodeButtonEnabled: RxCocoa.Driver<Bool> {
+//    registerEmailSubject
+//      .map {
+//        let emailRegex = #"^[a-zA-Z0-9._%+-]+@bible\.ac\.kr$"#
+//        
+//        // NSPredicate를 사용하여 정규표현식과 매칭하는지 확인
+//        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegex)
+//        
+//        // 입력된 이메일이 유효한지 확인
+//        return emailPredicate.evaluate(with: $0 + "@bible.ac.kr")
+//      }
+//      .distinctUntilChanged()
+//      .asDriver(onErrorDriveWith: .empty())
+//  }
   
-  var isSuccessRequestAuthCode: RxCocoa.Driver<Bool> {
-    isSuccessRequestAuthCodeSubject.asDriver(onErrorJustReturn: false)
-  }
-  
-  func requestEmailAuthCode(email: String) {
-    
-    authRepository.requestEmailAuthCode(userEmail: email + "@bible.ac.kr")
-      .subscribe(with: self) { owner, _ in
-        owner.isValidAuthCodeSubject.onNext(true)
-//        owner.isSuccessRequestAuthCodeSubject.onNext(true)
-      }
-      .disposed(by: disposeBag)
-  }
+//  func requestEmailAuthCode(email: String) {
+//    
+//    authRepository.requestEmailAuthCode(userEmail: email + "@bible.ac.kr")
+//      .subscribe(with: self) { owner, _ in
+//        owner.isValidAuthCodeSubject.onNext(true)
+////        owner.isSuccessRequestAuthCodeSubject.onNext(true)
+//      }
+//      .disposed(by: disposeBag)
+//  }
   
   var errorMessage: RxCocoa.Signal<HaramError> {
     errorMessageRelay.asSignal()
@@ -274,28 +270,17 @@ extension RegisterViewModel: RegisterViewModelType {
       registerIDSubject,
       registerNicknameSubject,
       registerPasswordSubject,
-      registerRepasswordSubject,
-      registerEmailSubject,
-      registerAuthcodeSubject,
-      isValidAuthCodeSubject
+      registerRepasswordSubject
     )
     .withUnretained(self)
     .map { owner, result in
-      let (id, nickname, password, repassword, email, authCode, isValidAuthCode) = result
+      let (id, nickname, password, repassword) = result
       
-      let emailRegex = #"^[a-zA-Z0-9._%+-]+@bible\.ac\.kr$"#
-      
-      // NSPredicate를 사용하여 정규표현식과 매칭하는지 확인
-      let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegex)
-      
-      // 입력된 이메일이 유효한지 확인
-      let isEmailValid = emailPredicate.evaluate(with: email + "@bible.ac.kr")
       let isIDUnValid = 4 > id.count || 30 < id.count || !owner.isValidAlphanumeric(id)
       let isPWDUnValid = !owner.isValidPassword(password)
       let isNicknameUnValid = 0..<2 ~= nickname.count || 15 < nickname.count || !owner.isValidKoreanAlphanumeric(nickname)
-      let isAuthCodeUnValid = authCode.count != 6
       
-      return !isIDUnValid && isEmailValid && !isPWDUnValid && !isNicknameUnValid && !isAuthCodeUnValid && password == repassword && isValidAuthCode
+      return !isIDUnValid && !isPWDUnValid && !isNicknameUnValid && password == repassword
     }
     .distinctUntilChanged()
     .asDriver(onErrorJustReturn: false)

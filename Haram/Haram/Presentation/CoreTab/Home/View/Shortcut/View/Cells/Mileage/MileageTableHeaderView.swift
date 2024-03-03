@@ -66,28 +66,10 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
     mileageAlertView.snp.makeConstraints {
       $0.height.equalTo(45)
       $0.directionalHorizontalEdges.equalToSuperview()
-      $0.top.equalTo(totalMileageLabel.snp.bottom).offset(10)
+      $0.top.equalTo(totalMileageLabel.snp.bottom).offset(40)
     }
-    
-//    rocketImageView.snp.makeConstraints {
-//      $0.size.equalTo(36)
-//      $0.leading.equalToSuperview()
-//      $0.top.equalTo(totalMileageLabel.snp.bottom).offset(10)
-//    }
-//    
-//    mileageInfoTitleLabel.snp.makeConstraints {
-//      $0.top.equalTo(rocketImageView)
-//      $0.leading.equalTo(rocketImageView.snp.trailing).offset(10)
-//    }
-//    
-//    mileageInfoSubTitleLabel.snp.makeConstraints {
-//      $0.top.equalTo(mileageInfoTitleLabel.snp.bottom)
-//      $0.leading.equalTo(mileageInfoTitleLabel)
-//      $0.bottom.equalTo(rocketImageView)
-//    }
       
     spendListLabel.snp.makeConstraints {
-//      $0.top.equalTo(totalMileageLabel.snp.bottom).offset(135)
       $0.top.greaterThanOrEqualTo(mileageAlertView.snp.bottom)
       $0.leading.equalToSuperview()
       $0.bottom.equalToSuperview().inset(15)
