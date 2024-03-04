@@ -43,18 +43,9 @@ final class HomeViewController: BaseViewController {
   
   // MARK: - UI Models
   
-  private var bannerModel: [HomebannerCollectionViewCellModel] = [] {
-    didSet {
-      pageControl.numberOfPages = bannerModel.count
-      bannerCollectionView.reloadData()
-    }
-  }
+  private var bannerModel: [HomebannerCollectionViewCellModel] = []
   
-  private var newsModel: [HomeNewsCollectionViewCellModel] = [] {
-    didSet {
-      newsCollectionView.reloadData()
-    }
-  }
+  private var newsModel: [HomeNewsCollectionViewCellModel] = [] 
   
   // MARK: - UI Components
   
@@ -64,24 +55,19 @@ final class HomeViewController: BaseViewController {
     $0.contentInsetAdjustmentBehavior = .always
     $0.showsVerticalScrollIndicator = false
     $0.alwaysBounceVertical = true
-    $0.isSkeletonable = true
   }
   
   private let scrollContainerView = UIStackView().then {
     $0.backgroundColor = .clear
-    $0.isSkeletonable = true
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = .init(top: 10, left: 15, bottom: 10, right: 15)
   }
   
-  private let homeNoticeView = HomeNoticeView().then {
-    $0.isSkeletonable = true
-  }
+  private let homeNoticeView = HomeNoticeView()
   
   private lazy var checkChapelDayView = CheckChapelDayView().then {
     $0.delegate = self
-    $0.isSkeletonable = true
   }
   
   private lazy var bannerCollectionView = UICollectionView(
@@ -98,14 +84,12 @@ final class HomeViewController: BaseViewController {
     $0.alwaysBounceHorizontal = true
     $0.showsHorizontalScrollIndicator = false
     $0.isPagingEnabled = true
-    $0.isSkeletonable = true
   }
   
   private let pageControl = UIPageControl().then {
     $0.currentPage = 0
     $0.pageIndicatorTintColor = .systemGray2
     $0.currentPageIndicatorTintColor = UIColor.hex79BD9A
-    $0.isSkeletonable = true
   }
   
   private lazy var shortcutCollectionView = UICollectionView(
@@ -122,14 +106,12 @@ final class HomeViewController: BaseViewController {
     $0.showsVerticalScrollIndicator = false
     $0.isScrollEnabled = false
     $0.bounces = false
-    $0.isSkeletonable = true
   }
   
   private let newsTitleLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .bold22
     $0.text = "KBU 뉴스레터"
-    $0.isSkeletonable = true
   }
   
   private lazy var newsCollectionView = UICollectionView(
@@ -144,7 +126,6 @@ final class HomeViewController: BaseViewController {
     $0.dataSource = self
     $0.register(HomeNewsCollectionViewCell.self, forCellWithReuseIdentifier: HomeNewsCollectionViewCell.identifier)
     $0.showsHorizontalScrollIndicator = false
-    $0.isSkeletonable = true
   }
   
   // MARK: - Initializations
@@ -169,6 +150,9 @@ final class HomeViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    
+    _ = [scrollView, scrollContainerView, homeNoticeView, checkChapelDayView, newsCollectionView, newsTitleLabel, shortcutCollectionView, pageControl, bannerCollectionView].map { $0.isSkeletonable = true }
+    
     let label = UILabel().then {
       $0.text = "하람"
       $0.textColor = .black
@@ -177,7 +161,7 @@ final class HomeViewController: BaseViewController {
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
     navigationController?.interactivePopGestureRecognizer?.delegate = self
-//    navigationController?.delegate = self
+
     setupSkeletonView()
   }
   
@@ -254,6 +238,10 @@ final class HomeViewController: BaseViewController {
       owner.homeNoticeView.configureUI(with: noticeModel)
       
       owner.view.hideSkeleton()
+      
+      owner.pageControl.numberOfPages = bannerModel.count
+      owner.bannerCollectionView.reloadData()
+      owner.newsCollectionView.reloadData()
     }
     .disposed(by: disposeBag)
     

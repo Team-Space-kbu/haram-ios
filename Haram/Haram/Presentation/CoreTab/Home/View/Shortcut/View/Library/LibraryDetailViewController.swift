@@ -22,11 +22,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - UI Models
   
-  private var relatedBookModel: [LibraryRelatedBookCollectionViewCellModel] = [] {
-    didSet {
-      relatedBookCollectionView.reloadData()
-    }
-  }
+  private var relatedBookModel: [LibraryRelatedBookCollectionViewCellModel] = []
   
   // MARK: - UI Components
   
@@ -147,55 +143,33 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     
     viewModel.requestBookInfo(path: path)
     
-    viewModel.detailMainModel
-      .drive(with: self) { owner, mainModel in
-        owner.libraryDetailMainView.hideSkeleton()
-        owner.libraryDetailMainView.configureUI(with: mainModel)
+    Driver.combineLatest(
+      viewModel.detailMainModel,
+      viewModel.detailSubModel,
+      viewModel.detailInfoModel,
+      viewModel.detailRentalModel,
+      viewModel.relatedBookModel.skip(1)
+    )
+    .drive(with: self) { owner, result in
+      let (mainModel, subModel, infoModel, rentalModel, relatedBookModel) = result
+      
+      if relatedBookModel.isEmpty {
+        owner.relatedBookLabel.removeFromSuperview()
+        owner.relatedBookCollectionView.removeFromSuperview()
+        owner.libraryRentalListView.removeLastIineView()
       }
-      .disposed(by: disposeBag)
-    
-    viewModel.detailSubModel
-      .drive(with: self) { owner, subModel in
-        owner.libraryDetailSubView.hideSkeleton()
-        owner.libraryDetailSubView.configureUI(with: subModel)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.detailInfoModel
-      .drive(with: self) { owner, infoModel in
-        owner.libraryDetailInfoView.hideSkeleton()
-        owner.libraryDetailInfoView.configureUI(with: infoModel)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.detailRentalModel
-      .skip(1)
-      .drive(with: self) { owner, rentalModel in
-        owner.libraryRentalListView.hideSkeleton()
-        owner.libraryRentalListView.configureUI(with: rentalModel)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.relatedBookModel
-      .skip(1)
-      .drive(with: self) { owner, bookModel in
-        if bookModel.isEmpty {
-          owner.relatedBookLabel.removeFromSuperview()
-          owner.relatedBookCollectionView.removeFromSuperview()
-          owner.libraryRentalListView.removeLastIineView()
-        }
-        owner.relatedBookModel = bookModel
-        owner.relatedBookCollectionView.hideSkeleton()
-        owner.relatedBookLabel.hideSkeleton()
-      }
-      .disposed(by: disposeBag)
-    
-//    viewModel.isLoading
-//      .filter { !$0 }
-//      .drive(with: self) { owner, _ in
-////        owner.view.hideSkeleton()
-//      }
-//      .disposed(by: disposeBag)
+      
+      owner.relatedBookModel = relatedBookModel
+      
+      owner.view.hideSkeleton()
+      
+      owner.libraryDetailMainView.configureUI(with: mainModel)
+      owner.libraryDetailSubView.configureUI(with: subModel)
+      owner.libraryDetailInfoView.configureUI(with: infoModel)
+      owner.libraryRentalListView.configureUI(with: rentalModel)
+      owner.relatedBookCollectionView.reloadData()
+    }
+    .disposed(by: disposeBag)
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in

@@ -110,7 +110,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     commentInputView.snp.makeConstraints {
       $0.top.equalTo(boardDetailCollectionView.snp.bottom)
       $0.directionalHorizontalEdges.equalToSuperview()
-      $0.height.greaterThanOrEqualTo(91)
+      $0.height.greaterThanOrEqualTo(91 - 20)
       $0.bottom.equalToSuperview()
     }
   }
@@ -283,7 +283,7 @@ extension BoardDetailViewController {
       $0.bottom.equalToSuperview().inset(keyboardHeight)
     }
 
-    UIView.animate(withDuration: 1) {
+    UIView.animate(withDuration: 0.2) {
       self.view.layoutIfNeeded()
     }
   }
@@ -295,7 +295,7 @@ extension BoardDetailViewController {
       $0.bottom.equalToSuperview()
     }
     
-    UIView.animate(withDuration: 1) {
+    UIView.animate(withDuration: 0.2) {
       self.view.layoutIfNeeded()
     }
   }

@@ -25,17 +25,9 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
   
   // MARK: - UI Models
   
-  private var studyListModel: [StudyListCollectionViewCellModel] = [] {
-    didSet {
-      studyListCollectionView.reloadData()
-    }
-  }
+  private var studyListModel: [StudyListCollectionViewCellModel] = []
   
-  private var rothemMainNoticeModel: StudyListHeaderViewModel? {
-    didSet {
-      studyListCollectionView.reloadData()
-    }
-  }
+  private var rothemMainNoticeModel: StudyListHeaderViewModel?
   
   // MARK: - UI Components
   
@@ -86,41 +78,22 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
   override func bind() {
     super.bind()
     
-//    Driver.combineLatest(
-//      viewModel.currentStudyReservationList,
-//      viewModel.currentRothemMainNotice,
-//      viewModel.isReservation
-//    )
-//    .drive(with: self) { owner, result in
-//      let (studyListModel, rothemMainNoticeModel, type) = result
-//      owner.studyListModel = studyListModel
-//      owner.rothemMainNoticeModel = rothemMainNoticeModel
-//      owner.type = type
-//      
-//      owner.studyListCollectionView.reloadData()
-//      owner.view.hideSkeleton()
-//    }
-//    .disposed(by: disposeBag)
-    
-    viewModel.currentStudyReservationList
-      .drive(rx.studyListModel)
-      .disposed(by: disposeBag)
-    
-    viewModel.currentRothemMainNotice
-      .drive(rx.rothemMainNoticeModel)
-      .disposed(by: disposeBag)
-    
-    viewModel.isReservation
-      .drive(rx.type)
-      .disposed(by: disposeBag)
-    
-    viewModel.isLoading
-      .filter { !$0 }
-      .drive(with: self) { owner, isLoading in
-        owner.studyListCollectionView.reloadData()
-        owner.view.hideSkeleton()
-      }
-      .disposed(by: disposeBag)
+    Driver.combineLatest(
+      viewModel.currentStudyReservationList,
+      viewModel.currentRothemMainNotice,
+      viewModel.isReservation
+    )
+    .drive(with: self) { owner, result in
+      let (studyListModel, rothemMainNoticeModel, type) = result
+      owner.studyListModel = studyListModel
+      owner.rothemMainNoticeModel = rothemMainNoticeModel
+      owner.type = type
+      
+      owner.view.hideSkeleton()
+      
+      owner.studyListCollectionView.reloadData()
+    }
+    .disposed(by: disposeBag)
   }
   
   override func setupStyles() {

@@ -86,7 +86,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
       $0.top.equalToSuperview().inset(11)
       $0.leading.equalToSuperview().inset(15)
       $0.trailing.equalToSuperview().inset(56)
-      $0.bottom.equalToSuperview().inset(46)
+      $0.bottom.equalToSuperview().inset(20)
       $0.height.equalTo(32)
     }
     

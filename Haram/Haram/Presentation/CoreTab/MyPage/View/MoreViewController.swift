@@ -153,7 +153,7 @@ final class MoreViewController: BaseViewController {
       .emit(with: self) { owner, message in
         guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else { return }
         
-        UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromLeft, animations: {
+        UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromRight, animations: {
           window.rootViewController = LoginViewController()
         })
       }

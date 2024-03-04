@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import SkeletonView
 import Then
@@ -16,15 +17,14 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
   private let viewModel: SelectedCategoryNoticeViewModelType
   private let noticeType: NoticeType
   
-  private var noticeModel: [NoticeCollectionViewCellModel] = [] {
-    didSet {
-      noticeCollectionView.reloadData()
-    }
-  }
+  private var noticeModel: [NoticeCollectionViewCellModel] = []
   
   private lazy var noticeCollectionView = UICollectionView(
     frame: .zero,
-    collectionViewLayout: UICollectionViewFlowLayout()
+    collectionViewLayout: UICollectionViewFlowLayout().then {
+      $0.scrollDirection = .vertical
+      $0.minimumLineSpacing = 20
+    }
   ).then {
     $0.backgroundColor = .white
     $0.register(NoticeCollectionViewCell.self, forCellWithReuseIdentifier: NoticeCollectionViewCell.identifier)
@@ -47,17 +47,26 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    
-    viewModel.inquireNoticeList(type: noticeType)
+    viewModel.noticeType.onNext(noticeType)
+//    viewModel.inquireNoticeList(type: noticeType)
     
     viewModel.noticeCollectionViewCellModel
-      .drive(rx.noticeModel)
+      .drive(with: self) { owner, noticeModel in
+        owner.noticeModel = noticeModel
+        
+        owner.view.hideSkeleton()
+        owner.noticeCollectionView.reloadData()
+      }
       .disposed(by: disposeBag)
     
-    viewModel.isLoading
-      .filter { !$0 }
-      .drive(with: self) { owner, _ in
-        owner.view.hideSkeleton()
+    noticeCollectionView.rx.didScroll
+      .subscribe(with: self) { owner, _ in
+        let offSetY = owner.noticeCollectionView.contentOffset.y
+        let contentHeight = owner.noticeCollectionView.contentSize.height
+        
+        if offSetY > (contentHeight - owner.noticeCollectionView.frame.size.height - 92 * 3) {
+          owner.viewModel.fetchMoreDatas.onNext(())
+        }
       }
       .disposed(by: disposeBag)
   }

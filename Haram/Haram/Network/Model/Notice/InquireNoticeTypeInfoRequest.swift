@@ -13,21 +13,15 @@ struct InquireNoticeTypeInfoRequest: Encodable {
 }
 
 enum NoticeType: String, Codable {
-  case student
-  case scholarship
-  case chapel
-  case lms
-  case ainavi
-  case library
-  case job
-  case jobStudent
-  case jobChurch
-  
-  enum CodingKeys: String, CodingKey {
-    case student, scholarship, chapel, lms, ainavi, library, job
-    case jobStudent = "job-student"
-    case jobChurch = "job-church"
-  }
+  case student = "student"
+  case scholarship = "scholarship"
+  case chapel = "chapel"
+  case lms = "lms"
+  case ainavi = "ainavi"
+  case library = "library"
+  case job = "job"
+  case jobStudent = "job-student"
+  case jobChurch = "job-church"
   
   var title: String? {
     switch self {

@@ -107,9 +107,8 @@ final class MileageTableViewCell: UITableViewCell {
     let mileage = model.mileage
     let mainText = model.mainText
     
-    if mileage >= 0 {
-      mileageLabel.textColor = .hex4B81EE
-    }
+    mileageLabel.textColor = mileage >= 0 ? .hex4B81EE : .hex545E6A
+    
     let formatter = NumberformatterFactory.decimal
     let decimalMileage = formatter.string(for: mileage) ?? "0"
     
