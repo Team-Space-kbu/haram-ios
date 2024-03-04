@@ -24,11 +24,7 @@ final class AffiliatedFloatingPanelViewController: BaseViewController {
   
   // MARK: - UI Models
   
-  private var affiliatedModel: [AffiliatedCollectionViewCellModel] = [] {
-    didSet {
-      affiliatedCollectionView.reloadData()
-    }
-  }
+  private var affiliatedModel: [AffiliatedCollectionViewCellModel] = []
   
   weak var delegate: AffiliatedFloatingPanelDelegate?
   private(set) var touchHandler: ((Int) -> Void)?
@@ -92,13 +88,10 @@ final class AffiliatedFloatingPanelViewController: BaseViewController {
       .drive(with: self) { owner, model in
         owner.affiliatedModel = model
         owner.delegate?.getAffiliatedMarkerModel(model)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.isLoading
-      .filter { !$0 }
-      .drive(with: self) { owner, isLoading in
+        
         owner.view.hideSkeleton()
+        
+        owner.affiliatedCollectionView.reloadData()
       }
       .disposed(by: disposeBag)
   }

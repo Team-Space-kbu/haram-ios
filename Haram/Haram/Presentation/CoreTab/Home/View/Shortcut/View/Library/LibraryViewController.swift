@@ -141,6 +141,7 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
       owner.bannerImageView.kf.setImage(with: bannerImage)
       
       owner.view.hideSkeleton()
+      owner.libraryCollectionView.reloadData()
     }
     .disposed(by: disposeBag)
     
@@ -168,14 +169,6 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
       .asDriver()
       .drive(with: self) { owner, _ in
         owner.view.endEditing(true)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.isLoading
-      .filter { !$0 }
-      .drive(with: self) { owner, isLoading in
-        owner.libraryCollectionView.reloadData()
-        owner.view.hideSkeleton()
       }
       .disposed(by: disposeBag)
   }

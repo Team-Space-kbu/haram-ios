@@ -35,7 +35,7 @@ final class LibraryViewModel: LibraryViewModelType {
     let currentNewBookModel    = BehaviorRelay<[NewLibraryCollectionViewCellModel]>(value: [])
     let currentBestBookModel   = BehaviorRelay<[PopularLibraryCollectionViewCellModel]>(value: [])
     let currentRentalBookModel = BehaviorRelay<[RentalLibraryCollectionViewCellModel]>(value: [])
-    let bannerImageRelay       = PublishRelay<String?>()
+    let bannerImageRelay       = BehaviorRelay<String?>(value: nil)
     let isLoadingSubject       = BehaviorSubject<Bool>(value: true)
     
     let inquireLibrary = libraryRepostory.inquireLibrary()

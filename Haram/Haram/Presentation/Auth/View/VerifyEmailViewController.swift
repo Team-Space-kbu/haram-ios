@@ -14,7 +14,7 @@ final class VerifyEmailViewController: BaseViewController {
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: 101, left: 15, bottom: .zero, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: 30, left: 15, bottom: .zero, right: 15)
     $0.spacing = 23
     $0.backgroundColor = .clear
   }
@@ -216,7 +216,7 @@ extension VerifyEmailViewController {
       $0.bottom.equalToSuperview().inset(24 + keyboardHeight)
     }
     
-    UIView.animate(withDuration: 1) {
+    UIView.animate(withDuration: 0.2) {
       self.view.layoutIfNeeded()
     }
   }
@@ -228,7 +228,7 @@ extension VerifyEmailViewController {
       $0.bottom.equalToSuperview().inset(24)
     }
     
-    UIView.animate(withDuration: 1) {
+    UIView.animate(withDuration: 0.2) {
       self.view.layoutIfNeeded()
     }
   }

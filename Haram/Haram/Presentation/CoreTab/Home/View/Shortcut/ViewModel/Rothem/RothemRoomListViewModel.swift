@@ -16,7 +16,6 @@ protocol RothemRoomListViewModelType {
   
   var currentStudyReservationList: Driver<[StudyListCollectionViewCellModel]> { get }
   var currentRothemMainNotice: Driver<StudyListHeaderViewModel?> { get }
-  var isLoading: Driver<Bool> { get }
   var isReservation: Driver<StudyListCollectionHeaderViewType> { get }
 }
 
@@ -27,7 +26,6 @@ final class RothemRoomListViewModel {
   
   private let studyReservationListRelay = BehaviorRelay<[StudyListCollectionViewCellModel]>(value: [])
   private let rothemMainNoticeRelay     = BehaviorRelay<StudyListHeaderViewModel?>(value: nil)
-  private let isLoadingSubject          = PublishSubject<Bool>()
   private let isReservationSubject      = BehaviorSubject<Bool>(value: false)
 
   init(rothemRepository: RothemRepository = RothemRepositoryImpl()) {
@@ -41,16 +39,10 @@ extension RothemRoomListViewModel: RothemRoomListViewModelType {
   
   func inquireRothemRoomList() {
     rothemRepository.inquireRothemHomeInfo(userID: UserManager.shared.userID!)
-      .do(onSuccess: { [weak self] _ in
-        guard let self = self else { return }
-        self.isLoadingSubject.onNext(true)
-      })
       .subscribe(with: self) { owner, response in
         owner.studyReservationListRelay.accept(response.roomList.map { StudyListCollectionViewCellModel(rothemRoom: $0) })
         owner.rothemMainNoticeRelay.accept(response.noticeList.first.map { StudyListHeaderViewModel(rothemNotice: $0) })
         owner.isReservationSubject.onNext(response.isReserved == 1)
-        
-        owner.isLoadingSubject.onNext(false)
       }
       .disposed(by: disposeBag)
   }
@@ -63,10 +55,6 @@ extension RothemRoomListViewModel: RothemRoomListViewModelType {
   
   var currentStudyReservationList: Driver<[StudyListCollectionViewCellModel]> {
     studyReservationListRelay.asDriver()
-  }
-  
-  var isLoading: Driver<Bool> {
-    isLoadingSubject.asDriver(onErrorJustReturn: false)
   }
   
   var isReservation: Driver<StudyListCollectionHeaderViewType> {

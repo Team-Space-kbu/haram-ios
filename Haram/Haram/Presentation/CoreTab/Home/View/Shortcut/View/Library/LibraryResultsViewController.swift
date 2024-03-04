@@ -47,14 +47,9 @@ final class LibraryResultsViewController: BaseViewController, BackButtonHandler 
       .drive(with: self) { owner, model in
         owner.emptyView.isHidden = !model.isEmpty
         owner.model = model
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.isLoading
-      .filter { !$0 }
-      .drive(with: self) { owner, isLoading in
-        owner.searchResultsCollectionView.reloadData()
+        
         owner.view.hideSkeleton()
+        owner.searchResultsCollectionView.reloadData()
       }
       .disposed(by: disposeBag)
     

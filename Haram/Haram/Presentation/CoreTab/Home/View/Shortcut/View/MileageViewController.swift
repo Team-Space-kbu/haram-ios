@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxCocoa
 import SkeletonView
 import SnapKit
 import Then
@@ -15,17 +16,9 @@ final class MileageViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: MileageViewModelType
   
-  private var mileagePayInfoModel: MileageTableHeaderViewModel? {
-    didSet {
-      mileageTableView.reloadData()
-    }
-  }
+  private var mileagePayInfoModel: MileageTableHeaderViewModel?
   
-  private var model: [MileageTableViewCellModel] = [] {
-    didSet {
-      mileageTableView.reloadData()
-    }
-  }
+  private var model: [MileageTableViewCellModel] = []
   
   private lazy var mileageTableView = UITableView(frame: .zero, style: .grouped).then {
     $0.register(MileageTableViewCell.self, forCellReuseIdentifier: MileageTableViewCell.identifier)
@@ -52,21 +45,21 @@ final class MileageViewController: BaseViewController, BackButtonHandler {
   override func bind() {
     super.bind()
     
-    viewModel.currentUserMileageInfo
-      .drive(rx.model)
-      .disposed(by: disposeBag)
-    
-    viewModel.currentAvailabilityPoint
-      .drive(rx.mileagePayInfoModel)
-      .disposed(by: disposeBag)
-    
-    viewModel.isLoading
-      .filter { !$0 }
-      .drive(with: self) { owner, isLoading in
-        owner.view.hideSkeleton()
-      }
-      .disposed(by: disposeBag)
-    
+    Driver.combineLatest(
+      viewModel.currentUserMileageInfo,
+      viewModel.currentAvailabilityPoint
+    )
+    .drive(with: self) { owner, result in
+      let (currentUserMileageInfo, currentAvailabilityPoint) = result
+      owner.model = currentUserMileageInfo
+      owner.mileagePayInfoModel = currentAvailabilityPoint
+      
+      owner.view.hideSkeleton()
+      
+      owner.mileageTableView.reloadData()
+    }
+    .disposed(by: disposeBag)
+        
     viewModel.errorMessage
       .emit(with: self) { owner, error in
         guard error == .requiredStudentID else { return }

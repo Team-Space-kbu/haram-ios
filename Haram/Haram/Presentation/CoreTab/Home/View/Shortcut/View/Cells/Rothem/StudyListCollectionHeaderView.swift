@@ -178,7 +178,7 @@ extension StudyListCollectionHeaderView {
       if let filter = CIFilter(name: "CIColorControls") {
         let ciImage = CIImage(image: image)
         filter.setValue(ciImage, forKey: kCIInputImageKey)
-        filter.setValue(-0.5, forKey: kCIInputBrightnessKey) // 어두움 정도를 조절할 수 있습니다. 0에 가까울수록 어두워집니다.
+        filter.setValue(-0.1, forKey: kCIInputBrightnessKey) // 어두움 정도를 조절할 수 있습니다. 0에 가까울수록 어두워집니다.
         if let output = filter.outputImage {
           if let cgImage = context.createCGImage(output, from: output.extent) {
             return UIImage(cgImage: cgImage)

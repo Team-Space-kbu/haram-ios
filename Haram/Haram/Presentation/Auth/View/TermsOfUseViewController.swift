@@ -26,7 +26,7 @@ final class TermsOfUseViewController: BaseViewController {
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: 101 - 35, left: 15, bottom: .zero, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: 30, left: 15, bottom: .zero, right: 15)
     $0.backgroundColor = .clear
     $0.spacing = 21
   }

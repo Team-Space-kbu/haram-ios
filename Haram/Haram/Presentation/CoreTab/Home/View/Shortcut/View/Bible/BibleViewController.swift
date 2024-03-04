@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxCocoa
 import SkeletonView
 import SnapKit
 import Then
@@ -40,17 +41,9 @@ final class BibleViewController: BaseViewController, BackButtonHandler {
   
   private let revisionOfTranlationModel = CoreDataManager.shared.getRevisionOfTranslation(ascending: true)
   
-  private var todayBibleWordModel: [String] = [] {
-    didSet {
-      bibleCollectionView.reloadData()
-    }
-  }
+  private var todayBibleWordModel: [String] = []
   
-  private var bibleMainNotice: [BibleNoticeCollectionViewCellModel] = [] {
-    didSet {
-      bibleCollectionView.reloadData()
-    }
-  }
+  private var bibleMainNotice: [BibleNoticeCollectionViewCellModel] = []
   
   // MARK: - UI Components
   
@@ -97,21 +90,20 @@ final class BibleViewController: BaseViewController, BackButtonHandler {
   override func bind() {
     super.bind()
     
-    viewModel.todayBibleWordList
-      .drive(rx.todayBibleWordModel)
-      .disposed(by: disposeBag)
-    
-    viewModel.bibleMainNotice
-      .drive(rx.bibleMainNotice)
-      .disposed(by: disposeBag)
-    
-    viewModel.isLoading
-      .filter { !$0 }
-      .drive(with: self) { owner, isLoading in
-        owner.bibleCollectionView.reloadData()
-        owner.view.hideSkeleton()
-      }
-      .disposed(by: disposeBag)
+    Driver.combineLatest(
+      viewModel.todayBibleWordList,
+      viewModel.bibleMainNotice
+    )
+    .drive(with: self) { owner, result in
+      let (todayBibleWordList, bibleMainNotice) = result
+      owner.todayBibleWordModel = todayBibleWordList
+      owner.bibleMainNotice = bibleMainNotice
+      
+      owner.view.hideSkeleton()
+      
+      owner.bibleCollectionView.reloadData()
+    }
+    .disposed(by: disposeBag)
   }
   
   override func setupStyles() {

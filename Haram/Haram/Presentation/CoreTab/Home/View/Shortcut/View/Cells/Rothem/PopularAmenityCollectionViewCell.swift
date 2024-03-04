@@ -54,7 +54,7 @@ final class PopularAmenityCollectionViewCell: UICollectionViewCell {
     
     contentView.isSkeletonable = true
     contentView.backgroundColor = .clear
-    [amenityImageView, amenityLabel].forEach { contentView.addSubview($0) }
+    [amenityLabel, amenityImageView].forEach { contentView.addSubview($0) }
     
     amenityLabel.snp.makeConstraints {
       $0.directionalHorizontalEdges.bottom.equalToSuperview()
@@ -64,6 +64,8 @@ final class PopularAmenityCollectionViewCell: UICollectionViewCell {
     amenityImageView.snp.makeConstraints {
       $0.bottom.equalTo(amenityLabel.snp.top)
       $0.centerX.top.equalToSuperview()
+      $0.leading.greaterThanOrEqualToSuperview()
+      $0.trailing.lessThanOrEqualToSuperview()
       $0.size.equalTo(40)
     }
   }

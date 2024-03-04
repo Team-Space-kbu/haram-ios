@@ -8,6 +8,7 @@
 import UIKit
 
 import Kingfisher
+import RxCocoa
 import SnapKit
 import SkeletonView
 import Then
@@ -18,7 +19,7 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
   private let roomSeq: Int
   
   private let studyRoomImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFill
+    $0.contentMode = .scaleAspectFit
     $0.isSkeletonable = true
   }
   
@@ -47,7 +48,6 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
     super.setupStyles()
     
     setupBackButton()
-    
     setupSkeletonView()
     
   }
@@ -67,7 +67,7 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
     studyRoomDetailView.snp.makeConstraints {
       $0.bottom.equalToSuperview()
       $0.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo((((UIScreen.main.bounds.height - UINavigationController().navigationBar.frame.height) / 3) * 2) - 49)
+      $0.height.equalTo((((UIScreen.main.bounds.height - UINavigationController().navigationBar.frame.height) / 3) * 2))
     }
     
     studyRoomImageView.snp.makeConstraints {
@@ -83,24 +83,20 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
     
     viewModel.inquireRothemRoomInfo(roomSeq: roomSeq)
     
-    viewModel.rothemRoomDetailViewModel
-      .drive(with: self) { owner, rothemRoomDetailViewModel in
-        owner.studyRoomDetailView.configureUI(with: rothemRoomDetailViewModel)
-      }
-      .disposed(by: disposeBag)
     
-    viewModel.rothemRoomThumbnailImage
-      .drive(with: self) { owner, thumbnailImageURL in
-        owner.studyRoomImageView.kf.setImage(with: thumbnailImageURL)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.isLoading
-      .filter { !$0 }
-      .drive(with: self) { owner, isLoading in
-        owner.view.hideSkeleton()
-      }
-      .disposed(by: disposeBag)
+    Driver.combineLatest(
+      viewModel.rothemRoomDetailViewModel,
+      viewModel.rothemRoomThumbnailImage
+    )
+    .drive(with: self) { owner, result in
+      let (rothemRoomDetailViewModel, thumbnailImageURL) = result
+      
+      owner.view.hideSkeleton()
+      
+      owner.studyRoomDetailView.configureUI(with: rothemRoomDetailViewModel)
+      owner.studyRoomImageView.kf.setImage(with: thumbnailImageURL)
+    }
+    .disposed(by: disposeBag)
 
   }
 }

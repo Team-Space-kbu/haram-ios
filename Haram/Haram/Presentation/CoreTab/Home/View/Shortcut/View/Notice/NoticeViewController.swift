@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxCocoa
 import SnapKit
 import SkeletonView
 import Then
@@ -15,17 +16,9 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: NoticeViewModelType
   
-  private var noticeModel: [NoticeCollectionViewCellModel] = [] {
-    didSet {
-      noticeCollectionView.reloadData()
-    }
-  }
+  private var noticeModel: [NoticeCollectionViewCellModel] = []
   
-  private var noticeTagModel: [MainNoticeType] = [] {
-    didSet {
-      noticeCollectionView.reloadData()
-    }
-  }
+  private var noticeTagModel: [MainNoticeType] = []
   
   private lazy var noticeCollectionView = UICollectionView(
     frame: .zero,
@@ -55,20 +48,21 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
   
   override func bind() {
     super.bind()
-    viewModel.noticeModel
-      .drive(rx.noticeModel)
-      .disposed(by: disposeBag)
     
-    viewModel.noticeTagModel
-      .drive(rx.noticeTagModel)
-      .disposed(by: disposeBag)
-    
-    viewModel.isLoading
-      .filter { !$0 }
-      .drive(with: self) { owner, _ in
-        owner.view.hideSkeleton()
-      }
-      .disposed(by: disposeBag)
+    Driver.combineLatest(
+      viewModel.noticeModel,
+      viewModel.noticeTagModel
+    )
+    .drive(with: self) { owner, result in
+      let (noticeModel, noticeTagModel) = result
+      owner.noticeModel = noticeModel
+      owner.noticeTagModel = noticeTagModel
+      
+      owner.noticeCollectionView.hideSkeleton()
+      
+      owner.noticeCollectionView.reloadData()
+    }
+    .disposed(by: disposeBag)
   }
   
   override func setupStyles() {

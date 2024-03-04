@@ -112,6 +112,8 @@ final class RothemReservationInfoView: UIView {
   
   func configureUI(with model: RothemReservationInfoViewModel) {
     
+    hideSkeleton()
+    
     rothemRoomNameLabel.text = model.rothemRoomName
     rothemLocationLabel.text = model.rothemLocation
     reservationNameLabel.text = model.reservationName
@@ -127,6 +129,6 @@ final class RothemReservationInfoView: UIView {
       LogHelper.log("로뎀 예약을 위한 바코드 생성에 오류가 발생하였습니다.", level: .error)
     }
     
-    hideSkeleton()
+//    hideSkeleton()
   }
 }

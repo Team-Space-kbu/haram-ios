@@ -97,10 +97,7 @@ final class LoginViewController: BaseViewController {
     
     guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else { return }
     
-    UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromLeft, animations: {
       window.rootViewController = HaramTabbarController()
-       })
-    
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -215,13 +212,6 @@ extension LoginViewController: LoginButtonDelegate {
     guard let userID = emailTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
           let password = passwordTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
     
-//    let isContain = self.containerView.subviews.contains(self.errorMessageLabel)
-//    
-//    if isContain {
-//      self.errorMessageLabel.text = nil
-//      self.errorMessageLabel.removeFromSuperview()
-//    }
-    
     view.endEditing(true)
     viewModel.loginMember(userID: userID, password: password)
   }
@@ -248,13 +238,6 @@ extension LoginViewController: UITextFieldDelegate {
       passwordTextField.resignFirstResponder()
       guard let userID = emailTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             let password = passwordTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return true }
-      
-//      let isContain = self.containerView.subviews.contains(self.errorMessageLabel)
-//      
-//      if isContain {
-//        self.errorMessageLabel.text = nil
-//        self.errorMessageLabel.removeFromSuperview()
-//      }
       
       view.endEditing(true)
       viewModel.loginMember(userID: userID, password: password)
