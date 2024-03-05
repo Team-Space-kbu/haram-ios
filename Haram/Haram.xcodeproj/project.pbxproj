@@ -20,6 +20,9 @@
 		701F29DE2AEBB7FF00E3E68B /* CheckReservationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */; };
 		701FC8932B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 701FC8922B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist */; };
 		701FC8952B97000700291FC3 /* CustomAcknowListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8942B97000700291FC3 /* CustomAcknowListViewController.swift */; };
+		701FC8972B97127500291FC3 /* EditBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8962B97127500291FC3 /* EditBoardViewController.swift */; };
+		701FC8992B9736B900291FC3 /* EditBoardBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8982B9736B900291FC3 /* EditBoardBottomSheetViewController.swift */; };
+		701FC89B2B97565F00291FC3 /* EditBoardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC89A2B97565F00291FC3 /* EditBoardCollectionViewCell.swift */; };
 		7031E3C82ABA72C10027DC0A /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */; };
 		7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */; };
 		7031E3D02ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */; };
@@ -306,6 +309,9 @@
 		701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReservationViewModel.swift; sourceTree = "<group>"; };
 		701FC8922B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pods-Haram-acknowledgements.plist"; path = "Pods/Target Support Files/Pods-Haram/Pods-Haram-acknowledgements.plist"; sourceTree = "<group>"; };
 		701FC8942B97000700291FC3 /* CustomAcknowListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAcknowListViewController.swift; sourceTree = "<group>"; };
+		701FC8962B97127500291FC3 /* EditBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardViewController.swift; sourceTree = "<group>"; };
+		701FC8982B9736B900291FC3 /* EditBoardBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardBottomSheetViewController.swift; sourceTree = "<group>"; };
+		701FC89A2B97565F00291FC3 /* EditBoardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardCollectionViewCell.swift; sourceTree = "<group>"; };
 		7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewController.swift; sourceTree = "<group>"; };
 		7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailHeaderView.swift; sourceTree = "<group>"; };
 		7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -619,6 +625,7 @@
 			children = (
 				7031E3D12ABA80BA0027DC0A /* CommentAuthorInfoView.swift */,
 				70864F312AF9502600CD4124 /* CommentInputView.swift */,
+				701FC8982B9736B900291FC3 /* EditBoardBottomSheetViewController.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -1030,6 +1037,7 @@
 				70727A9E29D88AAA003DE956 /* BoardViewController.swift */,
 				708312B12A76940600F7E283 /* BoardListViewController.swift */,
 				7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */,
+				701FC8962B97127500291FC3 /* EditBoardViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1055,6 +1063,7 @@
 				7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */,
 				7031E3D32ABA89160027DC0A /* BoardDetailCommentHeaderView.swift */,
 				709AB6442B77E19B004B0F59 /* BoardImageCollectionViewCell.swift */,
+				701FC89A2B97565F00291FC3 /* EditBoardCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1785,6 +1794,7 @@
 				701F29DC2AEBB29C00E3E68B /* BibleNoticeResponse.swift in Sources */,
 				70747C882B45AC5C001F08EE /* CompositionRoot.swift in Sources */,
 				705FD2BD2A1A4CEE00F353FE /* LibraryDetailViewController.swift in Sources */,
+				701FC89B2B97565F00291FC3 /* EditBoardCollectionViewCell.swift in Sources */,
 				7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */,
 				708ED7A12A8F922900107CDF /* CheckReservationViewController.swift in Sources */,
 				701F29C62AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift in Sources */,
@@ -1937,6 +1947,7 @@
 				70AD2A9A2B93908A00CB9791 /* VerifyEmailViewModel.swift in Sources */,
 				70375EFE2AAA022A0032F6B8 /* LibraryRentalView.swift in Sources */,
 				705FD28C2A10F74D00F353FE /* UserManager.swift in Sources */,
+				701FC8992B9736B900291FC3 /* EditBoardBottomSheetViewController.swift in Sources */,
 				70747C842B455EBA001F08EE /* HomeDIContainer.swift in Sources */,
 				70912FFA2B15EF2C005B88B4 /* RothemReservationInfoView.swift in Sources */,
 				70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */,
@@ -1944,6 +1955,7 @@
 				708ED7892A8E02B800107CDF /* StudyListCollectionHeaderView.swift in Sources */,
 				708312442A2F1E6500F7E283 /* InquireChapelInfoResponse.swift in Sources */,
 				705FD2D32A2645D200F353FE /* SearchBookResponse.swift in Sources */,
+				701FC8972B97127500291FC3 /* EditBoardViewController.swift in Sources */,
 				705FD29F2A15F21F00F353FE /* LoginButton.swift in Sources */,
 				708DAD1C2B36DE6C00E3AD45 /* Ex + UIViewController.swift in Sources */,
 				70AD2A982B93837300CB9791 /* IntranetAlertView.swift in Sources */,

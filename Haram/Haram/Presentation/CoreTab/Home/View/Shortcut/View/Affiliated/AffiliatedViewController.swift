@@ -195,36 +195,39 @@ extension AffiliatedViewController: FloatingPanelControllerDelegate {
   }
 }
 
-struct MapCoordinate {
-  let x: Double // 위도
-  let y: Double // 경도
-  
-  init(affiliatedCollectionViewCellModel: AffiliatedCollectionViewCellModel) {
-    x = affiliatedCollectionViewCellModel.affiliatedX
-    y = affiliatedCollectionViewCellModel.affiliatedY
+extension AffiliatedViewController {
+  struct MapCoordinate {
+    let x: Double // 위도
+    let y: Double // 경도
+    
+    init(affiliatedCollectionViewCellModel: AffiliatedCollectionViewCellModel) {
+      x = affiliatedCollectionViewCellModel.affiliatedX
+      y = affiliatedCollectionViewCellModel.affiliatedY
+    }
+    
+    init(x: Double, y: Double) {
+      self.x = x
+      self.y = y
+    }
   }
-  
-  init(x: Double, y: Double) {
-    self.x = x
-    self.y = y
-  }
-}
 
-class AffiliatedFloatingPanelLayout: FloatingPanelLayout {
-  
-  var position: FloatingPanelPosition {
-    return .bottom
+  final class AffiliatedFloatingPanelLayout: FloatingPanelLayout {
+    
+    var position: FloatingPanelPosition {
+      return .bottom
+    }
+    
+    var initialState: FloatingPanelState {
+      return .half
+    }
+    
+    var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
+      return [
+        .full: FloatingPanelLayoutAnchor(fractionalInset: 0.8, edge: .bottom, referenceGuide: .safeArea),
+        .half: FloatingPanelLayoutAnchor(absoluteInset: 254, edge: .bottom, referenceGuide: .safeArea),
+        .tip: FloatingPanelLayoutAnchor(fractionalInset: 0.1, edge: .bottom, referenceGuide: .safeArea),
+      ]
+    }
   }
-  
-  var initialState: FloatingPanelState {
-    return .half
-  }
-  
-  var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
-    return [
-      .full: FloatingPanelLayoutAnchor(fractionalInset: 0.8, edge: .bottom, referenceGuide: .safeArea),
-      .half: FloatingPanelLayoutAnchor(absoluteInset: 254, edge: .bottom, referenceGuide: .safeArea),
-      .tip: FloatingPanelLayoutAnchor(fractionalInset: 0.1, edge: .bottom, referenceGuide: .safeArea),
-    ]
-  }
+
 }

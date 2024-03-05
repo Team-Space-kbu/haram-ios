@@ -20,18 +20,6 @@ final class HaramTabbarController: UITabBarController {
     )
   })
   
-//  private lazy var scheduleViewController = UINavigationController(rootViewController: ScheduleViewController().then {
-//    $0.tabBarItem = UITabBarItem(
-//      title: "시간표",
-//      image: UIImage(named: "time"),
-//      tag: 1
-//    )
-//  })
-  
-//  private let homeCoordinator = HomeCoordinator(navigationController: UINavigationController())
-//  private let boardCoordinator = BoardCoordinator(navigationController: UINavigationController())
-//  private let moreCoordinator = MoreCoordinator(navigationController: UINavigationController())
-  
   private lazy var boardViewController = UINavigationController(rootViewController: BoardViewController().then {
     $0.tabBarItem = UITabBarItem(
       title: "게시판",
@@ -57,26 +45,10 @@ final class HaramTabbarController: UITabBarController {
   
   private func setupLayouts() {
     
-//    let homeDependencyContainer = HomeDependencyContainer(homeApiService: ApiService.shared)
-//    let homeViewController = homeDependencyContainer.makeController()
-//    homeViewController.tabBarItem = UITabBarItem(
-//      title: "하람",
-//      image: UIImage(named: "home"),
-//      tag: 0
-//    )
-//    
-//    homeCoordinator.start()
-//    boardCoordinator.start()
-//    moreCoordinator.start()
-    
     viewControllers = [
       homeViewController,
       boardViewController,
       moreViewController
-//      homeCoordinator.navigationController,
-////      scheduleViewController,
-//      boardCoordinator.navigationController,
-//      moreCoordinator.navigationController
     ]
   }
   
