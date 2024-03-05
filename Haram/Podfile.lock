@@ -1,4 +1,5 @@
 PODS:
+  - AcknowList (3.1.0)
   - Elliotable (1.2.5)
   - NMapsMap (3.16.0)
   - ZXingObjC (3.6.9):
@@ -6,21 +7,24 @@ PODS:
   - ZXingObjC/All (3.6.9)
 
 DEPENDENCIES:
+  - AcknowList
   - Elliotable
   - NMapsMap
   - ZXingObjC (~> 3.6.4)
 
 SPEC REPOS:
   trunk:
+    - AcknowList
     - Elliotable
     - NMapsMap
     - ZXingObjC
 
 SPEC CHECKSUMS:
+  AcknowList: 6a066937eac273426b749e14172db23a9ca656df
   Elliotable: e669fa7a974658c4e0ee4be4b335f6a561f1b2cb
   NMapsMap: a2593320fca2bb09e521c05b4dffee4da42e96ed
   ZXingObjC: 8898711ab495761b2dbbdec76d90164a6d7e14c5
 
-PODFILE CHECKSUM: 02ab6816f89a28dfed6d12298e0ac6521204a982
+PODFILE CHECKSUM: 25ddc967403d3a481224af8537615b229fffc81e
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.11.3

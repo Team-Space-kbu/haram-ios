@@ -7,6 +7,7 @@
 
 import UIKit
 
+import AcknowList
 import RxSwift
 import SnapKit
 import Then
@@ -91,12 +92,6 @@ final class MoreViewController: BaseViewController {
     $0.backgroundColor = .clear
   }
   
-//  private let moreLabel = UILabel().then {
-//    $0.textColor = .hex1A1E27
-//    $0.font = .bold26
-//    $0.text = "더보기"
-//  }
-  
   private let settingLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold22
@@ -137,7 +132,7 @@ final class MoreViewController: BaseViewController {
     }
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
-//    navigationController?.navigationBar.isHidden = true
+    //    navigationController?.navigationBar.isHidden = true
   }
   
   override func bind() {
@@ -178,11 +173,6 @@ final class MoreViewController: BaseViewController {
       $0.directionalEdges.width.equalToSuperview()
     }
     
-//    moreLabel.snp.makeConstraints {
-//      $0.top.equalToSuperview().inset(64)
-//      $0.leading.equalToSuperview().inset(15)
-//    }
-    
     profileInfoView.snp.makeConstraints {
       $0.top.equalToSuperview().inset(20)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
@@ -214,6 +204,11 @@ final class MoreViewController: BaseViewController {
       $0.height.equalTo(127 + 23 + 23)
       $0.bottom.equalToSuperview().inset(23)
     }
+  }
+  
+  @objc
+  private func didTappedBackButton() {
+    navigationController?.popViewController(animated: true)
   }
 }
 
@@ -250,6 +245,16 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
       let settingType = SettingType.allCases[indexPath.row]
       if settingType == .logout {
         viewModel.requestLogoutUser()
+      } else if settingType == .license {
+        let acknowList = CustomAcknowListViewController(fileNamed: Constants.openLicenseFileName)
+        acknowList.hidesBottomBarWhenPushed = true
+        acknowList.navigationItem.leftBarButtonItem = UIBarButtonItem(
+          image: UIImage(resource: .back),
+          style: .done,
+          target: self,
+          action: #selector(didTappedBackButton)
+        )
+        navigationController?.pushViewController(acknowList, animated: true)
       }
     } else {
       let moreType = MoreType.allCases[indexPath.row]

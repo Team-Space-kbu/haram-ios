@@ -47,6 +47,8 @@ enum HaramError: Error, CaseIterable {
   
   /// 토큰인증관련 에러
   case unValidRefreshToken
+  case noToken // 토큰이 없을때 발생하는 에러
+  case internalServerError // 서버측에서 알 수 없는 에러 발생
   
   /// 인트라넷 학번인증관련 에러
   case requiredStudentID
@@ -115,6 +117,10 @@ extension HaramError {
       return "AUTH03"
     case .expireAuthCode:
       return "MAIL02"
+    case .noToken:
+      return "AUTH05"
+    case .internalServerError:
+      return "ER01"
     }
   }
   
@@ -174,6 +180,10 @@ extension HaramError {
       return "인증코드 규칙이 맞지 않습니다."
     case .expireAuthCode:
       return "만료된 인증 코드입니다."
+    case .noToken:
+      return "헤더에 토큰값이 존재하지않습니다."
+    case .internalServerError:
+      return "서버측에서 알 수 없는 에러가 발생했습니다."
     }
   }
 }

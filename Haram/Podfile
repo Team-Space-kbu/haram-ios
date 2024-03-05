@@ -6,6 +6,7 @@ target 'Haram' do
   use_frameworks!
   pod 'NMapsMap'
   pod 'Elliotable'
+  pod 'AcknowList'
 
   use_frameworks!
   pod 'ZXingObjC', '~> 3.6.4'

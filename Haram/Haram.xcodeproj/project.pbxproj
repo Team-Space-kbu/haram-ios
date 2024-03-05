@@ -18,6 +18,8 @@
 		701F29D92AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */; };
 		701F29DC2AEBB29C00E3E68B /* BibleNoticeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29DB2AEBB29C00E3E68B /* BibleNoticeResponse.swift */; };
 		701F29DE2AEBB7FF00E3E68B /* CheckReservationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */; };
+		701FC8932B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 701FC8922B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist */; };
+		701FC8952B97000700291FC3 /* CustomAcknowListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8942B97000700291FC3 /* CustomAcknowListViewController.swift */; };
 		7031E3C82ABA72C10027DC0A /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */; };
 		7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */; };
 		7031E3D02ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */; };
@@ -302,6 +304,8 @@
 		701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyRoomDetailViewModel.swift; sourceTree = "<group>"; };
 		701F29DB2AEBB29C00E3E68B /* BibleNoticeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleNoticeResponse.swift; sourceTree = "<group>"; };
 		701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReservationViewModel.swift; sourceTree = "<group>"; };
+		701FC8922B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pods-Haram-acknowledgements.plist"; path = "Pods/Target Support Files/Pods-Haram/Pods-Haram-acknowledgements.plist"; sourceTree = "<group>"; };
+		701FC8942B97000700291FC3 /* CustomAcknowListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAcknowListViewController.swift; sourceTree = "<group>"; };
 		7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewController.swift; sourceTree = "<group>"; };
 		7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailHeaderView.swift; sourceTree = "<group>"; };
 		7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -793,6 +797,7 @@
 		70727A4829D87B25003DE956 = {
 			isa = PBXGroup;
 			children = (
+				701FC8922B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist */,
 				70727A5329D87B25003DE956 /* Haram */,
 				70727A6A29D87B27003DE956 /* HaramTests */,
 				70727A7429D87B27003DE956 /* HaramUITests */,
@@ -1002,6 +1007,7 @@
 			children = (
 				708DAD1A2B35AE5C00E3AD45 /* Cells */,
 				70727AA029D88AD0003DE956 /* MoreViewController.swift */,
+				701FC8942B97000700291FC3 /* CustomAcknowListViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1616,6 +1622,7 @@
 				70727AAD29D9558D003DE956 /* Spoqa Han Sans Neo Bold.otf in Resources */,
 				70727AAF29D9559A003DE956 /* Spoqa Han Sans Neo Light.otf in Resources */,
 				7051E4F62AD6A75800C2134B /* space_4x.png in Resources */,
+				701FC8932B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist in Resources */,
 				70727AB529D95637003DE956 /* Spoqa Han Sans Neo Thin.otf in Resources */,
 				70727A6129D87B27003DE956 /* LaunchScreen.storyboard in Resources */,
 				7051E4F12AD6A75800C2134B /* space_2x.png in Resources */,
@@ -1958,6 +1965,7 @@
 				70AD2A6F2B889B1C00CB9791 /* BoardViewModel.swift in Sources */,
 				705FD2BF2A1A4D2E00F353FE /* LibraryDetailMainView.swift in Sources */,
 				70375F162AB1B0500032F6B8 /* HaramToast.swift in Sources */,
+				701FC8952B97000700291FC3 /* CustomAcknowListViewController.swift in Sources */,
 				708ED7CB2A91224B00107CDF /* TodayBibleWordCollectionViewCell.swift in Sources */,
 				70909A822B0D8B4E00049265 /* ReserveStudyRoomRequest.swift in Sources */,
 				7083124F2A31927600F7E283 /* HomeRouter.swift in Sources */,
