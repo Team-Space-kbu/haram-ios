@@ -32,7 +32,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   ).then {
     $0.backgroundColor = .clear
     $0.register(BoardListCollectionViewCell.self, forCellWithReuseIdentifier: BoardListCollectionViewCell.identifier)
-    $0.contentInset = UIEdgeInsets(top: 32, left: 15, bottom: .zero, right: 15)
+    $0.contentInset = UIEdgeInsets(top: 20, left: 15, bottom: .zero, right: 15)
     $0.alwaysBounceVertical = true
     $0.isSkeletonable = true
   }
@@ -123,6 +123,15 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
       .filter { !$0 }
       .drive(with: self) { owner, isLoading in
         owner.view.hideSkeleton()
+      }
+      .disposed(by: disposeBag)
+    
+    editBoardButton.rx.tap
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        let vc = EditBoardViewController()
+        vc.title = "게시글 작성"
+        owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
     

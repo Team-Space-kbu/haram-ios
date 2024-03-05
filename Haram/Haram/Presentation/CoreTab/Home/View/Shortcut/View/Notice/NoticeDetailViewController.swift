@@ -26,6 +26,8 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
+    $0.showsHorizontalScrollIndicator = false
+    $0.showsVerticalScrollIndicator = false
   }
   
   private let containerView = UIStackView().then {

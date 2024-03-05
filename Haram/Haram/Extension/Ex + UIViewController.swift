@@ -14,7 +14,7 @@ import UIKit
 extension BackButtonHandler where Self: UIViewController {
     func setupBackButton() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(resource: .back),
+          image: UIImage(resource: .back).withRenderingMode(.alwaysOriginal),
             style: .plain,
             target: self,
             action: #selector(didTappedBackButton)
