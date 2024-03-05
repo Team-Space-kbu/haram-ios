@@ -127,7 +127,7 @@ extension MileageViewController: UITableViewDelegate, UITableViewDataSource {
 extension MileageViewController: SkeletonTableViewDelegate, SkeletonTableViewDataSource {
   func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
     let cell = skeletonView.dequeueReusableCell(withIdentifier: MileageTableViewCell.identifier, for: indexPath) as? MileageTableViewCell ?? MileageTableViewCell()
-    cell.configureUI(with: .init(mainText: "2023 총장배소프트웨어경진대회 - 컴소", subText: "20231119", mileage: -1000, imageSource: .cafeCostes))
+    cell.configureUI(with: .init(mainText: "2023 총장배소프트웨어경진대회 - 컴소", date: Date(), mileage: -1000, imageSource: .cafeCostes))
     return cell
   }
   

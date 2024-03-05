@@ -167,7 +167,7 @@ extension StudyListCollectionHeaderView {
         if let data = data, error == nil {
           let thumbnailImage = UIImage(data: data)
           DispatchQueue.main.async {
-            self.backgroudImageView.image = self.applyDarkFilter(to: thumbnailImage!)
+            self.backgroudImageView.image = self.enhanceWhiteText(in: thumbnailImage!)
           }
         }
       }.resume()
@@ -175,7 +175,7 @@ extension StudyListCollectionHeaderView {
     
     func applyDarkFilter(to image: UIImage) -> UIImage? {
       let context = CIContext(options: nil)
-      if let filter = CIFilter(name: "CIColorControls") {
+      if let filter = CIFilter(name: "CIPhotoEffectMono") {
         let ciImage = CIImage(image: image)
         filter.setValue(ciImage, forKey: kCIInputImageKey)
         filter.setValue(-0.1, forKey: kCIInputBrightnessKey) // 어두움 정도를 조절할 수 있습니다. 0에 가까울수록 어두워집니다.
@@ -186,6 +186,32 @@ extension StudyListCollectionHeaderView {
         }
       }
       return nil
+    }
+    
+    func enhanceWhiteText(in image: UIImage) -> UIImage? {
+        guard let ciImage = CIImage(image: image) else { return nil }
+        
+        // 밝기 조절
+        let exposureFilter = CIFilter(name: "CIExposureAdjust")
+        exposureFilter?.setValue(ciImage, forKey: kCIInputImageKey)
+        exposureFilter?.setValue(-4.0, forKey: kCIInputEVKey) // 더 많이 밝기를 줄여서 어둡게 만듭니다.
+        
+        guard let exposureAdjustedCIImage = exposureFilter?.outputImage else { return nil }
+        
+        // 하이라이트와 그림자 조절
+        let highlightShadowFilter = CIFilter(name: "CIHighlightShadowAdjust")
+        highlightShadowFilter?.setValue(exposureAdjustedCIImage, forKey: kCIInputImageKey)
+        highlightShadowFilter?.setValue(1.0, forKey: "inputHighlightAmount") // 하이라이트를 강조
+        highlightShadowFilter?.setValue(0.5, forKey: "inputShadowAmount") // 그림자를 줄임
+        
+        guard let outputCIImage = highlightShadowFilter?.outputImage else { return nil }
+        
+        // CIImage를 UIImage로 변환
+        let context = CIContext(options: nil)
+        guard let cgImage = context.createCGImage(outputCIImage, from: outputCIImage.extent) else { return nil }
+        let outputUIImage = UIImage(cgImage: cgImage)
+        
+        return outputUIImage
     }
   }
 }

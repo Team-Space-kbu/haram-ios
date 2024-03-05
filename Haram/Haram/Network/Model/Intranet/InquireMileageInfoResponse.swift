@@ -22,6 +22,17 @@ struct MileageDetail: Decodable {
   let changeDate: String
   let saleDate: String
   let status: String
-  let point: String
+  let point: Int
   let etc: String
+  let type: MileageDetailType
+}
+
+enum MileageDetailType: String, Decodable {
+  case cafe = "CAFE"
+  case gym = "GYM"
+  case mart = "MART"
+  case bookStore = "BOOKSTORE"
+  case copyRoom = "COPYROOM"
+  case student = "STUDENT"
+  case etc = "ETC"
 }

@@ -13,7 +13,7 @@ import Then
 
 struct MileageTableViewCellModel {
   let mainText: String
-  let subText: String
+  let date: Date
   let mileage: Int
   let imageSource: ImageResource
 }
@@ -113,7 +113,7 @@ final class MileageTableViewCell: UITableViewCell {
     let decimalMileage = formatter.string(for: mileage) ?? "0"
     
     mainLabel.text = mainText
-    subLabel.text = model.subText
+    subLabel.text = DateformatterFactory.noticeWithHypen.string(from: model.date)
     mileageLabel.text = decimalMileage
     mileageImageView.image = UIImage(resource: model.imageSource)
   }
