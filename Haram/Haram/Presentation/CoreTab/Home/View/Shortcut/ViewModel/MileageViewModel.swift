@@ -5,6 +5,8 @@
 //  Created by 이건준 on 2023/07/20.
 //
 
+import Foundation
+
 import RxSwift
 import RxCocoa
 
@@ -39,9 +41,9 @@ final class MileageViewModel {
             
             return MileageTableViewCellModel(
               mainText: mainText,
-              subText: mileageDetail.changeDate,
-              mileage: Int(String(mileageDetail.point.replacingOccurrences(of: ",", with: ""))) ?? 0,
-              imageSource: owner.getMileageImageResource(which: mainText)
+              date: DateformatterFactory.iso8601_2.date(from: mileageDetail.changeDate) ?? Date(),
+              mileage: mileageDetail.point,
+              imageSource: owner.getMileageImageResource(which: mileageDetail.type)
             )
           }
         )
@@ -61,15 +63,23 @@ final class MileageViewModel {
 }
 
 extension MileageViewModel {
-  private func getMileageImageResource(which mainText: String) -> ImageResource {
-    if mainText.contains("카페") {
+  private func getMileageImageResource(which type: MileageDetailType) -> ImageResource {
+    
+    switch type {
+    case .cafe:
       return .cafeCostes
-    } else if mainText.contains("헬스장") {
+    case .gym:
       return .gym
-    } else if mainText.contains("매점") {
+    case .mart:
       return .store
-    } else {
-      return .cafeCostes
+    case .bookStore:
+      return .bookStore
+    case .copyRoom:
+      return .copyRoom
+    case .student:
+      return .student
+    case .etc:
+      return .etc
     }
   }
 }

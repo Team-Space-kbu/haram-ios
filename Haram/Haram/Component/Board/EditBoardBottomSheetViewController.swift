@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+import PhotosUI
 
 protocol EditBoardBottomSheetViewDelegate: AnyObject {
   func didTappedAnonymousMenu()
@@ -69,6 +70,17 @@ final class EditBoardBottomSheetViewController: BaseViewController {
         $0.height.equalTo(22)
       }
     }
+  }
+  
+  private func presentPicker() {
+    var config = PHPickerConfiguration()
+    config.selectionLimit = 8
+    config.filter = .images
+    config.selection = .ordered
+    
+    let picker = PHPickerViewController(configuration: config)
+//    picker.delegate = self
+    present(picker, animated: true)
   }
   
 }
@@ -173,8 +185,12 @@ extension EditBoardBottomSheetViewController: UIImagePickerControllerDelegate, U
   }
   
   func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-    picker.dismiss(animated: true) {
-      self.dismiss(animated: true)
-    }
+    picker.dismiss(animated: true) 
+  }
+}
+
+extension EditBoardViewController: PHPickerViewControllerDelegate {
+  func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+    picker.dismiss(animated: true)
   }
 }
