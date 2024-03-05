@@ -89,7 +89,8 @@ final class SelectedTimeCollectionViewCell: UICollectionViewCell {
       contentView.layer.borderColor = isTimeSelected ? UIColor.hex79BD9A.cgColor : UIColor.hex707070.cgColor
       timeLabel.textColor = isTimeSelected ? .hexF2F3F5 : .black
     } else {
-      contentView.backgroundColor = .lightGray
+      contentView.backgroundColor = .hex545E6A
+      timeLabel.textColor = .white
     }
   }
   

@@ -27,7 +27,7 @@ enum IntranetAlertViewType {
   var description: String {
     switch self {
     case .mileage:
-      return "마일리지정보가 반영되는데 일정시간이 소요됩니다"
+      return "마일리지정보가 반영되는데 시간이 소요됩니다"
     case .chapel:
       return "인트라넷정보와 차이가 발생할 수 있습니다"
     }
