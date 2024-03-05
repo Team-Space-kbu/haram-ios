@@ -90,7 +90,10 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
     dayLabel.text = model.day
     self.isUserInteractionEnabled = model.isAvailable
     if !model.isAvailable {
-      contentView.backgroundColor = .lightGray
+      contentView.backgroundColor = .hex545E6A
+      contentView.layer.borderColor = UIColor.hex545E6A.cgColor
+      titleLabel.textColor = .white
+      dayLabel.textColor = .white
     }
   }
   
