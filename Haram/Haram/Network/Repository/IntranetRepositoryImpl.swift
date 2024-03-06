@@ -8,8 +8,8 @@
 import RxSwift
 
 protocol IntranetRepository {
-  func inquireChapelInfo() -> Single<InquireChapelInfoResponse>
-  func inquireChapelDetail() -> Single<[InquireChapelDetailResponse]>
+  func inquireChapelInfo() -> Observable<Result<InquireChapelInfoResponse, HaramError>>
+  func inquireChapelDetail() -> Observable<Result<[InquireChapelDetailResponse], HaramError>>
   func inquireScheduleInfo() -> Single<[InquireScheduleInfoResponse]>
   func inquireMileageInfo() -> Single<InquireMileageInfoResponse>
 }
@@ -26,12 +26,12 @@ final class IntranetRepositoryImpl {
 
 extension IntranetRepositoryImpl: IntranetRepository {
   
-  func inquireChapelInfo() -> Single<InquireChapelInfoResponse> {
-    service.betarequest(router: IntranetRouter.inquireChapelInfo, type: InquireChapelInfoResponse.self)
+  func inquireChapelInfo() -> Observable<Result<InquireChapelInfoResponse, HaramError>> {
+    service.request(router: IntranetRouter.inquireChapelInfo, type: InquireChapelInfoResponse.self)
   }
   
-  func inquireChapelDetail() -> Single<[InquireChapelDetailResponse]> {
-    service.betarequest(router: IntranetRouter.inquireChapelDetail, type: [InquireChapelDetailResponse].self)
+  func inquireChapelDetail() -> Observable<Result<[InquireChapelDetailResponse], HaramError>> {
+    service.request(router: IntranetRouter.inquireChapelDetail, type: [InquireChapelDetailResponse].self)
   }
   
   func inquireScheduleInfo() -> Single<[InquireScheduleInfoResponse]> {
