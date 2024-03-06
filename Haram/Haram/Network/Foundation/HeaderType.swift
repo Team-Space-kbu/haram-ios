@@ -47,7 +47,7 @@ extension HeaderType {
         defaultHeaders.add(.authorization(bearerToken: token))
         defaultHeaders.add(.contentType("application/json"))
         return defaultHeaders
-
+      
     case .noCache:
       // 토큰이 존재하지 않는 경우 default 리턴
       guard let token = UserManager.shared.accessToken else {

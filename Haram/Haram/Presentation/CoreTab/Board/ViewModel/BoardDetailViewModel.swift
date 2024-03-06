@@ -15,6 +15,7 @@ protocol BoardDetailViewModelType {
   
   var boardInfoModel: Driver<[BoardDetailHeaderViewModel]> { get }
   var boardCommentModel: Driver<[BoardDetailCollectionViewCellModel]> { get }
+  var successCreateComment: Signal<(comment: String, createdAt: String)> { get }
 }
 
 final class BoardDetailViewModel {
@@ -24,6 +25,7 @@ final class BoardDetailViewModel {
   
   private let currentBoardListRelay = BehaviorRelay<[BoardDetailCollectionViewCellModel]>(value: [])
   private let currentBoardInfoRelay = BehaviorRelay<[BoardDetailHeaderViewModel]>(value: [])
+  private let successCreateCommentRelay = PublishRelay<(comment: String, createdAt: String)>()
   
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
@@ -32,6 +34,10 @@ final class BoardDetailViewModel {
 }
 
 extension BoardDetailViewModel: BoardDetailViewModelType {
+  var successCreateComment: RxCocoa.Signal<(comment: String, createdAt: String)> {
+    successCreateCommentRelay.asSignal()
+  }
+  
   
   /// 게시글에 대한 정보를 조회합니다
   func inquireBoardDetail(categorySeq: Int, boardSeq: Int) {
@@ -81,7 +87,10 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
       boardSeq: boardSeq
     )
       .subscribe(with: self) { owner, response in
-        
+        owner.successCreateCommentRelay.accept((
+          comment: boardComment,
+          createdAt: DateformatterFactory.dateWithHypen.string(from: Date())
+        ))
       }
       .disposed(by: disposeBag)
   }

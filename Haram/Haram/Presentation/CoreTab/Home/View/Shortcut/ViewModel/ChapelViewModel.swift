@@ -55,25 +55,25 @@ final class ChapelViewModel: ChapelViewModelType {
     
     let inquireChapelInfo = intranetRepository.inquireChapelInfo()
       .do(onSuccess: { _ in isLoadingSubject.onNext(true) })
-          
-          inquireChapelInfo
-          .subscribe(onSuccess: { response in
-            guard let confirmationDays = Int(response.confirmationDays),
-                  let regulatedDays = Int(response.regulateDays) else { return }
-            chapelHeaderModelRelay.accept(
-              ChapelCollectionHeaderViewModel(
-                chapelDayViewModel: response.confirmationDays,
-                chapelInfoViewModel: .init(
-                  attendanceDays: response.attendanceDays,
-                  remainDays: "\(regulatedDays - confirmationDays)",
-                  lateDays: response.lateDays)
-              )
-            )
-            isLoadingSubject.onNext(false)
-          }, onFailure: { error in
-            guard let error = error as? HaramError else { return }
-            errorMessageSubject.onNext(error)
-          })
-          .disposed(by: disposeBag)
-          }
+    
+    inquireChapelInfo
+      .subscribe(onSuccess: { response in
+        guard let confirmationDays = Int(response.confirmationDays),
+              let regulatedDays = Int(response.regulateDays) else { return }
+        chapelHeaderModelRelay.accept(
+          ChapelCollectionHeaderViewModel(
+            chapelDayViewModel: response.confirmationDays,
+            chapelInfoViewModel: .init(
+              attendanceDays: response.attendanceDays,
+              remainDays: "\(regulatedDays - confirmationDays)",
+              lateDays: response.lateDays)
+          )
+        )
+        isLoadingSubject.onNext(false)
+      }, onFailure: { error in
+        guard let error = error as? HaramError else { return }
+        errorMessageSubject.onNext(error)
+      })
+      .disposed(by: disposeBag)
+  }
 }

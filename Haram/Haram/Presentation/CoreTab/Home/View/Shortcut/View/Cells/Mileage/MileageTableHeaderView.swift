@@ -64,7 +64,7 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
     }
     
     mileageAlertView.snp.makeConstraints {
-      $0.height.equalTo(45)
+      $0.height.greaterThanOrEqualTo(45)
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.top.equalTo(totalMileageLabel.snp.bottom).offset(40)
     }

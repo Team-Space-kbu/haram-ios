@@ -16,17 +16,9 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: ChapelViewModelType
   
-  private var chapelHeaderModel: ChapelCollectionHeaderViewModel? {
-    didSet {
-      chapelCollectionView.reloadData()
-    }
-  }
+  private var chapelHeaderModel: ChapelCollectionHeaderViewModel?
   
-  private var chapelListModel: [ChapelCollectionViewCellModel] = [] {
-    didSet {
-      chapelCollectionView.reloadData()
-    }
-  }
+  private var chapelListModel: [ChapelCollectionViewCellModel] = []
   
   private lazy var chapelCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
     $0.minimumLineSpacing = 20
@@ -64,8 +56,8 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
     viewModel.isLoading
       .filter { !$0 }
       .drive(with: self) { owner, isLoading in
-        owner.chapelCollectionView.reloadData()
         owner.view.hideSkeleton()
+        owner.chapelCollectionView.reloadData()
       }
       .disposed(by: disposeBag)
     

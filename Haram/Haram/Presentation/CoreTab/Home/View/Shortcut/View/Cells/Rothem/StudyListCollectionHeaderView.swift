@@ -194,7 +194,7 @@ extension StudyListCollectionHeaderView {
         // 밝기 조절
         let exposureFilter = CIFilter(name: "CIExposureAdjust")
         exposureFilter?.setValue(ciImage, forKey: kCIInputImageKey)
-        exposureFilter?.setValue(-4.0, forKey: kCIInputEVKey) // 더 많이 밝기를 줄여서 어둡게 만듭니다.
+        exposureFilter?.setValue(-3.0, forKey: kCIInputEVKey) // 더 많이 밝기를 줄여서 어둡게 만듭니다.
         
         guard let exposureAdjustedCIImage = exposureFilter?.outputImage else { return nil }
         
