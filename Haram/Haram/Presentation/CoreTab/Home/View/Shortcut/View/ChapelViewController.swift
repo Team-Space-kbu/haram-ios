@@ -45,18 +45,21 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
   override func bind() {
     super.bind()
     
-    viewModel.chapelListModel
-      .drive(rx.chapelListModel)
-      .disposed(by: disposeBag)
+    viewModel.inquireChapelInfo()
     
     viewModel.chapelHeaderModel
-      .drive(rx.chapelHeaderModel)
+      .drive(with: self) { owner, chapelHeaderModel in
+        owner.chapelHeaderModel = chapelHeaderModel
+        owner.viewModel.inquireChapelDetail()
+      }
       .disposed(by: disposeBag)
     
-    viewModel.isLoading
-      .filter { !$0 }
-      .drive(with: self) { owner, isLoading in
+    viewModel.chapelListModel
+      .drive(with: self) { owner, chapelListModel in
+        owner.chapelListModel = chapelListModel
+        
         owner.view.hideSkeleton()
+        
         owner.chapelCollectionView.reloadData()
       }
       .disposed(by: disposeBag)
@@ -87,7 +90,7 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
     super.setupStyles()
     title = "채플조회"
     setupBackButton()
-    setupSkeletonView()
+//    setupSkeletonView()
   }
   
   @objc func didTappedBackButton() {

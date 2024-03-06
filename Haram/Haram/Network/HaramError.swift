@@ -54,6 +54,8 @@ enum HaramError: Error, CaseIterable {
   case requiredStudentID
   case wrongLoginInfo
   
+  case occuredServerConnectError
+  
   case returnWrongFormat
   case noExistBoard // 게시글이 존재하지않을 때 발생하는 에러
 }
@@ -79,6 +81,8 @@ extension HaramError {
     switch self {
     case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .unvalidAuthCode:
       return nil
+    case .expireAuthCode:
+      return "MAIL02"
     case .unvalidEmailFormat:
       return "MAIL04"
     case .notFindUserError:
@@ -87,38 +91,38 @@ extension HaramError {
       return "USER02"
     case .existSameUserError:
       return "USER03"
-    case .wrongEmailAuthcodeError:
-      return "USER05"
     case .failedRegisterError:
       return "USER04"
-    case .noExistSearchInfo:
-      return "LIB04"
-    case .unValidRefreshToken:
-      return "AUTH04"
+    case .wrongEmailAuthcodeError:
+      return "USER05"
     case .noExistTodayBibleWord:
       return "BI01"
     case .noRequestFromNaver:
       return "LIB02"
+    case .noExistSearchInfo:
+      return "LIB04"
     case .noEnglishRequest:
       return "LIB08"
-    case .returnWrongFormat:
-      return "IN04"
     case .noExistBoard:
       return "BA01"
     case .failedAuth:
       return "AUTH01"
-    case .requiredStudentID:
-      return "IN09"
-    case .wrongLoginInfo:
-      return "IN12"
     case .noUserID:
       return "AUTH02"
     case .noPWD:
       return "AUTH03"
-    case .expireAuthCode:
-      return "MAIL02"
+    case .unValidRefreshToken:
+      return "AUTH04"
     case .noToken:
       return "AUTH05"
+    case .occuredServerConnectError:
+      return "IN03"
+    case .returnWrongFormat:
+      return "IN04"
+    case .requiredStudentID:
+      return "IN09"
+    case .wrongLoginInfo:
+      return "IN12"
     case .internalServerError:
       return "ER01"
     }
@@ -184,6 +188,8 @@ extension HaramError {
       return "헤더에 토큰값이 존재하지않습니다."
     case .internalServerError:
       return "서버측에서 알 수 없는 에러가 발생했습니다."
+    case .occuredServerConnectError:
+      return "서버연결 중 오류 발생"
     }
   }
 }

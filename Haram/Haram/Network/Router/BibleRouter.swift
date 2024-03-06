@@ -42,7 +42,7 @@ extension BibleRouter: Router {
   var headers: HeaderType {
     switch self {
     case .inquireChapterToBible:
-      return .noCache
+      return .withAccessToken
     case .inquireBibleHomeInfo:
       return .withAccessToken
     }

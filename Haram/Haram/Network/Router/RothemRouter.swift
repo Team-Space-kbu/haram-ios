@@ -68,7 +68,7 @@ extension RothemRouter: Router {
     case .inquireRothemRoomInfo, .inquireRothemReservationInfo, .checkTimeAvailableForRothemReservation, .reserveStudyRoom, .cancelRothemReservation:
       return .withAccessToken
     case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo:
-      return .noCache
+      return .withAccessToken
     }
   }
 }
