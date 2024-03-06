@@ -132,7 +132,6 @@ final class MoreViewController: BaseViewController {
     }
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
-    //    navigationController?.navigationBar.isHidden = true
   }
   
   override func bind() {
@@ -244,7 +243,12 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
     if tableView == settingTableView {
       let settingType = SettingType.allCases[indexPath.row]
       if settingType == .logout {
-        viewModel.requestLogoutUser()
+        
+        AlertManager.showAlert(title: "로그아웃 하시겠습니까 ?", message: nil, viewController: self, confirmHandler: { [weak self] in
+          self?.viewModel.requestLogoutUser()
+        }, cancelHandler: nil)
+
+        
       } else if settingType == .license {
         let acknowList = CustomAcknowListViewController(fileNamed: Constants.openLicenseFileName)
         acknowList.hidesBottomBarWhenPushed = true

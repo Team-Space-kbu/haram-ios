@@ -27,7 +27,7 @@ enum IntranetAlertViewType {
   var description: String {
     switch self {
     case .mileage:
-      return "마일리지정보가 반영되는데 시간이 소요됩니다"
+      return "마일리지정보가 반영되는데 일정시간이 소요됩니다"
     case .chapel:
       return "인트라넷정보와 차이가 발생할 수 있습니다"
     }
@@ -52,6 +52,7 @@ final class IntranetAlertView: UIView {
   private let alertDescriptionLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .hex545E6A
+    $0.numberOfLines = 0
   }
   
   init(type: IntranetAlertViewType) {
@@ -82,7 +83,8 @@ final class IntranetAlertView: UIView {
     alertDescriptionLabel.snp.makeConstraints {
       $0.top.equalTo(alertMainLabel.snp.bottom)
       $0.leading.equalTo(alertMainLabel)
-      $0.bottom.equalTo(rocketImageView)
+      $0.trailing.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
     }
     
     alertMainLabel.text = type.title

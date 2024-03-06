@@ -23,6 +23,7 @@
 		701FC8972B97127500291FC3 /* EditBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8962B97127500291FC3 /* EditBoardViewController.swift */; };
 		701FC8992B9736B900291FC3 /* EditBoardBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8982B9736B900291FC3 /* EditBoardBottomSheetViewController.swift */; };
 		701FC89B2B97565F00291FC3 /* EditBoardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC89A2B97565F00291FC3 /* EditBoardCollectionViewCell.swift */; };
+		701FC89D2B98807C00291FC3 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC89C2B98807C00291FC3 /* AlertManager.swift */; };
 		7031E3C82ABA72C10027DC0A /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */; };
 		7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */; };
 		7031E3D02ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */; };
@@ -312,6 +313,7 @@
 		701FC8962B97127500291FC3 /* EditBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardViewController.swift; sourceTree = "<group>"; };
 		701FC8982B9736B900291FC3 /* EditBoardBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardBottomSheetViewController.swift; sourceTree = "<group>"; };
 		701FC89A2B97565F00291FC3 /* EditBoardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardCollectionViewCell.swift; sourceTree = "<group>"; };
+		701FC89C2B98807C00291FC3 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewController.swift; sourceTree = "<group>"; };
 		7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailHeaderView.swift; sourceTree = "<group>"; };
 		7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -956,6 +958,7 @@
 				708ED7E12A94B49000107CDF /* CoreDataManager.swift */,
 				70430A812B7E29D200B64545 /* Device.swift */,
 				70AD2A782B8B1B4F00CB9791 /* LogHelper.swift */,
+				701FC89C2B98807C00291FC3 /* AlertManager.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1990,6 +1993,7 @@
 				708312BC2A79247500F7E283 /* RegisterViewModel.swift in Sources */,
 				705FD2952A13BB4300F353FE /* AuthRouter.swift in Sources */,
 				70727AB829D95E32003DE956 /* Ex + UIFont.swift in Sources */,
+				701FC89D2B98807C00291FC3 /* AlertManager.swift in Sources */,
 				70727A9D29D88A7F003DE956 /* UpdatePasswordViewController.swift in Sources */,
 				70727A9F29D88AAA003DE956 /* BoardViewController.swift in Sources */,
 				70903C962ADFA8FE00C6FEF0 /* RerequestAlertView.swift in Sources */,

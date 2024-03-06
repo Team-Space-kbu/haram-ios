@@ -173,8 +173,12 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
-        owner.navigationController?.popViewController(animated: true)
-        HaramToast.makeToast(text: error.description, duration: .short)
+        AlertManager.showAlert(title: error.description!, viewController: owner) { [weak self] in
+          self?.navigationController?.popViewController(animated: true)
+        }
+
+//        owner.navigationController?.popViewController(animated: true)
+//        HaramToast.makeToast(text: error.description, duration: .short)
       }
       .disposed(by: disposeBag)
   }

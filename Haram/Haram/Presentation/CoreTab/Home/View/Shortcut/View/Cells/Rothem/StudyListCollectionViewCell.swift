@@ -25,10 +25,6 @@ struct StudyListCollectionViewCellModel {
     description = rothemRoom.roomExplanation
     imageURL = URL(string: rothemRoom.thumbnailPath)
   }
-  
-//  func hash(into hasher: inout Hasher) {
-//    hasher.combine(identifier)
-//  }
 }
 
 final class StudyListCollectionViewCell: UICollectionViewCell {
@@ -98,6 +94,7 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
       $0.top.equalTo(studyTitleLabel.snp.bottom).offset(6)
       $0.leading.equalTo(studyTitleLabel)
       $0.trailing.lessThanOrEqualTo(studyImageView.snp.leading).offset(-15)
+//      $0.bottom.lessThanOrEqualTo(studyImageView)
     }
     
     lineView.snp.makeConstraints {

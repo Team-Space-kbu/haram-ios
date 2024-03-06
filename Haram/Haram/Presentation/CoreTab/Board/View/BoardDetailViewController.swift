@@ -140,6 +140,19 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
         owner.view.endEditing(true)
       }
       .disposed(by: disposeBag)
+    
+    viewModel.successCreateComment
+      .emit(with: self) { owner, result in
+        let (comment, createdAt) = result
+        owner.boardDetailCollectionView.performBatchUpdates {
+          owner.cellModel.insert(.init(
+            comment: comment,
+            createdAt: createdAt
+          ), at: owner.cellModel.count)
+          owner.boardDetailCollectionView.insertItems(at: [IndexPath(item: owner.cellModel.count - 1, section: 1)])
+        }
+      }
+      .disposed(by: disposeBag)
   }
   
   // MARK: - Action Function
@@ -240,13 +253,7 @@ extension BoardDetailViewController: UIGestureRecognizerDelegate {
 
 extension BoardDetailViewController: CommentInputViewDelegate {
   func writeComment(_ comment: String) {
-    boardDetailCollectionView.performBatchUpdates {
-      cellModel.insert(.init(
-        comment: comment,
-        createdAt: DateformatterFactory.dateWithHypen.string(from: Date())
-      ), at: cellModel.count)
-      boardDetailCollectionView.insertItems(at: [IndexPath(item: cellModel.count - 1, section: 1)])
-    }
+    viewModel.createComment(boardComment: comment, categorySeq: categorySeq, boardSeq: boardSeq)
   }
 }
 
