@@ -12,17 +12,19 @@ import Then
 import PhotosUI
 
 protocol EditBoardBottomSheetViewDelegate: AnyObject {
-  func didTappedAnonymousMenu()
+  func didTappedSelectedMenu()
   func whichSelectedImage(with image: UIImage)
+  func whichSelectedImages(with itemProviders: [NSItemProvider])
 }
 
 final class EditBoardBottomSheetViewController: BaseViewController {
   
   weak var delegate: EditBoardBottomSheetViewDelegate?
   
-  private lazy var photoPicker = UIImagePickerController().then {
-    $0.delegate = self
-  }
+  private lazy var photoPicker = UIImagePickerController()
+//    .then {
+//    $0.delegate = self
+//  }
   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
@@ -39,14 +41,15 @@ final class EditBoardBottomSheetViewController: BaseViewController {
     
     registerImageMenuView.button.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.photoPicker.sourceType = .photoLibrary
-        owner.present(owner.photoPicker, animated: true)
+        owner.delegate?.didTappedSelectedMenu()
+//        owner.photoPicker.sourceType = .photoLibrary
+//        owner.present(owner.photoPicker, animated: true)
       }
       .disposed(by: disposeBag)
     
     registerAnonymousMenuView.button.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedAnonymousMenu()
+//        owner.delegate?.didTappedAnonymousMenu()
       }
       .disposed(by: disposeBag)
   }
@@ -71,18 +74,6 @@ final class EditBoardBottomSheetViewController: BaseViewController {
       }
     }
   }
-  
-  private func presentPicker() {
-    var config = PHPickerConfiguration()
-    config.selectionLimit = 8
-    config.filter = .images
-    config.selection = .ordered
-    
-    let picker = PHPickerViewController(configuration: config)
-//    picker.delegate = self
-    present(picker, animated: true)
-  }
-  
 }
 
 extension EditBoardBottomSheetViewController {
@@ -174,23 +165,17 @@ extension EditBoardBottomSheetViewController {
   }
 }
 
-extension EditBoardBottomSheetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-  func imagePickerController(
-    _ picker: UIImagePickerController,
-    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-  ) {
-    guard let selectedImage = info[.originalImage] as? UIImage else { return }
-    delegate?.whichSelectedImage(with: selectedImage)
-    picker.dismiss(animated: true)
-  }
-  
-  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-    picker.dismiss(animated: true) 
-  }
-}
-
-extension EditBoardViewController: PHPickerViewControllerDelegate {
-  func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-    picker.dismiss(animated: true)
-  }
-}
+//extension EditBoardBottomSheetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+//  func imagePickerController(
+//    _ picker: UIImagePickerController,
+//    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+//  ) {
+//    guard let selectedImage = info[.originalImage] as? UIImage else { return }
+//    delegate?.whichSelectedImage(with: selectedImage)
+//    picker.dismiss(animated: true)
+//  }
+//  
+//  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//    picker.dismiss(animated: true)
+//  }
+//}

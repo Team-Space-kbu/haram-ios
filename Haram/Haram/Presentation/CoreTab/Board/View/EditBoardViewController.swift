@@ -8,6 +8,7 @@
 import UIKit
 
 import FloatingPanel
+import PhotosUI
 import RxSwift
 import SnapKit
 import Then
@@ -207,7 +208,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
       .asDriver()
       .drive(with: self) { owner, _ in
         owner.view.endEditing(true)
-//        owner.floatingPanelVC.move(to: .half, animated: true)
+        //        owner.floatingPanelVC.move(to: .half, animated: true)
       }
       .disposed(by: disposeBag)
     
@@ -215,7 +216,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
       .asDriver()
       .drive(with: self) { owner, _ in
         owner.view.endEditing(true)
-//        owner.floatingPanelVC.move(to: .half, animated: true)
+        //        owner.floatingPanelVC.move(to: .half, animated: true)
       }
       .disposed(by: disposeBag)
   }
@@ -279,6 +280,17 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     }
   }
   
+  private func presentPicker() {
+    var config = PHPickerConfiguration()
+    config.selectionLimit = 8
+    config.filter = .images
+    config.selection = .ordered
+    
+    let picker = PHPickerViewController(configuration: config)
+    picker.delegate = self
+    present(picker, animated: true)
+  }
+  
   @objc
   func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
@@ -333,15 +345,24 @@ extension EditBoardViewController: UIGestureRecognizerDelegate {
 }
 
 extension EditBoardViewController: EditBoardBottomSheetViewDelegate {
+  func didTappedSelectedMenu() {
+    presentPicker()
+  }
+  
+  func whichSelectedImages(with itemProviders: [NSItemProvider]) {
+    // 만약 itemProvider에서 UIImage로 로드가 가능하다면?
+    
+  }
+  
   func didTappedAnonymousMenu() {
     
   }
   
   func whichSelectedImage(with image: UIImage) {
-    if imageModel.count < 8 { // 이미지 삽입 최대 갯수 8개제한
-      imageModel.append(image)
-      editBoardCollectionView.reloadData()
-    }
+    //    if imageModel.count < 8 { // 이미지 삽입 최대 갯수 8개제한
+    //      imageModel.append(image)
+    //      editBoardCollectionView.reloadData()
+    //    }
   }
 }
 
@@ -367,5 +388,41 @@ extension EditBoardViewController {
   enum Constants {
     static let titlePlaceholder = "제목을 입력해주세요"
     static let contentPlaceholder = "내용을 입력해주세요"
+  }
+}
+
+extension EditBoardViewController: PHPickerViewControllerDelegate {
+  func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+    picker.dismiss(animated: true)
+    
+    let group = DispatchGroup()
+    
+    // 만들어준 itemProviders에 Picker로 선택한 이미지정보를 전달
+    let itemProviders = results.map(\.itemProvider)
+    
+    // 만약에 삽입한 이미지 갯수가 최대갯수인 8개를 넘어선 경우
+    if itemProviders.count + imageModel.count > 8 {
+      AlertManager.showAlert(title: "이미지 등록은 최대 8개입니다.", viewController: self, confirmHandler: nil)
+      return
+    }
+    
+    for itemProvider in itemProviders {
+      group.enter()
+      if itemProvider.canLoadObject(ofClass: UIImage.self) {
+        // 로드 핸들러를 통해 UIImage를 처리해 줍시다.
+        itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
+          
+          guard let self = self,
+                let image = image as? UIImage else { return }
+          
+          self.imageModel.append(image)
+          group.leave()
+        }
+      }
+    }
+    
+    group.notify(queue: .main) {
+      self.editBoardCollectionView.reloadData()
+    }
   }
 }
