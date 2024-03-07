@@ -251,6 +251,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
         
       } else if settingType == .license {
         let acknowList = CustomAcknowListViewController(fileNamed: Constants.openLicenseFileName)
+        acknowList.title = "오픈소스 라이센스"
         acknowList.hidesBottomBarWhenPushed = true
         acknowList.navigationItem.leftBarButtonItem = UIBarButtonItem(
           image: UIImage(resource: .back),

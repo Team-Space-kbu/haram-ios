@@ -16,6 +16,7 @@ protocol AuthRepository {
   func requestEmailAuthCode(userEmail: String) -> Single<Bool>
   func updatePassword(request: UpdatePasswordRequest, userEmail: String) -> Observable<Result<Bool, HaramError>>
   func verifyMailAuthCode(userMail: String, authCode: String) -> Observable<Result<Bool, HaramError>>
+  func verifyFindPassword(userMail: String, authCode: String) -> Observable<Result<String, HaramError>>
 }
 
 final class AuthRepositoryImpl {
@@ -29,6 +30,10 @@ final class AuthRepositoryImpl {
 }
 
 extension AuthRepositoryImpl: AuthRepository {
+  func verifyFindPassword(userMail: String, authCode: String) -> RxSwift.Observable<Result<String, HaramError>> {
+    service.request(router: AuthRouter.verifyFindPassword(userMail, authCode), type: String.self)
+  }
+  
   func verifyMailAuthCode(userMail: String, authCode: String) -> RxSwift.Observable<Result<Bool, HaramError>> {
     service.request(router: AuthRouter.verifyMailAuthCode(userMail, authCode), type: Bool.self)
   }

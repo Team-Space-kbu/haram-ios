@@ -18,6 +18,7 @@ final class RegisterViewController: BaseViewController {
   
   private let viewModel: RegisterViewModelType
   private let email: String
+  private let authCode: String
   
   // MARK: - UI Components
   
@@ -96,9 +97,10 @@ final class RegisterViewController: BaseViewController {
   
   // MARK: - Initializations
   
-  init(email: String, viewModel: RegisterViewModelType = RegisterViewModel()) {
+  init(authCode: String, email: String, viewModel: RegisterViewModelType = RegisterViewModel()) {
     self.viewModel = viewModel
     self.email = email
+    self.authCode = authCode
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -204,7 +206,7 @@ final class RegisterViewController: BaseViewController {
               let email = owner.emailTextField.textField.text,
               let password = owner.pwdTextField.textField.text,
               let nickname = owner.nicknameTextField.textField.text else { return }
-        owner.viewModel.registerMember(id: id, email: email, password: password, nickname: nickname, authCode: "authCode")
+        owner.viewModel.registerMember(id: id, email: email, password: password, nickname: nickname, authCode: owner.authCode)
       }
       .disposed(by: disposeBag)
     
@@ -220,6 +222,8 @@ final class RegisterViewController: BaseViewController {
           owner.nicknameTextField.setError(description: error.description!)
         } else if error == .unvalidUserIDFormat {
           owner.idTextField.setError(description: error.description!)
+        } else if error == .emailAlreadyUse {
+          owner.emailTextField.setError(description: error.description!)
         }
       }
       .disposed(by: disposeBag)

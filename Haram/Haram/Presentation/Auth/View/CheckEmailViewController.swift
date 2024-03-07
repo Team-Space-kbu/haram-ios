@@ -59,7 +59,9 @@ final class CheckEmailViewController: BaseViewController {
     $0.setTitleText(title: "계속하기")
   }
   
-  private lazy var reRequestAlertView = RerequestAlertView()
+  private lazy var reRequestAlertView = RerequestAlertView().then {
+    $0.delegate = self
+  }
   
   init(userMail: String, viewModel: CheckEmailViewModelType = CheckEmailViewModel()) {
     self.userMail = userMail
@@ -97,7 +99,7 @@ final class CheckEmailViewController: BaseViewController {
     }
     
     checkEmailTextField.snp.makeConstraints {
-      $0.height.greaterThanOrEqualTo(73)
+      $0.height.equalTo(73)
     }
     
     reRequestAlertView.snp.makeConstraints {
@@ -138,19 +140,22 @@ final class CheckEmailViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    viewModel.isVerifyEmailAuthCode
-      .emit(with: self) { owner, isVerify in
-        if isVerify {
+    viewModel.verifyEmailAuthCode
+      .emit(with: self) { owner, authCode in
+          owner.checkEmailTextField.snp.updateConstraints {
+            $0.height.equalTo(73)
+          }
           owner.checkEmailTextField.removeError()
-          let authCode = owner.checkEmailTextField.textField.text!
           let vc = UpdatePasswordViewController(userEmail: owner.userMail, authCode: authCode)
           owner.navigationController?.pushViewController(vc, animated: true)
-        }
       }
       .disposed(by: disposeBag)
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
+        owner.checkEmailTextField.snp.updateConstraints {
+          $0.height.equalTo(73 + 28)
+        }
         owner.checkEmailTextField.setError(description: error.description!)
       }
       .disposed(by: disposeBag)
@@ -165,6 +170,12 @@ final class CheckEmailViewController: BaseViewController {
       .drive(with: self) { owner, isEnabled in
         owner.continueButton.isEnabled = isEnabled
         owner.continueButton.setupButtonType(type: isEnabled ? .apply : .cancel )
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successSendAuthCode
+      .emit(with: self) { owner, _ in
+        AlertManager.showAlert(title: "해당 메일로 인증코드를 보내는데 성공했습니다.", viewController: owner, confirmHandler: nil)
       }
       .disposed(by: disposeBag)
     
@@ -218,4 +229,10 @@ extension CheckEmailViewController {
       self.view.layoutIfNeeded()
     }
   }
+}
+
+extension CheckEmailViewController: RerequestAlertViewDelegate {
+  func didTappedRequestAuthCode() {
+    viewModel.requestEmailAuthCode(email: self.userMail)
+  }  
 }

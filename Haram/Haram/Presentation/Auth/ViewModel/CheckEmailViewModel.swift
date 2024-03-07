@@ -10,19 +10,23 @@ import RxCocoa
 
 protocol CheckEmailViewModelType {
   var emailAuthCode: AnyObserver<String> { get }
-  func verifyEmailAuthCode(userMail: String, authCode: String)
-  var isVerifyEmailAuthCode: Signal<Bool> { get }
+  var verifyEmailAuthCode: Signal<String> { get }
   var continueButtonIsEnabled: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
+  var successSendAuthCode: Signal<Void> { get }
+  
+  func verifyEmailAuthCode(userMail: String, authCode: String)
+  func requestEmailAuthCode(email: String)
 }
 
 final class CheckEmailViewModel {
   private let disposeBag = DisposeBag()
   private let authRepository: AuthRepository
   
-  private let isVerifyEmailAuthCodeRelay = PublishRelay<Bool>()
+  private let verifyEmailAuthCodeRelay = PublishRelay<String>()
   private let emailAuthCodeSubject = BehaviorSubject<String>(value: "")
   private let errorMessageRelay = PublishRelay<HaramError>()
+  private let successSendAuthCodeRelay = PublishRelay<Void>()
   
   init(authRepository: AuthRepository = AuthRepositoryImpl()) {
     self.authRepository = authRepository
@@ -36,6 +40,10 @@ final class CheckEmailViewModel {
 }
 
 extension CheckEmailViewModel: CheckEmailViewModelType {
+  var successSendAuthCode: RxCocoa.Signal<Void> {
+    successSendAuthCodeRelay.asSignal()
+  }
+  
   var errorMessage: RxCocoa.Signal<HaramError> {
     errorMessageRelay.asSignal()
   }
@@ -52,16 +60,28 @@ extension CheckEmailViewModel: CheckEmailViewModelType {
     emailAuthCodeSubject.asObserver()
   }
   
-  var isVerifyEmailAuthCode: RxCocoa.Signal<Bool> {
-    isVerifyEmailAuthCodeRelay.asSignal()
+  var verifyEmailAuthCode: RxCocoa.Signal<String> {
+    verifyEmailAuthCodeRelay.asSignal()
+  }
+  
+  func requestEmailAuthCode(email: String) {
+    authRepository.requestEmailAuthCode(userEmail: email)
+      .subscribe(with: self, onSuccess: { owner, _ in
+        print("이메일 인증코드 재요청 성공")
+        owner.successSendAuthCodeRelay.accept(())
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
+      .disposed(by: disposeBag)
   }
   
   func verifyEmailAuthCode(userMail: String, authCode: String) {
-    authRepository.verifyMailAuthCode(userMail: userMail + "@bible.ac.kr", authCode: authCode)
+    authRepository.verifyFindPassword(userMail: userMail, authCode: authCode)
       .subscribe(with: self) { owner, result in
         switch result {
-        case let .success(isVerify):
-          owner.isVerifyEmailAuthCodeRelay.accept(isVerify)
+        case let .success(authCode):
+          owner.verifyEmailAuthCodeRelay.accept(authCode)
         case let .failure(error):
           owner.errorMessageRelay.accept(error)
         }

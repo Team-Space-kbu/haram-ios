@@ -28,6 +28,7 @@ final class VerifyEmailViewModel {
   private let successSendAuthCodeRelay = PublishRelay<String>()
   private let successVerifyAuthCodeRelay = PublishRelay<Void>()
   private let authCodeSubject = PublishSubject<String>()
+  private var userMail: String?
   
   init(authRepository: AuthRepository = AuthRepositoryImpl()) {
     self.authRepository = authRepository
@@ -61,7 +62,7 @@ extension VerifyEmailViewModel: VerifyEmailViewModelType {
   }
   
   func verifyEmailAuthCode(userMail: String, authCode: String) {
-    authRepository.verifyMailAuthCode(userMail: userMail + "@bible.ac.kr", authCode: authCode)
+    authRepository.verifyMailAuthCode(userMail: self.userMail!, authCode: authCode)
       .subscribe(with: self) { owner, result in
         switch result {
         case .success(_):
@@ -88,10 +89,10 @@ extension VerifyEmailViewModel: VerifyEmailViewModelType {
   }
   
   func requestEmailAuthCode(email: String) {
-    
     authRepository.requestEmailAuthCode(userEmail: email + "@bible.ac.kr")
       .subscribe(with: self, onSuccess: { owner, _ in
         owner.successSendAuthCodeRelay.accept("이메일이 성공적으로 발송되었습니다.")
+        owner.userMail = email + "@bible.ac.kr"
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         owner.errorMessageRelay.accept(error)

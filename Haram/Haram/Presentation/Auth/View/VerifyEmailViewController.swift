@@ -123,14 +123,15 @@ final class VerifyEmailViewController: BaseViewController {
         owner.checkEmailTextField.setError(description: message, textColor: .hex2F80ED)
         owner.checkEmailTextField.setButtonType(isEnabled: false)
         owner.schoolEmailTextField.removeError()
-        owner.schoolEmailTextField.textField.isEnabled = false
+//        owner.schoolEmailTextField.textField.isEnabled = false
       }
       .disposed(by: disposeBag)
     
     viewModel.successVerifyAuthCode
       .emit(with: self) { owner, _ in
         let userMail = owner.schoolEmailTextField.textField.text!
-        let vc = RegisterViewController(email: userMail)
+        let authCode = owner.checkEmailTextField.textField.text!
+        let vc = RegisterViewController(authCode: authCode, email: userMail)
         owner.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)
       }

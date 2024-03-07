@@ -29,11 +29,9 @@ final class AlertManager {
   static func showAlert(title: String, message: String? = nil, viewController: BaseViewController, confirmHandler: (() -> Void)?) {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     
-    if let confirmHandler = confirmHandler {
-      alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
-        confirmHandler()
-      }))
-    }
+    alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+      confirmHandler?()
+    }))
     
     viewController.present(alert, animated: true)
   }

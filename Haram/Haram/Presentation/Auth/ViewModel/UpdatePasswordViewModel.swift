@@ -12,9 +12,12 @@ import RxCocoa
 
 protocol UpdatePasswordViewModelType {
   func requestUpdatePassword(password: String, authCode: String, userMail: String)
-  func checkPassword(password: String, repassword: String)
+  func checkPassword(password: String)
   
-  var updatePasswordError: Signal<String> { get }
+  var password: AnyObserver<String> { get }
+  var rePassword: AnyObserver<String> { get }
+  
+  var IsValidPassword: Signal<Bool> { get }
   var successUpdatePassword: Signal<Void> { get }
   var isContinueButtonEnabled: Driver<Bool> { get }
 }
@@ -23,9 +26,11 @@ final class UpdatePasswordViewModel {
   private let disposeBag = DisposeBag()
   private let authRepository: AuthRepository
   
-  private let updatePasswordErrorRelay = PublishRelay<String>()
+  private let IsValidPasswordRelay = PublishRelay<Bool>()
   private let successUpdatePasswordRelay = PublishRelay<Void>()
   private let isContinueButtonEnabledRelay = BehaviorRelay<Bool>(value: false)
+  private let passwordSubject = BehaviorSubject<String>(value: "")
+  private let rePasswordSubject = BehaviorSubject<String>(value: "")
   
   init(authRepository: AuthRepository = AuthRepositoryImpl()) {
     self.authRepository = authRepository
@@ -42,31 +47,43 @@ final class UpdatePasswordViewModel {
 }
 
 extension UpdatePasswordViewModel: UpdatePasswordViewModelType {
-  var isContinueButtonEnabled: RxCocoa.Driver<Bool> {
-    isContinueButtonEnabledRelay.asDriver()
+  var IsValidPassword: RxCocoa.Signal<Bool> {
+    IsValidPasswordRelay.asSignal()
   }
   
-  func checkPassword(password: String, repassword: String) {
-    let isEnabled = password == repassword
-    isContinueButtonEnabledRelay.accept(isEnabled)
-    if !isEnabled {
-      updatePasswordErrorRelay.accept("암호 규칙이 맞지 않습니다.")
-    } 
+  var password: RxSwift.AnyObserver<String> {
+    passwordSubject.asObserver()
+  }
+  
+  var rePassword: RxSwift.AnyObserver<String> {
+    rePasswordSubject.asObserver()
+  }
+  
+  var isContinueButtonEnabled: RxCocoa.Driver<Bool> {
+    Observable.combineLatest(
+      passwordSubject,
+      rePasswordSubject
+    )
+//    .filter { !$0.0.isEmpty && !$0.1.isEmpty }
+    .withUnretained(self)
+    .map { owner, result in
+      let (password, rePassword) = result
+      return password == rePassword && owner.isValidPassword(password)
+    }
+    .distinctUntilChanged()
+    .asDriver(onErrorJustReturn: false)
+  }
+  
+  func checkPassword(password: String) {
+    let isEnabled = isValidPassword(password)
+    IsValidPasswordRelay.accept(isEnabled)
   }
   
   var successUpdatePassword: RxCocoa.Signal<Void> {
     successUpdatePasswordRelay.asSignal()
   }
   
-  var updatePasswordError: RxCocoa.Signal<String> {
-    updatePasswordErrorRelay.asSignal()
-  }
-  
   func requestUpdatePassword(password: String, authCode: String, userMail: String) {
-//    guard password == repassword else {
-//      updatePasswordErrorRelay.accept("암호 규칙이 맞지 않습니다.")
-//      return
-//    }
     
     authRepository.updatePassword(
       request: .init(

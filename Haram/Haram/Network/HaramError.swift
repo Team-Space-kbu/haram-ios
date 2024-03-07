@@ -38,6 +38,7 @@ enum HaramError: Error, CaseIterable {
   case unvalidpasswordFormat // 옳지않은 비밀번호 형식일 경우
   case unvalidUserIDFormat // 옳지않은 유저 아이디 형식일 경우
   case unvalidAuthCode // 옳지않은 인증코드 형식일 경우
+  case emailAlreadyUse // 이미 사용중인 이메일로 회원가입 시도할 경우
   
   /// 비밀번호변경 시 에러
   case expireAuthCode
@@ -79,8 +80,10 @@ extension HaramError {
 extension HaramError {
   var code: String? { // 하람 서버에서 제공하는 code, Notion 참고
     switch self {
-    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .unvalidAuthCode:
+    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat:
       return nil
+    case .unvalidAuthCode:
+      return "MAIL01"
     case .expireAuthCode:
       return "MAIL02"
     case .unvalidEmailFormat:
@@ -95,6 +98,8 @@ extension HaramError {
       return "USER04"
     case .wrongEmailAuthcodeError:
       return "USER05"
+    case .emailAlreadyUse:
+      return "USER13"
     case .noExistTodayBibleWord:
       return "BI01"
     case .noRequestFromNaver:
@@ -181,7 +186,7 @@ extension HaramError {
     case .unvalidUserIDFormat:
       return "사용자 아이디 규칙이 맞지 않습니다."
     case .unvalidAuthCode:
-      return "인증코드 규칙이 맞지 않습니다."
+      return "인증 코드가 올바르지 않습니다."
     case .expireAuthCode:
       return "만료된 인증 코드입니다."
     case .noToken:
@@ -190,6 +195,8 @@ extension HaramError {
       return "서버측에서 알 수 없는 에러가 발생했습니다."
     case .occuredServerConnectError:
       return "서버연결 중 오류 발생"
+    case .emailAlreadyUse:
+      return "이미 사용중인 이메일입니다"
     }
   }
 }

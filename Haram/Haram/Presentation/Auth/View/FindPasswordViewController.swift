@@ -112,6 +112,19 @@ final class FindPasswordViewController: BaseViewController {
   override func bind() {
     super.bind()
     
+    viewModel.successSendAuthCode
+      .emit(with: self) { owner, userMail in
+        let vc = CheckEmailViewController(userMail: userMail)
+        owner.navigationController?.pushViewController(vc, animated: true)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        owner.schoolEmailTextField.setError(description: error.description!)
+      }
+      .disposed(by: disposeBag)
+    
     schoolEmailTextField.textField.rx.text.orEmpty
       .distinctUntilChanged()
       .skip(1)
@@ -131,8 +144,7 @@ final class FindPasswordViewController: BaseViewController {
       .withLatestFrom(schoolEmailTextField.rx.text.orEmpty)
       .subscribe(with: self) { owner, userMail in
         owner.view.endEditing(true)
-        let vc = CheckEmailViewController(userMail: userMail)
-        owner.navigationController?.pushViewController(vc, animated: true)
+        owner.viewModel.requestEmailAuthCode(email: userMail)
       }
       .disposed(by: disposeBag)
     
