@@ -16,9 +16,6 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
   
   private var imageModel: [UIImage] = []
   
-  private let titlePlaceHolder = "제목을 입력해주세요"
-  private let contentPlaceHolder = "내용을 입력해주세요"
-  
   private lazy var editBoardBottomSheet = EditBoardBottomSheetViewController().then {
     $0.delegate = self
   }
@@ -128,8 +125,8 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
   
   override func setupStyles() {
     super.setupStyles()
-    titleTextView.text = titlePlaceHolder
-    contentTextView.text = contentPlaceHolder
+    titleTextView.text = Constants.titlePlaceholder
+    contentTextView.text = Constants.contentPlaceholder
     
     setupBackButton()
     
@@ -147,7 +144,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     titleTextView.rx.didBeginEditing
       .asDriver()
       .drive(with: self) { owner, _ in
-        if owner.titleTextView.text.trimmingCharacters(in: .whitespacesAndNewlines) == owner.titlePlaceHolder &&
+        if owner.titleTextView.text.trimmingCharacters(in: .whitespacesAndNewlines) == Constants.titlePlaceholder &&
             owner.titleTextView.textColor == .hexD0D0D0 {
           owner.titleTextView.text = ""
           owner.titleTextView.textColor = .hex545E6A
@@ -160,7 +157,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
       .drive(with: self) { owner, _ in
         if owner.titleTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
             owner.titleTextView.textColor == .hex545E6A {
-          owner.titleTextView.text = owner.titlePlaceHolder
+          owner.titleTextView.text = Constants.titlePlaceholder
           owner.titleTextView.textColor = .hexD0D0D0
         }
         
@@ -178,7 +175,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     contentTextView.rx.didBeginEditing
       .asDriver()
       .drive(with: self) { owner, _ in
-        if owner.contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines) == owner.contentPlaceHolder &&
+        if owner.contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines) == Constants.contentPlaceholder &&
             owner.contentTextView.textColor == .hexD0D0D0 {
           owner.contentTextView.text = ""
           owner.contentTextView.textColor = .hex545E6A
@@ -191,7 +188,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
       .drive(with: self) { owner, _ in
         if owner.contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
             owner.contentTextView.textColor == .hex545E6A {
-          owner.contentTextView.text = owner.contentPlaceHolder
+          owner.contentTextView.text = Constants.contentPlaceholder
           owner.contentTextView.textColor = .hexD0D0D0
         }
         
@@ -361,5 +358,14 @@ extension EditBoardViewController: UICollectionViewDataSource, UICollectionViewD
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     CGSize(width: (collectionView.frame.width - 25 * 3) / 4, height: 72)
+  }
+}
+
+// MARK: - Constants
+
+extension EditBoardViewController {
+  enum Constants {
+    static let titlePlaceholder = "제목을 입력해주세요"
+    static let contentPlaceholder = "내용을 입력해주세요"
   }
 }
