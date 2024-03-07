@@ -87,8 +87,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     setupBackButton()
     
     /// Set GestureRecognizer
-    view.addGestureRecognizer(tapGesture)
-    view.addGestureRecognizer(panGesture)
+    _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
     
     /// Set Delegate
     commentInputView.delegate = self
