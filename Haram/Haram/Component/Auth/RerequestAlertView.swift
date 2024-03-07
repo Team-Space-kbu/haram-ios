@@ -7,10 +7,18 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import Then
 
+protocol RerequestAlertViewDelegate: AnyObject {
+  func didTappedRequestAuthCode()
+}
+
 final class RerequestAlertView: UIView {
+  
+  private let disposeBag = DisposeBag()
+  weak var delegate: RerequestAlertViewDelegate?
   
   private let alertLabel = UILabel().then {
     $0.textColor = .hex545E6A
@@ -29,10 +37,20 @@ final class RerequestAlertView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func bind() {
+    reRequestButton.rx.tap
+      .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedRequestAuthCode()
+      }
+      .disposed(by: disposeBag)
   }
   
   private func configureUI() {

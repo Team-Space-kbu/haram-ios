@@ -176,45 +176,12 @@ extension RegisterViewModel: RegisterViewModelType {
     
     let isUnValid = !isValidPassword(password)
     LogHelper.log("비번 유효안함 \(isUnValid)", level: .debug)
-//    isValidPWDSubject.onNext(!isUnValid)
     if isUnValid {
       errorMessageRelay.accept(.unvalidpasswordFormat)
     } else {
       successMessageRelay.accept(.unvalidpasswordFormat)
     }
   }
-  
-//  func checkEmailIsValid(email: String) -> Bool {
-//    let emailRegex = #"^[a-zA-Z0-9._%+-]+@bible\.ac\.kr$"#
-//    
-//    // NSPredicate를 사용하여 정규표현식과 매칭하는지 확인
-//    let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegex)
-//    
-//    // 입력된 이메일이 유효한지 확인
-//    let isValid = emailPredicate.evaluate(with: email + "@bible.ac.kr")
-////    isValidEmailSubject.onNext(isValid)
-//    LogHelper.log("이메일 유효 \(isValid)", level: .debug)
-//    
-//    if isValid {
-//      successMessageRelay.accept(.unvalidEmailFormat)
-//    } else {
-//      errorMessageRelay.accept(.unvalidEmailFormat)
-//    }
-//    return isValid
-//  }
-  
-//  func checkAuthCodeIsValid(authCode: String) {
-//    
-//    let isUnValid = authCode.count != 6
-////    isValidAuthCodeSubject.onNext(!isUnValid)
-//    LogHelper.log("인증코드 유효안함 \(isUnValid)", level: .debug)
-//    if isUnValid {
-//      errorMessageRelay.accept(.unvalidAuthCode)
-//    } else {
-//      successMessageRelay.accept(.unvalidAuthCode)
-//    }
-//    
-//  }
   
   func checkNicknameIsValid(nickname: String) {
     
@@ -228,44 +195,11 @@ extension RegisterViewModel: RegisterViewModelType {
     }
   }
   
-//  var isSendAuthCodeButtonEnabled: RxCocoa.Driver<Bool> {
-//    registerEmailSubject
-//      .map {
-//        let emailRegex = #"^[a-zA-Z0-9._%+-]+@bible\.ac\.kr$"#
-//        
-//        // NSPredicate를 사용하여 정규표현식과 매칭하는지 확인
-//        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegex)
-//        
-//        // 입력된 이메일이 유효한지 확인
-//        return emailPredicate.evaluate(with: $0 + "@bible.ac.kr")
-//      }
-//      .distinctUntilChanged()
-//      .asDriver(onErrorDriveWith: .empty())
-//  }
-  
-//  func requestEmailAuthCode(email: String) {
-//    
-//    authRepository.requestEmailAuthCode(userEmail: email + "@bible.ac.kr")
-//      .subscribe(with: self) { owner, _ in
-//        owner.isValidAuthCodeSubject.onNext(true)
-////        owner.isSuccessRequestAuthCodeSubject.onNext(true)
-//      }
-//      .disposed(by: disposeBag)
-//  }
-  
   var errorMessage: RxCocoa.Signal<HaramError> {
     errorMessageRelay.asSignal()
   }
   
   var isRegisterButtonEnabled: RxCocoa.Driver<Bool> {
-//    Observable.combineLatest(
-//      isValidIDSubject,
-//      isValidPWDSubject,
-//      isValidEmailSubject,
-//      isValidNicknameSubject,
-//      isValidAuthCodeSubject,
-//      isValidRePWDSubject
-//    )
     Observable.combineLatest(
       registerIDSubject,
       registerNicknameSubject,

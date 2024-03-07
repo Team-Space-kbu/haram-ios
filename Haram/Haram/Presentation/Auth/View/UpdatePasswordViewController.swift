@@ -37,13 +37,13 @@ final class UpdatePasswordViewController: BaseViewController {
   
   private let passwordTextField = HaramTextField(
     title: "비밀번호",
-    placeholder: "Password"
+    placeholder: "Password",
+    options: .errorLabel
   )
   
   private let checkPasswordTextField = HaramTextField(
     title: "비밀번호 확인",
-    placeholder: "Password",
-    options: .errorLabel
+    placeholder: "Password"
   ).then {
     $0.textField.isSecureTextEntry = true
   }
@@ -102,10 +102,11 @@ final class UpdatePasswordViewController: BaseViewController {
 
     passwordTextField.snp.makeConstraints {
       $0.height.equalTo(73)
+//      $0.height.greaterThanOrEqualTo(46 + 18 + 10)
     }
     
     checkPasswordTextField.snp.makeConstraints {
-      $0.height.greaterThanOrEqualTo(46 + 18 + 10)
+      $0.height.equalTo(73)
     }
     
     containerView.setCustomSpacing(7, after: titleLabel)
@@ -127,16 +128,25 @@ final class UpdatePasswordViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    checkPasswordTextField.textField.rx.controlEvent(.editingDidEnd)
-      .withLatestFrom(
-        Observable.combineLatest(
-          passwordTextField.rx.text.orEmpty,
-          checkPasswordTextField.rx.text.orEmpty
-        )
-      )
-      .subscribe(with: self) { owner, result in
-        let (password, repassword) = result
-        owner.viewModel.checkPassword(password: password, repassword: repassword)
+    passwordTextField.rx.text.orEmpty
+      .skip(1)
+      .subscribe(with: self) { owner, password in
+        owner.viewModel.password.onNext(password)
+      }
+      .disposed(by: disposeBag)
+    
+    checkPasswordTextField.rx.text.orEmpty
+      .skip(1)
+      .subscribe(with: self) { owner, rePassword in
+        owner.viewModel.rePassword.onNext(rePassword)
+      }
+      .disposed(by: disposeBag)
+    
+    
+    passwordTextField.textField.rx.controlEvent(.editingDidEnd)
+      .withLatestFrom(passwordTextField.rx.text.orEmpty)
+      .subscribe(with: self) { owner, password in
+        owner.viewModel.checkPassword(password: password)
       }
       .disposed(by: disposeBag)
     
@@ -155,21 +165,33 @@ final class UpdatePasswordViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    viewModel.updatePasswordError
-      .emit(with: self) { owner, errorMessage in
-        owner.checkPasswordTextField.setError(description: errorMessage)
+    viewModel.IsValidPassword
+      .emit(with: self) { owner, isValid in
+        if !isValid {
+          owner.passwordTextField.snp.updateConstraints {
+            $0.height.equalTo(73 + 28)
+          }
+          owner.passwordTextField.setError(description: "암호 규칙이 올바르지 않습니다.")
+        } else {
+          owner.passwordTextField.snp.updateConstraints {
+            $0.height.equalTo(73)
+          }
+          owner.passwordTextField.removeError()
+        }
       }
       .disposed(by: disposeBag)
     
     viewModel.isContinueButtonEnabled
       .drive(with: self) { owner, isEnabled in
-        
-        if isEnabled {
-          owner.checkPasswordTextField.removeError()
-        }
-        
         owner.continueButton.isEnabled = isEnabled
         owner.continueButton.setupButtonType(type: isEnabled ? .apply : .cancel )
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successUpdatePassword
+      .emit(with: self) { owner, _ in
+        let vc = LoginViewController()
+        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
       }
       .disposed(by: disposeBag)
   }
