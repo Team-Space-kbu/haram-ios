@@ -10,7 +10,7 @@ import RxCocoa
 
 protocol MoreViewModelType {
   func requestLogoutUser()
-//  func inquireUserInfo()
+  func inquireUserInfo()
   
   var currentUserInfo: Driver<ProfileInfoViewModel> { get }
   var successMessage: Signal<String> { get }
@@ -31,10 +31,10 @@ final class MoreViewModel {
   ) {
     self.authRepository = authRepository
     self.myPageRepository = myPageRepository
-    inquireUserInfo()
+//    inquireUserInfo()
   }
   
-  private func inquireUserInfo() {
+  func inquireUserInfo() {
     myPageRepository.inquireUserInfo(userID: UserManager.shared.userID!)
       .subscribe(with: self) { owner, response in
         let profileInfoViewModel = ProfileInfoViewModel(response: response)

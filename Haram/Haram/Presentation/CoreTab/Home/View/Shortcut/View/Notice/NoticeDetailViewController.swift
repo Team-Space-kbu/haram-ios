@@ -59,6 +59,7 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   
   private lazy var webView = WKWebView(frame: .zero, configuration: configuration).then {
     $0.scrollView.showsVerticalScrollIndicator = false
+    $0.scrollView.showsHorizontalScrollIndicator = false
     $0.scrollView.bounces = false
     $0.navigationDelegate = self
   }

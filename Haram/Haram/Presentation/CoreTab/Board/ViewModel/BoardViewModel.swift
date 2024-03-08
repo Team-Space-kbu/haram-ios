@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 
 protocol BoardViewModelType {
+  func inquireBoardCategory()
   var boardModel: Driver<[BoardTableViewCellModel]> { get }
 }
 
@@ -23,10 +24,10 @@ final class BoardViewModel {
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
     self.boardRepository = boardRepository
-    inquireBoardCategory()
+  
   }
   
-  private func inquireBoardCategory() {
+  func inquireBoardCategory() {
     boardRepository.inquireBoardCategory()
       .subscribe(with: self) { owner, response in
         owner.boardModelRelay.accept(response.map {
