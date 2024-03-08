@@ -79,10 +79,11 @@ extension UserManager {
   func reissuanceAccessToken() -> Observable<Void> {
     return authRepository.reissuanceAccessToken(
       request: .init(
-        userID: UserManager.shared.userID ?? "",
+        userID: UserManager.shared.userID!,
         uuid: UserManager.shared.uuid!
       ))
-      .map { result in
+      .map { [weak self] result in
+        guard let self = self else { return }
         switch result {
         case .success(let tokenData):
           self.updateHaramToken(

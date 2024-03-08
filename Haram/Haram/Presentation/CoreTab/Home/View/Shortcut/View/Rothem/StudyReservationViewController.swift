@@ -263,16 +263,20 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     }
     
     selectedDayLabel.snp.makeConstraints {
-      $0.height.equalTo(22 + 16)
+      $0.height.equalTo(22)
     }
+    
+    containerView.setCustomSpacing(16, after: selectedDayLabel)
     
     selectedDayCollectionView.snp.makeConstraints {
       $0.height.equalTo(69)
     }
     
     selectedTimeLabel.snp.makeConstraints {
-      $0.height.equalTo(22 + 16)
+      $0.height.equalTo(22)
     }
+    
+    containerView.setCustomSpacing(16, after: selectedTimeLabel)
     
     selectedTimeCollectionView.snp.makeConstraints {
 //      $0.height.equalTo(131 + 33 + 6 + 33 + 6)

@@ -223,7 +223,7 @@ extension StudyReservationViewModel: StudyReservationViewModelType {
   
   var isReservationButtonActivated: Driver<Bool> {
     Observable.combineLatest(
-      reservationPhoneNumerSubject.do(onNext: { print("입력된 폰번호 \($0)") }),
+      reservationPhoneNumerSubject,
       policyModelRelay,
       timeTable.map { $0.filter { $0.isTimeSelected } },
       reservationNameSubject
