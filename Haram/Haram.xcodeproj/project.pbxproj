@@ -126,10 +126,6 @@
 		70727AB329D955AC003DE956 /* Spoqa Han Sans Neo Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 70727AB229D955AC003DE956 /* Spoqa Han Sans Neo Regular.otf */; };
 		70727AB529D95637003DE956 /* Spoqa Han Sans Neo Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 70727AB429D95637003DE956 /* Spoqa Han Sans Neo Thin.otf */; };
 		70727AB829D95E32003DE956 /* Ex + UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727AB729D95E32003DE956 /* Ex + UIFont.swift */; };
-		70747C822B455D65001F08EE /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70747C812B455D65001F08EE /* Coordinator.swift */; };
-		70747C842B455EBA001F08EE /* HomeDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70747C832B455EBA001F08EE /* HomeDIContainer.swift */; };
-		70747C862B45776C001F08EE /* HomeCoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70747C852B45776C001F08EE /* HomeCoordinatorDelegate.swift */; };
-		70747C882B45AC5C001F08EE /* CompositionRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70747C872B45AC5C001F08EE /* CompositionRoot.swift */; };
 		708312372A2CA50300F7E283 /* IntranetRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312362A2CA50300F7E283 /* IntranetRouter.swift */; };
 		7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708312392A2CA59400F7E283 /* InquireChapelListRequest.swift */; };
 		7083123C2A2CA5E500F7E283 /* IntranetRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083123B2A2CA5E500F7E283 /* IntranetRepositoryImpl.swift */; };
@@ -308,7 +304,7 @@
 		701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyRoomDetailViewModel.swift; sourceTree = "<group>"; };
 		701F29DB2AEBB29C00E3E68B /* BibleNoticeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleNoticeResponse.swift; sourceTree = "<group>"; };
 		701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReservationViewModel.swift; sourceTree = "<group>"; };
-		701FC8922B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pods-Haram-acknowledgements.plist"; path = "Pods/Target Support Files/Pods-Haram/Pods-Haram-acknowledgements.plist"; sourceTree = "<group>"; };
+		701FC8922B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Pods-Haram-acknowledgements.plist"; sourceTree = "<group>"; };
 		701FC8942B97000700291FC3 /* CustomAcknowListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAcknowListViewController.swift; sourceTree = "<group>"; };
 		701FC8962B97127500291FC3 /* EditBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardViewController.swift; sourceTree = "<group>"; };
 		701FC8982B9736B900291FC3 /* EditBoardBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardBottomSheetViewController.swift; sourceTree = "<group>"; };
@@ -413,10 +409,6 @@
 		70727AB229D955AC003DE956 /* Spoqa Han Sans Neo Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Spoqa Han Sans Neo Regular.otf"; sourceTree = "<group>"; };
 		70727AB429D95637003DE956 /* Spoqa Han Sans Neo Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Spoqa Han Sans Neo Thin.otf"; sourceTree = "<group>"; };
 		70727AB729D95E32003DE956 /* Ex + UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIFont.swift"; sourceTree = "<group>"; };
-		70747C812B455D65001F08EE /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
-		70747C832B455EBA001F08EE /* HomeDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDIContainer.swift; sourceTree = "<group>"; };
-		70747C852B45776C001F08EE /* HomeCoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinatorDelegate.swift; sourceTree = "<group>"; };
-		70747C872B45AC5C001F08EE /* CompositionRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionRoot.swift; sourceTree = "<group>"; };
 		708312362A2CA50300F7E283 /* IntranetRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetRouter.swift; sourceTree = "<group>"; };
 		708312392A2CA59400F7E283 /* InquireChapelListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireChapelListRequest.swift; sourceTree = "<group>"; };
 		7083123B2A2CA5E500F7E283 /* IntranetRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetRepositoryImpl.swift; sourceTree = "<group>"; };
@@ -806,7 +798,6 @@
 		70727A4829D87B25003DE956 = {
 			isa = PBXGroup;
 			children = (
-				701FC8922B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist */,
 				70727A5329D87B25003DE956 /* Haram */,
 				70727A6A29D87B27003DE956 /* HaramTests */,
 				70727A7429D87B27003DE956 /* HaramUITests */,
@@ -829,7 +820,7 @@
 		70727A5329D87B25003DE956 /* Haram */ = {
 			isa = PBXGroup;
 			children = (
-				70747C802B455D5A001F08EE /* Coordinator */,
+				701FC8922B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist */,
 				705E70B429E1C79500156B1F /* Component */,
 				708DACF52B35A44D00E3AD45 /* Presentation */,
 				7095D3882AD67C85008DAA39 /* Constants */,
@@ -904,17 +895,6 @@
 				708DAD1B2B36DE6C00E3AD45 /* Ex + UIViewController.swift */,
 			);
 			path = Extension;
-			sourceTree = "<group>";
-		};
-		70747C802B455D5A001F08EE /* Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-				70747C812B455D65001F08EE /* Coordinator.swift */,
-				70747C832B455EBA001F08EE /* HomeDIContainer.swift */,
-				70747C852B45776C001F08EE /* HomeCoordinatorDelegate.swift */,
-				70747C872B45AC5C001F08EE /* CompositionRoot.swift */,
-			);
-			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		708312382A2CA58B00F7E283 /* Intranet */ = {
@@ -1793,9 +1773,7 @@
 				708312992A691D1700F7E283 /* MileageViewModel.swift in Sources */,
 				708312402A2CA79D00F7E283 /* IntranetLoginRequest.swift in Sources */,
 				708E1E682B09E1A70030FAA0 /* CheckTimeAvailableForRothemReservationResponse.swift in Sources */,
-				70747C822B455D65001F08EE /* Coordinator.swift in Sources */,
 				701F29DC2AEBB29C00E3E68B /* BibleNoticeResponse.swift in Sources */,
-				70747C882B45AC5C001F08EE /* CompositionRoot.swift in Sources */,
 				705FD2BD2A1A4CEE00F353FE /* LibraryDetailViewController.swift in Sources */,
 				701FC89B2B97565F00291FC3 /* EditBoardCollectionViewCell.swift in Sources */,
 				7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */,
@@ -1887,7 +1865,6 @@
 				70AD2A902B90CC5000CB9791 /* UpdatePasswordRequest.swift in Sources */,
 				708312372A2CA50300F7E283 /* IntranetRouter.swift in Sources */,
 				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
-				70747C862B45776C001F08EE /* HomeCoordinatorDelegate.swift in Sources */,
 				708ED7E02A94B2E700107CDF /* RevisionOfTranslation.xcdatamodeld in Sources */,
 				705FD2BB2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift in Sources */,
 				708ED7E22A94B49000107CDF /* CoreDataManager.swift in Sources */,
@@ -1951,7 +1928,6 @@
 				70375EFE2AAA022A0032F6B8 /* LibraryRentalView.swift in Sources */,
 				705FD28C2A10F74D00F353FE /* UserManager.swift in Sources */,
 				701FC8992B9736B900291FC3 /* EditBoardBottomSheetViewController.swift in Sources */,
-				70747C842B455EBA001F08EE /* HomeDIContainer.swift in Sources */,
 				70912FFA2B15EF2C005B88B4 /* RothemReservationInfoView.swift in Sources */,
 				70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */,
 				7051E5022ADABC4400C2134B /* Ex + UILabel.swift in Sources */,
@@ -2182,7 +2158,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = TK287254JR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Haram/Info.plist;
@@ -2219,7 +2195,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Haram/HaramRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = TK287254JR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Haram/Info.plist;
@@ -2255,7 +2231,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
@@ -2276,7 +2252,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
@@ -2296,7 +2272,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -2315,7 +2291,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;

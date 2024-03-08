@@ -46,11 +46,11 @@ final class BoardViewController: BaseViewController {
     $0.isScrollEnabled = false
   }
   
-//  private let boardLabel = UILabel().then {
-//    $0.textColor = .black
-//    $0.text = "게시판"
-//    $0.font = .bold26
-//  }
+  //  private let boardLabel = UILabel().then {
+  //    $0.textColor = .black
+  //    $0.text = "게시판"
+  //    $0.font = .bold26
+  //  }
   
   init(viewModel: BoardViewModelType = BoardViewModel()) {
     self.viewModel = viewModel
@@ -63,6 +63,7 @@ final class BoardViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    viewModel.inquireBoardCategory()
     viewModel.boardModel
       .drive(rx.boardModel)
       .disposed(by: disposeBag)
@@ -78,6 +79,7 @@ final class BoardViewController: BaseViewController {
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
     navigationController?.interactivePopGestureRecognizer?.delegate = self
+//    self.tabBarController?.delegate = self
   }
   
   override func setupLayouts() {
@@ -99,7 +101,7 @@ final class BoardViewController: BaseViewController {
       $0.top.width.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
-
+    
     boardTableView.snp.makeConstraints {
       $0.height.equalTo(28 + 509 + 46 + 21)
     }
@@ -150,3 +152,12 @@ extension BoardViewController: UIGestureRecognizerDelegate {
     return true // or false
   }
 }
+
+//extension BoardViewController: UITabBarControllerDelegate, UITabBarDelegate {
+//  func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+//    print("뭐야 \(viewController)")
+//    if viewController == self {
+//      viewModel.inquireBoardCategory()
+//    }
+//  }
+//}

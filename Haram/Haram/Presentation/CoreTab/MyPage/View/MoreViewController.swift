@@ -132,11 +132,12 @@ final class MoreViewController: BaseViewController {
     }
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
+//    tabBarController?.delegate = self
   }
   
   override func bind() {
     super.bind()
-    
+    viewModel.inquireUserInfo()
     viewModel.currentUserInfo
       .drive(with: self) { owner, profileInfoViewModel in
         owner.profileInfoView.configureUI(with: profileInfoViewModel)
@@ -271,3 +272,11 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
     }
   }
 }
+
+//extension MoreViewController: UITabBarControllerDelegate {
+//  func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+//    if viewController == self {
+//      viewModel.inquireUserInfo()
+//    }
+//  }
+//}

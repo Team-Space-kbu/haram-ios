@@ -42,7 +42,9 @@ extension NoticeDetailViewModel: NoticeDetailViewModelType {
     .subscribe(with: self) { owner, response in
       
       let iso8607Date = DateformatterFactory.iso8601_2.date(from: response.regDate)!
-      let headerString = "<header><meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'></header>"
+      let headerString = "<style>img { display: block; margin: auto; max-width: 100%; max-height: 100vh; height: auto; overflow: auto; }</style>"
+
+
       
       owner.noticeDetailModelRelay.accept(
         NoticeDetailModel(
