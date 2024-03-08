@@ -144,7 +144,7 @@ final class VerifyEmailViewController: BaseViewController {
             $0.height.equalTo(74 + 28)
           }
           owner.schoolEmailTextField.setError(description: error.description!)
-        } else if error == .expireAuthCode {
+        } else if error == .expireAuthCode || error == .unvalidAuthCode {
           owner.checkEmailTextField.setError(description: error.description!)
         }
       }
