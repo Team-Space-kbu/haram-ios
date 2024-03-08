@@ -134,6 +134,7 @@ final class ScheduleViewController: BaseViewController, BackButtonHandler {
 }
 
 extension ScheduleViewController: ElliotableDelegate, ElliotableDataSource {
+  
   func elliotable(elliotable: Elliotable, didSelectCourse selectedCourse: ElliottEvent) {
     
   }

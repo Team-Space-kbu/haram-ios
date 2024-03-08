@@ -26,6 +26,18 @@ final class ScheduleViewModel: ScheduleViewModelType {
   
   private let disposeBag = DisposeBag()
   private let intranetRepository: IntranetRepository
+  private var backgroundColorList: [UIColor] = [
+    .hex83A3E4,
+    .hexE28B7B,
+    .hex9B87DB,
+    .hex8BC88E,
+    .hexF0AF72,
+    .hex90CFC1,
+    .hexF2D96D,
+    .hexD397ED,
+    .hexA7CA70
+  ]
+  private var colorInfo: [String: UIColor] = [:]
   
   init(intranetRepository: IntranetRepository = IntranetRepositoryImpl()) {
     self.intranetRepository = intranetRepository
@@ -40,9 +52,17 @@ final class ScheduleViewModel: ScheduleViewModelType {
     
     intranetRepository.inquireScheduleInfo()
       .do(onSuccess: { _ in isLoadingSubject.onNext(true) })
-      .subscribe(onSuccess: { response in
-        let scheduleModel = response.compactMap { model -> ElliottEvent? in
+      .subscribe(onSuccess: { [weak self] response in
+        guard let self = self else { return }
+        let scheduleModel = response
+          .enumerated()
+          .compactMap { index, model -> ElliottEvent? in
           guard let courseDay = Day.allCases.filter({ $0.text == model.lectureDay }).first?.elliotDay else { return nil }
+          
+          if self.colorInfo[model.lectureNum] == nil {
+            self.colorInfo[model.lectureNum] = self.backgroundColorList[index % self.backgroundColorList.count]
+          }
+          
           return ElliottEvent(
             courseId: model.lectureNum,
             courseName: model.subject,
@@ -52,7 +72,7 @@ final class ScheduleViewModel: ScheduleViewModelType {
             startTime: model.startTime,
             endTime: model.endTime,
             textColor: UIColor.white,
-            backgroundColor: UIColor.ramdomColor
+            backgroundColor: self.colorInfo[model.lectureNum]!
           )
         }
         schedulingInfo.accept(scheduleModel)

@@ -22,6 +22,7 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: NoticeDetailViewModelType
   private let path: String
+  private let type: NoticeType
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -51,8 +52,8 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   
   private let configuration = WKWebViewConfiguration().then {
     let preferences = WKPreferences()
-//        preferences.javaScriptEnabled = true
-        preferences.javaScriptCanOpenWindowsAutomatically = true
+    WKWebpagePreferences().allowsContentJavaScript = true
+    preferences.javaScriptCanOpenWindowsAutomatically = true
     $0.preferences = preferences
   }
   
@@ -64,9 +65,10 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     $0.navigationDelegate = self
   }
   
-  init(path: String, viewModel: NoticeDetailViewModelType = NoticeDetailViewModel()) {
+  init(type: NoticeType, path: String, viewModel: NoticeDetailViewModelType = NoticeDetailViewModel()) {
     self.viewModel = viewModel
     self.path = path
+    self.type = type
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -74,15 +76,9 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    _ = [scrollView, containerView, titleLabel, writerInfoLabel, webView].map { $0.isSkeletonable = true }
-    setupSkeletonView()
-  }
-  
   override func bind() {
     super.bind()
-    viewModel.inquireNoticeDetailInfo(path: path)
+    viewModel.inquireNoticeDetailInfo(type: type, path: path)
     
     viewModel.noticeDetailModel
       .drive(with: self) { owner, model in
@@ -99,6 +95,8 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     super.setupStyles()
     title = "공지사항"
     setupBackButton()
+    _ = [scrollView, containerView, titleLabel, writerInfoLabel, webView].map { $0.isSkeletonable = true }
+    setupSkeletonView()
   }
   
   override func setupLayouts() {
