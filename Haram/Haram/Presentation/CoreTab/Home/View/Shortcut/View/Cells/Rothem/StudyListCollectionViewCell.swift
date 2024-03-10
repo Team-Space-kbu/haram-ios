@@ -17,7 +17,6 @@ struct StudyListCollectionViewCellModel {
   let title: String
   let description: String
   let imageURL: URL?
-//  private let identifier = UUID()
   
   init(rothemRoom: RoomResponse) {
     roomSeq = rothemRoom.roomSeq

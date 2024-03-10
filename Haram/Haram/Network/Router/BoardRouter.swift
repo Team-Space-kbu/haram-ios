@@ -12,7 +12,7 @@ enum BoardRouter {
   case inquireBoardCategory
   case inquireBoardListInCategory(Int)
   case inquireBoardDetail(Int, Int)
-  case createBoard(Int)
+  case createBoard(Int, CreateBoardRequest)
   case createComment(CreateCommentRequest, Int, Int)
 }
 
@@ -35,7 +35,7 @@ extension BoardRouter: Router {
       return "/v1/board-categories/\(categorySeq)/boards"
     case let .inquireBoardDetail(categorySeq, boardSeq):
       return "/v1/board-categories/\(categorySeq)/boards/\(boardSeq)"
-    case let .createBoard(categorySeq):
+    case let .createBoard(categorySeq, _):
       return "/v1/board-categories/\(categorySeq)/boards"
     case let .createComment(_, categorySeq, boardSeq):
       return "/v1/board-categories/\(categorySeq)/boards/\(boardSeq)/comments"
@@ -44,9 +44,11 @@ extension BoardRouter: Router {
   
   var parameters: ParameterType {
     switch self {
-    case .inquireBoardCategory, .inquireBoardListInCategory, .inquireBoardDetail, .createBoard:
+    case .inquireBoardCategory, .inquireBoardListInCategory, .inquireBoardDetail:
       return .plain
     case let .createComment(request, _, _):
+      return .body(request)
+    case let .createBoard(_, request):
       return .body(request)
     }
   }

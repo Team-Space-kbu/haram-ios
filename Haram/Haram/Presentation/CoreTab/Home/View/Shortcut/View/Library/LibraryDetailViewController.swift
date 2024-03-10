@@ -174,8 +174,8 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     viewModel.errorMessage
       .emit(with: self) { owner, error in
         guard error == .noEnglishRequest else { return }
-        AlertManager.showAlert(title: error.description!, viewController: owner) { [weak self] in
-          self?.navigationController?.popViewController(animated: true)
+        AlertManager.showAlert(title: error.description!, viewController: owner) {
+          self.navigationController?.popViewController(animated: true)
         }
       }
       .disposed(by: disposeBag)

@@ -75,42 +75,21 @@ final class HaramTabbarController: UITabBarController {
   }
 }
 extension HaramTabbarController: UITabBarControllerDelegate {
-    
-  func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-      guard let fromView = tabBarController.selectedViewController?.view,
-            let toView = viewController.view else { return false }
-
-      if fromView == toView {
-          return false
-      } else {
-          // 270도 회전 및 크기 0.1배로 줄이기
-//          toView.transform = CGAffineTransform(rotationAngle: .pi*2/3).scaledBy(x: 0.1, y: 0.1)
-//          UIView.animate(withDuration: 0.5) {
-//              // 처음상태로 만들기
-//              toView.transform = .identity
-//          }
-          // 녹는 효과
-          UIView.transition(from: fromView, to: toView, duration: 0.2, options: .transitionCrossDissolve)
-
-          return true
-      }
-  }
   
-//    func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-//        return SlideTransitionAnimator(viewControllers: tabBarController.viewControllers)
-//    }
+  func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+    guard let fromView = tabBarController.selectedViewController?.view,
+          let toView = viewController.view else { return false }
+    
+    if fromView == toView {
+      return false
+    } else {
+      UIView.transition(from: fromView, to: toView, duration: 0.2, options: .transitionCrossDissolve)
+      
+      return true
+    }
+  }
 }
-//extension HaramTabbarController: UITabBarControllerDelegate {
-//  func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-////    if viewController == boardViewController {
-////      
-////    }
-////    else if viewController == moreViewController {
-////      guard let vc = moreViewController.topViewController as? MoreViewController else { return }
-////      vc.bind(userID: UserManager.shared.userID!)
-////    }
-//  }
-//}
+  
 class SlideTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     // 각 뷰컨트롤러의 인덱스를 구하기 위해 사용

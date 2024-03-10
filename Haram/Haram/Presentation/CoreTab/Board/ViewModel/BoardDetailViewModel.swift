@@ -10,12 +10,12 @@ import RxCocoa
 import Foundation
 
 protocol BoardDetailViewModelType {
-  func createComment(boardComment: String, categorySeq: Int, boardSeq: Int)
+  func createComment(boardComment: String, categorySeq: Int, boardSeq: Int, isAnonymous: Bool)
   func inquireBoardDetail(categorySeq: Int, boardSeq: Int)
   
   var boardInfoModel: Driver<[BoardDetailHeaderViewModel]> { get }
   var boardCommentModel: Driver<[BoardDetailCollectionViewCellModel]> { get }
-  var successCreateComment: Signal<(comment: String, createdAt: String)> { get }
+  var successCreateComment: Signal<[Comment]> { get }
 }
 
 final class BoardDetailViewModel {
@@ -25,7 +25,7 @@ final class BoardDetailViewModel {
   
   private let currentBoardListRelay = BehaviorRelay<[BoardDetailCollectionViewCellModel]>(value: [])
   private let currentBoardInfoRelay = BehaviorRelay<[BoardDetailHeaderViewModel]>(value: [])
-  private let successCreateCommentRelay = PublishRelay<(comment: String, createdAt: String)>()
+  private let successCreateCommentRelay = PublishRelay<[Comment]>()
   
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
@@ -34,7 +34,7 @@ final class BoardDetailViewModel {
 }
 
 extension BoardDetailViewModel: BoardDetailViewModelType {
-  var successCreateComment: RxCocoa.Signal<(comment: String, createdAt: String)> {
+  var successCreateComment: RxCocoa.Signal<[Comment]> {
     successCreateCommentRelay.asSignal()
   }
   
@@ -76,21 +76,18 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   
   
   /// 해당 게시글에 대한 댓글을 생성합니다
-  func createComment(boardComment: String, categorySeq: Int, boardSeq: Int) {
+  func createComment(boardComment: String, categorySeq: Int, boardSeq: Int, isAnonymous: Bool) {
     
     boardRepository.createComment(
       request: .init(
         contents: boardComment,
-        isAnonymous: true
+        isAnonymous: isAnonymous
       ),
       categorySeq: categorySeq,
       boardSeq: boardSeq
     )
       .subscribe(with: self) { owner, response in
-        owner.successCreateCommentRelay.accept((
-          comment: boardComment,
-          createdAt: DateformatterFactory.dateWithHypen.string(from: Date())
-        ))
+        owner.successCreateCommentRelay.accept(response)
       }
       .disposed(by: disposeBag)
   }

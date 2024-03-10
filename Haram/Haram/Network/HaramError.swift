@@ -59,6 +59,8 @@ enum HaramError: Error, CaseIterable {
   
   case returnWrongFormat
   case noExistBoard // 게시글이 존재하지않을 때 발생하는 에러
+  
+  case alreadyReservationList // 이미 예약된 내역이 있습니다.
 }
 
 extension HaramError {
@@ -130,6 +132,8 @@ extension HaramError {
       return "IN12"
     case .internalServerError:
       return "ER01"
+    case .alreadyReservationList:
+      return "RT08"
     }
   }
   
@@ -197,6 +201,8 @@ extension HaramError {
       return "서버연결 중 오류 발생"
     case .emailAlreadyUse:
       return "이미 사용중인 이메일입니다"
+    case .alreadyReservationList:
+      return "이미 예약된 내역이 있습니다."
     }
   }
 }

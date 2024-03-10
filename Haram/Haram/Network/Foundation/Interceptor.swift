@@ -42,6 +42,7 @@ final class Interceptor: RequestInterceptor {
       DispatchQueue.main.async {
         let vc = LoginViewController()
         (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
+        AlertManager.showAlert(title: "로그아웃 알림", message: "다른 기기에서 로그인되었습니다", viewController: vc, confirmHandler: nil)
       }
     } else {
       completion(.doNotRetryWithError(error))

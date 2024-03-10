@@ -32,7 +32,7 @@ final class BibleNoticeCollectionViewCell: UICollectionViewCell {
   }
   
   private let noticeLabel = UILabel().then {
-    $0.font = .regular18
+    $0.font = .bold18
     $0.textColor = .hex1A1E27
     $0.numberOfLines = 0
     $0.skeletonTextNumberOfLines = 2

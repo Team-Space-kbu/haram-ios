@@ -13,7 +13,7 @@ import SnapKit
 import Then
 
 protocol CommentInputViewDelegate: AnyObject {
-  func writeComment(_ comment: String)
+  func writeComment(_ comment: String, isAnonymous: Bool)
 }
 
 final class CommentInputView: UIView, UITextViewDelegate {
@@ -22,6 +22,14 @@ final class CommentInputView: UIView, UITextViewDelegate {
   
   private let disposeBag = DisposeBag()
   private let placeHolder = "댓글추가"
+  
+  private let checkBoxButton = CheckBoxButton(type: .full)
+  
+  private let anonymousLabel = UILabel().then {
+    $0.font = .regular14
+    $0.textColor = .hex545E6A
+    $0.text = "익명"
+  }
   
   private let backgroundView = UIView().then {
     $0.backgroundColor = .white
@@ -73,7 +81,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
   
   private func setupLayouts() {
     addSubview(backgroundView)
-    _ = [commentTextView, sendButton].map { backgroundView.addSubview($0) }
+    _ = [checkBoxButton, anonymousLabel, commentTextView, sendButton].map { backgroundView.addSubview($0) }
   }
   
   private func setupConstraints() {
@@ -82,11 +90,23 @@ final class CommentInputView: UIView, UITextViewDelegate {
       $0.directionalEdges.equalToSuperview()
     }
     
+    checkBoxButton.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(22)
+      $0.leading.equalToSuperview().inset(15)
+      $0.size.equalTo(18)
+    }
+    
+    anonymousLabel.snp.makeConstraints {
+      $0.leading.equalTo(checkBoxButton.snp.trailing).offset(5)
+      $0.centerY.equalTo(checkBoxButton)
+    }
+    
     commentTextView.snp.makeConstraints {
       $0.top.equalToSuperview().inset(11)
-      $0.leading.equalToSuperview().inset(15)
+      $0.leading.equalTo(anonymousLabel.snp.trailing).offset(10)
+//      $0.leading.equalToSuperview().inset(15)
       $0.trailing.equalToSuperview().inset(56)
-      $0.bottom.equalToSuperview().inset(20)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 20 + 10 : 20)
       $0.height.equalTo(32)
     }
     
@@ -111,7 +131,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
         
         owner.commentTextView.textColor = .hexD0D0D0
         owner.commentTextView.text = owner.placeHolder
-        owner.delegate?.writeComment(comment)
+        owner.delegate?.writeComment(comment, isAnonymous: owner.checkBoxButton.isChecked)
       }
       .disposed(by: disposeBag)
     

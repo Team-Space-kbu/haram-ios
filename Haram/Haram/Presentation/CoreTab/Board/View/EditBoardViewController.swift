@@ -15,6 +15,9 @@ import Then
 
 final class EditBoardViewController: BaseViewController, BackButtonHandler {
   
+  private let viewModel: EditBoardViewModelType
+  private let categorySeq: Int
+  
   private var imageModel: [UIImage] = []
   
   private lazy var editBoardBottomSheet = EditBoardBottomSheetViewController().then {
@@ -28,12 +31,13 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     let shadow = SurfaceAppearance.Shadow()
     shadow.color = UIColor.black
     shadow.offset = CGSize(width: 0, height: -1)
-    shadow.radius = 40
-    shadow.spread = 10
+    shadow.radius = 15
+    shadow.spread = 0
+    shadow.opacity = 0.17
     appearance.shadows = [shadow]
     
     // Define corner radius and background color
-    appearance.cornerRadius = 20
+    appearance.cornerRadius = 15
     appearance.backgroundColor = .clear
     
     // Set the new appearance
@@ -124,6 +128,17 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     $0.delegate = self
   }
   
+  init(categorySeq: Int, viewModel: EditBoardViewModelType = EditBoardViewModel()) {
+    self.viewModel = viewModel
+    self.categorySeq = categorySeq
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func setupStyles() {
     super.setupStyles()
     titleTextView.text = Constants.titlePlaceholder
@@ -166,8 +181,10 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
       }
       .disposed(by: disposeBag)
     
-    titleTextView.rx.text
-      .asDriver()
+    titleTextView.rx.text.orEmpty
+//      .skip(1)
+      .filter { $0 != Constants.titlePlaceholder }
+      .asDriver(onErrorDriveWith: .empty())
       .drive(with: self){ owner, text in
         owner.updateTextViewHeightAutomatically(textView: owner.titleTextView)
       }
@@ -196,9 +213,24 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
         owner.updateTextViewHeightAutomatically(textView: owner.contentTextView, height: 209)
       }
       .disposed(by: disposeBag)
+    navigationItem.rightBarButtonItem!.rx.tap
+      .withLatestFrom(
+        Observable.combineLatest(
+          titleTextView.rx.text.orEmpty.filter { $0 != Constants.titlePlaceholder },
+          contentTextView.rx.text.orEmpty.filter { $0 != Constants.contentPlaceholder }
+        )
+      )
+      .subscribe(with: self) { owner, result in
+        let (title, content) = result
+        owner.viewModel.createBoard(categorySeq: owner.categorySeq, title: title, contents: content, isAnonymous: false)
+      }
+      .disposed(by: disposeBag)
     
-    contentTextView.rx.text
-      .asDriver()
+    
+    contentTextView.rx.text.orEmpty
+//      .skip(1)
+      .filter { $0 != Constants.contentPlaceholder }
+      .asDriver(onErrorDriveWith: .empty())
       .drive(with: self){ owner, text in
         owner.updateTextViewHeightAutomatically(textView: owner.contentTextView, height: 209)
       }
@@ -217,6 +249,22 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
       .drive(with: self) { owner, _ in
         owner.view.endEditing(true)
         //        owner.floatingPanelVC.move(to: .half, animated: true)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successUploadImage
+      .emit(with: self) { owner, result in
+        let (response, image) = result
+        owner.imageModel.append(image)
+        owner.editBoardCollectionView.reloadData()
+//        owner.imageModel.append()
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successCreateBoard
+      .emit(with: self) { owner, _ in
+        NotificationCenter.default.post(name: .refreshBoardList, object: nil)
+        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
   }
@@ -295,6 +343,11 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
   func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
+  
+//  @objc
+//  private func didTappedEditButton() {
+//    viewModel.createBoard(categorySeq: categorySeq, isAnonymous: false)
+//  }
 }
 
 extension EditBoardViewController: FloatingPanelControllerDelegate {
@@ -328,7 +381,7 @@ extension EditBoardViewController {
     var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
       return [
         .full: FloatingPanelLayoutAnchor(fractionalInset: 0.6, edge: .bottom, referenceGuide: .safeArea),
-        .half: FloatingPanelLayoutAnchor(absoluteInset: 198, edge: .bottom, referenceGuide: .superview),
+        .half: FloatingPanelLayoutAnchor(absoluteInset: 198 - Device.bottomInset, edge: .bottom, referenceGuide: .superview),
         .tip: FloatingPanelLayoutAnchor(fractionalInset: 0.1, edge: .bottom, referenceGuide: .safeArea)
       ]
     }
@@ -395,7 +448,7 @@ extension EditBoardViewController: PHPickerViewControllerDelegate {
   func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
     picker.dismiss(animated: true)
     
-    let group = DispatchGroup()
+//    let group = DispatchGroup()
     
     // 만들어준 itemProviders에 Picker로 선택한 이미지정보를 전달
     let itemProviders = results.map(\.itemProvider)
@@ -407,22 +460,22 @@ extension EditBoardViewController: PHPickerViewControllerDelegate {
     }
     
     for itemProvider in itemProviders {
-      group.enter()
+//      group.enter()
       if itemProvider.canLoadObject(ofClass: UIImage.self) {
         // 로드 핸들러를 통해 UIImage를 처리해 줍시다.
         itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
           
           guard let self = self,
                 let image = image as? UIImage else { return }
-          
-          self.imageModel.append(image)
-          group.leave()
+          self.viewModel.uploadImage(image: image, type: .board)
+//          self.imageModel.append(image)
+//          group.leave()
         }
       }
     }
     
-    group.notify(queue: .main) {
-      self.editBoardCollectionView.reloadData()
-    }
+//    group.notify(queue: .main) {
+//      self.editBoardCollectionView.reloadData()
+//    }
   }
 }

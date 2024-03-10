@@ -39,18 +39,12 @@ final class BoardViewController: BaseViewController {
     $0.register(BoardTableHeaderView.self, forHeaderFooterViewReuseIdentifier: BoardTableHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
-    $0.sectionFooterHeight = 21
+//    $0.sectionFooterHeight = 21
     $0.sectionHeaderHeight = 28 + 11
     $0.backgroundColor = .white
     $0.separatorStyle = .none
     $0.isScrollEnabled = false
   }
-  
-  //  private let boardLabel = UILabel().then {
-  //    $0.textColor = .black
-  //    $0.text = "게시판"
-  //    $0.font = .bold26
-  //  }
   
   init(viewModel: BoardViewModelType = BoardViewModel()) {
     self.viewModel = viewModel
@@ -135,6 +129,9 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    tableView.deselectRow(at: indexPath, animated: true)
+    
     let boardModel = boardModel[indexPath.row]
     let vc = BoardListViewController(
       categorySeq: boardModel.categorySeq,
@@ -152,12 +149,3 @@ extension BoardViewController: UIGestureRecognizerDelegate {
     return true // or false
   }
 }
-
-//extension BoardViewController: UITabBarControllerDelegate, UITabBarDelegate {
-//  func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-//    print("뭐야 \(viewController)")
-//    if viewController == self {
-//      viewModel.inquireBoardCategory()
-//    }
-//  }
-//}
