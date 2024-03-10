@@ -218,7 +218,7 @@ final class RothemRoomDetailView: UIView {
     attributedString.append(NSAttributedString(string: model.roomDestination))
     roomDestinationLabel.attributedText = attributedString
     
-    roomDescriptionContentLabel.text = model.roomDescription
+    roomDescriptionContentLabel.addLineSpacing(lineSpacing: 2, string: model.roomDescription)
   }
 }
 

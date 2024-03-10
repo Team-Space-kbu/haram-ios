@@ -49,7 +49,7 @@ final class RentalLibraryCollectionViewCell: UICollectionViewCell {
     isSkeletonable = true
     
     skeletonCornerRadius = 10
-    contentView.addShadow(shadowRadius: 6, shadowOpacity: 1, shadowOffset: CGSize(width: 0, height: 3))
+    contentView.addShadow(shadowRadius: 6, shadowOpacity: 0.28, shadowOffset: CGSize(width: 0, height: 3))
     contentView.addSubview(thumbnailImageView)
     thumbnailImageView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()

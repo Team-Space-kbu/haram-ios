@@ -97,7 +97,10 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     $0.isSkeletonable = true
   }
   
-  private let phoneNumberTextField = HaramTextField(placeholder: "전화번호").then {
+  private let phoneNumberTextField = HaramTextField(
+    placeholder: "전화번호",
+    options: .errorLabel
+  ).then {
     $0.textField.keyboardType = .phonePad
     $0.isSkeletonable = true
   }
@@ -157,9 +160,12 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
       .disposed(by: disposeBag)
     
     viewModel.selectedPolicyModel
-      .drive(with: self) { owner, models in
+      .asObservable()
+      .take(1)
+      .subscribe(with: self) { owner, models in
         models.forEach { model in
           let checkView = TermsOfUseCheckView()
+          checkView.delegate = owner
           checkView.configureUI(with: model)
           owner.containerView.insertArrangedSubview(checkView, at: 1)
         }
@@ -187,6 +193,7 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     
     viewModel.successRothemReservation
       .emit(with: self) { owner, _ in
+        owner.phoneNumberTextField.removeError()
         let vc = owner.navigationController?.viewControllers[1]
         owner.navigationController?.popToViewController(vc!, animated: true)
       }
@@ -210,6 +217,12 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
       .filter { !$0 }
       .drive(with: self) { owner, _ in
         owner.view.hideSkeleton()
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        owner.phoneNumberTextField.setError(description: error.description!)
       }
       .disposed(by: disposeBag)
   }
@@ -279,8 +292,6 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     containerView.setCustomSpacing(16, after: selectedTimeLabel)
     
     selectedTimeCollectionView.snp.makeConstraints {
-//      $0.height.equalTo(131 + 33 + 6 + 33 + 6)
-      // 33 * 5 + 3 * 6 + 23 * 2 + 19
       $0.height.equalTo(33 * 5 + 3 * 6 + 23 * 2 + 19 * 2)
     }
     
@@ -289,7 +300,7 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     }
     
     phoneNumberTextField.snp.makeConstraints {
-      $0.height.equalTo(40)
+      $0.height.greaterThanOrEqualTo(40)
     }
     
     reservationButton.snp.makeConstraints {
@@ -432,5 +443,11 @@ extension StudyReservationViewController: UIGestureRecognizerDelegate {
 extension StudyReservationViewController: KeyboardResponder {
   public var targetView: UIView {
     view
+  }
+}
+
+extension StudyReservationViewController: TermsOfUseCheckViewDelegate {
+  func didTappedCheckBox(policySeq: Int, isChecked: Bool) {
+    viewModel.checkCheckBox(policySeq: policySeq, isChecked: isChecked)
   }
 }

@@ -71,8 +71,8 @@ final class IntranetAlertView: UIView {
     
     _ = [rocketImageView, alertMainLabel, alertDescriptionLabel].map { addSubview($0) }
     rocketImageView.snp.makeConstraints {
-      $0.leading.directionalVerticalEdges.equalToSuperview()
-      $0.width.equalTo(45)
+      $0.leading.centerY.equalToSuperview()
+      $0.size.equalTo(45)
     }
     
     alertMainLabel.snp.makeConstraints {

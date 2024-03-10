@@ -14,6 +14,7 @@ enum HeaderType {
   case withAccessToken
   case withRefreshToken
   case noCache
+  case formData
 }
 
 extension HeaderType {
@@ -59,6 +60,20 @@ extension HeaderType {
       defaultHeaders.add(.authorization(bearerToken: token))
       defaultHeaders.add(.contentType("application/json"))
       defaultHeaders.add(name: "Cache-Control", value: "no-store")
+      return defaultHeaders
+      
+    case .formData:
+      // default 헤더 값에 `multipart/form-data` 추가
+      var defaultHeaders = HTTPHeaders.default
+      defaultHeaders.add(.contentType("multipart/form-data"))
+      
+      // 토큰이 존재하지 않는 경우 default 리턴
+      guard let token = UserManager.shared.accessToken else {
+        return defaultHeaders
+      }
+      
+      // 토큰이 존재하는 경우 `Authorization token` 추가
+      defaultHeaders.add(.authorization(bearerToken: token))
       return defaultHeaders
     }
   }

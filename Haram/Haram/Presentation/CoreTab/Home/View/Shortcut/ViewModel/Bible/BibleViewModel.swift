@@ -10,7 +10,7 @@ import RxCocoa
 
 
 protocol BibleViewModelType {
-  var todayBibleWordList: Driver<[String]> { get }
+  var todayBibleWordList: Driver<[TodayBibleWordCollectionViewCellModel]> { get }
   var todayPrayList: Driver<[TodayPrayCollectionViewCellModel]> { get }
   var bibleMainNotice: Driver<[BibleNoticeCollectionViewCellModel]> { get }
 }
@@ -20,7 +20,7 @@ final class BibleViewModel {
   private let bibleRepository: BibleRepository
   private let disposeBag = DisposeBag()
   
-  private let todayBibleWordListRelay = BehaviorRelay<[String]>(value: [])
+  private let todayBibleWordListRelay = BehaviorRelay<[TodayBibleWordCollectionViewCellModel]>(value: [])
   private let todayPrayListRelay      = BehaviorRelay<[TodayPrayCollectionViewCellModel]>(value: [])
   private let bibleMainNoticeRelay    = BehaviorRelay<[BibleNoticeCollectionViewCellModel]>(value: [])
   
@@ -34,8 +34,9 @@ final class BibleViewModel {
     
     tryInquireBibleHomeInfo
       .subscribe(with: self) { owner, homeInfo in
-        let content = homeInfo.bibleRandomVerse.content
-        owner.todayBibleWordListRelay.accept([content])
+        let bibleVerse = homeInfo.bibleRandomVerse
+        let content = bibleVerse.content
+        owner.todayBibleWordListRelay.accept([TodayBibleWordCollectionViewCellModel(todayBibleWord: content, todayBibleBookName: bibleVerse.bookName + ", \(bibleVerse.chapter)장 \(bibleVerse.verse)절")])
         owner.bibleMainNoticeRelay.accept(homeInfo.bibleNoticeResponses.map { BibleNoticeCollectionViewCellModel(response: $0) })
       }
       .disposed(by: disposeBag)
@@ -53,7 +54,7 @@ extension BibleViewModel: BibleViewModelType {
     todayPrayListRelay.asDriver()
   }
   
-  var todayBibleWordList: Driver<[String]> {
+  var todayBibleWordList: Driver<[TodayBibleWordCollectionViewCellModel]> {
     todayBibleWordListRelay.asDriver()
   }
 }

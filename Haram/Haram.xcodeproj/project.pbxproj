@@ -24,6 +24,14 @@
 		701FC8992B9736B900291FC3 /* EditBoardBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8982B9736B900291FC3 /* EditBoardBottomSheetViewController.swift */; };
 		701FC89B2B97565F00291FC3 /* EditBoardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC89A2B97565F00291FC3 /* EditBoardCollectionViewCell.swift */; };
 		701FC89D2B98807C00291FC3 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC89C2B98807C00291FC3 /* AlertManager.swift */; };
+		701FC89F2B9B5FA700291FC3 /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC89E2B9B5FA700291FC3 /* CheckBoxButton.swift */; };
+		701FC8A12B9C990200291FC3 /* EditBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8A02B9C990200291FC3 /* EditBoardViewModel.swift */; };
+		701FC8A32B9C998900291FC3 /* CreateBoardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8A22B9C998900291FC3 /* CreateBoardRequest.swift */; };
+		701FC8A52B9CAC1F00291FC3 /* ImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8A42B9CAC1F00291FC3 /* ImageRouter.swift */; };
+		701FC8A82B9CAC6500291FC3 /* UploadImageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8A72B9CAC6500291FC3 /* UploadImageRequest.swift */; };
+		701FC8AA2B9CC1E400291FC3 /* ImageRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8A92B9CC1E400291FC3 /* ImageRepositoryImpl.swift */; };
+		701FC8AC2B9CC22D00291FC3 /* UploadImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8AB2B9CC22D00291FC3 /* UploadImageResponse.swift */; };
+		701FC8AE2B9DA92600291FC3 /* Ex + Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8AD2B9DA92600291FC3 /* Ex + Notification.Name.swift */; };
 		7031E3C82ABA72C10027DC0A /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */; };
 		7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */; };
 		7031E3D02ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */; };
@@ -310,6 +318,14 @@
 		701FC8982B9736B900291FC3 /* EditBoardBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardBottomSheetViewController.swift; sourceTree = "<group>"; };
 		701FC89A2B97565F00291FC3 /* EditBoardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardCollectionViewCell.swift; sourceTree = "<group>"; };
 		701FC89C2B98807C00291FC3 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		701FC89E2B9B5FA700291FC3 /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
+		701FC8A02B9C990200291FC3 /* EditBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardViewModel.swift; sourceTree = "<group>"; };
+		701FC8A22B9C998900291FC3 /* CreateBoardRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBoardRequest.swift; sourceTree = "<group>"; };
+		701FC8A42B9CAC1F00291FC3 /* ImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRouter.swift; sourceTree = "<group>"; };
+		701FC8A72B9CAC6500291FC3 /* UploadImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageRequest.swift; sourceTree = "<group>"; };
+		701FC8A92B9CC1E400291FC3 /* ImageRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepositoryImpl.swift; sourceTree = "<group>"; };
+		701FC8AB2B9CC22D00291FC3 /* UploadImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageResponse.swift; sourceTree = "<group>"; };
+		701FC8AD2B9DA92600291FC3 /* Ex + Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + Notification.Name.swift"; sourceTree = "<group>"; };
 		7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewController.swift; sourceTree = "<group>"; };
 		7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailHeaderView.swift; sourceTree = "<group>"; };
 		7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -614,6 +630,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		701FC8A62B9CAC5800291FC3 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				701FC8A72B9CAC6500291FC3 /* UploadImageRequest.swift */,
+				701FC8AB2B9CC22D00291FC3 /* UploadImageResponse.swift */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
 		7031E3CC2ABA74520027DC0A /* Board */ = {
 			isa = PBXGroup;
 			children = (
@@ -635,6 +660,7 @@
 				708312C12A7A6F2900F7E283 /* PaddingLabel.swift */,
 				708ED7D32A9228D200107CDF /* BottomSheetViewController.swift */,
 				70375F152AB1B0500032F6B8 /* HaramToast.swift */,
+				701FC89E2B9B5FA700291FC3 /* CheckBoxButton.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -700,6 +726,7 @@
 				701F29C32AE6750100E3E68B /* InquireBoardDetailResponse.swift */,
 				70864F372B014A2D00CD4124 /* CreateCommentRequest.swift */,
 				70AD2A6C2B88976500CB9791 /* InquireBoardCategoryResponse.swift */,
+				701FC8A22B9C998900291FC3 /* CreateBoardRequest.swift */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -745,6 +772,7 @@
 				708ED7B82A91191C00107CDF /* BibleRouter.swift */,
 				7051E4FA2ADAB6C700C2134B /* BoardRouter.swift */,
 				70AD2A622B85211D00CB9791 /* NoticeRouter.swift */,
+				701FC8A42B9CAC1F00291FC3 /* ImageRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -752,6 +780,7 @@
 		705FD2962A13BC0000F353FE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				701FC8A62B9CAC5800291FC3 /* Image */,
 				70AD2A5F2B85204700CB9791 /* Notice */,
 				7051E4FE2ADAB74700C2134B /* Board */,
 				708ED7E32A94B60200107CDF /* CoreData */,
@@ -893,6 +922,7 @@
 				70903C932ADEB1F500C6FEF0 /* Ex + Array.swift */,
 				709130002B176344005B88B4 /* Ex + UIView.swift */,
 				708DAD1B2B36DE6C00E3AD45 /* Ex + UIViewController.swift */,
+				701FC8AD2B9DA92600291FC3 /* Ex + Notification.Name.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1065,6 +1095,7 @@
 				708ED7812A8CC70700107CDF /* BoardListViewModel.swift */,
 				7051E5052ADAF4EF00C2134B /* BoardDetailViewModel.swift */,
 				70AD2A6E2B889B1C00CB9791 /* BoardViewModel.swift */,
+				701FC8A02B9C990200291FC3 /* EditBoardViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1415,6 +1446,7 @@
 				708ED7BE2A911AB800107CDF /* BibleRepositoryImpl.swift */,
 				7051E4FC2ADAB71200C2134B /* BoardRepositoryImpl.swift */,
 				70AD2A5D2B851F0D00CB9791 /* NoticeRepositoryImpl.swift */,
+				701FC8A92B9CC1E400291FC3 /* ImageRepositoryImpl.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -1761,6 +1793,7 @@
 				70727A9929D88A22003DE956 /* RegisterViewController.swift in Sources */,
 				70912FFF2B15FF7D005B88B4 /* CancelRothemReservationRequest.swift in Sources */,
 				708ED7A72A8FA1C500107CDF /* StudyReservationViewController.swift in Sources */,
+				701FC8A82B9CAC6500291FC3 /* UploadImageRequest.swift in Sources */,
 				701F29D72AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift in Sources */,
 				708ED79F2A8F65A100107CDF /* CheckReservationInfoView.swift in Sources */,
 				708312562A31975C00F7E283 /* HomeBannerCollectionViewCell.swift in Sources */,
@@ -1793,7 +1826,9 @@
 				70A731C52B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift in Sources */,
 				70864F382B014A2D00CD4124 /* CreateCommentRequest.swift in Sources */,
 				70375F092AB050E00032F6B8 /* InquireChapterToBibleResponse.swift in Sources */,
+				701FC8A52B9CAC1F00291FC3 /* ImageRouter.swift in Sources */,
 				7034AF1A29F0064B009C7676 /* WebViewController.swift in Sources */,
+				701FC8AC2B9CC22D00291FC3 /* UploadImageResponse.swift in Sources */,
 				708312542A31930300F7E283 /* InquireHomeInfoResponse.swift in Sources */,
 				708ED7BC2A9119CC00107CDF /* InquireTodayWordsRequest.swift in Sources */,
 				70375F0B2AB055360032F6B8 /* BibleSearchResultViewModel.swift in Sources */,
@@ -1806,6 +1841,7 @@
 				7031E3D42ABA89160027DC0A /* BoardDetailCommentHeaderView.swift in Sources */,
 				7032FD5E2B594AC500B8481C /* CheckChapelDayView.swift in Sources */,
 				708E1E642B0778CD0030FAA0 /* PDFViewController.swift in Sources */,
+				701FC8AA2B9CC1E400291FC3 /* ImageRepositoryImpl.swift in Sources */,
 				705FD2AB2A160C1800F353FE /* HaramTabbarController.swift in Sources */,
 				70375EFC2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift in Sources */,
 				705FD2A92A16031900F353FE /* LoginViewModel.swift in Sources */,
@@ -1852,6 +1888,7 @@
 				70375F0E2AB1AA9F0032F6B8 /* BibleTitleView.swift in Sources */,
 				708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */,
 				7083123E2A2CA62A00F7E283 /* InquireChapelListResponse.swift in Sources */,
+				701FC8A12B9C990200291FC3 /* EditBoardViewModel.swift in Sources */,
 				70375F072AB04F7B0032F6B8 /* InquireChapterToBibleRequest.swift in Sources */,
 				708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */,
 				708ED79B2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift in Sources */,
@@ -1914,6 +1951,7 @@
 				7001DA892B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift in Sources */,
 				708ED7DB2A923B2A00107CDF /* BibleViewModel.swift in Sources */,
 				70727A9B29D88A3A003DE956 /* FindPasswordViewController.swift in Sources */,
+				701FC8A32B9C998900291FC3 /* CreateBoardRequest.swift in Sources */,
 				708312B82A77E36900F7E283 /* HaramTextField.swift in Sources */,
 				70727A5529D87B25003DE956 /* AppDelegate.swift in Sources */,
 				7001DA8B2B6E17C10037D599 /* LogoutUserRequest.swift in Sources */,
@@ -1943,6 +1981,7 @@
 				708ED7AD2A8FAAF600107CDF /* SelectedDayCollectionViewCell.swift in Sources */,
 				70C9CCB22A067D8000BEB5F2 /* ChapelDayView.swift in Sources */,
 				70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */,
+				701FC89F2B9B5FA700291FC3 /* CheckBoxButton.swift in Sources */,
 				708ED7CF2A91F13600107CDF /* BibleSearchView.swift in Sources */,
 				705FD2842A10E47F00F353FE /* HaramError.swift in Sources */,
 				70C9CCB62A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift in Sources */,
@@ -1961,6 +2000,7 @@
 				70909A822B0D8B4E00049265 /* ReserveStudyRoomRequest.swift in Sources */,
 				7083124F2A31927600F7E283 /* HomeRouter.swift in Sources */,
 				70430A822B7E29D200B64545 /* Device.swift in Sources */,
+				701FC8AE2B9DA92600291FC3 /* Ex + Notification.Name.swift in Sources */,
 				708ED7912A8E0AED00107CDF /* RothemRoomListViewModel.swift in Sources */,
 				708ED77D2A8239B700107CDF /* MoreTableViewCell.swift in Sources */,
 				70727AA629D93B43003DE956 /* HomeShortcutCollectionViewCell.swift in Sources */,

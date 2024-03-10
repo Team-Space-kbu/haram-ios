@@ -11,6 +11,11 @@ import SkeletonView
 import SnapKit
 import Then
 
+struct TodayBibleWordCollectionViewCellModel {
+  let todayBibleWord: String
+  let todayBibleBookName: String
+}
+
 final class TodayBibleWordCollectionViewCell: UICollectionViewCell {
   static let identifier = "TodayBibleWordCollectionViewCell"
   
@@ -19,6 +24,14 @@ final class TodayBibleWordCollectionViewCell: UICollectionViewCell {
     $0.textColor = .hex9F9FA4
     $0.numberOfLines = 0
     $0.skeletonTextNumberOfLines = 3
+    $0.isSkeletonable = true
+  }
+  
+  private let todayBibleBookLabel = UILabel().then {
+    $0.font = .bold18
+    $0.textColor = .hex9F9FA4
+    $0.numberOfLines = 0
+    $0.skeletonTextNumberOfLines = 1
     $0.isSkeletonable = true
   }
   
@@ -39,14 +52,21 @@ final class TodayBibleWordCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     isSkeletonable = true
     contentView.isSkeletonable = true
-    contentView.addSubview(todayBibleWordLabel)
+    _ = [todayBibleWordLabel, todayBibleBookLabel].map { contentView.addSubview($0) }
+    
     todayBibleWordLabel.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
+    }
+    
+    todayBibleBookLabel.snp.makeConstraints {
+      $0.top.equalTo(todayBibleWordLabel.snp.bottom).offset(18)
+      $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
   }
   
-  func configureUI(with model: String) {
-    todayBibleWordLabel.addLineSpacing(lineSpacing: 3, string: model)
+  func configureUI(with model: TodayBibleWordCollectionViewCellModel) {
+    todayBibleWordLabel.addLineSpacing(lineSpacing: 3, string: model.todayBibleWord)
+    todayBibleBookLabel.text = model.todayBibleBookName
   }
 }

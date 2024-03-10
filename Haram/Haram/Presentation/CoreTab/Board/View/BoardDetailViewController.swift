@@ -141,15 +141,20 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
       .disposed(by: disposeBag)
     
     viewModel.successCreateComment
-      .emit(with: self) { owner, result in
-        let (comment, createdAt) = result
-        owner.boardDetailCollectionView.performBatchUpdates {
-          owner.cellModel.insert(.init(
-            comment: comment,
-            createdAt: createdAt
-          ), at: owner.cellModel.count)
-          owner.boardDetailCollectionView.insertItems(at: [IndexPath(item: owner.cellModel.count - 1, section: 1)])
+      .emit(with: self) { owner, comments in
+        owner.cellModel = comments.map { BoardDetailCollectionViewCellModel(
+          commentAuthorInfoModel: .init(
+            commentAuthorName: $0.createdBy, commentDate: DateformatterFactory.iso8601.date(from: $0.createdAt)!),
+          comment: $0.contents)
         }
+//        let (comment, createdAt) = result
+//        owner.boardDetailCollectionView.performBatchUpdates {
+//          owner.cellModel.insert(.init(
+//            comment: comment,
+//            createdAt: createdAt
+//          ), at: owner.cellModel.count)
+//          owner.boardDetailCollectionView.insertItems(at: [IndexPath(item: owner.cellModel.count - 1, section: 1)])
+//        }
       }
       .disposed(by: disposeBag)
   }
@@ -251,8 +256,8 @@ extension BoardDetailViewController: UIGestureRecognizerDelegate {
 }
 
 extension BoardDetailViewController: CommentInputViewDelegate {
-  func writeComment(_ comment: String) {
-    viewModel.createComment(boardComment: comment, categorySeq: categorySeq, boardSeq: boardSeq)
+  func writeComment(_ comment: String, isAnonymous: Bool) {
+    viewModel.createComment(boardComment: comment, categorySeq: categorySeq, boardSeq: boardSeq, isAnonymous: isAnonymous)
   }
 }
 

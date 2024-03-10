@@ -33,7 +33,7 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
   private let bookImageView = UIImageView().then {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
-    $0.contentMode = .scaleAspectFit
+    $0.contentMode = .scaleAspectFill
   }
   
   private let mainLabel = UILabel().then {
@@ -71,7 +71,7 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     isSkeletonable = true
     
-    contentView.addShadow(shadowRadius: 6, shadowOpacity: 1, shadowOffset: CGSize(width: 0, height: 3))
+    contentView.addShadow(shadowRadius: 6, shadowOpacity: 0.28, shadowOffset: CGSize(width: 0, height: 3))
     contentView.isSkeletonable = true
     
     [bookImageView, mainLabel, subLabel, bottomLineView].forEach {
@@ -104,6 +104,9 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
   }
   
   func configureUI(with model: LibraryResultsCollectionViewCellModel) {
+    
+    hideSkeleton()
+    
     bookImageView.kf.setImage(with: model.imageURL, placeholder: UIImage(systemName: "book"))
     mainLabel.text = model.title
     subLabel.text = model.description

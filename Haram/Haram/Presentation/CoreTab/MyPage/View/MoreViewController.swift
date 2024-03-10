@@ -245,8 +245,8 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
       let settingType = SettingType.allCases[indexPath.row]
       if settingType == .logout {
         
-        AlertManager.showAlert(title: "로그아웃 하시겠습니까 ?", message: nil, viewController: self, confirmHandler: { [weak self] in
-          self?.viewModel.requestLogoutUser()
+        AlertManager.showAlert(title: "로그아웃 하시겠습니까 ?", message: nil, viewController: self, confirmHandler: {
+          self.viewModel.requestLogoutUser()
         }, cancelHandler: nil)
 
         

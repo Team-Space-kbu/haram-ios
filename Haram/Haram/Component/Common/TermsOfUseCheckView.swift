@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import SnapKit
 import SkeletonView
 import Then
@@ -21,26 +22,35 @@ enum TermsOfUseCheckViewType {
 }
 
 struct TermsOfUseCheckViewModel {
+  var isChecked: Bool
   let policySeq: Int
+  let title: String
   let content: String
   
   init(response: PolicyResponse) {
+    isChecked = false
+    title = response.title
     policySeq = response.policySeq
     content = response.content
   }
+}
+
+protocol TermsOfUseCheckViewDelegate: AnyObject {
+  func didTappedCheckBox(policySeq: Int, isChecked: Bool)
 }
 
 final class TermsOfUseCheckView: UIView {
     
   // MARK: - Property
   
+  weak var delegate: TermsOfUseCheckViewDelegate?
   private let type: TermsOfUseCheckViewType
+  private var policySeq: Int?
+  private let disposeBag = DisposeBag()
   
   // MARK: - UI Components
   
-  private let checkButton = UIButton().then {
-    $0.setImage(UIImage(resource: .markBlack), for: .normal)
-  }
+  private let checkButton = CheckBoxButton(type: .none)
   
   private let alertLabel = UILabel().then {
     $0.text = Constants.alertText
@@ -56,6 +66,7 @@ final class TermsOfUseCheckView: UIView {
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
     $0.numberOfLines = 0
+    $0.font = .regular10
   }
   
   // MARK: - Initializations
@@ -64,6 +75,7 @@ final class TermsOfUseCheckView: UIView {
     self.type = type
     super.init(frame: .zero)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -71,6 +83,15 @@ final class TermsOfUseCheckView: UIView {
   }
   
   // MARK: - Configurations
+  
+  private func bind() {
+    checkButton.rx.isChecked
+      .subscribe(with: self) { owner, isChecked in
+        guard let policySeq = owner.policySeq else { return }
+        owner.delegate?.didTappedCheckBox(policySeq: policySeq, isChecked: isChecked)
+      }
+      .disposed(by: disposeBag)
+  }
   
   private func configureUI() {
     isSkeletonable = true
@@ -84,7 +105,7 @@ final class TermsOfUseCheckView: UIView {
     alertLabel.snp.makeConstraints {
       $0.leading.equalTo(checkButton.snp.trailing).offset(10)
       $0.trailing.lessThanOrEqualToSuperview()
-      $0.directionalVerticalEdges.equalTo(checkButton)
+      $0.centerY.equalTo(checkButton)
     }
     
     if type == .none {
@@ -97,7 +118,9 @@ final class TermsOfUseCheckView: UIView {
   }
   
   func configureUI(with model: TermsOfUseCheckViewModel) {
-    termsLabel.text = model.content
+    termsLabel.addLineSpacing(lineSpacing: 7, string: model.content)
+    alertLabel.text = model.title
+    self.policySeq = model.policySeq
   }
   
   // MARK: - Constants

@@ -12,7 +12,7 @@ extension UIView {
     layer.masksToBounds = false
     layer.shadowRadius = shadowRadius
     layer.shadowOpacity = shadowOpacity
-    layer.shadowColor = UIColor.black.withAlphaComponent(0.16).cgColor
+    layer.shadowColor = UIColor.black.cgColor
     layer.shadowOffset = shadowOffset
 //    layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
   }

@@ -60,7 +60,7 @@ final class HomeNewsCollectionViewCell: UICollectionViewCell {
     isSkeletonable = true
     skeletonCornerRadius = 10
     contentView.isSkeletonable = true
-    contentView.addShadow(shadowRadius: 6, shadowOpacity: 1, shadowOffset: CGSize(width: 0, height: 3))
+    contentView.addShadow(shadowRadius: 6, shadowOpacity: 0.28, shadowOffset: CGSize(width: 0, height: 3))
     
     [newsImageView, titleLabel].forEach { contentView.addSubview($0) }
     newsImageView.snp.makeConstraints {

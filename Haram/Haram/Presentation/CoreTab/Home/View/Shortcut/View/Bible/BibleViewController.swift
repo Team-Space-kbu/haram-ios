@@ -41,7 +41,7 @@ final class BibleViewController: BaseViewController, BackButtonHandler {
   
   private let revisionOfTranlationModel = CoreDataManager.shared.getRevisionOfTranslation(ascending: true)
   
-  private var todayBibleWordModel: [String] = []
+  private var todayBibleWordModel: [TodayBibleWordCollectionViewCellModel] = []
   
   private var bibleMainNotice: [BibleNoticeCollectionViewCellModel] = []
   
@@ -59,7 +59,7 @@ final class BibleViewController: BaseViewController, BackButtonHandler {
       $0.register(BibleCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BibleCollectionHeaderView.identifier)
       $0.dataSource = self
       $0.delegate = self
-      $0.contentInset = UIEdgeInsets(top: 124 - 70.4 - 24.6, left: .zero, bottom: .zero, right: .zero)
+      $0.contentInset = UIEdgeInsets(top: 20, left: .zero, bottom: .zero, right: .zero)
     }
   
   private lazy var bibleSearchView = BibleSearchView().then {
@@ -107,12 +107,10 @@ final class BibleViewController: BaseViewController, BackButtonHandler {
   }
   
   override func setupStyles() {
-    
-    /// Configure NavigationBar
     super.setupStyles()
     title = "성경"
-    setupBackButton()
     
+    setupBackButton()
     setupSkeletonView()
   }
   
@@ -131,7 +129,7 @@ final class BibleViewController: BaseViewController, BackButtonHandler {
     }
     
     bibleSearchView.snp.makeConstraints {
-      $0.height.equalTo(186 - 30)
+      $0.height.equalTo(Device.isNotch ? 186 - 30 - 10 : 186 - 30 - 20 )
       $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
   }
@@ -243,7 +241,7 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
     case .notice:
       return bibleMainNotice.count
     case .todayBibleWord:
-      return 1
+      return todayBibleWordModel.count
     }
   }
   
@@ -251,7 +249,7 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
     switch BibleViewType.allCases[indexPath.section] {
     case .todayBibleWord:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayBibleWordCollectionViewCell.identifier, for: indexPath) as? TodayBibleWordCollectionViewCell ?? TodayBibleWordCollectionViewCell()
-      cell.configureUI(with: todayBibleWordModel.first ?? "")
+      cell.configureUI(with: todayBibleWordModel[indexPath.row])
       return cell
     case .notice:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleNoticeCollectionViewCell.identifier, for: indexPath) as? BibleNoticeCollectionViewCell ?? BibleNoticeCollectionViewCell()

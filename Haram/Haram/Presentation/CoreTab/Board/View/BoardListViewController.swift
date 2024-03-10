@@ -41,10 +41,10 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     $0.layer.cornerRadius = 25
     $0.backgroundColor = .hex79BD9A
     $0.setImage(UIImage(resource: .editButton), for: .normal)
-    $0.layer.shadowColor = UIColor(hex: 0x000000).withAlphaComponent(0.16).cgColor
-    $0.layer.shadowOpacity = 1
+    $0.layer.shadowColor = UIColor(hex: 0x000000).cgColor
+    $0.layer.shadowOpacity = 0.3
     $0.layer.shadowRadius = 5
-    $0.layer.shadowOffset = CGSize(width: 0, height: 8)
+    $0.layer.shadowOffset = CGSize(width: 0, height: 3)
     $0.isSkeletonable = true
     $0.skeletonCornerRadius = 25
   }
@@ -62,6 +62,10 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotifications()
+  }
+  
   override func setupStyles() {
     super.setupStyles()
     
@@ -74,6 +78,8 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     
     setupSkeletonView()
     emptyView.isHidden = true
+    
+    registerNotifications()
   }
   
   override func setupLayouts() {
@@ -129,7 +135,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     editBoardButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        let vc = EditBoardViewController()
+        let vc = EditBoardViewController(categorySeq: owner.categorySeq)
         vc.title = "게시글 작성"
         owner.navigationController?.pushViewController(vc, animated: true)
       }
@@ -185,4 +191,19 @@ extension BoardListViewController: SkeletonCollectionViewDataSource {
     10
   }
   
+}
+
+extension BoardListViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshBoardList), name: .refreshBoardList, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self, name: .refreshBoardList, object: nil)
+  }
+  
+  @objc
+  private func refreshBoardList() {
+    viewModel.inquireBoardList(categorySeq: categorySeq)
+  }
 }

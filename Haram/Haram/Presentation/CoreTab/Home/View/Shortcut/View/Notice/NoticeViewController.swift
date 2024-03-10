@@ -71,12 +71,12 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
     setupBackButton()
     setupSkeletonView()
     
-    navigationItem.rightBarButtonItem = UIBarButtonItem(
-      image: UIImage(resource: .searchLightGray),
-      style: .plain,
-      target: self,
-      action: #selector(didTappedSearch)
-    )
+//    navigationItem.rightBarButtonItem = UIBarButtonItem(
+//      image: UIImage(resource: .searchLightGray),
+//      style: .plain,
+//      target: self,
+//      action: #selector(didTappedSearch)
+//    )
   }
   
   override func setupLayouts() {

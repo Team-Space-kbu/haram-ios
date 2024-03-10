@@ -11,12 +11,16 @@ import RxSwift
 import RxCocoa
 
 protocol StudyReservationViewModelType {
+  
+  func checkCheckBox(policySeq: Int, isChecked: Bool)
+  
   var whichCalendarSeq: AnyObserver<Int> { get }
   var selectTimeSeq: AnyObserver<Int> { get }
   var deSelectTimeSeq: AnyObserver<Int> { get }
   var reservationButtonTapped: AnyObserver<Void> { get }
   var whichReservationName: AnyObserver<String> { get }
   var whichReservationPhoneNumber: AnyObserver<String> { get }
+  var errorMessage: Signal<HaramError> { get }
   
   var studyRoomInfoViewModel: Driver<StudyRoomInfoViewModel> { get }
   var selectedDayCollectionViewCellModel: Driver<[SelectedDayCollectionViewCellModel]> { get }
@@ -48,6 +52,7 @@ final class StudyReservationViewModel {
   private let studyRoomInfoViewModelRelay             = PublishRelay<StudyRoomInfoViewModel>()
   private let selectedDayCollectionViewCellModelRelay = BehaviorRelay<[SelectedDayCollectionViewCellModel]>(value: [])
   private let policyModelRelay                        = BehaviorRelay<[TermsOfUseCheckViewModel]>(value: [])
+  private let errorMessageRelay                       = PublishRelay<HaramError>()
   
   init(rothemRepository: RothemRepository = RothemRepositoryImpl(), roomSeq: Int) {
     self.rothemRepository = rothemRepository
@@ -164,9 +169,12 @@ final class StudyReservationViewModel {
       .flatMapLatest { owner, request in
         owner.rothemRepository.reserveStudyRoom(roomSeq: owner.roomSeq, request: request)
       }
-      .subscribe(with: self) { owner, _ in
+      .subscribe(with: self, onNext: { owner, _ in
         owner.successRothemReservationSubject.onNext(())
-      }
+      }, onError: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
       .disposed(by: disposeBag)
   }
   
@@ -181,6 +189,24 @@ final class StudyReservationViewModel {
 }
 
 extension StudyReservationViewModel: StudyReservationViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.asSignal()
+  }
+  
+  func checkCheckBox(policySeq: Int, isChecked: Bool) {
+    var policyModel = policyModelRelay.value
+    policyModelRelay.accept(
+      policyModel.map { policy in
+        var policy = policy
+        // 특정 번호에 해당하는 정책을 찾았다면
+        if policy.policySeq == policySeq {
+          policy.isChecked = isChecked
+        }
+        return policy
+      }
+    )
+  }
+  
   var reservationButtonTapped: RxSwift.AnyObserver<Void> {
     reservationButtonTappedSubject.asObserver()
   }
@@ -210,7 +236,7 @@ extension StudyReservationViewModel: StudyReservationViewModelType {
   }
   
   var selectedPolicyModel: Driver<[TermsOfUseCheckViewModel]> {
-    policyModelRelay.asDriver()
+    policyModelRelay.filter { !$0.isEmpty }.asDriver(onErrorJustReturn: [])
   }
   
   var whichReservationName: AnyObserver<String> {
@@ -229,7 +255,7 @@ extension StudyReservationViewModel: StudyReservationViewModelType {
       reservationNameSubject
     ) { [weak self] in
       guard let self = self else { return false }
-      return self.isValidPhoneNumber($0) && !$1.isEmpty && !$2.isEmpty && !$3.isEmpty
+      return self.isValidPhoneNumber($0) && $1.filter { !$0.isChecked }.count == 0 && !$2.isEmpty && !$3.isEmpty
     }
     .distinctUntilChanged()
     .asDriver(onErrorJustReturn: false)

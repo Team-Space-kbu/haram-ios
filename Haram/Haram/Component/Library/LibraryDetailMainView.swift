@@ -33,9 +33,26 @@ final class LibraryDetailMainView: UIView {
     $0.backgroundColor = .clear
   }
   
+  private let outerView = UIView().then {
+//    $0.layer.shadowOffset = .zero
+    $0.layer.shadowColor = UIColor.black.cgColor
+    $0.layer.shadowOpacity = 0.4
+    $0.layer.shadowRadius = 10
+    $0.layer.shadowOffset = CGSize(width: 0, height: 1.0)
+    $0.layer.backgroundColor = UIColor.clear.cgColor
+//    $0.layer.cornerRadius = 10
+  }
+  
   private let bookImageView = UIImageView().then {
+//    $0.layer.shadowOffset = .zero
+//    $0.layer.shadowColor = UIColor.black.cgColor
+//    $0.layer.shadowOpacity = 1
+//    $0.layer.shadowRadius = 10
     $0.layer.masksToBounds = true
+    $0.layer.backgroundColor = UIColor.clear.cgColor
+    $0.clipsToBounds = true
     $0.layer.cornerRadius = 10
+    $0.backgroundColor = .clear
     $0.contentMode = .scaleAspectFill
   }
   
@@ -70,19 +87,26 @@ final class LibraryDetailMainView: UIView {
   private func configureUI() {
     backgroundColor = .clear
     
-    _ = [containerView, bookImageView, titleLabel, subLabel, bottomLineView].map { $0.isSkeletonable = true }
+    _ = [containerView, outerView, titleLabel, subLabel, bottomLineView].map { $0.isSkeletonable = true }
+    
+    outerView.skeletonCornerRadius = 10
     
     addSubview(containerView)
-    _ = [bookImageView, titleLabel, subLabel, bottomLineView].map { containerView.addArrangedSubview($0) }
+    _ = [outerView, titleLabel, subLabel, bottomLineView].map { containerView.addArrangedSubview($0) }
+    outerView.addSubview(bookImageView)
     
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
-    bookImageView.snp.makeConstraints {
+    outerView.snp.makeConstraints {
       $0.height.equalTo(210)
       $0.width.equalTo(150)
+    }
+    
+    bookImageView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
     titleLabel.snp.makeConstraints {
@@ -105,3 +129,4 @@ final class LibraryDetailMainView: UIView {
     subLabel.text = model.subTitle
   }
 }
+
