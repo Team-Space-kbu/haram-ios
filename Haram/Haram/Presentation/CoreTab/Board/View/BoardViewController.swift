@@ -137,11 +137,12 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
       categorySeq: boardModel.categorySeq,
       writeableBoard: boardModel.writeableBoard
     )
-    vc.title = "게시판"
+    vc.title = boardModel.title
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.hidesBottomBarWhenPushed = true
     navigationController?.pushViewController(vc, animated: true)
   }
+  
 }
 
 extension BoardViewController: UIGestureRecognizerDelegate {

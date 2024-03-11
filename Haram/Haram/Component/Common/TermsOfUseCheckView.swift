@@ -50,7 +50,7 @@ final class TermsOfUseCheckView: UIView {
   
   // MARK: - UI Components
   
-  private let checkButton = CheckBoxButton(type: .none)
+  private let checkBoxControl = CheckBoxControl(type: .none, title: Constants.alertText)
   
   private let alertLabel = UILabel().then {
     $0.text = Constants.alertText
@@ -85,7 +85,7 @@ final class TermsOfUseCheckView: UIView {
   // MARK: - Configurations
   
   private func bind() {
-    checkButton.rx.isChecked
+    checkBoxControl.rx.isChecked
       .subscribe(with: self) { owner, isChecked in
         guard let policySeq = owner.policySeq else { return }
         owner.delegate?.didTappedCheckBox(policySeq: policySeq, isChecked: isChecked)
@@ -95,23 +95,24 @@ final class TermsOfUseCheckView: UIView {
   
   private func configureUI() {
     isSkeletonable = true
-    
-    [checkButton, alertLabel].forEach { addSubview($0) }
-    checkButton.snp.makeConstraints {
+    addSubview(checkBoxControl)
+//    [checkButton, alertLabel].forEach { addSubview($0) }
+    checkBoxControl.snp.makeConstraints {
       $0.size.equalTo(18)
       $0.top.leading.equalToSuperview()
+      $0.trailing.equalToSuperview()
     }
     
-    alertLabel.snp.makeConstraints {
-      $0.leading.equalTo(checkButton.snp.trailing).offset(10)
-      $0.trailing.lessThanOrEqualToSuperview()
-      $0.centerY.equalTo(checkButton)
-    }
+//    alertLabel.snp.makeConstraints {
+//      $0.leading.equalTo(checkButton.snp.trailing).offset(10)
+//      $0.trailing.lessThanOrEqualToSuperview()
+//      $0.centerY.equalTo(checkButton)
+//    }
     
     if type == .none {
       addSubview(termsLabel)
       termsLabel.snp.makeConstraints {
-        $0.top.equalTo(checkButton.snp.bottom).offset(10)
+        $0.top.equalTo(checkBoxControl.snp.bottom).offset(10)
         $0.directionalHorizontalEdges.bottom.equalToSuperview()
       }
     }
@@ -119,7 +120,8 @@ final class TermsOfUseCheckView: UIView {
   
   func configureUI(with model: TermsOfUseCheckViewModel) {
     termsLabel.addLineSpacing(lineSpacing: 7, string: model.content)
-    alertLabel.text = model.title
+    checkBoxControl.setTitle(model.title)
+//    alertLabel.text = model.title
     self.policySeq = model.policySeq
   }
   

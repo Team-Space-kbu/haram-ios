@@ -32,6 +32,7 @@
 		701FC8AA2B9CC1E400291FC3 /* ImageRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8A92B9CC1E400291FC3 /* ImageRepositoryImpl.swift */; };
 		701FC8AC2B9CC22D00291FC3 /* UploadImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8AB2B9CC22D00291FC3 /* UploadImageResponse.swift */; };
 		701FC8AE2B9DA92600291FC3 /* Ex + Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8AD2B9DA92600291FC3 /* Ex + Notification.Name.swift */; };
+		701FC8B02B9DB61800291FC3 /* Ex + UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8AF2B9DB61800291FC3 /* Ex + UIResponder.swift */; };
 		7031E3C82ABA72C10027DC0A /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */; };
 		7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */; };
 		7031E3D02ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */; };
@@ -326,6 +327,7 @@
 		701FC8A92B9CC1E400291FC3 /* ImageRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepositoryImpl.swift; sourceTree = "<group>"; };
 		701FC8AB2B9CC22D00291FC3 /* UploadImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageResponse.swift; sourceTree = "<group>"; };
 		701FC8AD2B9DA92600291FC3 /* Ex + Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + Notification.Name.swift"; sourceTree = "<group>"; };
+		701FC8AF2B9DB61800291FC3 /* Ex + UIResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIResponder.swift"; sourceTree = "<group>"; };
 		7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewController.swift; sourceTree = "<group>"; };
 		7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailHeaderView.swift; sourceTree = "<group>"; };
 		7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -923,6 +925,7 @@
 				709130002B176344005B88B4 /* Ex + UIView.swift */,
 				708DAD1B2B36DE6C00E3AD45 /* Ex + UIViewController.swift */,
 				701FC8AD2B9DA92600291FC3 /* Ex + Notification.Name.swift */,
+				701FC8AF2B9DB61800291FC3 /* Ex + UIResponder.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1836,6 +1839,7 @@
 				7083124C2A2F88EE00F7E283 /* RequestBookInfoResponse.swift in Sources */,
 				708312C22A7A6F2900F7E283 /* PaddingLabel.swift in Sources */,
 				708312642A3977B500F7E283 /* LibraryDetailViewModel.swift in Sources */,
+				701FC8B02B9DB61800291FC3 /* Ex + UIResponder.swift in Sources */,
 				7083126A2A39DEF300F7E283 /* LibraryRelatedBookCollectionViewCell.swift in Sources */,
 				708ED7E62A94B61100107CDF /* RevisionOfTranslation+CoreDataClass.swift in Sources */,
 				7031E3D42ABA89160027DC0A /* BoardDetailCommentHeaderView.swift in Sources */,

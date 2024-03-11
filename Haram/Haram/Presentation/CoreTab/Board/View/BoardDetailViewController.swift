@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -83,8 +84,8 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     super.setupStyles()
     
     /// Set NavigationBar
-    title = "게시판"
     setupBackButton()
+//    setupSkeletonView()
     
     /// Set GestureRecognizer
     _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
@@ -93,6 +94,8 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     commentInputView.delegate = self
     panGesture.delegate = self
     registerNotifications()
+    
+    _ = [boardDetailCollectionView, commentInputView].map { $0.isSkeletonable = true }
   }
   
   override func setupLayouts() {
@@ -142,19 +145,17 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     
     viewModel.successCreateComment
       .emit(with: self) { owner, comments in
-        owner.cellModel = comments.map { BoardDetailCollectionViewCellModel(
-          commentAuthorInfoModel: .init(
-            commentAuthorName: $0.createdBy, commentDate: DateformatterFactory.iso8601.date(from: $0.createdAt)!),
-          comment: $0.contents)
+        owner.cellModel = comments.enumerated()
+          .map { index, comment in
+            return BoardDetailCollectionViewCellModel(
+              commentAuthorInfoModel: .init(
+                commentAuthorName: comment.createdBy,
+                commentDate: DateformatterFactory.iso8601.date(from: comment.createdAt)!
+              ),
+              comment: comment.contents,
+              isLastComment: comments.count - 1 == index ? true : false
+            )
         }
-//        let (comment, createdAt) = result
-//        owner.boardDetailCollectionView.performBatchUpdates {
-//          owner.cellModel.insert(.init(
-//            comment: comment,
-//            createdAt: createdAt
-//          ), at: owner.cellModel.count)
-//          owner.boardDetailCollectionView.insertItems(at: [IndexPath(item: owner.cellModel.count - 1, section: 1)])
-//        }
       }
       .disposed(by: disposeBag)
   }
@@ -191,7 +192,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
       elementKind: UICollectionView.elementKindSectionHeader,
       alignment: .top
     )
-
+    
     let section = NSCollectionLayoutSection(group: verticalGroup)
     if sec == 1 {
       section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 16, bottom: 16, trailing: 16)
@@ -219,9 +220,9 @@ extension BoardDetailViewController: UICollectionViewDataSource {
     guard indexPath.section == 1 else { return UICollectionViewCell() }
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardDetailCollectionViewCell.identifier, for: indexPath) as? BoardDetailCollectionViewCell ?? BoardDetailCollectionViewCell()
     cell.configureUI(with: cellModel[indexPath.row])
-    if cellModel.count - 1 == indexPath.row { // 마지막 댓글이라면 라인 삭제
-      cell.removeLineView()
-    }
+//    if cellModel.count - 1 == indexPath.row { // 마지막 댓글이라면 라인 삭제
+//      cell.removeLineView()
+//    }
     return cell
   }
   
@@ -309,5 +310,24 @@ extension BoardDetailViewController {
     UIView.animate(withDuration: 0.2) {
       self.view.layoutIfNeeded()
     }
+  }
+}
+
+extension BoardDetailViewController: SkeletonCollectionViewDataSource {
+  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+    BoardDetailCollectionViewCell.identifier
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    10
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: BoardDetailCollectionViewCell.identifier, for: indexPath) as? BoardDetailCollectionViewCell
+    return cell
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
+    BoardDetailHeaderView.identifier
   }
 }

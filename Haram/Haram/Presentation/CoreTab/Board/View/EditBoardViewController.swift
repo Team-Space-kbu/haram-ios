@@ -24,6 +24,11 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     $0.delegate = self
   }
   
+  private lazy var photoPicker = UIImagePickerController().then {
+    $0.delegate = self
+    $0.sourceType = .photoLibrary
+  }
+  
   private lazy var floatingPanelVC = FloatingPanelController().then {
     let appearance = SurfaceAppearance()
     
@@ -182,7 +187,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
       .disposed(by: disposeBag)
     
     titleTextView.rx.text.orEmpty
-//      .skip(1)
+    //      .skip(1)
       .filter { $0 != Constants.titlePlaceholder }
       .asDriver(onErrorDriveWith: .empty())
       .drive(with: self){ owner, text in
@@ -213,22 +218,19 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
         owner.updateTextViewHeightAutomatically(textView: owner.contentTextView, height: 209)
       }
       .disposed(by: disposeBag)
+    
     navigationItem.rightBarButtonItem!.rx.tap
-      .withLatestFrom(
-        Observable.combineLatest(
-          titleTextView.rx.text.orEmpty.filter { $0 != Constants.titlePlaceholder },
-          contentTextView.rx.text.orEmpty.filter { $0 != Constants.contentPlaceholder }
-        )
-      )
-      .subscribe(with: self) { owner, result in
-        let (title, content) = result
+      .subscribe(with: self) { owner, _ in
+        let title = owner.titleTextView.text!
+        let content = owner.contentTextView.text!
+
         owner.viewModel.createBoard(categorySeq: owner.categorySeq, title: title, contents: content, isAnonymous: false)
       }
       .disposed(by: disposeBag)
     
     
     contentTextView.rx.text.orEmpty
-//      .skip(1)
+    //      .skip(1)
       .filter { $0 != Constants.contentPlaceholder }
       .asDriver(onErrorDriveWith: .empty())
       .drive(with: self){ owner, text in
@@ -257,7 +259,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
         let (response, image) = result
         owner.imageModel.append(image)
         owner.editBoardCollectionView.reloadData()
-//        owner.imageModel.append()
+        //        owner.imageModel.append()
       }
       .disposed(by: disposeBag)
     
@@ -265,6 +267,12 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
       .emit(with: self) { owner, _ in
         NotificationCenter.default.post(name: .refreshBoardList, object: nil)
         owner.navigationController?.popViewController(animated: true)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        AlertManager.showAlert(title: error.description!, viewController: owner, confirmHandler: nil)
       }
       .disposed(by: disposeBag)
   }
@@ -328,26 +336,21 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     }
   }
   
-  private func presentPicker() {
-    var config = PHPickerConfiguration()
-    config.selectionLimit = 8
-    config.filter = .images
-    config.selection = .ordered
-    
-    let picker = PHPickerViewController(configuration: config)
-    picker.delegate = self
-    present(picker, animated: true)
-  }
+  //  private func presentPicker() {
+  //    var config = PHPickerConfiguration()
+  //    config.selectionLimit = 8
+  //    config.filter = .images
+  //    config.selection = .ordered
+  //
+  //    let picker = PHPickerViewController(configuration: config)
+  ////    picker.delegate = self
+  //    present(picker, animated: true)
+  //  }
   
   @objc
   func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
-  
-//  @objc
-//  private func didTappedEditButton() {
-//    viewModel.createBoard(categorySeq: categorySeq, isAnonymous: false)
-//  }
 }
 
 extension EditBoardViewController: FloatingPanelControllerDelegate {
@@ -399,7 +402,8 @@ extension EditBoardViewController: UIGestureRecognizerDelegate {
 
 extension EditBoardViewController: EditBoardBottomSheetViewDelegate {
   func didTappedSelectedMenu() {
-    presentPicker()
+    //    presentPicker()
+    present(photoPicker, animated: true)
   }
   
   func whichSelectedImages(with itemProviders: [NSItemProvider]) {
@@ -444,38 +448,65 @@ extension EditBoardViewController {
   }
 }
 
-extension EditBoardViewController: PHPickerViewControllerDelegate {
-  func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-    picker.dismiss(animated: true)
-    
-//    let group = DispatchGroup()
-    
-    // 만들어준 itemProviders에 Picker로 선택한 이미지정보를 전달
-    let itemProviders = results.map(\.itemProvider)
-    
-    // 만약에 삽입한 이미지 갯수가 최대갯수인 8개를 넘어선 경우
-    if itemProviders.count + imageModel.count > 8 {
-      AlertManager.showAlert(title: "이미지 등록은 최대 8개입니다.", viewController: self, confirmHandler: nil)
-      return
-    }
-    
-    for itemProvider in itemProviders {
-//      group.enter()
-      if itemProvider.canLoadObject(ofClass: UIImage.self) {
-        // 로드 핸들러를 통해 UIImage를 처리해 줍시다.
-        itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
-          
-          guard let self = self,
-                let image = image as? UIImage else { return }
-          self.viewModel.uploadImage(image: image, type: .board)
-//          self.imageModel.append(image)
-//          group.leave()
-        }
-      }
-    }
-    
-//    group.notify(queue: .main) {
-//      self.editBoardCollectionView.reloadData()
+//extension EditBoardViewController: PHPickerViewControllerDelegate {
+//  func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+//    picker.dismiss(animated: true)
+//
+//    // 만들어준 itemProviders에 Picker로 선택한 이미지정보를 전달
+//    let itemProviders = results.map(\.itemProvider)
+//
+//    // 만약에 삽입한 이미지 갯수가 최대갯수인 8개를 넘어선 경우
+//    if itemProviders.count + imageModel.count > 8 {
+//      AlertManager.showAlert(title: "이미지 등록은 최대 8개입니다.", viewController: self, confirmHandler: nil)
+//      return
 //    }
+//
+//    for itemProvider in itemProviders {
+//      if itemProvider.canLoadObject(ofClass: UIImage.self) {
+//        // 로드 핸들러를 통해 UIImage를 처리해 줍시다.
+//        itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
+//
+//          guard let self = self,
+//                let image = image as? UIImage else { return }
+//
+//          if let assetIdentifier = results.first?.assetIdentifier,
+//             let asset = PHAsset.fetchAssets(withLocalIdentifiers: [assetIdentifier], options: nil).firstObject {
+//            PHImageManager.default().requestImageDataAndOrientation(for: asset, options: nil) { data, _, _, _ in
+//              if let imageData = data, let assetFileName = asset.value(forKey: "filename") as? String {
+//                print("파일이름 \(assetFileName)")
+//              }
+//            }
+//          }
+//
+//          //          self.viewModel.uploadImage(image: image, type: .board)
+//        }
+//      }
+//    }
+//  }
+//}
+
+extension EditBoardViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+  func imagePickerController(
+    _ picker: UIImagePickerController,
+    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+  ) {
+    guard let selectedImage = info[.originalImage] as? UIImage else { return }
+    
+    // 이미지 파일명 가져오기
+    if let imageURL = info[.imageURL] as? URL {
+      let fileName = imageURL.lastPathComponent
+      print("Selected image file name: \(fileName)")
+      
+      // 선택된 이미지를 업로드
+      viewModel.uploadImage(image: selectedImage, type: .board, fileName: fileName)
+    }
+    
+    picker.dismiss(animated: true)
+  }
+  
+  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    picker.dismiss(animated: true) {
+      self.dismiss(animated: true)
+    }
   }
 }

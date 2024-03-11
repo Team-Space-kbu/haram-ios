@@ -83,6 +83,7 @@ final class HaramTextField: UIView {
   
   private func bind() {
     haramButton.rx.tap
+      .throttle(.seconds(3), scheduler: MainScheduler.instance)
       .subscribe(with: self) { owner, _ in
         owner.delegate?.didTappedButton()
       }

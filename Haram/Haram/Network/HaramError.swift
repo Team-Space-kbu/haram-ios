@@ -23,11 +23,11 @@ enum HaramError: Error, CaseIterable {
   case noPWD // 로그인 시 password가 빈 문자열일 때 발생하는 에러
   
   /// 도서관관련 에러
-//  case loanInfoEmptyError // 대여정보가 비어있어 처리할 수 없는 상태입니다.
+  //  case loanInfoEmptyError // 대여정보가 비어있어 처리할 수 없는 상태입니다.
   case noExistSearchInfo // 검색된 정보가 존재하지않은 상태입니다.
   case noRequestFromNaver // 네이버로부터 요청 값을 처리할 수 없는 상태입니다.
   case noEnglishRequest // 영문도서에 대한 요청을 처리할 수 없는 상태입니다.
-
+  
   /// 회원가입 시 에러
   case existSameUserError // 동일한 아이디로 회원가입한 사용자가 존재할 때 발생하는 에러
   case wrongEmailAuthcodeError // 이메일 인증코드가 틀렸을 때 발생하는 에러
@@ -39,6 +39,7 @@ enum HaramError: Error, CaseIterable {
   case unvalidUserIDFormat // 옳지않은 유저 아이디 형식일 경우
   case unvalidAuthCode // 옳지않은 인증코드 형식일 경우
   case emailAlreadyUse // 이미 사용중인 이메일로 회원가입 시도할 경우
+  case requestTimeOut // 메일 요청은 30초 지난 후에 재요청 가능
   
   /// 비밀번호변경 시 에러
   case expireAuthCode
@@ -61,6 +62,15 @@ enum HaramError: Error, CaseIterable {
   case noExistBoard // 게시글이 존재하지않을 때 발생하는 에러
   
   case alreadyReservationList // 이미 예약된 내역이 있습니다.
+  
+  /// 게시판 생성 에러
+  case titleIsEmpty
+  case contentsIsEmpty
+  case unvalidBoardTitle // 제목 값이 올바르지 않음
+  
+  /// 이미지 업로드 에서
+  case failedUploadMultipartFile
+  case failedCreateDirectory
 }
 
 extension HaramError {
@@ -82,7 +92,7 @@ extension HaramError {
 extension HaramError {
   var code: String? { // 하람 서버에서 제공하는 code, Notion 참고
     switch self {
-    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat:
+    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .titleIsEmpty, .contentsIsEmpty:
       return nil
     case .unvalidAuthCode:
       return "MAIL01"
@@ -90,6 +100,8 @@ extension HaramError {
       return "MAIL02"
     case .unvalidEmailFormat:
       return "MAIL04"
+    case .requestTimeOut:
+      return "MAIL05"
     case .notFindUserError:
       return "USER01"
     case .wrongPasswordError:
@@ -134,6 +146,12 @@ extension HaramError {
       return "ER01"
     case .alreadyReservationList:
       return "RT08"
+    case .failedUploadMultipartFile:
+      return "IMG03"
+    case .failedCreateDirectory:
+      return "IMG04"
+    case .unvalidBoardTitle:
+      return "BD17"
     }
   }
   
@@ -203,6 +221,18 @@ extension HaramError {
       return "이미 사용중인 이메일입니다"
     case .alreadyReservationList:
       return "이미 예약된 내역이 있습니다."
+    case .titleIsEmpty:
+      return "게시글 제목을 입력해주세요."
+    case .contentsIsEmpty:
+      return "게시글 내용을 입력해주세요."
+    case .failedUploadMultipartFile:
+      return "업로드하는데 실패하였습니다."
+    case .failedCreateDirectory:
+      return "디렉터리를 생성하는데 실패하였습니다."
+    case .requestTimeOut:
+      return "메일 요청은 30초가 지난 후에 재요청 가능합니다."
+    case .unvalidBoardTitle:
+      return "게시글 제목이 올바르지 않습니다."
     }
   }
 }

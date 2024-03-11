@@ -109,7 +109,7 @@ final class CheckEmailViewController: BaseViewController {
     containerView.setCustomSpacing(7, after: titleLabel)
     
     buttonStackView.snp.makeConstraints {
-      $0.bottom.equalToSuperview().inset(24)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(48)
     }
@@ -210,7 +210,7 @@ extension CheckEmailViewController {
     let keyboardHeight = keyboardSize.height
 
     buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(24 + keyboardHeight)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 + keyboardHeight : 12 + keyboardHeight)
     }
 
     UIView.animate(withDuration: 0.2) {
@@ -222,7 +222,7 @@ extension CheckEmailViewController {
   func keyboardWillHide(_ sender: Notification) {
 
     buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(24)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
     }
     
     UIView.animate(withDuration: 0.2) {

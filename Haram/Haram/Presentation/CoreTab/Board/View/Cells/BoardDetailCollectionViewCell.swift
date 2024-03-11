@@ -11,15 +11,18 @@ import SnapKit
 import Then
 
 struct BoardDetailCollectionViewCellModel {
+  let isLastComment: Bool
   let commentAuthorInfoModel: CommentAuthorInfoViewModel
   let comment: String
   
-  init(commentAuthorInfoModel: CommentAuthorInfoViewModel, comment: String) {
+  init(commentAuthorInfoModel: CommentAuthorInfoViewModel, comment: String, isLastComment: Bool) {
+    self.isLastComment = isLastComment
     self.commentAuthorInfoModel = commentAuthorInfoModel
     self.comment = comment
   }
   
   init(comment: String, createdAt: String) {
+    self.isLastComment = false
     self.comment = comment
     commentAuthorInfoModel = CommentAuthorInfoViewModel(
       commentAuthorName: UserManager.shared.userID!,
@@ -52,8 +55,18 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    commentLabel.text = nil
+    commentAuthorInfoView.configureUI(with: .init(commentAuthorName: "", commentDate: Date()))
+  }
+  
   private func configureUI() {
-    [commentAuthorInfoView, commentLabel, lineView].forEach { contentView.addSubview($0) }
+    isSkeletonable = true
+    contentView.isSkeletonable = true
+//    _ = [commentAuthorInfoView, commentLabel].map { $0.isSkeletonable = true }
+    
+    [commentAuthorInfoView, commentLabel].forEach { contentView.addSubview($0) }
     commentAuthorInfoView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(17)
@@ -65,18 +78,30 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
       $0.trailing.lessThanOrEqualToSuperview()
     }
     
-    lineView.snp.makeConstraints {
-      $0.top.equalTo(commentLabel.snp.bottom).offset(600 - 464 - 117)
-      $0.height.equalTo(1)
-      $0.bottom.directionalHorizontalEdges.equalToSuperview()
-    }
+//    lineView.snp.makeConstraints {
+//      $0.top.equalTo(commentLabel.snp.bottom).offset(600 - 464 - 117)
+//      $0.height.equalTo(1)
+//      $0.bottom.directionalHorizontalEdges.equalToSuperview()
+//    }
   }
   
-  func removeLineView() {
-    lineView.removeFromSuperview()
-  }
+//  func removeLineView() {
+//    lineView.removeFromSuperview()
+//  }
   
   func configureUI(with model: BoardDetailCollectionViewCellModel) {
+    
+    if model.isLastComment {
+      lineView.removeFromSuperview()
+    } else {
+      contentView.addSubview(lineView)
+      lineView.snp.makeConstraints {
+        $0.top.equalTo(commentLabel.snp.bottom).offset(600 - 464 - 117)
+        $0.height.equalTo(1)
+        $0.bottom.directionalHorizontalEdges.equalToSuperview()
+      }
+    }
+    
     commentAuthorInfoView.configureUI(with: model.commentAuthorInfoModel)
     commentLabel.addLineSpacing(lineSpacing: 2, string: model.comment)
   }

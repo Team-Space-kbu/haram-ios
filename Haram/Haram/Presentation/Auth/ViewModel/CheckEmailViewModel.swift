@@ -67,7 +67,6 @@ extension CheckEmailViewModel: CheckEmailViewModelType {
   func requestEmailAuthCode(email: String) {
     authRepository.requestEmailAuthCode(userEmail: email)
       .subscribe(with: self, onSuccess: { owner, _ in
-        print("이메일 인증코드 재요청 성공")
         owner.successSendAuthCodeRelay.accept(())
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }

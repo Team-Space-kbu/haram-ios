@@ -122,6 +122,10 @@ final class BoardDetailHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    containerView.isSkeletonable = true
+    _ = [postingTitleLabel, postingAuthorNameLabel, postingDateLabel, postingDescriptionLabel].map { $0.isSkeletonable = true }
+    
     _ = [containerView, lineView].map { addSubview($0) }
     _ = [postingTitleLabel, postingAuthorNameLabel, postingDateLabel, postingDescriptionLabel].map { containerView.addArrangedSubview($0) }
     

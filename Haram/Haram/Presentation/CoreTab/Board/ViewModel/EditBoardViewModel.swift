@@ -13,10 +13,11 @@ import RxCocoa
 protocol EditBoardViewModelType {
   
   func createBoard(categorySeq: Int, title: String, contents: String, isAnonymous: Bool)
-  func uploadImage(image: UIImage, type: AggregateType)
+  func uploadImage(image: UIImage, type: AggregateType, fileName: String)
   
   var successUploadImage: Signal<(UploadImageResponse, UIImage)> { get }
   var successCreateBoard: Signal<Void> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class EditBoardViewModel {
@@ -28,6 +29,7 @@ final class EditBoardViewModel {
   private var tempFileList: [FileRequeset] = []
   private let successUploadImageRelay = PublishRelay<(UploadImageResponse, UIImage)>()
   private let successCreateBoardRelay = PublishRelay<Void>()
+  private let errorMessageRelay = PublishRelay<HaramError>()
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl(), imageRepository: ImageRepository = ImageRepositoryImpl()) {
     self.boardRepository = boardRepository
@@ -37,6 +39,10 @@ final class EditBoardViewModel {
 }
 
 extension EditBoardViewModel: EditBoardViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.asSignal()
+  }
+  
   var successCreateBoard: RxCocoa.Signal<Void> {
     successCreateBoardRelay.asSignal()
   }
@@ -46,8 +52,8 @@ extension EditBoardViewModel: EditBoardViewModelType {
     successUploadImageRelay.asSignal()
   }
   
-  func uploadImage(image: UIImage, type: AggregateType = .board) {
-    imageRepository.uploadImage(image: image, request: .init(aggregateType: type))
+  func uploadImage(image: UIImage, type: AggregateType = .board, fileName: String) {
+    imageRepository.uploadImage(image: image, request: .init(aggregateType: type), fileName: fileName)
       .subscribe(with: self) { owner, result in
         switch result {
         case .success(let response):
@@ -60,7 +66,7 @@ extension EditBoardViewModel: EditBoardViewModelType {
           ))
           owner.successUploadImageRelay.accept((response, image))
         case .failure(let error):
-          print("오류발생했어 \(error.description)")
+          owner.errorMessageRelay.accept(error)
         }
       }
       .disposed(by: disposeBag)
@@ -68,9 +74,14 @@ extension EditBoardViewModel: EditBoardViewModelType {
   
   func createBoard(categorySeq: Int, title: String, contents: String, isAnonymous: Bool) {
     
-    guard !title.isEmpty && !contents.isEmpty else { return }
-    print("게시글제목 \(title)")
-    print("게시글내용 \(contents)")
+    if title == Constants.titlePlaceholder || title.isEmpty {
+      errorMessageRelay.accept(.titleIsEmpty)
+      return
+    } else if contents == Constants.contentPlaceholder || contents.isEmpty {
+      errorMessageRelay.accept(.contentsIsEmpty)
+      return
+    }
+    
     boardRepository.createBoard(
       categorySeq: categorySeq,
       request: .init(
@@ -81,13 +92,18 @@ extension EditBoardViewModel: EditBoardViewModelType {
       )
     )
     .subscribe(with: self, onSuccess: { owner, response in
-      print("게시글생성성공 \(response)")
       owner.successCreateBoardRelay.accept(())
     }, onFailure: { owner, error in
-      print("에러 \(error.localizedDescription)")
+      guard let error = error as? HaramError else { return }
+      owner.errorMessageRelay.accept(error)
     })
     .disposed(by: disposeBag)
   }
-  
-  
+}
+
+extension EditBoardViewModel {
+  enum Constants {
+    static let titlePlaceholder = "제목을 입력해주세요"
+    static let contentPlaceholder = "내용을 입력해주세요"
+  }
 }
