@@ -112,7 +112,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     commentInputView.snp.makeConstraints {
       $0.top.equalTo(boardDetailCollectionView.snp.bottom)
       $0.directionalHorizontalEdges.equalToSuperview()
-      $0.height.greaterThanOrEqualTo(91 - 20)
+      $0.height.greaterThanOrEqualTo(Device.isNotch ? 91 - 20 : 91 - 20 - 15)
       $0.bottom.equalToSuperview()
     }
   }
@@ -131,15 +131,16 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
       .disposed(by: disposeBag)
     
     tapGesture.rx.event
-      .subscribe(with: self) { owner, _ in
-        owner.view.endEditing(true)
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.boardDetailCollectionView.endEditing(true)
       }
       .disposed(by: disposeBag)
     
     panGesture.rx.event
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.view.endEditing(true)
+        owner.boardDetailCollectionView.endEditing(true)
       }
       .disposed(by: disposeBag)
     
@@ -220,9 +221,6 @@ extension BoardDetailViewController: UICollectionViewDataSource {
     guard indexPath.section == 1 else { return UICollectionViewCell() }
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardDetailCollectionViewCell.identifier, for: indexPath) as? BoardDetailCollectionViewCell ?? BoardDetailCollectionViewCell()
     cell.configureUI(with: cellModel[indexPath.row])
-//    if cellModel.count - 1 == indexPath.row { // 마지막 댓글이라면 라인 삭제
-//      cell.removeLineView()
-//    }
     return cell
   }
   
@@ -259,6 +257,7 @@ extension BoardDetailViewController: UIGestureRecognizerDelegate {
 extension BoardDetailViewController: CommentInputViewDelegate {
   func writeComment(_ comment: String, isAnonymous: Bool) {
     viewModel.createComment(boardComment: comment, categorySeq: categorySeq, boardSeq: boardSeq, isAnonymous: isAnonymous)
+    view.endEditing(true)
   }
 }
 

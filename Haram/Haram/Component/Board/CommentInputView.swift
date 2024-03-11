@@ -113,7 +113,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
       $0.leading.equalTo(checkBoxControl.snp.trailing).offset(10)
 //      $0.leading.equalToSuperview().inset(15)
       $0.trailing.equalToSuperview().inset(56)
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 20 + 10 : 20)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 11 + 10 : 11)
       $0.height.equalTo(32)
     }
     
