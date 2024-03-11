@@ -60,13 +60,14 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
         ])
 
         owner.currentBoardListRelay.accept(
-          response.comments.map {
-            BoardDetailCollectionViewCellModel(
+          response.comments.enumerated()
+            .map { index, comment in
+            return BoardDetailCollectionViewCellModel(
               commentAuthorInfoModel: .init(
-                commentAuthorName: $0.createdBy,
-                commentDate: DateformatterFactory.iso8601.date(from: $0.createdAt) ?? Date()
+                commentAuthorName: comment.createdBy,
+                commentDate: DateformatterFactory.iso8601.date(from: comment.createdAt) ?? Date()
               ),
-              comment: $0.contents
+              comment: comment.contents, isLastComment: response.comments.count - 1 == index ? true : false
             )
           }
         )

@@ -34,7 +34,7 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
     
     let requestSearchBook = Observable.combineLatest(
       whichSearchingText,
-      currentPageSubject.do(onNext: { print("현재 \($0)") })
+      currentPageSubject
     )
       .do(onNext: { _ in isLoadingRelay.accept(true) })
       .flatMapLatest(libraryRepository.searchBook)

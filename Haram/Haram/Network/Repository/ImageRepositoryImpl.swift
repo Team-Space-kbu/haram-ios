@@ -11,7 +11,7 @@ import Alamofire
 import RxSwift
 
 protocol ImageRepository {
-  func uploadImage(image: UIImage, request: UploadImageRequest) -> Observable<Result<UploadImageResponse, HaramError>>
+  func uploadImage(image: UIImage, request: UploadImageRequest, fileName: String) -> Observable<Result<UploadImageResponse, HaramError>>
 }
 
 final class ImageRepositoryImpl {
@@ -24,25 +24,16 @@ final class ImageRepositoryImpl {
   
   private func setUpImageData(
     image: UIImage,
-    params: [String: Any]
+    params: [String: Any],
+    fileName: String
   ) -> MultipartFormData {
     let formData = MultipartFormData()
-    
-//    for image in images {
-//      guard let imageData = image.jpegData(compressionQuality: 0.1) else { continue }
-//      formData.append(
-//        imageData,
-//        withName: "files",
-//        fileName: "\(image).jpeg",
-//        mimeType: "image/jpeg"
-//      )
-//    }
     
     guard let imageData = image.jpegData(compressionQuality: 0.1) else { return formData }
     formData.append(
       imageData,
       withName: "multipartFile",
-      fileName: "\(image).jpeg",
+      fileName: fileName,
       mimeType: "image/jpeg"
     )
     
@@ -60,10 +51,11 @@ final class ImageRepositoryImpl {
 }
 
 extension ImageRepositoryImpl: ImageRepository {
-  func uploadImage(image: UIImage, request: UploadImageRequest) -> Observable<Result<UploadImageResponse, HaramError>> {
+  func uploadImage(image: UIImage, request: UploadImageRequest, fileName: String) -> Observable<Result<UploadImageResponse, HaramError>> {
     service.sendRequestWithImage(setUpImageData(
       image: image,
-      params: request.toDictionary
+      params: request.toDictionary,
+      fileName: fileName
     ), ImageRouter.uploadImage, type: UploadImageResponse.self)
   }
 }

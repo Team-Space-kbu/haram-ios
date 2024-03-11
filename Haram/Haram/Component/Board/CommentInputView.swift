@@ -23,13 +23,14 @@ final class CommentInputView: UIView, UITextViewDelegate {
   private let disposeBag = DisposeBag()
   private let placeHolder = "댓글추가"
   
-  private let checkBoxButton = CheckBoxButton(type: .full)
-  
-  private let anonymousLabel = UILabel().then {
-    $0.font = .regular14
-    $0.textColor = .hex545E6A
-    $0.text = "익명"
-  }
+  private let checkBoxControl = CheckBoxControl(type: .full, title: "익명")
+//  private let checkBoxButton = CheckBoxButton(type: .full)
+//  
+//  private let anonymousLabel = UILabel().then {
+//    $0.font = .regular14
+//    $0.textColor = .hex545E6A
+//    $0.text = "익명"
+//  }
   
   private let backgroundView = UIView().then {
     $0.backgroundColor = .white
@@ -81,7 +82,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
   
   private func setupLayouts() {
     addSubview(backgroundView)
-    _ = [checkBoxButton, anonymousLabel, commentTextView, sendButton].map { backgroundView.addSubview($0) }
+    _ = [checkBoxControl, commentTextView, sendButton].map { backgroundView.addSubview($0) }
   }
   
   private func setupConstraints() {
@@ -90,20 +91,26 @@ final class CommentInputView: UIView, UITextViewDelegate {
       $0.directionalEdges.equalToSuperview()
     }
     
-    checkBoxButton.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(22)
+    checkBoxControl.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(11)
       $0.leading.equalToSuperview().inset(15)
-      $0.size.equalTo(18)
+      $0.height.equalTo(38)
     }
     
-    anonymousLabel.snp.makeConstraints {
-      $0.leading.equalTo(checkBoxButton.snp.trailing).offset(5)
-      $0.centerY.equalTo(checkBoxButton)
-    }
+//    checkBoxButton.snp.makeConstraints {
+//      $0.top.equalToSuperview().inset(22)
+//      $0.leading.equalToSuperview().inset(15)
+//      $0.size.equalTo(18)
+//    }
+//    
+//    anonymousLabel.snp.makeConstraints {
+//      $0.leading.equalTo(checkBoxButton.snp.trailing).offset(5)
+//      $0.centerY.equalTo(checkBoxButton)
+//    }
     
     commentTextView.snp.makeConstraints {
       $0.top.equalToSuperview().inset(11)
-      $0.leading.equalTo(anonymousLabel.snp.trailing).offset(10)
+      $0.leading.equalTo(checkBoxControl.snp.trailing).offset(10)
 //      $0.leading.equalToSuperview().inset(15)
       $0.trailing.equalToSuperview().inset(56)
       $0.bottom.equalToSuperview().inset(Device.isNotch ? 20 + 10 : 20)
@@ -111,11 +118,11 @@ final class CommentInputView: UIView, UITextViewDelegate {
     }
     
     sendButton.snp.makeConstraints {
-      $0.leading.equalTo(commentTextView.snp.trailing).offset(56 - 25.67 - 19.33)
-      $0.height.equalTo(22)
-      $0.width.equalTo(27)
+      $0.leading.equalTo(commentTextView.snp.trailing).offset(8)
+      $0.height.equalTo(36)
+//      $0.width.equalTo(27)
       $0.centerY.equalTo(commentTextView)
-      $0.trailing.lessThanOrEqualToSuperview()
+      $0.trailing.equalToSuperview().inset(8)
       
     }
   }
@@ -131,7 +138,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
         
         owner.commentTextView.textColor = .hexD0D0D0
         owner.commentTextView.text = owner.placeHolder
-        owner.delegate?.writeComment(comment, isAnonymous: owner.checkBoxButton.isChecked)
+        owner.delegate?.writeComment(comment, isAnonymous: owner.checkBoxControl.isChecked)
       }
       .disposed(by: disposeBag)
     
@@ -179,5 +186,16 @@ final class CommentInputView: UIView, UITextViewDelegate {
         $0.height.equalTo(estimatedSize.height)
       }
     }
+  }
+}
+
+final class CommentAnonymousControl: UIControl {
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
 }

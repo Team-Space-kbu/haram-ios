@@ -5,6 +5,8 @@
 //  Created by 이건준 on 3/3/24.
 //
 
+import Foundation
+
 import RxSwift
 import RxCocoa
 
@@ -12,6 +14,7 @@ protocol VerifyEmailViewModelType {
   var authCode: AnyObserver<String> { get }
   func requestEmailAuthCode(email: String)
   func verifyEmailAuthCode(userMail: String, authCode: String)
+  func resetVerifyEmailStatus()
   
   var isContinueButtonEnabled: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
@@ -47,12 +50,26 @@ final class VerifyEmailViewModel {
     .disposed(by: disposeBag)
   }
   
+  func isValidBibleEmail(_ email: String) -> Bool {
+      // 이메일 형식 정규식
+      let emailRegex = "[A-Z0-9a-z._%+-]+@bible\\.ac\\.kr"
+      
+      // NSPredicate를 사용하여 정규식과 매칭되는지 확인
+      let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegex)
+      
+      return emailPredicate.evaluate(with: email)
+  }
+  
   private func isValidAuthCode(authCode: String) -> Bool {
     return authCode.count == 6
   }
 }
 
 extension VerifyEmailViewModel: VerifyEmailViewModelType {
+  func resetVerifyEmailStatus() {
+    isContinueButtonRelay.accept(false)
+  }
+  
   var authCode: RxSwift.AnyObserver<String> {
     authCodeSubject.asObserver()
   }
@@ -62,6 +79,12 @@ extension VerifyEmailViewModel: VerifyEmailViewModelType {
   }
   
   func verifyEmailAuthCode(userMail: String, authCode: String) {
+    
+    if !isValidBibleEmail(self.userMail!) {
+      errorMessageRelay.accept(.unvalidEmailFormat)
+      return
+    }
+    
     authRepository.verifyMailAuthCode(userMail: self.userMail!, authCode: authCode)
       .subscribe(with: self) { owner, result in
         switch result {

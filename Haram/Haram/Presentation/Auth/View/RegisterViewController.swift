@@ -132,7 +132,7 @@ final class RegisterViewController: BaseViewController {
     super.setupLayouts()
     _ = [scrollView, indicatorView].map { view.addSubview($0) }
     scrollView.addSubview(stackView)
-
+    
     [titleLabel, alertLabel, idTextField, nicknameTextField, pwdTextField, repwdTextField, emailTextField, registerButton].forEach { stackView.addArrangedSubview($0) }
   }
   
@@ -200,8 +200,8 @@ final class RegisterViewController: BaseViewController {
     registerButton.rx.tap
       .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .subscribe(with: self) { owner, _ in
-//        owner.idTextField.removeError()
-//        owner.repwdTextField.removeError()
+        //        owner.idTextField.removeError()
+        //        owner.repwdTextField.removeError()
         guard let id = owner.idTextField.textField.text,
               let email = owner.emailTextField.textField.text,
               let password = owner.pwdTextField.textField.text,
@@ -222,8 +222,10 @@ final class RegisterViewController: BaseViewController {
           owner.nicknameTextField.setError(description: error.description!)
         } else if error == .unvalidUserIDFormat {
           owner.idTextField.setError(description: error.description!)
-        } else if error == .emailAlreadyUse {
-          owner.emailTextField.setError(description: error.description!)
+        }  else if error == .unvalidAuthCode || error == .expireAuthCode || error == .emailAlreadyUse {
+          AlertManager.showAlert(title: error.description!, viewController: owner) {
+            owner.navigationController?.popViewController(animated: true)
+          }
         }
       }
       .disposed(by: disposeBag)
@@ -245,7 +247,7 @@ final class RegisterViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.signupSuccessMessage
-      .emit(onNext: { _ in 
+      .emit(onNext: { _ in
         let vc = LoginViewController()
         (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
       })
@@ -377,8 +379,57 @@ extension RegisterViewController: UIGestureRecognizerDelegate {
   }
 }
 
-extension RegisterViewController: KeyboardResponder {
-  public var targetView: UIView {
-    view
+extension RegisterViewController {
+  
+  func registerNotifications() {
+    NotificationCenter.default.addObserver(
+      forName: UIResponder.keyboardWillShowNotification,
+      object: nil,
+      queue: nil
+    ) { [weak self] notification in
+      self?.keyboardWillShow(notification)
+    }
+    
+    NotificationCenter.default.addObserver(
+      forName: UIResponder.keyboardWillHideNotification,
+      object: nil,
+      queue: nil
+    ) { [weak self] notification in
+      self?.keyboardWillHide(notification)
+    }
+  }
+  
+  func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  func keyboardWillShow(_ notification: Notification) {
+    
+    guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+          let currentTextField = UIResponder.getCurrentResponder() as? UITextField else { return }
+    
+    let keyboardHeight = keyboardFrame.cgRectValue.height
+    
+    // Y축으로 키보드의 상단 위치
+    let keyboardTopY = keyboardFrame.cgRectValue.origin.y
+    // 현재 선택한 텍스트 필드의 Frame 값
+    let convertedTextFieldFrame = view.convert(currentTextField.frame,
+                                               from: currentTextField.superview)
+    // Y축으로 현재 텍스트 필드의 하단 위치
+    let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
+    
+    // Y축으로 텍스트필드 하단 위치가 키보드 상단 위치보다 클 때 (즉, 텍스트필드가 키보드에 가려질 때가 되겠죠!)
+    if textFieldBottomY > keyboardTopY && self.view.frame.origin.y == 0 {
+      let textFieldTopY = convertedTextFieldFrame.origin.y
+      // 노가다를 통해서 모든 기종에 적절한 크기를 설정함.
+      let newFrame = textFieldTopY - keyboardTopY/1.6
+      view.frame.origin.y -= keyboardHeight
+    }
+  }
+  
+  func keyboardWillHide(_ notification: Notification) {
+    if view.frame.origin.y != 0 {
+      view.frame.origin.y = 0
+    }
   }
 }

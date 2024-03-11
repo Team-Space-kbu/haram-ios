@@ -113,7 +113,7 @@ final class UpdatePasswordViewController: BaseViewController {
     containerView.setCustomSpacing(10, after: passwordTextField)
     
     buttonStackView.snp.makeConstraints {
-      $0.bottom.equalToSuperview().inset(24)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(48)
     }
@@ -225,7 +225,7 @@ extension UpdatePasswordViewController {
     let keyboardHeight = keyboardSize.height
 
     buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(24 + keyboardHeight)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 + keyboardHeight : 12 + keyboardHeight)
     }
 
     UIView.animate(withDuration: 0.2) {
@@ -237,7 +237,7 @@ extension UpdatePasswordViewController {
   func keyboardWillHide(_ sender: Notification) {
 
     buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(24)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
     }
     UIView.animate(withDuration: 0.2) {
       self.view.layoutIfNeeded()

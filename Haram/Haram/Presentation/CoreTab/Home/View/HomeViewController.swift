@@ -341,32 +341,32 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
   }
   
-  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == shortcutCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: { cell.transform = pressedDownTransform })
-    } else if collectionView == newsCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: { cell.transform = pressedDownTransform })
-    }
-    
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == shortcutCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
-      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: { cell.transform = originalTransform })
-    } else if collectionView == newsCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
-      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: { cell.transform = originalTransform })
-    }
-  }
+//  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+//    
+//    if collectionView == shortcutCollectionView {
+//      let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
+//      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: { cell.transform = pressedDownTransform })
+//    } else if collectionView == newsCollectionView {
+//      let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
+//      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: { cell.transform = pressedDownTransform })
+//    }
+//    
+//  }
+//  
+//  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+//    
+//    if collectionView == shortcutCollectionView {
+//      let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
+//      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+//      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: { cell.transform = originalTransform })
+//    } else if collectionView == newsCollectionView {
+//      let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
+//      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+//      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: { cell.transform = originalTransform })
+//    }
+//  }
 }
 
 extension HomeViewController: SkeletonCollectionViewDataSource {
@@ -426,13 +426,3 @@ extension HomeViewController: CheckChapelDayViewDelegate {
     }
   }
 }
-
-//extension HomeViewController: UINavigationControllerDelegate {
-//  func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
-//    // interactivePopGestureRecognizer를 통해 백 제스처가 발생한 경우
-//    if navigationController.interactivePopGestureRecognizer?.state == .ended {
-//      // 여기에 사용자가 백 제스처를 했을 때 수행할 동작을 추가합니다.
-//      print("백 제스처 감지됨")
-//    }
-//  }
-//}

@@ -47,6 +47,7 @@ final class VerifyEmailViewController: BaseViewController {
   ).then {
     $0.delegate = self
     $0.textField.isSecureTextEntry = true
+    $0.textField.keyboardType = .numberPad
   }
   
   private let continueButton = HaramButton(type: .cancel).then {
@@ -97,7 +98,7 @@ final class VerifyEmailViewController: BaseViewController {
     containerView.setCustomSpacing(7, after: titleLabel)
     
     continueButton.snp.makeConstraints {
-      $0.bottom.equalToSuperview().inset(24)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(48)
     }
@@ -121,7 +122,7 @@ final class VerifyEmailViewController: BaseViewController {
         }
         
         owner.checkEmailTextField.setError(description: message, textColor: .hex2F80ED)
-        owner.checkEmailTextField.setButtonType(isEnabled: false)
+//        owner.checkEmailTextField.setButtonType(isEnabled: false)
         owner.schoolEmailTextField.removeError()
 //        owner.schoolEmailTextField.textField.isEnabled = false
       }
@@ -129,11 +130,16 @@ final class VerifyEmailViewController: BaseViewController {
     
     viewModel.successVerifyAuthCode
       .emit(with: self) { owner, _ in
+        
         let userMail = owner.schoolEmailTextField.textField.text!
         let authCode = owner.checkEmailTextField.textField.text!
         let vc = RegisterViewController(authCode: authCode, email: userMail)
         owner.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)
+        owner.schoolEmailTextField.textField.text = nil
+        owner.checkEmailTextField.textField.text = nil
+        owner.checkEmailTextField.removeError()
+        owner.viewModel.resetVerifyEmailStatus()
       }
       .disposed(by: disposeBag)
     
@@ -146,6 +152,8 @@ final class VerifyEmailViewController: BaseViewController {
           owner.schoolEmailTextField.setError(description: error.description!)
         } else if error == .expireAuthCode || error == .unvalidAuthCode {
           owner.checkEmailTextField.setError(description: error.description!)
+        } else if error == .requestTimeOut {
+          AlertManager.showAlert(title: error.description!, viewController: owner, confirmHandler: nil)
         }
       }
       .disposed(by: disposeBag)
@@ -214,7 +222,7 @@ extension VerifyEmailViewController {
     let keyboardHeight = keyboardSize.height
     
     continueButton.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(24 + keyboardHeight)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 + keyboardHeight : 12 + keyboardHeight)
     }
     
     UIView.animate(withDuration: 0.2) {
@@ -226,7 +234,7 @@ extension VerifyEmailViewController {
   func keyboardWillHide(_ sender: Notification) {
     
     continueButton.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(24)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
     }
     
     UIView.animate(withDuration: 0.2) {
