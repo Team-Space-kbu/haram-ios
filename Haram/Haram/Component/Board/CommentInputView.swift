@@ -35,7 +35,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
   private let backgroundView = UIView().then {
     $0.backgroundColor = .white
     $0.layer.shadowColor = UIColor(hex: 0x000000).withAlphaComponent(0.16).cgColor
-    $0.layer.shadowOpacity = 1
+    $0.layer.shadowOpacity = 0.4
     $0.layer.shadowRadius = 10
     $0.layer.shadowOffset = CGSize(width: 0, height: -3)
   }

@@ -272,11 +272,3 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
     }
   }
 }
-
-//extension MoreViewController: UITabBarControllerDelegate {
-//  func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-//    if viewController == self {
-//      viewModel.inquireUserInfo()
-//    }
-//  }
-//}

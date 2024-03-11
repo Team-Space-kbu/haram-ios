@@ -89,6 +89,7 @@ final class ScheduleViewController: BaseViewController, BackButtonHandler {
     /// Set Navigationbar
     title = "시간표"
     setupBackButton()
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
   }
   
   override func setupLayouts() {
@@ -153,5 +154,11 @@ extension ScheduleViewController: ElliotableDelegate, ElliotableDataSource {
   
   func courseItems(in elliotable: Elliotable) -> [ElliottEvent] {
     return courseModel
+  }
+}
+
+extension ScheduleViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
   }
 }

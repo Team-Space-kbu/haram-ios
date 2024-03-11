@@ -70,7 +70,7 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
     title = "공지사항"
     setupBackButton()
     setupSkeletonView()
-    
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
 //    navigationItem.rightBarButtonItem = UIBarButtonItem(
 //      image: UIImage(resource: .searchLightGray),
 //      style: .plain,
@@ -190,4 +190,10 @@ extension NoticeViewController: SkeletonCollectionViewDataSource {
     NoticeCollectionHeaderView.identifier
   }
   
+}
+
+extension NoticeViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
+  }
 }

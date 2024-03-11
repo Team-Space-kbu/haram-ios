@@ -11,6 +11,9 @@ import RxSwift
 import RxCocoa
 
 protocol LibraryViewModelType {
+  
+  func inquireLibrary()
+  
   var newBookModel: Driver<[NewLibraryCollectionViewCellModel]> { get }
   var bestBookModel: Driver<[PopularLibraryCollectionViewCellModel]> { get }
   var rentalBookModel: Driver<[RentalLibraryCollectionViewCellModel]> { get }
@@ -18,56 +21,61 @@ protocol LibraryViewModelType {
   var isLoading: Driver<Bool> { get }
 }
 
-final class LibraryViewModel: LibraryViewModelType {
+final class LibraryViewModel {
   
   private let disposeBag = DisposeBag()
   private let libraryRepository: LibraryRepository
   
-  let newBookModel: Driver<[NewLibraryCollectionViewCellModel]>
-  let bestBookModel: Driver<[PopularLibraryCollectionViewCellModel]>
-  let rentalBookModel: Driver<[RentalLibraryCollectionViewCellModel]>
-  let bannerImage: Driver<URL?>
-  let isLoading: Driver<Bool>
+  private let currentNewBookModel    = BehaviorRelay<[NewLibraryCollectionViewCellModel]>(value: [])
+  private let currentBestBookModel   = BehaviorRelay<[PopularLibraryCollectionViewCellModel]>(value: [])
+  private let currentRentalBookModel = BehaviorRelay<[RentalLibraryCollectionViewCellModel]>(value: [])
+  private let bannerImageRelay       = PublishRelay<URL?>()
+  private let isLoadingSubject       = BehaviorSubject<Bool>(value: true)
   
   init(libraryRepostory: LibraryRepository = LibraryRepositoryImpl()) {
     self.libraryRepository = libraryRepostory
-    
-    let currentNewBookModel    = BehaviorRelay<[NewLibraryCollectionViewCellModel]>(value: [])
-    let currentBestBookModel   = BehaviorRelay<[PopularLibraryCollectionViewCellModel]>(value: [])
-    let currentRentalBookModel = BehaviorRelay<[RentalLibraryCollectionViewCellModel]>(value: [])
-    let bannerImageRelay       = BehaviorRelay<String?>(value: nil)
-    let isLoadingSubject       = BehaviorSubject<Bool>(value: true)
-    
-    let inquireLibrary = libraryRepostory.inquireLibrary()
+  }
+}
+
+extension LibraryViewModel: LibraryViewModelType {
+  func inquireLibrary() {
+    let inquireLibrary = libraryRepository.inquireLibrary()
     
     inquireLibrary
-      .subscribe(onSuccess: { response in
-        currentNewBookModel.accept(response.newBook.map { NewLibraryCollectionViewCellModel(bookInfo: $0) })
-        currentBestBookModel.accept(response.bestBook.map { PopularLibraryCollectionViewCellModel(bookInfo: $0) })
-        currentRentalBookModel.accept(response.rentalBook.map {
+      .subscribe(with: self) { owner, response in
+        owner.currentNewBookModel.accept(response.newBook.map { NewLibraryCollectionViewCellModel(bookInfo: $0) })
+        owner.currentBestBookModel.accept(response.bestBook.map { PopularLibraryCollectionViewCellModel(bookInfo: $0) })
+        owner.currentRentalBookModel.accept(response.rentalBook.map {
           RentalLibraryCollectionViewCellModel(bookInfo: $0) })
-        bannerImageRelay.accept(response.image.first)
+        owner.bannerImageRelay.accept(URL(string: response.image.first!))
         
-        isLoadingSubject.onNext(false)
-      })
+        owner.isLoadingSubject.onNext(false)
+      }
       .disposed(by: disposeBag)
-    
-    // Output
-    newBookModel = currentNewBookModel
+  }
+  
+  var newBookModel: Driver<[NewLibraryCollectionViewCellModel]> {
+    currentNewBookModel
       .asDriver(onErrorDriveWith: .empty())
-    
-    bestBookModel = currentBestBookModel
+  }
+  
+  var bestBookModel: Driver<[PopularLibraryCollectionViewCellModel]> {
+    currentBestBookModel
       .asDriver(onErrorDriveWith: .empty())
-    
-    rentalBookModel = currentRentalBookModel
+  }
+  
+  var rentalBookModel: Driver<[RentalLibraryCollectionViewCellModel]> {
+    currentRentalBookModel
       .asDriver(onErrorDriveWith: .empty())
-    
-    bannerImage = bannerImageRelay
-      .compactMap { $0 }
-      .map { URL(string: $0) }
-      .asDriver(onErrorJustReturn: nil)
-    
-    isLoading = isLoadingSubject
+  }
+  
+  var bannerImage: Driver<URL?> {
+    bannerImageRelay
+      .asDriver(onErrorDriveWith: .empty())
+  }
+  
+  var isLoading: Driver<Bool> {
+    isLoadingSubject
       .asDriver(onErrorJustReturn: true)
   }
 }

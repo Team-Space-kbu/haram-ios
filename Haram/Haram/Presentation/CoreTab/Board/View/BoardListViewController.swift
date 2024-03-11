@@ -75,6 +75,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     
     /// Set Navigationbar
     setupBackButton()
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
     
     setupSkeletonView()
     emptyView.isHidden = true
@@ -206,5 +207,11 @@ extension BoardListViewController {
   @objc
   private func refreshBoardList() {
     viewModel.inquireBoardList(categorySeq: categorySeq)
+  }
+}
+
+extension BoardListViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
   }
 }

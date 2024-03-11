@@ -127,6 +127,8 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
   override func bind() {
     super.bind()
 
+    viewModel.inquireLibrary()
+    
     Driver.combineLatest(
       viewModel.newBookModel,
       viewModel.bestBookModel,
@@ -138,9 +140,9 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
       owner.newBookModel = newBookModel
       owner.bestBookModel = bestBookModel
       owner.rentalBookModel = rentalBookModel
-      owner.bannerImageView.kf.setImage(with: bannerImage)
-      
+      print("배너 \(bannerImage)")
       owner.view.hideSkeleton()
+      owner.bannerImageView.kf.setImage(with: bannerImage)
       owner.libraryCollectionView.reloadData()
     }
     .disposed(by: disposeBag)
@@ -185,6 +187,7 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
     panGesture.delegate = self
     
     setupSkeletonView()
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
     
   }
   

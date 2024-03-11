@@ -74,7 +74,7 @@ final class MileageViewController: BaseViewController, BackButtonHandler {
     super.setupStyles()
     title = "마일리지"
     setupBackButton()
-    
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
     setupSkeletonView()
   }
   
@@ -143,4 +143,10 @@ extension MileageViewController: SkeletonTableViewDelegate, SkeletonTableViewDat
     MileageTableHeaderView.identifier
   }
   
+}
+
+extension MileageViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
+  }
 }

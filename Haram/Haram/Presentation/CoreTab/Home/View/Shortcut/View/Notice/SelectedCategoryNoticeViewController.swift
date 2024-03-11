@@ -49,7 +49,6 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
   override func bind() {
     super.bind()
     viewModel.noticeType.onNext(noticeType)
-//    viewModel.inquireNoticeList(type: noticeType)
     
     viewModel.noticeCollectionViewCellModel
       .drive(with: self) { owner, noticeModel in
@@ -76,6 +75,7 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
     super.setupStyles()
     setupBackButton()
     setupSkeletonView()
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
   }
   
   override func setupLayouts() {
@@ -141,4 +141,10 @@ extension SelectedCategoryNoticeViewController: SkeletonCollectionViewDataSource
   }
   
   
+}
+
+extension SelectedCategoryNoticeViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
+  }
 }
