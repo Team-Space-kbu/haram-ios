@@ -100,6 +100,7 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
     super.setupStyles()
     
     /// Configure NavigationBar
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
     title = "스터디"
     setupBackButton()
     
@@ -188,5 +189,11 @@ extension RothemRoomListViewController: SkeletonCollectionViewDataSource {
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
     StudyListCollectionHeaderView.identifier
+  }
+}
+
+extension RothemRoomListViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
   }
 }

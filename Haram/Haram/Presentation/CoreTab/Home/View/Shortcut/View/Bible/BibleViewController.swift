@@ -112,6 +112,7 @@ final class BibleViewController: BaseViewController, BackButtonHandler {
     
     setupBackButton()
     setupSkeletonView()
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
   }
   
   override func setupLayouts() {
@@ -347,5 +348,11 @@ extension BibleViewController: BibleBottomSheetViewControllerDelegate {
   
   func didTappedChapter(chapter: String) {
     bibleSearchView.updateChapter(chapter: chapter)
+  }
+}
+
+extension BibleViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
   }
 }

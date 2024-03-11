@@ -62,7 +62,9 @@ final class RegisterViewController: BaseViewController {
     title: Constants.repassword.title,
     placeholder: Constants.repassword.placeholder,
     options: [.errorLabel]
-  )
+  ).then {
+    $0.textField.isSecureTextEntry = true
+  }
   
   private let nicknameTextField = HaramTextField(
     title: Constants.nickname.title,
@@ -222,7 +224,7 @@ final class RegisterViewController: BaseViewController {
           owner.nicknameTextField.setError(description: error.description!)
         } else if error == .unvalidUserIDFormat {
           owner.idTextField.setError(description: error.description!)
-        }  else if error == .unvalidAuthCode || error == .expireAuthCode || error == .emailAlreadyUse {
+        }  else if error == .unvalidAuthCode || error == .expireAuthCode || error == .emailAlreadyUse || error == .alreadyUseNickName {
           AlertManager.showAlert(title: error.description!, viewController: owner) {
             owner.navigationController?.popViewController(animated: true)
           }

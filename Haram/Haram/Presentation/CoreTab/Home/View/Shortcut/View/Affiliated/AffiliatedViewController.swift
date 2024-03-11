@@ -95,7 +95,7 @@ final class AffiliatedViewController: BaseViewController, BackButtonHandler {
   
   override func setupStyles() {
     super.setupStyles()
-    
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
     self.showFloatingPanel(self.floatingPanelVC)
     
     title = "제휴업체"
@@ -230,4 +230,10 @@ extension AffiliatedViewController {
     }
   }
 
+}
+
+extension AffiliatedViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
+  }
 }

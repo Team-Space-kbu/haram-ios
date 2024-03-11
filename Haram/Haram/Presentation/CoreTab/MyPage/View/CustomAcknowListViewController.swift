@@ -13,6 +13,11 @@ import Then
 
 final class CustomAcknowListViewController: AcknowListViewController {
   
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
+  }
+  
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if let acknowledgement = acknowledgements[indexPath.row] as Acknow?,
        let navigationController = navigationController {
@@ -34,4 +39,10 @@ final class CustomAcknowListViewController: AcknowListViewController {
     navigationController?.popViewController(animated: true)
   }
   
+}
+
+extension CustomAcknowListViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
+  }
 }

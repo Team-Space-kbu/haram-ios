@@ -38,6 +38,7 @@ final class PDFViewController: BaseViewController, BackButtonHandler {
     
     /// Set Navigationbar
     setupBackButton()
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
     
     /// Set PDFView
     DispatchQueue.main.async {
@@ -67,5 +68,10 @@ final class PDFViewController: BaseViewController, BackButtonHandler {
   @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
-  
+}
+
+extension PDFViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
+  }
 }

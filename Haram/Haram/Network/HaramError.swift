@@ -40,6 +40,7 @@ enum HaramError: Error, CaseIterable {
   case unvalidAuthCode // 옳지않은 인증코드 형식일 경우
   case emailAlreadyUse // 이미 사용중인 이메일로 회원가입 시도할 경우
   case requestTimeOut // 메일 요청은 30초 지난 후에 재요청 가능
+  case alreadyUseNickName // 이미 사용중인 이메일 경우
   
   /// 비밀번호변경 시 에러
   case expireAuthCode
@@ -112,6 +113,8 @@ extension HaramError {
       return "USER04"
     case .wrongEmailAuthcodeError:
       return "USER05"
+    case .alreadyUseNickName:
+      return "USER07"
     case .emailAlreadyUse:
       return "USER13"
     case .noExistTodayBibleWord:
@@ -233,6 +236,8 @@ extension HaramError {
       return "메일 요청은 30초가 지난 후에 재요청 가능합니다."
     case .unvalidBoardTitle:
       return "게시글 제목이 올바르지 않습니다."
+    case .alreadyUseNickName:
+      return "해당 닉네임은 이미 사용중입니다."
     }
   }
 }

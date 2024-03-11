@@ -43,7 +43,9 @@ final class BoardViewController: BaseViewController {
     $0.sectionHeaderHeight = 28 + 11
     $0.backgroundColor = .white
     $0.separatorStyle = .none
-    $0.isScrollEnabled = false
+//    $0.isScrollEnabled = false
+    $0.alwaysBounceVertical = true
+    $0.showsVerticalScrollIndicator = false
   }
   
   init(viewModel: BoardViewModelType = BoardViewModel()) {
@@ -72,32 +74,36 @@ final class BoardViewController: BaseViewController {
     }
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
-    navigationController?.interactivePopGestureRecognizer?.delegate = self
 //    self.tabBarController?.delegate = self
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(scrollView)
-    scrollView.addSubview(containerView)
-    [boardTableView].forEach { containerView.addArrangedSubview($0) }
+    view.addSubview(boardTableView)
+//    view.addSubview(scrollView)
+//    scrollView.addSubview(containerView)
+//    [boardTableView].forEach { containerView.addArrangedSubview($0) }
     
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    scrollView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
-    }
-    
-    containerView.snp.makeConstraints {
-      $0.top.width.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
-    }
+//    scrollView.snp.makeConstraints {
+//      $0.directionalEdges.equalToSuperview()
+//    }
+//    
+//    containerView.snp.makeConstraints {
+//      $0.top.width.equalToSuperview()
+//      $0.bottom.lessThanOrEqualToSuperview()
+//    }
     
     boardTableView.snp.makeConstraints {
-      $0.height.equalTo(28 + 509 + 46 + 21)
+      $0.topMargin.equalToSuperview().inset(20)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      $0.bottom.equalToSuperview()
+//      $0.directionalEdges.equalToSuperview()
+//      $0.height.equalTo(28 + 509 + 46 + 21)
     }
   }
 }
@@ -130,7 +136,7 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
-    tableView.deselectRow(at: indexPath, animated: true)
+//    tableView.deselectRow(at: indexPath, animated: true)
     
     let boardModel = boardModel[indexPath.row]
     let vc = BoardListViewController(
@@ -143,10 +149,4 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
     navigationController?.pushViewController(vc, animated: true)
   }
   
-}
-
-extension BoardViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    return true // or false
-  }
 }

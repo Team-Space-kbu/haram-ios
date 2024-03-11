@@ -90,6 +90,7 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
     super.setupStyles()
     title = "채플조회"
     setupBackButton()
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
 //    setupSkeletonView()
   }
   
@@ -147,5 +148,11 @@ extension ChapelViewController: SkeletonCollectionViewDataSource {
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
     ChapelCollectionHeaderView.identifier
+  }
+}
+
+extension ChapelViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
   }
 }

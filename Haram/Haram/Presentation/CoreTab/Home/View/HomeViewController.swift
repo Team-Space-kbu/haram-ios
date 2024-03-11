@@ -160,7 +160,7 @@ final class HomeViewController: BaseViewController {
     }
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
-    navigationController?.interactivePopGestureRecognizer?.delegate = self
+//    navigationController?.interactivePopGestureRecognizer?.delegate = self
     
     setupSkeletonView()
   }
@@ -329,14 +329,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       let vc = type.viewController
       vc.navigationItem.largeTitleDisplayMode = .never
       vc.hidesBottomBarWhenPushed = true
-      navigationController?.interactivePopGestureRecognizer?.delegate = self
+//      navigationController?.interactivePopGestureRecognizer?.delegate = self
       navigationController?.pushViewController(vc, animated: true)
     } else if collectionView == newsCollectionView {
       let vc = PDFViewController(pdfURL: newsModel[indexPath.row].pdfURL)
       vc.title = newsModel[indexPath.row].title
       vc.navigationItem.largeTitleDisplayMode = .never
       vc.hidesBottomBarWhenPushed = true
-      navigationController?.interactivePopGestureRecognizer?.delegate = self
+//      navigationController?.interactivePopGestureRecognizer?.delegate = self
       navigationController?.pushViewController(vc, animated: true)
     }
   }
@@ -400,14 +400,14 @@ extension HomeViewController: SkeletonCollectionViewDataSource {
   }
 }
 
-extension HomeViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    //    if let _ = navigationController?.topViewController as? IntranetCheckViewController {
-    //      return false
-    //    }
-    return true // or false
-  }
-}
+//extension HomeViewController: UIGestureRecognizerDelegate {
+//  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+//    //    if let _ = navigationController?.topViewController as? IntranetCheckViewController {
+//    //      return false
+//    //    }
+//    return true // or false
+//  }
+//}
 
 extension HomeViewController: UIScrollViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
