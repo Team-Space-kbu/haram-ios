@@ -20,6 +20,10 @@ final class PDFViewController: BaseViewController, BackButtonHandler {
     $0.autoScales = true
   }
   
+  private let indicatorView = UIActivityIndicatorView(style: .large).then {
+    $0.startAnimating()
+  }
+  
   init(pdfURL: URL?) {
     self.pdfURL = pdfURL
     super.init(nibName: nil, bundle: nil)
@@ -39,17 +43,23 @@ final class PDFViewController: BaseViewController, BackButtonHandler {
     DispatchQueue.main.async {
       guard let pdfURL = self.pdfURL else { return }
       self.pdfView.document = PDFDocument(url: pdfURL)
+      self.indicatorView.stopAnimating()
     }
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(pdfView)
+    view.addSubview(indicatorView)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     pdfView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
+    indicatorView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
   }
