@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import SkeletonView
 import Then
 
 final class BoardDetailCommentHeaderView: UICollectionReusableView {
@@ -18,6 +19,7 @@ final class BoardDetailCommentHeaderView: UICollectionReusableView {
     $0.font = .bold16
     $0.textColor = .black
     $0.text = "댓글"
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -30,6 +32,8 @@ final class BoardDetailCommentHeaderView: UICollectionReusableView {
   }
   
   private func configureUI() {
+    isSkeletonable = true
+    
     addSubview(commentTitleLabel)
     commentTitleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(13.5)

@@ -78,7 +78,7 @@ final class StudyReservationViewModel {
         owner.studyRoomInfoViewModelRelay.accept(StudyRoomInfoViewModel(roomResponse: response.roomResponse))
         owner.selectedDayCollectionViewCellModelRelay.accept(response.calendarResponses.map { SelectedDayCollectionViewCellModel(calendarResponse: $0) })
         owner.model = response.calendarResponses
-        owner.policyModelRelay.accept(response.policyResponses.map { TermsOfUseCheckViewModel(response: $0) })
+        owner.policyModelRelay.accept(response.policyResponses.sorted(by: { $0.policySeq > $1.policySeq }).map { TermsOfUseCheckViewModel(response: $0) })
         
         if let model = response.calendarResponses.filter({ $0.isAvailable }).first {
           owner.calendarSeqSubject.onNext(model.calendarSeq)

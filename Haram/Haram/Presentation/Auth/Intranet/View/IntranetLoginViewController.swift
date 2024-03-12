@@ -44,7 +44,7 @@ final class IntranetLoginViewController: BaseViewController {
   }
   
   private let intranetLabel = UILabel().then {
-    $0.text = "한국성서대학교인트라넷"
+    $0.text = "한국성서대학교 인트라넷"
     $0.textColor = .black
     $0.font = .regular14
   }
@@ -173,8 +173,7 @@ final class IntranetLoginViewController: BaseViewController {
     loginButton.rx.tap
       .subscribe(with: self) { owner, _ in
         guard let intranetID = owner.idTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-              let intranetPWD = owner.pwTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-              !intranetID.isEmpty && !intranetPWD.isEmpty else {
+              let intranetPWD = owner.pwTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else {
           return
         }
         let isContain = owner.containerStackView.subviews.contains(owner.errorMessageLabel)
@@ -185,7 +184,7 @@ final class IntranetLoginViewController: BaseViewController {
         }
         
         owner.view.endEditing(true)
-        owner.viewModel.whichIntranetInfo.onNext((intranetID, intranetPWD))
+        owner.viewModel.whichIntranetInfo(intranetID: intranetID, intranetPassword: intranetPWD)
       }
       .disposed(by: disposeBag)
     
@@ -211,23 +210,80 @@ final class IntranetLoginViewController: BaseViewController {
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
-        guard error == .wrongLoginInfo else { return }
-        
         let isContain = owner.containerStackView.subviews.contains(owner.errorMessageLabel)
-        
         if !isContain {
           owner.containerStackView.insertArrangedSubview(owner.errorMessageLabel, at: 5)
           owner.errorMessageLabel.text = error.description
         }
-        
+//        if error == .wrongLoginInfo {
+//          if !isContain {
+//            owner.containerStackView.insertArrangedSubview(owner.errorMessageLabel, at: 5)
+//            owner.errorMessageLabel.text = error.description
+//          }
+//        }
       }
       .disposed(by: disposeBag)
   }
 }
 
-extension IntranetLoginViewController: KeyboardResponder {
-  public var targetView: UIView {
-    view
+extension IntranetLoginViewController {
+  
+  func registerNotifications() {
+    NotificationCenter.default.addObserver(
+      forName: UIResponder.keyboardWillShowNotification,
+      object: nil,
+      queue: nil
+    ) { [weak self] notification in
+      self?.keyboardWillShow(notification)
+    }
+    
+    NotificationCenter.default.addObserver(
+      forName: UIResponder.keyboardWillHideNotification,
+      object: nil,
+      queue: nil
+    ) { [weak self] notification in
+      self?.keyboardWillHide(notification)
+    }
+  }
+  
+  func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  func keyboardWillShow(_ notification: Notification) {
+    
+    guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+          let currentTextField = UIResponder.getCurrentResponder() as? UITextField else { return }
+    
+    let keyboardHeight = keyboardFrame.cgRectValue.height
+    
+    // Y축으로 키보드의 상단 위치
+    let keyboardTopY = keyboardFrame.cgRectValue.origin.y
+    // 현재 선택한 텍스트 필드의 Frame 값
+    let convertedTextFieldFrame = view.convert(currentTextField.frame,
+                                               from: currentTextField.superview)
+    // Y축으로 현재 텍스트 필드의 하단 위치
+    let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
+    
+    // Y축으로 텍스트필드 하단 위치가 키보드 상단 위치보다 클 때 (즉, 텍스트필드가 키보드에 가려질 때가 되겠죠!)
+    if textFieldBottomY > keyboardTopY {
+      let textFieldTopY = convertedTextFieldFrame.origin.y
+      // 노가다를 통해서 모든 기종에 적절한 크기를 설정함.
+      let newFrame = textFieldTopY - keyboardTopY/1.6
+      
+      
+      UIView.animate(withDuration: 0.1, animations: {
+        self.containerStackView.transform = CGAffineTransform(translationX: 0, y: -newFrame)
+      })
+      
+    }
+  }
+  
+  func keyboardWillHide(_ notification: Notification) {
+    
+    UIView.animate(withDuration: 0.1, animations: {
+      self.containerStackView.transform = .identity
+    })
   }
 }
 
@@ -250,7 +306,7 @@ extension IntranetLoginViewController: UITextFieldDelegate {
         self.errorMessageLabel.removeFromSuperview()
       }
       
-      viewModel.whichIntranetInfo.onNext((intranetID, intranetPWD))
+      viewModel.whichIntranetInfo(intranetID: intranetID, intranetPassword: intranetPWD)
     }
     return true
   }

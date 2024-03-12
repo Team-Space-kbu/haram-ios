@@ -23,7 +23,7 @@ final class TodayBibleWordCollectionViewCell: UICollectionViewCell {
     $0.font = .bold18
     $0.textColor = .hex9F9FA4
     $0.numberOfLines = 0
-    $0.skeletonTextNumberOfLines = 3
+    $0.skeletonTextNumberOfLines = 2
     $0.isSkeletonable = true
   }
   

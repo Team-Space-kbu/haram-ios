@@ -94,7 +94,6 @@ extension LoginViewModel: LoginViewModelType {
   var errorMessage: Signal<String> {
     errorMessageRelay
       .compactMap { $0 }
-      .distinctUntilChanged()
       .asSignal(onErrorSignalWith: .empty())
   }
 

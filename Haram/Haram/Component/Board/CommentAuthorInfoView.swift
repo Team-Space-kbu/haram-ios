@@ -54,6 +54,11 @@ final class CommentAuthorInfoView: UIView {
     }
   }
   
+  func initializeView() {
+    commentNameLabel.text = nil
+    commentDateLabel.text = nil
+  }
+  
   func configureUI(with model: CommentAuthorInfoViewModel) {
     commentNameLabel.text = model.commentAuthorName
     commentDateLabel.text = DateformatterFactory.dateWithSlash.string(from: model.commentDate)

@@ -13,12 +13,14 @@ import SkeletonView
 import Then
 
 struct StudyListCollectionViewCellModel {
+  let isLast: Bool
   let roomSeq: Int
   let title: String
   let description: String
   let imageURL: URL?
   
-  init(rothemRoom: RoomResponse) {
+  init(rothemRoom: RoomResponse, isLast: Bool) {
+    self.isLast = isLast
     roomSeq = rothemRoom.roomSeq
     title = rothemRoom.roomName
     description = rothemRoom.roomExplanation
@@ -77,7 +79,6 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
       $0.isSkeletonable = true
       contentView.addSubview($0)
     }
-    contentView.addSubview(lineView)
     
     studyImageView.snp.makeConstraints {
       $0.directionalVerticalEdges.trailing.equalToSuperview()
@@ -96,20 +97,27 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
 //      $0.bottom.lessThanOrEqualTo(studyImageView)
     }
     
-    lineView.snp.makeConstraints {
-      $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.width.equalToSuperview()
-      $0.top.equalTo(studyImageView.snp.bottom).offset(10)
-    }
   }
   
   func configureUI(with model: StudyListCollectionViewCellModel) {
+    
+    if model.isLast {
+      lineView.removeFromSuperview()
+    } else {
+      contentView.addSubview(lineView)
+      lineView.snp.makeConstraints {
+        $0.height.equalTo(1)
+        $0.directionalHorizontalEdges.width.equalToSuperview()
+        $0.top.equalTo(studyImageView.snp.bottom).offset(10)
+      }
+    }
+    
     studyTitleLabel.text = model.title
     studyDescriptionLabel.addLineSpacing(lineSpacing: 3, string: model.description)
     studyImageView.kf.setImage(with: model.imageURL)
   }
   
-  func removeLastLineView() {
-    lineView.removeFromSuperview()
-  }
+//  func removeLastLineView() {
+//    lineView.removeFromSuperview()
+//  }
 }

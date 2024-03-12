@@ -160,7 +160,6 @@ final class HomeViewController: BaseViewController {
     }
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
-//    navigationController?.interactivePopGestureRecognizer?.delegate = self
     
     setupSkeletonView()
   }
@@ -222,12 +221,14 @@ final class HomeViewController: BaseViewController {
       viewModel.isAvailableSimpleChapelModal
     )
     .drive(with: self) { owner, result in
-      let (newsModel, bannerModel, noticeModel, isAvailableSimpleChapelModal) = result
+      let (newsModel, bannerModel, noticeModel, modalModel) = result
+      let (isAvailableSimpleChapelModal, checkChapelDayViewModel) = modalModel
       
       let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
       
       
       if isAvailableSimpleChapelModal && !isContain {
+        owner.checkChapelDayView.configureUI(with: checkChapelDayViewModel!)
         owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
       } else if !isAvailableSimpleChapelModal && isContain {
         owner.checkChapelDayView.removeFromSuperview()

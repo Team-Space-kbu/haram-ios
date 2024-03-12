@@ -23,7 +23,7 @@ final class LoginViewController: BaseViewController {
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: 50, left: 22, bottom: .zero, right: 22)
+    $0.layoutMargins = .init(top: 118 - Device.topInset, left: 22, bottom: .zero, right: 22)
     $0.spacing = 25
     $0.backgroundColor = .clear
   }
@@ -42,7 +42,7 @@ final class LoginViewController: BaseViewController {
   private let schoolLabel = UILabel().then {
     $0.textColor = .black
     $0.font = .regular14
-    $0.text = "한국성서대학교인트라넷"
+    $0.text = "한국성서대학교 커뮤니티"
   }
   
   private lazy var emailTextField = HaramTextField(placeholder: "아이디").then {
@@ -87,7 +87,7 @@ final class LoginViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-
+    
     guard UserManager.shared.hasToken else {
       registerNotifications()
       return
@@ -97,7 +97,7 @@ final class LoginViewController: BaseViewController {
     
     guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else { return }
     
-      window.rootViewController = HaramTabbarController()
+    window.rootViewController = HaramTabbarController()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -155,7 +155,7 @@ final class LoginViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
-
+    
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
@@ -167,6 +167,7 @@ final class LoginViewController: BaseViewController {
     
     loginImageView.snp.makeConstraints {
       $0.height.equalTo(249)
+      $0.width.equalTo(238)
     }
     
     [emailTextField, passwordTextField].forEach {
@@ -191,15 +192,16 @@ final class LoginViewController: BaseViewController {
       $0.height.equalTo(48)
     }
     
-    containerView.setCustomSpacing(37.33, after: loginImageView)
-    containerView.setCustomSpacing(10, after: loginLabel)
+    containerView.setCustomSpacing(37, after: loginImageView)
+    containerView.setCustomSpacing(12, after: loginLabel)
     containerView.setCustomSpacing(20, after: schoolLabel)
     
     loginAlertView.snp.makeConstraints {
       $0.top.equalTo(containerView.snp.bottom).offset(41)
       $0.centerX.equalToSuperview()
-      $0.bottomMargin.lessThanOrEqualToSuperview().offset(-41 + 16)
-      $0.width.equalTo(216)
+      $0.bottomMargin.equalToSuperview().inset(25)
+//      $0.bottom.equalToSuperview().inset(25)
+//      $0.width.equalTo(216)
       $0.height.equalTo(16)
     }
   }
@@ -219,7 +221,7 @@ extension LoginViewController: LoginButtonDelegate {
   func didTappedFindPasswordButton() {
     let vc = UINavigationController(rootViewController: FindPasswordViewController())
     vc.modalPresentationStyle = .fullScreen
-
+    
     present(vc, animated: true) {
       self.errorMessageLabel.removeFromSuperview()
       self.errorMessageLabel.text = nil
@@ -262,8 +264,63 @@ extension LoginViewController: LoginAlertViewDelegate {
 
 // MARK: - Keyboard Notification
 
-extension LoginViewController: KeyboardResponder {
-  public var targetView: UIView {
-    view
+extension LoginViewController {
+  
+  func registerNotifications() {
+    NotificationCenter.default.addObserver(
+      forName: UIResponder.keyboardWillShowNotification,
+      object: nil,
+      queue: nil
+    ) { [weak self] notification in
+      self?.keyboardWillShow(notification)
+    }
+    
+    NotificationCenter.default.addObserver(
+      forName: UIResponder.keyboardWillHideNotification,
+      object: nil,
+      queue: nil
+    ) { [weak self] notification in
+      self?.keyboardWillHide(notification)
+    }
+  }
+  
+  func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  func keyboardWillShow(_ notification: Notification) {
+    
+    guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+          let currentTextField = UIResponder.getCurrentResponder() as? UITextField else { return }
+    
+    let keyboardHeight = keyboardFrame.cgRectValue.height
+    
+    // Y축으로 키보드의 상단 위치
+    let keyboardTopY = keyboardFrame.cgRectValue.origin.y
+    // 현재 선택한 텍스트 필드의 Frame 값
+    let convertedTextFieldFrame = view.convert(currentTextField.frame,
+                                               from: currentTextField.superview)
+    // Y축으로 현재 텍스트 필드의 하단 위치
+    let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
+    
+    // Y축으로 텍스트필드 하단 위치가 키보드 상단 위치보다 클 때 (즉, 텍스트필드가 키보드에 가려질 때가 되겠죠!)
+    if textFieldBottomY > keyboardTopY {
+      let textFieldTopY = convertedTextFieldFrame.origin.y
+      // 노가다를 통해서 모든 기종에 적절한 크기를 설정함.
+      let newFrame = textFieldTopY - keyboardTopY/1.6
+      
+      
+      UIView.animate(withDuration: 0.1, animations: {
+        self.containerView.transform = CGAffineTransform(translationX: 0, y: -newFrame)
+      })
+      
+    }
+  }
+  
+  func keyboardWillHide(_ notification: Notification) {
+    
+    UIView.animate(withDuration: 0.1, animations: {
+      self.containerView.transform = .identity
+    })
   }
 }

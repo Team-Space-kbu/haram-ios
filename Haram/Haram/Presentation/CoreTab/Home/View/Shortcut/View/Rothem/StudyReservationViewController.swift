@@ -42,7 +42,9 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     $0.isSkeletonable = true
   }
   
-  private let studyRoomInfoView = StudyRoomInfoView()
+  private let studyRoomInfoView = StudyRoomInfoView().then {
+    $0.isSkeletonable = true
+  }
   
   private let selectedDayLabel = UILabel().then {
     $0.text = "날짜선택"
@@ -98,7 +100,7 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
   }
   
   private let phoneNumberTextField = HaramTextField(
-    placeholder: "전화번호",
+    placeholder: "전화번호(- 없이 입력)",
     options: .errorLabel
   ).then {
     $0.textField.keyboardType = .phonePad

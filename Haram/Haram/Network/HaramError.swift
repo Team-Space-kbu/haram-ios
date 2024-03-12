@@ -171,9 +171,9 @@ extension HaramError {
     case .notFindUserError, .wrongPasswordError:
       return "아이디 또는 비밀번호가 유효하지 않습니다."
     case .existSameUserError:
-      return "이미 아이디가 존재합니다."
+      return "이미 동일한 아이디가 존재합니다."
     case .wrongEmailAuthcodeError:
-      return "이메일 확인 코드가 다릅니다."
+      return "이메일 인증코드가 다릅니다."
     case .failedRegisterError:
       return "회원가입에 실패했습니다, 다시 시도해주세요."
     case .noExistSearchInfo:
@@ -191,7 +191,7 @@ extension HaramError {
     case .noExistBoard:
       return "게시글이 존재하지 않습니다."
     case .failedAuth:
-      return "패스워드가 틀립니다."
+      return "올바른 비밀번호가 아닙니다, 다시 확인해주세요."
     case .noEqualPassword:
       return "비밀번호가 다릅니다."
     case .requiredStudentID:
@@ -199,17 +199,17 @@ extension HaramError {
     case .wrongLoginInfo:
       return "로그인 정보가 정확하지 않습니다"
     case .noUserID:
-      return "UserID가 없습니다."
+      return "아이디를 입력해주세요."
     case .noPWD:
-      return "Password가 없습니다."
+      return "비밀번호를 입력해주세요."
     case .unvalidEmailFormat:
-      return "이메일 형식이 맞지 않습니다."
+      return "이메일 형식은 @bible.ac.kr만 가능합니다."
     case .unvalidNicknameFormat:
-      return "닉네임 규칙이 맞지 않습니다."
+      return "닉네임은 2~15자, 한글, 숫자, 영어만 가능합니다."
     case .unvalidpasswordFormat:
-      return "암호 규칙이 맞지 않습니다."
+      return "비밀번호는 8~255자, 영어, 숫자, 특수문자가 적어도 하나이상씩 있어야합니다."
     case .unvalidUserIDFormat:
-      return "사용자 아이디 규칙이 맞지 않습니다."
+      return "아이디는 4~30자, 영어 혹은 숫자만 가능합니다."
     case .unvalidAuthCode:
       return "인증 코드가 올바르지 않습니다."
     case .expireAuthCode:
@@ -229,7 +229,7 @@ extension HaramError {
     case .contentsIsEmpty:
       return "게시글 내용을 입력해주세요."
     case .failedUploadMultipartFile:
-      return "업로드하는데 실패하였습니다."
+      return "이미지 업로드하는데 실패하였습니다."
     case .failedCreateDirectory:
       return "디렉터리를 생성하는데 실패하였습니다."
     case .requestTimeOut:
@@ -237,7 +237,7 @@ extension HaramError {
     case .unvalidBoardTitle:
       return "게시글 제목이 올바르지 않습니다."
     case .alreadyUseNickName:
-      return "해당 닉네임은 이미 사용중입니다."
+      return "이미 사용중인 닉네임입니다."
     }
   }
 }

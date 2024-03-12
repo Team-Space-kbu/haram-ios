@@ -17,14 +17,15 @@ final class ChapelDayView: UIView {
     $0.textColor = .black
     $0.font = .regular16
     $0.text = "확정일수"
-    $0.sizeToFit()
+    $0.isSkeletonable = true
   }
   
   private let dayLabel = UILabel().then {
     $0.textColor = .hex4B81EE
     $0.font = .bold44
-//    $0.sizeToFit()
     $0.text = "55일"
+    $0.skeletonTextNumberOfLines = 1
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -37,10 +38,7 @@ final class ChapelDayView: UIView {
   }
   
   private func configureUI() {
-    [titleLabel, dayLabel].forEach {
-      $0.isSkeletonable = true
-      addSubview($0)
-    }
+    _ = [titleLabel, dayLabel].map { addSubview($0) }
     
     titleLabel.snp.makeConstraints {
       $0.top.centerX.equalToSuperview()

@@ -8,6 +8,7 @@
 import UIKit
 
 import RxSwift
+import SkeletonView
 import SnapKit
 import Then
 
@@ -38,32 +39,42 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     $0.spacing = 6
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = .init(top: 22, left: 15, bottom: 27.5, right: 15)
+    $0.isSkeletonable = true
   }
 
   private let postingTitleLabel = UILabel().then {
     $0.font = .bold18
     $0.textColor = .black
     $0.numberOfLines = 0
+    $0.isSkeletonable = true
+    $0.skeletonTextNumberOfLines = 1
   }
   
   private let postingAuthorNameLabel = UILabel().then {
     $0.font = .bold14
     $0.textColor = .black
+    $0.isSkeletonable = true
+    $0.skeletonTextNumberOfLines = 1
   }
   
   private let postingDateLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .black
+    $0.isSkeletonable = true
+    $0.skeletonTextNumberOfLines = 1
   }
   
   private let postingDescriptionLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .black
     $0.numberOfLines = 0
+    $0.isSkeletonable = true
+    $0.skeletonTextNumberOfLines = 3
   }
   
   private let lineView = UIView().then {
     $0.backgroundColor = .hexD8D8DA
+    $0.isSkeletonable = true
   }
   
   private lazy var boardImageCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
@@ -75,6 +86,7 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     $0.register(BoardImageCollectionViewCell.self, forCellWithReuseIdentifier: BoardImageCollectionViewCell.identifier)
     $0.isPagingEnabled = true
     $0.showsHorizontalScrollIndicator = false
+    $0.isSkeletonable = true
   }
   
   private let pageControl = UIPageControl().then {
@@ -124,6 +136,7 @@ final class BoardDetailHeaderView: UICollectionReusableView {
   private func configureUI() {
     isSkeletonable = true
     containerView.isSkeletonable = true
+    
     _ = [postingTitleLabel, postingAuthorNameLabel, postingDateLabel, postingDescriptionLabel].map { $0.isSkeletonable = true }
     
     _ = [containerView, lineView].map { addSubview($0) }

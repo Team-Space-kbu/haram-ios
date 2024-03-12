@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxCocoa
 import SkeletonView
 import SnapKit
 import Then
@@ -21,17 +22,9 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - UI Models
   
-  private var cellModel: [BoardDetailCollectionViewCellModel] = [] {
-    didSet {
-      boardDetailCollectionView.reloadSections([1])
-    }
-  }
+  private var cellModel: [BoardDetailCollectionViewCellModel] = []
   
-  private var boardModel: [BoardDetailHeaderViewModel] = [] {
-    didSet {
-      boardDetailCollectionView.reloadSections([0])
-    }
-  }
+  private var boardModel: [BoardDetailHeaderViewModel] = [] 
   
   // MARK: - Gesture
   
@@ -48,7 +41,10 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - UI Component
   
-  private let commentInputView = CommentInputView()
+  private lazy var commentInputView = CommentInputView().then {
+    $0.delegate = self
+    $0.isSkeletonable = true
+  }
   
   private lazy var boardDetailCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
     guard let self = self else { return nil }
@@ -58,7 +54,9 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     $0.register(BoardDetailHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardDetailHeaderView.identifier)
     $0.register(BoardDetailCommentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardDetailCommentHeaderView.identifier)
     $0.dataSource = self
+    $0.delegate = self
     $0.alwaysBounceVertical = true
+    $0.isSkeletonable = true
   }
   
   // MARK: - Initializations
@@ -85,17 +83,15 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     
     /// Set NavigationBar
     setupBackButton()
-//    setupSkeletonView()
+    setupSkeletonView()
     
     /// Set GestureRecognizer
     _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
     
     /// Set Delegate
-    commentInputView.delegate = self
     panGesture.delegate = self
     registerNotifications()
     
-    _ = [boardDetailCollectionView, commentInputView].map { $0.isSkeletonable = true }
   }
   
   override func setupLayouts() {
@@ -122,13 +118,29 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     
     viewModel.inquireBoardDetail(categorySeq: categorySeq, boardSeq: boardSeq)
     
-    viewModel.boardInfoModel
-      .drive(rx.boardModel)
-      .disposed(by: disposeBag)
+    Driver.combineLatest(
+      viewModel.boardInfoModel,
+      viewModel.boardCommentModel
+    )
+    .drive(with: self) { owner, result in
+      let (boardInfoModel, boardCommentModel) = result
+      owner.boardModel = boardInfoModel
+      owner.cellModel = boardCommentModel
+      
+      owner.view.hideSkeleton()
+      
+      owner.boardDetailCollectionView.reloadData()
+      
+    }
+    .disposed(by: disposeBag)
     
-    viewModel.boardCommentModel
-      .drive(rx.cellModel)
-      .disposed(by: disposeBag)
+//    viewModel.boardInfoModel
+//      .drive(rx.boardModel)
+//      .disposed(by: disposeBag)
+//    
+//    viewModel.boardCommentModel
+//      .drive(rx.cellModel)
+//      .disposed(by: disposeBag)
     
     tapGesture.rx.event
       .asDriver()
@@ -157,13 +169,15 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
               isLastComment: comments.count - 1 == index ? true : false
             )
         }
+        owner.boardDetailCollectionView.reloadSections([1])
       }
       .disposed(by: disposeBag)
   }
   
   // MARK: - Action Function
   
-  @objc func didTappedBackButton() {
+  @objc 
+  func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
   
@@ -206,7 +220,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
 
 // MARK: - UICollectionDataSource
 
-extension BoardDetailViewController: UICollectionViewDataSource {
+extension BoardDetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 2
@@ -312,21 +326,32 @@ extension BoardDetailViewController {
   }
 }
 
-extension BoardDetailViewController: SkeletonCollectionViewDataSource {
+extension BoardDetailViewController: SkeletonCollectionViewDataSource, SkeletonCollectionViewDelegate {
+  
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-    BoardDetailCollectionViewCell.identifier
+    guard indexPath.section == 1 else { return "" }
+    return BoardDetailCollectionViewCell.identifier
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    10
+    guard section == 1 else { return 0 }
+    return 10
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: BoardDetailCollectionViewCell.identifier, for: indexPath) as? BoardDetailCollectionViewCell
-    return cell
+    guard indexPath.section == 1 else { return nil }
+    return skeletonView.dequeueReusableCell(withReuseIdentifier: BoardDetailCollectionViewCell.identifier, for: indexPath) as? BoardDetailCollectionViewCell
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
-    BoardDetailHeaderView.identifier
+    if indexPath.section == 0 {
+      return BoardDetailHeaderView.identifier
+    } else  {
+      return BoardDetailCommentHeaderView.identifier
+    }
+  }
+  
+  func numSections(in collectionSkeletonView: UICollectionView) -> Int {
+    2
   }
 }

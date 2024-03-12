@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -34,16 +35,22 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "BoardDetailCollectionViewCell"
   
-  private let commentAuthorInfoView = CommentAuthorInfoView()
+  private let commentAuthorInfoView = CommentAuthorInfoView().then {
+    $0.isSkeletonable = true
+  }
   
   private let commentLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .black
     $0.numberOfLines = 0
+    $0.isSkeletonable = true
+    $0.text = "Lorem ipsum For SkeletonView"
+    $0.skeletonTextNumberOfLines = 2
   }
   
   private let lineView = UIView().then {
     $0.backgroundColor = .hexD8D8DA
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -58,13 +65,12 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
   override func prepareForReuse() {
     super.prepareForReuse()
     commentLabel.text = nil
-    commentAuthorInfoView.configureUI(with: .init(commentAuthorName: "", commentDate: Date()))
+    commentAuthorInfoView.initializeView()
   }
   
   private func configureUI() {
     isSkeletonable = true
     contentView.isSkeletonable = true
-//    _ = [commentAuthorInfoView, commentLabel].map { $0.isSkeletonable = true }
     
     [commentAuthorInfoView, commentLabel].forEach { contentView.addSubview($0) }
     commentAuthorInfoView.snp.makeConstraints {
@@ -77,17 +83,7 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
       $0.leading.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
     }
-    
-//    lineView.snp.makeConstraints {
-//      $0.top.equalTo(commentLabel.snp.bottom).offset(600 - 464 - 117)
-//      $0.height.equalTo(1)
-//      $0.bottom.directionalHorizontalEdges.equalToSuperview()
-//    }
   }
-  
-//  func removeLineView() {
-//    lineView.removeFromSuperview()
-//  }
   
   func configureUI(with model: BoardDetailCollectionViewCellModel) {
     
