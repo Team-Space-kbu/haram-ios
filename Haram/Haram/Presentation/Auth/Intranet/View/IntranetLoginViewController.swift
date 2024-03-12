@@ -215,12 +215,6 @@ final class IntranetLoginViewController: BaseViewController {
           owner.containerStackView.insertArrangedSubview(owner.errorMessageLabel, at: 5)
           owner.errorMessageLabel.text = error.description
         }
-//        if error == .wrongLoginInfo {
-//          if !isContain {
-//            owner.containerStackView.insertArrangedSubview(owner.errorMessageLabel, at: 5)
-//            owner.errorMessageLabel.text = error.description
-//          }
-//        }
       }
       .disposed(by: disposeBag)
   }
@@ -295,8 +289,7 @@ extension IntranetLoginViewController: UITextFieldDelegate {
       pwTextField.textField.resignFirstResponder()
       
       guard let intranetID = self.idTextField.textField.text,
-            let intranetPWD = self.pwTextField.textField.text,
-            !intranetID.isEmpty && !intranetPWD.isEmpty else {
+            let intranetPWD = self.pwTextField.textField.text else {
         return true
       }
       
