@@ -21,7 +21,7 @@ final class IntranetCheckViewController: BaseViewController {
   }
   
   private let subLabel = UILabel().then {
-    $0.text = "한국성서대학교 인트라넷 로그인이 필요합니다.\n아이디와 패스워드는 성서몬에 저장하지 않으며\n핸드폰에 안전하게 암호화하여 저장합니다."
+    $0.text = "한국성서대학교 인트라넷 로그인이 필요합니다.\n재학중인 학생임을 확인하는 절차를 진행합니다.\n학교인트라넷 로그인 이후에는 학번을 조회 및 계정에 저장합니다.\n인트라넷 로그인정보(아이디, 비밀번호)는 저장되지않으며 로그인 이후에는 더이상 로그인하지않습니다."
     $0.numberOfLines = 0
     $0.font = .regular14
     $0.textColor = .black
@@ -83,18 +83,8 @@ final class IntranetCheckViewController: BaseViewController {
       $0.directionalEdges.equalToSuperview()
     }
     
-    titleLabel.snp.makeConstraints {
-      $0.bottom.equalToSuperview().inset(243)
-      $0.centerX.equalToSuperview()
-    }
-    
-    subLabel.snp.makeConstraints {
-      $0.top.equalTo(titleLabel.snp.bottom).offset(7)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(60)
-    }
-    
     loginButton.snp.makeConstraints {
-      $0.top.lessThanOrEqualTo(subLabel.snp.bottom).offset(104)
+//      $0.top.lessThanOrEqualTo(subLabel.snp.bottom).offset(104)
       $0.bottom.equalToSuperview().inset(47)
       $0.trailing.equalToSuperview().inset(46)
       $0.height.equalTo(39)
@@ -104,6 +94,18 @@ final class IntranetCheckViewController: BaseViewController {
     lastButton.snp.makeConstraints {
       $0.leading.equalToSuperview().inset(66)
       $0.centerY.equalTo(loginButton)
+      $0.height.equalTo(39)
+    }
+    
+    subLabel.snp.makeConstraints {
+      $0.bottom.equalTo(loginButton.snp.top).offset(-50)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(16)
+    }
+    
+    titleLabel.snp.makeConstraints {
+      $0.bottom.equalTo(subLabel.snp.top).offset(-20)
+      $0.top.greaterThanOrEqualToSuperview()
+      $0.centerX.equalToSuperview()
     }
   }
   

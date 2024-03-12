@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import WebKit
 
 import RxSwift
 import SnapKit
@@ -31,7 +32,7 @@ struct TermsOfUseCheckViewModel {
     isChecked = false
     title = response.title
     policySeq = response.policySeq
-    content = response.content
+    content = "<style>body{background-color:#F2F3F5;padding-top: 4px;padding-right: 6px;padding-bottom: 7px;padding-left: 6px;}</style>" + response.content
   }
 }
 
@@ -50,7 +51,28 @@ final class TermsOfUseCheckView: UIView {
   
   // MARK: - UI Components
   
-  private let checkBoxControl = CheckBoxControl(type: .none, title: Constants.alertText)
+  private let checkBoxControl = CheckBoxControl(type: .none, title: Constants.alertText).then {
+    $0.isSkeletonable = true
+  }
+  
+  private let configuration = WKWebViewConfiguration().then {
+    let preferences = WKPreferences()
+    WKWebpagePreferences().allowsContentJavaScript = true
+    preferences.javaScriptCanOpenWindowsAutomatically = true
+    $0.preferences = preferences
+  }
+  
+  
+  private lazy var webView = WKWebView(frame: .zero, configuration: configuration).then {
+    $0.scrollView.showsVerticalScrollIndicator = false
+    $0.scrollView.showsHorizontalScrollIndicator = false
+    $0.scrollView.backgroundColor = .hexF2F3F5
+    $0.layer.cornerRadius = 10
+    $0.layer.masksToBounds = true
+    $0.isSkeletonable = true
+//    $0.scrollView.bounces = false
+//    $0.navigationDelegate = self
+  }
   
   private let alertLabel = UILabel().then {
     $0.text = Constants.alertText
@@ -58,16 +80,17 @@ final class TermsOfUseCheckView: UIView {
     $0.textColor = .hex545E6A
     $0.numberOfLines = 1
     $0.textAlignment = .center
+    $0.isSkeletonable = true
   }
   
-  private let termsLabel = PaddingLabel(withInsets: 4, 7, 6, 6).then {
-    $0.backgroundColor = .hexF2F3F5
-    $0.textColor = .hex545E6A
-    $0.layer.cornerRadius = 10
-    $0.layer.masksToBounds = true
-    $0.numberOfLines = 0
-    $0.font = .regular10
-  }
+//  private let termsLabel = PaddingLabel(withInsets: 4, 7, 6, 6).then {
+//    $0.backgroundColor = .hexF2F3F5
+//    $0.textColor = .hex545E6A
+//    $0.layer.cornerRadius = 10
+//    $0.layer.masksToBounds = true
+//    $0.numberOfLines = 0
+//    $0.font = .regular10
+//  }
   
   // MARK: - Initializations
   
@@ -110,16 +133,19 @@ final class TermsOfUseCheckView: UIView {
 //    }
     
     if type == .none {
-      addSubview(termsLabel)
-      termsLabel.snp.makeConstraints {
+      addSubview(webView)
+      webView.snp.makeConstraints {
         $0.top.equalTo(checkBoxControl.snp.bottom).offset(10)
-        $0.directionalHorizontalEdges.bottom.equalToSuperview()
+        $0.directionalHorizontalEdges.equalToSuperview()
+        $0.bottom.lessThanOrEqualToSuperview()
+        $0.height.equalTo(124)
       }
     }
   }
   
   func configureUI(with model: TermsOfUseCheckViewModel) {
-    termsLabel.addLineSpacing(lineSpacing: 7, string: model.content)
+    webView.loadHTMLString(model.content, baseURL: nil)
+//    termsLabel.addLineSpacing(lineSpacing: 7, string: model.content)
     checkBoxControl.setTitle(model.title)
 //    alertLabel.text = model.title
     self.policySeq = model.policySeq

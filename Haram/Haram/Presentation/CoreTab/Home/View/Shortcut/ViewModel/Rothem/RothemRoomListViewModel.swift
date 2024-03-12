@@ -40,7 +40,9 @@ extension RothemRoomListViewModel: RothemRoomListViewModelType {
   func inquireRothemRoomList() {
     rothemRepository.inquireRothemHomeInfo(userID: UserManager.shared.userID!)
       .subscribe(with: self) { owner, response in
-        owner.studyReservationListRelay.accept(response.roomList.map { StudyListCollectionViewCellModel(rothemRoom: $0) })
+        owner.studyReservationListRelay.accept(response.roomList.enumerated().map { index, room in
+          return StudyListCollectionViewCellModel(rothemRoom: room, isLast: index == response.roomList.count - 1)
+        })
         owner.rothemMainNoticeRelay.accept(response.noticeList.first.map { StudyListHeaderViewModel(rothemNotice: $0) })
         owner.isReservationSubject.onNext(response.isReserved == 1)
       }

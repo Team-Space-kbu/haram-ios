@@ -91,7 +91,7 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
     title = "채플조회"
     setupBackButton()
     navigationController?.interactivePopGestureRecognizer?.delegate = self
-//    setupSkeletonView()
+    setupSkeletonView()
   }
   
   @objc func didTappedBackButton() {

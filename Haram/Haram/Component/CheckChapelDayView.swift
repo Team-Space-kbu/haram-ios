@@ -15,6 +15,11 @@ protocol CheckChapelDayViewDelegate: AnyObject {
   func didTappedXButton()
 }
 
+struct CheckChapelDayViewModel {
+  let regulatedDay: String
+  let chapelDay: String
+}
+
 /// 홈 메인에서 특정 시간대에 채플 일 수를 확인할 수 있는 뷰
 final class CheckChapelDayView: UIView {
   
@@ -96,6 +101,11 @@ final class CheckChapelDayView: UIView {
       $0.directionalVerticalEdges.equalToSuperview().inset(350.5 - 337)
     }
   }
+  
+  func configureUI(with model: CheckChapelDayViewModel) {
+    regulatedCheckChapelLabelView.configureUI(with: model.regulatedDay)
+    chapelCheckChapelLabelView.configureUI(with: model.chapelDay)
+  }
 }
 
 enum ChapelCheckType {
@@ -154,6 +164,6 @@ final class CheckChapelLabelView: UIView {
   }
   
   func configureUI(with model: String) {
-    dayLabel.text = model
+    dayLabel.text = model + "일"
   }
 }

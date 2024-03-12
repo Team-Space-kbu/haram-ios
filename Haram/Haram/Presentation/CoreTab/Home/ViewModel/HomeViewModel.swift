@@ -20,23 +20,25 @@ protocol HomeViewModelType {
   var shortcutModel: Driver<[HomeShortcutCollectionViewCellModel]> { get }
   
   var isLoading: Driver<Bool> { get }
-  var isAvailableSimpleChapelModal: Driver<Bool> { get }
+  var isAvailableSimpleChapelModal: Driver<(Bool, CheckChapelDayViewModel?)> { get }
 }
 
 final class HomeViewModel {
   
   private let disposeBag = DisposeBag()
   private let homeRepository: HomeRepository
+  private let intranetRepository: IntranetRepository
   
   private let newsModelRelay   = BehaviorRelay<[HomeNewsCollectionViewCellModel]>(value: [])
   private let bannerModelRelay = BehaviorRelay<[HomebannerCollectionViewCellModel]>(value: [])
   private let shortcutModelRelay = BehaviorRelay<[HomeShortcutCollectionViewCellModel]>(value: [])
   private let noticeModelRelay = PublishRelay<HomeNoticeViewModel>()
   private let isLoadingSubject = PublishSubject<Bool>()
-  private let isAvailableSimpleChapelModalSubject = PublishSubject<Bool>()
+  private let isAvailableSimpleChapelModalSubject = PublishSubject<(Bool, CheckChapelDayViewModel?)>()
   
-  init(homeRepository: HomeRepository = HomeRepositoryImpl()) {
+  init(homeRepository: HomeRepository = HomeRepositoryImpl(), intranetRepository: IntranetRepository = IntranetRepositoryImpl()) {
     self.homeRepository = homeRepository
+    self.intranetRepository = intranetRepository
     inquireHomeInfo()
   }
 }
@@ -88,10 +90,10 @@ extension HomeViewModel: HomeViewModelType {
       .asDriver(onErrorJustReturn: false)
   }
   
-  var isAvailableSimpleChapelModal: Driver<Bool> {
+  var isAvailableSimpleChapelModal: Driver<(Bool, CheckChapelDayViewModel?)> {
     isAvailableSimpleChapelModalSubject
-      .distinctUntilChanged()
-      .asDriver(onErrorJustReturn: false)
+      .distinctUntilChanged({ $0.0 == $1.0 })
+      .asDriver(onErrorJustReturn: (false, nil))
   }
   
   func inquireSimpleChapelInfo() {
@@ -116,7 +118,23 @@ extension HomeViewModel: HomeViewModelType {
     if let startDate = calendar.date(bySettingHour: startComponents.hour!, minute: startComponents.minute!, second: 0, of: currentDate),
        let endDate = calendar.date(bySettingHour: endComponents.hour!, minute: endComponents.minute!, second: 0, of: currentDate) {
       // 현재 시간이 오전 11시30분 ~ 오후 1시일 경우 (startDate, endDate일때는 해당 안됨)
-      isAvailableSimpleChapelModalSubject.onNext(currentDate >= startDate && currentDate <= endDate)
+      
+      if currentDate >= startDate && currentDate <= endDate {
+        intranetRepository.inquireChapelInfo()
+          .subscribe(with: self) { owner, result in
+            switch result {
+            case .success(let response):
+              owner.isAvailableSimpleChapelModalSubject.onNext((true, .init(regulatedDay: response.regulateDays, chapelDay: response.confirmationDays)))
+            case .failure(let _):
+              owner.isAvailableSimpleChapelModalSubject.onNext((false, nil))
+            }
+          }
+          .disposed(by: disposeBag)
+      } else {
+        isAvailableSimpleChapelModalSubject.onNext((false, nil))
+      }
+      
+//      isAvailableSimpleChapelModalSubject.onNext(currentDate >= startDate && currentDate <= endDate)
     }
   }
 }

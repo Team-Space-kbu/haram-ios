@@ -48,7 +48,8 @@ final class HaramTextField: UIView {
   
   private lazy var errorLabel = UILabel().then {
     $0.textColor = .red
-    $0.font = .regular14    
+    $0.font = .regular14
+    $0.numberOfLines = 0
   }
   
   private lazy var defaultLabel = UILabel().then {
@@ -116,7 +117,6 @@ final class HaramTextField: UIView {
       textField.snp.makeConstraints {
         $0.top.equalTo(titleLabel.snp.bottom).offset(10)
         $0.leading.equalToSuperview()
-//        $0.directionalHorizontalEdges.equalToSuperview().inset(15)
         $0.width.equalTo(UIScreen.main.bounds.width - 30)
         $0.height.equalTo(46)
       }
