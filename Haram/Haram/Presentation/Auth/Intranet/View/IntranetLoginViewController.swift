@@ -131,7 +131,7 @@ final class IntranetLoginViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     containerStackView.snp.makeConstraints {
-      $0.topMargin.equalToSuperview()
+      $0.top.equalToSuperview()
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
