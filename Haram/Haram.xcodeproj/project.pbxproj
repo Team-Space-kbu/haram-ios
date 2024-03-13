@@ -271,6 +271,7 @@
 		70AD2A982B93837300CB9791 /* IntranetAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A972B93837300CB9791 /* IntranetAlertView.swift */; };
 		70AD2A9A2B93908A00CB9791 /* VerifyEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A992B93908A00CB9791 /* VerifyEmailViewModel.swift */; };
 		70B310922BA1798200EF21CE /* Ex + UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310912BA1798200EF21CE /* Ex + UIButton.swift */; };
+		70B310942BA1DAFD00EF21CE /* MoreCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310932BA1DAFD00EF21CE /* MoreCategoryViewController.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -560,6 +561,7 @@
 		70AD2A972B93837300CB9791 /* IntranetAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetAlertView.swift; sourceTree = "<group>"; };
 		70AD2A992B93908A00CB9791 /* VerifyEmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailViewModel.swift; sourceTree = "<group>"; };
 		70B310912BA1798200EF21CE /* Ex + UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIButton.swift"; sourceTree = "<group>"; };
+		70B310932BA1DAFD00EF21CE /* MoreCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCategoryViewController.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -1028,6 +1030,7 @@
 				708DAD1A2B35AE5C00E3AD45 /* Cells */,
 				70727AA029D88AD0003DE956 /* MoreViewController.swift */,
 				701FC8942B97000700291FC3 /* CustomAcknowListViewController.swift */,
+				70B310932BA1DAFD00EF21CE /* MoreCategoryViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1870,6 +1873,7 @@
 				7083128C2A6561CD00F7E283 /* MyPageRouter.swift in Sources */,
 				708ED7B92A91191C00107CDF /* BibleRouter.swift in Sources */,
 				705FD29B2A13C19A00F353FE /* SignupUserRequest.swift in Sources */,
+				70B310942BA1DAFD00EF21CE /* MoreCategoryViewController.swift in Sources */,
 				70375F052AAD804C0032F6B8 /* SearchBookRequest.swift in Sources */,
 				708ED7C32A911B4800107CDF /* BibleViewController.swift in Sources */,
 				7032FD5B2B57E9CE00B8481C /* SelectedCategoryNoticeViewController.swift in Sources */,
@@ -2198,7 +2202,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = TK287254JR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Haram/Info.plist;
@@ -2235,7 +2239,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Haram/HaramRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = TK287254JR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Haram/Info.plist;
@@ -2271,7 +2275,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
@@ -2292,7 +2296,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
@@ -2312,7 +2316,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -2331,7 +2335,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;

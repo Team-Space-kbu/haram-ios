@@ -75,7 +75,6 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
     super.setupStyles()
     setupBackButton()
     setupSkeletonView()
-    navigationController?.interactivePopGestureRecognizer?.delegate = self
   }
   
   override func setupLayouts() {
@@ -165,10 +164,4 @@ extension SelectedCategoryNoticeViewController: SkeletonCollectionViewDataSource
   }
   
   
-}
-
-extension SelectedCategoryNoticeViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    return true // or false
-  }
 }

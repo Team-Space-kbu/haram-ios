@@ -71,12 +71,6 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
     setupBackButton()
     setupSkeletonView()
     navigationController?.interactivePopGestureRecognizer?.delegate = self
-//    navigationItem.rightBarButtonItem = UIBarButtonItem(
-//      image: UIImage(resource: .searchLightGray),
-//      style: .plain,
-//      target: self,
-//      action: #selector(didTappedSearch)
-//    )
   }
   
   override func setupLayouts() {
@@ -220,4 +214,5 @@ extension NoticeViewController: UIGestureRecognizerDelegate {
   func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     return true // or false
   }
+
 }
