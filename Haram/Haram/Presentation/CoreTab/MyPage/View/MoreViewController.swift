@@ -263,7 +263,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
       }
     } else {
       let moreType = MoreType.allCases[indexPath.row]
-      let vc = SelectedCategoryNoticeViewController(noticeType: moreType == .employmentInformation ? .jobStudent : .jobChurch)
+      let vc = MoreCategoryViewController(noticeType: moreType == .employmentInformation ? .jobStudent : .jobChurch)
       vc.title = moreType.title
       vc.navigationItem.largeTitleDisplayMode = .never
       vc.hidesBottomBarWhenPushed = true
