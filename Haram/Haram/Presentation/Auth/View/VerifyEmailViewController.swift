@@ -50,8 +50,8 @@ final class VerifyEmailViewController: BaseViewController {
     $0.textField.keyboardType = .numberPad
   }
   
-  private let continueButton = HaramButton(type: .cancel).then {
-    $0.setTitleText(title: "계속하기")
+  private let continueButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "계속하기", contentInsets: .zero)
   }
   
   init(viewModel: VerifyEmailViewModelType = VerifyEmailViewModel()) {
@@ -122,9 +122,7 @@ final class VerifyEmailViewController: BaseViewController {
         }
         
         owner.checkEmailTextField.setError(description: message, textColor: .hex2F80ED)
-//        owner.checkEmailTextField.setButtonType(isEnabled: false)
         owner.schoolEmailTextField.removeError()
-//        owner.schoolEmailTextField.textField.isEnabled = false
       }
       .disposed(by: disposeBag)
     
@@ -161,13 +159,12 @@ final class VerifyEmailViewController: BaseViewController {
     viewModel.isContinueButtonEnabled
       .drive(with: self) { owner, isContinueButtonEnabled in
         owner.continueButton.isEnabled = isContinueButtonEnabled
-        owner.continueButton.setupButtonType(type: isContinueButtonEnabled ? .apply : .cancel)
       }
       .disposed(by: disposeBag)
     
     continueButton.rx.tap
       .withLatestFrom(
-        Observable.zip(
+        Observable.combineLatest(
           schoolEmailTextField.rx.text.orEmpty,
           checkEmailTextField.rx.text.orEmpty
         )

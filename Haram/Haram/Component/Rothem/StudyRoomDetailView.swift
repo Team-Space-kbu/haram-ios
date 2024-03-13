@@ -105,15 +105,7 @@ final class RothemRoomDetailView: UIView {
     $0.isSkeletonable = true
   }
   
-  private let reservationButton = UIButton().then {
-    $0.setTitle("예약하기", for: .normal)
-    $0.setTitleColor(.white, for: .normal)
-    $0.backgroundColor = .hex79BD9A
-    $0.titleLabel?.font = .bold22
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    $0.isSkeletonable = true
-  }
+  private let reservationButton = UIButton(configuration: .haramFilledButton(title: "예약하기", contentInsets: .zero))
   
   override init(frame: CGRect) {
     super.init(frame: frame)

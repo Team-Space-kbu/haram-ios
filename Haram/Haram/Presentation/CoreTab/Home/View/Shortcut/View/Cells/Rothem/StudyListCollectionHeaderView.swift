@@ -42,7 +42,7 @@ final class StudyListCollectionHeaderView: UICollectionReusableView {
   private let studyReservationLabel = UILabel().then {
     $0.font = .bold22
     $0.textColor = .black
-    $0.text = "로뎀스터디룸예약"
+    $0.text = "로뎀스터디룸 예약"
     $0.isSkeletonable = true
   }
   
@@ -92,7 +92,7 @@ final class StudyListCollectionHeaderView: UICollectionReusableView {
       if !isContain {
         containerView.insertArrangedSubview(checkReservationInfoView, at: 1)
         checkReservationInfoView.snp.makeConstraints {
-          $0.height.equalTo(41)
+          $0.height.greaterThanOrEqualTo(41)
           $0.directionalHorizontalEdges.equalToSuperview().inset(15)
         }
         containerView.setCustomSpacing(27, after: checkReservationInfoView)

@@ -24,7 +24,6 @@ class BottomSheetViewController: BaseViewController {
     contentView.snp.makeConstraints {
       $0.leading.trailing.equalToSuperview()
       $0.topMargin.equalToSuperview()
-//      $0.top.equalTo(view.safeAreaLayoutGuide)
     }
   }
   

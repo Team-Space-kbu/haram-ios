@@ -68,6 +68,7 @@ enum HaramError: Error, CaseIterable {
   case titleIsEmpty
   case contentsIsEmpty
   case unvalidBoardTitle // 제목 값이 올바르지 않음
+  case uploadingImage // 이미지 업로드하는 중간에 게시글을 생성하려하는 경우
   
   /// 이미지 업로드 에서
   case failedUploadMultipartFile
@@ -93,7 +94,7 @@ extension HaramError {
 extension HaramError {
   var code: String? { // 하람 서버에서 제공하는 code, Notion 참고
     switch self {
-    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .titleIsEmpty, .contentsIsEmpty:
+    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .titleIsEmpty, .contentsIsEmpty, .uploadingImage:
       return nil
     case .unvalidAuthCode:
       return "MAIL01"
@@ -238,6 +239,8 @@ extension HaramError {
       return "게시글 제목이 올바르지 않습니다."
     case .alreadyUseNickName:
       return "이미 사용중인 닉네임입니다."
+    case .uploadingImage:
+      return "이미지가 업로드중이니 잠시만 기다려주세요."
     }
   }
 }

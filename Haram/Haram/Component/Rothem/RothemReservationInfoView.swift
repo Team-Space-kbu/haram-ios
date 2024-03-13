@@ -105,9 +105,7 @@ final class RothemReservationInfoView: UIView {
       $0.size.equalTo(102)
       $0.directionalHorizontalEdges.equalToSuperview().inset(146 - 15)
       $0.bottom.equalToSuperview().inset(273 - 228)
-    }
-    
-    
+    }   
   }
   
   func configureUI(with model: RothemReservationInfoViewModel) {
@@ -128,7 +126,5 @@ final class RothemReservationInfoView: UIView {
     } catch {
       LogHelper.log("로뎀 예약을 위한 바코드 생성에 오류가 발생하였습니다.", level: .error)
     }
-    
-//    hideSkeleton()
   }
 }

@@ -22,11 +22,11 @@ enum BibleViewType: CaseIterable {
   var title: String {
     switch self {
     case .todayBibleWord:
-      return "오늘의성경말씀"
+      return "오늘의 성경말씀"
     case .notice:
       return "공지사항"
     case .todayPray:
-      return "오늘의기도"
+      return "오늘의 기도"
     }
   }
 }
@@ -44,6 +44,8 @@ final class BibleViewController: BaseViewController, BackButtonHandler {
   private var todayBibleWordModel: [TodayBibleWordCollectionViewCellModel] = []
   
   private var bibleMainNotice: [BibleNoticeCollectionViewCellModel] = []
+  
+  private var todayPrayListModel: [TodayPrayCollectionViewCellModel] = []
   
   // MARK: - UI Components
   
@@ -92,12 +94,14 @@ final class BibleViewController: BaseViewController, BackButtonHandler {
     
     Driver.combineLatest(
       viewModel.todayBibleWordList,
-      viewModel.bibleMainNotice
+      viewModel.bibleMainNotice,
+      viewModel.todayPrayList
     )
     .drive(with: self) { owner, result in
-      let (todayBibleWordList, bibleMainNotice) = result
+      let (todayBibleWordList, bibleMainNotice, todayPrayList) = result
       owner.todayBibleWordModel = todayBibleWordList
       owner.bibleMainNotice = bibleMainNotice
+      owner.todayPrayListModel = todayPrayList
       
       owner.view.hideSkeleton()
       
@@ -238,7 +242,7 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     switch BibleViewType.allCases[section] {
     case .todayPray:
-      return 1
+      return todayPrayListModel.count
     case .notice:
       return bibleMainNotice.count
     case .todayBibleWord:
@@ -258,7 +262,8 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
       return cell
     case .todayPray:
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayPrayCollectionViewCell.identifier, for: indexPath) as? TodayPrayCollectionViewCell ?? TodayPrayCollectionViewCell()
-      cell.configureUI(with: .init(prayTitle: "이건준, 컴소4", prayContent: "성공적으로 하람이 계획한대로 마무리되었으면 좋겠습니다. 하람팀원인 성묵이 상우에게도 좋은 기운이 취업에 있어서 가득하길 기도합니다 "))
+      cell.configureUI(with: todayPrayListModel[indexPath.row])
+//      cell.configureUI(with: .init(prayTitle: "이건준, 컴소4", prayContent: "성공적으로 하람이 계획한대로 마무리되었으면 좋겠습니다. 하람팀원인 성묵이 상우에게도 좋은 기운이 취업에 있어서 가득하길 기도합니다 "))
       return cell
     }
   }

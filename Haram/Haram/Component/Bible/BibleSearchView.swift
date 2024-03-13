@@ -33,14 +33,7 @@ final class BibleSearchView: UIView {
   private let jeolBibleControl = BibleSearchControl(type: .jeol)
   private let chapterBibleControl = BibleSearchControl(type: .chapter)
   
-  private let bibleSearchButton = UIButton().then {
-    $0.titleLabel?.font = .bold14
-    $0.titleLabel?.textColor = .hexF8F8F8
-    $0.setTitle("성경검색", for: .normal)
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    $0.backgroundColor = .hex79BD9A
-  }
+  private let bibleSearchButton = UIButton(configuration: .haramFilledButton(title: "성경검색", contentInsets: .zero))
   
   override init(frame: CGRect) {
     super.init(frame: frame)

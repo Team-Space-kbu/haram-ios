@@ -170,8 +170,7 @@ final class CheckBoxControl: UIControl {
   }
   
   private func setupConstraints() {
-    checkImage.snp.makeConstraints { 
-//      $0.directionalVerticalEdges.equalToSuperview()
+    checkImage.snp.makeConstraints {
       $0.leading.centerY.equalToSuperview()
       $0.size.equalTo(18)
     }
@@ -179,12 +178,10 @@ final class CheckBoxControl: UIControl {
     alertLabel.snp.makeConstraints {
       $0.leading.equalTo(checkImage.snp.trailing).offset(5)
       $0.trailing.centerY.equalToSuperview()
-//      $0.directionalVerticalEdges.equalToSuperview()
     }
   }
   
   private func setupStyles() {
-//    self.layer.cornerRadius = 3
     switch checkStyle {
     case .full:
       self.checkImage.image = Image.checkShape?.withTintColor(.white, renderingMode: .alwaysOriginal)

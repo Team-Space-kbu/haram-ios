@@ -80,8 +80,8 @@ final class RegisterViewController: BaseViewController {
     $0.isUserInteractionEnabled = false
   }
   
-  private let registerButton = HaramButton(type: .cancel).then {
-    $0.setTitleText(title: "회원가입")
+  private let registerButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "회원가입", contentInsets: .zero)
   }
   
   private let indicatorView = UIActivityIndicatorView(style: .large)
@@ -276,7 +276,7 @@ final class RegisterViewController: BaseViewController {
     viewModel.isRegisterButtonEnabled
       .drive(with: self) { owner, isEnabled in
         owner.registerButton.isEnabled = isEnabled
-        owner.registerButton.setupButtonType(type: isEnabled ? .apply : .cancel )
+//        owner.registerButton.setupButtonType(type: isEnabled ? .apply : .cancel )
       }
       .disposed(by: disposeBag)
     

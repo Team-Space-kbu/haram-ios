@@ -32,11 +32,12 @@ final class LoginAlertView: UIView {
     $0.text = "아직 회원가입하지 않았나요?"
   }
   
-  private let registerButton = UIButton().then {
-    $0.setTitleColor(.hex3B8686, for: .normal)
-    $0.setTitle("회원가입", for: .normal)
-    $0.titleLabel?.font = .bold13
-  }
+  private let registerButton = UIButton(configuration: .plain().with {
+    $0.title = "회원가입"
+    $0.baseForegroundColor = .hex3B8686
+    $0.font = .bold13
+    $0.contentInsets = .zero
+  })
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -62,16 +63,6 @@ final class LoginAlertView: UIView {
     
     containerView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
-//      $0.leading.directionalVerticalEdges.equalToSuperview()
-//      $0.trailing.lessThanOrEqualToSuperview()
-    }
-    
-    alertLabel.snp.makeConstraints {
-      $0.width.equalTo(156)
-    }
-    
-    registerButton.snp.makeConstraints {
-      $0.width.equalTo(48)
     }
   }
 }

@@ -20,13 +20,7 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     $0.isSkeletonable = true
   }
   
-  private let reservationCancelButton = UIButton().then {
-    $0.titleLabel?.font = .bold14
-    $0.setTitle("예약취소하기", for: .normal)
-    $0.setTitleColor(.white, for: .normal)
-    $0.backgroundColor = .hex79BD9A
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
+  private let reservationCancelButton = UIButton(configuration: .haramFilledButton(title: "예약취소하기", contentInsets: .zero)).then {
     $0.isSkeletonable = true
   }
   

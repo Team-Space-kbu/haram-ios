@@ -23,27 +23,19 @@ final class LoginButton: UIView {
   
   private let containerView = UIStackView().then {
     $0.axis = .horizontal
-    $0.spacing = 26
-    $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: 41 - 22)
+    $0.spacing = 10
   }
   
-  private let loginButton = UIButton().then {
-    $0.backgroundColor = .hex79BD9A
-    $0.titleLabel?.font = .bold14
-    $0.tintColor = .white
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    $0.setTitle("로그인", for: .normal)
-  }
+  private let loginButton = UIButton(configuration: .haramFilledButton(title: "로그인", contentInsets: .zero))
   
-  private let findPasswordButton = UIButton().then {
-    $0.setTitleColor(.black, for: .normal)
-    $0.titleLabel?.font = .regular14
-    $0.setTitle("비밀번호를 잊으셨나요?", for: .normal)
-    $0.titleLabel?.numberOfLines = 1
-    $0.backgroundColor = .clear
-  }
+  private let findPasswordButton = UIButton(configuration: .plain().with {
+    $0.baseForegroundColor = .black
+    $0.baseBackgroundColor = .clear
+    $0.font = .regular14
+    $0.title = "비밀번호를 잊으셨나요?"
+    $0.contentInsets = .zero
+    $0.titleAlignment = .leading
+  })
   
   override init(frame: CGRect) {
     super.init(frame: frame)
