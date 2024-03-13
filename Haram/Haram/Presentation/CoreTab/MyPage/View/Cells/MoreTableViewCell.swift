@@ -32,8 +32,10 @@ final class MoreTableViewCell: UITableViewCell {
     $0.font = .bold18
   }
   
-  private let indicatorButton = UIButton().then {
-    $0.setImage(UIImage(resource: .darkIndicator), for: .normal)
+  private let indicatorImageView = UIImageView().then {
+    $0.image = UIImage(resource: .darkIndicator)
+    $0.contentMode = .scaleAspectFit
+//    $0.setImage(UIImage(resource: .darkIndicator), for: .normal)
   }
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -47,9 +49,9 @@ final class MoreTableViewCell: UITableViewCell {
   
   private func configureUI() {
     selectionStyle = .none
-    contentView.backgroundColor = .white
+//    contentView.backgroundColor = .white
     contentView.addSubview(containerView)
-    [moreImageView, titleLabel, indicatorButton].forEach { containerView.addSubview($0) }
+    [moreImageView, titleLabel, indicatorImageView].forEach { containerView.addSubview($0) }
     
     containerView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
@@ -65,9 +67,11 @@ final class MoreTableViewCell: UITableViewCell {
       $0.top.equalToSuperview()
     }
     
-    indicatorButton.snp.makeConstraints {
-      $0.trailing.top.equalToSuperview()
-      $0.size.equalTo(20)
+    indicatorImageView.snp.makeConstraints {
+      $0.top.equalToSuperview()
+      $0.trailing.equalToSuperview().inset(10)
+      $0.height.equalTo(14)
+      $0.width.equalTo(14)
     }
   }
   

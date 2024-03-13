@@ -110,6 +110,7 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
   private let reservationButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "예약하기", contentInsets: .zero)
     $0.isSkeletonable = true
+    $0.isEnabled = false
   }
   
   private let tapGesture = UITapGestureRecognizer(target: StudyReservationViewController.self, action: nil).then {
@@ -391,6 +392,44 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
         let timeSeq = selectedTimeModel[indexPath.row + amCount].timeSeq
         isSelected ? viewModel.deSelectTimeSeq.onNext(timeSeq) : viewModel.selectTimeSeq.onNext(timeSeq)
       }
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+    
+    if collectionView == selectedDayCollectionView {
+      let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 0.5
+        cell.transform = pressedDownTransform
+      })
+    } else if collectionView == selectedTimeCollectionView {
+      let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 0.5
+        cell.transform = pressedDownTransform
+      })
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+    
+    if collectionView == selectedDayCollectionView {
+      let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
+      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 1
+        cell.transform = originalTransform
+      })
+    } else if collectionView == selectedTimeCollectionView {
+      let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
+      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 1
+        cell.transform = originalTransform
+      })
     }
   }
 }

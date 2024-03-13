@@ -340,32 +340,44 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
   }
   
-//  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-//    
-//    if collectionView == shortcutCollectionView {
-//      let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
-//      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-//      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: { cell.transform = pressedDownTransform })
-//    } else if collectionView == newsCollectionView {
-//      let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
-//      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-//      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: { cell.transform = pressedDownTransform })
-//    }
-//    
-//  }
-//  
-//  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-//    
-//    if collectionView == shortcutCollectionView {
-//      let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
-//      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-//      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: { cell.transform = originalTransform })
-//    } else if collectionView == newsCollectionView {
-//      let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
-//      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-//      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: { cell.transform = originalTransform })
-//    }
-//  }
+  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+    
+    if collectionView == shortcutCollectionView {
+      let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 0.5
+        cell.transform = pressedDownTransform
+      })
+    } else if collectionView == newsCollectionView {
+      let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 0.5
+        cell.transform = pressedDownTransform
+      })
+    }
+    
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+    
+    if collectionView == shortcutCollectionView {
+      let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
+      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 1
+        cell.transform = originalTransform
+      })
+    } else if collectionView == newsCollectionView {
+      let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
+      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 1
+        cell.transform = originalTransform
+      })
+    }
+  }
 }
 
 extension HomeViewController: SkeletonCollectionViewDataSource {
