@@ -51,13 +51,13 @@ final class CommentInputView: UIView, UITextViewDelegate {
     $0.spellCheckingType = .no
   }
   
-  private let sendButton = UIButton(configuration: .plain()).then {
-    $0.setImage(UIImage(resource: .rightIndicatorBlue), for: .normal)
+  private let sendButton = UIButton().then {
     $0.backgroundColor = .clear
+    $0.setImage(UIImage(resource: .rightIndicatorBlue), for: .normal)
   }
-//  UIButton().then {
-//    $0.backgroundColor = .clear
+//  UIButton(configuration: .plain()).then {
 //    $0.setImage(UIImage(resource: .rightIndicatorBlue), for: .normal)
+//    $0.backgroundColor = .clear
 //  }
   
   override init(frame: CGRect) {

@@ -63,6 +63,20 @@ extension UIButton.Configuration {
     return style
   }
   
+  static func haramLabelButton(title: String, font: UIFont = .regular14, forgroundColor: UIColor = .black) -> UIButton.Configuration {
+    var style = UIButton.Configuration.filled()
+    
+    style.background = style.background.with {
+      $0.backgroundColor = .clear
+    }
+    
+    style.contentInsets = .zero
+    style.baseForegroundColor = forgroundColor
+    style.title = title
+    style.font = font
+    return style
+  }
+  
   
   
   private static func haramButtonEnabled() -> UIButton.Configuration {
@@ -89,6 +103,31 @@ extension UIButton.Configuration {
     return style
   }
   
+//  private static func buttonDeselected() -> UIButton.Configuration {
+//    var style = UIButton.Configuration.plain()
+//    
+//    style.background = style.background.with {
+//      $0.cornerRadius = 10
+//      $0.strokeWidth = 1
+//      $0.strokeColor = .lightGray
+//      $0.backgroundColor = .lightGray
+//    }
+//    style.baseForegroundColor = .deepGray
+//    
+//    return style
+//  }
+  
+  private static func buttonSelected() -> UIButton.Configuration {
+    var style = UIButton.Configuration.plain()
+    
+    style.background = style.background.with {
+      $0.cornerRadius = 10
+      $0.backgroundColor = .lightGray
+    }
+    style.baseForegroundColor = .white
+    return style
+  }
+  
   func haramButton(label text: String, contentInsets: NSDirectionalEdgeInsets) -> UIButton.ConfigurationUpdateHandler {
     return { button in
       switch button.state {
@@ -96,6 +135,9 @@ extension UIButton.Configuration {
         button.configuration = .haramButtonEnabled()
       case .disabled:
         button.configuration = .haramButtonDisabled()
+      case .selected:
+        button.configuration = .buttonSelected()
+        break
       default: break
       }
       button.configuration?.title = text

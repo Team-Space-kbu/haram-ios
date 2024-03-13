@@ -32,12 +32,7 @@ final class LoginAlertView: UIView {
     $0.text = "아직 회원가입하지 않았나요?"
   }
   
-  private let registerButton = UIButton(configuration: .plain().with {
-    $0.title = "회원가입"
-    $0.baseForegroundColor = .hex3B8686
-    $0.font = .bold13
-    $0.contentInsets = .zero
-  })
+  private let registerButton = UIButton(configuration: .haramLabelButton(title: "회원가입", font: .bold13, forgroundColor: .hex3B8686))
   
   override init(frame: CGRect) {
     super.init(frame: frame)

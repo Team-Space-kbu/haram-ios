@@ -26,12 +26,7 @@ final class RerequestAlertView: UIView {
     $0.text = "이메일이 도착하지 않았나요?"
   }
   
-  private let reRequestButton = UIButton(configuration: .plain().with {
-    $0.title = "재요청하기"
-    $0.font = .regular14
-    $0.baseForegroundColor = .hex2F80ED
-    $0.contentInsets = .zero
-  })
+  private let reRequestButton = UIButton(configuration: .haramLabelButton(title: "재요청하기", forgroundColor: .hex2F80ED))
   
   override init(frame: CGRect) {
     super.init(frame: frame)

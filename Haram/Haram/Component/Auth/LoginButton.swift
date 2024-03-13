@@ -23,19 +23,11 @@ final class LoginButton: UIView {
   
   private let containerView = UIStackView().then {
     $0.axis = .horizontal
-    $0.spacing = 10
   }
   
   private let loginButton = UIButton(configuration: .haramFilledButton(title: "로그인", contentInsets: .zero))
   
-  private let findPasswordButton = UIButton(configuration: .plain().with {
-    $0.baseForegroundColor = .black
-    $0.baseBackgroundColor = .clear
-    $0.font = .regular14
-    $0.title = "비밀번호를 잊으셨나요?"
-    $0.contentInsets = .zero
-    $0.titleAlignment = .leading
-  })
+  private let findPasswordButton = UIButton(configuration: .haramLabelButton(title: "비밀번호를 잊으셨나요?"))
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -68,6 +60,10 @@ final class LoginButton: UIView {
     
     containerView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
+    }
+    
+    loginButton.snp.makeConstraints {
+      $0.width.equalTo(165)
     }
   }
 }
