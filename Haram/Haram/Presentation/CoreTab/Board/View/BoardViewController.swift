@@ -149,4 +149,26 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
     navigationController?.pushViewController(vc, animated: true)
   }
   
+  func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+    if tableView == boardTableView {
+      let cell = tableView.cellForRow(at: indexPath) as? BoardTableViewCell ?? BoardTableViewCell()
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 0.5
+        cell.transform = pressedDownTransform
+      })
+    }
+  }
+  
+  func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+    if tableView == boardTableView {
+      let cell = tableView.cellForRow(at: indexPath) as? BoardTableViewCell ?? BoardTableViewCell()
+      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 1
+        cell.transform = originalTransform
+      })
+    }
+  }
+  
 }

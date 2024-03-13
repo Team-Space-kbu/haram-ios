@@ -162,6 +162,30 @@ extension NoticeViewController: UICollectionViewDelegate, UICollectionViewDataSo
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }
+  
+  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+    
+    if collectionView == noticeCollectionView {
+      let cell = collectionView.cellForItem(at: indexPath) as? NoticeCollectionViewCell ?? NoticeCollectionViewCell()
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 0.5
+        cell.transform = pressedDownTransform
+      })
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+    
+    if collectionView == noticeCollectionView {
+      let cell = collectionView.cellForItem(at: indexPath) as? NoticeCollectionViewCell ?? NoticeCollectionViewCell()
+      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 1
+        cell.transform = originalTransform
+      })
+    }
+  }
 }
 
 extension NoticeViewController: NoticeCollectionHeaderViewDelegate {

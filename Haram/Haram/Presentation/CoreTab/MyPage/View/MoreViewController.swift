@@ -132,7 +132,6 @@ final class MoreViewController: BaseViewController {
     }
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
-//    tabBarController?.delegate = self
   }
   
   override func bind() {
@@ -181,8 +180,8 @@ final class MoreViewController: BaseViewController {
     
     moreTableView.snp.makeConstraints {
       $0.top.equalTo(profileInfoView.snp.bottom).offset(31.33)
-      $0.leading.equalToSuperview().inset(18.01)
-      $0.trailing.equalToSuperview().inset(28)
+      $0.leading.equalToSuperview().inset(15)
+      $0.trailing.equalToSuperview().inset(15)
       $0.height.equalTo((23 + 24) * MoreType.allCases.count)
     }
     
@@ -200,7 +199,7 @@ final class MoreViewController: BaseViewController {
     settingTableView.snp.makeConstraints {
       $0.top.equalTo(settingLabel.snp.bottom).offset(17)
       $0.leading.equalToSuperview().inset(15)
-      $0.trailing.equalToSuperview().inset(28)
+      $0.trailing.equalToSuperview().inset(15)
       $0.height.equalTo(127 + 23 + 23)
       $0.bottom.equalToSuperview().inset(23)
     }
@@ -241,6 +240,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
     if tableView == settingTableView {
       let settingType = SettingType.allCases[indexPath.row]
       if settingType == .logout {
@@ -249,7 +249,6 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
           self.viewModel.requestLogoutUser()
         }, cancelHandler: nil)
 
-        
       } else if settingType == .license {
         let acknowList = CustomAcknowListViewController(fileNamed: Constants.openLicenseFileName)
         acknowList.title = "오픈소스 라이센스"
@@ -269,6 +268,42 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
       vc.navigationItem.largeTitleDisplayMode = .never
       vc.hidesBottomBarWhenPushed = true
       navigationController?.pushViewController(vc, animated: true)
+    }
+  }
+  
+  func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+    if tableView == moreTableView {
+      let cell = tableView.cellForRow(at: indexPath) as? MoreTableViewCell ?? MoreTableViewCell()
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 0.5
+        cell.transform = pressedDownTransform
+      })
+    } else if tableView == settingTableView {
+      let cell = tableView.cellForRow(at: indexPath) as? SettingTableViewCell ?? SettingTableViewCell()
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 0.5
+        cell.transform = pressedDownTransform
+      })
+    }
+  }
+  
+  func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+    if tableView == moreTableView {
+      let cell = tableView.cellForRow(at: indexPath) as? MoreTableViewCell ?? MoreTableViewCell()
+      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 1
+        cell.transform = originalTransform
+      })
+    } else if tableView == settingTableView {
+      let cell = tableView.cellForRow(at: indexPath) as? SettingTableViewCell ?? SettingTableViewCell()
+      let pressedDownTransform = CGAffineTransform(scaleX: 1, y: 1)
+      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        cell.alpha = 1
+        cell.transform = pressedDownTransform
+      })
     }
   }
 }
