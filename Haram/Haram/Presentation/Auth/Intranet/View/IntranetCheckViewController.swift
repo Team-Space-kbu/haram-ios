@@ -28,12 +28,7 @@ final class IntranetCheckViewController: BaseViewController {
     $0.textAlignment = .center
   }
   
-  private let lastButton = UIButton(configuration: .plain().with {
-    $0.title = "나중에"
-    $0.font = .regular14
-    $0.baseForegroundColor = .black
-    $0.baseBackgroundColor = .clear
-  })
+  private let lastButton = UIButton(configuration: .haramLabelButton(title: "나중에"))
   
   private let loginButton = UIButton(configuration: .haramFilledButton(title: "로그인하기", contentInsets: .zero))
   

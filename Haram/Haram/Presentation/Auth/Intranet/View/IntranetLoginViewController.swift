@@ -57,12 +57,7 @@ final class IntranetLoginViewController: BaseViewController {
   
   private let loginButton = UIButton(configuration: .haramFilledButton(title: "로그인", contentInsets: .zero))
   
-  private let lastAuthButton = UIButton(configuration: .plain().with {
-    $0.title = "나중에인증하기"
-    $0.font = .regular14
-    $0.baseForegroundColor = .black
-    $0.baseBackgroundColor = .clear
-  })
+  private let lastAuthButton = UIButton(configuration: .haramLabelButton(title: "나중에인증하기"))
   
   private lazy var errorMessageLabel = UILabel().then {
     $0.textColor = .red
