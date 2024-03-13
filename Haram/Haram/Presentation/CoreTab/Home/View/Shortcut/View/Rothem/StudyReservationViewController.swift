@@ -107,8 +107,8 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     $0.isSkeletonable = true
   }
   
-  private let reservationButton = HaramButton(type: .cancel).then {
-    $0.setTitleText(title: "예약하기")
+  private let reservationButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "예약하기", contentInsets: .zero)
     $0.isSkeletonable = true
   }
   
@@ -189,7 +189,7 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     viewModel.isReservationButtonActivated
       .drive(with: self) { owner, isActivated in
         owner.reservationButton.isEnabled = isActivated
-        owner.reservationButton.setupButtonType(type: isActivated ? .apply : .cancel )
+//        owner.reservationButton.setupButtonType(type: isActivated ? .apply : .cancel )
       }
       .disposed(by: disposeBag)
     

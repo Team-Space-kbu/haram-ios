@@ -330,14 +330,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       let vc = type.viewController
       vc.navigationItem.largeTitleDisplayMode = .never
       vc.hidesBottomBarWhenPushed = true
-//      navigationController?.interactivePopGestureRecognizer?.delegate = self
       navigationController?.pushViewController(vc, animated: true)
     } else if collectionView == newsCollectionView {
       let vc = PDFViewController(pdfURL: newsModel[indexPath.row].pdfURL)
       vc.title = newsModel[indexPath.row].title
       vc.navigationItem.largeTitleDisplayMode = .never
       vc.hidesBottomBarWhenPushed = true
-//      navigationController?.interactivePopGestureRecognizer?.delegate = self
       navigationController?.pushViewController(vc, animated: true)
     }
   }

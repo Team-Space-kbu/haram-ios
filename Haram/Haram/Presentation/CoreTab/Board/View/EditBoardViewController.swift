@@ -256,7 +256,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     
     viewModel.successUploadImage
       .emit(with: self) { owner, result in
-        let (response, image) = result
+        let (_, image) = result
         owner.imageModel.append(image)
         owner.editBoardCollectionView.reloadData()
         //        owner.imageModel.append()

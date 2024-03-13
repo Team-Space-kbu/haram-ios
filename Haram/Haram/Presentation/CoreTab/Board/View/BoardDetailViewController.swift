@@ -134,25 +134,17 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     }
     .disposed(by: disposeBag)
     
-//    viewModel.boardInfoModel
-//      .drive(rx.boardModel)
-//      .disposed(by: disposeBag)
-//    
-//    viewModel.boardCommentModel
-//      .drive(rx.cellModel)
-//      .disposed(by: disposeBag)
-    
     tapGesture.rx.event
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.boardDetailCollectionView.endEditing(true)
+        owner.view.endEditing(true)
       }
       .disposed(by: disposeBag)
     
     panGesture.rx.event
       .asDriver()
       .drive(with: self) { owner, _ in
-        owner.boardDetailCollectionView.endEditing(true)
+        owner.view.endEditing(true)
       }
       .disposed(by: disposeBag)
     
@@ -335,7 +327,7 @@ extension BoardDetailViewController: SkeletonCollectionViewDataSource, SkeletonC
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     guard section == 1 else { return 0 }
-    return 10
+    return 1
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {

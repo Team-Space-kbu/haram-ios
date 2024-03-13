@@ -24,13 +24,6 @@ final class CommentInputView: UIView, UITextViewDelegate {
   private let placeHolder = "댓글추가"
   
   private let checkBoxControl = CheckBoxControl(type: .full, title: "익명")
-//  private let checkBoxButton = CheckBoxButton(type: .full)
-//  
-//  private let anonymousLabel = UILabel().then {
-//    $0.font = .regular14
-//    $0.textColor = .hex545E6A
-//    $0.text = "익명"
-//  }
   
   private let backgroundView = UIView().then {
     $0.backgroundColor = .white
@@ -58,10 +51,14 @@ final class CommentInputView: UIView, UITextViewDelegate {
     $0.spellCheckingType = .no
   }
   
-  private let sendButton = UIButton().then {
-    $0.backgroundColor = .clear
+  private let sendButton = UIButton(configuration: .plain()).then {
     $0.setImage(UIImage(resource: .rightIndicatorBlue), for: .normal)
+    $0.backgroundColor = .clear
   }
+//  UIButton().then {
+//    $0.backgroundColor = .clear
+//    $0.setImage(UIImage(resource: .rightIndicatorBlue), for: .normal)
+//  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -97,21 +94,9 @@ final class CommentInputView: UIView, UITextViewDelegate {
       $0.height.equalTo(38)
     }
     
-//    checkBoxButton.snp.makeConstraints {
-//      $0.top.equalToSuperview().inset(22)
-//      $0.leading.equalToSuperview().inset(15)
-//      $0.size.equalTo(18)
-//    }
-//    
-//    anonymousLabel.snp.makeConstraints {
-//      $0.leading.equalTo(checkBoxButton.snp.trailing).offset(5)
-//      $0.centerY.equalTo(checkBoxButton)
-//    }
-    
     commentTextView.snp.makeConstraints {
       $0.top.equalToSuperview().inset(11)
       $0.leading.equalTo(checkBoxControl.snp.trailing).offset(10)
-//      $0.leading.equalToSuperview().inset(15)
       $0.trailing.equalToSuperview().inset(56)
       $0.bottom.equalToSuperview().inset(Device.isNotch ? 11 + 10 : 11)
       $0.height.equalTo(32)
@@ -120,7 +105,6 @@ final class CommentInputView: UIView, UITextViewDelegate {
     sendButton.snp.makeConstraints {
       $0.leading.equalTo(commentTextView.snp.trailing).offset(8)
       $0.height.equalTo(36)
-//      $0.width.equalTo(27)
       $0.centerY.equalTo(commentTextView)
       $0.trailing.equalToSuperview().inset(8)
       

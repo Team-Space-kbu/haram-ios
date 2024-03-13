@@ -29,6 +29,11 @@ final class EditBoardCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    boardImageView.image = nil
+  }
+  
   private func configureUI() {
     contentView.addSubview(boardImageView)
     boardImageView.snp.makeConstraints {

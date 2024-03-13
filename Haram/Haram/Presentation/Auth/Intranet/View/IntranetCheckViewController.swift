@@ -28,32 +28,14 @@ final class IntranetCheckViewController: BaseViewController {
     $0.textAlignment = .center
   }
   
-  private let lastButton = UIButton().then {
-    let attributedString = NSAttributedString(
-      string: "나중에",
-      attributes: [
-        .font: UIFont.regular14,
-        .foregroundColor: UIColor.black
-      ]
-    )
-    $0.setAttributedTitle(attributedString, for: .normal)
-    $0.backgroundColor = .clear
-  }
+  private let lastButton = UIButton(configuration: .plain().with {
+    $0.title = "나중에"
+    $0.font = .regular14
+    $0.baseForegroundColor = .black
+    $0.baseBackgroundColor = .clear
+  })
   
-  private let loginButton = UIButton().then {
-    let attributedString = NSAttributedString(
-      string: "로그인하기",
-      attributes: [
-        .font: UIFont.bold13,
-        .foregroundColor: UIColor.white
-      ]
-    )
-    $0.setAttributedTitle(attributedString, for: .normal)
-    $0.backgroundColor = .hex79BD9A
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-  }
-  
+  private let loginButton = UIButton(configuration: .haramFilledButton(title: "로그인하기", contentInsets: .zero))
   
   override func setupStyles() {
     super.setupStyles()

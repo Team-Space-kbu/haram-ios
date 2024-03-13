@@ -30,6 +30,7 @@ final class EditBoardViewModel {
   private let successUploadImageRelay = PublishRelay<(UploadImageResponse, UIImage)>()
   private let successCreateBoardRelay = PublishRelay<Void>()
   private let errorMessageRelay = PublishRelay<HaramError>()
+  private var isLoading = false
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl(), imageRepository: ImageRepository = ImageRepositoryImpl()) {
     self.boardRepository = boardRepository
@@ -53,6 +54,9 @@ extension EditBoardViewModel: EditBoardViewModelType {
   }
   
   func uploadImage(image: UIImage, type: AggregateType = .board, fileName: String) {
+    
+    isLoading = true
+    
     imageRepository.uploadImage(image: image, request: .init(aggregateType: type), fileName: fileName)
       .subscribe(with: self) { owner, result in
         switch result {
@@ -68,6 +72,7 @@ extension EditBoardViewModel: EditBoardViewModelType {
         case .failure(let error):
           owner.errorMessageRelay.accept(error)
         }
+        owner.isLoading = false
       }
       .disposed(by: disposeBag)
   }
@@ -79,6 +84,9 @@ extension EditBoardViewModel: EditBoardViewModelType {
       return
     } else if contents == Constants.contentPlaceholder || contents.isEmpty {
       errorMessageRelay.accept(.contentsIsEmpty)
+      return
+    } else if isLoading {
+      errorMessageRelay.accept(.uploadingImage)
       return
     }
     

@@ -51,12 +51,10 @@ final class CheckEmailViewController: BaseViewController {
     $0.distribution = .fillEqually
   }
   
-  private let cancelButton = HaramButton(type: .cancel).then {
-    $0.setTitleText(title: "취소")
-  }
+  private let cancelButton = UIButton(configuration: .cancelFilledButton(title: "취소", contentInsets: .zero))
   
-  private let continueButton = HaramButton(type: .apply).then {
-    $0.setTitleText(title: "계속하기")
+  private let continueButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "계속하기", contentInsets: .zero)
   }
   
   private lazy var reRequestAlertView = RerequestAlertView().then {
@@ -169,7 +167,6 @@ final class CheckEmailViewController: BaseViewController {
     viewModel.continueButtonIsEnabled
       .drive(with: self) { owner, isEnabled in
         owner.continueButton.isEnabled = isEnabled
-        owner.continueButton.setupButtonType(type: isEnabled ? .apply : .cancel )
       }
       .disposed(by: disposeBag)
     

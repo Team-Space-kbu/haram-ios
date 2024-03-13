@@ -78,7 +78,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   
   /// 해당 게시글에 대한 댓글을 생성합니다
   func createComment(boardComment: String, categorySeq: Int, boardSeq: Int, isAnonymous: Bool) {
-    
+    guard !boardComment.isEmpty else { return }
     boardRepository.createComment(
       request: .init(
         contents: boardComment,

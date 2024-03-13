@@ -59,8 +59,8 @@ final class HaramTextField: UIView {
     $0.textAlignment = .left
   }
   
-  private lazy var haramButton = HaramButton(type: .apply).then {
-    $0.setTitleText(title: "확인코드발송")
+  private lazy var haramButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "확인코드발송", contentInsets: .zero)
   }
   
   // MARK: - Initializations
@@ -142,7 +142,6 @@ final class HaramTextField: UIView {
         $0.centerY.equalTo(textField)
         $0.trailing.equalToSuperview()
         $0.height.equalTo(46)
-        $0.width.equalTo(167)
       }
     }
     
@@ -170,7 +169,6 @@ extension HaramTextField {
       $0.top.equalTo(textField.snp.bottom).offset(10)
       $0.trailing.lessThanOrEqualToSuperview()
       $0.leading.equalToSuperview()
-//      $0.height.equalTo(18)
       $0.bottom.lessThanOrEqualToSuperview()
     }
     errorLabel.text = description
@@ -179,7 +177,6 @@ extension HaramTextField {
   
   func setButtonType(isEnabled: Bool) {
     haramButton.isEnabled = isEnabled
-    haramButton.setupButtonType(type: isEnabled ? .apply : .cancel )
   }
 }
 

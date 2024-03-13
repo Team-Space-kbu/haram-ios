@@ -56,12 +56,10 @@ final class UpdatePasswordViewController: BaseViewController {
     $0.distribution = .fillEqually
   }
   
-  private let cancelButton = HaramButton(type: .cancel).then {
-    $0.setTitleText(title: "취소")
-  }
+  private let cancelButton = UIButton(configuration: .cancelFilledButton(title: "취소", contentInsets: .zero))
   
-  private let continueButton = HaramButton(type: .apply).then {
-    $0.setTitleText(title: "계속하기")
+  private let continueButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "계속하기", contentInsets: .zero)
   }
   
   init(userEmail: String, authCode: String, viewModel: UpdatePasswordViewModelType = UpdatePasswordViewModel()) {
@@ -102,7 +100,6 @@ final class UpdatePasswordViewController: BaseViewController {
 
     passwordTextField.snp.makeConstraints {
       $0.height.equalTo(73)
-//      $0.height.greaterThanOrEqualTo(46 + 18 + 10)
     }
     
     checkPasswordTextField.snp.makeConstraints {
@@ -169,9 +166,9 @@ final class UpdatePasswordViewController: BaseViewController {
       .emit(with: self) { owner, isValid in
         if !isValid {
           owner.passwordTextField.snp.updateConstraints {
-            $0.height.equalTo(73 + 28)
+            $0.height.equalTo(73 + 28 + 28)
           }
-          owner.passwordTextField.setError(description: "암호 규칙이 올바르지 않습니다.")
+          owner.passwordTextField.setError(description: "비밀번호는 8~255자, 영어, 숫자, 특수문자가 적어도 하나이상씩 있어야합니다.")
         } else {
           owner.passwordTextField.snp.updateConstraints {
             $0.height.equalTo(73)
@@ -184,7 +181,6 @@ final class UpdatePasswordViewController: BaseViewController {
     viewModel.isContinueButtonEnabled
       .drive(with: self) { owner, isEnabled in
         owner.continueButton.isEnabled = isEnabled
-        owner.continueButton.setupButtonType(type: isEnabled ? .apply : .cancel )
       }
       .disposed(by: disposeBag)
     

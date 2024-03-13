@@ -198,10 +198,8 @@ final class LoginViewController: BaseViewController {
     
     loginAlertView.snp.makeConstraints {
       $0.top.equalTo(containerView.snp.bottom).offset(41)
-      $0.centerX.equalToSuperview()
       $0.bottomMargin.equalToSuperview().inset(25)
-//      $0.bottom.equalToSuperview().inset(25)
-//      $0.width.equalTo(216)
+      $0.centerX.equalToSuperview()
       $0.height.equalTo(16)
     }
   }

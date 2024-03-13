@@ -55,30 +55,14 @@ final class IntranetLoginViewController: BaseViewController {
     $0.textField.isSecureTextEntry = true
   }
   
-  private let loginButton = UIButton().then {
-    $0.backgroundColor = .hex79BD9A
-    $0.tintColor = .white
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    
-    let attributedString = NSAttributedString(
-      string: "로그인",
-      attributes: [
-        .font:UIFont.bold14,
-        .foregroundColor:UIColor.white
-      ]
-    )
-    $0.setAttributedTitle(attributedString, for: .normal)
-  }
+  private let loginButton = UIButton(configuration: .haramFilledButton(title: "로그인", contentInsets: .zero))
   
-  private let lastAuthButton = UIButton().then {
-    let attributedString = NSAttributedString(
-      string: "나중에인증하기",
-      attributes: [.font:UIFont.regular14, .foregroundColor:UIColor.black]
-    )
-    $0.setAttributedTitle(attributedString, for: .normal)
-    $0.backgroundColor = .clear
-  }
+  private let lastAuthButton = UIButton(configuration: .plain().with {
+    $0.title = "나중에인증하기"
+    $0.font = .regular14
+    $0.baseForegroundColor = .black
+    $0.baseBackgroundColor = .clear
+  })
   
   private lazy var errorMessageLabel = UILabel().then {
     $0.textColor = .red

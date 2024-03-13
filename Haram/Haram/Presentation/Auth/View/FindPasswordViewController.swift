@@ -48,12 +48,10 @@ final class FindPasswordViewController: BaseViewController {
     $0.distribution = .fillEqually
   }
   
-  private let cancelButton = HaramButton(type: .cancel).then {
-    $0.setTitleText(title: "취소")
-  }
+  private let cancelButton = UIButton(configuration: .cancelFilledButton(title: "취소", contentInsets: .zero))
   
-  private let continueButton = HaramButton(type: .cancel).then {
-    $0.setTitleText(title: "계속하기")
+  private let continueButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "계속하기", contentInsets: .zero)
   }
   
   init(viewModel: FindPasswordViewModelType = FindPasswordViewModel()) {
@@ -121,6 +119,10 @@ final class FindPasswordViewController: BaseViewController {
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
+        if error == .requestTimeOut {
+          AlertManager.showAlert(title: error.description!, viewController: owner, confirmHandler: nil)
+          return
+        }
         owner.schoolEmailTextField.setError(description: error.description!)
       }
       .disposed(by: disposeBag)
@@ -136,7 +138,7 @@ final class FindPasswordViewController: BaseViewController {
     viewModel.isContinueButtonEnabled
       .drive(with: self) { owner, isContinueButtonEnabled in
         owner.continueButton.isEnabled = isContinueButtonEnabled
-        owner.continueButton.setupButtonType(type: isContinueButtonEnabled ? .apply : .cancel)
+//        owner.continueButton.setupButtonType(type: isContinueButtonEnabled ? .apply : .cancel)
       }
       .disposed(by: disposeBag)
     

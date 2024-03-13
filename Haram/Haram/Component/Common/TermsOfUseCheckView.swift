@@ -70,8 +70,6 @@ final class TermsOfUseCheckView: UIView {
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
     $0.isSkeletonable = true
-//    $0.scrollView.bounces = false
-//    $0.navigationDelegate = self
   }
   
   private let alertLabel = UILabel().then {
@@ -82,15 +80,6 @@ final class TermsOfUseCheckView: UIView {
     $0.textAlignment = .center
     $0.isSkeletonable = true
   }
-  
-//  private let termsLabel = PaddingLabel(withInsets: 4, 7, 6, 6).then {
-//    $0.backgroundColor = .hexF2F3F5
-//    $0.textColor = .hex545E6A
-//    $0.layer.cornerRadius = 10
-//    $0.layer.masksToBounds = true
-//    $0.numberOfLines = 0
-//    $0.font = .regular10
-//  }
   
   // MARK: - Initializations
   
@@ -119,18 +108,11 @@ final class TermsOfUseCheckView: UIView {
   private func configureUI() {
     isSkeletonable = true
     addSubview(checkBoxControl)
-//    [checkButton, alertLabel].forEach { addSubview($0) }
     checkBoxControl.snp.makeConstraints {
       $0.size.equalTo(18)
       $0.top.leading.equalToSuperview()
       $0.trailing.equalToSuperview()
     }
-    
-//    alertLabel.snp.makeConstraints {
-//      $0.leading.equalTo(checkButton.snp.trailing).offset(10)
-//      $0.trailing.lessThanOrEqualToSuperview()
-//      $0.centerY.equalTo(checkButton)
-//    }
     
     if type == .none {
       addSubview(webView)
@@ -145,9 +127,7 @@ final class TermsOfUseCheckView: UIView {
   
   func configureUI(with model: TermsOfUseCheckViewModel) {
     webView.loadHTMLString(model.content, baseURL: nil)
-//    termsLabel.addLineSpacing(lineSpacing: 7, string: model.content)
     checkBoxControl.setTitle(model.title)
-//    alertLabel.text = model.title
     self.policySeq = model.policySeq
   }
   

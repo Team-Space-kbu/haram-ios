@@ -38,12 +38,10 @@ final class TermsOfUseViewController: BaseViewController {
     $0.backgroundColor = .clear
   }
   
-  private let cancelButton = HaramButton(type: .cancel).then {
-    $0.setTitleText(title: "취소")
-  }
+  private let cancelButton = UIButton(configuration: .cancelFilledButton(title: "취소", contentInsets: .zero))
   
-  private let applyButton = HaramButton(type: .apply).then {
-    $0.setTitleText(title: "확인")
+  private let applyButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "확인", contentInsets: .zero)
   }
   
   private let checkAllButton = TermsOfUseCheckView(type: .all)

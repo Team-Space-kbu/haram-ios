@@ -34,20 +34,14 @@ final class LibraryDetailMainView: UIView {
   }
   
   private let outerView = UIView().then {
-//    $0.layer.shadowOffset = .zero
     $0.layer.shadowColor = UIColor.black.cgColor
     $0.layer.shadowOpacity = 0.4
     $0.layer.shadowRadius = 10
     $0.layer.shadowOffset = CGSize(width: 0, height: 1.0)
     $0.layer.backgroundColor = UIColor.clear.cgColor
-//    $0.layer.cornerRadius = 10
   }
   
   private let bookImageView = UIImageView().then {
-//    $0.layer.shadowOffset = .zero
-//    $0.layer.shadowColor = UIColor.black.cgColor
-//    $0.layer.shadowOpacity = 1
-//    $0.layer.shadowRadius = 10
     $0.layer.masksToBounds = true
     $0.layer.backgroundColor = UIColor.clear.cgColor
     $0.clipsToBounds = true
