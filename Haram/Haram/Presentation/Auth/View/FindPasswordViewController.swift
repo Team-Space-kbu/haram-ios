@@ -35,7 +35,7 @@ final class FindPasswordViewController: BaseViewController {
   private let schoolEmailTextField = HaramTextField(
     title: "학교 이메일",
     placeholder: "Email",
-    options: [.defaultEmail]
+    options: [.defaultEmail, .errorLabel]
   ).then {
     $0.textField.keyboardType = .emailAddress
   }
@@ -89,7 +89,7 @@ final class FindPasswordViewController: BaseViewController {
     }
     
     schoolEmailTextField.snp.makeConstraints {
-      $0.height.equalTo(73)
+      $0.height.greaterThanOrEqualTo(73)
     }
     
     containerView.setCustomSpacing(7, after: titleLabel)

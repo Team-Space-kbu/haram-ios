@@ -249,10 +249,12 @@ final class RegisterViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     viewModel.signupSuccessMessage
-      .emit(onNext: { _ in
-        let vc = LoginViewController()
-        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
-      })
+      .emit(with: self) { owner, _ in
+        AlertManager.showAlert(title: "회원가입 성공", message: "로그인 화면으로 이동합니다.", viewController: owner) {
+          let vc = LoginViewController()
+          (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
+        }
+      }
       .disposed(by: disposeBag)
     
     tapGesture.rx.event
@@ -276,7 +278,6 @@ final class RegisterViewController: BaseViewController {
     viewModel.isRegisterButtonEnabled
       .drive(with: self) { owner, isEnabled in
         owner.registerButton.isEnabled = isEnabled
-//        owner.registerButton.setupButtonType(type: isEnabled ? .apply : .cancel )
       }
       .disposed(by: disposeBag)
     
