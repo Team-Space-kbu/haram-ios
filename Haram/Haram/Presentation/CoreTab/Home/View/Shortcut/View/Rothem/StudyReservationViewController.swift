@@ -56,8 +56,8 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
   private let selectedDayCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
-      $0.scrollDirection = .vertical
-      $0.minimumInteritemSpacing = 18
+      $0.scrollDirection = .horizontal
+      $0.minimumLineSpacing = 2
     }).then {
       $0.backgroundColor = .white
       $0.isScrollEnabled = false
@@ -373,7 +373,7 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     if collectionView == selectedDayCollectionView {
-      return CGSize(width: (collectionView.frame.width - (18 * 4) - 30) / 5, height: 69)
+      return CGSize(width: (collectionView.frame.width - (2 * 4)) / 5, height: 69)
     }
     return CGSize(width: 64, height: 33)
   }

@@ -28,10 +28,20 @@ final class HomeNewsCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "HomeNewsCollectionViewCell"
   
+  private let outerView = UIView().then {
+    $0.layer.shadowColor = UIColor.black.cgColor
+    $0.layer.shadowOpacity = 0.28
+    $0.layer.shadowRadius = 6
+    $0.layer.shadowOffset = CGSize(width: 0, height: 1.0)
+    $0.layer.backgroundColor = UIColor.clear.cgColor
+  }
+  
   private let newsImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
+    $0.isSkeletonable = true
+    $0.skeletonCornerRadius = 10
   }
   
   private let titleLabel = UILabel().then {
@@ -58,14 +68,17 @@ final class HomeNewsCollectionViewCell: UICollectionViewCell {
   
   private func configureUI() {
     isSkeletonable = true
-    skeletonCornerRadius = 10
     contentView.isSkeletonable = true
-    contentView.addShadow(shadowRadius: 6, shadowOpacity: 0.28, shadowOffset: CGSize(width: 0, height: 3))
     
-    [newsImageView, titleLabel].forEach { contentView.addSubview($0) }
-    newsImageView.snp.makeConstraints {
+    [outerView, titleLabel].forEach { contentView.addSubview($0) }
+    outerView.addSubview(newsImageView)
+    outerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(165)
+    }
+    
+    newsImageView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
     titleLabel.snp.makeConstraints {

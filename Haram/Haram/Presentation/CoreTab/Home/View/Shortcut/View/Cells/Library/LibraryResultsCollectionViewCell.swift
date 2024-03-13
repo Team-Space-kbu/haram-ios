@@ -30,10 +30,19 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "LibraryResultsCollectionViewCell"
   
+  private let outerView = UIView().then {
+    $0.layer.shadowColor = UIColor.black.cgColor
+    $0.layer.shadowOpacity = 0.28
+    $0.layer.shadowRadius = 6
+    $0.layer.shadowOffset = CGSize(width: 0, height: 1.0)
+    $0.layer.backgroundColor = UIColor.clear.cgColor
+  }
+  
   private let bookImageView = UIImageView().then {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
     $0.contentMode = .scaleAspectFill
+    $0.skeletonCornerRadius = 10
   }
   
   private let mainLabel = UILabel().then {
@@ -70,18 +79,22 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
   
   private func configureUI() {
     isSkeletonable = true
-    
-    contentView.addShadow(shadowRadius: 6, shadowOpacity: 0.28, shadowOffset: CGSize(width: 0, height: 3))
     contentView.isSkeletonable = true
     
-    [bookImageView, mainLabel, subLabel, bottomLineView].forEach {
+    [outerView, mainLabel, subLabel, bottomLineView, bookImageView].forEach {
       $0.isSkeletonable = true
       contentView.addSubview($0)
     }
-    bookImageView.snp.makeConstraints {
+    outerView.addSubview(bookImageView)
+    
+    outerView.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
       $0.height.equalTo(112)
       $0.width.equalTo(80)
+    }
+    
+    bookImageView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
     mainLabel.snp.makeConstraints {

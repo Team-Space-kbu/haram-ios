@@ -186,8 +186,10 @@ final class UpdatePasswordViewController: BaseViewController {
     
     viewModel.successUpdatePassword
       .emit(with: self) { owner, _ in
-        let vc = LoginViewController()
-        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
+        AlertManager.showAlert(title: "비밀번호 변경 성공", message: "로그인창으로 이동합니다.", viewController: owner) {
+          let vc = LoginViewController()
+          (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
+        }
       }
       .disposed(by: disposeBag)
   }
