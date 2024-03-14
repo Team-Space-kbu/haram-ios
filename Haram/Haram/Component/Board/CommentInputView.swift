@@ -23,7 +23,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
   private let disposeBag = DisposeBag()
   private let placeHolder = "댓글추가"
   
-  private let checkBoxControl = CheckBoxControl(type: .full, title: "익명")
+  private let checkBoxControl = CheckBoxControl(type: .none, title: "익명")
   
   private let backgroundView = UIView().then {
     $0.backgroundColor = .white

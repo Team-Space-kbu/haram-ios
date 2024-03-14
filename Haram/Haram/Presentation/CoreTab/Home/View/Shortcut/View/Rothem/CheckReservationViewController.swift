@@ -80,7 +80,9 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     
     viewModel.successCancelReservation
       .drive(with: self) { owner, _ in
-        owner.navigationController?.popViewController(animated: true)
+        AlertManager.showAlert(title: "로뎀예약취소성공", message: "로뎀메인화면으로 이동합니다.", viewController: owner) {
+          owner.navigationController?.popViewController(animated: true)
+        }
       }
       .disposed(by: disposeBag)
   }
