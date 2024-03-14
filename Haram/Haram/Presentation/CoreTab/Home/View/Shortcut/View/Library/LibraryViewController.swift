@@ -341,25 +341,25 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
       switch type {
       case .new:
         let cell = collectionView.cellForItem(at: indexPath) as? NewLibraryCollectionViewCell ?? NewLibraryCollectionViewCell()
-        let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-          cell.alpha = 0.5
+        let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        UIView.transition(with: cell, duration: 0.1) {
           cell.transform = pressedDownTransform
-        })
+          cell.alpha = 0.5
+        }
       case .popular:
         let cell = collectionView.cellForItem(at: indexPath) as? PopularLibraryCollectionViewCell ?? PopularLibraryCollectionViewCell()
-        let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-          cell.alpha = 0.5
+        let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        UIView.transition(with: cell, duration: 0.1) {
           cell.transform = pressedDownTransform
-        })
+          cell.alpha = 0.5
+        }
       case .rental:
         let cell = collectionView.cellForItem(at: indexPath) as? RentalLibraryCollectionViewCell ?? RentalLibraryCollectionViewCell()
-        let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-          cell.alpha = 0.5
+        let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        UIView.transition(with: cell, duration: 0.1) {
           cell.transform = pressedDownTransform
-        })
+          cell.alpha = 0.5
+        }
       }
     }
   }
@@ -372,24 +372,24 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
       case .new:
         let cell = collectionView.cellForItem(at: indexPath) as? NewLibraryCollectionViewCell ?? NewLibraryCollectionViewCell()
         let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        UIView.transition(with: cell, duration: 0.1) {
+          cell.transform = .identity
           cell.alpha = 1
-          cell.transform = originalTransform
-        })
+        }
       case .popular:
         let cell = collectionView.cellForItem(at: indexPath) as? PopularLibraryCollectionViewCell ?? PopularLibraryCollectionViewCell()
         let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        UIView.transition(with: cell, duration: 0.1) {
+          cell.transform = .identity
           cell.alpha = 1
-          cell.transform = originalTransform
-        })
+        }
       case .rental:
         let cell = collectionView.cellForItem(at: indexPath) as? RentalLibraryCollectionViewCell ?? RentalLibraryCollectionViewCell()
         let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+        UIView.transition(with: cell, duration: 0.1) {
+          cell.transform = .identity
           cell.alpha = 1
-          cell.transform = originalTransform
-        })
+        }
       }
     }
   }

@@ -69,4 +69,24 @@ final class SettingTableViewCell: UITableViewCell {
     }
     titleLabel.text = model.title
   }
+  
+  func setHighlighted(isHighlighted: Bool) {
+//    containerView.backgroundColor = isHighlighted ? .lightGray : .clear
+    
+    if isHighlighted {
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.transition(with: containerView, duration: 0.1) {
+        self.containerView.alpha = 0.5
+  //      cell.setBackgroundColor(isHighlighted: true)
+        self.containerView.transform = pressedDownTransform
+      }
+    } else {
+      UIView.transition(with: containerView, duration: 0.1) {
+//        cell.contentView.backgroundColor = .clear
+        self.containerView.alpha = 1
+//        cell.setBackgroundColor(isHighlighted: false)
+        self.containerView.transform = .identity
+      }
+    }
+  }
 }

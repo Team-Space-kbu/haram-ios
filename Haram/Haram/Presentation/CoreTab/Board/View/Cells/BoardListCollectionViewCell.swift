@@ -29,6 +29,12 @@ final class BoardListCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "BoardListCollectionViewCell"
   
+  private let entireView = UIView().then {
+    $0.backgroundColor = .hexF8F8F8
+    $0.layer.masksToBounds = true
+    $0.layer.cornerRadius = 10
+  }
+  
   private let titleLabel = UILabel().then {
     $0.font = .bold18
     $0.textColor = .hex1A1E27
@@ -64,11 +70,17 @@ final class BoardListCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     isSkeletonable = true
     skeletonCornerRadius = 10
-    contentView.layer.cornerRadius = 10
-    contentView.layer.masksToBounds = true
-    contentView.backgroundColor = .hexF8F8F8
+//    contentView.layer.cornerRadius = 10
+//    contentView.layer.masksToBounds = true
+    contentView.backgroundColor = .clear
     
-    [titleLabel, subLabel, typeStackView].forEach { contentView.addSubview($0) }
+    contentView.addSubview(entireView)
+    
+    entireView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
+    [titleLabel, subLabel, typeStackView].forEach { entireView.addSubview($0) }
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(7)
       $0.leading.equalToSuperview().inset(11)
@@ -108,4 +120,28 @@ final class BoardListCollectionViewCell: UICollectionViewCell {
       typeStackView.addArrangedSubview(paddingLabel)
     }
   }
+  
+  func setHighlighted(isHighlighted: Bool) {
+//    contentView.backgroundColor = isHighlighted ? .lightGray : .hexF2F3F5
+    
+    if isHighlighted {
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.transition(with: entireView, duration: 0.1) {
+//        self.contentView.alpha = 0.5
+        self.entireView.backgroundColor = .lightGray
+  //      cell.setBackgroundColor(isHighlighted: true)
+        self.entireView.transform = pressedDownTransform
+      }
+    } else {
+      let pressedDownTransform = CGAffineTransform(scaleX: 1, y: 1)
+      UIView.transition(with: entireView, duration: 0.1) {
+//        cell.contentView.backgroundColor = .clear
+//        self.contentView.alpha = 1
+//        cell.setBackgroundColor(isHighlighted: false)
+        self.entireView.backgroundColor = .hexF8F8F8
+        self.entireView.transform = pressedDownTransform
+      }
+    }
+  }
+  
 }

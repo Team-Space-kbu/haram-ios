@@ -344,18 +344,19 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     if collectionView == shortcutCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+      UIView.transition(with: cell, duration: 0.1) {
+//        cell.backgroundColor = .lightGray
         cell.alpha = 0.5
         cell.transform = pressedDownTransform
-      })
+      }
     } else if collectionView == newsCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+      UIView.transition(with: cell, duration: 0.1) {
         cell.alpha = 0.5
         cell.transform = pressedDownTransform
-      })
+      }
     }
     
   }
@@ -365,17 +366,29 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     if collectionView == shortcutCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
       let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+      
+      UIView.transition(with: cell, duration: 0.1) {
+//        cell.backgroundColor = .clear
         cell.alpha = 1
-        cell.transform = originalTransform
-      })
+        cell.transform = .identity
+      }
+      
+//      UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+////        cell.alpha = 1
+//        cell.backgroundColor = .clear
+//        cell.transform = .identity
+//      })
     } else if collectionView == newsCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
       let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+      UIView.transition(with: cell, duration: 0.1) {
         cell.alpha = 1
-        cell.transform = originalTransform
-      })
+        cell.transform = .identity
+      }
+//      UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+//        cell.alpha = 1
+//        cell.transform = .identity
+//      })
     }
   }
 }

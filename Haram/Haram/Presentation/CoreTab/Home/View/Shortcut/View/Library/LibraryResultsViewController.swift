@@ -142,11 +142,11 @@ extension LibraryResultsViewController: SkeletonCollectionViewDelegate, Skeleton
     
     if collectionView == searchResultsCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? LibraryResultsCollectionViewCell ?? LibraryResultsCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+      UIView.transition(with: cell, duration: 0.1) {
         cell.alpha = 0.5
         cell.transform = pressedDownTransform
-      })
+      }
     }
   }
   
@@ -155,10 +155,10 @@ extension LibraryResultsViewController: SkeletonCollectionViewDelegate, Skeleton
     if collectionView == searchResultsCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? LibraryResultsCollectionViewCell ?? LibraryResultsCollectionViewCell()
       let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
+      UIView.transition(with: cell, duration: 0.1) {
         cell.alpha = 1
-        cell.transform = originalTransform
-      })
+        cell.transform = .identity
+      }
     }
   }
 }

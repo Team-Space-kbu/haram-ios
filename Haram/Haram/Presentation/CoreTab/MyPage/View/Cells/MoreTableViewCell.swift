@@ -54,7 +54,8 @@ final class MoreTableViewCell: UITableViewCell {
     [moreImageView, titleLabel, indicatorImageView].forEach { containerView.addSubview($0) }
     
     containerView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(24)
     }
     
     moreImageView.snp.makeConstraints {
@@ -78,5 +79,25 @@ final class MoreTableViewCell: UITableViewCell {
   func configureUI(with model: MoreTableViewCellModel) {
     titleLabel.text = model.title
     moreImageView.image = UIImage(resource: model.imageResource)
+  }
+  
+  func setHighlighted(isHighlighted: Bool) {
+//    containerView.backgroundColor = isHighlighted ? .lightGray : .clear
+    
+    if isHighlighted {
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.transition(with: containerView, duration: 0.1) {
+        self.containerView.alpha = 0.5
+  //      cell.setBackgroundColor(isHighlighted: true)
+        self.containerView.transform = pressedDownTransform
+      }
+    } else {
+      UIView.transition(with: containerView, duration: 0.1) {
+//        cell.contentView.backgroundColor = .clear
+        self.containerView.alpha = 1
+//        cell.setBackgroundColor(isHighlighted: false)
+        self.containerView.transform = .identity
+      }
+    }
   }
 }

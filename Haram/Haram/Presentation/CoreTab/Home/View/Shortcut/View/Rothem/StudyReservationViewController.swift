@@ -402,18 +402,18 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
     
     if collectionView == selectedDayCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-        cell.alpha = 0.5
-        cell.transform = pressedDownTransform
-      })
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+      UIView.transition(with: cell, duration: 0.1) {
+        cell.contentView.backgroundColor = .lightGray
+        cell.contentView.transform = pressedDownTransform
+      }
     } else if collectionView == selectedTimeCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-        cell.alpha = 0.5
-        cell.transform = pressedDownTransform
-      })
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+      UIView.transition(with: cell, duration: 0.1) {
+        cell.contentView.backgroundColor = .lightGray
+        cell.contentView.transform = pressedDownTransform
+      }
     }
   }
   
@@ -422,17 +422,17 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
     if collectionView == selectedDayCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
       let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-        cell.alpha = 1
-        cell.transform = originalTransform
-      })
+      UIView.transition(with: cell, duration: 0.1) {
+        cell.contentView.backgroundColor = .clear
+        cell.contentView.transform = .identity
+      }
     } else if collectionView == selectedTimeCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
       let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-        cell.alpha = 1
-        cell.transform = originalTransform
-      })
+      UIView.transition(with: cell, duration: 0.1) {
+        cell.contentView.backgroundColor = .clear
+        cell.contentView.transform = .identity
+      }
     }
   }
 }
