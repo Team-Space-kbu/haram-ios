@@ -190,7 +190,6 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     viewModel.isReservationButtonActivated
       .drive(with: self) { owner, isActivated in
         owner.reservationButton.isEnabled = isActivated
-//        owner.reservationButton.setupButtonType(type: isActivated ? .apply : .cancel )
       }
       .disposed(by: disposeBag)
     
@@ -225,6 +224,10 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
+        if error == .maxReservationCount || error == .nonConsecutiveReservations {
+          AlertManager.showAlert(title: "로뎀예약알림", message: error.description!, viewController: owner, confirmHandler: nil)
+          return
+        }
         owner.phoneNumberTextField.setError(description: error.description!)
       }
       .disposed(by: disposeBag)
