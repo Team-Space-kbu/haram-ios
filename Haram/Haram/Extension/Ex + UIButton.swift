@@ -135,9 +135,6 @@ extension UIButton.Configuration {
         button.configuration = .haramButtonEnabled()
       case .disabled:
         button.configuration = .haramButtonDisabled()
-      case .selected:
-        button.configuration = .buttonSelected()
-        break
       default: break
       }
       button.configuration?.title = text
