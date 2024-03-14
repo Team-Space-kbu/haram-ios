@@ -266,7 +266,10 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     viewModel.successCreateBoard
       .emit(with: self) { owner, _ in
         NotificationCenter.default.post(name: .refreshBoardList, object: nil)
-        owner.navigationController?.popViewController(animated: true)
+        
+        AlertManager.showAlert(title: "게시글작성 성공", message: "메인화면으로 이동합니다.", viewController: owner) {
+          owner.navigationController?.popViewController(animated: true)
+        }
       }
       .disposed(by: disposeBag)
     
