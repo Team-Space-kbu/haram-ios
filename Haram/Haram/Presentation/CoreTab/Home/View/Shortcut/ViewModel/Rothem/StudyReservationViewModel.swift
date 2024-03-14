@@ -113,7 +113,10 @@ final class StudyReservationViewModel {
         
         /// 최대 선택 개수 2개
         guard timeModel.filter({ $0.isTimeSelected }).count < 2,
-              !timeModel.filter({ $0.timeSeq == timeSeq }).first!.isReserved else { return }
+              !timeModel.filter({ $0.timeSeq == timeSeq }).first!.isReserved else {
+          owner.errorMessageRelay.accept(.maxReservationCount)
+          return
+        }
         
         if timeModel.filter({ $0.isTimeSelected }).count == 1 {
           
@@ -122,10 +125,11 @@ final class StudyReservationViewModel {
             let findModel = timeModel.filter { $0.timeSeq == timeSeq }.first!
             timeModel[timeModel.firstIndex(of: findModel)!].isTimeSelected = true
             owner.timeTable.accept(timeModel)
+          } else {
+            /// 연속적이지않은 timeSeq는 무시
+            owner.errorMessageRelay.accept(.nonConsecutiveReservations)
+            return
           }
-          
-          /// 연속적이지않은 timeSeq는 무시
-          return
         }
         
         let findModel = timeModel.filter { $0.timeSeq == timeSeq }.first!

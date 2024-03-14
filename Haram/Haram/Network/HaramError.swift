@@ -62,7 +62,10 @@ enum HaramError: Error, CaseIterable {
   case returnWrongFormat
   case noExistBoard // 게시글이 존재하지않을 때 발생하는 에러
   
+  /// 로뎀 예약시 에러
   case alreadyReservationList // 이미 예약된 내역이 있습니다.
+  case maxReservationCount // 이미 예약할 수 있는 최대 개수를 선택됨
+  case nonConsecutiveReservations // 연속적이지않은 예약일 경우
   
   /// 게시판 생성 에러
   case titleIsEmpty
@@ -94,7 +97,7 @@ extension HaramError {
 extension HaramError {
   var code: String? { // 하람 서버에서 제공하는 code, Notion 참고
     switch self {
-    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .titleIsEmpty, .contentsIsEmpty, .uploadingImage:
+    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .titleIsEmpty, .contentsIsEmpty, .uploadingImage, .maxReservationCount, .nonConsecutiveReservations:
       return nil
     case .unvalidAuthCode:
       return "MAIL01"
@@ -241,6 +244,10 @@ extension HaramError {
       return "이미 사용중인 닉네임입니다."
     case .uploadingImage:
       return "이미지가 업로드중이니 잠시만 기다려주세요."
+    case .maxReservationCount:
+      return "이미 예약할 수 있는 최대개수를 선택하였습니다."
+    case .nonConsecutiveReservations:
+      return "연속된 시간만 예약할 수 있습니다."
     }
   }
 }
