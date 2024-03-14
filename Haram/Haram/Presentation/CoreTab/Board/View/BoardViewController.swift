@@ -152,22 +152,29 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
     if tableView == boardTableView {
       let cell = tableView.cellForRow(at: indexPath) as? BoardTableViewCell ?? BoardTableViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-        cell.alpha = 0.5
-        cell.transform = pressedDownTransform
-      })
+      cell.setHighlighted(isHighlighted: true)
+      
+      
+//      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//      UIView.transition(with: cell.contentView, duration: 0.1) {
+////        cell.alpha = 0.5
+//        cell.setBackgroundColor(isHighlighted: true)
+//        cell.contentView.transform = pressedDownTransform
+//      }
     }
   }
   
   func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
     if tableView == boardTableView {
       let cell = tableView.cellForRow(at: indexPath) as? BoardTableViewCell ?? BoardTableViewCell()
-      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-        cell.alpha = 1
-        cell.transform = originalTransform
-      })
+      cell.setHighlighted(isHighlighted: false)
+//      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+//      UIView.transition(with: cell.contentView, duration: 0.1) {
+////        cell.contentView.backgroundColor = .clear
+////        cell.alpha = 1
+//        cell.setBackgroundColor(isHighlighted: false)
+//        cell.contentView.transform = .identity
+//      }
     }
   }
   

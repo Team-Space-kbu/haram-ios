@@ -274,36 +274,40 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
     if tableView == moreTableView {
       let cell = tableView.cellForRow(at: indexPath) as? MoreTableViewCell ?? MoreTableViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-        cell.alpha = 0.5
-        cell.transform = pressedDownTransform
-      })
+      cell.setHighlighted(isHighlighted: true)
+//      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//      UIView.transition(with: cell, duration: 0.1) {
+//        cell.contentView.backgroundColor = .lightGray
+//        cell.contentView.transform = pressedDownTransform
+//      }
     } else if tableView == settingTableView {
       let cell = tableView.cellForRow(at: indexPath) as? SettingTableViewCell ?? SettingTableViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-        cell.alpha = 0.5
-        cell.transform = pressedDownTransform
-      })
+      cell.setHighlighted(isHighlighted: true)
+//      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//      UIView.transition(with: cell, duration: 0.1) {
+//        cell.contentView.backgroundColor = .lightGray
+//        cell.contentView.transform = pressedDownTransform
+//      }
     }
   }
   
   func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
     if tableView == moreTableView {
       let cell = tableView.cellForRow(at: indexPath) as? MoreTableViewCell ?? MoreTableViewCell()
-      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-        cell.alpha = 1
-        cell.transform = originalTransform
-      })
+      cell.setHighlighted(isHighlighted: false)
+//      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+//      UIView.transition(with: cell, duration: 0.1) {
+//        cell.contentView.backgroundColor = .clear
+//        cell.contentView.transform = .identity
+//      }
     } else if tableView == settingTableView {
       let cell = tableView.cellForRow(at: indexPath) as? SettingTableViewCell ?? SettingTableViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 1, y: 1)
-      UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-        cell.alpha = 1
-        cell.transform = pressedDownTransform
-      })
+      cell.setHighlighted(isHighlighted: false)
+//      let pressedDownTransform = CGAffineTransform(scaleX: 1, y: 1)
+//      UIView.transition(with: cell, duration: 0.1) {
+//        cell.contentView.backgroundColor = .clear
+//        cell.contentView.transform = .identity
+//      }
     }
   }
 }

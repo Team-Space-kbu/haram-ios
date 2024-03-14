@@ -22,6 +22,12 @@ final class NoticeCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "NoticeCollectionViewCell"
   
+  private let entireView = UIView().then {
+    $0.backgroundColor = .hexF8F8F8
+    $0.layer.masksToBounds = true
+    $0.layer.cornerRadius = 10
+  }
+  
   private let mainLabel = UILabel().then {
     $0.font = .bold18
     $0.textColor = .hex1A1E27
@@ -61,15 +67,17 @@ final class NoticeCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     isSkeletonable = true
     skeletonCornerRadius = 10
-//    contentView.isSkeletonable = true
+    
+    contentView.backgroundColor = .clear
+//    contentView.layer.cornerRadius = 10
 //    contentView.layer.masksToBounds = true
-//    contentView.skeletonCornerRadius = 10
     
-    contentView.backgroundColor = .hexF8F8F8
-    contentView.layer.cornerRadius = 10
-    contentView.layer.masksToBounds = true
+    contentView.addSubview(entireView)
+    entireView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
     
-    [mainLabel, subLabel, typeStackView, indicatorButton].forEach { contentView.addSubview($0) }
+    [mainLabel, subLabel, typeStackView, indicatorButton].forEach { entireView.addSubview($0) }
     
     mainLabel.snp.makeConstraints {
       $0.top.leading.equalToSuperview().inset(12)
@@ -115,6 +123,26 @@ final class NoticeCollectionViewCell: UICollectionViewCell {
         $0.height.equalTo(19)
       }
       typeStackView.addArrangedSubview(paddingLabel)
+    }
+  }
+  
+  func setHighlighted(isHighlighted: Bool) {
+//    containerView.backgroundColor = isHighlighted ? .lightGray : .clear
+    
+    if isHighlighted {
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.transition(with: entireView, duration: 0.1) {
+        self.entireView.backgroundColor = .lightGray
+  //      cell.setBackgroundColor(isHighlighted: true)
+        self.entireView.transform = pressedDownTransform
+      }
+    } else {
+      UIView.transition(with: entireView, duration: 0.1) {
+//        cell.contentView.backgroundColor = .clear
+        self.entireView.backgroundColor = .hexF8F8F8
+//        cell.setBackgroundColor(isHighlighted: false)
+        self.entireView.transform = .identity
+      }
     }
   }
 }
