@@ -408,12 +408,13 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
     } else if collectionView == selectedTimeCollectionView {
       if !selectedTimeModel[indexPath.row].isReserved {
         let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
-        let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-        UIView.transition(with: cell.contentView, duration: 0.1) {
-          cell.contentView.backgroundColor = .lightGray
-          cell.contentView.transform = pressedDownTransform
-          cell.contentView.layer.borderColor = UIColor.lightGray.cgColor
-        }
+        cell.setHighlighted(isHighlighted: true)
+//        let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+//        UIView.transition(with: cell.contentView, duration: 0.1) {
+//          cell.contentView.backgroundColor = .lightGray
+//          cell.contentView.transform = pressedDownTransform
+//          cell.contentView.layer.borderColor = UIColor.lightGray.cgColor
+//        }
       }
     }
   }
@@ -428,12 +429,13 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
     } else if collectionView == selectedTimeCollectionView {
       if !selectedTimeModel[indexPath.row].isReserved {
         let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
-        let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-        UIView.transition(with: cell.contentView, duration: 0.1) {
-          cell.contentView.backgroundColor = .clear
-          cell.contentView.transform = .identity
-          cell.contentView.layer.borderColor = UIColor.hex707070.cgColor
-        }
+        cell.setHighlighted(isHighlighted: false)
+//        let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+//        UIView.transition(with: cell.contentView, duration: 0.1) {
+//          cell.contentView.backgroundColor = .clear
+//          cell.contentView.transform = .identity
+//          cell.contentView.layer.borderColor = UIColor.hex707070.cgColor
+//        }
       }
     }
   }

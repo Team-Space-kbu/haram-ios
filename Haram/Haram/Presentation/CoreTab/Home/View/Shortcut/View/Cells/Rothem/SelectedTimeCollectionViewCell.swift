@@ -100,4 +100,25 @@ final class SelectedTimeCollectionViewCell: UICollectionViewCell {
     self.isReserved = model.isReserved
     contentView.isUserInteractionEnabled = !model.isReserved
   }
+  
+  func setHighlighted(isHighlighted: Bool) {
+    
+    if isHighlighted {
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.transition(with: self.contentView, duration: 0.1) {
+//        self.contentView.backgroundColor = .lightGray
+        self.contentView.alpha = 0.5
+        self.contentView.transform = pressedDownTransform
+//        self.contentView.layer.borderColor = UIColor.lightGray.cgColor
+      }
+    } else {
+      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+      UIView.transition(with: self.contentView, duration: 0.1) {
+//        self.contentView.backgroundColor = .clear
+        self.contentView.alpha = 1
+        self.contentView.transform = .identity
+//        self.contentView.layer.borderColor = UIColor.hex707070.cgColor
+      }
+    }
+  }
 }
