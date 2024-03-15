@@ -261,6 +261,7 @@ extension BoardDetailViewController: UIGestureRecognizerDelegate {
 }
 
 extension BoardDetailViewController: CommentInputViewDelegate {
+  
   func writeComment(_ comment: String, isAnonymous: Bool) {
     viewModel.createComment(boardComment: comment, categorySeq: categorySeq, boardSeq: boardSeq, isAnonymous: isAnonymous)
     view.endEditing(true)

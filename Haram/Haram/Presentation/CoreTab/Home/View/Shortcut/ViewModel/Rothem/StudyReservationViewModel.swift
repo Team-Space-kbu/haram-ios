@@ -112,9 +112,13 @@ final class StudyReservationViewModel {
         var timeModel = owner.timeTable.value
         
         /// 최대 선택 개수 2개
-        guard timeModel.filter({ $0.isTimeSelected }).count < 2,
-              !timeModel.filter({ $0.timeSeq == timeSeq }).first!.isReserved else {
+        guard timeModel.filter({ $0.isTimeSelected }).count < 2 else {
           owner.errorMessageRelay.accept(.maxReservationCount)
+          return
+        }
+        
+        /// 선택된 시간이 이미 예약이 된 시간인지 확인
+        guard !timeModel.filter({ $0.timeSeq == timeSeq }).first!.isReserved else {
           return
         }
         

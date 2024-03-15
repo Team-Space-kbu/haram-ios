@@ -55,10 +55,6 @@ final class CommentInputView: UIView, UITextViewDelegate {
     $0.backgroundColor = .clear
     $0.setImage(UIImage(resource: .rightIndicatorBlue), for: .normal)
   }
-//  UIButton(configuration: .plain()).then {
-//    $0.setImage(UIImage(resource: .rightIndicatorBlue), for: .normal)
-//    $0.backgroundColor = .clear
-//  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -156,6 +152,13 @@ final class CommentInputView: UIView, UITextViewDelegate {
         owner.updateTextViewHeightAutomatically()
       }
       .disposed(by: disposeBag)
+    
+    checkBoxControl.rx.isChecked
+      .subscribe(with: self) { owner, _ in
+//        owner.endEditing(true)
+      }
+      .disposed(by: disposeBag)
+    
   }
   
   private func updateTextViewHeightAutomatically() {
