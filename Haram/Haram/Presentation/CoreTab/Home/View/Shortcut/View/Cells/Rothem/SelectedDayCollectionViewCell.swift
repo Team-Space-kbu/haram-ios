@@ -29,6 +29,13 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "SelectedDayCollectionViewCell"
   
+  private let entireView = UIView().then {
+    $0.layer.masksToBounds = true
+    $0.layer.cornerRadius = 10
+    $0.layer.borderWidth = 1
+//    $0.isSkeletonable = true
+  }
+  
   private let titleLabel = UILabel().then {
     $0.font = .bold14
     $0.textColor = .black
@@ -62,11 +69,16 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
     skeletonCornerRadius = 10
     contentView.isSkeletonable = true
     
-    contentView.layer.masksToBounds = true
-    contentView.layer.cornerRadius = 10
-    contentView.layer.borderWidth = 1
+//    contentView.layer.masksToBounds = true
+//    contentView.layer.cornerRadius = 10
+//    contentView.layer.borderWidth = 1
 
-    [titleLabel, dayLabel].forEach { contentView.addSubview($0) }
+    contentView.addSubview(entireView)
+    [titleLabel, dayLabel].forEach { entireView.addSubview($0) }
+    
+    entireView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
     
     titleLabel.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
@@ -79,8 +91,8 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
   }
   
   private func updateIfNeeded() {
-    contentView.backgroundColor = isSelected ? .hex79BD9A : .white
-    contentView.layer.borderColor = isSelected ? UIColor.hex79BD9A.cgColor : UIColor.hex707070.cgColor
+    entireView.backgroundColor = isSelected ? .hex79BD9A : .white
+    entireView.layer.borderColor = isSelected ? UIColor.hex79BD9A.cgColor : UIColor.hex707070.cgColor
     titleLabel.textColor = isSelected ? .hexF2F3F5 : .black
     dayLabel.textColor = isSelected ? .hexF2F3F5 : .black
   }
@@ -90,10 +102,33 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
     dayLabel.text = model.day
     self.isUserInteractionEnabled = model.isAvailable
     if !model.isAvailable {
-      contentView.backgroundColor = .hex545E6A
-      contentView.layer.borderColor = UIColor.hex545E6A.cgColor
+      entireView.backgroundColor = .hex545E6A
+      entireView.layer.borderColor = UIColor.hex545E6A.cgColor
       titleLabel.textColor = .white
       dayLabel.textColor = .white
+    }
+  }
+  
+  func setHighlighted(isHighlighted: Bool) {
+//    contentView.backgroundColor = isHighlighted ? .lightGray : .hexF2F3F5
+    
+    if isHighlighted {
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.transition(with: entireView, duration: 0.1) {
+//        self.contentView.alpha = 0.5
+        self.entireView.backgroundColor = .lightGray
+  //      cell.setBackgroundColor(isHighlighted: true)
+        self.entireView.transform = pressedDownTransform
+      }
+    } else {
+      let pressedDownTransform = CGAffineTransform(scaleX: 1, y: 1)
+      UIView.transition(with: entireView, duration: 0.1) {
+//        cell.contentView.backgroundColor = .clear
+//        self.contentView.alpha = 1
+//        cell.setBackgroundColor(isHighlighted: false)
+        self.entireView.backgroundColor = .hex545E6A
+        self.entireView.transform = pressedDownTransform
+      }
     }
   }
   

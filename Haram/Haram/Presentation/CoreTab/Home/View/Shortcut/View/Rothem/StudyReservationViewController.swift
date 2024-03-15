@@ -401,18 +401,19 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
   func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
     
     if collectionView == selectedDayCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.contentView.backgroundColor = .lightGray
-        cell.contentView.transform = pressedDownTransform
+      if selectedDateModel[indexPath.row].isAvailable {
+        let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
+        cell.setHighlighted(isHighlighted: true)
       }
     } else if collectionView == selectedTimeCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.contentView.backgroundColor = .lightGray
-        cell.contentView.transform = pressedDownTransform
+      if !selectedTimeModel[indexPath.row].isReserved {
+        let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
+        let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+        UIView.transition(with: cell.contentView, duration: 0.1) {
+          cell.contentView.backgroundColor = .lightGray
+          cell.contentView.transform = pressedDownTransform
+          cell.contentView.layer.borderColor = UIColor.lightGray.cgColor
+        }
       }
     }
   }
@@ -420,18 +421,19 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
   func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
     
     if collectionView == selectedDayCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
-      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.contentView.backgroundColor = .clear
-        cell.contentView.transform = .identity
+      if selectedDateModel[indexPath.row].isAvailable {
+        let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
+        cell.setHighlighted(isHighlighted: false)
       }
     } else if collectionView == selectedTimeCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
-      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.contentView.backgroundColor = .clear
-        cell.contentView.transform = .identity
+      if !selectedTimeModel[indexPath.row].isReserved {
+        let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
+        let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+        UIView.transition(with: cell.contentView, duration: 0.1) {
+          cell.contentView.backgroundColor = .clear
+          cell.contentView.transform = .identity
+          cell.contentView.layer.borderColor = UIColor.hex707070.cgColor
+        }
       }
     }
   }

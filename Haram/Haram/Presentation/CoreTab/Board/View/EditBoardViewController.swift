@@ -340,19 +340,6 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     }
   }
   
-  private func presentPicker() {
-    var config = PHPickerConfiguration(photoLibrary: .shared())
-    config.selectionLimit = 8
-    config.filter = .images
-    config.selection = .ordered
-    config.preferredAssetRepresentationMode = .current
-    config.preselectedAssetIdentifiers = selectedAssetIdentifiers
-    
-    let picker = PHPickerViewController(configuration: config)
-    picker.delegate = self
-    present(picker, animated: true)
-  }
-  
   @objc
   func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
@@ -456,6 +443,19 @@ extension EditBoardViewController {
 
 extension EditBoardViewController: PHPickerViewControllerDelegate {
   
+  private func presentPicker() {
+    var config = PHPickerConfiguration(photoLibrary: .shared())
+    config.selectionLimit = 8
+    config.filter = .images
+    config.selection = .ordered
+    config.preferredAssetRepresentationMode = .current
+    config.preselectedAssetIdentifiers = selectedAssetIdentifiers
+    
+    let picker = PHPickerViewController(configuration: config)
+    picker.delegate = self
+    present(picker, animated: true)
+  }
+  
   private func displayImage() {
     
     var dispatchGroup = DispatchGroup()
@@ -467,17 +467,16 @@ extension EditBoardViewController: PHPickerViewControllerDelegate {
       // 만약 itemProvider에서 UIImage로 로드가 가능하다면?
       if itemProvider.canLoadObject(ofClass: UIImage.self) {
         // 로드 핸들러를 통해 UIImage를 처리해 줍시다. (비동기적으로 동작)
-        itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
+        itemProvider.loadObject(ofClass: UIImage.self) { image, error in
           
-          guard let self = self,
-                let image = image as? UIImage else { return }
+          guard let image = image as? UIImage else { return }
           imagesDict[identifier] = image
           dispatchGroup.leave()
         }
       }
     }
     
-    dispatchGroup.notify(queue: .main) { [weak self] in
+    dispatchGroup.notify(queue: .global()) { [weak self] in
       guard let self = self else { return }
       for identifier in self.selectedAssetIdentifiers {
         guard let image = imagesDict[identifier] else { return }
@@ -498,34 +497,50 @@ extension EditBoardViewController: PHPickerViewControllerDelegate {
       AlertManager.showAlert(title: "이미지 등록은 최대 8개입니다.", viewController: self, confirmHandler: nil)
       return
     }
-    
-    for itemProvider in itemProviders {
-      if itemProvider.canLoadObject(ofClass: UIImage.self) {
-        // 로드 핸들러를 통해 UIImage를 처리해 줍시다.
-        itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
-          
-          guard let self = self,
-                let image = image as? UIImage else { return }
-          var newSelections = [String: PHPickerResult]()
-          
-          for result in results {
-            let identifier = result.assetIdentifier!
-            // ⭐️ 여기는 WWDC에서 3분 부분을 참고하세요. (Picker의 사진의 저장 방식)
-            newSelections[identifier] = selections[identifier] ?? result
-          }
-          
-          // selections에 새로 만들어진 newSelection을 넣어줍시다.
-          selections = newSelections
-          // Picker에서 선택한 이미지의 Identifier들을 저장 (assetIdentifier은 옵셔널 값이라서 compactMap 받음)
-          // 위의 PHPickerConfiguration에서 사용하기 위해서 입니다.
-          selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
-          
-          if !selections.isEmpty {
-            displayImage()
-          }
-        }
-      }
+    var newSelections = [String: PHPickerResult]()
+    for result in results {
+      let identifier = result.assetIdentifier!
+      // ⭐️ 여기는 WWDC에서 3분 부분을 참고하세요. (Picker의 사진의 저장 방식)
+      newSelections[identifier] = selections[identifier] ?? result
     }
+    
+    // selections에 새로 만들어진 newSelection을 넣어줍시다.
+    selections = newSelections
+    // Picker에서 선택한 이미지의 Identifier들을 저장 (assetIdentifier은 옵셔널 값이라서 compactMap 받음)
+    // 위의 PHPickerConfiguration에서 사용하기 위해서 입니다.
+    selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
+    
+    if !selections.isEmpty {
+      displayImage()
+    }
+    
+    //    for itemProvider in itemProviders {
+    //      if itemProvider.canLoadObject(ofClass: UIImage.self) {
+    //        // 로드 핸들러를 통해 UIImage를 처리해 줍시다.
+    //        itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
+    //
+    //          guard let self = self,
+    //                let image = image as? UIImage else { return }
+    //          var newSelections = [String: PHPickerResult]()
+    //
+    //          for result in results {
+    //            let identifier = result.assetIdentifier!
+    //            // ⭐️ 여기는 WWDC에서 3분 부분을 참고하세요. (Picker의 사진의 저장 방식)
+    //            newSelections[identifier] = selections[identifier] ?? result
+    //          }
+    //
+    //          // selections에 새로 만들어진 newSelection을 넣어줍시다.
+    //          selections = newSelections
+    //          // Picker에서 선택한 이미지의 Identifier들을 저장 (assetIdentifier은 옵셔널 값이라서 compactMap 받음)
+    //          // 위의 PHPickerConfiguration에서 사용하기 위해서 입니다.
+    //          selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
+    //
+    //          if !selections.isEmpty {
+    //            displayImage()
+    //          }
+    //        }
+    //      }
+    //    }
   }
 }
 
