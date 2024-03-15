@@ -63,6 +63,12 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    titleLabel.text = nil
+    dayLabel.text = nil
+  }
+  
   private func configureUI() {
     
     isSkeletonable = true
@@ -106,7 +112,13 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
       entireView.layer.borderColor = UIColor.hex545E6A.cgColor
       titleLabel.textColor = .white
       dayLabel.textColor = .white
-    }
+    } 
+//    else {
+//      entireView.backgroundColor = .white
+//      entireView.layer.borderColor = UIColor.hex707070.cgColor
+//      titleLabel.textColor = .black
+//      dayLabel.textColor = .black
+//    }
   }
   
   func setHighlighted(isHighlighted: Bool) {
@@ -116,8 +128,9 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
       let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
       UIView.transition(with: entireView, duration: 0.1) {
 //        self.contentView.alpha = 0.5
-        self.entireView.backgroundColor = .lightGray
+//        self.entireView.backgroundColor = .lightGray
   //      cell.setBackgroundColor(isHighlighted: true)
+        self.entireView.alpha = 0.5
         self.entireView.transform = pressedDownTransform
       }
     } else {
@@ -126,7 +139,8 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
 //        cell.contentView.backgroundColor = .clear
 //        self.contentView.alpha = 1
 //        cell.setBackgroundColor(isHighlighted: false)
-        self.entireView.backgroundColor = .hex545E6A
+//        self.entireView.backgroundColor = .hex545E6A
+        self.entireView.alpha = 1
         self.entireView.transform = pressedDownTransform
       }
     }
