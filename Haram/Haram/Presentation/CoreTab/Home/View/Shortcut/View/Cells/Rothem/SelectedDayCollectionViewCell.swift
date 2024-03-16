@@ -87,12 +87,12 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
     }
     
     titleLabel.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview().inset(3)
     }
     
     dayLabel.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(3)
     }
   }
   

@@ -54,12 +54,12 @@ extension EditBoardViewModel: EditBoardViewModelType {
   }
   
   func uploadImage(image: UIImage, type: AggregateType = .board, fileName: String) {
-    print("업로드이미지 \(image)")
-    print("업로드타입 \(type)")
-    print("업로드파일이름 \(fileName)")
+//    print("업로드이미지 \(image)")
+//    print("업로드타입 \(type)")
+//    print("업로드파일이름 \(fileName)")
     isLoading = true
     
-    imageRepository.uploadImage(image: image, request: .init(aggregateType: type), fileName: fileName)
+    imageRepository.uploadImage(image: image, request: .init(aggregateType: type), fileName: fileName.replacingOccurrences(of: "/", with: "-") + ".jpeg")
       .subscribe(with: self) { owner, result in
         switch result {
         case .success(let response):
