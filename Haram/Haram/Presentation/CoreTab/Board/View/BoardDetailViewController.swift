@@ -86,7 +86,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     setupSkeletonView()
     
     /// Set GestureRecognizer
-    _ = [panGesture].map { view.addGestureRecognizer($0) }
+    _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
     
     /// Set Delegate
     panGesture.delegate = self
@@ -134,12 +134,13 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     }
     .disposed(by: disposeBag)
     
-//    tapGesture.rx.event
-//      .asDriver()
-//      .drive(with: self) { owner, _ in
+    tapGesture.rx.event
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.commentInputView.resignFirstResponder()
 //        owner.boardDetailCollectionView.endEditing(true)
-//      }
-//      .disposed(by: disposeBag)
+      }
+      .disposed(by: disposeBag)
     
     panGesture.rx.event
       .asDriver()
