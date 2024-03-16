@@ -106,6 +106,20 @@ extension NoticeCollectionHeaderView: UICollectionViewDelegate, UICollectionView
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     delegate?.didTappedCategory(noticeType: model[indexPath.row].key)
   }
+  
+  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+    if collectionView == categoryCollectionView {
+      let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell ?? CategoryCollectionViewCell()
+      cell.setHighlighted(isHighlighted: true)
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+    if collectionView == categoryCollectionView {
+      let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell ?? CategoryCollectionViewCell()
+      cell.setHighlighted(isHighlighted: false)
+    }
+  }
 }
 
 //extension NoticeCollectionHeaderView: SkeletonCollectionViewDataSource {

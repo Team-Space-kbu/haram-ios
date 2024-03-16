@@ -38,7 +38,9 @@ final class TermsOfUseViewController: BaseViewController {
     $0.backgroundColor = .clear
   }
   
-  private let cancelButton = UIButton(configuration: .cancelFilledButton(title: "취소", contentInsets: .zero))
+  private let cancelButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramCancelButton(label: "취소", contentInsets: .zero)
+  }
   
   private let applyButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "확인", contentInsets: .zero)

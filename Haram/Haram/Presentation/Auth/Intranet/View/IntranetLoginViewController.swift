@@ -55,7 +55,9 @@ final class IntranetLoginViewController: BaseViewController {
     $0.textField.isSecureTextEntry = true
   }
   
-  private let loginButton = UIButton(configuration: .haramFilledButton(title: "로그인", contentInsets: .zero))
+  private let loginButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "로그인", contentInsets: .zero)
+  }
   
   private let lastAuthButton = UIButton(configuration: .haramLabelButton(title: "나중에인증하기"))
   

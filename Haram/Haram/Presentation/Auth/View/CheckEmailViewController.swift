@@ -51,7 +51,9 @@ final class CheckEmailViewController: BaseViewController {
     $0.distribution = .fillEqually
   }
   
-  private let cancelButton = UIButton(configuration: .cancelFilledButton(title: "취소", contentInsets: .zero))
+  private let cancelButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramCancelButton(label: "취소", contentInsets: .zero)
+  }
   
   private let continueButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "계속하기", contentInsets: .zero)

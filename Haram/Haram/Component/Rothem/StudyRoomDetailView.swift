@@ -105,7 +105,9 @@ final class RothemRoomDetailView: UIView {
     $0.isSkeletonable = true
   }
   
-  private let reservationButton = UIButton(configuration: .haramFilledButton(title: "예약하기", contentInsets: .zero))
+  private let reservationButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "예약하기", contentInsets: .zero)
+  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
