@@ -20,7 +20,8 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     $0.isSkeletonable = true
   }
   
-  private let reservationCancelButton = UIButton(configuration: .haramFilledButton(title: "예약취소하기", contentInsets: .zero)).then {
+  private let reservationCancelButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "예약취소하기", contentInsets: .zero)
     $0.isSkeletonable = true
   }
   

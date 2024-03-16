@@ -24,20 +24,20 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   
   private var cellModel: [BoardDetailCollectionViewCellModel] = []
   
-  private var boardModel: [BoardDetailHeaderViewModel] = [] 
+  private var boardModel: [BoardDetailHeaderViewModel] = []
   
   // MARK: - Gesture
   
-//  private let tapGesture = UITapGestureRecognizer(target: BoardDetailViewController.self, action: nil).then {
-//    $0.numberOfTapsRequired = 1
-//    $0.cancelsTouchesInView = false
-//    $0.isEnabled = true
-//  }
+  //  private let tapGesture = UITapGestureRecognizer(target: BoardDetailViewController.self, action: nil).then {
+  //    $0.numberOfTapsRequired = 1
+  //    $0.cancelsTouchesInView = false
+  //    $0.isEnabled = true
+  //  }
   
-//  private let panGesture = UIPanGestureRecognizer(target: RegisterViewController.self, action: nil).then {
-//    $0.cancelsTouchesInView = false
-//    $0.isEnabled = true
-//  }
+  //  private let panGesture = UIPanGestureRecognizer(target: RegisterViewController.self, action: nil).then {
+  //    $0.cancelsTouchesInView = false
+  //    $0.isEnabled = true
+  //  }
   
   // MARK: - UI Component
   
@@ -86,10 +86,10 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     setupSkeletonView()
     
     /// Set GestureRecognizer
-//    _ = [tapGesture].map { view.addGestureRecognizer($0) }
+    //    _ = [tapGesture].map { view.addGestureRecognizer($0) }
     
     /// Set Delegate
-//    panGesture.delegate = self
+    //    panGesture.delegate = self
     registerNotifications()
     
   }
@@ -134,20 +134,20 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     }
     .disposed(by: disposeBag)
     
-//    tapGesture.rx.event
-//      .asDriver()
-//      .drive(with: self) { owner, _ in
-//        owner.commentInputView.resignFirstResponder()
-////        owner.boardDetailCollectionView.endEditing(true)
-//      }
-//      .disposed(by: disposeBag)
+    //    tapGesture.rx.event
+    //      .asDriver()
+    //      .drive(with: self) { owner, _ in
+    //        owner.commentInputView.resignFirstResponder()
+    ////        owner.boardDetailCollectionView.endEditing(true)
+    //      }
+    //      .disposed(by: disposeBag)
     
-//    panGesture.rx.event
-//      .asDriver()
-//      .drive(with: self) { owner, _ in
-//        owner.view.endEditing(true)
-//      }
-//      .disposed(by: disposeBag)
+    //    panGesture.rx.event
+    //      .asDriver()
+    //      .drive(with: self) { owner, _ in
+    //        owner.view.endEditing(true)
+    //      }
+    //      .disposed(by: disposeBag)
     
     viewModel.successCreateComment
       .emit(with: self) { owner, comments in
@@ -161,7 +161,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
               comment: comment.contents,
               isLastComment: comments.count - 1 == index ? true : false
             )
-        }
+          }
         owner.boardDetailCollectionView.reloadSections([1])
       }
       .disposed(by: disposeBag)
@@ -169,7 +169,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - Action Function
   
-  @objc 
+  @objc
   func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
@@ -264,6 +264,7 @@ extension BoardDetailViewController: UIGestureRecognizerDelegate {
 extension BoardDetailViewController: CommentInputViewDelegate {
   
   func writeComment(_ comment: String, isAnonymous: Bool) {
+    print("댓글 \(comment)")
     viewModel.createComment(boardComment: comment, categorySeq: categorySeq, boardSeq: boardSeq, isAnonymous: isAnonymous)
     view.endEditing(true)
   }
@@ -278,38 +279,38 @@ extension BoardDetailViewController {
       name: UIResponder.keyboardWillShowNotification,
       object: nil
     )
-
+    
     NotificationCenter.default.addObserver(
       self, selector: #selector(keyboardWillHide(_:)),
       name: UIResponder.keyboardWillHideNotification,
       object: nil
     )
   }
-
+  
   func removeNotifications() {
     NotificationCenter.default.removeObserver(self)
   }
-
+  
   @objc
   func keyboardWillShow(_ sender: Notification) {
     guard let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
       return
     }
-
+    
     let keyboardHeight = keyboardSize.height
-
+    
     commentInputView.snp.updateConstraints {
       $0.bottom.equalToSuperview().inset(keyboardHeight)
     }
-
+    
     UIView.animate(withDuration: 0.2) {
       self.view.layoutIfNeeded()
     }
   }
-
+  
   @objc
   func keyboardWillHide(_ sender: Notification) {
-
+    
     commentInputView.snp.updateConstraints {
       $0.bottom.equalToSuperview()
     }
@@ -352,13 +353,13 @@ extension BoardDetailViewController: SkeletonCollectionViewDataSource, SkeletonC
 
 extension BoardDetailViewController: UIScrollViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-          if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
-              // 위에서 아래로 스크롤하는 경우
-            view.endEditing(true)
-              // 여기에 위에서 아래로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
-          } else {
-              // 아래에서 위로 스크롤하는 경우
-              // 여기에 아래에서 위로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
-          }
-      }
+    if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
+      // 위에서 아래로 스크롤하는 경우
+      view.endEditing(true)
+      // 여기에 위에서 아래로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
+    } else {
+      // 아래에서 위로 스크롤하는 경우
+      // 여기에 아래에서 위로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
+    }
+  }
 }

@@ -33,7 +33,9 @@ final class BibleSearchView: UIView {
   private let jeolBibleControl = BibleSearchControl(type: .jeol)
   private let chapterBibleControl = BibleSearchControl(type: .chapter)
   
-  private let bibleSearchButton = UIButton(configuration: .haramFilledButton(title: "성경검색", contentInsets: .zero))
+  private let bibleSearchButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "성경검색", contentInsets: .zero)
+  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)

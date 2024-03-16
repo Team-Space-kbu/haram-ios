@@ -37,7 +37,9 @@ final class CheckReservationInfoView: UIView {
     $0.numberOfLines = 0
   }
   
-  private let checkReservationButton = UIButton(configuration: .haramFilledButton(title: "예약확인", contentInsets: .init(top: 4, leading: 15, bottom: 4, trailing: 15)))
+  private let checkReservationButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "예약확인", contentInsets: .init(top: 4, leading: 15, bottom: 4, trailing: 15))
+  }
   
   // MARK: - Initializations
   

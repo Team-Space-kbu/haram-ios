@@ -25,7 +25,9 @@ final class LoginButton: UIView {
     $0.axis = .horizontal
   }
   
-  private let loginButton = UIButton(configuration: .haramFilledButton(title: "로그인", contentInsets: .zero))
+  private let loginButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "로그인", contentInsets: .zero)
+  }
   
   private let findPasswordButton = UIButton(configuration: .haramLabelButton(title: "비밀번호를 잊으셨나요?"))
   

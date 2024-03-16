@@ -30,7 +30,9 @@ final class IntranetCheckViewController: BaseViewController {
   
   private let lastButton = UIButton(configuration: .haramLabelButton(title: "나중에"))
   
-  private let loginButton = UIButton(configuration: .haramFilledButton(title: "로그인하기", contentInsets: .zero))
+  private let loginButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "로그인하기", contentInsets: .zero)
+  }
   
   override func setupStyles() {
     super.setupStyles()

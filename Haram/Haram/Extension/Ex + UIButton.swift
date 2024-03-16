@@ -77,7 +77,30 @@ extension UIButton.Configuration {
     return style
   }
   
+  private static func haramCancelButtonEnabled() -> UIButton.Configuration {
+    var style = UIButton.Configuration.plain()
+    
+    style.background = style.background.with {
+      $0.cornerRadius = 10
+      $0.backgroundColor = .hex9F9FA4
+    }
+    style.baseForegroundColor = .white
+    
+    return style
+  }
   
+  private static func cancelButtonHighlighted() -> UIButton.Configuration {
+    var style = UIButton.Configuration.plain()
+    
+    style.background = style.background.with {
+      $0.cornerRadius = 10
+      $0.backgroundColor = .hex9F9FA4.withAlphaComponent(0.5)
+    }
+    
+    style.baseForegroundColor = .white
+//    style.baseBackgroundColor = .hex79BD9A
+    return style
+  }
   
   private static func haramButtonEnabled() -> UIButton.Configuration {
     var style = UIButton.Configuration.plain()
@@ -98,33 +121,22 @@ extension UIButton.Configuration {
       $0.cornerRadius = 10
       $0.backgroundColor = .hex9F9FA4
     }
+    
     style.baseForegroundColor = .white
     
     return style
   }
   
-//  private static func buttonDeselected() -> UIButton.Configuration {
-//    var style = UIButton.Configuration.plain()
-//    
-//    style.background = style.background.with {
-//      $0.cornerRadius = 10
-//      $0.strokeWidth = 1
-//      $0.strokeColor = .lightGray
-//      $0.backgroundColor = .lightGray
-//    }
-//    style.baseForegroundColor = .deepGray
-//    
-//    return style
-//  }
-  
-  private static func buttonSelected() -> UIButton.Configuration {
+  private static func buttonHighlighted() -> UIButton.Configuration {
     var style = UIButton.Configuration.plain()
     
     style.background = style.background.with {
       $0.cornerRadius = 10
-      $0.backgroundColor = .lightGray
+      $0.backgroundColor = .hex79BD9A.withAlphaComponent(0.5)
     }
+    
     style.baseForegroundColor = .white
+//    style.baseBackgroundColor = .hex79BD9A
     return style
   }
   
@@ -135,6 +147,23 @@ extension UIButton.Configuration {
         button.configuration = .haramButtonEnabled()
       case .disabled:
         button.configuration = .haramButtonDisabled()
+      case .highlighted:
+        button.configuration = .buttonHighlighted()
+      default: break
+      }
+      button.configuration?.title = text
+      button.configuration?.font = .bold14
+      button.configuration?.contentInsets = contentInsets
+    }
+  }
+  
+  func haramCancelButton(label text: String, contentInsets: NSDirectionalEdgeInsets) -> UIButton.ConfigurationUpdateHandler {
+    return { button in
+      switch button.state {
+      case .normal:
+        button.configuration = .haramCancelButtonEnabled()
+      case .highlighted:
+        button.configuration = .cancelButtonHighlighted()
       default: break
       }
       button.configuration?.title = text
@@ -143,3 +172,4 @@ extension UIButton.Configuration {
     }
   }
 }
+

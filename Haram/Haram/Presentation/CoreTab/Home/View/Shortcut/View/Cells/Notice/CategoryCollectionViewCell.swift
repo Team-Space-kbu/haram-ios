@@ -49,6 +49,22 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
   func configureUI(with model: MainNoticeType) {
     categoryLabel.text = model.tag
   }
+  
+  func setHighlighted(isHighlighted: Bool) {
+    
+    if isHighlighted {
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+      UIView.transition(with: contentView, duration: 0.1) {
+        self.contentView.backgroundColor = .lightGray
+        self.contentView.transform = pressedDownTransform
+      }
+    } else {
+      UIView.transition(with: contentView, duration: 0.1) {
+        self.contentView.backgroundColor = .hexEEF0F3
+        self.contentView.transform = .identity
+      }
+    }
+  }
 }
 
 extension CategoryCollectionViewCell {
