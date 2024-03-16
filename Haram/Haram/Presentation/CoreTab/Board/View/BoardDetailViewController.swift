@@ -28,16 +28,16 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - Gesture
   
-  private let tapGesture = UITapGestureRecognizer(target: BoardDetailViewController.self, action: nil).then {
-    $0.numberOfTapsRequired = 1
-    $0.cancelsTouchesInView = false
-    $0.isEnabled = true
-  }
+//  private let tapGesture = UITapGestureRecognizer(target: BoardDetailViewController.self, action: nil).then {
+//    $0.numberOfTapsRequired = 1
+//    $0.cancelsTouchesInView = false
+//    $0.isEnabled = true
+//  }
   
-  private let panGesture = UIPanGestureRecognizer(target: RegisterViewController.self, action: nil).then {
-    $0.cancelsTouchesInView = false
-    $0.isEnabled = true
-  }
+//  private let panGesture = UIPanGestureRecognizer(target: RegisterViewController.self, action: nil).then {
+//    $0.cancelsTouchesInView = false
+//    $0.isEnabled = true
+//  }
   
   // MARK: - UI Component
   
@@ -86,10 +86,10 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     setupSkeletonView()
     
     /// Set GestureRecognizer
-    _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
+//    _ = [tapGesture].map { view.addGestureRecognizer($0) }
     
     /// Set Delegate
-    panGesture.delegate = self
+//    panGesture.delegate = self
     registerNotifications()
     
   }
@@ -134,20 +134,20 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     }
     .disposed(by: disposeBag)
     
-    tapGesture.rx.event
-      .asDriver()
-      .drive(with: self) { owner, _ in
-        owner.commentInputView.resignFirstResponder()
-//        owner.boardDetailCollectionView.endEditing(true)
-      }
-      .disposed(by: disposeBag)
+//    tapGesture.rx.event
+//      .asDriver()
+//      .drive(with: self) { owner, _ in
+//        owner.commentInputView.resignFirstResponder()
+////        owner.boardDetailCollectionView.endEditing(true)
+//      }
+//      .disposed(by: disposeBag)
     
-    panGesture.rx.event
-      .asDriver()
-      .drive(with: self) { owner, _ in
-        owner.view.endEditing(true)
-      }
-      .disposed(by: disposeBag)
+//    panGesture.rx.event
+//      .asDriver()
+//      .drive(with: self) { owner, _ in
+//        owner.view.endEditing(true)
+//      }
+//      .disposed(by: disposeBag)
     
     viewModel.successCreateComment
       .emit(with: self) { owner, comments in
@@ -348,4 +348,17 @@ extension BoardDetailViewController: SkeletonCollectionViewDataSource, SkeletonC
   func numSections(in collectionSkeletonView: UICollectionView) -> Int {
     2
   }
+}
+
+extension BoardDetailViewController: UIScrollViewDelegate {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+          if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
+              // 위에서 아래로 스크롤하는 경우
+            view.endEditing(true)
+              // 여기에 위에서 아래로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
+          } else {
+              // 아래에서 위로 스크롤하는 경우
+              // 여기에 아래에서 위로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
+          }
+      }
 }
