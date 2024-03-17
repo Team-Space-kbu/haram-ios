@@ -70,7 +70,7 @@ final class MileageTableHeaderView: UITableViewHeaderFooterView {
     }
       
     spendListLabel.snp.makeConstraints {
-      $0.top.greaterThanOrEqualTo(mileageAlertView.snp.bottom)
+      $0.top.greaterThanOrEqualTo(mileageAlertView.snp.bottom).offset(20)
       $0.leading.equalToSuperview()
       $0.bottom.equalToSuperview().inset(15)
     }

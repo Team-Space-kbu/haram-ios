@@ -81,12 +81,12 @@ final class ChapelCollectionHeaderView: UICollectionReusableView {
     
     lineView.snp.makeConstraints {
       $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      $0.directionalHorizontalEdges.equalToSuperview()
     }
     
     lineView1.snp.makeConstraints {
       $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      $0.directionalHorizontalEdges.equalToSuperview()
     }
     
     containerStackView.setCustomSpacing(20, after: lineView1)
