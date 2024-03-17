@@ -114,6 +114,7 @@ final class FindPasswordViewController: BaseViewController {
     
     viewModel.successSendAuthCode
       .emit(with: self) { owner, userMail in
+        owner.schoolEmailTextField.removeError()
         let vc = CheckEmailViewController(userMail: userMail)
         owner.navigationController?.pushViewController(vc, animated: true)
       }
@@ -137,12 +138,12 @@ final class FindPasswordViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    viewModel.isContinueButtonEnabled
-      .drive(with: self) { owner, isContinueButtonEnabled in
-        owner.continueButton.isEnabled = isContinueButtonEnabled
-//        owner.continueButton.setupButtonType(type: isContinueButtonEnabled ? .apply : .cancel)
-      }
-      .disposed(by: disposeBag)
+//    viewModel.isContinueButtonEnabled
+//      .drive(with: self) { owner, isContinueButtonEnabled in
+//        owner.continueButton.isEnabled = isContinueButtonEnabled
+////        owner.continueButton.setupButtonType(type: isContinueButtonEnabled ? .apply : .cancel)
+//      }
+//      .disposed(by: disposeBag)
     
     continueButton.rx.tap
       .withLatestFrom(schoolEmailTextField.rx.text.orEmpty)
