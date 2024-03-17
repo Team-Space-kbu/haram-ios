@@ -22,7 +22,7 @@ final class ChapelCollectionHeaderView: UICollectionReusableView {
   
   private let containerStackView = UIStackView().then {
     $0.axis = .vertical
-    $0.spacing = 19.5
+    $0.spacing = 20
     $0.alignment = .center
   }
   
@@ -88,9 +88,6 @@ final class ChapelCollectionHeaderView: UICollectionReusableView {
       $0.height.equalTo(1)
       $0.directionalHorizontalEdges.equalToSuperview()
     }
-    
-    containerStackView.setCustomSpacing(20, after: lineView1)
-    containerStackView.setCustomSpacing(20, after: chapelAlertView)
     
     sectionTitleLabel.snp.makeConstraints {
       $0.leading.equalToSuperview()

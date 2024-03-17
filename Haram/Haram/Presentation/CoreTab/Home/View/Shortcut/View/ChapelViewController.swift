@@ -127,7 +127,7 @@ extension ChapelViewController: UICollectionViewDelegateFlowLayout {
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    return CGSize(width: collectionView.bounds.width, height: 28 + 14 + 320 + 45 + 40)
+    return CGSize(width: collectionView.bounds.width, height: 28 + 14 + 320 + 45 + 40 - 20)
   }
 }
 
