@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -41,6 +42,9 @@ final class BibleTitleView: UIView {
   }
   
   private func configureUI() {
+    
+    isSkeletonable = true
+    
     [lineView, titleLabel, chapterLabel].forEach { addSubview($0) }
     lineView.snp.makeConstraints {
       $0.leading.directionalVerticalEdges.equalToSuperview()

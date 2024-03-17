@@ -29,7 +29,7 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
     $0.font = .medium16
     $0.textColor = .hex02162E
     $0.text = "카테고리"
-//    $0.isSkeletonable = true
+    $0.isSkeletonable = true
   }
   
   private let categoryCollectionView = UICollectionView(
@@ -43,7 +43,7 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
     $0.showsVerticalScrollIndicator = false
     $0.isScrollEnabled = false
     $0.backgroundColor = .clear
-//    $0.isSkeletonable = true
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -95,12 +95,21 @@ extension NoticeCollectionHeaderView: UICollectionViewDelegate, UICollectionView
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    let label = UILabel().then {
-      $0.font = .medium18
-      $0.text = model[indexPath.row].tag
-      $0.sizeToFit()
+    if let model = model[safe: indexPath.row] {
+      let label = UILabel().then {
+        $0.font = .medium18
+        $0.text = model.tag
+        $0.sizeToFit()
+      }
+      return CGSize(width: label.frame.size.width + 30, height: 41)
+    } else {
+      let label = UILabel().then {
+        $0.font = .medium18
+        $0.text = NoticeType.noticeCategoryList[indexPath.row].title
+        $0.sizeToFit()
+      }
+      return CGSize(width: label.frame.size.width + 30, height: 41)
     }
-    return CGSize(width: label.frame.size.width + 30, height: 41)
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -122,18 +131,24 @@ extension NoticeCollectionHeaderView: UICollectionViewDelegate, UICollectionView
   }
 }
 
-//extension NoticeCollectionHeaderView: SkeletonCollectionViewDataSource {
-//  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-//    CategoryCollectionViewCell.identifier
-//  }
-//  
-//  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-//    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as? CategoryCollectionViewCell
-//    cell?.configureUI(with: model[indexPath.row])
-//    return cell
-//  }
-//  
-//  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//    model.count
-//  }
-//}
+extension NoticeCollectionHeaderView: SkeletonCollectionViewDataSource {
+  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+    CategoryCollectionViewCell.identifier
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as? CategoryCollectionViewCell
+    cell?.configureUI(with: .init(key: .library, tag: "도서관"))
+    return cell
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    NoticeType.noticeCategoryList.count
+  }
+}
+
+extension Collection {
+  subscript(safe index: Index) -> Element? {
+    return indices.contains(index) ? self[index] : nil
+  }
+}

@@ -45,7 +45,7 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     $0.numberOfLines = 0
     $0.isSkeletonable = true
     $0.text = "Lorem ipsum For SkeletonView"
-    $0.skeletonTextNumberOfLines = 2
+    $0.skeletonTextNumberOfLines = 1
   }
   
   private let lineView = UIView().then {

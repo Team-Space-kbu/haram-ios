@@ -52,10 +52,14 @@ final class NoticeViewModel {
 
 extension NoticeViewModel: NoticeViewModelType {
   var noticeModel: Driver<[NoticeCollectionViewCellModel]> {
-    noticeModelRelay.asDriver()
+    noticeModelRelay
+      .filter { !$0.isEmpty }
+      .asDriver(onErrorDriveWith: .empty())
   }
   
   var noticeTagModel: Driver<[MainNoticeType]> {
-    noticeTagModelRelay.asDriver()
+    noticeTagModelRelay
+      .filter { !$0.isEmpty }
+      .asDriver(onErrorDriveWith: .empty())
   }
 }

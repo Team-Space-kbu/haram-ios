@@ -9,6 +9,7 @@ import UIKit
 
 import AcknowList
 import RxSwift
+import SkeletonView
 import SnapKit
 import Then
 
@@ -69,6 +70,7 @@ final class MoreViewController: BaseViewController {
     $0.sectionFooterHeight = .leastNonzeroMagnitude
     $0.separatorStyle = .none
     $0.isScrollEnabled = false
+    $0.isSkeletonable = true
   }
   
   private lazy var settingTableView = UITableView(frame: .zero, style: .plain).then {
@@ -80,22 +82,26 @@ final class MoreViewController: BaseViewController {
     $0.sectionFooterHeight = .leastNonzeroMagnitude
     $0.separatorStyle = .none
     $0.isScrollEnabled = false
+    $0.isSkeletonable = true
   }
   
   private let scrollView = UIScrollView().then {
     $0.alwaysBounceVertical = true
     $0.backgroundColor = .clear
     $0.showsVerticalScrollIndicator = false
+    $0.isSkeletonable = true
   }
   
   private let contentView = UIView().then {
     $0.backgroundColor = .clear
+    $0.isSkeletonable = true
   }
   
   private let settingLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold22
     $0.text = "설정"
+    $0.isSkeletonable = true
   }
   
   private let profileInfoView = ProfileInfoView().then {
@@ -104,10 +110,12 @@ final class MoreViewController: BaseViewController {
     $0.layer.borderWidth = 1
     $0.layer.borderColor = UIColor.hexD8D8DA.cgColor
     $0.backgroundColor = .hexF8F8F8
+    $0.isSkeletonable = true
   }
   
   private let lineView = UIView().then {
     $0.backgroundColor = .hexD8D8DA
+    $0.isSkeletonable = true
   }
   
   // MARK: - Initializations
@@ -132,13 +140,16 @@ final class MoreViewController: BaseViewController {
     }
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
+    setupSkeletonView()
   }
   
   override func bind() {
     super.bind()
     viewModel.inquireUserInfo()
+    
     viewModel.currentUserInfo
       .drive(with: self) { owner, profileInfoViewModel in
+        owner.view.hideSkeleton()
         owner.profileInfoView.configureUI(with: profileInfoViewModel)
       }
       .disposed(by: disposeBag)
@@ -275,19 +286,9 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
     if tableView == moreTableView {
       let cell = tableView.cellForRow(at: indexPath) as? MoreTableViewCell ?? MoreTableViewCell()
       cell.setHighlighted(isHighlighted: true)
-//      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-//      UIView.transition(with: cell, duration: 0.1) {
-//        cell.contentView.backgroundColor = .lightGray
-//        cell.contentView.transform = pressedDownTransform
-//      }
     } else if tableView == settingTableView {
       let cell = tableView.cellForRow(at: indexPath) as? SettingTableViewCell ?? SettingTableViewCell()
       cell.setHighlighted(isHighlighted: true)
-//      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-//      UIView.transition(with: cell, duration: 0.1) {
-//        cell.contentView.backgroundColor = .lightGray
-//        cell.contentView.transform = pressedDownTransform
-//      }
     }
   }
   
@@ -295,19 +296,34 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
     if tableView == moreTableView {
       let cell = tableView.cellForRow(at: indexPath) as? MoreTableViewCell ?? MoreTableViewCell()
       cell.setHighlighted(isHighlighted: false)
-//      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-//      UIView.transition(with: cell, duration: 0.1) {
-//        cell.contentView.backgroundColor = .clear
-//        cell.contentView.transform = .identity
-//      }
     } else if tableView == settingTableView {
       let cell = tableView.cellForRow(at: indexPath) as? SettingTableViewCell ?? SettingTableViewCell()
       cell.setHighlighted(isHighlighted: false)
-//      let pressedDownTransform = CGAffineTransform(scaleX: 1, y: 1)
-//      UIView.transition(with: cell, duration: 0.1) {
-//        cell.contentView.backgroundColor = .clear
-//        cell.contentView.transform = .identity
-//      }
     }
+  }
+}
+
+extension MoreViewController: SkeletonTableViewDataSource {
+  func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
+    if skeletonView == moreTableView {
+      return skeletonView.dequeueReusableCell(withIdentifier: MoreTableViewCell.identifier, for: indexPath) as? MoreTableViewCell
+    } else if skeletonView == settingTableView {
+      return skeletonView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier, for: indexPath) as? SettingTableViewCell
+    }
+    return nil
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
+    if skeletonView == moreTableView {
+      return MoreTableViewCell.identifier
+    }
+    return SettingTableViewCell.identifier
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if skeletonView == moreTableView {
+      return 2
+    }
+    return 3
   }
 }

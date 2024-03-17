@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -17,6 +18,10 @@ final class BoardTableHeaderView: UITableViewHeaderFooterView {
   private let titleLabel = UILabel().then {
     $0.font = .bold22
     $0.textColor = .hex1A1E27
+    $0.isSkeletonable = true
+    $0.skeletonTextNumberOfLines = 1
+    $0.skeletonTextLineHeight = .fixed(28)
+    $0.text = "학교 게시판"
   }
   
   override init(reuseIdentifier: String?) {
@@ -29,6 +34,10 @@ final class BoardTableHeaderView: UITableViewHeaderFooterView {
   }
   
   private func configureUI() {
+    
+    isSkeletonable = true
+    contentView.isSkeletonable = true
+    
     contentView.addSubview(titleLabel)
     titleLabel.snp.makeConstraints {
       $0.top.leading.equalToSuperview()

@@ -11,7 +11,7 @@ import PDFKit
 import SnapKit
 import Then
 
-final class PDFViewController: BaseViewController, BackButtonHandler {
+final class PDFViewController: BaseViewController, BackButtonHandler, PDFDocumentDelegate {
   
   private let pdfURL: URL?
   
@@ -40,10 +40,14 @@ final class PDFViewController: BaseViewController, BackButtonHandler {
     setupBackButton()
     navigationController?.interactivePopGestureRecognizer?.delegate = self
     
+    
+    guard let pdfURL = self.pdfURL else { return }
+    let document = PDFDocument(url: pdfURL)
+    document?.delegate = self
     /// Set PDFView
     DispatchQueue.main.async {
-      guard let pdfURL = self.pdfURL else { return }
-      self.pdfView.document = PDFDocument(url: pdfURL)
+      self.pdfView.document = document
+//      document.document = PDFDocument(url: pdfURL)
       self.indicatorView.stopAnimating()
     }
   }
@@ -67,6 +71,14 @@ final class PDFViewController: BaseViewController, BackButtonHandler {
   
   @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
+  }
+  
+  func documentDidEndDocumentFind(_ notification: Notification) {
+    
+  }
+  
+  func documentDidBeginDocumentFind(_ notification: Notification) {
+    
   }
 }
 

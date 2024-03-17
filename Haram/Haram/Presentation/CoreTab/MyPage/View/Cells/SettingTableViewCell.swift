@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -42,13 +43,19 @@ final class SettingTableViewCell: UITableViewCell {
   }
   
   private func configureUI() {
+    
+    isSkeletonable = true
+    contentView.isSkeletonable = true
+    containerView.isSkeletonable = true
+    
     selectionStyle = .none
     
     contentView.addSubview(containerView)
     [titleLabel, indicatorImageView].forEach { containerView.addSubview($0) }
     
     containerView.snp.makeConstraints { 
-      $0.directionalEdges.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(13)
     }
     
     titleLabel.snp.makeConstraints {

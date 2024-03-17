@@ -13,6 +13,7 @@ import RxCocoa
 protocol BoardViewModelType {
   func inquireBoardCategory()
   var boardModel: Driver<[BoardTableViewCellModel]> { get }
+  var boardHeaderTitle: Driver<String> { get }
 }
 
 final class BoardViewModel {
@@ -20,7 +21,8 @@ final class BoardViewModel {
   private let disposeBag = DisposeBag()
   private let boardRepository: BoardRepository
   
-  private let boardModelRelay = BehaviorRelay<[BoardTableViewCellModel]>(value: [])
+  private let boardModelRelay = PublishRelay<[BoardTableViewCellModel]>()
+  private let boardHeaderTitleRelay = PublishRelay<String>()
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
     self.boardRepository = boardRepository
@@ -38,6 +40,7 @@ final class BoardViewModel {
             writeableBoard: $0.writeableBoard
           )
         })
+        owner.boardHeaderTitleRelay.accept("학교 게시판")
       }
       .disposed(by: disposeBag)
   }
@@ -45,7 +48,11 @@ final class BoardViewModel {
 }
 
 extension BoardViewModel: BoardViewModelType {
+  var boardHeaderTitle: RxCocoa.Driver<String> {
+    boardHeaderTitleRelay.asDriver(onErrorDriveWith: .empty())
+  }
+  
   var boardModel: RxCocoa.Driver<[BoardTableViewCellModel]> {
-    boardModelRelay.asDriver()
+    boardModelRelay.asDriver(onErrorDriveWith: .empty())
   }
 }

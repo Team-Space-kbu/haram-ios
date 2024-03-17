@@ -53,7 +53,6 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
     viewModel.noticeCollectionViewCellModel
       .drive(with: self) { owner, noticeModel in
         owner.noticeModel = noticeModel
-        
         owner.view.hideSkeleton()
         owner.noticeCollectionView.reloadData()
       }
@@ -155,6 +154,4 @@ extension SelectedCategoryNoticeViewController: SkeletonCollectionViewDataSource
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     10
   }
-  
-  
 }

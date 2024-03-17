@@ -23,8 +23,8 @@ final class BoardDetailViewModel {
   private let boardRepository: BoardRepository
   private let disposeBag = DisposeBag()
   
-  private let currentBoardListRelay = BehaviorRelay<[BoardDetailCollectionViewCellModel]>(value: [])
-  private let currentBoardInfoRelay = BehaviorRelay<[BoardDetailHeaderViewModel]>(value: [])
+  private let currentBoardListRelay = PublishRelay<[BoardDetailCollectionViewCellModel]>()
+  private let currentBoardInfoRelay = PublishRelay<[BoardDetailHeaderViewModel]>()
   private let successCreateCommentRelay = PublishRelay<[Comment]>()
   
   
@@ -94,11 +94,11 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   }
   
   var boardInfoModel: RxCocoa.Driver<[BoardDetailHeaderViewModel]> {
-    currentBoardInfoRelay.asDriver()
+    currentBoardInfoRelay.asDriver(onErrorDriveWith: .empty())
   }
   
   var boardCommentModel: Driver<[BoardDetailCollectionViewCellModel]> {
-    currentBoardListRelay.asDriver()
+    currentBoardListRelay.asDriver(onErrorDriveWith: .empty())
   }
 }
 
