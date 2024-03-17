@@ -33,6 +33,7 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     
     isSkeletonable = true
+    skeletonCornerRadius = 10
     contentView.isSkeletonable = true
     contentView.skeletonCornerRadius = 10
     

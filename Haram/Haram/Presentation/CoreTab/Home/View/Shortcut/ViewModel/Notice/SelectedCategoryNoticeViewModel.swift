@@ -102,6 +102,8 @@ extension SelectedCategoryNoticeViewModel: SelectedCategoryNoticeViewModelType {
   
 
   var noticeCollectionViewCellModel: RxCocoa.Driver<[NoticeCollectionViewCellModel]> {
-    noticeCollectionViewCellModelRelay.asDriver()
+    noticeCollectionViewCellModelRelay
+      .filter { !$0.isEmpty }
+      .asDriver(onErrorJustReturn: [])
   }
 }

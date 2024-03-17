@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RxCocoa
+import SkeletonView
 import SnapKit
 import Then
 
@@ -14,38 +16,20 @@ final class BoardViewController: BaseViewController {
   
   private let viewModel: BoardViewModelType
   
-  private var boardModel: [BoardTableViewCellModel] = [] {
-    didSet {
-      boardTableView.reloadData()
-    }
-  }
-  
-  private let scrollView = UIScrollView().then {
-    $0.backgroundColor = .clear
-    $0.alwaysBounceVertical = true
-    $0.showsVerticalScrollIndicator = false
-  }
-  
-  private let containerView = UIStackView().then {
-    $0.axis = .vertical
-    $0.backgroundColor = .clear
-    $0.spacing = 20
-    $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: 20, left: 15, bottom: 69 - 21, right: 15)
-  }
+  private var boardModel: [BoardTableViewCellModel] = []
+  private var boardHeaderTitle: String?
   
   private lazy var boardTableView = UITableView(frame: .zero, style: .grouped).then {
     $0.register(BoardTableViewCell.self, forCellReuseIdentifier: BoardTableViewCell.identifier)
     $0.register(BoardTableHeaderView.self, forHeaderFooterViewReuseIdentifier: BoardTableHeaderView.identifier)
     $0.delegate = self
     $0.dataSource = self
-//    $0.sectionFooterHeight = 21
     $0.sectionHeaderHeight = 28 + 11
     $0.backgroundColor = .white
     $0.separatorStyle = .none
-//    $0.isScrollEnabled = false
     $0.alwaysBounceVertical = true
     $0.showsVerticalScrollIndicator = false
+    $0.isSkeletonable = true
   }
   
   init(viewModel: BoardViewModelType = BoardViewModel()) {
@@ -60,9 +44,22 @@ final class BoardViewController: BaseViewController {
   override func bind() {
     super.bind()
     viewModel.inquireBoardCategory()
-    viewModel.boardModel
-      .drive(rx.boardModel)
-      .disposed(by: disposeBag)
+    
+    Driver.combineLatest(
+      viewModel.boardModel,
+      viewModel.boardHeaderTitle
+    )
+    .drive(with: self) { owner, result in
+      let (model, headerTitle) = result
+      owner.boardModel = model
+      owner.boardHeaderTitle = headerTitle
+      
+        owner.view.hideSkeleton()
+      
+      owner.boardTableView.reloadData()
+    }
+    .disposed(by: disposeBag)
+      
   }
   
   override func setupStyles() {
@@ -72,38 +69,23 @@ final class BoardViewController: BaseViewController {
       $0.textColor = .black
       $0.font = .bold26
     }
+    setupSkeletonView()
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
-//    self.tabBarController?.delegate = self
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(boardTableView)
-//    view.addSubview(scrollView)
-//    scrollView.addSubview(containerView)
-//    [boardTableView].forEach { containerView.addArrangedSubview($0) }
-    
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-//    scrollView.snp.makeConstraints {
-//      $0.directionalEdges.equalToSuperview()
-//    }
-//    
-//    containerView.snp.makeConstraints {
-//      $0.top.width.equalToSuperview()
-//      $0.bottom.lessThanOrEqualToSuperview()
-//    }
-    
     boardTableView.snp.makeConstraints {
       $0.topMargin.equalToSuperview().inset(20)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.bottom.equalToSuperview()
-//      $0.directionalEdges.equalToSuperview()
-//      $0.height.equalTo(28 + 509 + 46 + 21)
     }
   }
 }
@@ -125,6 +107,7 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//    guard let boardHeaderTitle = boardHeaderTitle else { return nil }
     let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: BoardTableHeaderView.identifier) as? BoardTableHeaderView ?? BoardTableHeaderView()
     headerView.configureUI(with: "학교 게시판")
     return headerView
@@ -135,8 +118,6 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
-//    tableView.deselectRow(at: indexPath, animated: true)
     
     let boardModel = boardModel[indexPath.row]
     let vc = BoardListViewController(
@@ -153,14 +134,6 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
     if tableView == boardTableView {
       let cell = tableView.cellForRow(at: indexPath) as? BoardTableViewCell ?? BoardTableViewCell()
       cell.setHighlighted(isHighlighted: true)
-      
-      
-//      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-//      UIView.transition(with: cell.contentView, duration: 0.1) {
-////        cell.alpha = 0.5
-//        cell.setBackgroundColor(isHighlighted: true)
-//        cell.contentView.transform = pressedDownTransform
-//      }
     }
   }
   
@@ -168,14 +141,24 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
     if tableView == boardTableView {
       let cell = tableView.cellForRow(at: indexPath) as? BoardTableViewCell ?? BoardTableViewCell()
       cell.setHighlighted(isHighlighted: false)
-//      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-//      UIView.transition(with: cell.contentView, duration: 0.1) {
-////        cell.contentView.backgroundColor = .clear
-////        cell.alpha = 1
-//        cell.setBackgroundColor(isHighlighted: false)
-//        cell.contentView.transform = .identity
-//      }
     }
   }
+}
+
+extension BoardViewController: SkeletonTableViewDataSource {
+  func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
+    skeletonView.dequeueReusableCell(withIdentifier: BoardTableViewCell.identifier, for: indexPath) as? BoardTableViewCell
+  }
   
+  func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
+    BoardTableViewCell.identifier
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return 10
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UITableView, identifierForHeaderInSection section: Int) -> ReusableHeaderFooterIdentifier? {
+    BoardTableHeaderView.identifier
+  }
 }

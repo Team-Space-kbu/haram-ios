@@ -18,11 +18,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   private let categorySeq: Int
   private let writeableBoard: Bool
   
-  private var boardListModel: [BoardListCollectionViewCellModel] = [] {
-    didSet {
-      boardListCollectionView.reloadData()
-    }
-  }
+  private var boardListModel: [BoardListCollectionViewCellModel] = []
   
   private let boardListCollectionView = UICollectionView(
     frame: .zero,
@@ -88,9 +84,9 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     
     _ = [boardListCollectionView, emptyView].map { view.addSubview($0) }
     
-    if writeableBoard {
-      view.addSubview(editBoardButton)
-    }
+//    if writeableBoard {
+//      view.addSubview(editBoardButton)
+//    }
   }
   
   override func setupConstraints() {
@@ -103,13 +99,13 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
       $0.directionalEdges.equalToSuperview()
     }
     
-    if writeableBoard {
-      editBoardButton.snp.makeConstraints {
-        $0.size.equalTo(50)
-        $0.bottomMargin.equalToSuperview().inset(54)
-        $0.trailing.equalToSuperview().inset(15)
-      }
-    }
+//    if writeableBoard {
+//      editBoardButton.snp.makeConstraints {
+//        $0.size.equalTo(50)
+//        $0.bottomMargin.equalToSuperview().inset(54)
+//        $0.trailing.equalToSuperview().inset(15)
+//      }
+//    }
     
   }
   
@@ -123,15 +119,36 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
       .drive(with: self) { owner, model in
         owner.emptyView.isHidden = !model.isEmpty
         owner.boardListModel = model
+        
+        owner.view.hideSkeleton()
+        
+        owner.boardListCollectionView.reloadData()
+        if owner.writeableBoard {
+          owner.view.addSubview(owner.editBoardButton)
+          owner.editBoardButton.snp.makeConstraints {
+            $0.size.equalTo(50)
+            $0.bottomMargin.equalToSuperview().inset(54)
+            $0.trailing.equalToSuperview().inset(15)
+          }
+        }
       }
       .disposed(by: disposeBag)
     
-    viewModel.isLoading
-      .filter { !$0 }
-      .drive(with: self) { owner, isLoading in
-        owner.view.hideSkeleton()
-      }
-      .disposed(by: disposeBag)
+//    viewModel.isLoading
+//      .filter { !$0 }
+//      .drive(with: self) { owner, isLoading in
+//        owner.view.hideSkeleton()
+//        
+//        if owner.writeableBoard {
+//          owner.view.addSubview(owner.editBoardButton)
+//          owner.editBoardButton.snp.makeConstraints {
+//            $0.size.equalTo(50)
+//            $0.bottomMargin.equalToSuperview().inset(54)
+//            $0.trailing.equalToSuperview().inset(15)
+//          }
+//        }
+//      }
+//      .disposed(by: disposeBag)
     
     editBoardButton.rx.tap
       .asDriver()

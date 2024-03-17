@@ -24,7 +24,7 @@ final class RothemRoomListViewModel {
   private let disposeBag = DisposeBag()
   private let rothemRepository: RothemRepository
   
-  private let studyReservationListRelay = BehaviorRelay<[StudyListCollectionViewCellModel]>(value: [])
+  private let studyReservationListRelay = PublishRelay<[StudyListCollectionViewCellModel]>()
   private let rothemMainNoticeRelay     = BehaviorRelay<StudyListHeaderViewModel?>(value: nil)
   private let isReservationSubject      = BehaviorSubject<Bool>(value: false)
 
@@ -56,7 +56,8 @@ extension RothemRoomListViewModel: RothemRoomListViewModelType {
   
   
   var currentStudyReservationList: Driver<[StudyListCollectionViewCellModel]> {
-    studyReservationListRelay.asDriver()
+    studyReservationListRelay
+      .asDriver(onErrorDriveWith: .empty())
   }
   
   var isReservation: Driver<StudyListCollectionHeaderViewType> {

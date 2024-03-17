@@ -12,7 +12,7 @@ struct InquireNoticeTypeInfoRequest: Encodable {
   let page: Int
 }
 
-enum NoticeType: String, Codable {
+enum NoticeType: String, Codable, CaseIterable {
   case student = "student"
   case scholarship = "scholarship"
   case chapel = "chapel"
@@ -41,4 +41,6 @@ enum NoticeType: String, Codable {
       return nil
     }
   }
+  
+  static var noticeCategoryList: [Self] = [.student, .scholarship, .chapel, .lms, .library, .ainavi]
 }

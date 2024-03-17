@@ -9,6 +9,7 @@ import UIKit
 
 import RxSwift
 import SDWebImageSVGCoder
+import SkeletonView
 import SnapKit
 import Then
 
@@ -57,6 +58,12 @@ final class BoardTableViewCell: UITableViewCell {
   }
   
   private func configureUI() {
+    
+    isSkeletonable = true
+    contentView.isSkeletonable = true
+    entireView.isSkeletonable = true
+    entireView.skeletonCornerRadius = 10
+    
     selectionStyle = .none
     contentView.backgroundColor = .clear
     contentView.addSubview(entireView)

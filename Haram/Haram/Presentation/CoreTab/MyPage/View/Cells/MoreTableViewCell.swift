@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
@@ -48,8 +49,13 @@ final class MoreTableViewCell: UITableViewCell {
   }
   
   private func configureUI() {
+    
+    isSkeletonable = true
+    contentView.isSkeletonable = true
+    containerView.isSkeletonable = true
+    
     selectionStyle = .none
-//    contentView.backgroundColor = .white
+
     contentView.addSubview(containerView)
     [moreImageView, titleLabel, indicatorImageView].forEach { containerView.addSubview($0) }
     

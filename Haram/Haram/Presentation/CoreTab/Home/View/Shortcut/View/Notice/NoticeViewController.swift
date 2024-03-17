@@ -162,11 +162,6 @@ extension NoticeViewController: UICollectionViewDelegate, UICollectionViewDataSo
     if collectionView == noticeCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? NoticeCollectionViewCell ?? NoticeCollectionViewCell()
       cell.setHighlighted(isHighlighted: true)
-//      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-//      UIView.transition(with: cell, duration: 0.1) {
-//        cell.alpha = 0.5
-//        cell.transform = pressedDownTransform
-//      }
     }
   }
   
@@ -175,11 +170,6 @@ extension NoticeViewController: UICollectionViewDelegate, UICollectionViewDataSo
     if collectionView == noticeCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? NoticeCollectionViewCell ?? NoticeCollectionViewCell()
       cell.setHighlighted(isHighlighted: false)
-//      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-//      UIView.transition(with: cell, duration: 0.1) {
-//        cell.alpha = 1
-//        cell.transform = .identity
-//      }
     }
   }
 }
