@@ -72,7 +72,7 @@ final class ChapelView: UIView {
     }
     
     dayLabel.snp.makeConstraints {
-      $0.top.equalTo(titleLabel.snp.bottom)
+      $0.top.equalTo(titleLabel.snp.bottom).offset(3)
       $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
   }
@@ -85,7 +85,8 @@ final class ChapelView: UIView {
 final class ChapelInfoView: UIView {
   private let contentStackView = UIStackView().then {
     $0.axis = .horizontal
-    $0.spacing = 42
+    $0.spacing = 36
+    $0.distribution = .equalSpacing
   }
   
   private let attendanceView = ChapelView(type: .attendance)
@@ -119,8 +120,9 @@ final class ChapelInfoView: UIView {
     }
     
     contentStackView.snp.makeConstraints {
-      $0.directionalVerticalEdges.leading.equalToSuperview()
-      $0.trailing.lessThanOrEqualToSuperview()
+      $0.directionalEdges.equalToSuperview()
+//      $0.directionalVerticalEdges.leading.equalToSuperview()
+//      $0.trailing.lessThanOrEqualToSuperview()
     }
     
     lineView.snp.makeConstraints {

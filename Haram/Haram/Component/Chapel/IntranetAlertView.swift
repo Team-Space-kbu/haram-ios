@@ -42,17 +42,21 @@ final class IntranetAlertView: UIView {
     $0.contentMode = .scaleAspectFill
     $0.layer.cornerRadius = 22.5
     $0.layer.masksToBounds = true
+    $0.isSkeletonable = true
+    $0.skeletonCornerRadius = 22.5
   }
   
   private let alertMainLabel = UILabel().then {
     $0.font = .bold18
     $0.textColor = .hex545E6A
+    $0.isSkeletonable = true
   }
   
   private let alertDescriptionLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .hex545E6A
     $0.numberOfLines = 0
+    $0.isSkeletonable = true
   }
   
   init(type: IntranetAlertViewType) {
