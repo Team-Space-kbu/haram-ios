@@ -136,6 +136,10 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     $0.delegate = self
   }
   
+  private let areaView = UIView().then {
+    $0.backgroundColor = .clear
+  }
+  
   init(categorySeq: Int, viewModel: EditBoardViewModelType = EditBoardViewModel()) {
     self.viewModel = viewModel
     self.categorySeq = categorySeq
@@ -296,6 +300,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
+    scrollView.addSubview(areaView)
     _ = [boardTitleLabel, titleTextView, boardContentLabel, contentTextView, editBoardCollectionView].map { containerView.addArrangedSubview($0) }
   }
   
@@ -308,6 +313,11 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     containerView.snp.makeConstraints {
       $0.top.width.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
+    }
+    
+    areaView.snp.makeConstraints {
+      $0.top.equalTo(containerView.snp.bottom).offset(50)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
     }
     
     boardTitleLabel.snp.makeConstraints {
@@ -566,3 +576,51 @@ extension EditBoardViewController: UIScrollViewDelegate {
 //    }
 //  }
 //}
+extension EditBoardViewController {
+  func registerNotifications() {
+    NotificationCenter.default.addObserver(
+      self, selector: #selector(keyboardWillShow(_:)),
+      name: UIResponder.keyboardWillShowNotification,
+      object: nil
+    )
+    
+    NotificationCenter.default.addObserver(
+      self, selector: #selector(keyboardWillHide(_:)),
+      name: UIResponder.keyboardWillHideNotification,
+      object: nil
+    )
+  }
+  
+  func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  func keyboardWillShow(_ sender: Notification) {
+    guard let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+      return
+    }
+    
+    let keyboardHeight = keyboardSize.height
+    
+    areaView.snp.updateConstraints {
+      $0.bottom.equalToSuperview().inset(keyboardHeight)
+    }
+    
+    UIView.animate(withDuration: 0.2) {
+      self.view.layoutIfNeeded()
+    }
+  }
+  
+  @objc
+  func keyboardWillHide(_ sender: Notification) {
+    
+    areaView.snp.updateConstraints {
+      $0.bottom.equalToSuperview()
+    }
+    
+    UIView.animate(withDuration: 0.2) {
+      self.view.layoutIfNeeded()
+    }
+  }
+}

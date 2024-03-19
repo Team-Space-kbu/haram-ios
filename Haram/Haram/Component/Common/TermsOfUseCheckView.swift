@@ -72,15 +72,6 @@ final class TermsOfUseCheckView: UIView {
     $0.isSkeletonable = true
   }
   
-  private let alertLabel = UILabel().then {
-    $0.text = Constants.alertText
-    $0.font = .regular14
-    $0.textColor = .hex545E6A
-    $0.numberOfLines = 1
-    $0.textAlignment = .center
-    $0.isSkeletonable = true
-  }
-  
   // MARK: - Initializations
   
   init(type: TermsOfUseCheckViewType = .none) {
@@ -109,15 +100,15 @@ final class TermsOfUseCheckView: UIView {
     isSkeletonable = true
     addSubview(checkBoxControl)
     checkBoxControl.snp.makeConstraints {
-      $0.size.equalTo(18)
-      $0.top.leading.equalToSuperview()
-      $0.trailing.equalToSuperview()
+      $0.size.equalTo(18 + 10)
+      $0.top.directionalHorizontalEdges.equalToSuperview()
     }
     
     if type == .none {
       addSubview(webView)
       webView.snp.makeConstraints {
-        $0.top.equalTo(checkBoxControl.snp.bottom).offset(10)
+        $0.top.equalTo(checkBoxControl.snp.bottom)
+//        $0.top.equalTo(checkBoxControl.snp.bottom).offset(10)
         $0.directionalHorizontalEdges.equalToSuperview()
         $0.bottom.lessThanOrEqualToSuperview()
         $0.height.equalTo(124)

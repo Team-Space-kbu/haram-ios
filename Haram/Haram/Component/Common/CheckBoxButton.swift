@@ -171,13 +171,14 @@ final class CheckBoxControl: UIControl {
   
   private func setupConstraints() {
     checkImage.snp.makeConstraints {
-      $0.leading.centerY.equalToSuperview()
+      $0.leading.top.equalToSuperview()
       $0.size.equalTo(18)
     }
     
     alertLabel.snp.makeConstraints {
+      $0.centerY.equalTo(checkImage)
       $0.leading.equalTo(checkImage.snp.trailing).offset(5)
-      $0.trailing.centerY.equalToSuperview()
+      $0.trailing.equalToSuperview()
     }
   }
   

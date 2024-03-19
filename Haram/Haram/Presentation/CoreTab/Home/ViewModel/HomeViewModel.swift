@@ -13,6 +13,7 @@ import RxCocoa
 protocol HomeViewModelType {
   
   func inquireSimpleChapelInfo()
+  func inquireHomeInfo()
   
   var newsModel: Driver<[HomeNewsCollectionViewCellModel]> { get }
   var bannerModel: Driver<[HomebannerCollectionViewCellModel]> { get }
@@ -46,7 +47,7 @@ final class HomeViewModel {
 }
 
 extension HomeViewModel {
-  private func inquireHomeInfo() {
+  func inquireHomeInfo() {
     let inquireHomeInfo = homeRepository.inquireHomeInfo()
     
     inquireHomeInfo

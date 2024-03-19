@@ -30,7 +30,7 @@ final class EditBoardBottomSheetViewController: BaseViewController {
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = .init(top: 30, left: 23, bottom: .zero, right: 23)
-    $0.spacing = 17
+//    $0.spacing = 17
   }
   
   private let registerImageMenuView = EditBoardMenuView(type: .registerImage)
@@ -70,7 +70,7 @@ final class EditBoardBottomSheetViewController: BaseViewController {
     
     _ = [registerImageMenuView, registerAnonymousMenuView].map {
       $0.snp.makeConstraints {
-        $0.height.equalTo(22)
+        $0.height.equalTo(22 + 17)
       }
     }
   }
@@ -115,25 +115,25 @@ extension EditBoardBottomSheetViewController {
       }
       
       editImageView.snp.makeConstraints {
-        $0.leading.directionalVerticalEdges.equalToSuperview()
+        $0.leading.top.equalToSuperview()
         $0.size.equalTo(19.5)
       }
       
       editLabel.snp.makeConstraints {
-        $0.centerY.equalToSuperview()
-        $0.top.greaterThanOrEqualToSuperview()
-        $0.bottom.lessThanOrEqualToSuperview()
+        $0.centerY.equalTo(editImageView)
+//        $0.top.greaterThanOrEqualToSuperview()
+//        $0.bottom.lessThanOrEqualToSuperview()
         $0.leading.equalTo(editImageView.snp.trailing).offset(10)
       }
       
       indicatorImageView.snp.makeConstraints {
-        $0.top.greaterThanOrEqualToSuperview()
-        $0.bottom.lessThanOrEqualToSuperview()
+//        $0.top.greaterThanOrEqualToSuperview()
+//        $0.bottom.lessThanOrEqualToSuperview()
         $0.leading.greaterThanOrEqualTo(editLabel.snp.trailing)
         $0.trailing.equalToSuperview()
         $0.width.equalTo(6)
         $0.height.equalTo(12)
-        $0.centerY.equalToSuperview()
+        $0.centerY.equalTo(editImageView)
       }
       
       editImageView.image = UIImage(resource: type.imageResource)
