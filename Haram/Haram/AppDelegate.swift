@@ -111,12 +111,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     SkeletonAppearance.default.textLineHeight = .relativeToFont
     
+    // Set UUID
     if !UserManager.shared.hasUUID {
       UserManager.shared.set(uuid: UUID().uuidString)
     }
     
+    // Set 이미지 SVG파일 UIImageView 파싱을 위함
     let SVGCoder = SDImageSVGCoder.shared
     SDImageCodersManager.shared.addCoder(SVGCoder)
+    
+    // Set Network Status
+    NetworkManager.shared.startMonitoring()
     
     return true
   }

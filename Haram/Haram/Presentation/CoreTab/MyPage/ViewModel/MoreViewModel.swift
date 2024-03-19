@@ -14,6 +14,7 @@ protocol MoreViewModelType {
   
   var currentUserInfo: Driver<ProfileInfoViewModel> { get }
   var successMessage: Signal<String> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class MoreViewModel {
@@ -22,8 +23,9 @@ final class MoreViewModel {
   private let authRepository: AuthRepository
   private let myPageRepository: MyPageRepository
   
-  private let currentUserInfoRelay     = BehaviorRelay<ProfileInfoViewModel?>(value: nil)
-  private let successMessageRelay      = PublishRelay<String>()
+  private let currentUserInfoRelay = BehaviorRelay<ProfileInfoViewModel?>(value: nil)
+  private let successMessageRelay  = PublishRelay<String>()
+  private let errorMessageRelay    = BehaviorRelay<HaramError?>(value: nil)
   
   init(
     authRepository: AuthRepository = AuthRepositoryImpl(),
@@ -49,16 +51,24 @@ final class MoreViewModel {
         userID: UserManager.shared.userID!,
         uuid: UserManager.shared.uuid!
       ))
-      .take(1)
-      .subscribe(with: self) { owner, _ in
-        UserManager.shared.clearAllInformations()
-        owner.successMessageRelay.accept("로그아웃 성공하였습니다.")
+      .subscribe(with: self) { owner, result in
+        switch result {
+        case .success(_):
+          UserManager.shared.clearAllInformations()
+          owner.successMessageRelay.accept("로그아웃 성공하였습니다.")
+        case .failure(let error):
+          owner.errorMessageRelay.accept(error)
+        }
       }
       .disposed(by: disposeBag)
   }
 }
 
 extension MoreViewModel: MoreViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
+  }
+  
   var currentUserInfo: Driver<ProfileInfoViewModel> {
     currentUserInfoRelay
       .compactMap { $0 }

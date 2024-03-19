@@ -165,6 +165,27 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
         owner.boardDetailCollectionView.reloadSections([1])
       }
       .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        if error == .networkError {
+          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+              UIApplication.shared.open(url)
+            }
+            owner.navigationController?.popViewController(animated: true)
+          }
+        } else if error == .retryError {
+          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+              UIApplication.shared.open(url)
+            }
+          }
+        }
+      }
+      .disposed(by: disposeBag)
   }
   
   // MARK: - Action Function
@@ -264,7 +285,9 @@ extension BoardDetailViewController: UIGestureRecognizerDelegate {
 extension BoardDetailViewController: CommentInputViewDelegate {
   
   func writeComment(_ comment: String, isAnonymous: Bool) {
-    print("댓글 \(comment)")
+    if comment.isEmpty {
+      AlertManager.showAlert(title: "댓글작성알림", message: "댓글을 반드시 작성해주세요.", viewController: self, confirmHandler: nil)
+    }
     viewModel.createComment(boardComment: comment, categorySeq: categorySeq, boardSeq: boardSeq, isAnonymous: isAnonymous)
     view.endEditing(true)
   }

@@ -39,15 +39,23 @@ final class PDFViewController: BaseViewController, BackButtonHandler, PDFDocumen
     /// Set Navigationbar
     setupBackButton()
     navigationController?.interactivePopGestureRecognizer?.delegate = self
-    
+   
+    guard NetworkManager.shared.isConnected else {
+      AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: self) {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        if UIApplication.shared.canOpenURL(url) {
+          UIApplication.shared.open(url)
+        }
+        self.navigationController?.popViewController(animated: true)
+      }
+      return
+    }
     
     guard let pdfURL = self.pdfURL else { return }
-    let document = PDFDocument(url: pdfURL)
-    document?.delegate = self
+  
     /// Set PDFView
     DispatchQueue.main.async {
-      self.pdfView.document = document
-//      document.document = PDFDocument(url: pdfURL)
+      self.pdfView.document = PDFDocument(url: pdfURL)
       self.indicatorView.stopAnimating()
     }
   }
@@ -71,14 +79,6 @@ final class PDFViewController: BaseViewController, BackButtonHandler, PDFDocumen
   
   @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
-  }
-  
-  func documentDidEndDocumentFind(_ notification: Notification) {
-    
-  }
-  
-  func documentDidBeginDocumentFind(_ notification: Notification) {
-    
   }
 }
 

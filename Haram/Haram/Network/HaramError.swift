@@ -14,6 +14,8 @@ enum HaramError: Error, CaseIterable {
   case unknownedError
   case requestError
   case serverError
+  case networkError // 네트워크 연결이 안되있을 경우
+  case retryError // 네트워크 연결이 안되어 재시도
   
   /// 로그인 시 에러
   case notFindUserError // 사용자를 찾을 수 없는 상태입니다.
@@ -97,7 +99,7 @@ extension HaramError {
 extension HaramError {
   var code: String? { // 하람 서버에서 제공하는 code, Notion 참고
     switch self {
-    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .titleIsEmpty, .contentsIsEmpty, .uploadingImage, .maxReservationCount, .nonConsecutiveReservations:
+    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .titleIsEmpty, .contentsIsEmpty, .uploadingImage, .maxReservationCount, .nonConsecutiveReservations, .networkError, .retryError:
       return nil
     case .unvalidAuthCode:
       return "MAIL01"
@@ -248,6 +250,8 @@ extension HaramError {
       return "이미 예약할 수 있는 최대개수를 선택하였습니다."
     case .nonConsecutiveReservations:
       return "연속된 시간만 예약할 수 있습니다."
+    case .networkError, .retryError:
+      return nil
     }
   }
 }

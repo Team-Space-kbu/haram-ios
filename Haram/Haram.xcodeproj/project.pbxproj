@@ -272,6 +272,7 @@
 		70AD2A9A2B93908A00CB9791 /* VerifyEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AD2A992B93908A00CB9791 /* VerifyEmailViewModel.swift */; };
 		70B310922BA1798200EF21CE /* Ex + UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310912BA1798200EF21CE /* Ex + UIButton.swift */; };
 		70B310942BA1DAFD00EF21CE /* MoreCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310932BA1DAFD00EF21CE /* MoreCategoryViewController.swift */; };
+		70B310962BA73C7D00EF21CE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310952BA73C7D00EF21CE /* NetworkManager.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -562,6 +563,7 @@
 		70AD2A992B93908A00CB9791 /* VerifyEmailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailViewModel.swift; sourceTree = "<group>"; };
 		70B310912BA1798200EF21CE /* Ex + UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIButton.swift"; sourceTree = "<group>"; };
 		70B310932BA1DAFD00EF21CE /* MoreCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCategoryViewController.swift; sourceTree = "<group>"; };
+		70B310952BA73C7D00EF21CE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -971,6 +973,7 @@
 				70430A812B7E29D200B64545 /* Device.swift */,
 				70AD2A782B8B1B4F00CB9791 /* LogHelper.swift */,
 				701FC89C2B98807C00291FC3 /* AlertManager.swift */,
+				70B310952BA73C7D00EF21CE /* NetworkManager.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1978,6 +1981,7 @@
 				708312442A2F1E6500F7E283 /* InquireChapelInfoResponse.swift in Sources */,
 				705FD2D32A2645D200F353FE /* SearchBookResponse.swift in Sources */,
 				701FC8972B97127500291FC3 /* EditBoardViewController.swift in Sources */,
+				70B310962BA73C7D00EF21CE /* NetworkManager.swift in Sources */,
 				705FD29F2A15F21F00F353FE /* LoginButton.swift in Sources */,
 				708DAD1C2B36DE6C00E3AD45 /* Ex + UIViewController.swift in Sources */,
 				70AD2A982B93837300CB9791 /* IntranetAlertView.swift in Sources */,

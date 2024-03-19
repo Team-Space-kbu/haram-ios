@@ -69,6 +69,7 @@ final class ChapelView: UIView {
     
     titleLabel.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(19)
     }
     
     dayLabel.snp.makeConstraints {
@@ -121,8 +122,6 @@ final class ChapelInfoView: UIView {
     
     contentStackView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
-//      $0.directionalVerticalEdges.leading.equalToSuperview()
-//      $0.trailing.lessThanOrEqualToSuperview()
     }
     
     lineView.snp.makeConstraints {

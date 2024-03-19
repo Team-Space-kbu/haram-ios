@@ -32,18 +32,21 @@ final class RothemReservationInfoView: UIView {
   private let rothemRoomNameLabel = UILabel().then {
     $0.font = .bold25
     $0.textColor = .white
+    $0.textAlignment = .left
     $0.isSkeletonable = true
   }
   
   private let rothemLocationLabel = UILabel().then {
     $0.font = .regular12
     $0.textColor = .white
+    $0.textAlignment = .left
     $0.isSkeletonable = true
   }
   
   private let reservationNameLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .white
+    $0.textAlignment = .left
     $0.isSkeletonable = true
   }
   
@@ -54,6 +57,7 @@ final class RothemReservationInfoView: UIView {
   
   private let barCodeView = UIImageView().then {
     $0.contentMode = .scaleAspectFit
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -77,27 +81,26 @@ final class RothemReservationInfoView: UIView {
     /// Set Constraints
     rothemRoomNameLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(174 - 158)
-      $0.leading.equalToSuperview().inset(30 - 15)
-      $0.trailing.lessThanOrEqualToSuperview().inset(15)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(30)
     }
     
     rothemLocationLabel.snp.makeConstraints {
       $0.top.equalTo(rothemRoomNameLabel.snp.bottom).offset(5)
-      $0.leading.equalTo(rothemRoomNameLabel)
-      $0.trailing.lessThanOrEqualToSuperview().inset(15)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(14)
     }
     
     barCodeView.snp.makeConstraints {
       $0.top.equalTo(rothemLocationLabel.snp.bottom).offset(5)
       $0.height.equalTo(115)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       
     }
     
     reservationNameLabel.snp.makeConstraints {
       $0.leading.equalTo(rothemLocationLabel.snp.leading)
+      $0.trailing.equalToSuperview().inset(15)
       $0.top.equalTo(barCodeView.snp.bottom).offset(5)
     }
     

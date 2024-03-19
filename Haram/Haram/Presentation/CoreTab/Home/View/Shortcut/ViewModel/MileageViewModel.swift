@@ -23,7 +23,7 @@ final class MileageViewModel {
   
   private let currentUserMileageInfoRelay  = BehaviorRelay<[MileageTableViewCellModel]>(value: [])
   private let currentAvilabilityPointRelay = PublishRelay<MileageTableHeaderViewModel>()
-  private let errorMessageSubject          = PublishSubject<HaramError>()
+  private let errorMessageRelay          = BehaviorRelay<HaramError?>(value: nil)
   
   init(intranetRepository: IntranetRepository = IntranetRepositoryImpl()) {
     self.intranetRepository = intranetRepository
@@ -55,7 +55,7 @@ final class MileageViewModel {
         )
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
-        owner.errorMessageSubject.onNext(error)
+        owner.errorMessageRelay.accept(error)
       })
       .disposed(by: disposeBag)
     
@@ -94,6 +94,8 @@ extension MileageViewModel: MileageViewModelType {
   }
   
   var errorMessage: Signal<HaramError> {
-    errorMessageSubject.asSignal(onErrorSignalWith: .empty())
+    errorMessageRelay
+      .compactMap { $0 }
+      .asSignal(onErrorSignalWith: .empty())
   }
 }

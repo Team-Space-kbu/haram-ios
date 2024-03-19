@@ -16,6 +16,7 @@ protocol BoardDetailViewModelType {
   var boardInfoModel: Driver<[BoardDetailHeaderViewModel]> { get }
   var boardCommentModel: Driver<[BoardDetailCollectionViewCellModel]> { get }
   var successCreateComment: Signal<[Comment]> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class BoardDetailViewModel {
@@ -26,6 +27,7 @@ final class BoardDetailViewModel {
   private let currentBoardListRelay = PublishRelay<[BoardDetailCollectionViewCellModel]>()
   private let currentBoardInfoRelay = PublishRelay<[BoardDetailHeaderViewModel]>()
   private let successCreateCommentRelay = PublishRelay<[Comment]>()
+  private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
@@ -34,6 +36,10 @@ final class BoardDetailViewModel {
 }
 
 extension BoardDetailViewModel: BoardDetailViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
+  }
+  
   var successCreateComment: RxCocoa.Signal<[Comment]> {
     successCreateCommentRelay.asSignal()
   }
@@ -47,7 +53,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
     )
     
     inquireBoard
-      .subscribe(with: self) { owner, response in
+      .subscribe(with: self, onSuccess: { owner, response in
         owner.currentBoardInfoRelay.accept([
           BoardDetailHeaderViewModel(
             boardTitle: response.title,
@@ -71,7 +77,10 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
             )
           }
         )
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
       .disposed(by: disposeBag)
   }
   
@@ -87,9 +96,12 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
       categorySeq: categorySeq,
       boardSeq: boardSeq
     )
-      .subscribe(with: self) { owner, response in
+      .subscribe(with: self, onSuccess: { owner, response in
         owner.successCreateCommentRelay.accept(response)
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error == .networkError ? .retryError : error)
+      })
       .disposed(by: disposeBag)
   }
   

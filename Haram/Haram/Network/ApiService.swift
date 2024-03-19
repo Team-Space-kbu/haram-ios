@@ -34,7 +34,12 @@ final class ApiService: BaseService {
   
   
   func request<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Observable<Result<T, HaramError>> where T : Decodable {
-    Observable.create { observer in
+    
+    guard NetworkManager.shared.isConnected else {
+      return .just(.failure(.networkError))
+    }
+    
+    return Observable.create { observer in
       self.session.request(router)
         .validate({ request, response, data in
           let statusCode = response.statusCode
@@ -89,7 +94,12 @@ final class ApiService: BaseService {
   }
   
   func betarequest<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Single<T> where T : Decodable {
-    Single.create { observer in
+    
+    guard NetworkManager.shared.isConnected else {
+      return .error(HaramError.networkError)
+    }
+    
+    return Single.create { observer in
       self.session.request(router)
         .validate({ request, response, data in
           let statusCode = response.statusCode
@@ -147,7 +157,12 @@ final class ApiService: BaseService {
     _ router: Router,
     type: T.Type = EmptyModel.self
   ) -> Observable<Result<T, HaramError>> where T : Decodable {
-    Observable.create { observer in
+    
+    guard NetworkManager.shared.isConnected else {
+      return .just(.failure(.networkError))
+    }
+    
+    return Observable.create { observer in
       self.session.upload(multipartFormData: formData, with: router)
         .validate({ request, response, data in
           let statusCode = response.statusCode

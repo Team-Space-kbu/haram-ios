@@ -77,6 +77,20 @@ final class BibleSearchResultViewController: BaseViewController, BackButtonHandl
       title: request.book,
       chapter: "\(request.chapter)"
     ))
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        if error == .networkError {
+          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+              UIApplication.shared.open(url)
+            }
+            owner.navigationController?.popViewController(animated: true)
+          }
+        }
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {

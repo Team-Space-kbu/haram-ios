@@ -12,6 +12,7 @@ protocol BibleSearchResultViewModelType {
   func searchBible(request: InquireChapterToBibleRequest)
   
   var searchResultContent: Driver<String> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class BibleSearchResultViewModel {
@@ -19,6 +20,7 @@ final class BibleSearchResultViewModel {
   private let bibleRepository: BibleRepository
   private let disposeBag = DisposeBag()
   private let searchResultContentRelay = PublishRelay<String>()
+  private let errorMessageRelay        = BehaviorRelay<HaramError?>(value: nil)
   
   init(bibleRepository: BibleRepository = BibleRepositoryImpl()) {
     self.bibleRepository = bibleRepository
@@ -27,12 +29,19 @@ final class BibleSearchResultViewModel {
 }
 
 extension BibleSearchResultViewModel: BibleSearchResultViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
+  }
+  
   
   func searchBible(request: InquireChapterToBibleRequest) {
     bibleRepository.inquireChapterToBible(request: request)
-      .subscribe(with: self) { owner, responses in
+      .subscribe(with: self, onSuccess: { owner, responses in
         owner.searchResultContentRelay.accept(responses.toStringWithWhiteSpace)
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
       .disposed(by: disposeBag)
   }
   

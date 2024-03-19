@@ -24,7 +24,7 @@ final class BoardListViewModel {
   
   private let currentBoardListRelay = BehaviorRelay<[BoardListCollectionViewCellModel]>(value: [])
   private let isLoadingSubject      = PublishSubject<Bool>()
-  private let errorMessageSubject   = PublishSubject<HaramError>()
+  private let errorMessageRelay     = BehaviorRelay<HaramError?>(value: nil)
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
     self.boardRepository = boardRepository
@@ -46,8 +46,8 @@ extension BoardListViewModel: BoardListViewModelType {
         owner.isLoadingSubject.onNext(false)
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
-        owner.isLoadingSubject.onNext(false)
-        owner.errorMessageSubject.onNext(error)
+//        owner.isLoadingSubject.onNext(false)
+        owner.errorMessageRelay.accept(error)
       })
       .disposed(by: disposeBag)
   }
@@ -64,7 +64,8 @@ extension BoardListViewModel: BoardListViewModelType {
   }
   
   var errorMessage: Signal<HaramError> {
-    errorMessageSubject
+    errorMessageRelay
+      .compactMap { $0 }
       .asSignal(onErrorSignalWith: .empty())
   }
 }

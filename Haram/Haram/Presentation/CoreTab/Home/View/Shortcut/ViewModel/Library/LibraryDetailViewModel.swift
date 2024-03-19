@@ -34,7 +34,7 @@ final class LibraryDetailViewModel {
   private let currentDetailRentalModel = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
   private let currentRelatedBookModel  = BehaviorRelay<[LibraryRelatedBookCollectionViewCellModel]>(value: [])
   private let isLoadingSubject         = BehaviorSubject<Bool>(value: false)
-  private let errorMessageRelay        = PublishRelay<HaramError>()
+  private let errorMessageRelay        = BehaviorRelay<HaramError?>(value: nil)
   
   init(libraryRepository: LibraryRepository = LibraryRepositoryImpl()) {
     self.libraryRepository = libraryRepository
@@ -126,7 +126,9 @@ extension LibraryDetailViewModel: LibraryDetailViewModelType {
   }
   
   var errorMessage: RxCocoa.Signal<HaramError> {
-    errorMessageRelay.filter { $0 == .noEnglishRequest || $0 == .noRequestFromNaver }.asSignal(onErrorSignalWith: .empty())
+    errorMessageRelay
+      .compactMap { $0 }
+      .asSignal(onErrorSignalWith: .empty())
   }
   
   

@@ -67,11 +67,13 @@ final class ChapelCollectionViewCell: UICollectionViewCell {
   private let chapelTitleLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold18
+    $0.textAlignment = .left
   }
   
   private let chapelSubTitleLabel = UILabel().then {
     $0.textColor = .hex545E6A
     $0.font = .regular14
+    $0.textAlignment = .left
   }
   
   override init(frame: CGRect) {
@@ -106,11 +108,13 @@ final class ChapelCollectionViewCell: UICollectionViewCell {
     
     chapelTitleLabel.snp.makeConstraints {
       $0.leading.equalTo(chapelImageView.snp.trailing).offset(15)
+      $0.trailing.equalToSuperview().inset(15)
       $0.bottom.equalTo(chapelImageView.snp.centerY)
     }
     
     chapelSubTitleLabel.snp.makeConstraints {
       $0.leading.equalTo(chapelImageView.snp.trailing).offset(15)
+      $0.trailing.equalToSuperview().inset(15)
       $0.top.equalTo(chapelImageView.snp.centerY)
       $0.bottom.trailing.lessThanOrEqualToSuperview()
     }

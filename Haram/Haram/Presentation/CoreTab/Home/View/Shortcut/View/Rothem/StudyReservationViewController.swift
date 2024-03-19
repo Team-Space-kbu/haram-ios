@@ -97,6 +97,7 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
   
   private let nameTextField = HaramTextField(placeholder: "이름").then {
     $0.isSkeletonable = true
+    $0.textField.isSkeletonable = true
   }
   
   private let phoneNumberTextField = HaramTextField(
@@ -105,11 +106,13 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
   ).then {
     $0.textField.keyboardType = .phonePad
     $0.isSkeletonable = true
+    $0.textField.isSkeletonable = true
   }
   
   private let reservationButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "예약하기", contentInsets: .zero)
     $0.isSkeletonable = true
+    $0.skeletonCornerRadius = 10
     $0.isEnabled = false
   }
   
@@ -196,8 +199,12 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     viewModel.successRothemReservation
       .emit(with: self) { owner, _ in
         owner.phoneNumberTextField.removeError()
-        let vc = owner.navigationController?.viewControllers[1]
-        owner.navigationController?.popToViewController(vc!, animated: true)
+        NotificationCenter.default.post(name: .refreshRothemList, object: nil)
+        
+        AlertManager.showAlert(title: "로뎀예약알림", message: "성공적으로 예약하였습니다\n메인화면으로 이동합니다.", viewController: owner) {
+          let vc = owner.navigationController?.viewControllers[1]
+          owner.navigationController?.popToViewController(vc!, animated: true)
+        }
       }
       .disposed(by: disposeBag)
     
@@ -226,6 +233,15 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
       .emit(with: self) { owner, error in
         if error == .maxReservationCount || error == .nonConsecutiveReservations {
           AlertManager.showAlert(title: "로뎀예약알림", message: error.description!, viewController: owner, confirmHandler: nil)
+          return
+        } else if error == .networkError {
+          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+              UIApplication.shared.open(url)
+            }
+            owner.navigationController?.popViewController(animated: true)
+          }
           return
         }
         owner.phoneNumberTextField.setError(description: error.description!)
@@ -461,7 +477,7 @@ extension StudyReservationViewController: SkeletonCollectionViewDataSource {
     if skeletonView == selectedDayCollectionView {
       return 5
     }
-    return section == 0 ? 6 : 4
+    return section == 0 ? 6 : 10
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {

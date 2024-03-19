@@ -56,9 +56,8 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    viewModel.inquireRothemRoomList()
+  deinit {
+    removeNotifications()
   }
   
   // MARK: - Configurations
@@ -77,6 +76,7 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
   
   override func bind() {
     super.bind()
+    viewModel.inquireRothemRoomList()
     
     Driver.combineLatest(
       viewModel.currentStudyReservationList,
@@ -94,6 +94,20 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
       owner.studyListCollectionView.reloadData()
     }
     .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        if error == .networkError {
+          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+              UIApplication.shared.open(url)
+            }
+            owner.navigationController?.popViewController(animated: true)
+          }
+        }
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -105,6 +119,7 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
     setupBackButton()
     
     setupSkeletonView()
+    registerNotifications()
   }
   
   @objc func didTappedBackButton() {
@@ -192,11 +207,6 @@ extension RothemRoomListViewController: SkeletonCollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StudyListCollectionViewCell.identifier, for: indexPath) as? StudyListCollectionViewCell ?? StudyListCollectionViewCell()
     cell.configureUI(with: studyListModel[indexPath.row])
-    
-//    /// 마지막 셀일 경우
-//    if indexPath.row == studyListModel.count - 1 {
-//      cell.removeLastLineView()
-//    }
     return cell
   }
   
@@ -219,5 +229,20 @@ extension RothemRoomListViewController: SkeletonCollectionViewDataSource {
 extension RothemRoomListViewController: UIGestureRecognizerDelegate {
   func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     return true // or false
+  }
+}
+
+extension RothemRoomListViewController {
+  func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshRothemList), name: .refreshRothemList, object: nil)
+  }
+  
+  func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  func refreshRothemList() {
+    viewModel.inquireRothemRoomList()
   }
 }

@@ -25,10 +25,10 @@ final class ChapelViewModel {
   private let disposeBag = DisposeBag()
   private let intranetRepository: IntranetRepository
   
-  private let chapelListModelRelay   = BehaviorRelay<[ChapelCollectionViewCellModel]>(value: [])
+  private let chapelListModelRelay   = PublishRelay<[ChapelCollectionViewCellModel]>()
   private let chapelHeaderModelRelay = PublishRelay<ChapelCollectionHeaderViewModel?>()
   private let isLoadingSubject       = BehaviorSubject<Bool>(value: true)
-  private let errorMessageSubject    = PublishSubject<HaramError>()
+  private let errorMessageRelay    = BehaviorRelay<HaramError?>(value: nil)
   
   init(intranetRepository: IntranetRepository = IntranetRepositoryImpl()) {
     self.intranetRepository = intranetRepository
@@ -56,7 +56,7 @@ extension ChapelViewModel: ChapelViewModelType {
             )
           )
         case let .failure(error):
-          owner.errorMessageSubject.onNext(error)
+          owner.errorMessageRelay.accept(error)
         }
         
         owner.isLoadingSubject.onNext(false)
@@ -72,7 +72,7 @@ extension ChapelViewModel: ChapelViewModelType {
           let chapelListModel = response.map { ChapelCollectionViewCellModel(response: $0) }
           owner.chapelListModelRelay.accept(chapelListModel)
         case let .failure(error):
-          owner.errorMessageSubject.onNext(error)
+          owner.errorMessageRelay.accept(error)
         }
         
         owner.isLoadingSubject.onNext(false)
@@ -81,7 +81,7 @@ extension ChapelViewModel: ChapelViewModelType {
   }
   
   var chapelListModel: Driver<[ChapelCollectionViewCellModel]> {
-    chapelListModelRelay.filter { !$0.isEmpty }.asDriver(onErrorJustReturn: [])
+    chapelListModelRelay.asDriver(onErrorJustReturn: [])
   }
   var chapelHeaderModel: Driver<ChapelCollectionHeaderViewModel?> {
     chapelHeaderModelRelay.asDriver(onErrorJustReturn: nil)
@@ -90,6 +90,8 @@ extension ChapelViewModel: ChapelViewModelType {
     isLoadingSubject.distinctUntilChanged().asDriver(onErrorJustReturn: false)
   }
   var errorMessage: Signal<HaramError> {
-    errorMessageSubject.distinctUntilChanged().asSignal(onErrorSignalWith: .empty())
+    errorMessageRelay
+      .compactMap { $0 }
+      .asSignal(onErrorSignalWith: .empty())
   }
 }

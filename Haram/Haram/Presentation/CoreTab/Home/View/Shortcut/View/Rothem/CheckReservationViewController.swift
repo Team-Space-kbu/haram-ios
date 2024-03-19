@@ -23,6 +23,7 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
   private let reservationCancelButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "예약취소하기", contentInsets: .zero)
     $0.isSkeletonable = true
+    $0.skeletonCornerRadius = 10
   }
   
   init(viewModel: CheckReservationViewModelType = CheckReservationViewModel()) {
@@ -81,8 +82,23 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     
     viewModel.successCancelReservation
       .drive(with: self) { owner, _ in
+        NotificationCenter.default.post(name: .refreshRothemList, object: nil)
         AlertManager.showAlert(title: "로뎀예약취소성공", message: "로뎀메인화면으로 이동합니다.", viewController: owner) {
           owner.navigationController?.popViewController(animated: true)
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        if error == .networkError {
+          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+              UIApplication.shared.open(url)
+            }
+            owner.navigationController?.popViewController(animated: true)
+          }
         }
       }
       .disposed(by: disposeBag)

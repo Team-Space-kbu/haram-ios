@@ -14,7 +14,7 @@ protocol StudyRoomDetailViewModelType {
   func inquireRothemRoomInfo(roomSeq: Int)
   var rothemRoomDetailViewModel: Driver<RothemRoomDetailViewModel> { get }
   var rothemRoomThumbnailImage: Driver<URL?> { get }
-
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class StudyRoomDetailViewModel {
@@ -24,6 +24,7 @@ final class StudyRoomDetailViewModel {
   
   private let currentRothemRoomDetailViewModelRelay = PublishRelay<RothemRoomDetailViewModel>()
   private let currentRothemRoomThubnailImageRelay   = PublishRelay<URL?>()
+  private let errorMessageRelay                     = BehaviorRelay<HaramError?>(value: nil)
   
   init(rothemRepository: RothemRepository = RothemRepositoryImpl()) {
     self.rothemRepository = rothemRepository
@@ -33,17 +34,24 @@ final class StudyRoomDetailViewModel {
     let inquireRothemRoomInfo = rothemRepository.inquireRothemRoomInfo(roomSeq: roomSeq)
     
     inquireRothemRoomInfo
-      .subscribe(with: self) { owner, response in
+      .subscribe(with: self, onSuccess: { owner, response in
         let rothemRoomThubnailImageURL = URL(string: response.roomResponse.thumbnailPath)
         let rothemRoomDetailViewModel = RothemRoomDetailViewModel(response: response)
         owner.currentRothemRoomDetailViewModelRelay.accept(rothemRoomDetailViewModel)
         owner.currentRothemRoomThubnailImageRelay.accept(rothemRoomThubnailImageURL)
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
       .disposed(by: disposeBag)
   }
 }
 
 extension StudyRoomDetailViewModel: StudyRoomDetailViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
+  }
+  
   var rothemRoomDetailViewModel: RxCocoa.Driver<RothemRoomDetailViewModel> {
     currentRothemRoomDetailViewModelRelay.asDriver(onErrorDriveWith: .empty())
   }

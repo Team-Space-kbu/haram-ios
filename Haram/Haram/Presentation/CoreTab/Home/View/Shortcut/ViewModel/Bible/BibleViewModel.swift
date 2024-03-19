@@ -13,6 +13,7 @@ protocol BibleViewModelType {
   var todayBibleWordList: Driver<[TodayBibleWordCollectionViewCellModel]> { get }
   var todayPrayList: Driver<[TodayPrayCollectionViewCellModel]> { get }
   var bibleMainNotice: Driver<[BibleNoticeCollectionViewCellModel]> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class BibleViewModel {
@@ -23,6 +24,7 @@ final class BibleViewModel {
   private let todayBibleWordListRelay = PublishRelay<[TodayBibleWordCollectionViewCellModel]>()
   private let todayPrayListRelay      = BehaviorRelay<[TodayPrayCollectionViewCellModel]>(value: [])
   private let bibleMainNoticeRelay    = PublishRelay<[BibleNoticeCollectionViewCellModel]>()
+  private let errorMessageRelay       = BehaviorRelay<HaramError?>(value: nil)
   
   init(bibleRepository: BibleRepository = BibleRepositoryImpl()) {
     self.bibleRepository = bibleRepository
@@ -33,7 +35,7 @@ final class BibleViewModel {
     let tryInquireBibleHomeInfo = bibleRepository.inquireBibleHomeInfo()
     
     tryInquireBibleHomeInfo
-      .subscribe(with: self) { owner, homeInfo in
+      .subscribe(with: self, onSuccess: { owner, homeInfo in
         let bibleVerse = homeInfo.bibleRandomVerse
         let content = bibleVerse.content
         owner.todayBibleWordListRelay.accept([
@@ -43,12 +45,19 @@ final class BibleViewModel {
           )
         ])
         owner.bibleMainNoticeRelay.accept(homeInfo.bibleNoticeResponses.map { BibleNoticeCollectionViewCellModel(response: $0) })
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
       .disposed(by: disposeBag)
   }
 }
 
 extension BibleViewModel: BibleViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
+  }
+  
 
   var bibleMainNotice: RxCocoa.Driver<[BibleNoticeCollectionViewCellModel]> {
     bibleMainNoticeRelay.asDriver(onErrorDriveWith: .empty())

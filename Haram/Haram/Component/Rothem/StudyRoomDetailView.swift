@@ -84,6 +84,7 @@ final class RothemRoomDetailView: UIView {
     $0.textColor = .hex9F9FA4
     $0.numberOfLines = 0
     $0.isSkeletonable = true
+    $0.skeletonTextNumberOfLines = 3
   }
   
   private let popularAmenityTitleLabel = UILabel().then {
@@ -107,6 +108,7 @@ final class RothemRoomDetailView: UIView {
   
   private let reservationButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "예약하기", contentInsets: .zero)
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {
@@ -234,6 +236,9 @@ extension RothemRoomDetailView: UICollectionViewDelegate, UICollectionViewDataSo
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    guard !amenityModel.isEmpty else {
+      return CGSize(width: 48, height: 56)
+    }
     let label = UILabel().then {
       $0.font = .regular12
       $0.text = amenityModel[indexPath.row].amenityContent
@@ -254,6 +259,6 @@ extension RothemRoomDetailView: SkeletonCollectionViewDataSource {
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    amenityModel.count
+    5
   }
 }

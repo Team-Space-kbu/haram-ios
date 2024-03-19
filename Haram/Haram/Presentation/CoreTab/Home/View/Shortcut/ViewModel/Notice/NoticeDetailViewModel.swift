@@ -13,6 +13,7 @@ protocol NoticeDetailViewModelType {
   func inquireNoticeDetailInfo(type: NoticeType, path: String)
   
   var noticeDetailModel: Driver<NoticeDetailModel> { get }
+  var errorMessage: Signal<HaramError> { get }
 
 }
 
@@ -22,6 +23,7 @@ final class NoticeDetailViewModel {
   private let noticeRepository: NoticeRepository
   
   private let noticeDetailModelRelay = PublishRelay<NoticeDetailModel>()
+  private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   
   init(noticeRepository: NoticeRepository = NoticeRepositoryImpl()) {
     self.noticeRepository = noticeRepository
@@ -30,6 +32,10 @@ final class NoticeDetailViewModel {
 }
 
 extension NoticeDetailViewModel: NoticeDetailViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
+  }
+  
   
   var noticeDetailModel: RxCocoa.Driver<NoticeDetailModel> {
     noticeDetailModelRelay.asDriver(onErrorDriveWith: .empty())
@@ -39,7 +45,7 @@ extension NoticeDetailViewModel: NoticeDetailViewModelType {
     noticeRepository.inquireNoticeDetailInfo(
       request: .init(type: type, path: path)
     )
-    .subscribe(with: self) { owner, response in
+    .subscribe(with: self, onSuccess: { owner, response in
       
       let iso8607Date = DateformatterFactory.iso8601_2.date(from: response.regDate)!
       let headerString = "<header><meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'></header>"
@@ -54,7 +60,10 @@ extension NoticeDetailViewModel: NoticeDetailViewModelType {
         )
       )
       
-    }
+    }, onFailure: { owner, error in
+      guard let error = error as? HaramError else { return }
+      owner.errorMessageRelay.accept(error)
+    })
     .disposed(by: disposeBag)
   }
 }

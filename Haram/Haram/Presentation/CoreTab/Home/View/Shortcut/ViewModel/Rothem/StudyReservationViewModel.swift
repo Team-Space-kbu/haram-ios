@@ -52,7 +52,7 @@ final class StudyReservationViewModel {
   private let studyRoomInfoViewModelRelay             = PublishRelay<StudyRoomInfoViewModel>()
   private let selectedDayCollectionViewCellModelRelay = BehaviorRelay<[SelectedDayCollectionViewCellModel]>(value: [])
   private let policyModelRelay                        = BehaviorRelay<[TermsOfUseCheckViewModel]>(value: [])
-  private let errorMessageRelay                       = PublishRelay<HaramError>()
+  private let errorMessageRelay                       = BehaviorRelay<HaramError?>(value: nil)
   
   init(rothemRepository: RothemRepository = RothemRepositoryImpl(), roomSeq: Int) {
     self.rothemRepository = rothemRepository
@@ -198,7 +198,7 @@ final class StudyReservationViewModel {
 
 extension StudyReservationViewModel: StudyReservationViewModelType {
   var errorMessage: RxCocoa.Signal<HaramError> {
-    errorMessageRelay.asSignal()
+    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }
   
   func checkCheckBox(policySeq: Int, isChecked: Bool) {
