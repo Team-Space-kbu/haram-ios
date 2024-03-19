@@ -37,7 +37,7 @@ final class HomeViewModel {
   private let noticeModelRelay = PublishRelay<HomeNoticeViewModel>()
   private let isLoadingSubject = PublishSubject<Bool>()
   private let isAvailableSimpleChapelModalSubject = PublishSubject<(Bool, CheckChapelDayViewModel?)>()
-  private let errorMessageRelay = PublishRelay<HaramError>()
+  private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   
   init(homeRepository: HomeRepository = HomeRepositoryImpl(), intranetRepository: IntranetRepository = IntranetRepositoryImpl()) {
     self.homeRepository = homeRepository
@@ -48,6 +48,7 @@ final class HomeViewModel {
 
 extension HomeViewModel {
   func inquireHomeInfo() {
+    
     let inquireHomeInfo = homeRepository.inquireHomeInfo()
     
     inquireHomeInfo
@@ -77,7 +78,7 @@ extension HomeViewModel {
 
 extension HomeViewModel: HomeViewModelType {
   var errorMessage: RxCocoa.Signal<HaramError> {
-    errorMessageRelay.asSignal()
+    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }
   
   var shortcutModel: RxCocoa.Driver<[HomeShortcutCollectionViewCellModel]> {
