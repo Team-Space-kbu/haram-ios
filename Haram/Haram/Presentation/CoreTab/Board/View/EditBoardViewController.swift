@@ -85,10 +85,10 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
   private let titleTextView = UITextView().then {
     $0.textColor = .hexD0D0D0
     $0.textContainerInset = UIEdgeInsets(
-      top: 10,
-      left: 10,
-      bottom: 10,
-      right: 10
+      top: 15,
+      left: 15,
+      bottom: 15,
+      right: 15
     )
     $0.font = .regular14
     $0.backgroundColor = .hexF4F4F4
@@ -109,10 +109,10 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
   private let contentTextView = UITextView().then {
     $0.textColor = .hexD0D0D0
     $0.textContainerInset = UIEdgeInsets(
-      top: 10,
-      left: 10,
-      bottom: 10,
-      right: 10
+      top: 15,
+      left: 15,
+      bottom: 15,
+      right: 15
     )
     $0.font = .regular14
     $0.backgroundColor = .hexF4F4F4
