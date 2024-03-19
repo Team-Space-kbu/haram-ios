@@ -19,6 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     guard let scene = (scene as? UIWindowScene) else { return }
     window = UIWindow(windowScene: scene)
     window?.rootViewController = LoginViewController()
+//    window?.rootViewController = CheckReservationViewController()
 //    window?.rootViewController = UpdatePasswordViewController(userEmail: "mookoon@bible.ac.kr", authCode: "111111")
     window?.makeKeyAndVisible()
   }

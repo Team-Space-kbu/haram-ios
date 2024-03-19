@@ -20,6 +20,7 @@ protocol UpdatePasswordViewModelType {
   var IsValidPassword: Signal<Bool> { get }
   var successUpdatePassword: Signal<Void> { get }
   var isContinueButtonEnabled: Driver<Bool> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class UpdatePasswordViewModel {
@@ -31,6 +32,7 @@ final class UpdatePasswordViewModel {
   private let isContinueButtonEnabledRelay = BehaviorRelay<Bool>(value: false)
   private let passwordSubject = BehaviorSubject<String>(value: "")
   private let rePasswordSubject = BehaviorSubject<String>(value: "")
+  private let errorMessageRelay = PublishRelay<HaramError>()
   
   init(authRepository: AuthRepository = AuthRepositoryImpl()) {
     self.authRepository = authRepository
@@ -47,6 +49,10 @@ final class UpdatePasswordViewModel {
 }
 
 extension UpdatePasswordViewModel: UpdatePasswordViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.asSignal()
+  }
+  
   var IsValidPassword: RxCocoa.Signal<Bool> {
     IsValidPasswordRelay.asSignal()
   }
@@ -98,8 +104,8 @@ extension UpdatePasswordViewModel: UpdatePasswordViewModelType {
         if success {
           owner.successUpdatePasswordRelay.accept(())
         }
-      case .failure(_):
-        break
+      case let .failure(error):
+        owner.errorMessageRelay.accept(error)
       }
     }
     .disposed(by: disposeBag)

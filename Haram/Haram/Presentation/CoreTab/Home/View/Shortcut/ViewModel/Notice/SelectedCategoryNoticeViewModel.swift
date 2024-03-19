@@ -13,6 +13,7 @@ protocol SelectedCategoryNoticeViewModelType {
   var noticeType: AnyObserver<NoticeType> { get }
   var fetchMoreDatas: AnyObserver<Void> { get }
   var noticeCollectionViewCellModel: Driver<[NoticeCollectionViewCellModel]> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class SelectedCategoryNoticeViewModel {
@@ -26,6 +27,7 @@ final class SelectedCategoryNoticeViewModel {
   private let isLastPage         = BehaviorRelay<Int>(value: 1)
   private let isLoadingRelay     = BehaviorRelay<Bool>(value: false)
   private let noticeTypeSubject    = PublishSubject<NoticeType>()
+  private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   
   init(noticeRepository: NoticeRepository = NoticeRepositoryImpl()) {
     self.noticeRepository = noticeRepository
@@ -44,6 +46,12 @@ final class SelectedCategoryNoticeViewModel {
   }
   
   private func inquireNoticeList() {
+    
+    guard NetworkManager.shared.isConnected else {
+      errorMessageRelay.accept(.networkError)
+      return
+    }
+    
     Observable.combineLatest(
       noticeTypeSubject,
       currentPageSubject
@@ -61,7 +69,7 @@ final class SelectedCategoryNoticeViewModel {
           )
         )
       }
-      .subscribe(with: self) { owner, response in
+      .subscribe(with: self, onNext: { owner, response in
         
         var noticeModel = owner.noticeCollectionViewCellModelRelay.value
         noticeModel.append(contentsOf: response.notices.map {
@@ -85,13 +93,17 @@ final class SelectedCategoryNoticeViewModel {
         
         owner.isLoadingRelay.accept(false)
         owner.isLastPage.accept(Int(response.end)!)
-      }
+      })
       .disposed(by: disposeBag)
   }
   
 }
 
 extension SelectedCategoryNoticeViewModel: SelectedCategoryNoticeViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
+  }
+  
   var noticeType: RxSwift.AnyObserver<NoticeType> {
     noticeTypeSubject.asObserver()
   }

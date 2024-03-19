@@ -33,7 +33,9 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
     $0.layer.borderWidth = 1
-//    $0.isSkeletonable = true
+    $0.layer.borderColor = UIColor.clear.cgColor
+    $0.isSkeletonable = true
+    $0.skeletonCornerRadius = 10
   }
   
   private let titleLabel = UILabel().then {
@@ -72,12 +74,9 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     
     isSkeletonable = true
-    skeletonCornerRadius = 10
     contentView.isSkeletonable = true
-    
 //    contentView.layer.masksToBounds = true
-//    contentView.layer.cornerRadius = 10
-//    contentView.layer.borderWidth = 1
+//    contentView.skeletonCornerRadius = 10
 
     contentView.addSubview(entireView)
     [titleLabel, dayLabel].forEach { entireView.addSubview($0) }

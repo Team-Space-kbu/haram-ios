@@ -36,18 +36,21 @@ final class StudyRoomInfoView: UIView {
   private let roomNameLabel = UILabel().then {
     $0.font = .bold18
     $0.textColor = .hex1A1E27
-    $0.sizeToFit()
+//    $0.sizeToFit()
+    $0.skeletonTextNumberOfLines = 1
     $0.isSkeletonable = true
+    $0.textAlignment = .left
   }
   
   private let roomDescriptionLabel = UILabel().then {
-    $0.sizeToFit()
+//    $0.sizeToFit()
     $0.numberOfLines = 0
     $0.font = .regular14
     $0.textColor = .hex1A1E27
     $0.numberOfLines = 4
     $0.isSkeletonable = true
     $0.skeletonTextNumberOfLines = 3
+    $0.textAlignment = .left
   }
   
   override init(frame: CGRect) {
@@ -64,20 +67,20 @@ final class StudyRoomInfoView: UIView {
     
     [roomImageView, roomNameLabel, roomDescriptionLabel].forEach { addSubview($0) }
     roomImageView.snp.makeConstraints {
-      $0.leading.directionalVerticalEdges.equalToSuperview()
-      $0.width.equalTo(98)
+      $0.leading.top.equalToSuperview()
+      $0.size.equalTo(98)
     }
     
     roomNameLabel.snp.makeConstraints {
       $0.leading.equalTo(roomImageView.snp.trailing).offset(10)
-      $0.top.equalToSuperview()
-      $0.trailing.lessThanOrEqualToSuperview()
+      $0.top.trailing.equalToSuperview()
     }
     
     roomDescriptionLabel.snp.makeConstraints {
       $0.leading.equalTo(roomNameLabel)
       $0.top.equalTo(roomNameLabel.snp.bottom).offset(6)
-      $0.trailing.bottom.lessThanOrEqualToSuperview()
+      $0.trailing.equalToSuperview()
+      $0.bottom.equalToSuperview()
     }
   }
   

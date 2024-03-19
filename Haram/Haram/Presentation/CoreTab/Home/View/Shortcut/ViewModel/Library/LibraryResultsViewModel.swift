@@ -7,6 +7,7 @@ protocol LibraryResultsViewModelType {
   
   var searchResults: Driver<[LibraryResultsCollectionViewCellModel]> { get }
   var isLoading: Driver<Bool> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class LibraryResultsViewModel: LibraryResultsViewModelType {
@@ -18,6 +19,7 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
   let searchResults:Driver<[LibraryResultsCollectionViewCellModel]>
   let isLoading: Driver<Bool>
   let fetchMoreDatas: AnyObserver<Void>
+  let errorMessage: Signal<HaramError>
   
   init(libraryRepository: LibraryRepository = LibraryRepositoryImpl()) {
     self.libraryRepository = libraryRepository
@@ -28,9 +30,11 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
     let currentPageSubject = BehaviorRelay<Int>(value: 1)
     let fetchingDatas      = PublishSubject<Void>()
     let isLastPage         = BehaviorRelay<Int>(value: 1)
+    let errorMessageRelay  = BehaviorRelay<HaramError?>(value: nil)
     
     whichSearchText = whichSearchingText.asObserver()
     fetchMoreDatas = fetchingDatas.asObserver()
+    errorMessage = errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
     
     let requestSearchBook = Observable.combineLatest(
       whichSearchingText,
@@ -52,7 +56,12 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
       
       
       isLoadingRelay.accept(false)
-    }, onError: { _ in
+    }, onError: { error in
+      guard let error = error as? HaramError else { return }
+      if error == .networkError {
+        errorMessageRelay.accept(.networkError)
+        return
+      }
       searchBookResults.accept([])
       isLoadingRelay.accept(false)
     })

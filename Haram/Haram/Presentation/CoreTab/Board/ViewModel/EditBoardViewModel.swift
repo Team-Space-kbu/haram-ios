@@ -13,7 +13,7 @@ import RxCocoa
 protocol EditBoardViewModelType {
   
   func createBoard(categorySeq: Int, title: String, contents: String, isAnonymous: Bool)
-  func uploadImage(image: UIImage, type: AggregateType, fileName: String)
+  func uploadImage(images: [(UIImage, String)], type: AggregateType)
   
   var successUploadImage: Signal<(UploadImageResponse, UIImage)> { get }
   var successCreateBoard: Signal<Void> { get }
@@ -29,7 +29,7 @@ final class EditBoardViewModel {
   private var tempFileList: [FileRequeset] = []
   private let successUploadImageRelay = PublishRelay<(UploadImageResponse, UIImage)>()
   private let successCreateBoardRelay = PublishRelay<Void>()
-  private let errorMessageRelay = PublishRelay<HaramError>()
+  private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   private var isLoading = false
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl(), imageRepository: ImageRepository = ImageRepositoryImpl()) {
@@ -41,7 +41,7 @@ final class EditBoardViewModel {
 
 extension EditBoardViewModel: EditBoardViewModelType {
   var errorMessage: RxCocoa.Signal<HaramError> {
-    errorMessageRelay.asSignal()
+    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }
   
   var successCreateBoard: RxCocoa.Signal<Void> {
@@ -53,30 +53,30 @@ extension EditBoardViewModel: EditBoardViewModelType {
     successUploadImageRelay.asSignal()
   }
   
-  func uploadImage(image: UIImage, type: AggregateType = .board, fileName: String) {
-//    print("업로드이미지 \(image)")
-//    print("업로드타입 \(type)")
-//    print("업로드파일이름 \(fileName)")
+  func uploadImage(images: [(UIImage, String)], type: AggregateType = .board) {
+
     isLoading = true
     
-    imageRepository.uploadImage(image: image, request: .init(aggregateType: type), fileName: fileName.replacingOccurrences(of: "/", with: "-") + ".jpeg")
-      .subscribe(with: self) { owner, result in
-        switch result {
-        case .success(let response):
-          owner.tempFileList.append(.init(
-            tempFilePath: response.tempFilePath,
-            fileName: response.fileName,
-            fileExt: response.fileExt,
-            fileSize: response.fileSize,
-            sortNum: 1
-          ))
-          owner.successUploadImageRelay.accept((response, image))
-        case .failure(let error):
-          owner.errorMessageRelay.accept(error)
+    for (image, fileName) in images {
+      imageRepository.uploadImage(image: image, request: .init(aggregateType: type), fileName: fileName.replacingOccurrences(of: "/", with: "-") + ".jpeg")
+        .subscribe(with: self) { owner, result in
+          switch result {
+          case .success(let response):
+            owner.tempFileList.append(.init(
+              tempFilePath: response.tempFilePath,
+              fileName: response.fileName,
+              fileExt: response.fileExt,
+              fileSize: response.fileSize,
+              sortNum: 1
+            ))
+            owner.successUploadImageRelay.accept((response, image))
+          case .failure(let error):
+            owner.errorMessageRelay.accept(error)
+          }
         }
-        owner.isLoading = false
-      }
-      .disposed(by: disposeBag)
+        .disposed(by: disposeBag)
+    }
+    isLoading = false
   }
   
   func createBoard(categorySeq: Int, title: String, contents: String, isAnonymous: Bool) {

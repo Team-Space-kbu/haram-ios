@@ -19,6 +19,7 @@ protocol LibraryViewModelType {
   var rentalBookModel: Driver<[RentalLibraryCollectionViewCellModel]> { get }
   var bannerImage: Driver<URL?> { get }
   var isLoading: Driver<Bool> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class LibraryViewModel {
@@ -31,6 +32,7 @@ final class LibraryViewModel {
   private let currentRentalBookModel = BehaviorRelay<[RentalLibraryCollectionViewCellModel]>(value: [])
   private let bannerImageRelay       = PublishRelay<URL?>()
   private let isLoadingSubject       = BehaviorSubject<Bool>(value: true)
+  private let errorMessageRelay      = BehaviorRelay<HaramError?>(value: nil)
   
   init(libraryRepostory: LibraryRepository = LibraryRepositoryImpl()) {
     self.libraryRepository = libraryRepostory
@@ -38,11 +40,17 @@ final class LibraryViewModel {
 }
 
 extension LibraryViewModel: LibraryViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay
+      .compactMap { $0 }
+      .asSignal(onErrorSignalWith: .empty())
+  }
+  
   func inquireLibrary() {
     let inquireLibrary = libraryRepository.inquireLibrary()
     
     inquireLibrary
-      .subscribe(with: self) { owner, response in
+      .subscribe(with: self, onSuccess: { owner, response in
         owner.currentNewBookModel.accept(response.newBook.map { NewLibraryCollectionViewCellModel(bookInfo: $0) })
         owner.currentBestBookModel.accept(response.bestBook.map { PopularLibraryCollectionViewCellModel(bookInfo: $0) })
         owner.currentRentalBookModel.accept(response.rentalBook.map {
@@ -50,7 +58,10 @@ extension LibraryViewModel: LibraryViewModelType {
         owner.bannerImageRelay.accept(URL(string: response.image.first!))
         
         owner.isLoadingSubject.onNext(false)
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
       .disposed(by: disposeBag)
   }
   

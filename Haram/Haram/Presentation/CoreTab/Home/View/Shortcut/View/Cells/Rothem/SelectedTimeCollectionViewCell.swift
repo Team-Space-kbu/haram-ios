@@ -75,7 +75,7 @@ final class SelectedTimeCollectionViewCell: UICollectionViewCell {
     contentView.layer.masksToBounds = true
     contentView.layer.cornerRadius = 10
     contentView.layer.borderWidth = 1
-    contentView.layer.borderColor = UIColor.hex707070.cgColor
+    contentView.layer.borderColor = UIColor.clear.cgColor
     
     contentView.addSubview(timeLabel)
     timeLabel.snp.makeConstraints {

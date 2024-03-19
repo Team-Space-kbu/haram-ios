@@ -14,6 +14,7 @@ protocol CheckReservationViewModelType {
   
   var rothemReservationInfoViewModel: Driver<RothemReservationInfoViewModel> { get }
   var successCancelReservation: Driver<Void> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class CheckReservationViewModel {
@@ -24,6 +25,7 @@ final class CheckReservationViewModel {
   private var reservationSeq: Int?
   private let rothemReservationInfoViewRelay  = PublishRelay<RothemReservationInfoViewModel>()
   private let successCancelReservationSubject = PublishSubject<Void>()
+  private let errorMessageRelay               = BehaviorRelay<HaramError?>(value: nil)
   
   init(rothemRepository: RothemRepository = RothemRepositoryImpl()) {
     self.rothemRepository = rothemRepository
@@ -34,16 +36,22 @@ final class CheckReservationViewModel {
     let inquireRothemReservationInfo = rothemRepository.inquireRothemReservationInfo(userID: UserManager.shared.userID!)
     
     inquireRothemReservationInfo
-      .subscribe(with: self) { owner, response in
+      .subscribe(with: self, onSuccess: { owner, response in
         let model = RothemReservationInfoViewModel(response: response)
         owner.rothemReservationInfoViewRelay.accept(model)
         owner.reservationSeq = response.reservationSeq
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
       .disposed(by: disposeBag)
   }
 }
 
 extension CheckReservationViewModel: CheckReservationViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
+  }
   
   func cancelReservation() {
     

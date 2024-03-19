@@ -17,6 +17,7 @@ final class ChapelDayView: UIView {
     $0.textColor = .black
     $0.font = .regular16
     $0.text = "확정일수"
+    $0.textAlignment = .center
     $0.isSkeletonable = true
   }
   
@@ -24,6 +25,7 @@ final class ChapelDayView: UIView {
     $0.textColor = .hex4B81EE
     $0.font = .bold44
     $0.text = "55일"
+    $0.textAlignment = .center
     $0.skeletonTextNumberOfLines = 1
     $0.isSkeletonable = true
   }
@@ -41,13 +43,13 @@ final class ChapelDayView: UIView {
     _ = [titleLabel, dayLabel].map { addSubview($0) }
     
     titleLabel.snp.makeConstraints {
-      $0.top.centerX.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
     }
     
     dayLabel.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(7)
-      $0.centerX.equalToSuperview()
-      $0.bottom.equalToSuperview()
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+//      $0.bottom.equalToSuperview()
     }
   }
   

@@ -44,11 +44,13 @@ final class ScheduleViewModel: ScheduleViewModelType {
     
     let schedulingInfo    = PublishRelay<[ElliottEvent]>()
     let isLoadingSubject  = BehaviorSubject<Bool>(value: true)
-    let errorMessageSubject = PublishSubject<HaramError>()
+    let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
     
     self.scheduleInfo = schedulingInfo.asDriver(onErrorJustReturn: [])
     self.isLoading = isLoadingSubject.distinctUntilChanged().asDriver(onErrorJustReturn: false)
-    self.errorMessage = errorMessageSubject.asSignal(onErrorSignalWith: .empty())
+    self.errorMessage = errorMessageRelay
+      .compactMap { $0 }
+      .asSignal(onErrorSignalWith: .empty())
     
     intranetRepository.inquireScheduleInfo()
       .do(onSuccess: { _ in isLoadingSubject.onNext(true) })
@@ -79,8 +81,8 @@ final class ScheduleViewModel: ScheduleViewModelType {
         isLoadingSubject.onNext(false)
       }, onFailure: { error in
         guard let error = error as? HaramError else { return }
-        errorMessageSubject.onNext(error)
-        isLoadingSubject.onNext(false)
+        errorMessageRelay.accept(error)
+//        isLoadingSubject.onNext(false)
       })
       .disposed(by: disposeBag)
   }

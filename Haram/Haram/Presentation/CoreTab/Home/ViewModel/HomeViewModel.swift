@@ -5,7 +5,7 @@
 //  Created by 이건준 on 2023/08/17.
 //
 
-import Foundation
+import UIKit
 
 import RxSwift
 import RxCocoa
@@ -21,6 +21,7 @@ protocol HomeViewModelType {
   
   var isLoading: Driver<Bool> { get }
   var isAvailableSimpleChapelModal: Driver<(Bool, CheckChapelDayViewModel?)> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class HomeViewModel {
@@ -35,6 +36,7 @@ final class HomeViewModel {
   private let noticeModelRelay = PublishRelay<HomeNoticeViewModel>()
   private let isLoadingSubject = PublishSubject<Bool>()
   private let isAvailableSimpleChapelModalSubject = PublishSubject<(Bool, CheckChapelDayViewModel?)>()
+  private let errorMessageRelay = PublishRelay<HaramError>()
   
   init(homeRepository: HomeRepository = HomeRepositoryImpl(), intranetRepository: IntranetRepository = IntranetRepositoryImpl()) {
     self.homeRepository = homeRepository
@@ -52,7 +54,7 @@ extension HomeViewModel {
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)
       })
-      .subscribe(with: self) { owner, response in
+      .subscribe(with: self, onSuccess: { owner, response in
         guard let subNotice = response.notice.notices.first else { return }
         let news = response.kokkoks.kokkoksNews.map { HomeNewsCollectionViewCellModel(kokkoksNews: $0) }
         let banners = response.banner.banners.map { HomebannerCollectionViewCellModel(subBanner: $0) }
@@ -64,12 +66,19 @@ extension HomeViewModel {
         owner.noticeModelRelay.accept(notices)
 //        owner.shortcutModelRelay.accept(shortcuts)
         owner.isLoadingSubject.onNext(false)
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
       .disposed(by: disposeBag)
   }
 }
 
 extension HomeViewModel: HomeViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.asSignal()
+  }
+  
   var shortcutModel: RxCocoa.Driver<[HomeShortcutCollectionViewCellModel]> {
     shortcutModelRelay.asDriver()
   }

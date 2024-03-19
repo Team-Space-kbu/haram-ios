@@ -13,7 +13,7 @@ import RxCocoa
 protocol LoginViewModelType {
   func loginMember(userID: String, password: String)
   
-  var errorMessage: Signal<String> { get }
+  var errorMessage: Signal<HaramError> { get }
   var successLogin: Signal<Void> { get }
   var isLoading: Driver<Bool> { get }
 }
@@ -23,7 +23,7 @@ final class LoginViewModel {
   private let disposeBag = DisposeBag()
   private let authRepository: AuthRepository
   
-  private let errorMessageRelay      = PublishRelay<String?>()
+  private let errorMessageRelay      = PublishRelay<HaramError>()
   private let isLoadingSubject       = BehaviorSubject<Bool>(value: false)
   private let successLoginRelay      = PublishRelay<Void>()
   
@@ -66,9 +66,9 @@ extension LoginViewModel {
         owner.successLoginRelay.accept(())
 
         case .failure(let error):
-          guard let description = error.description else { return }
+//          guard let description = error.description else { return }
           /// TODO: -로그인 실패 시 처리해야함
-          owner.errorMessageRelay.accept(description)
+          owner.errorMessageRelay.accept(error)
       }
       owner.isLoadingSubject.onNext(false)
     })
@@ -91,9 +91,8 @@ extension LoginViewModel: LoginViewModelType {
   }
   
   
-  var errorMessage: Signal<String> {
+  var errorMessage: Signal<HaramError> {
     errorMessageRelay
-      .compactMap { $0 }
       .asSignal(onErrorSignalWith: .empty())
   }
 

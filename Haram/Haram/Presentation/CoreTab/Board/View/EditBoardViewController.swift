@@ -53,19 +53,20 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     $0.surfaceView.grabberHandle.isHidden = false // FloatingPanel Grabber hidden true
   }
   
-  private let tapGesture = UITapGestureRecognizer(target: EditBoardViewController.self, action: nil).then {
-    $0.numberOfTapsRequired = 1
-    $0.cancelsTouchesInView = false
-    $0.isEnabled = true
-  }
+//  private let tapGesture = UITapGestureRecognizer(target: EditBoardViewController.self, action: nil).then {
+//    $0.numberOfTapsRequired = 1
+//    $0.cancelsTouchesInView = false
+//    $0.isEnabled = true
+//  }
   
-  private let panGesture = UIPanGestureRecognizer(target: RegisterViewController.self, action: nil).then {
-    $0.cancelsTouchesInView = false
-    $0.isEnabled = true
-  }
+//  private let panGesture = UIPanGestureRecognizer(target: RegisterViewController.self, action: nil).then {
+//    $0.cancelsTouchesInView = false
+//    $0.isEnabled = true
+//  }
   
-  private let scrollView = UIScrollView().then {
+  private lazy var scrollView = UIScrollView().then {
     $0.alwaysBounceVertical = true
+    $0.delegate = self
   }
   
   private let containerView = UIStackView().then {
@@ -148,6 +149,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
   
   override func setupStyles() {
     super.setupStyles()
+    
     titleTextView.text = Constants.titlePlaceholder
     contentTextView.text = Constants.contentPlaceholder
     
@@ -157,8 +159,8 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     navigationItem.rightBarButtonItem = UIBarButtonItem(title: "작성", style: .done, target: self, action: nil)
     
     showFloatingPanel(self.floatingPanelVC)
-    _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
-    panGesture.delegate = self
+//    _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
+//    panGesture.delegate = self
   }
   
   override func bind() {
@@ -240,21 +242,21 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
       }
       .disposed(by: disposeBag)
     
-    tapGesture.rx.event
-      .asDriver()
-      .drive(with: self) { owner, _ in
-        owner.view.endEditing(true)
-        //        owner.floatingPanelVC.move(to: .half, animated: true)
-      }
-      .disposed(by: disposeBag)
-    
-    panGesture.rx.event
-      .asDriver()
-      .drive(with: self) { owner, _ in
-        owner.view.endEditing(true)
-        //        owner.floatingPanelVC.move(to: .half, animated: true)
-      }
-      .disposed(by: disposeBag)
+//    tapGesture.rx.event
+//      .asDriver()
+//      .drive(with: self) { owner, _ in
+//        owner.view.endEditing(true)
+//        //        owner.floatingPanelVC.move(to: .half, animated: true)
+//      }
+//      .disposed(by: disposeBag)
+//    
+//    panGesture.rx.event
+//      .asDriver()
+//      .drive(with: self) { owner, _ in
+//        owner.view.endEditing(true)
+//        //        owner.floatingPanelVC.move(to: .half, animated: true)
+//      }
+//      .disposed(by: disposeBag)
     
     viewModel.successUploadImage
       .emit(with: self) { owner, result in
@@ -276,6 +278,15 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
+        if error == .networkError {
+          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+              UIApplication.shared.open(url)
+            }
+          }
+          return
+        }
         AlertManager.showAlert(title: error.description!, viewController: owner, confirmHandler: nil)
       }
       .disposed(by: disposeBag)
@@ -478,10 +489,12 @@ extension EditBoardViewController: PHPickerViewControllerDelegate {
     
     dispatchGroup.notify(queue: .global()) { [weak self] in
       guard let self = self else { return }
+      var images: [(UIImage, String)] = []
       for identifier in self.selectedAssetIdentifiers {
         guard let image = imagesDict[identifier] else { return }
-        self.viewModel.uploadImage(image: image, type: .board, fileName: identifier)
+        images.append((image, identifier))
       }
+      self.viewModel.uploadImage(images: images, type: .board)
     }
   }
   
@@ -511,6 +524,19 @@ extension EditBoardViewController: PHPickerViewControllerDelegate {
     
     if !selections.isEmpty {
       displayImage()
+    }
+  }
+}
+
+extension EditBoardViewController: UIScrollViewDelegate {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
+      // 위에서 아래로 스크롤하는 경우
+      view.endEditing(true)
+      // 여기에 위에서 아래로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
+    } else {
+      // 아래에서 위로 스크롤하는 경우
+      // 여기에 아래에서 위로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
     }
   }
 }
