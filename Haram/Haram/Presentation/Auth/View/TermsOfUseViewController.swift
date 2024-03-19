@@ -97,12 +97,12 @@ final class TermsOfUseViewController: BaseViewController {
     }
     
     checkAllButton.snp.makeConstraints {
-      $0.height.equalTo(18)
+      $0.height.equalTo(18 + 10)
     }
     
     [checkButton, checkButton1].forEach {
       $0.snp.makeConstraints {
-        $0.height.greaterThanOrEqualTo(18)
+        $0.height.greaterThanOrEqualTo(18 + 10)
       }
     }
     

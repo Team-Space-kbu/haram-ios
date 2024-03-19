@@ -85,7 +85,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
     }
     
     checkBoxControl.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(11)
+      $0.top.equalToSuperview().inset(19)
       $0.leading.equalToSuperview().inset(15)
       $0.height.equalTo(38)
     }
