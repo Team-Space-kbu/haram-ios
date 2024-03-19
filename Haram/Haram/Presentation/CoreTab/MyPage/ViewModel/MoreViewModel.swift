@@ -38,10 +38,13 @@ final class MoreViewModel {
   
   func inquireUserInfo() {
     myPageRepository.inquireUserInfo(userID: UserManager.shared.userID!)
-      .subscribe(with: self) { owner, response in
+      .subscribe(with: self, onSuccess: { owner, response in
         let profileInfoViewModel = ProfileInfoViewModel(response: response)
         owner.currentUserInfoRelay.accept(profileInfoViewModel)
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
       .disposed(by: disposeBag)
   }
   
@@ -57,7 +60,7 @@ final class MoreViewModel {
           UserManager.shared.clearAllInformations()
           owner.successMessageRelay.accept("로그아웃 성공하였습니다.")
         case .failure(let error):
-          owner.errorMessageRelay.accept(error)
+          owner.errorMessageRelay.accept(error == .networkError ? .retryError : error)
         }
       }
       .disposed(by: disposeBag)
