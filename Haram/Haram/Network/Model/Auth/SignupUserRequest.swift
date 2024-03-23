@@ -13,12 +13,18 @@ struct SignupUserRequest: Encodable {
   let password: String
   let nickname: String
   let emailAuthCode: String
+  let userTermsRequests: [UserTermsRequest]
   
   enum CodingKeys: String, CodingKey {
     case userID = "userId"
     case email = "userEmail"
     case password = "userPassword"
     case nickname = "userNickname"
-    case emailAuthCode
+    case emailAuthCode, userTermsRequests
   }
+}
+
+struct UserTermsRequest: Encodable {
+  let termsSeq: Int
+  let termsAgreeYn: String
 }

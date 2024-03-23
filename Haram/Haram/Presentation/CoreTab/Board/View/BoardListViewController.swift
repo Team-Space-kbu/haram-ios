@@ -17,6 +17,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   private let viewModel: BoardListViewModelType
   private let categorySeq: Int
   private let writeableBoard: Bool
+  private var writeableAnonymous: Bool?
   
   private var boardListModel: [BoardListCollectionViewCellModel] = []
   
@@ -134,21 +135,9 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
       }
       .disposed(by: disposeBag)
     
-//    viewModel.isLoading
-//      .filter { !$0 }
-//      .drive(with: self) { owner, isLoading in
-//        owner.view.hideSkeleton()
-//        
-//        if owner.writeableBoard {
-//          owner.view.addSubview(owner.editBoardButton)
-//          owner.editBoardButton.snp.makeConstraints {
-//            $0.size.equalTo(50)
-//            $0.bottomMargin.equalToSuperview().inset(54)
-//            $0.trailing.equalToSuperview().inset(15)
-//          }
-//        }
-//      }
-//      .disposed(by: disposeBag)
+    viewModel.writeableAnonymous
+      .emit(to: rx.writeableAnonymous)
+      .disposed(by: disposeBag)
     
     editBoardButton.rx.tap
       .asDriver()
@@ -197,7 +186,7 @@ extension BoardListViewController: UICollectionViewDelegateFlowLayout, UICollect
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = BoardDetailViewController(categorySeq: categorySeq, boardSeq: boardListModel[indexPath.row].boardSeq)
+    let vc = BoardDetailViewController(categorySeq: categorySeq, boardSeq: boardListModel[indexPath.row].boardSeq, writeableAnonymous: self.writeableAnonymous!)
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.title = title
     self.navigationController?.pushViewController(vc, animated: true)

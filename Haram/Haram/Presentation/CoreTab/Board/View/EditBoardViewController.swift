@@ -26,11 +26,6 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     $0.delegate = self
   }
   
-  //  private lazy var photoPicker = UIImagePickerController().then {
-  //    $0.delegate = self
-  //    $0.sourceType = .photoLibrary
-  //  }
-  
   private lazy var floatingPanelVC = FloatingPanelController().then {
     let appearance = SurfaceAppearance()
     
@@ -52,17 +47,6 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     $0.surfaceView.appearance = appearance
     $0.surfaceView.grabberHandle.isHidden = false // FloatingPanel Grabber hidden true
   }
-  
-//  private let tapGesture = UITapGestureRecognizer(target: EditBoardViewController.self, action: nil).then {
-//    $0.numberOfTapsRequired = 1
-//    $0.cancelsTouchesInView = false
-//    $0.isEnabled = true
-//  }
-  
-//  private let panGesture = UIPanGestureRecognizer(target: RegisterViewController.self, action: nil).then {
-//    $0.cancelsTouchesInView = false
-//    $0.isEnabled = true
-//  }
   
   private lazy var scrollView = UIScrollView().then {
     $0.alwaysBounceVertical = true
@@ -163,8 +147,6 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     navigationItem.rightBarButtonItem = UIBarButtonItem(title: "작성", style: .done, target: self, action: nil)
     
     showFloatingPanel(self.floatingPanelVC)
-//    _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
-//    panGesture.delegate = self
   }
   
   override func bind() {
@@ -195,7 +177,6 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
       .disposed(by: disposeBag)
     
     titleTextView.rx.text.orEmpty
-    //      .skip(1)
       .filter { $0 != Constants.titlePlaceholder }
       .asDriver(onErrorDriveWith: .empty())
       .drive(with: self){ owner, text in
@@ -238,29 +219,12 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     
     
     contentTextView.rx.text.orEmpty
-    //      .skip(1)
       .filter { $0 != Constants.contentPlaceholder }
       .asDriver(onErrorDriveWith: .empty())
       .drive(with: self){ owner, text in
         owner.updateTextViewHeightAutomatically(textView: owner.contentTextView, height: 209)
       }
       .disposed(by: disposeBag)
-    
-//    tapGesture.rx.event
-//      .asDriver()
-//      .drive(with: self) { owner, _ in
-//        owner.view.endEditing(true)
-//        //        owner.floatingPanelVC.move(to: .half, animated: true)
-//      }
-//      .disposed(by: disposeBag)
-//    
-//    panGesture.rx.event
-//      .asDriver()
-//      .drive(with: self) { owner, _ in
-//        owner.view.endEditing(true)
-//        //        owner.floatingPanelVC.move(to: .half, animated: true)
-//      }
-//      .disposed(by: disposeBag)
     
     viewModel.successUploadImage
       .emit(with: self) { owner, result in
@@ -299,8 +263,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
-    scrollView.addSubview(containerView)
-    scrollView.addSubview(areaView)
+    _ = [containerView, areaView].map { scrollView.addSubview($0) }
     _ = [boardTitleLabel, titleTextView, boardContentLabel, contentTextView, editBoardCollectionView].map { containerView.addArrangedSubview($0) }
   }
   
@@ -417,23 +380,6 @@ extension EditBoardViewController: UIGestureRecognizerDelegate {
 extension EditBoardViewController: EditBoardBottomSheetViewDelegate {
   func didTappedSelectedMenu() {
     presentPicker()
-    //    present(photoPicker, animated: true)
-  }
-  
-  func whichSelectedImages(with itemProviders: [NSItemProvider]) {
-    // 만약 itemProvider에서 UIImage로 로드가 가능하다면?
-    
-  }
-  
-  func didTappedAnonymousMenu() {
-    
-  }
-  
-  func whichSelectedImage(with image: UIImage) {
-    //    if imageModel.count < 8 { // 이미지 삽입 최대 갯수 8개제한
-    //      imageModel.append(image)
-    //      editBoardCollectionView.reloadData()
-    //    }
   }
 }
 
@@ -543,39 +489,10 @@ extension EditBoardViewController: UIScrollViewDelegate {
     if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
       // 위에서 아래로 스크롤하는 경우
       view.endEditing(true)
-      // 여기에 위에서 아래로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
-    } else {
-      // 아래에서 위로 스크롤하는 경우
-      // 여기에 아래에서 위로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
     }
   }
 }
 
-//extension EditBoardViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-//  func imagePickerController(
-//    _ picker: UIImagePickerController,
-//    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-//  ) {
-//    guard let selectedImage = info[.originalImage] as? UIImage else { return }
-//
-//    // 이미지 파일명 가져오기
-//    if let imageURL = info[.imageURL] as? URL {
-//      let fileName = imageURL.lastPathComponent
-//      print("Selected image file name: \(fileName)")
-//
-//      // 선택된 이미지를 업로드
-//      viewModel.uploadImage(image: selectedImage, type: .board, fileName: fileName)
-//    }
-//
-//    picker.dismiss(animated: true)
-//  }
-//
-//  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-//    picker.dismiss(animated: true) {
-//      self.dismiss(animated: true)
-//    }
-//  }
-//}
 extension EditBoardViewController {
   func registerNotifications() {
     NotificationCenter.default.addObserver(

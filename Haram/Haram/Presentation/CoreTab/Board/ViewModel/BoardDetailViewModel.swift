@@ -65,15 +65,19 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
             })
         ])
 
+        guard let comments = response.comments else {
+          owner.currentBoardListRelay.accept([])
+          return
+        }
         owner.currentBoardListRelay.accept(
-          response.comments.enumerated()
+          comments.enumerated()
             .map { index, comment in
             return BoardDetailCollectionViewCellModel(
               commentAuthorInfoModel: .init(
                 commentAuthorName: comment.createdBy,
                 commentDate: DateformatterFactory.iso8601.date(from: comment.createdAt) ?? Date()
               ),
-              comment: comment.contents, isLastComment: response.comments.count - 1 == index ? true : false
+              comment: comment.contents, isLastComment: comments.count - 1 == index ? true : false
             )
           }
         )

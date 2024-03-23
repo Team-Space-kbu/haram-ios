@@ -52,6 +52,7 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
     $0.alwaysBounceVertical = true
     $0.contentInsetAdjustmentBehavior = .always
     $0.isSkeletonable = true
+    $0.showsVerticalScrollIndicator = false
   }
   
   private let containerView = UIStackView().then {

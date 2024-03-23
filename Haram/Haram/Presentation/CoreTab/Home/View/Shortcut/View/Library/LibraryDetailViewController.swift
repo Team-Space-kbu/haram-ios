@@ -29,7 +29,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
   private let scrollView = UIScrollView().then {
     $0.alwaysBounceVertical = true
     $0.backgroundColor = .clear
-    $0.showsVerticalScrollIndicator = true
+    $0.showsVerticalScrollIndicator = false
     $0.showsHorizontalScrollIndicator = false
   }
   

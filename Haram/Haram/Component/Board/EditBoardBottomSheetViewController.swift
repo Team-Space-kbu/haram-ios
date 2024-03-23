@@ -13,8 +13,6 @@ import PhotosUI
 
 protocol EditBoardBottomSheetViewDelegate: AnyObject {
   func didTappedSelectedMenu()
-  func whichSelectedImage(with image: UIImage)
-  func whichSelectedImages(with itemProviders: [NSItemProvider])
 }
 
 final class EditBoardBottomSheetViewController: BaseViewController {
@@ -101,6 +99,7 @@ extension EditBoardBottomSheetViewController {
       self.type = type
       super.init(frame: .zero)
       configureUI()
+      
     }
     
     required init?(coder: NSCoder) {
