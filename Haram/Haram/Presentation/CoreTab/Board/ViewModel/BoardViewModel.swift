@@ -54,7 +54,7 @@ final class BoardViewModel {
 
 extension BoardViewModel: BoardViewModelType {
   var errorMessage: RxCocoa.Signal<HaramError> {
-    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
+    errorMessageRelay.compactMap { $0 }.distinctUntilChanged().asSignal(onErrorSignalWith: .empty())
   }
   
   var boardHeaderTitle: RxCocoa.Driver<String> {

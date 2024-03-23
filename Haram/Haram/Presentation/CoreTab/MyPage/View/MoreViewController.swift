@@ -129,10 +129,15 @@ final class MoreViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotifications()
+  }
+  
   // MARK: - Configurations
   
   override func setupStyles() {
     super.setupStyles()
+    registerNotifications()
     let label = UILabel().then {
       $0.text = "더보기"
       $0.textColor = .black
@@ -175,9 +180,9 @@ final class MoreViewController: BaseViewController {
           }
         } else if error == .networkError {
           AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터 연결 후 다시 시도해주세요.", viewController: owner) {
-            UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                exit(0)
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+              UIApplication.shared.open(url)
             }
           }
         }
@@ -345,5 +350,20 @@ extension MoreViewController: SkeletonTableViewDataSource {
       return 2
     }
     return 3
+  }
+}
+
+extension MoreViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireUserInfo()
   }
 }

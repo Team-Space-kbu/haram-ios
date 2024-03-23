@@ -34,10 +34,22 @@ struct TermsOfUseCheckViewModel {
     policySeq = response.policySeq
     content = "<style>body{background-color:#F2F3F5;padding-top: 4px;padding-right: 6px;padding-bottom: 7px;padding-left: 6px;}</style>" + response.content
   }
+  
+  init(response: InquireTermsSignUpResponse) {
+    isChecked = false
+    title = response.title
+    policySeq = response.termsSeq
+    content = "<style>body{background-color:#F2F3F5;padding-top: 4px;padding-right: 6px;padding-bottom: 7px;padding-left: 6px;}</style>" + response.content
+  }
 }
 
 protocol TermsOfUseCheckViewDelegate: AnyObject {
   func didTappedCheckBox(policySeq: Int, isChecked: Bool)
+  func didTappedAll(isChecked: Bool)
+}
+
+extension TermsOfUseCheckViewDelegate {
+  func didTappedAll(isChecked: Bool) {}
 }
 
 final class TermsOfUseCheckView: UIView {
@@ -90,8 +102,12 @@ final class TermsOfUseCheckView: UIView {
   private func bind() {
     checkBoxControl.rx.isChecked
       .subscribe(with: self) { owner, isChecked in
-        guard let policySeq = owner.policySeq else { return }
-        owner.delegate?.didTappedCheckBox(policySeq: policySeq, isChecked: isChecked)
+        if owner.type == .all {
+          owner.delegate?.didTappedAll(isChecked: isChecked)
+        } else {
+          guard let policySeq = owner.policySeq else { return }
+          owner.delegate?.didTappedCheckBox(policySeq: policySeq, isChecked: isChecked)
+        }
       }
       .disposed(by: disposeBag)
   }
