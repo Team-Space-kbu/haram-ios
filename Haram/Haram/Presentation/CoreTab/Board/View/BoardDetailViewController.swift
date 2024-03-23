@@ -19,6 +19,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   private let viewModel: BoardDetailViewModelType
   private let boardSeq: Int
   private let categorySeq: Int
+  private let writeableAnonymous: Bool
   
   // MARK: - UI Models
   
@@ -40,8 +41,8 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   //  }
   
   // MARK: - UI Component
-  
-  private lazy var commentInputView = CommentInputView().then {
+  // TODO: - 만약에 해당 게시판에서 익명댓글작성이 불가할 경우 어떻게 할것인지
+  private lazy var commentInputView = CommentInputView(writeableAnonymous: writeableAnonymous).then {
     $0.delegate = self
     $0.isSkeletonable = true
   }
@@ -60,10 +61,11 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   }
   
   // MARK: - Initializations
-  init(categorySeq: Int, boardSeq: Int, viewModel: BoardDetailViewModelType = BoardDetailViewModel()) {
+  init(categorySeq: Int, boardSeq: Int, writeableAnonymous: Bool, viewModel: BoardDetailViewModelType = BoardDetailViewModel()) {
     self.viewModel = viewModel
     self.boardSeq = boardSeq
     self.categorySeq = categorySeq
+    self.writeableAnonymous = writeableAnonymous
     super.init(nibName: nil, bundle: nil)
   }
   

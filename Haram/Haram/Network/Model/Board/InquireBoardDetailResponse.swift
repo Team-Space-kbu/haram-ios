@@ -15,7 +15,7 @@ struct InquireBoardDetailResponse: Decodable {
   let createdAt: String
   let isUpdatable: Bool
   let files: [BoardFile]
-  let comments: [Comment]
+  let comments: [Comment]?
 }
 
 struct Comment: Decodable {

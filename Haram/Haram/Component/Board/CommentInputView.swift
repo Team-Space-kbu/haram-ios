@@ -22,6 +22,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
   
   private let disposeBag = DisposeBag()
   private let placeHolder = "댓글추가"
+  private let writeableAnonymous: Bool
   
   private let checkBoxControl = CheckBoxControl(type: .none, title: "익명")
   
@@ -56,8 +57,9 @@ final class CommentInputView: UIView, UITextViewDelegate {
     $0.setImage(UIImage(resource: .rightIndicatorBlue), for: .normal)
   }
   
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  init(writeableAnonymous: Bool) {
+    self.writeableAnonymous = writeableAnonymous
+    super.init(frame: .zero)
     setupStyles()
     setupLayouts()
     setupConstraints()

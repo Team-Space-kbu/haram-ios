@@ -185,7 +185,7 @@ final class CheckEmailViewController: BaseViewController {
     
     viewModel.successSendAuthCode
       .emit(with: self) { owner, _ in
-        AlertManager.showAlert(title: "해당 메일로 인증코드를 보내는데 성공했습니다.", viewController: owner, confirmHandler: nil)
+        AlertManager.showAlert(title: "인증번호발송 알림", message: "해당 메일로 인증코드를 보내는데 성공했습니다.", viewController: owner, confirmHandler: nil)
       }
       .disposed(by: disposeBag)
     

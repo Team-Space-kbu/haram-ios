@@ -76,16 +76,22 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     reservationCancelButton.rx.tap
       .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
       .subscribe(with: self) { owner, _ in
-        owner.viewModel.cancelReservation()
+        AlertManager.showAlert(
+          title: "로뎀예약취소 알림",
+          message: "정말 로뎀방 예약을 취소하시겠습니까 ?",
+          viewController: owner,
+          confirmHandler: {
+            owner.viewModel.cancelReservation()
+          },
+          cancelHandler: nil
+        )
       }
       .disposed(by: disposeBag)
     
     viewModel.successCancelReservation
       .drive(with: self) { owner, _ in
         NotificationCenter.default.post(name: .refreshRothemList, object: nil)
-        AlertManager.showAlert(title: "로뎀예약취소성공", message: "로뎀메인화면으로 이동합니다.", viewController: owner) {
-          owner.navigationController?.popViewController(animated: true)
-        }
+        AlertManager.showAlert(title: "로뎀예약취소 성공", message: "로뎀메인화면으로 이동합니다.", viewController: owner) { owner.navigationController?.popViewController(animated: true) }
       }
       .disposed(by: disposeBag)
     

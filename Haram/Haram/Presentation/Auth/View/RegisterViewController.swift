@@ -25,6 +25,7 @@ final class RegisterViewController: BaseViewController {
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
+    $0.showsVerticalScrollIndicator = false
   }
   
   private let stackView = UIStackView().then {
@@ -134,15 +135,15 @@ final class RegisterViewController: BaseViewController {
     super.setupLayouts()
     _ = [scrollView, indicatorView].map { view.addSubview($0) }
     scrollView.addSubview(stackView)
-    
-    [titleLabel, alertLabel, idTextField, nicknameTextField, pwdTextField, repwdTextField, emailTextField, registerButton].forEach { stackView.addArrangedSubview($0) }
+    scrollView.addSubview(registerButton)
+    [titleLabel, alertLabel, idTextField, nicknameTextField, pwdTextField, repwdTextField, emailTextField].forEach { stackView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
     scrollView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.directionalEdges.width.equalToSuperview()
     }
     
     indicatorView.snp.makeConstraints {
@@ -157,7 +158,10 @@ final class RegisterViewController: BaseViewController {
     stackView.setCustomSpacing(7, after: titleLabel)
     
     registerButton.snp.makeConstraints {
+      $0.top.greaterThanOrEqualTo(stackView.snp.bottom)
       $0.height.equalTo(48)
+      $0.bottom.equalToSuperview().inset(Device.bottomInset)
+      $0.directionalHorizontalEdges.width.equalToSuperview().inset(15)
     }
     
     [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField].forEach {
@@ -225,7 +229,7 @@ final class RegisterViewController: BaseViewController {
         } else if error == .unvalidUserIDFormat {
           owner.idTextField.setError(description: error.description!)
         }  else if error == .unvalidAuthCode || error == .expireAuthCode || error == .emailAlreadyUse || error == .alreadyUseNickName {
-          AlertManager.showAlert(title: error.description!, viewController: owner) {
+          AlertManager.showAlert(title: "회원가입 알림", message: error.description!, viewController: owner) {
             owner.navigationController?.popViewController(animated: true)
           }
         } else if error == .networkError {

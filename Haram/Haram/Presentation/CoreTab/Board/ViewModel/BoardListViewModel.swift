@@ -15,6 +15,7 @@ protocol BoardListViewModelType {
   var boardListModel: Driver<[BoardListCollectionViewCellModel]> { get }
   var isLoading: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
+  var writeableAnonymous: Signal<Bool> { get }
 }
 
 final class BoardListViewModel {
@@ -25,6 +26,7 @@ final class BoardListViewModel {
   private let currentBoardListRelay = BehaviorRelay<[BoardListCollectionViewCellModel]>(value: [])
   private let isLoadingSubject      = PublishSubject<Bool>()
   private let errorMessageRelay     = BehaviorRelay<HaramError?>(value: nil)
+  private let writeableAnonymousSubject = PublishSubject<Bool>()
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
     self.boardRepository = boardRepository
@@ -32,6 +34,10 @@ final class BoardListViewModel {
 }
 
 extension BoardListViewModel: BoardListViewModelType {
+  var writeableAnonymous: RxCocoa.Signal<Bool> {
+    writeableAnonymousSubject.asSignal(onErrorSignalWith: .empty())
+  }
+  
   func inquireBoardList(categorySeq: Int) {
     let inquireBoardList = boardRepository.inquireBoardListInCategory(categorySeq: categorySeq)
     
@@ -40,9 +46,10 @@ extension BoardListViewModel: BoardListViewModelType {
         guard let self = self else { return }
         self.isLoadingSubject.onNext(true)
       })
-      .map { $0.boards.map { BoardListCollectionViewCellModel(board: $0) } }
-      .subscribe(with: self, onSuccess: { owner, model in
-        owner.currentBoardListRelay.accept(model)
+      .subscribe(with: self, onSuccess: { owner, response in
+        let boardList = response.boards.map { BoardListCollectionViewCellModel(board: $0) }
+        owner.writeableAnonymousSubject.onNext(response.writeableAnonymous)
+        owner.currentBoardListRelay.accept(boardList)
         owner.isLoadingSubject.onNext(false)
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }

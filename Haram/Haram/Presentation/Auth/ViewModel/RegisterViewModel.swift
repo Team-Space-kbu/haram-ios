@@ -67,14 +67,15 @@ final class RegisterViewModel {
   func registerMember(id: String, email: String, password: String, nickname: String, authCode: String) {
     
     isLoadingSubject.onNext(true)
-    
+    // TODO: - 회원가입 시 약관정책에 대한 정보 반환
     authRepository.signupUser(
       request: .init(
         userID: id,
         email: email + "@bible.ac.kr",
         password: password,
         nickname: nickname,
-        emailAuthCode: authCode
+        emailAuthCode: authCode, 
+        userTermsRequests: []
       )
     )
     .subscribe(with: self) { owner, result in

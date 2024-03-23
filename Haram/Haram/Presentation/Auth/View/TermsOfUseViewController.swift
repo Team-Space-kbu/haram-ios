@@ -41,17 +41,19 @@ final class TermsOfUseViewController: BaseViewController {
   }
   
   private let scrollView = UIScrollView().then {
+    $0.contentInsetAdjustmentBehavior = .never
     $0.alwaysBounceVertical = true
     $0.backgroundColor = .clear
+    $0.showsVerticalScrollIndicator = false
     $0.isSkeletonable = true
   }
   
-  private let containerView = UIStackView().then {
-    $0.axis = .vertical
-    $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: 30, left: 15, bottom: .zero, right: 15)
+  private let containerView = UIView().then {
+    //    $0.axis = .vertical
+    //    $0.isLayoutMarginsRelativeArrangement = true
+    //    $0.layoutMargins = UIEdgeInsets(top: 30, left: 15, bottom: .zero, right: 15)
     $0.backgroundColor = .clear
-    $0.spacing = 21
+    //    $0.spacing = 21
     $0.isSkeletonable = true
   }
   
@@ -74,7 +76,7 @@ final class TermsOfUseViewController: BaseViewController {
     $0.isSkeletonable = true
     $0.skeletonCornerRadius = 10
   }
- 
+  
   private lazy var checkAllButton = CheckBoxControl(type: .none, title: "아래 약관에 모두 동의합니다.").then {
     $0.isSkeletonable = true
   }
@@ -120,24 +122,6 @@ final class TermsOfUseViewController: BaseViewController {
     }
     .disposed(by: disposeBag)
     
-//    viewModel.termsOfModel
-//      .emit(with: self) { owner, model in
-//        owner.termsOfModel = model
-//        owner.termsOfUseTableView.snp.updateConstraints {
-//          $0.height.equalTo(model.count * (124 + 28 + 21))
-//        }
-//        owner.termsOfUseTableView.reloadData()
-//      }
-//      .disposed(by: disposeBag)
-    
-//    viewModel.termsOfWebModel
-//      .emit(with: self) { owner, model in
-//        owner.termsOfWebModel = model
-//        
-//        owner.termsOfUseTableView.reloadData()
-//      }
-//      .disposed(by: disposeBag)
-    
     applyButton.rx.tap
       .subscribe(with: self) { owner, _ in
         let vc = VerifyEmailViewController()
@@ -170,13 +154,10 @@ final class TermsOfUseViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-//    view.addSubview(termsOfUseTableView)
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
-    scrollView.addSubview(horizontalStackView)
-    _ = [titleLabel, checkAllButton, termsOfUseTableView].map { containerView.addArrangedSubview($0) }
     [cancelButton, applyButton].forEach { horizontalStackView.addArrangedSubview($0) }
-//    [titleLabel, checkAllButton, horizontalStackView].forEach { containerView.addArrangedSubview($0) }
+    _ = [titleLabel, checkAllButton, termsOfUseTableView, horizontalStackView].map { containerView.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -187,47 +168,35 @@ final class TermsOfUseViewController: BaseViewController {
     }
     
     containerView.snp.makeConstraints {
-      $0.top.width.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
-    }
-    
-    horizontalStackView.snp.makeConstraints {
-      $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
-      $0.height.equalTo(48)
-      $0.directionalHorizontalEdges.width.equalToSuperview().inset(15)
-      $0.bottom.equalToSuperview()
+      $0.directionalVerticalEdges.width.equalToSuperview()
+      $0.height.greaterThanOrEqualToSuperview()
     }
     
     titleLabel.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(30 + Device.topInset)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(30)
     }
     
     checkAllButton.snp.makeConstraints {
+      $0.top.equalTo(titleLabel.snp.bottom).offset(21)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(18 + 10)
     }
     
     termsOfUseTableView.snp.makeConstraints {
+      $0.top.equalTo(checkAllButton.snp.bottom).offset(21)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(2 * ((124 + 28 + 21)))
-//      $0.top.equalToSuperview().inset(30)
-//      $0.directionalHorizontalEdges.bottom.equalToSuperview().inset(15)
     }
     
-//    horizontalStackView.snp.makeConstraints {
-//      $0.height.equalTo(48)
-//    }
-//    
-//    checkAllButton.snp.makeConstraints {
-//      $0.height.equalTo(18 + 10)
-//    }
+    horizontalStackView.snp.makeConstraints {
+      $0.top.greaterThanOrEqualTo(termsOfUseTableView.snp.bottom).offset(17)
+      $0.height.equalTo(48)
+      $0.bottom.equalToSuperview().inset(Device.bottomInset)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+    }
     
-//    [checkButton, checkButton1].forEach {
-//      $0.snp.makeConstraints {
-//        $0.height.greaterThanOrEqualTo(18 + 10)
-//      }
-//    }
-    
-//    containerView.setCustomSpacing(23, after: titleLabel)
-//    containerView.setCustomSpacing(35, after: checkAllButton)
   }
 }
 
@@ -249,7 +218,6 @@ extension TermsOfUseViewController: UITableViewDataSource, UITableViewDelegate {
     } else {
       let cell = tableView.dequeueReusableCell(withIdentifier: TermsWebTableViewCell.identifier, for: indexPath) as? TermsWebTableViewCell ?? TermsWebTableViewCell()
       cell.configureUI(with: termsOfWebModel[indexPath.section])
-//      cell.delegate = self
       return cell
     }
   }
