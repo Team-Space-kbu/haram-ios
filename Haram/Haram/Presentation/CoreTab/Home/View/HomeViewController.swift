@@ -139,6 +139,10 @@ final class HomeViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotifications()
+  }
+  
   // MARK: - Life Cycle
   
   override func viewWillAppear(_ animated: Bool) {
@@ -150,7 +154,7 @@ final class HomeViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    
+    registerNotifications()
     _ = [scrollView, scrollContainerView, homeNoticeView, checkChapelDayView, newsCollectionView, newsTitleLabel, shortcutCollectionView, pageControl, bannerCollectionView].map { $0.isSkeletonable = true }
     
     let label = UILabel().then {
@@ -264,15 +268,15 @@ final class HomeViewController: BaseViewController {
 //        print("두근2 \(error)")
         if error == .networkError {
           AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터 연결 후 다시 시도해주세요.", viewController: owner) {
-            UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                exit(0)
-            }
-            
-//            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-//            if UIApplication.shared.canOpenURL(url) {
-//              UIApplication.shared.open(url)
+//            UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                exit(0)
 //            }
+            
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+              UIApplication.shared.open(url)
+            }
           }
         }
       }
@@ -367,7 +371,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
       let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
       UIView.transition(with: cell, duration: 0.1) {
-//        cell.backgroundColor = .lightGray
         cell.alpha = 0.5
         cell.transform = pressedDownTransform
       }
@@ -389,16 +392,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
       
       UIView.transition(with: cell, duration: 0.1) {
-//        cell.backgroundColor = .clear
         cell.alpha = 1
         cell.transform = .identity
       }
-      
-//      UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-////        cell.alpha = 1
-//        cell.backgroundColor = .clear
-//        cell.transform = .identity
-//      })
     } else if collectionView == newsCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
       let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
@@ -406,10 +402,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.alpha = 1
         cell.transform = .identity
       }
-//      UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 3, options: [.curveEaseInOut], animations: {
-//        cell.alpha = 1
-//        cell.transform = .identity
-//      })
     }
   }
 }
@@ -445,15 +437,6 @@ extension HomeViewController: SkeletonCollectionViewDataSource {
   }
 }
 
-//extension HomeViewController: UIGestureRecognizerDelegate {
-//  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-//    //    if let _ = navigationController?.topViewController as? IntranetCheckViewController {
-//    //      return false
-//    //    }
-//    return true // or false
-//  }
-//}
-
 extension HomeViewController: UIScrollViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     guard scrollView == bannerCollectionView else { return }
@@ -469,5 +452,20 @@ extension HomeViewController: CheckChapelDayViewDelegate {
     if scrollContainerView.contains(checkChapelDayView) {
       checkChapelDayView.removeFromSuperview()
     }
+  }
+}
+
+extension HomeViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireHomeInfo()
   }
 }

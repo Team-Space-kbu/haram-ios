@@ -18,13 +18,14 @@ enum AuthRouter {
   case updatePassword(UpdatePasswordRequest, String)
   case verifyMailAuthCode(String, String)
   case verifyFindPassword(String, String)
+  case inquireTermsSignUp
 }
 
 extension AuthRouter: Router {
   
   var baseURL: String {
     switch self {
-    case .signupUser, .loginMember, .reissuanceAccessToken, .logoutUser, .loginIntranet, .requestEmailAuthCode, .updatePassword, .verifyMailAuthCode, .verifyFindPassword:
+    case .signupUser, .loginMember, .reissuanceAccessToken, .logoutUser, .loginIntranet, .requestEmailAuthCode, .updatePassword, .verifyMailAuthCode, .verifyFindPassword, .inquireTermsSignUp:
       return URLConstants.baseURL
     }
   }
@@ -33,7 +34,7 @@ extension AuthRouter: Router {
     switch self {
     case .signupUser, .reissuanceAccessToken, .loginMember, .loginIntranet, .logoutUser, .verifyFindPassword:
       return .post
-    case .requestEmailAuthCode, .verifyMailAuthCode:
+    case .requestEmailAuthCode, .verifyMailAuthCode, .inquireTermsSignUp:
       return .get
     case .updatePassword:
       return .put
@@ -60,6 +61,8 @@ extension AuthRouter: Router {
       return "/v1/mail/\(userEmail)/\(authCode)"
     case let .verifyFindPassword(userMail, _):
       return "/v1/users/\(userMail)/password/init/auth"
+    case .inquireTermsSignUp:
+      return "/v1/terms/sign-up"
     }
   }
   
@@ -75,7 +78,7 @@ extension AuthRouter: Router {
       return .body(request)
     case .logoutUser(let request):
       return .body(request)
-    case .requestEmailAuthCode, .verifyMailAuthCode:
+    case .requestEmailAuthCode, .verifyMailAuthCode, .inquireTermsSignUp:
       return .plain
     case let .updatePassword(request, _):
       return .body(request)
@@ -86,7 +89,7 @@ extension AuthRouter: Router {
   
   var headers: HeaderType {
     switch self {
-    case .signupUser, .loginMember, .verifyMailAuthCode, .verifyFindPassword:
+    case .signupUser, .loginMember, .verifyMailAuthCode, .verifyFindPassword, .inquireTermsSignUp:
       return .default
     case .logoutUser, .loginIntranet, .requestEmailAuthCode, .updatePassword:
       return .withAccessToken

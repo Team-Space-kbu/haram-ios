@@ -10,4 +10,5 @@ import Foundation
 extension Notification.Name {
   static let refreshBoardList = Notification.Name(rawValue: "refreshBoardList") // 게시판 리스트 갱신
   static let refreshRothemList = Notification.Name(rawValue: "refreshRothemList") // 로뎀 메인화면 리스트 갱신
+  static let refreshWhenNetworkConnected = Notification.Name(rawValue: "refreshWhenNetworkConnected") // 네트워크 재연결 이후 데이터 갱신
 }

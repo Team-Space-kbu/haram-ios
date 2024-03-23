@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
     guard let scene = (scene as? UIWindowScene) else { return }
     window = UIWindow(windowScene: scene)
-    window?.rootViewController = LoginViewController()
+    window?.rootViewController = TermsOfUseViewController()
 //    window?.rootViewController = CheckReservationViewController()
 //    window?.rootViewController = UpdatePasswordViewController(userEmail: "mookoon@bible.ac.kr", authCode: "111111")
     window?.makeKeyAndVisible()
@@ -34,6 +34,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   func sceneDidBecomeActive(_ scene: UIScene) {
     // Called when the scene has moved from an inactive state to an active state.
     // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+    NotificationCenter.default.post(name: .refreshWhenNetworkConnected, object: nil)
   }
 
   func sceneWillResignActive(_ scene: UIScene) {
@@ -44,6 +45,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   func sceneWillEnterForeground(_ scene: UIScene) {
     // Called as the scene transitions from the background to the foreground.
     // Use this method to undo the changes made on entering the background.
+//    NotificationCenter.default.post(name: .refreshWhenNetworkConnected, object: nil)
   }
 
   func sceneDidEnterBackground(_ scene: UIScene) {
