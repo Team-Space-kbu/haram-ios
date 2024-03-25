@@ -160,7 +160,7 @@ final class RegisterViewController: BaseViewController {
     registerButton.snp.makeConstraints {
       $0.top.greaterThanOrEqualTo(stackView.snp.bottom)
       $0.height.equalTo(48)
-      $0.bottom.equalToSuperview().inset(Device.bottomInset)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
       $0.directionalHorizontalEdges.width.equalToSuperview().inset(15)
     }
     

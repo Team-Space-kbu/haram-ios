@@ -23,19 +23,19 @@ final class CheckBoxButton: UIButton {
   /// 체크가 되어있다면 `true`, 아니면 `false`를 리턴합니다.
   var isChecked = false {
     willSet {
-//      UIView.transition(with: self, duration: 0.15, options: .transitionCrossDissolve) {
-        switch self.checkStyle {
-        case .full:
-          self.backgroundColor    = newValue ? .hex3B8686 : .lightGray
-          self.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
-        case .none:
-          self.backgroundColor    = newValue ? .white : .white
-          self.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
-          
-          // 체크모양 이미지 설정
-          newValue ? self.setImage(Image.checkShape?.withTintColor(.hex3B8686, renderingMode: .alwaysOriginal), for: .normal) : self.setImage(nil, for: .normal)
-        }
-//      }
+      //      UIView.transition(with: self, duration: 0.15, options: .transitionCrossDissolve) {
+      switch self.checkStyle {
+      case .full:
+        self.backgroundColor    = newValue ? .hex3B8686 : .lightGray
+        self.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
+      case .none:
+        self.backgroundColor    = newValue ? .white : .white
+        self.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
+        
+        // 체크모양 이미지 설정
+        newValue ? self.setImage(Image.checkShape?.withTintColor(.hex3B8686, renderingMode: .alwaysOriginal), for: .normal) : self.setImage(nil, for: .normal)
+      }
+      //      }
     }
   }
   
@@ -118,7 +118,7 @@ final class CheckBoxControl: UIControl {
   
   private let disposeBag = DisposeBag()
   
-  private let checkImage = UIImageView().then {
+  private let checkImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 3
@@ -136,19 +136,17 @@ final class CheckBoxControl: UIControl {
   /// 체크가 되어있다면 `true`, 아니면 `false`를 리턴합니다.
   var isChecked = false {
     willSet {
-//      UIView.transition(with: self, duration: 0.15, options: .transitionCrossDissolve) {
-        switch self.checkStyle {
-        case .full:
-          self.checkImage.backgroundColor    = newValue ? .hex3B8686 : .lightGray
-          self.checkImage.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
-        case .none:
-          self.checkImage.backgroundColor    = newValue ? .white : .white
-          self.checkImage.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
-          
-          // 체크모양 이미지 설정
-          self.checkImage.image = newValue ? Image.checkShape?.withTintColor(.hex3B8686, renderingMode: .alwaysOriginal) :  nil
-        }
-//      }
+      switch self.checkStyle {
+      case .full:
+        self.checkImageView.backgroundColor    = newValue ? .hex3B8686 : .lightGray
+        self.checkImageView.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
+      case .none:
+        self.checkImageView.backgroundColor    = newValue ? .white : .white
+        self.checkImageView.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
+        
+        // 체크모양 이미지 설정
+        self.checkImageView.image = newValue ? Image.checkShape?.withTintColor(.hex3B8686, renderingMode: .alwaysOriginal) :  nil
+      }
     }
   }
   
@@ -169,18 +167,18 @@ final class CheckBoxControl: UIControl {
   }
   
   private func setupLayouts() {
-    _ = [checkImage, alertLabel].map { addSubview($0) }
+    _ = [checkImageView, alertLabel].map { addSubview($0) }
   }
   
   private func setupConstraints() {
-    checkImage.snp.makeConstraints {
+    checkImageView.snp.makeConstraints {
       $0.leading.top.equalToSuperview()
       $0.size.equalTo(18)
     }
     
     alertLabel.snp.makeConstraints {
-      $0.centerY.equalTo(checkImage)
-      $0.leading.equalTo(checkImage.snp.trailing).offset(5)
+      $0.centerY.equalTo(checkImageView)
+      $0.leading.equalTo(checkImageView.snp.trailing).offset(5)
       $0.trailing.equalToSuperview()
     }
   }
@@ -188,14 +186,15 @@ final class CheckBoxControl: UIControl {
   private func setupStyles() {
     switch checkStyle {
     case .full:
-      self.checkImage.image = Image.checkShape?.withTintColor(.white, renderingMode: .alwaysOriginal)
-      self.checkImage.backgroundColor = .lightGray
-      self.checkImage.layer.borderColor = UIColor.lightGray.cgColor
-      self.checkImage.layer.borderWidth = 2
+      self.checkImageView.image = Image.checkShape?.withTintColor(.white, renderingMode: .alwaysOriginal)
+      self.checkImageView.backgroundColor = .lightGray
+      self.checkImageView.layer.borderColor = UIColor.lightGray.cgColor
+      self.checkImageView.layer.borderWidth = 2
     case .none:
-      self.checkImage.backgroundColor = .white
-      self.checkImage.layer.borderWidth = 2
-      self.checkImage.layer.borderColor = UIColor.lightGray.cgColor
+      self.checkImageView.image = nil
+      self.checkImageView.backgroundColor = .white
+      self.checkImageView.layer.borderWidth = 2
+      self.checkImageView.layer.borderColor = UIColor.lightGray.cgColor
     }
   }
   

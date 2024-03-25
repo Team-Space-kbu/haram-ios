@@ -33,11 +33,8 @@ final class TermsOfUseTableViewCell: UITableViewCell {
   private var seq: Int?
   private var isChecked = false {
     willSet {
-        self.checkImage.backgroundColor    = newValue ? .white : .white
-        self.checkImage.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
-        
-        // 체크모양 이미지 설정
-        self.checkImage.image = newValue ? Image.checkShape?.withTintColor(.hex3B8686, renderingMode: .alwaysOriginal) :  nil
+      self.checkImage.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
+      self.checkImage.image = newValue ? Image.checkShape?.withTintColor(.hex3B8686, renderingMode: .alwaysOriginal) :  nil
     }
   }
   
@@ -55,11 +52,10 @@ final class TermsOfUseTableViewCell: UITableViewCell {
     $0.textAlignment = .left
     $0.isSkeletonable = true
   }
-    
+  
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     configureUI()
-//    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -70,9 +66,10 @@ final class TermsOfUseTableViewCell: UITableViewCell {
     super.prepareForReuse()
     seq = nil
     alertLabel.text = nil
-    checkImage.image = nil
+    isChecked = false
+//    checkImage.image = nil
     checkImage.backgroundColor = nil
-    checkImage.layer.borderColor = nil
+//    checkImage.layer.borderColor = nil
   }
   
   private func configureUI() {

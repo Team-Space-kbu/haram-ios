@@ -19,6 +19,7 @@ protocol TermsOfUseViewModelType {
   var termsOfWebModel: Signal<[TermsWebTableViewCellModel]> { get }
   var isContinueButtonEnabled: Driver<Bool> { get }
   var isCheckallCheckButton: Driver<Bool> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class TermsOfUseViewModel {
@@ -29,6 +30,7 @@ final class TermsOfUseViewModel {
   private let termsOfModelRelay = BehaviorRelay<[TermsOfUseTableViewCellModel]>(value: [])
   private let termsOfWebModelRelay = BehaviorRelay<[TermsWebTableViewCellModel]>(value: [])
   private let isContinueButtonEnabledSubject = BehaviorSubject<Bool>(value: false)
+  private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   
   init(authRepository: AuthRepository = AuthRepositoryImpl()) {
     self.authRepository = authRepository
@@ -36,12 +38,16 @@ final class TermsOfUseViewModel {
 }
 
 extension TermsOfUseViewModel: TermsOfUseViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
+  }
+  
   var isCheckallCheckButton: RxCocoa.Driver<Bool> {
-    termsOfModelRelay.map { $0.filter { !$0.isChecked }.isEmpty }.asDriver(onErrorJustReturn: false)
+    termsOfModelRelay.skip(1).map { $0.filter { !$0.isChecked }.isEmpty }.asDriver(onErrorJustReturn: false)
   }
   
   var termsOfWebModel: RxCocoa.Signal<[TermsWebTableViewCellModel]> {
-    termsOfWebModelRelay.take(2).asSignal(onErrorSignalWith: .empty())
+    termsOfWebModelRelay.skip(1).take(2).asSignal(onErrorSignalWith: .empty())
   }
   
   var isContinueButtonEnabled: RxCocoa.Driver<Bool> {
@@ -80,26 +86,17 @@ extension TermsOfUseViewModel: TermsOfUseViewModelType {
       .subscribe(with: self) { owner, result in
         switch result {
         case let .success(response):
-          owner.termsOfModelRelay.accept([
-            .init(response: .init(termsSeq: 0, title: "테스트 약관동의1", content: "테스트 약관내용1", isRequired: true)),
-            .init(response: .init(termsSeq: 1, title: "테스트 약관동의2", content: "테스트 약관내용2", isRequired: false)),
-            .init(response: .init(termsSeq: 2, title: "테스트 약관동의3", content: "테스트 약관내용3", isRequired: false))
-          ])
-          owner.termsOfWebModelRelay.accept([
-            .init(response: .init(termsSeq: 0, title: "테스트 약관동의1", content: "테스트 약관내용1", isRequired: true)),
-            .init(response: .init(termsSeq: 1, title: "테스트 약관동의2", content: "테스트 약관내용2", isRequired: true)),
-            .init(response: .init(termsSeq: 2, title: "테스트 약관동의3", content: "테스트 약관내용3", isRequired: true))
-          ])
-//          owner.termsOfModelRelay.accept(response.map { TermsOfUseCheckViewModel(response: $0) })
+          owner.termsOfModelRelay.accept(response.map { .init(response: $0) })
+          owner.termsOfWebModelRelay.accept(response.map { .init(response: $0) })
         case let .failure(error):
-          break
+          owner.errorMessageRelay.accept(error)
         }
       }
       .disposed(by: disposeBag)
   }
   
   var termsOfModel: RxCocoa.Signal<[TermsOfUseTableViewCellModel]> {
-    termsOfModelRelay.asSignal(onErrorSignalWith: .empty())
+    termsOfModelRelay.skip(1).asSignal(onErrorSignalWith: .empty())
   }
   
   
