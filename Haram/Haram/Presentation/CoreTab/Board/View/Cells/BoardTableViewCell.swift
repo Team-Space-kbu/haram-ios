@@ -18,6 +18,7 @@ struct BoardTableViewCellModel {
   let imageURL: URL?
   let title: String
   let writeableBoard: Bool
+  let writeableComment: Bool
 }
 
 final class BoardTableViewCell: UITableViewCell {

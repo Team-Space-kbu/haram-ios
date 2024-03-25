@@ -20,6 +20,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   private let boardSeq: Int
   private let categorySeq: Int
   private let writeableAnonymous: Bool
+  private let writeableComment: Bool
   
   // MARK: - UI Models
   
@@ -28,7 +29,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   private var boardModel: [BoardDetailHeaderViewModel] = []
   
   // MARK: - UI Component
-  // TODO: - 만약에 해당 게시판에서 익명댓글작성이 불가할 경우 어떻게 할것인지
+
   private lazy var commentInputView = CommentInputView(writeableAnonymous: writeableAnonymous).then {
     $0.delegate = self
     $0.isSkeletonable = true
@@ -48,11 +49,12 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   }
   
   // MARK: - Initializations
-  init(categorySeq: Int, boardSeq: Int, writeableAnonymous: Bool, viewModel: BoardDetailViewModelType = BoardDetailViewModel()) {
+  init(categorySeq: Int, boardSeq: Int, writeableAnonymous: Bool, writeableComment: Bool, viewModel: BoardDetailViewModelType = BoardDetailViewModel()) {
     self.viewModel = viewModel
     self.boardSeq = boardSeq
     self.categorySeq = categorySeq
     self.writeableAnonymous = writeableAnonymous
+    self.writeableComment = writeableComment
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -80,21 +82,32 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   
   override func setupLayouts() {
     super.setupLayouts()
-    _ = [boardDetailCollectionView, commentInputView].map { view.addSubview($0) }
+    view.addSubview(boardDetailCollectionView)
+    if writeableComment {
+      view.addSubview(commentInputView)
+    }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
-    boardDetailCollectionView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
+    
+    if writeableComment {
+      boardDetailCollectionView.snp.makeConstraints {
+        $0.top.directionalHorizontalEdges.equalToSuperview()
+      }
+      
+      commentInputView.snp.makeConstraints {
+        $0.top.equalTo(boardDetailCollectionView.snp.bottom)
+        $0.directionalHorizontalEdges.equalToSuperview()
+        $0.height.greaterThanOrEqualTo(Device.isNotch ? 91 - 20 : 91 - 20 - 15)
+        $0.bottom.equalToSuperview()
+      }
+    } else {
+      boardDetailCollectionView.snp.makeConstraints {
+        $0.directionalEdges.equalToSuperview()
+      }
     }
     
-    commentInputView.snp.makeConstraints {
-      $0.top.equalTo(boardDetailCollectionView.snp.bottom)
-      $0.directionalHorizontalEdges.equalToSuperview()
-      $0.height.greaterThanOrEqualTo(Device.isNotch ? 91 - 20 : 91 - 20 - 15)
-      $0.bottom.equalToSuperview()
-    }
   }
   
   override func bind() {
@@ -205,7 +218,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
 extension BoardDetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 2
+    return writeableComment ? 2 : 1
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
