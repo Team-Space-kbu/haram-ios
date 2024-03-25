@@ -124,7 +124,6 @@ final class TermsOfUseCheckView: UIView {
       addSubview(webView)
       webView.snp.makeConstraints {
         $0.top.equalTo(checkBoxControl.snp.bottom)
-//        $0.top.equalTo(checkBoxControl.snp.bottom).offset(10)
         $0.directionalHorizontalEdges.equalToSuperview()
         $0.bottom.lessThanOrEqualToSuperview()
         $0.height.equalTo(124)
@@ -136,6 +135,10 @@ final class TermsOfUseCheckView: UIView {
     webView.loadHTMLString(model.content, baseURL: nil)
     checkBoxControl.setTitle(model.title)
     self.policySeq = model.policySeq
+  }
+  
+  func configureUI(isChecked: Bool) {
+    checkBoxControl.isChecked = isChecked
   }
   
   // MARK: - Constants

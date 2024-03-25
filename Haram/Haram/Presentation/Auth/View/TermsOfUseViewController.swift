@@ -49,11 +49,7 @@ final class TermsOfUseViewController: BaseViewController {
   }
   
   private let containerView = UIView().then {
-    //    $0.axis = .vertical
-    //    $0.isLayoutMarginsRelativeArrangement = true
-    //    $0.layoutMargins = UIEdgeInsets(top: 30, left: 15, bottom: .zero, right: 15)
     $0.backgroundColor = .clear
-    //    $0.spacing = 21
     $0.isSkeletonable = true
   }
   
@@ -78,6 +74,7 @@ final class TermsOfUseViewController: BaseViewController {
   }
   
   private lazy var checkAllButton = CheckBoxControl(type: .none, title: "아래 약관에 모두 동의합니다.").then {
+    
     $0.isSkeletonable = true
   }
   
@@ -90,17 +87,21 @@ final class TermsOfUseViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotifications()
+  }
+  
   override func setupStyles() {
     super.setupStyles()
     navigationController?.navigationBar.isHidden = true
     setupSkeletonView()
+    registerNotifications()
   }
   
   override func bind() {
     super.bind()
     
     viewModel.inquireTermsSignUp()
-    
     
     Signal.combineLatest(
       viewModel.termsOfModel,
@@ -150,6 +151,19 @@ final class TermsOfUseViewController: BaseViewController {
       .drive(checkAllButton.rx.isChecked)
       .disposed(by: disposeBag)
     
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        if error == .networkError {
+          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터 연결 후 다시 시도해주세요.", viewController: owner) {
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+              UIApplication.shared.open(url)
+            }
+          }
+        }
+      }
+      .disposed(by: disposeBag)
+    
   }
   
   override func setupLayouts() {
@@ -181,7 +195,7 @@ final class TermsOfUseViewController: BaseViewController {
     checkAllButton.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(21)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-      $0.height.equalTo(18 + 10)
+      $0.height.equalTo(28)
     }
     
     termsOfUseTableView.snp.makeConstraints {
@@ -193,7 +207,7 @@ final class TermsOfUseViewController: BaseViewController {
     horizontalStackView.snp.makeConstraints {
       $0.top.greaterThanOrEqualTo(termsOfUseTableView.snp.bottom).offset(17)
       $0.height.equalTo(48)
-      $0.bottom.equalToSuperview().inset(Device.bottomInset)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
     
@@ -264,5 +278,20 @@ extension TermsOfUseViewController: SkeletonTableViewDataSource {
   
   func numSections(in collectionSkeletonView: UITableView) -> Int {
     2
+  }
+}
+
+extension TermsOfUseViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireTermsSignUp()
   }
 }
