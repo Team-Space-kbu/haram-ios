@@ -146,8 +146,18 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           }
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    boardListCollectionView.rx.didScroll
+      .subscribe(with: self) { owner, _ in
+        let offSetY = owner.boardListCollectionView.contentOffset.y
+        let contentHeight = owner.boardListCollectionView.contentSize.height
+        
+        if offSetY > (contentHeight - owner.boardListCollectionView.frame.size.height) {
+          owner.viewModel.inquireBoardList(categorySeq: owner.categorySeq)
         }
       }
       .disposed(by: disposeBag)
@@ -217,14 +227,20 @@ extension BoardListViewController: SkeletonCollectionViewDataSource {
 extension BoardListViewController {
   private func registerNotifications() {
     NotificationCenter.default.addObserver(self, selector: #selector(refreshBoardList), name: .refreshBoardList, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
   }
   
   private func removeNotifications() {
-    NotificationCenter.default.removeObserver(self, name: .refreshBoardList, object: nil)
+    NotificationCenter.default.removeObserver(self)
   }
   
   @objc
   private func refreshBoardList() {
+    viewModel.inquireBoardList(categorySeq: categorySeq)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
     viewModel.inquireBoardList(categorySeq: categorySeq)
   }
 }
