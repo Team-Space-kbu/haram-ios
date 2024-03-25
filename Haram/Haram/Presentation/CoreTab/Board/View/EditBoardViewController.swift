@@ -21,6 +21,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
   private var imageModel: [UIImage] = []
   private var selections = [String : PHPickerResult]()
   private var selectedAssetIdentifiers = [String]()
+  private var isAnonymous = false
   
   private lazy var editBoardBottomSheet = EditBoardBottomSheetViewController().then {
     $0.delegate = self
@@ -69,10 +70,10 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
   private let titleTextView = UITextView().then {
     $0.textColor = .hexD0D0D0
     $0.textContainerInset = UIEdgeInsets(
-      top: 15,
-      left: 15,
-      bottom: 15,
-      right: 15
+      top: 13,
+      left: 13,
+      bottom: 13,
+      right: 13
     )
     $0.font = .regular14
     $0.backgroundColor = .hexF4F4F4
@@ -93,10 +94,10 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
   private let contentTextView = UITextView().then {
     $0.textColor = .hexD0D0D0
     $0.textContainerInset = UIEdgeInsets(
-      top: 15,
-      left: 15,
-      bottom: 15,
-      right: 15
+      top: 13,
+      left: 13,
+      bottom: 13,
+      right: 13
     )
     $0.font = .regular14
     $0.backgroundColor = .hexF4F4F4
@@ -213,7 +214,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
         let title = owner.titleTextView.text!
         let content = owner.contentTextView.text!
         
-        owner.viewModel.createBoard(categorySeq: owner.categorySeq, title: title, contents: content, isAnonymous: false)
+        owner.viewModel.createBoard(categorySeq: owner.categorySeq, title: title, contents: content, isAnonymous: owner.isAnonymous)
       }
       .disposed(by: disposeBag)
     
@@ -378,6 +379,10 @@ extension EditBoardViewController: UIGestureRecognizerDelegate {
 }
 
 extension EditBoardViewController: EditBoardBottomSheetViewDelegate {
+  func didTappedAnonymousMenu(isChecked: Bool) {
+    self.isAnonymous = isChecked
+  }
+  
   func didTappedSelectedMenu() {
     presentPicker()
   }

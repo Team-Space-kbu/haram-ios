@@ -20,9 +20,13 @@ struct NoticeDetailModel {
 
 final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   
+  // MARK: - Property
+  
   private let viewModel: NoticeDetailViewModelType
   private let path: String
   private let type: NoticeType
+  
+  // MARK: - UI Components
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -65,6 +69,8 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     $0.navigationDelegate = self
   }
   
+  // MARK: - Initializations
+  
   init(type: NoticeType, path: String, viewModel: NoticeDetailViewModelType = NoticeDetailViewModel()) {
     self.viewModel = viewModel
     self.path = path
@@ -75,6 +81,12 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  deinit {
+    removeNotifications()
+  }
+  
+  // MARK: - Configurations
   
   override func bind() {
     super.bind()
@@ -108,6 +120,7 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   override func setupStyles() {
     super.setupStyles()
     title = "공지사항"
+    registerNotifications()
     setupBackButton()
     _ = [scrollView, containerView, titleLabel, writerInfoLabel, webView].map { $0.isSkeletonable = true }
     setupSkeletonView()
@@ -159,13 +172,17 @@ extension NoticeDetailViewController: WKNavigationDelegate {
   }
 }
 
-//extension NoticeDetailViewController: UIGestureRecognizerDelegate {
-//  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-//    return true // or false
-//  }
-//  
-//  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-//    // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
-//    return true
-//  }
-//}
+extension NoticeDetailViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireNoticeDetailInfo(type: type, path: path)
+  }
+}

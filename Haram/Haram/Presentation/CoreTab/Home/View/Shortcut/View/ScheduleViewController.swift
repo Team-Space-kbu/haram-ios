@@ -79,8 +79,14 @@ final class ScheduleViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotifications()
+  }
+  
   override func setupStyles() {
     super.setupStyles()
+    
+    registerNotifications()
     
     /// Set Delegate & DataSource
     elliotable.delegate = self
@@ -111,6 +117,9 @@ final class ScheduleViewController: BaseViewController, BackButtonHandler {
   
   override func bind() {
     super.bind()
+    
+    viewModel.inquireTimeSchedule()
+    
     viewModel.scheduleInfo
       .drive(rx.courseModel)
       .disposed(by: disposeBag)
@@ -169,5 +178,20 @@ extension ScheduleViewController: ElliotableDelegate, ElliotableDataSource {
 extension ScheduleViewController: UIGestureRecognizerDelegate {
   func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     return true // or false
+  }
+}
+
+extension ScheduleViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireTimeSchedule()
   }
 }

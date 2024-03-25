@@ -62,6 +62,7 @@ final class SelectedCategoryNoticeViewModel {
       })
       .flatMapLatest { owner, result in
         let (type, page) = result
+        print("페이지 \(page)")
         return owner.noticeRepository.inquireNoticeInfo(
           request: .init(
             type: type,

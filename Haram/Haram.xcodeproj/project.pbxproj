@@ -24,7 +24,7 @@
 		701FC8992B9736B900291FC3 /* EditBoardBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8982B9736B900291FC3 /* EditBoardBottomSheetViewController.swift */; };
 		701FC89B2B97565F00291FC3 /* EditBoardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC89A2B97565F00291FC3 /* EditBoardCollectionViewCell.swift */; };
 		701FC89D2B98807C00291FC3 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC89C2B98807C00291FC3 /* AlertManager.swift */; };
-		701FC89F2B9B5FA700291FC3 /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC89E2B9B5FA700291FC3 /* CheckBoxButton.swift */; };
+		701FC89F2B9B5FA700291FC3 /* CheckBoxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC89E2B9B5FA700291FC3 /* CheckBoxControl.swift */; };
 		701FC8A12B9C990200291FC3 /* EditBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8A02B9C990200291FC3 /* EditBoardViewModel.swift */; };
 		701FC8A32B9C998900291FC3 /* CreateBoardRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8A22B9C998900291FC3 /* CreateBoardRequest.swift */; };
 		701FC8A52B9CAC1F00291FC3 /* ImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8A42B9CAC1F00291FC3 /* ImageRouter.swift */; };
@@ -325,7 +325,7 @@
 		701FC8982B9736B900291FC3 /* EditBoardBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardBottomSheetViewController.swift; sourceTree = "<group>"; };
 		701FC89A2B97565F00291FC3 /* EditBoardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardCollectionViewCell.swift; sourceTree = "<group>"; };
 		701FC89C2B98807C00291FC3 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
-		701FC89E2B9B5FA700291FC3 /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
+		701FC89E2B9B5FA700291FC3 /* CheckBoxControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxControl.swift; sourceTree = "<group>"; };
 		701FC8A02B9C990200291FC3 /* EditBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardViewModel.swift; sourceTree = "<group>"; };
 		701FC8A22B9C998900291FC3 /* CreateBoardRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBoardRequest.swift; sourceTree = "<group>"; };
 		701FC8A42B9CAC1F00291FC3 /* ImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRouter.swift; sourceTree = "<group>"; };
@@ -673,7 +673,7 @@
 				708312C12A7A6F2900F7E283 /* PaddingLabel.swift */,
 				708ED7D32A9228D200107CDF /* BottomSheetViewController.swift */,
 				70375F152AB1B0500032F6B8 /* HaramToast.swift */,
-				701FC89E2B9B5FA700291FC3 /* CheckBoxButton.swift */,
+				701FC89E2B9B5FA700291FC3 /* CheckBoxControl.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2015,7 +2015,7 @@
 				708ED7AD2A8FAAF600107CDF /* SelectedDayCollectionViewCell.swift in Sources */,
 				70C9CCB22A067D8000BEB5F2 /* ChapelDayView.swift in Sources */,
 				70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */,
-				701FC89F2B9B5FA700291FC3 /* CheckBoxButton.swift in Sources */,
+				701FC89F2B9B5FA700291FC3 /* CheckBoxControl.swift in Sources */,
 				708ED7CF2A91F13600107CDF /* BibleSearchView.swift in Sources */,
 				705FD2842A10E47F00F353FE /* HaramError.swift in Sources */,
 				70C9CCB62A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift in Sources */,

@@ -10,6 +10,9 @@ import RxCocoa
 
 
 protocol BibleViewModelType {
+  
+  func inquireBibleHomeInfo()
+  
   var todayBibleWordList: Driver<[TodayBibleWordCollectionViewCellModel]> { get }
   var todayPrayList: Driver<[TodayPrayCollectionViewCellModel]> { get }
   var bibleMainNotice: Driver<[BibleNoticeCollectionViewCellModel]> { get }
@@ -28,10 +31,12 @@ final class BibleViewModel {
   
   init(bibleRepository: BibleRepository = BibleRepositoryImpl()) {
     self.bibleRepository = bibleRepository
-    inquireBibleHomeInfo()
   }
+}
+
+extension BibleViewModel: BibleViewModelType {
   
-  private func inquireBibleHomeInfo() {
+  func inquireBibleHomeInfo() {
     let tryInquireBibleHomeInfo = bibleRepository.inquireBibleHomeInfo()
     
     tryInquireBibleHomeInfo
@@ -51,9 +56,7 @@ final class BibleViewModel {
       })
       .disposed(by: disposeBag)
   }
-}
-
-extension BibleViewModel: BibleViewModelType {
+  
   var errorMessage: RxCocoa.Signal<HaramError> {
     errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }

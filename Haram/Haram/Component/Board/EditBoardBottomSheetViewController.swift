@@ -13,22 +13,17 @@ import PhotosUI
 
 protocol EditBoardBottomSheetViewDelegate: AnyObject {
   func didTappedSelectedMenu()
+  func didTappedAnonymousMenu(isChecked: Bool)
 }
 
 final class EditBoardBottomSheetViewController: BaseViewController {
   
   weak var delegate: EditBoardBottomSheetViewDelegate?
   
-  private lazy var photoPicker = UIImagePickerController()
-//    .then {
-//    $0.delegate = self
-//  }
-  
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = .init(top: 30, left: 23, bottom: .zero, right: 23)
-//    $0.spacing = 17
   }
   
   private let registerImageMenuView = EditBoardMenuView(type: .registerImage)
@@ -40,14 +35,12 @@ final class EditBoardBottomSheetViewController: BaseViewController {
     registerImageMenuView.button.rx.tap
       .subscribe(with: self) { owner, _ in
         owner.delegate?.didTappedSelectedMenu()
-//        owner.photoPicker.sourceType = .photoLibrary
-//        owner.present(owner.photoPicker, animated: true)
       }
       .disposed(by: disposeBag)
     
     registerAnonymousMenuView.button.rx.tap
       .subscribe(with: self) { owner, _ in
-//        owner.delegate?.didTappedAnonymousMenu()
+        owner.delegate?.didTappedAnonymousMenu(isChecked: owner.registerAnonymousMenuView.tappedCheckBoxButton())
       }
       .disposed(by: disposeBag)
   }
@@ -90,10 +83,12 @@ extension EditBoardBottomSheetViewController {
       $0.textColor = .hex1A1E27
     }
     
-    private let indicatorImageView = UIImageView().then {
+    private lazy var indicatorImageView = UIImageView().then {
       $0.image = UIImage(resource: .darkIndicator)
       $0.contentMode = .scaleAspectFill
     }
+    
+    private lazy var checkBoxControl = CheckBoxButton(type: .none)
     
     init(type: EditBoardMenuViewType) {
       self.type = type
@@ -107,7 +102,7 @@ extension EditBoardBottomSheetViewController {
     }
     
     private func configureUI() {
-      _ = [editImageView, editLabel, indicatorImageView, button].map { addSubview($0) }
+      _ = [editImageView, editLabel, type == .registerImage ? indicatorImageView : checkBoxControl, button].map { addSubview($0) }
       
       button.snp.makeConstraints {
         $0.directionalEdges.equalToSuperview()
@@ -120,23 +115,34 @@ extension EditBoardBottomSheetViewController {
       
       editLabel.snp.makeConstraints {
         $0.centerY.equalTo(editImageView)
-//        $0.top.greaterThanOrEqualToSuperview()
-//        $0.bottom.lessThanOrEqualToSuperview()
         $0.leading.equalTo(editImageView.snp.trailing).offset(10)
       }
       
-      indicatorImageView.snp.makeConstraints {
-//        $0.top.greaterThanOrEqualToSuperview()
-//        $0.bottom.lessThanOrEqualToSuperview()
-        $0.leading.greaterThanOrEqualTo(editLabel.snp.trailing)
-        $0.trailing.equalToSuperview()
-        $0.width.equalTo(6)
-        $0.height.equalTo(12)
-        $0.centerY.equalTo(editImageView)
+      if type == .registerImage {
+        indicatorImageView.snp.makeConstraints {
+          $0.leading.greaterThanOrEqualTo(editLabel.snp.trailing)
+          $0.trailing.equalToSuperview().inset(5)
+          $0.width.equalTo(6)
+          $0.height.equalTo(12)
+          $0.centerY.equalTo(editImageView)
+        }
+      } else {
+        checkBoxControl.snp.makeConstraints {
+          $0.leading.greaterThanOrEqualTo(editLabel.snp.trailing)
+          $0.trailing.equalToSuperview()
+          $0.size.equalTo(18)
+          $0.centerY.equalTo(editImageView)
+        }
       }
+      
       
       editImageView.image = UIImage(resource: type.imageResource)
       editLabel.text = type.title
+    }
+    
+    func tappedCheckBoxButton() -> Bool {
+      checkBoxControl.isChecked.toggle()
+      return checkBoxControl.isChecked
     }
   }
   
@@ -163,18 +169,3 @@ extension EditBoardBottomSheetViewController {
     }
   }
 }
-
-//extension EditBoardBottomSheetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-//  func imagePickerController(
-//    _ picker: UIImagePickerController,
-//    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-//  ) {
-//    guard let selectedImage = info[.originalImage] as? UIImage else { return }
-//    delegate?.whichSelectedImage(with: selectedImage)
-//    picker.dismiss(animated: true)
-//  }
-//  
-//  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-//    picker.dismiss(animated: true)
-//  }
-//}

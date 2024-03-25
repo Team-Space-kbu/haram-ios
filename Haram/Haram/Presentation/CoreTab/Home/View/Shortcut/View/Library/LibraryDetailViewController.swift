@@ -84,6 +84,16 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerNotifications()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeNotifications()
+  }
 
   // MARK: - Configurations
   
@@ -274,3 +284,17 @@ extension LibraryDetailViewController: SkeletonCollectionViewDelegate, SkeletonC
   }
 }
 
+extension LibraryDetailViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.requestBookInfo(path: path)
+  }
+}

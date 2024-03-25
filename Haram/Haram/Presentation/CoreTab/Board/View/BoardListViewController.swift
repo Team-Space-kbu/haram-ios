@@ -32,6 +32,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     $0.contentInset = UIEdgeInsets(top: 20, left: 15, bottom: .zero, right: 15)
     $0.alwaysBounceVertical = true
     $0.isSkeletonable = true
+    $0.showsVerticalScrollIndicator = true
   }
   
   private lazy var editBoardButton = UIButton().then {

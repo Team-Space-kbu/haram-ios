@@ -27,19 +27,6 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   
   private var boardModel: [BoardDetailHeaderViewModel] = []
   
-  // MARK: - Gesture
-  
-  //  private let tapGesture = UITapGestureRecognizer(target: BoardDetailViewController.self, action: nil).then {
-  //    $0.numberOfTapsRequired = 1
-  //    $0.cancelsTouchesInView = false
-  //    $0.isEnabled = true
-  //  }
-  
-  //  private let panGesture = UIPanGestureRecognizer(target: RegisterViewController.self, action: nil).then {
-  //    $0.cancelsTouchesInView = false
-  //    $0.isEnabled = true
-  //  }
-  
   // MARK: - UI Component
   // TODO: - 만약에 해당 게시판에서 익명댓글작성이 불가할 경우 어떻게 할것인지
   private lazy var commentInputView = CommentInputView(writeableAnonymous: writeableAnonymous).then {
@@ -86,12 +73,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     /// Set NavigationBar
     setupBackButton()
     setupSkeletonView()
-    
-    /// Set GestureRecognizer
-    //    _ = [tapGesture].map { view.addGestureRecognizer($0) }
-    
-    /// Set Delegate
-    //    panGesture.delegate = self
+
     registerNotifications()
     
   }
@@ -136,21 +118,6 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     }
     .disposed(by: disposeBag)
     
-    //    tapGesture.rx.event
-    //      .asDriver()
-    //      .drive(with: self) { owner, _ in
-    //        owner.commentInputView.resignFirstResponder()
-    ////        owner.boardDetailCollectionView.endEditing(true)
-    //      }
-    //      .disposed(by: disposeBag)
-    
-    //    panGesture.rx.event
-    //      .asDriver()
-    //      .drive(with: self) { owner, _ in
-    //        owner.view.endEditing(true)
-    //      }
-    //      .disposed(by: disposeBag)
-    
     viewModel.successCreateComment
       .emit(with: self) { owner, comments in
         owner.cellModel = comments.enumerated()
@@ -176,7 +143,6 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           }
         } else if error == .retryError {
           AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
@@ -296,7 +262,12 @@ extension BoardDetailViewController: CommentInputViewDelegate {
 }
 
 // MARK: - Keyboard Notifications
-
+extension BoardDetailViewController {
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireBoardDetail(categorySeq: categorySeq, boardSeq: boardSeq)
+  }
+}
 extension BoardDetailViewController {
   func registerNotifications() {
     NotificationCenter.default.addObserver(
@@ -310,6 +281,8 @@ extension BoardDetailViewController {
       name: UIResponder.keyboardWillHideNotification,
       object: nil
     )
+    
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
   }
   
   func removeNotifications() {

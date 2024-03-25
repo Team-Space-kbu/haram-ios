@@ -12,6 +12,7 @@ import RxCocoa
 
 protocol StudyReservationViewModelType {
   
+  func inquireReservationInfo()
   func checkCheckBox(policySeq: Int, isChecked: Bool)
   
   var whichCalendarSeq: AnyObserver<Int> { get }
@@ -57,35 +58,10 @@ final class StudyReservationViewModel {
   init(rothemRepository: RothemRepository = RothemRepositoryImpl(), roomSeq: Int) {
     self.rothemRepository = rothemRepository
     self.roomSeq = roomSeq
-    inquireReservationInfo()
+//    inquireReservationInfo()
     getTimeInfoForReservation()
     saveTimeInfoForReservation()
     tryReserveStudyRoom()
-  }
-  
-  /// 예약하기위한 정보를 조회하는 함수, 맨 처음에만 호출
-  private func inquireReservationInfo() {
-    let inquireReservationInfo = rothemRepository.checkTimeAvailableForRothemReservation(roomSeq: roomSeq)
-      .do(onSuccess: { [weak self] _ in
-        guard let self = self else { return }
-        self.isLoadingSubject.onNext(true)
-      })
-    
-    inquireReservationInfo
-      .asObservable()
-      .take(1)
-      .subscribe(with: self) { owner, response in
-        owner.studyRoomInfoViewModelRelay.accept(StudyRoomInfoViewModel(roomResponse: response.roomResponse))
-        owner.selectedDayCollectionViewCellModelRelay.accept(response.calendarResponses.map { SelectedDayCollectionViewCellModel(calendarResponse: $0) })
-        owner.model = response.calendarResponses
-        owner.policyModelRelay.accept(response.policyResponses.sorted(by: { $0.policySeq > $1.policySeq }).map { TermsOfUseCheckViewModel(response: $0) })
-        
-        if let model = response.calendarResponses.filter({ $0.isAvailable }).first {
-          owner.calendarSeqSubject.onNext(model.calendarSeq)
-        }
-        owner.isLoadingSubject.onNext(false)
-      }
-      .disposed(by: disposeBag)
   }
   
   /// 날짜 선택에 따른 시간정보를 가져오는 함수
@@ -197,6 +173,33 @@ final class StudyReservationViewModel {
 }
 
 extension StudyReservationViewModel: StudyReservationViewModelType {
+  
+  /// 예약하기위한 정보를 조회하는 함수, 맨 처음에만 호출
+  func inquireReservationInfo() {
+    let inquireReservationInfo = rothemRepository.checkTimeAvailableForRothemReservation(roomSeq: roomSeq)
+      .do(onSuccess: { [weak self] _ in
+        guard let self = self else { return }
+        self.isLoadingSubject.onNext(true)
+      })
+    
+    inquireReservationInfo
+      .subscribe(with: self, onSuccess: { owner, response in
+        owner.studyRoomInfoViewModelRelay.accept(StudyRoomInfoViewModel(roomResponse: response.roomResponse))
+        owner.selectedDayCollectionViewCellModelRelay.accept(response.calendarResponses.map { SelectedDayCollectionViewCellModel(calendarResponse: $0) })
+        owner.model = response.calendarResponses
+        owner.policyModelRelay.accept(response.policyResponses.sorted(by: { $0.policySeq > $1.policySeq }).map { TermsOfUseCheckViewModel(response: $0) })
+        
+        if let model = response.calendarResponses.filter({ $0.isAvailable }).first {
+          owner.calendarSeqSubject.onNext(model.calendarSeq)
+        }
+        owner.isLoadingSubject.onNext(false)
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
+      .disposed(by: disposeBag)
+  }
+  
   var errorMessage: RxCocoa.Signal<HaramError> {
     errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }

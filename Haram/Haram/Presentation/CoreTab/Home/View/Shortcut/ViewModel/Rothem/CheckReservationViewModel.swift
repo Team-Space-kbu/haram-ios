@@ -11,6 +11,7 @@ import RxCocoa
 protocol CheckReservationViewModelType {
   
   func cancelReservation()
+  func inquireRothemReservationInfo()
   
   var rothemReservationInfoViewModel: Driver<RothemReservationInfoViewModel> { get }
   var successCancelReservation: Driver<Void> { get }
@@ -29,10 +30,12 @@ final class CheckReservationViewModel {
   
   init(rothemRepository: RothemRepository = RothemRepositoryImpl()) {
     self.rothemRepository = rothemRepository
-    inquireRothemReservationInfo()
   }
+}
+
+extension CheckReservationViewModel: CheckReservationViewModelType {
   
-  private func inquireRothemReservationInfo() {
+  func inquireRothemReservationInfo() {
     let inquireRothemReservationInfo = rothemRepository.inquireRothemReservationInfo(userID: UserManager.shared.userID!)
     
     inquireRothemReservationInfo
@@ -46,9 +49,7 @@ final class CheckReservationViewModel {
       })
       .disposed(by: disposeBag)
   }
-}
-
-extension CheckReservationViewModel: CheckReservationViewModelType {
+  
   var errorMessage: RxCocoa.Signal<HaramError> {
     errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }

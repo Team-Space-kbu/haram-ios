@@ -35,11 +35,16 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotification()
+  }
+  
   override func setupStyles() {
     super.setupStyles()
     title = "예약확인하기"
     setupBackButton()
     setupSkeletonView()
+    registerNotification()
   }
   
   override func setupLayouts() {
@@ -66,6 +71,9 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
   
   override func bind() {
     super.bind()
+    
+    viewModel.inquireRothemReservationInfo()
+    
     viewModel.rothemReservationInfoViewModel
       .drive(with: self) { owner, model in
         owner.view.hideSkeleton()
@@ -103,7 +111,6 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           }
         }
       }
@@ -113,5 +120,19 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
   @objc func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
+}
+
+extension CheckReservationViewController {
+  private func registerNotification() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
   
+  private func removeNotification() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireRothemReservationInfo()
+  }
 }
