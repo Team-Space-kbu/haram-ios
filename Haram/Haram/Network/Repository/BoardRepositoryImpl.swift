@@ -10,7 +10,7 @@ import RxSwift
 protocol BoardRepository {
   
   func inquireBoardCategory() -> Single<[InquireBoardCategoryResponse]>
-  func inquireBoardListInCategory(categorySeq: Int) -> Single<InquireBoardListInCategoryResponse>
+  func inquireBoardListInCategory(categorySeq: Int, page: Int) -> Single<InquireBoardListInCategoryResponse>
   func inquireBoardDetail(categorySeq: Int, boardSeq: Int) -> Single<InquireBoardDetailResponse>
   func createBoard(categorySeq: Int, request: CreateBoardRequest) -> Single<Bool>
   func createComment(request: CreateCommentRequest, categorySeq: Int, boardSeq: Int) -> Single<[Comment]>
@@ -36,8 +36,8 @@ extension BoardRepositoryImpl: BoardRepository {
     service.betarequest(router: BoardRouter.inquireBoardCategory, type: [InquireBoardCategoryResponse].self)
   }
   
-  func inquireBoardListInCategory(categorySeq: Int) -> RxSwift.Single<InquireBoardListInCategoryResponse> {
-    service.betarequest(router: BoardRouter.inquireBoardListInCategory(categorySeq), type: InquireBoardListInCategoryResponse.self)
+  func inquireBoardListInCategory(categorySeq: Int, page: Int = 1) -> RxSwift.Single<InquireBoardListInCategoryResponse> {
+    service.betarequest(router: BoardRouter.inquireBoardListInCategory(categorySeq, page), type: InquireBoardListInCategoryResponse.self)
   }
   
   func inquireBoardDetail(categorySeq: Int, boardSeq: Int) -> RxSwift.Single<InquireBoardDetailResponse> {

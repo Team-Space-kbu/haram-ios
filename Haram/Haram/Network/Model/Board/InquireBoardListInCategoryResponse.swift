@@ -13,6 +13,8 @@ struct InquireBoardListInCategoryResponse: Decodable {
   let writeableBoard: Bool
   let writeableAnonymous: Bool
   let boards: [Board]
+  let startPage: Int
+  let endPage: Int
 }
 
 struct Board: Decodable {
