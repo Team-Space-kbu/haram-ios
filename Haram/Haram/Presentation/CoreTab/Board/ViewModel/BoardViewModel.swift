@@ -39,7 +39,8 @@ final class BoardViewModel {
             categorySeq: $0.categorySeq,
             imageURL: URL(string: $0.iconUrl),
             title: $0.categoryName,
-            writeableBoard: $0.writeableBoard
+            writeableBoard: $0.writeableBoard, 
+            writeableComment: $0.writeableComment
           )
         })
         owner.boardHeaderTitleRelay.accept("학교 게시판")

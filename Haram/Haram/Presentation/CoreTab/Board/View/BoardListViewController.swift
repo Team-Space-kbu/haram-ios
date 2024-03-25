@@ -18,6 +18,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   private let categorySeq: Int
   private let writeableBoard: Bool
   private var writeableAnonymous: Bool?
+  private let writeableComment: Bool
   
   private var boardListModel: [BoardListCollectionViewCellModel] = []
   
@@ -49,10 +50,11 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   
   private lazy var emptyView = EmptyView(text: "게시글이 없습니다.")
   
-  init(categorySeq: Int, writeableBoard: Bool, viewModel: BoardListViewModelType = BoardListViewModel()) {
+  init(categorySeq: Int, writeableBoard: Bool, writeableComment: Bool, viewModel: BoardListViewModelType = BoardListViewModel()) {
     self.viewModel = viewModel
     self.categorySeq = categorySeq
     self.writeableBoard = writeableBoard
+    self.writeableComment = writeableComment
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -85,10 +87,6 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     super.setupLayouts()
     
     _ = [boardListCollectionView, emptyView].map { view.addSubview($0) }
-    
-//    if writeableBoard {
-//      view.addSubview(editBoardButton)
-//    }
   }
   
   override func setupConstraints() {
@@ -100,15 +98,6 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     emptyView.snp.makeConstraints { 
       $0.directionalEdges.equalToSuperview()
     }
-    
-//    if writeableBoard {
-//      editBoardButton.snp.makeConstraints {
-//        $0.size.equalTo(50)
-//        $0.bottomMargin.equalToSuperview().inset(54)
-//        $0.trailing.equalToSuperview().inset(15)
-//      }
-//    }
-    
   }
   
   override func bind() {
@@ -187,7 +176,7 @@ extension BoardListViewController: UICollectionViewDelegateFlowLayout, UICollect
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = BoardDetailViewController(categorySeq: categorySeq, boardSeq: boardListModel[indexPath.row].boardSeq, writeableAnonymous: self.writeableAnonymous!)
+    let vc = BoardDetailViewController(categorySeq: categorySeq, boardSeq: boardListModel[indexPath.row].boardSeq, writeableAnonymous: self.writeableAnonymous!, writeableComment: writeableComment)
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.title = title
     self.navigationController?.pushViewController(vc, animated: true)
