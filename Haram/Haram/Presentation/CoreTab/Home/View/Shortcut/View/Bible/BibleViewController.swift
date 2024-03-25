@@ -87,10 +87,16 @@ final class BibleViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotifications()
+  }
+  
   // MARK: - Configurations
   
   override func bind() {
     super.bind()
+    
+    viewModel.inquireBibleHomeInfo()
     
     Driver.combineLatest(
       viewModel.todayBibleWordList,
@@ -117,7 +123,6 @@ final class BibleViewController: BaseViewController, BackButtonHandler {
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           }
         }
       }
@@ -127,7 +132,7 @@ final class BibleViewController: BaseViewController, BackButtonHandler {
   override func setupStyles() {
     super.setupStyles()
     title = "성경"
-    
+    registerNotifications()
     setupBackButton()
     setupSkeletonView()
     navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -373,5 +378,20 @@ extension BibleViewController: BibleBottomSheetViewControllerDelegate {
 extension BibleViewController: UIGestureRecognizerDelegate {
   func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     return true // or false
+  }
+}
+
+extension BibleViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireBibleHomeInfo()
   }
 }

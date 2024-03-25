@@ -11,6 +11,9 @@ import RxSwift
 import RxCocoa
 
 protocol MileageViewModelType {
+  
+  func inquireMileageInfo()
+  
   var currentUserMileageInfo: Driver<[MileageTableViewCellModel]> { get }
   var currentAvailabilityPoint: Driver<MileageTableHeaderViewModel> { get }
   var errorMessage: Signal<HaramError> { get }
@@ -27,10 +30,34 @@ final class MileageViewModel {
   
   init(intranetRepository: IntranetRepository = IntranetRepositoryImpl()) {
     self.intranetRepository = intranetRepository
-    inquireMileageInfo()
   }
+}
+
+extension MileageViewModel {
+  private func getMileageImageResource(which type: MileageDetailType) -> ImageResource {
+    
+    switch type {
+    case .cafe:
+      return .cafeCostes
+    case .gym:
+      return .gym
+    case .mart:
+      return .store
+    case .bookStore:
+      return .bookStore
+    case .copyRoom:
+      return .copyRoom
+    case .student:
+      return .student
+    case .etc:
+      return .etc
+    }
+  }
+}
+
+extension MileageViewModel: MileageViewModelType {
   
-  private func inquireMileageInfo() {
+  func inquireMileageInfo() {
     let tryInquireMileageInfo = intranetRepository.inquireMileageInfo()
     
     tryInquireMileageInfo
@@ -60,31 +87,7 @@ final class MileageViewModel {
       .disposed(by: disposeBag)
     
   }
-}
-
-extension MileageViewModel {
-  private func getMileageImageResource(which type: MileageDetailType) -> ImageResource {
-    
-    switch type {
-    case .cafe:
-      return .cafeCostes
-    case .gym:
-      return .gym
-    case .mart:
-      return .store
-    case .bookStore:
-      return .bookStore
-    case .copyRoom:
-      return .copyRoom
-    case .student:
-      return .student
-    case .etc:
-      return .etc
-    }
-  }
-}
-
-extension MileageViewModel: MileageViewModelType {
+  
   var currentAvailabilityPoint: RxCocoa.Driver<MileageTableHeaderViewModel> {
     currentAvilabilityPointRelay.asDriver(onErrorDriveWith: .empty())
   }

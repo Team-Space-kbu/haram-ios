@@ -9,8 +9,12 @@ import RxSwift
 import RxCocoa
 
 protocol NoticeViewModelType {
+  
+  func inquireMainNoticeList()
+  
   var noticeModel: Driver<[NoticeCollectionViewCellModel]> { get }
   var noticeTagModel: Driver<[MainNoticeType]> { get }
+  var errorMessage: Signal<HaramError> { get }
 }
 
 final class NoticeViewModel {
@@ -20,16 +24,23 @@ final class NoticeViewModel {
   
   private let noticeModelRelay = BehaviorRelay<[NoticeCollectionViewCellModel]>(value: [])
   private let noticeTagModelRelay = BehaviorRelay<[MainNoticeType]>(value: [])
+  private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   
   init(noticeRepository: NoticeRepository = NoticeRepositoryImpl()) {
     self.noticeRepository = noticeRepository
-    inquireMainNoticeList()
+  }
+}
+
+extension NoticeViewModel: NoticeViewModelType {
+  var errorMessage: RxCocoa.Signal<HaramError> {
+    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }
   
-  private func inquireMainNoticeList() {
+  
+  func inquireMainNoticeList() {
     noticeRepository.inquireMainNoticeList()
-      .subscribe(with: self) { owner, response in
-
+      .subscribe(with: self, onSuccess: { owner, response in
+        
         owner.noticeTagModelRelay.accept(response.noticeType)
         
         owner.noticeModelRelay.accept(
@@ -45,12 +56,13 @@ final class NoticeViewModel {
             )
           })
         
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
       .disposed(by: disposeBag)
   }
-}
-
-extension NoticeViewModel: NoticeViewModelType {
+  
   var noticeModel: Driver<[NoticeCollectionViewCellModel]> {
     noticeModelRelay
       .filter { !$0.isEmpty }

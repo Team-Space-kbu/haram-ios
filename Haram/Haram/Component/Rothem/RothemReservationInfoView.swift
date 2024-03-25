@@ -106,7 +106,7 @@ final class RothemReservationInfoView: UIView {
     
     qrCodeView.snp.makeConstraints {
       $0.size.equalTo(102)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(146 - 15)
+      $0.centerX.equalToSuperview()
       $0.bottom.equalToSuperview().inset(273 - 228)
     }   
   }

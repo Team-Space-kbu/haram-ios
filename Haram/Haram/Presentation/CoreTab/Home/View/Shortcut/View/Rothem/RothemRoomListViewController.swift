@@ -103,7 +103,6 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           }
         }
       }
@@ -235,6 +234,7 @@ extension RothemRoomListViewController: UIGestureRecognizerDelegate {
 extension RothemRoomListViewController {
   func registerNotifications() {
     NotificationCenter.default.addObserver(self, selector: #selector(refreshRothemList), name: .refreshRothemList, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshRothemList), name: .refreshWhenNetworkConnected, object: nil)
   }
   
   func removeNotifications() {
@@ -246,3 +246,4 @@ extension RothemRoomListViewController {
     viewModel.inquireRothemRoomList()
   }
 }
+

@@ -30,7 +30,7 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
     $0.register(NoticeCollectionViewCell.self, forCellWithReuseIdentifier: NoticeCollectionViewCell.identifier)
     $0.delegate = self
     $0.dataSource = self
-    $0.showsVerticalScrollIndicator = false
+    $0.showsVerticalScrollIndicator = true
     $0.contentInsetAdjustmentBehavior = .always
     $0.isSkeletonable = true
     $0.contentInset = .init(top: 20, left: .zero, bottom: 15, right: .zero)

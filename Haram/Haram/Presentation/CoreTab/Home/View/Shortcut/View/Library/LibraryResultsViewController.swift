@@ -14,6 +14,7 @@ import Then
 final class LibraryResultsViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: LibraryResultsViewModelType
+  private let searchQuery: String
   
   private var model: [LibraryResultsCollectionViewCellModel] = []
   
@@ -27,14 +28,15 @@ final class LibraryResultsViewController: BaseViewController, BackButtonHandler 
     $0.dataSource = self
     $0.contentInset = .init(top: 21.97, left: 15, bottom: .zero, right: 15)
     $0.isSkeletonable = true
+    $0.showsVerticalScrollIndicator = true
   }
   
   private lazy var emptyView = EmptyView(text: "검색정보가 없습니다.")
   
   init(viewModel: LibraryResultsViewModelType = LibraryResultsViewModel(), searchQuery: String) {
     self.viewModel = viewModel
+    self.searchQuery = searchQuery
     super.init(nibName: nil, bundle: nil)
-    viewModel.whichSearchText.onNext(searchQuery)
   }
   
   required init?(coder: NSCoder) {
@@ -43,6 +45,9 @@ final class LibraryResultsViewController: BaseViewController, BackButtonHandler 
   
   override func bind() {
     super.bind()
+    
+    viewModel.whichSearchText.onNext(searchQuery)
+    
     viewModel.searchResults
       .drive(with: self) { owner, model in
         owner.emptyView.isHidden = !model.isEmpty
@@ -81,7 +86,7 @@ final class LibraryResultsViewController: BaseViewController, BackButtonHandler 
   
   override func setupStyles() {
     super.setupStyles()
-    
+
     /// Configure NavigationBar
     title = "도서 검색"
     setupBackButton()
@@ -168,7 +173,6 @@ extension LibraryResultsViewController: SkeletonCollectionViewDelegate, Skeleton
     
     if collectionView == searchResultsCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? LibraryResultsCollectionViewCell ?? LibraryResultsCollectionViewCell()
-      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
       UIView.transition(with: cell, duration: 0.1) {
         cell.alpha = 1
         cell.transform = .identity
@@ -201,3 +205,17 @@ extension LibraryResultsViewController {
   }
 }
 
+//extension LibraryResultsViewController {
+//  private func registerNotifications() {
+//    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+//  }
+//  
+//  private func removeNotifications() {
+//    NotificationCenter.default.removeObserver(self)
+//  }
+//  
+//  @objc
+//  private func refreshWhenNetworkConnected() {
+//    viewModel.whichSearchText.onNext(searchQuery)
+//  }
+//}

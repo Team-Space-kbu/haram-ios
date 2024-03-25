@@ -138,10 +138,13 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
   
   deinit {
     removeNotifications()
+    removeNotification()
   }
   
   override func bind() {
     super.bind()
+    
+    viewModel.inquireReservationInfo()
     
     reservationButton.rx.tap
       .subscribe(with: self) { owner, _ in
@@ -240,7 +243,6 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           }
           return
         }
@@ -267,6 +269,7 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     panGesture.delegate = self
     
     registerNotifications()
+    registerNotification()
     
     setupSkeletonView()
   }
@@ -425,12 +428,6 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
       if !selectedTimeModel[indexPath.row].isReserved {
         let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
         cell.setHighlighted(isHighlighted: true)
-//        let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-//        UIView.transition(with: cell.contentView, duration: 0.1) {
-//          cell.contentView.backgroundColor = .lightGray
-//          cell.contentView.transform = pressedDownTransform
-//          cell.contentView.layer.borderColor = UIColor.lightGray.cgColor
-//        }
       }
     }
   }
@@ -446,12 +443,6 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
       if !selectedTimeModel[indexPath.row].isReserved {
         let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
         cell.setHighlighted(isHighlighted: false)
-//        let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-//        UIView.transition(with: cell.contentView, duration: 0.1) {
-//          cell.contentView.backgroundColor = .clear
-//          cell.contentView.transform = .identity
-//          cell.contentView.layer.borderColor = UIColor.hex707070.cgColor
-//        }
       }
     }
   }
@@ -513,5 +504,20 @@ extension StudyReservationViewController: KeyboardResponder {
 extension StudyReservationViewController: TermsOfUseCheckViewDelegate {
   func didTappedCheckBox(policySeq: Int, isChecked: Bool) {
     viewModel.checkCheckBox(policySeq: policySeq, isChecked: isChecked)
+  }
+}
+
+extension StudyReservationViewController {
+  private func registerNotification() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotification() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireReservationInfo()
   }
 }

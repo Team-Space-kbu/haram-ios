@@ -44,12 +44,16 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotification()
+  }
+  
   override func setupStyles() {
     super.setupStyles()
     
     setupBackButton()
     setupSkeletonView()
-    
+    registerNotification()
   }
   
   @objc func didTappedBackButton() {
@@ -106,7 +110,6 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           }
         }
       }
@@ -121,6 +124,19 @@ extension StudyRoomDetailViewController: RothemRoomDetailViewDelegate {
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }
+}
+
+extension StudyRoomDetailViewController {
+  private func registerNotification() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
   
+  private func removeNotification() {
+    NotificationCenter.default.removeObserver(self)
+  }
   
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireRothemRoomInfo(roomSeq: roomSeq)
+  }
 }

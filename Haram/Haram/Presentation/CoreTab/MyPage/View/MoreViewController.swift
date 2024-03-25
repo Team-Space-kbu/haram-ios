@@ -129,7 +129,13 @@ final class MoreViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  deinit {
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerNotifications()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
     removeNotifications()
   }
   
@@ -137,7 +143,7 @@ final class MoreViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    registerNotifications()
+    
     let label = UILabel().then {
       $0.text = "더보기"
       $0.textColor = .black

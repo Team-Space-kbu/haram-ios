@@ -123,6 +123,16 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerNotifications()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeNotifications()
+  }
+  
   // MARK: - Configurations
   
   override func bind() {
@@ -183,7 +193,7 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
+//            owner.navigationController?.popViewController(animated: true)
           }
         }
       }
@@ -386,21 +396,18 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
       switch type {
       case .new:
         let cell = collectionView.cellForItem(at: indexPath) as? NewLibraryCollectionViewCell ?? NewLibraryCollectionViewCell()
-        let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
         UIView.transition(with: cell, duration: 0.1) {
           cell.transform = .identity
           cell.alpha = 1
         }
       case .popular:
         let cell = collectionView.cellForItem(at: indexPath) as? PopularLibraryCollectionViewCell ?? PopularLibraryCollectionViewCell()
-        let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
         UIView.transition(with: cell, duration: 0.1) {
           cell.transform = .identity
           cell.alpha = 1
         }
       case .rental:
         let cell = collectionView.cellForItem(at: indexPath) as? RentalLibraryCollectionViewCell ?? RentalLibraryCollectionViewCell()
-        let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
         UIView.transition(with: cell, duration: 0.1) {
           cell.transform = .identity
           cell.alpha = 1
@@ -457,5 +464,20 @@ extension LibraryViewController: UIGestureRecognizerDelegate {
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true
+  }
+}
+
+extension LibraryViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireLibrary()
   }
 }

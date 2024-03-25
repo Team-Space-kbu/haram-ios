@@ -42,8 +42,14 @@ final class MileageViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotifications()
+  }
+  
   override func bind() {
     super.bind()
+    
+    viewModel.inquireMileageInfo()
     
     Driver.combineLatest(
       viewModel.currentUserMileageInfo,
@@ -72,7 +78,6 @@ final class MileageViewController: BaseViewController, BackButtonHandler {
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           }
         }
       }
@@ -85,6 +90,7 @@ final class MileageViewController: BaseViewController, BackButtonHandler {
     setupBackButton()
     navigationController?.interactivePopGestureRecognizer?.delegate = self
     setupSkeletonView()
+    registerNotifications()
   }
   
   override func setupLayouts() {
@@ -157,5 +163,20 @@ extension MileageViewController: SkeletonTableViewDelegate, SkeletonTableViewDat
 extension MileageViewController: UIGestureRecognizerDelegate {
   func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     return true // or false
+  }
+}
+
+extension MileageViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireMileageInfo()
   }
 }

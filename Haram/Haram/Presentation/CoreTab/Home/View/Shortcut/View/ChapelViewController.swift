@@ -42,6 +42,16 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerNotifications()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeNotifications()
+  }
+  
   override func bind() {
     super.bind()
     
@@ -76,7 +86,6 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           }
         }
       }
@@ -163,5 +172,20 @@ extension ChapelViewController: SkeletonCollectionViewDataSource {
 extension ChapelViewController: UIGestureRecognizerDelegate {
   func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     return true // or false
+  }
+}
+
+extension ChapelViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireChapelInfo()
   }
 }

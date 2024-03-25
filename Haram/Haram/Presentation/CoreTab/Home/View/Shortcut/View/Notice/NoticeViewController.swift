@@ -14,11 +14,15 @@ import Then
 
 final class NoticeViewController: BaseViewController, BackButtonHandler {
   
+  // MARK: - Property
+  
   private let viewModel: NoticeViewModelType
   
   private var noticeModel: [NoticeCollectionViewCellModel] = []
   
   private var noticeTagModel: [MainNoticeType] = []
+  
+  // MARK: - UI Components
   
   private lazy var noticeCollectionView = UICollectionView(
     frame: .zero,
@@ -37,6 +41,8 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
     $0.isSkeletonable = true
   }
   
+  // MARK: - Initializations
+  
   init(viewModel: NoticeViewModelType = NoticeViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -46,8 +52,16 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotifications()
+  }
+  
+  // MARK: - Configurations
+  
   override func bind() {
     super.bind()
+    
+    viewModel.inquireMainNoticeList()
     
     Driver.combineLatest(
       viewModel.noticeModel,
@@ -63,10 +77,24 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
       owner.noticeCollectionView.reloadData()
     }
     .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        if error == .networkError {
+          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+              UIApplication.shared.open(url)
+            }
+          }
+        }
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
     super.setupStyles()
+    registerNotifications()
     title = "공지사항"
     setupBackButton()
     setupSkeletonView()
@@ -110,7 +138,7 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
       elementKind: UICollectionView.elementKindSectionHeader,
       alignment: .top
     )
-
+    
     let section = NSCollectionLayoutSection(group: verticalGroup)
     section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 15, bottom: 15, trailing: 15)
     section.interGroupSpacing = 20
@@ -206,5 +234,19 @@ extension NoticeViewController: UIGestureRecognizerDelegate {
   func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     return true // or false
   }
+}
 
+extension NoticeViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireMainNoticeList()
+  }
 }

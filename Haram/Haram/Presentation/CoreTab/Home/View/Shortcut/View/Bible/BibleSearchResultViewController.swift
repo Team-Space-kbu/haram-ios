@@ -16,6 +16,7 @@ final class BibleSearchResultViewController: BaseViewController, BackButtonHandl
   // MARK: - Property
   
   private let viewModel: BibleSearchResultViewModelType
+  private let request: InquireChapterToBibleRequest
   
   // MARK: - UI Components
   
@@ -23,6 +24,7 @@ final class BibleSearchResultViewController: BaseViewController, BackButtonHandl
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
     $0.isSkeletonable = true
+    $0.showsVerticalScrollIndicator = true
   }
   
   private let containerView = UIStackView().then {
@@ -52,17 +54,21 @@ final class BibleSearchResultViewController: BaseViewController, BackButtonHandl
     request: InquireChapterToBibleRequest
   ) {
     self.viewModel = viewModel
+    self.request = request
     super.init(nibName: nil, bundle: nil)
-    bind(request: request)
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotifications()
+  }
+  
   // MARK: - Configurations
   
-  func bind(request: InquireChapterToBibleRequest) {
+  override func bind() {
     super.bind()
     viewModel.searchBible(request: request)
     
@@ -86,7 +92,6 @@ final class BibleSearchResultViewController: BaseViewController, BackButtonHandl
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           }
         }
       }
@@ -95,7 +100,7 @@ final class BibleSearchResultViewController: BaseViewController, BackButtonHandl
   
   override func setupStyles() {
     super.setupStyles()
-    
+    registerNotifications()
     setupBackButton()
     setupSkeletonView()
   }
@@ -132,3 +137,17 @@ final class BibleSearchResultViewController: BaseViewController, BackButtonHandl
   }
 }
 
+extension BibleSearchResultViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.searchBible(request: request)
+  }
+}

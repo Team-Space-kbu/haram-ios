@@ -77,7 +77,11 @@ final class CommentInputView: UIView, UITextViewDelegate {
   
   private func setupLayouts() {
     addSubview(backgroundView)
-    _ = [checkBoxControl, commentTextView, sendButton].map { backgroundView.addSubview($0) }
+    if writeableAnonymous {
+      _ = [checkBoxControl, commentTextView, sendButton].map { backgroundView.addSubview($0) }
+    } else {
+      _ = [commentTextView, sendButton].map { backgroundView.addSubview($0) }
+    }
   }
   
   private func setupConstraints() {
@@ -86,27 +90,46 @@ final class CommentInputView: UIView, UITextViewDelegate {
       $0.directionalEdges.equalToSuperview()
     }
     
-    checkBoxControl.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(19)
-      $0.leading.equalToSuperview().inset(15)
-      $0.height.equalTo(38)
-    }
-    
-    commentTextView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(11)
-      $0.leading.equalTo(checkBoxControl.snp.trailing).offset(10)
-      $0.trailing.equalToSuperview().inset(56)
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 11 + 10 : 11)
-      $0.height.equalTo(32)
-    }
-    
-    sendButton.snp.makeConstraints {
-      $0.leading.equalTo(commentTextView.snp.trailing).offset(8)
-      $0.height.equalTo(36)
-      $0.centerY.equalTo(commentTextView)
-      $0.trailing.equalToSuperview().inset(8)
+    if writeableAnonymous {
+      checkBoxControl.snp.makeConstraints {
+        $0.top.equalToSuperview().inset(19)
+        $0.leading.equalToSuperview().inset(15)
+        $0.height.equalTo(38)
+      }
       
+      commentTextView.snp.makeConstraints {
+        $0.top.equalToSuperview().inset(11)
+        $0.leading.equalTo(checkBoxControl.snp.trailing).offset(10)
+        $0.trailing.equalToSuperview().inset(56)
+        $0.bottom.equalToSuperview().inset(Device.isNotch ? 11 + 10 : 11)
+        $0.height.equalTo(32)
+      }
+      
+      sendButton.snp.makeConstraints {
+        $0.leading.equalTo(commentTextView.snp.trailing).offset(8)
+        $0.height.equalTo(36)
+        $0.centerY.equalTo(commentTextView)
+        $0.trailing.equalToSuperview().inset(8)
+        
+      }
+    } else {
+      commentTextView.snp.makeConstraints {
+        $0.top.equalToSuperview().inset(11)
+        $0.leading.equalToSuperview().inset(15)
+        $0.trailing.equalToSuperview().inset(56)
+        $0.bottom.equalToSuperview().inset(Device.isNotch ? 11 + 10 : 11)
+        $0.height.equalTo(32)
+      }
+      
+      sendButton.snp.makeConstraints {
+        $0.leading.equalTo(commentTextView.snp.trailing).offset(8)
+        $0.height.equalTo(36)
+        $0.centerY.equalTo(commentTextView)
+        $0.trailing.equalToSuperview().inset(8)
+        
+      }
     }
+    
   }
   
   private func bind() {
@@ -120,7 +143,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
         
         owner.commentTextView.textColor = .hexD0D0D0
         owner.commentTextView.text = owner.placeHolder
-        owner.delegate?.writeComment(comment, isAnonymous: owner.checkBoxControl.isChecked)
+        owner.delegate?.writeComment(comment, isAnonymous: owner.writeableAnonymous ? owner.checkBoxControl.isChecked : false)
       }
       .disposed(by: disposeBag)
     

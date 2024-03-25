@@ -139,22 +139,24 @@ final class HomeViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  deinit {
-    removeNotifications()
-  }
-  
   // MARK: - Life Cycle
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     viewModel.inquireSimpleChapelInfo()
+    registerNotifications()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeNotifications()
   }
   
   // MARK: - Configurations
   
   override func setupStyles() {
     super.setupStyles()
-    registerNotifications()
+    
     _ = [scrollView, scrollContainerView, homeNoticeView, checkChapelDayView, newsCollectionView, newsTitleLabel, shortcutCollectionView, pageControl, bannerCollectionView].map { $0.isSkeletonable = true }
     
     let label = UILabel().then {
