@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import WebKit
 
 import RxSwift
 import SnapKit
@@ -17,12 +18,14 @@ struct TermsOfUseTableViewCellModel {
   let title: String
   var isChecked: Bool
   let isRequired: Bool
+  let content: String
   
   init(response: InquireTermsSignUpResponse) {
     seq = response.termsSeq
     title = response.title
     isChecked = false
     isRequired = response.isRequired
+    content = "<style>body{background-color:#F2F3F5;padding-top: 4px;padding-right: 6px;padding-bottom: 7px;padding-left: 6px;}</style>" + response.content
   }
 }
 
@@ -53,6 +56,23 @@ final class TermsOfUseTableViewCell: UITableViewCell {
     $0.isSkeletonable = true
   }
   
+  private let configuration = WKWebViewConfiguration().then {
+    let preferences = WKPreferences()
+    WKWebpagePreferences().allowsContentJavaScript = true
+    preferences.javaScriptCanOpenWindowsAutomatically = true
+    $0.preferences = preferences
+  }
+  
+  private lazy var webView = WKWebView(frame: .zero, configuration: configuration).then {
+    $0.scrollView.showsVerticalScrollIndicator = false
+    $0.scrollView.showsHorizontalScrollIndicator = false
+    $0.scrollView.backgroundColor = .hexF2F3F5
+    $0.layer.cornerRadius = 10
+    $0.layer.masksToBounds = true
+    $0.isSkeletonable = true
+    $0.skeletonCornerRadius = 10
+  }
+  
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     configureUI()
@@ -69,6 +89,8 @@ final class TermsOfUseTableViewCell: UITableViewCell {
     isChecked = false
 //    checkImage.image = nil
     checkImage.backgroundColor = nil
+    webView.stopLoading()
+    webView.loadHTMLString("", baseURL: nil)
 //    checkImage.layer.borderColor = nil
   }
   
@@ -82,7 +104,7 @@ final class TermsOfUseTableViewCell: UITableViewCell {
     self.checkImage.layer.borderWidth = 2
     self.checkImage.layer.borderColor = UIColor.lightGray.cgColor
     
-    _ = [checkImage, alertLabel].map { contentView.addSubview($0) }
+    _ = [checkImage, alertLabel, webView].map { contentView.addSubview($0) }
     
     checkImage.snp.makeConstraints {
       $0.leading.top.equalToSuperview()
@@ -94,12 +116,20 @@ final class TermsOfUseTableViewCell: UITableViewCell {
       $0.leading.equalTo(checkImage.snp.trailing).offset(5)
       $0.trailing.equalToSuperview()
     }
+    
+    webView.snp.makeConstraints {
+      $0.top.equalTo(checkImage.snp.bottom).offset(10)
+      $0.height.equalTo(124)
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(21)
+    }
   }
   
   func configureUI(with model: TermsOfUseTableViewCellModel) {
     alertLabel.text = model.title
     self.isChecked = model.isChecked
     seq = model.seq
+    webView.loadHTMLString(model.content, baseURL: nil)
   }
   
   private enum Image {

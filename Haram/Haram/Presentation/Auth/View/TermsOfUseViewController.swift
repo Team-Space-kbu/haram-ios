@@ -17,7 +17,6 @@ final class TermsOfUseViewController: BaseViewController {
   private let viewModel: TermsOfUseViewModelType
   
   private var termsOfModel: [TermsOfUseTableViewCellModel] = []
-  private var termsOfWebModel: [TermsWebTableViewCellModel] = []
   
   private let titleLabel = UILabel().then {
     $0.text = "이용약관📄"
@@ -28,7 +27,6 @@ final class TermsOfUseViewController: BaseViewController {
   
   private lazy var termsOfUseTableView = UITableView(frame: .zero, style: .plain).then {
     $0.register(TermsOfUseTableViewCell.self, forCellReuseIdentifier: TermsOfUseTableViewCell.identifier)
-    $0.register(TermsWebTableViewCell.self, forCellReuseIdentifier: TermsWebTableViewCell.identifier)
     $0.dataSource = self
     $0.delegate = self
     $0.backgroundColor = .white
@@ -74,7 +72,6 @@ final class TermsOfUseViewController: BaseViewController {
   }
   
   private lazy var checkAllButton = CheckBoxControl(type: .none, title: "아래 약관에 모두 동의합니다.").then {
-    
     $0.isSkeletonable = true
   }
   
@@ -103,25 +100,22 @@ final class TermsOfUseViewController: BaseViewController {
     
     viewModel.inquireTermsSignUp()
     
-    Signal.combineLatest(
-      viewModel.termsOfModel,
-      viewModel.termsOfWebModel
-    )
-    .emit(with: self) { owner, result in
-      let (termModel, webModel) = result
-      owner.termsOfModel = termModel
-      owner.termsOfWebModel = webModel
-      
-      owner.termsOfUseTableView.snp.updateConstraints {
-        $0.height.equalTo(termModel.count * (124 + 28 + 21))
+    viewModel.termsOfModel
+      .emit(with: self) { owner, termModel in
+        
+        owner.termsOfModel = termModel
+        
+        
+        owner.termsOfUseTableView.snp.updateConstraints {
+          $0.height.equalTo(termModel.count * (124 + 28 + 21))
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+          owner.view.hideSkeleton()
+        }
+        owner.termsOfUseTableView.reloadData()
       }
-      
-      DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-        owner.view.hideSkeleton()
-      }
-      owner.termsOfUseTableView.reloadData()
-    }
-    .disposed(by: disposeBag)
+      .disposed(by: disposeBag)
     
     applyButton.rx.tap
       .subscribe(with: self) { owner, _ in
@@ -217,59 +211,38 @@ final class TermsOfUseViewController: BaseViewController {
 extension TermsOfUseViewController: UITableViewDataSource, UITableViewDelegate {
   
   func numberOfSections(in tableView: UITableView) -> Int {
-    termsOfModel.count
+    1
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 2
+    return termsOfModel.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    if indexPath.row % 2 == 0 {
-      let cell = tableView.dequeueReusableCell(withIdentifier: TermsOfUseTableViewCell.identifier, for: indexPath) as? TermsOfUseTableViewCell ?? TermsOfUseTableViewCell()
-      cell.configureUI(with: termsOfModel[indexPath.section])
-      return cell
-    } else {
-      let cell = tableView.dequeueReusableCell(withIdentifier: TermsWebTableViewCell.identifier, for: indexPath) as? TermsWebTableViewCell ?? TermsWebTableViewCell()
-      cell.configureUI(with: termsOfWebModel[indexPath.section])
-      return cell
-    }
+    let cell = tableView.dequeueReusableCell(withIdentifier: TermsOfUseTableViewCell.identifier, for: indexPath) as? TermsOfUseTableViewCell ?? TermsOfUseTableViewCell()
+    cell.configureUI(with: termsOfModel[indexPath.row])
+    return cell
   }
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if indexPath.row % 2 == 0 {
-      return 28
-    } else {
-      return 124 + 21
-    }
+    return 124 + 21 + 28
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
-    if indexPath.row == 0 {
-      viewModel.checkedTermsSignUp(seq: termsOfModel[indexPath.section].seq, isChecked: !termsOfModel[indexPath.section].isChecked)
-    }
+    viewModel.checkedTermsSignUp(seq: termsOfModel[indexPath.row].seq, isChecked: !termsOfModel[indexPath.row].isChecked)
   }
   
 }
 
 extension TermsOfUseViewController: SkeletonTableViewDataSource {
   func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
-    if indexPath.row % 2 == 0 {
-      let cell = skeletonView.dequeueReusableCell(withIdentifier: TermsOfUseTableViewCell.identifier, for: indexPath) as? TermsOfUseTableViewCell ?? TermsOfUseTableViewCell()
-      return cell
-    } else {
-      let cell = skeletonView.dequeueReusableCell(withIdentifier: TermsWebTableViewCell.identifier, for: indexPath) as? TermsWebTableViewCell ?? TermsWebTableViewCell()
-      return cell
-    }
+    let cell = skeletonView.dequeueReusableCell(withIdentifier: TermsOfUseTableViewCell.identifier, for: indexPath) as? TermsOfUseTableViewCell ?? TermsOfUseTableViewCell()
+    return cell
   }
   
   func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
-    if indexPath.row % 2 == 0 {
-      return TermsOfUseTableViewCell.identifier
-    } else {
-      return TermsWebTableViewCell.identifier
-    }
+    return TermsOfUseTableViewCell.identifier
   }
   
   func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -277,7 +250,7 @@ extension TermsOfUseViewController: SkeletonTableViewDataSource {
   }
   
   func numSections(in collectionSkeletonView: UITableView) -> Int {
-    2
+    1
   }
 }
 

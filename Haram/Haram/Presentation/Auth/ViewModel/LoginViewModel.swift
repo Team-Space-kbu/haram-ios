@@ -66,8 +66,6 @@ extension LoginViewModel {
         owner.successLoginRelay.accept(())
 
         case .failure(let error):
-//          guard let description = error.description else { return }
-          /// TODO: -로그인 실패 시 처리해야함
           owner.errorMessageRelay.accept(error)
       }
       owner.isLoadingSubject.onNext(false)

@@ -276,8 +276,6 @@
 		70B310982BAB022700EF21CE /* InquireTermsSignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310972BAB022700EF21CE /* InquireTermsSignUpResponse.swift */; };
 		70B3109A2BAB02C100EF21CE /* TermsOfUseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310992BAB02C100EF21CE /* TermsOfUseViewModel.swift */; };
 		70B3109D2BAB2EE400EF21CE /* TermsOfUseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B3109C2BAB2EE400EF21CE /* TermsOfUseTableViewCell.swift */; };
-		70B3109F2BAC197200EF21CE /* TermsOfUseTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B3109E2BAC197200EF21CE /* TermsOfUseTableHeaderView.swift */; };
-		70B310A12BAC816700EF21CE /* TermsWebTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310A02BAC816700EF21CE /* TermsWebTableViewCell.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -572,8 +570,6 @@
 		70B310972BAB022700EF21CE /* InquireTermsSignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireTermsSignUpResponse.swift; sourceTree = "<group>"; };
 		70B310992BAB02C100EF21CE /* TermsOfUseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewModel.swift; sourceTree = "<group>"; };
 		70B3109C2BAB2EE400EF21CE /* TermsOfUseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseTableViewCell.swift; sourceTree = "<group>"; };
-		70B3109E2BAC197200EF21CE /* TermsOfUseTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseTableHeaderView.swift; sourceTree = "<group>"; };
-		70B310A02BAC816700EF21CE /* TermsWebTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsWebTableViewCell.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -1504,8 +1500,6 @@
 			isa = PBXGroup;
 			children = (
 				70B3109C2BAB2EE400EF21CE /* TermsOfUseTableViewCell.swift */,
-				70B3109E2BAC197200EF21CE /* TermsOfUseTableHeaderView.swift */,
-				70B310A02BAC816700EF21CE /* TermsWebTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1839,7 +1833,6 @@
 				705FD2BD2A1A4CEE00F353FE /* LibraryDetailViewController.swift in Sources */,
 				701FC89B2B97565F00291FC3 /* EditBoardCollectionViewCell.swift in Sources */,
 				7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */,
-				70B3109F2BAC197200EF21CE /* TermsOfUseTableHeaderView.swift in Sources */,
 				708ED7A12A8F922900107CDF /* CheckReservationViewController.swift in Sources */,
 				701F29C62AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift in Sources */,
 				708ED7C62A911E6C00107CDF /* TodayPrayCollectionViewCell.swift in Sources */,
@@ -1921,7 +1914,6 @@
 				7083123E2A2CA62A00F7E283 /* InquireChapelListResponse.swift in Sources */,
 				701FC8A12B9C990200291FC3 /* EditBoardViewModel.swift in Sources */,
 				70375F072AB04F7B0032F6B8 /* InquireChapterToBibleRequest.swift in Sources */,
-				70B310A12BAC816700EF21CE /* TermsWebTableViewCell.swift in Sources */,
 				708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */,
 				708ED79B2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift in Sources */,
 				70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */,
@@ -2234,7 +2226,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = TK287254JR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Haram/Info.plist;
@@ -2271,7 +2263,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Haram/HaramRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = TK287254JR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Haram/Info.plist;
@@ -2307,7 +2299,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
@@ -2328,7 +2320,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
@@ -2348,7 +2340,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -2367,7 +2359,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;

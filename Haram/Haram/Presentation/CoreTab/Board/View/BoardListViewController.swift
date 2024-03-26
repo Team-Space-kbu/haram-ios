@@ -30,7 +30,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   ).then {
     $0.backgroundColor = .clear
     $0.register(BoardListCollectionViewCell.self, forCellWithReuseIdentifier: BoardListCollectionViewCell.identifier)
-    $0.contentInset = UIEdgeInsets(top: 20, left: 15, bottom: .zero, right: 15)
+    $0.contentInset = UIEdgeInsets(top: 20, left: 15, bottom: 15, right: 15)
     $0.alwaysBounceVertical = true
     $0.isSkeletonable = true
     $0.showsVerticalScrollIndicator = true
@@ -236,12 +236,12 @@ extension BoardListViewController {
   
   @objc
   private func refreshBoardList() {
-    viewModel.inquireBoardList(categorySeq: categorySeq)
+    viewModel.refreshBoardList(categorySeq: categorySeq)
   }
   
   @objc
   private func refreshWhenNetworkConnected() {
-    viewModel.inquireBoardList(categorySeq: categorySeq)
+    viewModel.refreshBoardList(categorySeq: categorySeq)
   }
 }
 
