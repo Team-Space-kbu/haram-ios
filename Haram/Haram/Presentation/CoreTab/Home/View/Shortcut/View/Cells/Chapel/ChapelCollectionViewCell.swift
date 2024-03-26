@@ -46,9 +46,9 @@ enum ChapelResultType: CaseIterable {
   var imageName: String {
     switch self {
     case .attendance:
-      return "smileBlue"
+      return "smileYellow"
     case .late, .absence:
-      return "sadGray"
+      return "sadYellow"
     }
   }
 }
