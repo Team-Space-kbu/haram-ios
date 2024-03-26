@@ -16,7 +16,7 @@ protocol TermsOfUseViewModelType {
   func checkedAllTermsSignUp(isChecked: Bool)
   
   var termsOfModel: Signal<[TermsOfUseTableViewCellModel]> { get }
-  var termsOfWebModel: Signal<[TermsWebTableViewCellModel]> { get }
+//  var termsOfWebModel: Signal<[TermsWebTableViewCellModel]> { get }
   var isContinueButtonEnabled: Driver<Bool> { get }
   var isCheckallCheckButton: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
@@ -28,7 +28,7 @@ final class TermsOfUseViewModel {
   private let authRepository: AuthRepository
   
   private let termsOfModelRelay = BehaviorRelay<[TermsOfUseTableViewCellModel]>(value: [])
-  private let termsOfWebModelRelay = BehaviorRelay<[TermsWebTableViewCellModel]>(value: [])
+//  private let termsOfWebModelRelay = BehaviorRelay<[TermsWebTableViewCellModel]>(value: [])
   private let isContinueButtonEnabledSubject = BehaviorSubject<Bool>(value: false)
   private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   
@@ -46,9 +46,9 @@ extension TermsOfUseViewModel: TermsOfUseViewModelType {
     termsOfModelRelay.skip(1).map { $0.filter { !$0.isChecked }.isEmpty }.asDriver(onErrorJustReturn: false)
   }
   
-  var termsOfWebModel: RxCocoa.Signal<[TermsWebTableViewCellModel]> {
-    termsOfWebModelRelay.skip(1).take(2).asSignal(onErrorSignalWith: .empty())
-  }
+//  var termsOfWebModel: RxCocoa.Signal<[TermsWebTableViewCellModel]> {
+//    termsOfWebModelRelay.skip(1).take(1).asSignal(onErrorSignalWith: .empty())
+//  }
   
   var isContinueButtonEnabled: RxCocoa.Driver<Bool> {
     termsOfModelRelay.map { $0.filter { $0.isRequired && !$0.isChecked }.isEmpty }.asDriver(onErrorJustReturn: false)
@@ -87,7 +87,7 @@ extension TermsOfUseViewModel: TermsOfUseViewModelType {
         switch result {
         case let .success(response):
           owner.termsOfModelRelay.accept(response.map { .init(response: $0) })
-          owner.termsOfWebModelRelay.accept(response.map { .init(response: $0) })
+//          owner.termsOfWebModelRelay.accept(response.map { .init(response: $0) })
         case let .failure(error):
           owner.errorMessageRelay.accept(error)
         }

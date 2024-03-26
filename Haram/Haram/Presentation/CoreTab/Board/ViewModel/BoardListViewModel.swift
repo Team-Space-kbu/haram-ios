@@ -11,6 +11,7 @@ import RxCocoa
 protocol BoardListViewModelType {
   
   func inquireBoardList(categorySeq: Int)
+  func refreshBoardList(categorySeq: Int)
   
   var boardListModel: Driver<[BoardListCollectionViewCellModel]> { get }
   var errorMessage: Signal<HaramError> { get }
@@ -60,6 +61,35 @@ extension BoardListViewModel: BoardListViewModelType {
         
         owner.writeableAnonymousSubject.onNext(response.writeableAnonymous)
         owner.currentBoardListRelay.accept(currentBoardList)
+        owner.isLoading = false
+        
+        // 다음 페이지 요청을 위해 +1
+        owner.startPage = response.startPage + 1
+        owner.endPage = response.endPage
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+        owner.isLoading = false
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  func refreshBoardList(categorySeq: Int) {
+    
+//    guard startPage <= endPage && !isLoading else { return }
+    
+    isLoading = true
+    
+    let inquireBoardList = boardRepository.inquireBoardListInCategory(categorySeq: categorySeq, page: 1)
+    
+    inquireBoardList
+      .subscribe(with: self, onSuccess: { owner, response in
+        var currentBoardList = owner.currentBoardListRelay.value
+        let addBoardList = response.boards.map { BoardListCollectionViewCellModel(board: $0) }
+        currentBoardList.append(contentsOf: addBoardList)
+        
+        owner.writeableAnonymousSubject.onNext(response.writeableAnonymous)
+        owner.currentBoardListRelay.accept(addBoardList)
         owner.isLoading = false
         
         // 다음 페이지 요청을 위해 +1
