@@ -13,12 +13,14 @@ import SkeletonView
 import Then
 
 struct LibraryResultsCollectionViewCellModel {
+  var isLast: Bool
   let imageURL: URL?
   let title: String
   let description: String
   let path: Int
   
-  init(result: SearchBookResult) {
+  init(result: SearchBookResult, isLast: Bool) {
+    self.isLast = isLast
     imageURL = URL(string: result.imageName)
     title = result.title
     description = result.description
@@ -81,7 +83,7 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
     isSkeletonable = true
     contentView.isSkeletonable = true
     
-    [outerView, mainLabel, subLabel, bottomLineView, bookImageView].forEach {
+    [outerView, mainLabel, subLabel].forEach {
       $0.isSkeletonable = true
       contentView.addSubview($0)
     }
@@ -110,15 +112,25 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
       $0.bottom.lessThanOrEqualTo(bookImageView)
     }
     
-    bottomLineView.snp.makeConstraints {
-      $0.height.equalTo(1)
-      $0.bottom.directionalHorizontalEdges.equalToSuperview()
-    }
+//    bottomLineView.snp.makeConstraints {
+//      $0.height.equalTo(1)
+//      $0.bottom.directionalHorizontalEdges.equalToSuperview()
+//    }
   }
   
   func configureUI(with model: LibraryResultsCollectionViewCellModel) {
     
     hideSkeleton()
+    
+    if model.isLast {
+      bottomLineView.removeFromSuperview()
+    } else {
+      contentView.addSubview(bottomLineView)
+      bottomLineView.snp.makeConstraints {
+        $0.height.equalTo(1)
+        $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      }
+    }
     
     bookImageView.kf.setImage(with: model.imageURL, placeholder: UIImage(systemName: "book"))
     mainLabel.text = model.title

@@ -29,6 +29,7 @@ final class LibraryResultsViewController: BaseViewController, BackButtonHandler 
     $0.contentInset = .init(top: 21.97, left: 15, bottom: .zero, right: 15)
     $0.isSkeletonable = true
     $0.showsVerticalScrollIndicator = true
+    $0.alwaysBounceVertical = true
   }
   
   private lazy var emptyView = EmptyView(text: "검색정보가 없습니다.")
@@ -192,7 +193,7 @@ extension LibraryResultsViewController {
       imageName: "",
       path: 0,
       isbn: ""
-    )))
+    ), isLast: false))
     return cell
   }
   

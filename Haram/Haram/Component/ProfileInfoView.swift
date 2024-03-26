@@ -22,6 +22,8 @@ struct ProfileInfoViewModel {
 
 final class ProfileInfoView: UIView {
   
+  let button = UIButton()
+  
   private let nameLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold20
@@ -56,7 +58,7 @@ final class ProfileInfoView: UIView {
   }
   
   private func configureUI() {
-    [nameLabel, emailLabel, lineView, moreLabel, indicatorButton].forEach { addSubview($0) }
+    [nameLabel, emailLabel, lineView, moreLabel, indicatorButton, button].forEach { addSubview($0) }
     nameLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(13)
       $0.leading.equalToSuperview().inset(15)
@@ -82,6 +84,10 @@ final class ProfileInfoView: UIView {
     indicatorButton.snp.makeConstraints {
       $0.centerY.equalTo(moreLabel)
       $0.trailing.equalToSuperview().inset(16)
+    }
+    
+    button.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
   }
   

@@ -194,6 +194,13 @@ final class MoreViewController: BaseViewController {
         }
       }
       .disposed(by: disposeBag)
+    
+    profileInfoView.button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let vc = MoreUpdatePasswordViewController()
+        owner.navigationController?.pushViewController(vc, animated: true)
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {
