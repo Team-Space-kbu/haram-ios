@@ -185,7 +185,7 @@
 		70864F3C2B021FA900CD4124 /* IntranetCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */; };
 		708DAD1C2B36DE6C00E3AD45 /* Ex + UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708DAD1B2B36DE6C00E3AD45 /* Ex + UIViewController.swift */; };
 		708E1E602B038A6E0030FAA0 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = 708E1E5F2B038A6E0030FAA0 /* FloatingPanel */; };
-		708E1E622B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708E1E612B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift */; };
+		708E1E622B044E0F0030FAA0 /* AffiliatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708E1E612B044E0F0030FAA0 /* AffiliatedViewController.swift */; };
 		708E1E642B0778CD0030FAA0 /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708E1E632B0778CD0030FAA0 /* PDFViewController.swift */; };
 		708E1E662B09E0330030FAA0 /* StudyReservationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708E1E652B09E0330030FAA0 /* StudyReservationViewModel.swift */; };
 		708E1E682B09E1A70030FAA0 /* CheckTimeAvailableForRothemReservationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708E1E672B09E1A70030FAA0 /* CheckTimeAvailableForRothemReservationResponse.swift */; };
@@ -232,7 +232,7 @@
 		708ED7E62A94B61100107CDF /* RevisionOfTranslation+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7E42A94B61100107CDF /* RevisionOfTranslation+CoreDataClass.swift */; };
 		708ED7E72A94B61100107CDF /* RevisionOfTranslation+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7E52A94B61100107CDF /* RevisionOfTranslation+CoreDataProperties.swift */; };
 		708ED7E92A94BADD00107CDF /* RevisionOfTranslationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7E82A94BADD00107CDF /* RevisionOfTranslationModel.swift */; };
-		708ED7EB2A9DD1D000107CDF /* AffiliatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7EA2A9DD1D000107CDF /* AffiliatedViewController.swift */; };
+		708ED7EB2A9DD1D000107CDF /* AffiliatedViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7EA2A9DD1D000107CDF /* AffiliatedViewController1.swift */; };
 		708ED7ED2A9E1D7400107CDF /* AffiliatedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7EC2A9E1D7400107CDF /* AffiliatedCollectionViewCell.swift */; };
 		708ED7EF2A9E232A00107CDF /* AffiliatedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7EE2A9E232A00107CDF /* AffiliatedViewModel.swift */; };
 		708ED7F12A9E24D000107CDF /* InquireAffiliatedListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708ED7F02A9E24D000107CDF /* InquireAffiliatedListResponse.swift */; };
@@ -245,7 +245,6 @@
 		70912FFD2B15F463005B88B4 /* QRCode in Frameworks */ = {isa = PBXBuildFile; productRef = 70912FFC2B15F463005B88B4 /* QRCode */; };
 		70912FFF2B15FF7D005B88B4 /* CancelRothemReservationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70912FFE2B15FF7D005B88B4 /* CancelRothemReservationRequest.swift */; };
 		709130012B176344005B88B4 /* Ex + UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709130002B176344005B88B4 /* Ex + UIView.swift */; };
-		709130032B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709130022B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift */; };
 		7095D38A2AD67C8F008DAA39 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095D3892AD67C8F008DAA39 /* Constants.swift */; };
 		709AB6452B77E19B004B0F59 /* BoardImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709AB6442B77E19B004B0F59 /* BoardImageCollectionViewCell.swift */; };
 		70A731C12B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C02B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift */; };
@@ -276,6 +275,12 @@
 		70B310982BAB022700EF21CE /* InquireTermsSignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310972BAB022700EF21CE /* InquireTermsSignUpResponse.swift */; };
 		70B3109A2BAB02C100EF21CE /* TermsOfUseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310992BAB02C100EF21CE /* TermsOfUseViewModel.swift */; };
 		70B3109D2BAB2EE400EF21CE /* TermsOfUseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B3109C2BAB2EE400EF21CE /* TermsOfUseTableViewCell.swift */; };
+		70B310A32BB2E8A100EF21CE /* AffiliatedDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310A22BB2E8A100EF21CE /* AffiliatedDetailViewController.swift */; };
+		70B310A62BB2F0A800EF21CE /* AffiliatedLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310A52BB2F0A800EF21CE /* AffiliatedLocationView.swift */; };
+		70B310A82BB2F25A00EF21CE /* AffiliatedIntroduceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310A72BB2F25A00EF21CE /* AffiliatedIntroduceView.swift */; };
+		70B310AA2BB2F29A00EF21CE /* AffiliatedBenefitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310A92BB2F29A00EF21CE /* AffiliatedBenefitView.swift */; };
+		70B310AC2BB2F4C600EF21CE /* AffiliatedMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310AB2BB2F4C600EF21CE /* AffiliatedMapView.swift */; };
+		70B310AE2BB2F93400EF21CE /* AffiliatedDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310AD2BB2F93400EF21CE /* AffiliatedDetailViewModel.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -480,7 +485,7 @@
 		70864F372B014A2D00CD4124 /* CreateCommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommentRequest.swift; sourceTree = "<group>"; };
 		70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetCheckViewController.swift; sourceTree = "<group>"; };
 		708DAD1B2B36DE6C00E3AD45 /* Ex + UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIViewController.swift"; sourceTree = "<group>"; };
-		708E1E612B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedFloatingPanelViewController.swift; sourceTree = "<group>"; };
+		708E1E612B044E0F0030FAA0 /* AffiliatedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedViewController.swift; sourceTree = "<group>"; };
 		708E1E632B0778CD0030FAA0 /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
 		708E1E652B09E0330030FAA0 /* StudyReservationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyReservationViewModel.swift; sourceTree = "<group>"; };
 		708E1E672B09E1A70030FAA0 /* CheckTimeAvailableForRothemReservationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTimeAvailableForRothemReservationResponse.swift; sourceTree = "<group>"; };
@@ -528,7 +533,7 @@
 		708ED7E42A94B61100107CDF /* RevisionOfTranslation+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RevisionOfTranslation+CoreDataClass.swift"; sourceTree = "<group>"; };
 		708ED7E52A94B61100107CDF /* RevisionOfTranslation+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RevisionOfTranslation+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		708ED7E82A94BADD00107CDF /* RevisionOfTranslationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevisionOfTranslationModel.swift; sourceTree = "<group>"; };
-		708ED7EA2A9DD1D000107CDF /* AffiliatedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedViewController.swift; sourceTree = "<group>"; };
+		708ED7EA2A9DD1D000107CDF /* AffiliatedViewController1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedViewController1.swift; sourceTree = "<group>"; };
 		708ED7EC2A9E1D7400107CDF /* AffiliatedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedCollectionViewCell.swift; sourceTree = "<group>"; };
 		708ED7EE2A9E232A00107CDF /* AffiliatedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedViewModel.swift; sourceTree = "<group>"; };
 		708ED7F02A9E24D000107CDF /* InquireAffiliatedListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireAffiliatedListResponse.swift; sourceTree = "<group>"; };
@@ -540,7 +545,6 @@
 		70912FF92B15EF2C005B88B4 /* RothemReservationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemReservationInfoView.swift; sourceTree = "<group>"; };
 		70912FFE2B15FF7D005B88B4 /* CancelRothemReservationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelRothemReservationRequest.swift; sourceTree = "<group>"; };
 		709130002B176344005B88B4 /* Ex + UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIView.swift"; sourceTree = "<group>"; };
-		709130022B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfiliatedFloatingPanelViewModel.swift; sourceTree = "<group>"; };
 		7095D3892AD67C8F008DAA39 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		709AB6442B77E19B004B0F59 /* BoardImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		70A731C02B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeTypeInfoRequest.swift; sourceTree = "<group>"; };
@@ -570,6 +574,12 @@
 		70B310972BAB022700EF21CE /* InquireTermsSignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireTermsSignUpResponse.swift; sourceTree = "<group>"; };
 		70B310992BAB02C100EF21CE /* TermsOfUseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewModel.swift; sourceTree = "<group>"; };
 		70B3109C2BAB2EE400EF21CE /* TermsOfUseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseTableViewCell.swift; sourceTree = "<group>"; };
+		70B310A22BB2E8A100EF21CE /* AffiliatedDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedDetailViewController.swift; sourceTree = "<group>"; };
+		70B310A52BB2F0A800EF21CE /* AffiliatedLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedLocationView.swift; sourceTree = "<group>"; };
+		70B310A72BB2F25A00EF21CE /* AffiliatedIntroduceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedIntroduceView.swift; sourceTree = "<group>"; };
+		70B310A92BB2F29A00EF21CE /* AffiliatedBenefitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedBenefitView.swift; sourceTree = "<group>"; };
+		70B310AB2BB2F4C600EF21CE /* AffiliatedMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedMapView.swift; sourceTree = "<group>"; };
+		70B310AD2BB2F93400EF21CE /* AffiliatedDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedDetailViewModel.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -742,6 +752,7 @@
 		705E70B429E1C79500156B1F /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				70B310A42BB2F09800EF21CE /* Affiliated */,
 				7032FD5C2B594A7800B8481C /* Common */,
 				7031E3CC2ABA74520027DC0A /* Board */,
 				70375F0F2AB1AAC20032F6B8 /* Auth */,
@@ -1251,8 +1262,9 @@
 		708DAD0E2B35AC0A00E3AD45 /* Affiliated */ = {
 			isa = PBXGroup;
 			children = (
-				708E1E612B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift */,
-				708ED7EA2A9DD1D000107CDF /* AffiliatedViewController.swift */,
+				708E1E612B044E0F0030FAA0 /* AffiliatedViewController.swift */,
+				708ED7EA2A9DD1D000107CDF /* AffiliatedViewController1.swift */,
+				70B310A22BB2E8A100EF21CE /* AffiliatedDetailViewController.swift */,
 			);
 			path = Affiliated;
 			sourceTree = "<group>";
@@ -1297,7 +1309,7 @@
 			isa = PBXGroup;
 			children = (
 				708ED7EE2A9E232A00107CDF /* AffiliatedViewModel.swift */,
-				709130022B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift */,
+				70B310AD2BB2F93400EF21CE /* AffiliatedDetailViewModel.swift */,
 			);
 			path = Affiliated;
 			sourceTree = "<group>";
@@ -1502,6 +1514,17 @@
 				70B3109C2BAB2EE400EF21CE /* TermsOfUseTableViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		70B310A42BB2F09800EF21CE /* Affiliated */ = {
+			isa = PBXGroup;
+			children = (
+				70B310A52BB2F0A800EF21CE /* AffiliatedLocationView.swift */,
+				70B310A72BB2F25A00EF21CE /* AffiliatedIntroduceView.swift */,
+				70B310A92BB2F29A00EF21CE /* AffiliatedBenefitView.swift */,
+				70B310AB2BB2F4C600EF21CE /* AffiliatedMapView.swift */,
+			);
+			path = Affiliated;
 			sourceTree = "<group>";
 		};
 		70E4D1552AD638BF00351B35 /* LaunchScreen */ = {
@@ -1855,6 +1878,7 @@
 				708312542A31930300F7E283 /* InquireHomeInfoResponse.swift in Sources */,
 				708ED7BC2A9119CC00107CDF /* InquireTodayWordsRequest.swift in Sources */,
 				70375F0B2AB055360032F6B8 /* BibleSearchResultViewModel.swift in Sources */,
+				70B310A32BB2E8A100EF21CE /* AffiliatedDetailViewController.swift in Sources */,
 				70AD2A792B8B1B4F00CB9791 /* LogHelper.swift in Sources */,
 				7083124C2A2F88EE00F7E283 /* RequestBookInfoResponse.swift in Sources */,
 				708312C22A7A6F2900F7E283 /* PaddingLabel.swift in Sources */,
@@ -1878,7 +1902,8 @@
 				70727A9029D88935003DE956 /* BaseViewController.swift in Sources */,
 				705FD28E2A10FC0200F353FE /* KeyChainWrapper.swift in Sources */,
 				701F29DE2AEBB7FF00E3E68B /* CheckReservationViewModel.swift in Sources */,
-				708ED7EB2A9DD1D000107CDF /* AffiliatedViewController.swift in Sources */,
+				70B310AA2BB2F29A00EF21CE /* AffiliatedBenefitView.swift in Sources */,
+				708ED7EB2A9DD1D000107CDF /* AffiliatedViewController1.swift in Sources */,
 				708ED7D42A9228D200107CDF /* BottomSheetViewController.swift in Sources */,
 				708312512A3192D900F7E283 /* HomeRepositoryImpl.swift in Sources */,
 				708ED7C92A911E8700107CDF /* BibleCollectionHeaderView.swift in Sources */,
@@ -1928,6 +1953,7 @@
 				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
 				708ED7E02A94B2E700107CDF /* RevisionOfTranslation.xcdatamodeld in Sources */,
 				705FD2BB2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift in Sources */,
+				70B310A82BB2F25A00EF21CE /* AffiliatedIntroduceView.swift in Sources */,
 				708ED7E22A94B49000107CDF /* CoreDataManager.swift in Sources */,
 				705FD2822A10E2A800F353FE /* BaseEntity.swift in Sources */,
 				708312C42A7BF7BD00F7E283 /* APIEventLogger.swift in Sources */,
@@ -1943,6 +1969,7 @@
 				701F29D92AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift in Sources */,
 				705FD28A2A10F6C300F353FE /* UserDefaultsWrapper.swift in Sources */,
 				708312B22A76940600F7E283 /* BoardListViewController.swift in Sources */,
+				70B310AC2BB2F4C600EF21CE /* AffiliatedMapView.swift in Sources */,
 				708312BE2A7A3C6200F7E283 /* SignupMemberRequest.swift in Sources */,
 				70727AA829D93F24003DE956 /* HomeNewsCollectionViewCell.swift in Sources */,
 				70375F032AAD78E20032F6B8 /* RentalLibraryCollectionViewCell.swift in Sources */,
@@ -1956,6 +1983,7 @@
 				708312912A6562D100F7E283 /* InquireUserInfoResponse.swift in Sources */,
 				708312462A2F34DB00F7E283 /* IntranetLoginViewController.swift in Sources */,
 				70AD2A692B86014100CB9791 /* NoticeDetailViewModel.swift in Sources */,
+				70B310AE2BB2F93400EF21CE /* AffiliatedDetailViewModel.swift in Sources */,
 				70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */,
 				70727A8829D87E0E003DE956 /* Config.swift in Sources */,
 				70B310922BA1798200EF21CE /* Ex + UIButton.swift in Sources */,
@@ -2015,9 +2043,9 @@
 				70AD2A922B90DBEA00CB9791 /* CheckEmailViewModel.swift in Sources */,
 				705FD2C32A2337C800F353FE /* NoticeViewController.swift in Sources */,
 				7083129B2A6A909C00F7E283 /* ChapelViewModel.swift in Sources */,
-				709130032B1B1EF2005B88B4 /* AfiliatedFloatingPanelViewModel.swift in Sources */,
 				70B3109D2BAB2EE400EF21CE /* TermsOfUseTableViewCell.swift in Sources */,
-				708E1E622B044E0F0030FAA0 /* AffiliatedFloatingPanelViewController.swift in Sources */,
+				708E1E622B044E0F0030FAA0 /* AffiliatedViewController.swift in Sources */,
+				70B310A62BB2F0A800EF21CE /* AffiliatedLocationView.swift in Sources */,
 				70909A862B0D9F1F00049265 /* InquireRothemReservationInfoResponse.swift in Sources */,
 				70AD2A6F2B889B1C00CB9791 /* BoardViewModel.swift in Sources */,
 				705FD2BF2A1A4D2E00F353FE /* LibraryDetailMainView.swift in Sources */,
