@@ -12,23 +12,17 @@ import SnapKit
 import SkeletonView
 import Then
 
-struct AffiliatedCollectionViewCellModel: Equatable {
-  let affiliatedX: Double
-  let affiliatedY: Double
+struct AffiliatedCollectionViewCellModel {
+  let isLast: Bool
   let affiliatedImageURL: URL?
   let affiliatedTitle: String
   let affiliatedSubTitle: String
   
-  init(response: InquireAffiliatedResponse) {
-    affiliatedX = Double(response.xCoordinate) ?? 0
-    affiliatedY = Double(response.yCoordinate) ?? 0
+  init(response: InquireAffiliatedResponse, isLast: Bool) {
+    self.isLast = isLast
     affiliatedImageURL = response.affiliatedImageURL
     affiliatedTitle = response.affiliatedName
     affiliatedSubTitle = response.description
-  }
-  
-  static func == (lhs: Self, rhs: Self) -> Bool {
-    lhs.affiliatedX == rhs.affiliatedX && lhs.affiliatedY == rhs.affiliatedY
   }
 }
 
@@ -84,7 +78,7 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell {
     contentView.isSkeletonable = true
     contentView.backgroundColor = .white
     
-    [affiliatedImageView, affiliatedTitleLabel, affiliatedSubTitleLabel, lineView].forEach { contentView.addSubview($0) }
+    [affiliatedImageView, affiliatedTitleLabel, affiliatedSubTitleLabel].forEach { contentView.addSubview($0) }
     affiliatedImageView.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
       $0.size.equalTo(94)
@@ -103,14 +97,20 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell {
       $0.trailing.equalToSuperview()
       $0.bottom.equalToSuperview().inset(15)
     }
-    
-    lineView.snp.makeConstraints {
-      $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview()
-    }
   }
   
   func configureUI(with model: AffiliatedCollectionViewCellModel) {
+    
+    if model.isLast {
+      lineView.removeFromSuperview()
+    } else {
+      contentView.addSubview(lineView)
+      lineView.snp.makeConstraints {
+        $0.height.equalTo(1)
+        $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      }
+    }
+    
     affiliatedImageView.kf.setImage(with: model.affiliatedImageURL)
     affiliatedTitleLabel.text = model.affiliatedTitle
     affiliatedSubTitleLabel.text = model.affiliatedSubTitle

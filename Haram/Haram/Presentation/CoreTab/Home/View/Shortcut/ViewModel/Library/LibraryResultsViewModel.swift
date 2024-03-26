@@ -46,12 +46,22 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
     requestSearchBook.subscribe(onNext: { response in
       
       
-      let model = response.result.map {
-        LibraryResultsCollectionViewCellModel(result: $0)
-      }
+      let model = response.result.map { LibraryResultsCollectionViewCellModel(result: $0, isLast: false) }
+      
       var currentResultModel = searchBookResults.value
       currentResultModel.append(contentsOf: model)
-      searchBookResults.accept(currentResultModel)
+      
+//      currentResultModel.enumerated().map { index, result in
+//        var result = result
+//        result.isLast = currentResultModel.count - 1 == index
+//        return result
+//      }
+      
+      searchBookResults.accept(currentResultModel.enumerated().map { index, result in
+        var result = result
+        result.isLast = currentResultModel.count - 1 == index
+        return result
+      })
       isLastPage.accept(response.end)
       
       

@@ -30,7 +30,11 @@ final class AffiliatedViewModel {
     let inquireAffiliatedList = homeRepository.inquireAffiliatedList()
     
     inquireAffiliatedList
-      .map { $0.map { AffiliatedCollectionViewCellModel(response: $0) } }
+      .map { affiliated in
+        affiliated.enumerated().map { index, response in
+          AffiliatedCollectionViewCellModel(response: response, isLast: index == affiliated.count - 1)
+        }
+      }
       .subscribe(with: self, onSuccess: { owner, model in
         owner.affiliatedModelRelay.accept(model)
       }, onFailure: { owner, error in
