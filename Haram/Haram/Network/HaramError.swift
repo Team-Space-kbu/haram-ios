@@ -46,6 +46,8 @@ enum HaramError: Error, CaseIterable {
   
   /// 비밀번호변경 시 에러
   case expireAuthCode
+  case equalUpdatePasswordWithOldPassword // 변경하고자하는 비밀번호와 기존 비밀번호가 같은 경우
+  case notEqualOldPassword // 기존 비밀번호가 틀린 경우
   
   /// 성경관련 에러
   case noExistTodayBibleWord // 오늘의 성경말씀이 존재하지않을 때 발생하는 에러
@@ -121,6 +123,10 @@ extension HaramError {
       return "USER05"
     case .alreadyUseNickName:
       return "USER07"
+    case .notEqualOldPassword:
+      return "USER08"
+    case .equalUpdatePasswordWithOldPassword:
+      return "USER09"
     case .emailAlreadyUse:
       return "USER13"
     case .noExistTodayBibleWord:
@@ -252,6 +258,10 @@ extension HaramError {
       return "연속된 시간만 예약할 수 있습니다."
     case .networkError, .retryError:
       return nil
+    case .equalUpdatePasswordWithOldPassword:
+      return "기존 비밀번호와 변경할 비밀번호가 일치합니다\n 수정 후 다시 시도해주세요."
+    case .notEqualOldPassword:
+      return "기존 비밀번호와 일치하지않습니다\n 수정 후 다시 시도해주세요."
     }
   }
 }

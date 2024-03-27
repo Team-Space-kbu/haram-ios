@@ -18,6 +18,7 @@ protocol AuthRepository {
   func verifyMailAuthCode(userMail: String, authCode: String) -> Observable<Result<Bool, HaramError>>
   func verifyFindPassword(userMail: String, authCode: String) -> Observable<Result<String, HaramError>>
   func inquireTermsSignUp() -> Observable<Result<[InquireTermsSignUpResponse], HaramError>>
+  func updateUserPassword(userID: String, request: UpdateUserPasswordRequest) -> Observable<Result<Bool, HaramError>>
 }
 
 final class AuthRepositoryImpl {
@@ -31,6 +32,10 @@ final class AuthRepositoryImpl {
 }
 
 extension AuthRepositoryImpl: AuthRepository {
+  func updateUserPassword(userID: String, request: UpdateUserPasswordRequest) -> RxSwift.Observable<Result<Bool, HaramError>> {
+    service.request(router: AuthRouter.updateUserPassword(userID, request), type: Bool.self)
+  }
+  
   func inquireTermsSignUp() -> RxSwift.Observable<Result<[InquireTermsSignUpResponse], HaramError>> {
     service.request(router: AuthRouter.inquireTermsSignUp, type: [InquireTermsSignUpResponse].self)
   }

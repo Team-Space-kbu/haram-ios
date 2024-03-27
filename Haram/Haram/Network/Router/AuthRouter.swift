@@ -19,13 +19,14 @@ enum AuthRouter {
   case verifyMailAuthCode(String, String)
   case verifyFindPassword(String, String)
   case inquireTermsSignUp
+  case updateUserPassword(String, UpdateUserPasswordRequest)
 }
 
 extension AuthRouter: Router {
   
   var baseURL: String {
     switch self {
-    case .signupUser, .loginMember, .reissuanceAccessToken, .logoutUser, .loginIntranet, .requestEmailAuthCode, .updatePassword, .verifyMailAuthCode, .verifyFindPassword, .inquireTermsSignUp:
+    case .signupUser, .loginMember, .reissuanceAccessToken, .logoutUser, .loginIntranet, .requestEmailAuthCode, .updatePassword, .verifyMailAuthCode, .verifyFindPassword, .inquireTermsSignUp, .updateUserPassword:
       return URLConstants.baseURL
     }
   }
@@ -36,7 +37,7 @@ extension AuthRouter: Router {
       return .post
     case .requestEmailAuthCode, .verifyMailAuthCode, .inquireTermsSignUp:
       return .get
-    case .updatePassword:
+    case .updatePassword, .updateUserPassword:
       return .put
     }
   }
@@ -63,6 +64,8 @@ extension AuthRouter: Router {
       return "/v1/users/\(userMail)/password/init/auth"
     case .inquireTermsSignUp:
       return "/v1/terms/sign-up"
+    case let .updateUserPassword(userID, _):
+      return "/v1/users/\(userID)/passwords"
     }
   }
   
@@ -84,6 +87,8 @@ extension AuthRouter: Router {
       return .body(request)
     case let .verifyFindPassword(_, emailAuthCode):
       return .body(["emailAuthCode": emailAuthCode])
+    case let .updateUserPassword(_, request):
+      return .body(request)
     }
   }
   
@@ -91,7 +96,7 @@ extension AuthRouter: Router {
     switch self {
     case .signupUser, .loginMember, .verifyMailAuthCode, .verifyFindPassword, .inquireTermsSignUp:
       return .default
-    case .logoutUser, .loginIntranet, .requestEmailAuthCode, .updatePassword:
+    case .logoutUser, .loginIntranet, .requestEmailAuthCode, .updatePassword, .updateUserPassword:
       return .withAccessToken
     case .reissuanceAccessToken:
       return .withRefreshToken
