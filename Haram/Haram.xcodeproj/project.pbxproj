@@ -282,6 +282,8 @@
 		70B310AC2BB2F4C600EF21CE /* AffiliatedMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310AB2BB2F4C600EF21CE /* AffiliatedMapView.swift */; };
 		70B310AE2BB2F93400EF21CE /* AffiliatedDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310AD2BB2F93400EF21CE /* AffiliatedDetailViewModel.swift */; };
 		70B310B02BB3087800EF21CE /* MoreUpdatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310AF2BB3087700EF21CE /* MoreUpdatePasswordViewController.swift */; };
+		70B310B22BB3F85800EF21CE /* UpdateUserPasswordRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310B12BB3F85800EF21CE /* UpdateUserPasswordRequest.swift */; };
+		70B310B42BB3F96F00EF21CE /* MoreUpdatePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310B32BB3F96F00EF21CE /* MoreUpdatePasswordViewModel.swift */; };
 		70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */; };
 		70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */; };
 		70C9CC9D2A039DFD00BEB5F2 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */; };
@@ -582,6 +584,8 @@
 		70B310AB2BB2F4C600EF21CE /* AffiliatedMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedMapView.swift; sourceTree = "<group>"; };
 		70B310AD2BB2F93400EF21CE /* AffiliatedDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedDetailViewModel.swift; sourceTree = "<group>"; };
 		70B310AF2BB3087700EF21CE /* MoreUpdatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreUpdatePasswordViewController.swift; sourceTree = "<group>"; };
+		70B310B12BB3F85800EF21CE /* UpdateUserPasswordRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserPasswordRequest.swift; sourceTree = "<group>"; };
+		70B310B32BB3F96F00EF21CE /* MoreUpdatePasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreUpdatePasswordViewModel.swift; sourceTree = "<group>"; };
 		70C9CC962A037D1E00BEB5F2 /* Ex + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIColor.swift"; sourceTree = "<group>"; };
 		70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
@@ -830,6 +834,7 @@
 				7001DA8A2B6E17C10037D599 /* LogoutUserRequest.swift */,
 				70AD2A8F2B90CC5000CB9791 /* UpdatePasswordRequest.swift */,
 				70B310972BAB022700EF21CE /* InquireTermsSignUpResponse.swift */,
+				70B310B12BB3F85800EF21CE /* UpdateUserPasswordRequest.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1304,6 +1309,7 @@
 			isa = PBXGroup;
 			children = (
 				708312922A65638200F7E283 /* MoreViewModel.swift */,
+				70B310B32BB3F96F00EF21CE /* MoreUpdatePasswordViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1972,6 +1978,7 @@
 				708ED7CD2A9122F900107CDF /* BibleNoticeCollectionViewCell.swift in Sources */,
 				701F29D92AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift in Sources */,
 				705FD28A2A10F6C300F353FE /* UserDefaultsWrapper.swift in Sources */,
+				70B310B22BB3F85800EF21CE /* UpdateUserPasswordRequest.swift in Sources */,
 				708312B22A76940600F7E283 /* BoardListViewController.swift in Sources */,
 				70B310AC2BB2F4C600EF21CE /* AffiliatedMapView.swift in Sources */,
 				708312BE2A7A3C6200F7E283 /* SignupMemberRequest.swift in Sources */,
@@ -2028,6 +2035,7 @@
 				70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */,
 				7051E5022ADABC4400C2134B /* Ex + UILabel.swift in Sources */,
 				708ED7892A8E02B800107CDF /* StudyListCollectionHeaderView.swift in Sources */,
+				70B310B42BB3F96F00EF21CE /* MoreUpdatePasswordViewModel.swift in Sources */,
 				708312442A2F1E6500F7E283 /* InquireChapelInfoResponse.swift in Sources */,
 				705FD2D32A2645D200F353FE /* SearchBookResponse.swift in Sources */,
 				701FC8972B97127500291FC3 /* EditBoardViewController.swift in Sources */,

@@ -198,6 +198,7 @@ final class MoreViewController: BaseViewController {
     profileInfoView.button.rx.tap
       .subscribe(with: self) { owner, _ in
         let vc = MoreUpdatePasswordViewController()
+        vc.hidesBottomBarWhenPushed = true
         owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
