@@ -82,13 +82,13 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell {
     affiliatedImageView.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
       $0.size.equalTo(94)
-      $0.bottom.equalToSuperview().inset(15)
     }
     
     affiliatedTitleLabel.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.leading.equalTo(affiliatedImageView.snp.trailing).offset(23)
       $0.trailing.equalToSuperview()
+      $0.height.equalTo(24)
     }
     
     affiliatedSubTitleLabel.snp.makeConstraints {

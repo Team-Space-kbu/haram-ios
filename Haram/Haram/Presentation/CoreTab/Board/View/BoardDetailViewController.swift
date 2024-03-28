@@ -267,7 +267,7 @@ extension BoardDetailViewController: CommentInputViewDelegate {
   
   func writeComment(_ comment: String, isAnonymous: Bool) {
     if comment.isEmpty {
-      AlertManager.showAlert(title: "댓글작성알림", message: "댓글을 반드시 작성해주세요.", viewController: self, confirmHandler: nil)
+      AlertManager.showAlert(title: "댓글작성 알림", message: "댓글을 반드시 작성해주세요.", viewController: self, confirmHandler: nil)
     }
     viewModel.createComment(boardComment: comment, categorySeq: categorySeq, boardSeq: boardSeq, isAnonymous: isAnonymous)
     view.endEditing(true)

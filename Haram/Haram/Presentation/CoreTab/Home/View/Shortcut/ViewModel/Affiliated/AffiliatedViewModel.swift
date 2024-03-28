@@ -9,6 +9,9 @@ import RxSwift
 import RxCocoa
 
 protocol AffiliatedViewModelType {
+  
+  func tryInquireAffiliated()
+  
   var affiliatedModel: Driver<[AffiliatedCollectionViewCellModel]> { get }
   var errorMessage: Signal<HaramError> { get }
 }
@@ -23,10 +26,12 @@ final class AffiliatedViewModel {
   
   init(homeRepository: HomeRepository = HomeRepositoryImpl()) {
     self.homeRepository = homeRepository
-    tryInquireAffiliated()
   }
+}
+
+extension AffiliatedViewModel: AffiliatedViewModelType {
   
-  private func tryInquireAffiliated() {
+  func tryInquireAffiliated() {
     let inquireAffiliatedList = homeRepository.inquireAffiliatedList()
     
     inquireAffiliatedList
@@ -43,9 +48,7 @@ final class AffiliatedViewModel {
       })
       .disposed(by: disposeBag)
   }
-}
-
-extension AffiliatedViewModel: AffiliatedViewModelType {
+  
   var errorMessage: RxCocoa.Signal<HaramError> {
     errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }
