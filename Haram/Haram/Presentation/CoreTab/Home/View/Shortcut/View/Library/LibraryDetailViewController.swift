@@ -245,7 +245,6 @@ extension LibraryDetailViewController: UICollectionViewDelegate, UICollectionVie
     
     if collectionView == relatedBookCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? LibraryRelatedBookCollectionViewCell ?? LibraryRelatedBookCollectionViewCell()
-      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
       UIView.transition(with: cell, duration: 0.1) {
         cell.transform = .identity
         cell.alpha = 1

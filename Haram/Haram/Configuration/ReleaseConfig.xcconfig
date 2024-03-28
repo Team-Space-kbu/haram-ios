@@ -1,0 +1,11 @@
+//
+//  ReleaseConfig.xcconfig
+//  Haram
+//
+//  Created by 이건준 on 3/28/24.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+BASE_URL = https:/$()/api.team-space.org

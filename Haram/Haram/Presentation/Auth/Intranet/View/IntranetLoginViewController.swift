@@ -240,8 +240,6 @@ extension IntranetLoginViewController {
     guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
           let currentTextField = UIResponder.getCurrentResponder() as? UITextField else { return }
     
-    let keyboardHeight = keyboardFrame.cgRectValue.height
-    
     // Y축으로 키보드의 상단 위치
     let keyboardTopY = keyboardFrame.cgRectValue.origin.y
     // 현재 선택한 텍스트 필드의 Frame 값

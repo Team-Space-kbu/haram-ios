@@ -205,7 +205,7 @@ extension StudyReservationViewModel: StudyReservationViewModelType {
   }
   
   func checkCheckBox(policySeq: Int, isChecked: Bool) {
-    var policyModel = policyModelRelay.value
+    let policyModel = policyModelRelay.value
     policyModelRelay.accept(
       policyModel.map { policy in
         var policy = policy

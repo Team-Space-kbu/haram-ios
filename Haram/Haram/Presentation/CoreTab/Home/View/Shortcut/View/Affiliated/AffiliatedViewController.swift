@@ -136,7 +136,6 @@ extension AffiliatedViewController: UICollectionViewDelegate, UICollectionViewDa
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let model = affiliatedModel[indexPath.row]
     let vc = AffiliatedDetailViewController()
     vc.title = affiliatedModel[indexPath.row].affiliatedTitle
     vc.navigationItem.largeTitleDisplayMode = .never

@@ -136,7 +136,7 @@ extension HomeViewModel: HomeViewModelType {
             switch result {
             case .success(let response):
               owner.isAvailableSimpleChapelModalSubject.onNext((true, .init(regulatedDay: response.regulateDays, chapelDay: response.confirmationDays)))
-            case .failure(let _):
+            case .failure(_):
               owner.isAvailableSimpleChapelModalSubject.onNext((false, nil))
             }
           }

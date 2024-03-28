@@ -12,7 +12,8 @@ enum NaverMapKeyConstants {
 }
 
 enum URLConstants {
-  static let baseURL = "https://test.team-space.org"
+  static let baseURL = Environment.baseURLstring
+//  static let baseURL = "https://test.team-space.org"
 //  static let baseURL = "https://api.team-space.org"
   static let intranetBaseURL = "https://m.bible.ac.kr"
 }

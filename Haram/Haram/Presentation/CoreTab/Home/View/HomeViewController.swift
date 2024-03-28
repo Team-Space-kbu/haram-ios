@@ -164,7 +164,7 @@ final class HomeViewController: BaseViewController {
       $0.textColor = .black
       $0.font = .bold26
     }
-    
+    print("베이스 \(Environment.baseURLstring)")
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: label)
     
     setupSkeletonView()
@@ -391,15 +391,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     if collectionView == shortcutCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
-      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
-      
       UIView.transition(with: cell, duration: 0.1) {
         cell.alpha = 1
         cell.transform = .identity
       }
     } else if collectionView == newsCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
-      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
       UIView.transition(with: cell, duration: 0.1) {
         cell.alpha = 1
         cell.transform = .identity
