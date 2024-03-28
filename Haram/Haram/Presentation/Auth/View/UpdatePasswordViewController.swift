@@ -43,7 +43,8 @@ final class UpdatePasswordViewController: BaseViewController {
   
   private let checkPasswordTextField = HaramTextField(
     title: "비밀번호 확인",
-    placeholder: "Password"
+    placeholder: "Password",
+    options: .errorLabel
   ).then {
     $0.textField.isSecureTextEntry = true
   }
@@ -105,7 +106,7 @@ final class UpdatePasswordViewController: BaseViewController {
     }
     
     checkPasswordTextField.snp.makeConstraints {
-      $0.height.equalTo(73)
+      $0.height.greaterThanOrEqualTo(73)
     }
     
     containerView.setCustomSpacing(7, after: titleLabel)
@@ -145,7 +146,23 @@ final class UpdatePasswordViewController: BaseViewController {
     passwordTextField.textField.rx.controlEvent(.editingDidEnd)
       .withLatestFrom(passwordTextField.rx.text.orEmpty)
       .subscribe(with: self) { owner, password in
+        guard !password.isEmpty else { return }
+        
+        if let checkUpdatePassword = owner.checkPasswordTextField.textField.text,
+           !checkUpdatePassword.isEmpty {
+          owner.viewModel.isEqualPasswordAndRePassword(password: password, repassword: checkUpdatePassword)
+        }
+        
         owner.viewModel.checkPassword(password: password)
+      }
+      .disposed(by: disposeBag)
+    
+    checkPasswordTextField.textField.rx.controlEvent(.editingDidEnd)
+      .withLatestFrom(passwordTextField.rx.text.orEmpty)
+      .subscribe(with: self) { owner, password in
+        guard let checkPassword = owner.checkPasswordTextField.textField.text,
+              !checkPassword.isEmpty else { return }
+        owner.viewModel.isEqualPasswordAndRePassword(password: password, repassword: checkPassword)
       }
       .disposed(by: disposeBag)
     
@@ -204,6 +221,16 @@ final class UpdatePasswordViewController: BaseViewController {
               UIApplication.shared.open(url)
             }
           }
+        } else if error == .noEqualPassword {
+          owner.checkPasswordTextField.setError(description: error.description!)
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successMessage
+      .emit(with: self) { owner, error in
+        if error == .noEqualPassword {
+          owner.checkPasswordTextField.removeError()
         }
       }
       .disposed(by: disposeBag)

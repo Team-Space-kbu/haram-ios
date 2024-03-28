@@ -13,6 +13,7 @@ import RxCocoa
 protocol UpdatePasswordViewModelType {
   func requestUpdatePassword(password: String, authCode: String, userMail: String)
   func checkPassword(password: String)
+  func isEqualPasswordAndRePassword(password: String, repassword: String)
   
   var password: AnyObserver<String> { get }
   var rePassword: AnyObserver<String> { get }
@@ -21,6 +22,7 @@ protocol UpdatePasswordViewModelType {
   var successUpdatePassword: Signal<Void> { get }
   var isContinueButtonEnabled: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
+  var successMessage: Signal<HaramError> { get }
 }
 
 final class UpdatePasswordViewModel {
@@ -33,6 +35,7 @@ final class UpdatePasswordViewModel {
   private let passwordSubject = BehaviorSubject<String>(value: "")
   private let rePasswordSubject = BehaviorSubject<String>(value: "")
   private let errorMessageRelay = PublishRelay<HaramError>()
+  private let successMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   
   init(authRepository: AuthRepository = AuthRepositoryImpl()) {
     self.authRepository = authRepository
@@ -49,6 +52,19 @@ final class UpdatePasswordViewModel {
 }
 
 extension UpdatePasswordViewModel: UpdatePasswordViewModelType {
+  
+  var successMessage: RxCocoa.Signal<HaramError> {
+    successMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
+  }
+  
+  func isEqualPasswordAndRePassword(password: String, repassword: String) {
+    guard password != repassword else {
+      successMessageRelay.accept(.noEqualPassword)
+      return
+    }
+    errorMessageRelay.accept(.noEqualPassword)
+  }
+  
   var errorMessage: RxCocoa.Signal<HaramError> {
     errorMessageRelay.asSignal()
   }

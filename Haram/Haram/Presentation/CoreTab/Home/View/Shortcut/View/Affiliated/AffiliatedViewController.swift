@@ -30,6 +30,10 @@ final class AffiliatedViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotifications()
+  }
+  
   private let affiliatedCollectionView = UICollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
@@ -48,7 +52,7 @@ final class AffiliatedViewController: BaseViewController, BackButtonHandler {
   
   override func setupStyles() {
     super.setupStyles()
-    
+    registerNotifications()
     title = "제휴업체"
     setupBackButton()
     navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -75,6 +79,9 @@ final class AffiliatedViewController: BaseViewController, BackButtonHandler {
   
   override func bind() {
     super.bind()
+    
+    viewModel.tryInquireAffiliated()
+    
     viewModel.affiliatedModel
       .drive(with: self) { owner, model in
         owner.affiliatedModel = model
@@ -135,6 +142,29 @@ extension AffiliatedViewController: UICollectionViewDelegate, UICollectionViewDa
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }
+  
+  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+    
+    if collectionView == affiliatedCollectionView {
+      let cell = collectionView.cellForItem(at: indexPath) as? AffiliatedCollectionViewCell ?? AffiliatedCollectionViewCell()
+      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+      UIView.transition(with: cell, duration: 0.1) {
+        cell.alpha = 0.5
+        cell.transform = pressedDownTransform
+      }
+    }
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+    
+    if collectionView == affiliatedCollectionView {
+      let cell = collectionView.cellForItem(at: indexPath) as? AffiliatedCollectionViewCell ?? AffiliatedCollectionViewCell()
+      UIView.transition(with: cell, duration: 0.1) {
+        cell.alpha = 1
+        cell.transform = .identity
+      }
+    }
+  }
 }
 
 extension AffiliatedViewController: SkeletonCollectionViewDataSource {
@@ -154,5 +184,20 @@ extension AffiliatedViewController: SkeletonCollectionViewDataSource {
 extension AffiliatedViewController: UIGestureRecognizerDelegate {
   func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     return true // or false
+  }
+}
+
+extension AffiliatedViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.tryInquireAffiliated()
   }
 }
