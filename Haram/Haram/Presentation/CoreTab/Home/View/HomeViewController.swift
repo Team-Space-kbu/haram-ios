@@ -156,7 +156,8 @@ final class HomeViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    
+    print("데이터 \(Environment.baseURLString)")
+    print("데이터 \(Environment.naverClientID)")
     _ = [scrollView, scrollContainerView, homeNoticeView, checkChapelDayView, newsCollectionView, newsTitleLabel, shortcutCollectionView, pageControl, bannerCollectionView].map { $0.isSkeletonable = true }
     
     let label = UILabel().then {

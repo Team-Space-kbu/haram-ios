@@ -36,8 +36,10 @@ final class TermsOfUseTableViewCell: UITableViewCell {
   private var seq: Int?
   private var isChecked = false {
     willSet {
-      self.checkImage.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
-      self.checkImage.image = newValue ? Image.checkShape?.withTintColor(.hex3B8686, renderingMode: .alwaysOriginal) :  nil
+      UIView.transition(with: checkImage, duration: 0.15, options: .transitionCrossDissolve) {
+        self.checkImage.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
+        self.checkImage.image = newValue ? Image.checkShape?.withTintColor(.hex3B8686, renderingMode: .alwaysOriginal) :  nil
+      }
     }
   }
   
@@ -133,6 +135,6 @@ final class TermsOfUseTableViewCell: UITableViewCell {
   }
   
   private enum Image {
-    static let checkShape = UIImage(systemName: "checkmark.square.fill")
+    static let checkShape = UIImage(systemName: "checkmark.square.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 24, weight: .heavy))
   }
 }

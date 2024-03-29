@@ -23,7 +23,7 @@ final class CheckBoxButton: UIButton {
   /// 체크가 되어있다면 `true`, 아니면 `false`를 리턴합니다.
   var isChecked = false {
     willSet {
-      //      UIView.transition(with: self, duration: 0.15, options: .transitionCrossDissolve) {
+            UIView.transition(with: self, duration: 0.15, options: .transitionCrossDissolve) {
       switch self.checkStyle {
       case .full:
         self.backgroundColor    = newValue ? .hex3B8686 : .lightGray
@@ -35,7 +35,7 @@ final class CheckBoxButton: UIButton {
         // 체크모양 이미지 설정
         newValue ? self.setImage(Image.checkShape?.withTintColor(.hex3B8686, renderingMode: .alwaysOriginal), for: .normal) : self.setImage(nil, for: .normal)
       }
-      //      }
+            }
     }
   }
   
@@ -91,7 +91,7 @@ extension CheckBoxButton {
 
 extension CheckBoxButton {
   private enum Image {
-    static let checkShape = UIImage(systemName: "checkmark.square.fill")
+    static let checkShape = UIImage(systemName: "checkmark.square.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 24, weight: .heavy))
   }
 }
 
@@ -136,16 +136,18 @@ final class CheckBoxControl: UIControl {
   /// 체크가 되어있다면 `true`, 아니면 `false`를 리턴합니다.
   var isChecked = false {
     willSet {
-      switch self.checkStyle {
-      case .full:
-        self.checkImageView.backgroundColor    = newValue ? .hex3B8686 : .lightGray
-        self.checkImageView.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
-      case .none:
-        self.checkImageView.backgroundColor    = newValue ? .white : .white
-        self.checkImageView.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
-        
-        // 체크모양 이미지 설정
-        self.checkImageView.image = newValue ? Image.checkShape?.withTintColor(.hex3B8686, renderingMode: .alwaysOriginal) :  nil
+      UIView.transition(with: checkImageView, duration: 0.15, options: .transitionCrossDissolve) {
+        switch self.checkStyle {
+        case .full:
+          self.checkImageView.backgroundColor    = newValue ? .hex3B8686 : .lightGray
+          self.checkImageView.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
+        case .none:
+          self.checkImageView.backgroundColor    = newValue ? .white : .white
+          self.checkImageView.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
+          
+          // 체크모양 이미지 설정
+          self.checkImageView.image = newValue ? Image.checkShape?.withTintColor(.hex3B8686, renderingMode: .alwaysOriginal) :  nil
+        }
       }
     }
   }
@@ -226,7 +228,7 @@ extension CheckBoxControl {
 
 extension CheckBoxControl {
   private enum Image {
-    static let checkShape = UIImage(systemName: "checkmark.square.fill")
+    static let checkShape = UIImage(systemName: "checkmark.square.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 24, weight: .heavy))
   }
 }
 

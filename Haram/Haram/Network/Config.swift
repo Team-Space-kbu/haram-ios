@@ -8,11 +8,9 @@
 import Foundation
 
 enum NaverMapKeyConstants {
-  static let clientID = "ebw01b3ehd"
+  static let clientID = Environment.naverClientID
 }
 
 enum URLConstants {
-  static let baseURL = "https://test.team-space.org"
-//  static let baseURL = "https://api.team-space.org"
-  static let intranetBaseURL = "https://m.bible.ac.kr"
+  static let baseURL = Environment.baseURLString
 }
