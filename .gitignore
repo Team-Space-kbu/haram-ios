@@ -70,7 +70,8 @@ Pods/
 # End of https://www.toptal.com/developers/gitignore/api/fastlane,cocoapods
 
 ### Custom gitignore ###
-
-Haram/Haram/Repository/Config.swift
+*/*.xcconfig
+*.xcconfig
 /Haram/fastlane/.env
-/Haram/fastlane
+/Haram/Haram/Configuration/DebugConfig.xcconfig
+/Haram/Haram/Configuration/ReleaseConfig.xcconfig
