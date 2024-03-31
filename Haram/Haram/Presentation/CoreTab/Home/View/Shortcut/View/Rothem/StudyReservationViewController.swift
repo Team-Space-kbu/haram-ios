@@ -402,50 +402,62 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if collectionView == selectedDayCollectionView {
-      viewModel.whichCalendarSeq.onNext(selectedDateModel[indexPath.row].calendarSeq)
+      if selectedDateModel[indexPath.row].isAvailable {
+        viewModel.whichCalendarSeq.onNext(selectedDateModel[indexPath.row].calendarSeq)
+        let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
+        cell.showAnimation(scale: 0.98) {}
+      }
     } else if collectionView == selectedTimeCollectionView {
-      if indexPath.section == 0 {
-        let isSelected = selectedTimeModel[indexPath.row].isTimeSelected
-        let timeSeq = selectedTimeModel[indexPath.row].timeSeq
-        isSelected ? viewModel.deSelectTimeSeq.onNext(timeSeq) : viewModel.selectTimeSeq.onNext(timeSeq)
-      } else if indexPath.section == 1 {
-        let amCount = selectedTimeModel.filter { $0.meridiem == .am }.count
-        let isSelected = selectedTimeModel[indexPath.row + amCount].isTimeSelected
-        let timeSeq = selectedTimeModel[indexPath.row + amCount].timeSeq
-        isSelected ? viewModel.deSelectTimeSeq.onNext(timeSeq) : viewModel.selectTimeSeq.onNext(timeSeq)
+      
+      if !selectedTimeModel[indexPath.row].isReserved {
+        let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
+        cell.showAnimation(scale: 0.98) { [weak self] in
+          guard let self = self else { return }
+          let timeModel = self.selectedTimeModel[indexPath.row]
+          if indexPath.section == 0 {
+            let isSelected = timeModel.isTimeSelected
+            let timeSeq = timeModel.timeSeq
+            isSelected ? self.viewModel.deSelectTimeSeq.onNext(timeSeq) : self.viewModel.selectTimeSeq.onNext(timeSeq)
+          } else if indexPath.section == 1 {
+            let amCount = self.selectedTimeModel.filter { $0.meridiem == .am }.count
+            let isSelected = self.selectedTimeModel[indexPath.row + amCount].isTimeSelected
+            let timeSeq = self.selectedTimeModel[indexPath.row + amCount].timeSeq
+            isSelected ? self.viewModel.deSelectTimeSeq.onNext(timeSeq) : self.viewModel.selectTimeSeq.onNext(timeSeq)
+          }
+        }
       }
     }
   }
   
-  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == selectedDayCollectionView {
-      if selectedDateModel[indexPath.row].isAvailable {
-        let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
-        cell.setHighlighted(isHighlighted: true)
-      }
-    } else if collectionView == selectedTimeCollectionView {
-      if !selectedTimeModel[indexPath.row].isReserved {
-        let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
-        cell.setHighlighted(isHighlighted: true)
-      }
-    }
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == selectedDayCollectionView {
-      if selectedDateModel[indexPath.row].isAvailable {
-        let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
-        cell.setHighlighted(isHighlighted: false)
-      }
-    } else if collectionView == selectedTimeCollectionView {
-      if !selectedTimeModel[indexPath.row].isReserved {
-        let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
-        cell.setHighlighted(isHighlighted: false)
-      }
-    }
-  }
+//  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+//    
+//    if collectionView == selectedDayCollectionView {
+//      if selectedDateModel[indexPath.row].isAvailable {
+//        let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
+//        cell.setHighlighted(isHighlighted: true)
+//      }
+//    } else if collectionView == selectedTimeCollectionView {
+//      if !selectedTimeModel[indexPath.row].isReserved {
+//        let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
+//        cell.setHighlighted(isHighlighted: true)
+//      }
+//    }
+//  }
+//  
+//  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+//    
+//    if collectionView == selectedDayCollectionView {
+//      if selectedDateModel[indexPath.row].isAvailable {
+//        let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
+//        cell.setHighlighted(isHighlighted: false)
+//      }
+//    } else if collectionView == selectedTimeCollectionView {
+//      if !selectedTimeModel[indexPath.row].isReserved {
+//        let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
+//        cell.setHighlighted(isHighlighted: false)
+//      }
+//    }
+//  }
 }
 
 // MARK: - SkeletonViewDataSource

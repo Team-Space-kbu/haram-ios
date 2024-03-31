@@ -127,20 +127,16 @@ final class NoticeCollectionViewCell: UICollectionViewCell {
   }
   
   func setHighlighted(isHighlighted: Bool) {
-//    containerView.backgroundColor = isHighlighted ? .lightGray : .clear
     
     if isHighlighted {
       let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
       UIView.transition(with: entireView, duration: 0.1) {
         self.entireView.backgroundColor = .lightGray
-  //      cell.setBackgroundColor(isHighlighted: true)
         self.entireView.transform = pressedDownTransform
       }
     } else {
       UIView.transition(with: entireView, duration: 0.1) {
-//        cell.contentView.backgroundColor = .clear
         self.entireView.backgroundColor = .hexF8F8F8
-//        cell.setBackgroundColor(isHighlighted: false)
         self.entireView.transform = .identity
       }
     }

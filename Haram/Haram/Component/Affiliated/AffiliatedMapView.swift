@@ -67,5 +67,11 @@ final class AffiliatedMapView: UIView {
         )
       )
     )
+    
+    let marker = NMFMarker()
+    let position = NMGLatLng(lat: model.coordinateX, lng: model.coordinateY)
+    marker.position = position
+    marker.iconImage = NMF_MARKER_IMAGE_GREEN
+    marker.mapView = mapView.mapView
   }
 }

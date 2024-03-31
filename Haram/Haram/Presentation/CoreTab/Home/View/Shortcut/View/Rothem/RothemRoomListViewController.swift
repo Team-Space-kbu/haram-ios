@@ -128,34 +128,15 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
 
 extension RothemRoomListViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = StudyRoomDetailViewController(roomSeq: studyListModel[indexPath.row].roomSeq)
-    vc.title = studyListModel[indexPath.row].title
-    vc.navigationItem.largeTitleDisplayMode = .never
-    navigationController?.pushViewController(vc, animated: true)
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == studyListCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? StudyListCollectionViewCell ?? StudyListCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.alpha = 0.5
-        cell.transform = pressedDownTransform
-      }
+    let cell = collectionView.cellForItem(at: indexPath) as? StudyListCollectionViewCell ?? StudyListCollectionViewCell()
+    cell.showAnimation(scale: 0.9) { [weak self] in
+      guard let self = self else { return }
+      let vc = StudyRoomDetailViewController(roomSeq: studyListModel[indexPath.row].roomSeq)
+      vc.title = studyListModel[indexPath.row].title
+      vc.navigationItem.largeTitleDisplayMode = .never
+      self.navigationController?.pushViewController(vc, animated: true)
     }
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == studyListCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? StudyListCollectionViewCell ?? StudyListCollectionViewCell()
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.alpha = 1
-        cell.transform = .identity
-      }
-    }
-  }
+  }  
 }
 
 extension RothemRoomListViewController: UICollectionViewDelegateFlowLayout {

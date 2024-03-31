@@ -79,13 +79,17 @@ final class BibleSearchView: UIView {
     
     jeolBibleControl.rx.controlEvent(.touchUpInside)
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedJeolControl()
+        owner.jeolBibleControl.showAnimation {
+          owner.delegate?.didTappedJeolControl()
+        }
       }
       .disposed(by: disposeBag)
     
     chapterBibleControl.rx.controlEvent(.touchUpInside)
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedChapterControl()
+        owner.chapterBibleControl.showAnimation { 
+          owner.delegate?.didTappedChapterControl()
+        }
       }
       .disposed(by: disposeBag)
   }

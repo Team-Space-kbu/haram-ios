@@ -346,58 +346,30 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     
     if collectionView == shortcutCollectionView {
-      let type = ShortcutType.allCases[indexPath.row]
-      let vc = type.viewController
-      vc.navigationItem.largeTitleDisplayMode = .never
-      vc.hidesBottomBarWhenPushed = true
-      navigationController?.pushViewController(vc, animated: true)
-    } else if collectionView == newsCollectionView {
-      let vc = PDFViewController(pdfURL: newsModel[indexPath.row].pdfURL)
-      vc.title = newsModel[indexPath.row].title
-      vc.navigationItem.largeTitleDisplayMode = .never
-      vc.hidesBottomBarWhenPushed = true
-      navigationController?.pushViewController(vc, animated: true)
-    }
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == shortcutCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.alpha = 0.5
-        cell.transform = pressedDownTransform
+      cell.showAnimation(scale: 0.9) { [weak self] in
+        guard let self = self else { return }
+        let type = ShortcutType.allCases[indexPath.row]
+        let vc = type.viewController
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
       }
     } else if collectionView == newsCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.alpha = 0.5
-        cell.transform = pressedDownTransform
+      cell.showAnimation(scale: 0.9) { [weak self] in
+        guard let self = self else { return }
+        let model = self.newsModel[indexPath.row]
+        let vc = PDFViewController(pdfURL: model.pdfURL)
+        vc.title = model.title
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
       }
     }
-    
   }
   
-  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == shortcutCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
-      
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.alpha = 1
-        cell.transform = .identity
-      }
-    } else if collectionView == newsCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
-      
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.alpha = 1
-        cell.transform = .identity
-      }
-    }
-  }
+  
 }
 
 extension HomeViewController: SkeletonCollectionViewDataSource {

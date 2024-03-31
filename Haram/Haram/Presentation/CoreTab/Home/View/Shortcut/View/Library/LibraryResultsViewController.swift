@@ -154,30 +154,11 @@ extension LibraryResultsViewController: SkeletonCollectionViewDelegate, Skeleton
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let path = model[indexPath.row].path
     let vc = LibraryDetailViewController(path: path)
-    vc.navigationItem.largeTitleDisplayMode = .never
-    navigationController?.pushViewController(vc, animated: true)
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == searchResultsCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? LibraryResultsCollectionViewCell ?? LibraryResultsCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.alpha = 0.5
-        cell.transform = pressedDownTransform
-      }
-    }
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == searchResultsCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? LibraryResultsCollectionViewCell ?? LibraryResultsCollectionViewCell()
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.alpha = 1
-        cell.transform = .identity
-      }
+    let cell = collectionView.cellForItem(at: indexPath) as? LibraryResultsCollectionViewCell ?? LibraryResultsCollectionViewCell()
+    cell.showAnimation(scale: 0.9) { [weak self] in
+      guard let self = self else { return }
+      vc.navigationItem.largeTitleDisplayMode = .never
+      self.navigationController?.pushViewController(vc, animated: true)
     }
   }
 }
