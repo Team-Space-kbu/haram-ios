@@ -38,6 +38,7 @@ enum MoreType: CaseIterable {
 
 enum SettingType: CaseIterable {
   case provision
+  case privacyInfo
   case license
   case logout
   
@@ -45,10 +46,23 @@ enum SettingType: CaseIterable {
     switch self {
     case .provision:
       return "하람서비스약관"
+    case .privacyInfo:
+      return "개인정보처리방침"
     case .license:
       return "오픈소스라이센스"
     case .logout:
       return "로그아웃"
+    }
+  }
+  
+  var url: URL? {
+    switch self {
+    case .provision:
+      return URL(string: "https://team-spaces.notion.site/space-51257ec335724f90ad69ce20ae3e2393?pvs=4")
+    case .privacyInfo:
+      return URL(string: "https://team-spaces.notion.site/238de2ae5b7a4000a40492037ed35640?pvs=4")
+    default:
+      return nil
     }
   }
 }
@@ -250,8 +264,8 @@ final class MoreViewController: BaseViewController {
       $0.top.equalTo(settingLabel.snp.bottom).offset(17)
       $0.leading.equalToSuperview().inset(15)
       $0.trailing.equalToSuperview().inset(15)
-      $0.height.equalTo(127 + 23 + 23)
-      $0.bottom.equalToSuperview().inset(23)
+      $0.height.equalTo(35 * 4)
+      $0.bottom.equalToSuperview().inset(13)
     }
   }
   
@@ -310,6 +324,12 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
           action: #selector(didTappedBackButton)
         )
         navigationController?.pushViewController(acknowList, animated: true)
+      } else {
+        let vc = HaramProvisionViewController(url: settingType.url)
+        vc.title = settingType.title
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
       }
     } else {
       let moreType = MoreType.allCases[indexPath.row]
@@ -361,9 +381,9 @@ extension MoreViewController: SkeletonTableViewDataSource {
   
   func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if skeletonView == moreTableView {
-      return 2
+      return MoreType.allCases.count
     }
-    return 3
+    return SettingType.allCases.count
   }
 }
 

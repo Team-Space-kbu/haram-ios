@@ -57,7 +57,7 @@ extension TermsOfUseViewModel: TermsOfUseViewModelType {
   
   /// 전체 동의 체크박스를 클릭할때
   func checkedAllTermsSignUp(isChecked: Bool) {
-    var termsOfModel = termsOfModelRelay.value
+    let termsOfModel = termsOfModelRelay.value
     termsOfModelRelay.accept(
       termsOfModel.map { model in
         var model = model

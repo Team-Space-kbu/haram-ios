@@ -60,12 +60,16 @@ final class RothemRoomDetailView: UIView {
     $0.isSkeletonable = true
   }
   
-  private let roomDestinationLabel = UILabel().then {
-    $0.font = .regular12
-    $0.textColor = .hex9F9FA4
-    $0.sizeToFit()
+  private let roomLocationView = AffiliatedLocationView().then {
     $0.isSkeletonable = true
   }
+  
+//  private let roomDestinationLabel = UILabel().then {
+//    $0.font = .regular12
+//    $0.textColor = .hex9F9FA4
+//    $0.sizeToFit()
+//    $0.isSkeletonable = true
+//  }
   
   private let lineView = UIView().then {
     $0.backgroundColor = .hexD8D8DA
@@ -138,7 +142,7 @@ final class RothemRoomDetailView: UIView {
     
     scrollView.addSubview(containerView)
     
-    [roomTitleLabel, roomDestinationLabel, lineView, roomDescriptionTitleLabel, roomDescriptionContentLabel, popularAmenityTitleLabel, popularAmenityCollectionView, reservationButton].forEach { containerView.addSubview($0) }
+    [roomTitleLabel, roomLocationView, lineView, roomDescriptionTitleLabel, roomDescriptionContentLabel, popularAmenityTitleLabel, popularAmenityCollectionView, reservationButton].forEach { containerView.addSubview($0) }
     
     scrollView.snp.makeConstraints {
       $0.directionalEdges.width.equalToSuperview()
@@ -155,14 +159,14 @@ final class RothemRoomDetailView: UIView {
       $0.height.equalTo(30)
     }
     
-    roomDestinationLabel.snp.makeConstraints {
+    roomLocationView.snp.makeConstraints {
       $0.top.equalTo(roomTitleLabel.snp.bottom).offset(5)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(14)
     }
     
     lineView.snp.makeConstraints {
-      $0.top.equalTo(roomDestinationLabel.snp.bottom).offset(17)
+      $0.top.equalTo(roomLocationView.snp.bottom).offset(17)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(1)
     }
@@ -201,19 +205,19 @@ final class RothemRoomDetailView: UIView {
   func configureUI(with model: RothemRoomDetailViewModel) {
     
     roomTitleLabel.hideSkeleton()
-    roomDestinationLabel.hideSkeleton()
+    roomLocationView.hideSkeleton()
     roomDescriptionContentLabel.hideSkeleton()
     
     amenityModel = model.amenityModel
     roomTitleLabel.text = model.roomTitle
-    
-    let attributedString = NSMutableAttributedString(string: "")
-    let imageAttachment = NSTextAttachment()
-    imageAttachment.image = UIImage(resource: .locationGray)
-    imageAttachment.bounds = CGRect(x: 0, y: 0, width: 10, height: 12)
-    attributedString.append(NSAttributedString(attachment: imageAttachment))
-    attributedString.append(NSAttributedString(string: model.roomDestination))
-    roomDestinationLabel.attributedText = attributedString
+    roomLocationView.configureUI(with: .init(locationImageResource: .locationGray, locationContent: model.roomDestination))
+//    let attributedString = NSMutableAttributedString(string: "")
+//    let imageAttachment = NSTextAttachment()
+//    imageAttachment.image = UIImage(resource: .locationGray)
+//    imageAttachment.bounds = CGRect(x: 0, y: 0, width: 10, height: 12)
+//    attributedString.append(NSAttributedString(attachment: imageAttachment))
+//    attributedString.append(NSAttributedString(string: model.roomDestination))
+//    roomDestinationLabel.attributedText = attributedString
     
     roomDescriptionContentLabel.addLineSpacing(lineSpacing: 2, string: model.roomDescription)
   }

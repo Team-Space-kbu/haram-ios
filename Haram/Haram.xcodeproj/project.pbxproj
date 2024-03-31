@@ -247,6 +247,7 @@
 		709130012B176344005B88B4 /* Ex + UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709130002B176344005B88B4 /* Ex + UIView.swift */; };
 		7095D38A2AD67C8F008DAA39 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7095D3892AD67C8F008DAA39 /* Constants.swift */; };
 		709AB6452B77E19B004B0F59 /* BoardImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709AB6442B77E19B004B0F59 /* BoardImageCollectionViewCell.swift */; };
+		70A24EB42BB8277C00572FAE /* HaramProvisionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A24EB32BB8277C00572FAE /* HaramProvisionViewController.swift */; };
 		70A731C12B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C02B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift */; };
 		70A731C32B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C22B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift */; };
 		70A731C52B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C42B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift */; };
@@ -551,6 +552,7 @@
 		709130002B176344005B88B4 /* Ex + UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIView.swift"; sourceTree = "<group>"; };
 		7095D3892AD67C8F008DAA39 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		709AB6442B77E19B004B0F59 /* BoardImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		70A24EB32BB8277C00572FAE /* HaramProvisionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramProvisionViewController.swift; sourceTree = "<group>"; };
 		70A731C02B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeTypeInfoRequest.swift; sourceTree = "<group>"; };
 		70A731C22B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeInfoResponse.swift; sourceTree = "<group>"; };
 		70A731C42B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryNoticeViewModel.swift; sourceTree = "<group>"; };
@@ -1065,6 +1067,7 @@
 				701FC8942B97000700291FC3 /* CustomAcknowListViewController.swift */,
 				70B310932BA1DAFD00EF21CE /* MoreCategoryViewController.swift */,
 				70B310AF2BB3087700EF21CE /* MoreUpdatePasswordViewController.swift */,
+				70A24EB32BB8277C00572FAE /* HaramProvisionViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2100,6 +2103,7 @@
 				7051E5062ADAF4EF00C2134B /* BoardDetailViewModel.swift in Sources */,
 				705E70B829E1C8ED00156B1F /* HomeNoticeView.swift in Sources */,
 				708ED7D62A9230FF00107CDF /* BibleBottomSheetViewController.swift in Sources */,
+				70A24EB42BB8277C00572FAE /* HaramProvisionViewController.swift in Sources */,
 				708ED7942A8E671200107CDF /* HomeViewModel.swift in Sources */,
 				705FD2B92A1A3CFB00F353FE /* LibraryResultsCollectionViewCell.swift in Sources */,
 				70903C922ADDB1D900C6FEF0 /* Ex + KeyboardResponder.swift in Sources */,
