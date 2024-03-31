@@ -94,12 +94,16 @@ extension BibleBottomSheetViewController: UICollectionViewDelegate, UICollection
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    switch type {
-    case let .revisionOfTranslation(model):
-      delegate?.didTappedRevisionOfTranslation(bibleName: model[indexPath.row].bibleName)
-    case let .chapter(model):
-      delegate?.didTappedChapter(chapter: "\(model[indexPath.row])")
+    let cell = collectionView.cellForItem(at: indexPath) as? BibleCollectionViewCell ?? BibleCollectionViewCell()
+    cell.showAnimation { [weak self] in
+      guard let self = self else { return }
+      switch self.type {
+      case let .revisionOfTranslation(model):
+        self.delegate?.didTappedRevisionOfTranslation(bibleName: model[indexPath.row].bibleName)
+      case let .chapter(model):
+        self.delegate?.didTappedChapter(chapter: "\(model[indexPath.row])")
+      }
+      self.dismiss(animated: true)
     }
-    dismiss(animated: true)
   }
 }

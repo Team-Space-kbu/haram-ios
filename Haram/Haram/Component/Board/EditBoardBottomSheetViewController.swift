@@ -34,36 +34,16 @@ final class EditBoardBottomSheetViewController: BaseViewController {
     
     registerImageMenuView.button.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.registerImageMenuView.isUserInteractionEnabled = false
-        UIView.animate(withDuration: 0.1,
-                       delay: 0,
-                       options: .curveLinear,
-                       animations: { owner.registerImageMenuView.transform = CGAffineTransform.init(scaleX: 0.95, y: 0.95) }) { (done) in
-          UIView.animate(withDuration: 0.1,
-                         delay: 0,
-                         options: .curveLinear,
-                         animations: { owner.registerImageMenuView.transform = CGAffineTransform.init(scaleX: 1, y: 1) }) { _ in
-            owner.registerImageMenuView.isUserInteractionEnabled = true
-            owner.delegate?.didTappedSelectedMenu()
-          }
+        owner.registerImageMenuView.showAnimation {
+          owner.delegate?.didTappedSelectedMenu()
         }
       }
       .disposed(by: disposeBag)
     
     registerAnonymousMenuView.button.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.registerAnonymousMenuView.isUserInteractionEnabled = false
-        UIView.animate(withDuration: 0.1,
-                       delay: 0,
-                       options: .curveLinear,
-                       animations: { owner.registerAnonymousMenuView.transform = CGAffineTransform.init(scaleX: 0.95, y: 0.95) }) { (done) in
-          UIView.animate(withDuration: 0.1,
-                         delay: 0,
-                         options: .curveLinear,
-                         animations: { owner.registerAnonymousMenuView.transform = CGAffineTransform.init(scaleX: 1, y: 1) }) { _ in
-            owner.registerAnonymousMenuView.isUserInteractionEnabled = true
-            owner.delegate?.didTappedAnonymousMenu(isChecked: owner.registerAnonymousMenuView.tappedCheckBoxButton())
-          }
+        owner.registerAnonymousMenuView.showAnimation {
+          owner.delegate?.didTappedAnonymousMenu(isChecked: owner.registerAnonymousMenuView.tappedCheckBoxButton())
         }
       }
       .disposed(by: disposeBag)

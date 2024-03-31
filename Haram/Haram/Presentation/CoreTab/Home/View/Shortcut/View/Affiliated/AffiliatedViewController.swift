@@ -136,32 +136,13 @@ extension AffiliatedViewController: UICollectionViewDelegate, UICollectionViewDa
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = AffiliatedDetailViewController()
-    vc.title = affiliatedModel[indexPath.row].affiliatedTitle
-    vc.navigationItem.largeTitleDisplayMode = .never
-    navigationController?.pushViewController(vc, animated: true)
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == affiliatedCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? AffiliatedCollectionViewCell ?? AffiliatedCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.alpha = 0.5
-        cell.transform = pressedDownTransform
-      }
-    }
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == affiliatedCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? AffiliatedCollectionViewCell ?? AffiliatedCollectionViewCell()
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.alpha = 1
-        cell.transform = .identity
-      }
+    let cell = collectionView.cellForItem(at: indexPath) as? AffiliatedCollectionViewCell ?? AffiliatedCollectionViewCell()
+    cell.showAnimation(scale: 0.9) { [weak self] in
+      guard let self = self else { return }
+      let vc = AffiliatedDetailViewController()
+      vc.title = affiliatedModel[indexPath.row].affiliatedTitle
+      vc.navigationItem.largeTitleDisplayMode = .never
+      self.navigationController?.pushViewController(vc, animated: true)
     }
   }
 }

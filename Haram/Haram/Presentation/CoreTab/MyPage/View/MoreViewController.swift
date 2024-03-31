@@ -85,6 +85,8 @@ final class MoreViewController: BaseViewController {
     $0.separatorStyle = .none
     $0.isScrollEnabled = false
     $0.isSkeletonable = true
+    $0.showsVerticalScrollIndicator = false
+    $0.isScrollEnabled = false
   }
   
   private lazy var settingTableView = UITableView(frame: .zero, style: .plain).then {
@@ -95,8 +97,9 @@ final class MoreViewController: BaseViewController {
     $0.sectionHeaderHeight = .leastNonzeroMagnitude
     $0.sectionFooterHeight = .leastNonzeroMagnitude
     $0.separatorStyle = .none
-    $0.isScrollEnabled = false
     $0.isSkeletonable = true
+    $0.showsVerticalScrollIndicator = false
+    $0.isScrollEnabled = false
   }
   
   private let scrollView = UIScrollView().then {
@@ -211,9 +214,11 @@ final class MoreViewController: BaseViewController {
     
     profileInfoView.button.rx.tap
       .subscribe(with: self) { owner, _ in
-        let vc = MoreUpdatePasswordViewController()
-        vc.hidesBottomBarWhenPushed = true
-        owner.navigationController?.pushViewController(vc, animated: true)
+        owner.profileInfoView.showAnimation {
+          let vc = MoreUpdatePasswordViewController()
+          vc.hidesBottomBarWhenPushed = true
+          owner.navigationController?.pushViewController(vc, animated: true)
+        }
       }
       .disposed(by: disposeBag)
   }
@@ -264,7 +269,7 @@ final class MoreViewController: BaseViewController {
       $0.top.equalTo(settingLabel.snp.bottom).offset(17)
       $0.leading.equalToSuperview().inset(15)
       $0.trailing.equalToSuperview().inset(15)
-      $0.height.equalTo(35 * 4)
+      $0.height.equalTo((23 + 13) * SettingType.allCases.count)
       $0.bottom.equalToSuperview().inset(13)
     }
   }

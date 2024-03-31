@@ -225,33 +225,13 @@ extension LibraryDetailViewController: UICollectionViewDelegate, UICollectionVie
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let path = relatedBookModel[indexPath.row].path
     let vc = LibraryDetailViewController(path: path)
-    vc.navigationItem.largeTitleDisplayMode = .never
-    navigationController?.pushViewController(vc, animated: true)
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == relatedBookCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? LibraryRelatedBookCollectionViewCell ?? LibraryRelatedBookCollectionViewCell()
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.transform = pressedDownTransform
-        cell.alpha = 0.5
-      }
+    let cell = collectionView.cellForItem(at: indexPath) as? LibraryRelatedBookCollectionViewCell ?? LibraryRelatedBookCollectionViewCell()
+    cell.showAnimation(scale: 0.9) { [weak self] in
+      guard let self = self else { return }
+      vc.navigationItem.largeTitleDisplayMode = .never
+      self.navigationController?.pushViewController(vc, animated: true)
     }
   }
-  
-  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == relatedBookCollectionView {
-      let cell = collectionView.cellForItem(at: indexPath) as? LibraryRelatedBookCollectionViewCell ?? LibraryRelatedBookCollectionViewCell()
-      UIView.transition(with: cell, duration: 0.1) {
-        cell.transform = .identity
-        cell.alpha = 1
-      }
-    }
-  }
-  
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout

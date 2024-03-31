@@ -346,73 +346,23 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let path: Int
+    let cell: UICollectionViewCell
     switch LibraryType.allCases[indexPath.section] {
     case .new:
+      cell = collectionView.cellForItem(at: indexPath) as? NewLibraryCollectionViewCell ?? NewLibraryCollectionViewCell()
       path = newBookModel[indexPath.row].path
     case .popular:
+      cell = collectionView.cellForItem(at: indexPath) as? PopularLibraryCollectionViewCell ?? PopularLibraryCollectionViewCell()
       path = bestBookModel[indexPath.row].path
     case .rental:
+      cell = collectionView.cellForItem(at: indexPath) as? RentalLibraryCollectionViewCell ?? RentalLibraryCollectionViewCell()
       path = rentalBookModel[indexPath.row].path
     }
-    let vc = LibraryDetailViewController(path: path)
-    vc.navigationItem.largeTitleDisplayMode = .never
-    navigationController?.pushViewController(vc, animated: true)
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == libraryCollectionView {
-      let type = LibraryType.allCases[indexPath.section]
-      switch type {
-      case .new:
-        let cell = collectionView.cellForItem(at: indexPath) as? NewLibraryCollectionViewCell ?? NewLibraryCollectionViewCell()
-        let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-        UIView.transition(with: cell, duration: 0.1) {
-          cell.transform = pressedDownTransform
-          cell.alpha = 0.5
-        }
-      case .popular:
-        let cell = collectionView.cellForItem(at: indexPath) as? PopularLibraryCollectionViewCell ?? PopularLibraryCollectionViewCell()
-        let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-        UIView.transition(with: cell, duration: 0.1) {
-          cell.transform = pressedDownTransform
-          cell.alpha = 0.5
-        }
-      case .rental:
-        let cell = collectionView.cellForItem(at: indexPath) as? RentalLibraryCollectionViewCell ?? RentalLibraryCollectionViewCell()
-        let pressedDownTransform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-        UIView.transition(with: cell, duration: 0.1) {
-          cell.transform = pressedDownTransform
-          cell.alpha = 0.5
-        }
-      }
-    }
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-    
-    if collectionView == libraryCollectionView {
-      let type = LibraryType.allCases[indexPath.section]
-      switch type {
-      case .new:
-        let cell = collectionView.cellForItem(at: indexPath) as? NewLibraryCollectionViewCell ?? NewLibraryCollectionViewCell()
-        UIView.transition(with: cell, duration: 0.1) {
-          cell.transform = .identity
-          cell.alpha = 1
-        }
-      case .popular:
-        let cell = collectionView.cellForItem(at: indexPath) as? PopularLibraryCollectionViewCell ?? PopularLibraryCollectionViewCell()
-        UIView.transition(with: cell, duration: 0.1) {
-          cell.transform = .identity
-          cell.alpha = 1
-        }
-      case .rental:
-        let cell = collectionView.cellForItem(at: indexPath) as? RentalLibraryCollectionViewCell ?? RentalLibraryCollectionViewCell()
-        UIView.transition(with: cell, duration: 0.1) {
-          cell.transform = .identity
-          cell.alpha = 1
-        }
-      }
+    cell.showAnimation(scale: 0.9) { [weak self] in
+      guard let self = self else { return }
+      let vc = LibraryDetailViewController(path: path)
+      vc.navigationItem.largeTitleDisplayMode = .never
+      self.navigationController?.pushViewController(vc, animated: true)
     }
   }
 }
