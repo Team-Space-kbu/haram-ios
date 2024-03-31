@@ -61,12 +61,10 @@ extension HomeViewModel {
         let news = response.kokkoks.kokkoksNews.map { HomeNewsCollectionViewCellModel(kokkoksNews: $0) }
         let banners = response.banner.banners.map { HomebannerCollectionViewCellModel(subBanner: $0) }
         let notices = HomeNoticeViewModel(subNotice: subNotice)
-//        let shortcuts = response.homes.map { HomeShortcutCollectionViewCellModel(title: $0.iconName.replacingOccurrences(of: ".svg", with: ""), imageURL: URL(string: $0.iconFilePath)) }
         
         owner.newsModelRelay.accept(news)
         owner.bannerModelRelay.accept(banners)
         owner.noticeModelRelay.accept(notices)
-//        owner.shortcutModelRelay.accept(shortcuts)
         owner.isLoadingSubject.onNext(false)
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
@@ -136,7 +134,7 @@ extension HomeViewModel: HomeViewModelType {
             switch result {
             case .success(let response):
               owner.isAvailableSimpleChapelModalSubject.onNext((true, .init(regulatedDay: response.regulateDays, chapelDay: response.confirmationDays)))
-            case .failure(let _):
+            case .failure(_):
               owner.isAvailableSimpleChapelModalSubject.onNext((false, nil))
             }
           }

@@ -33,7 +33,6 @@ final class AffiliatedMapView: UIView {
     $0.showZoomControls = false
     $0.showScaleBar = false
     $0.showLocationButton = false
-    //$0.mapView.minZoomLevel = 10
   }
   
   override init(frame: CGRect) {

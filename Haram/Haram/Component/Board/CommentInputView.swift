@@ -177,13 +177,6 @@ final class CommentInputView: UIView, UITextViewDelegate {
         owner.updateTextViewHeightAutomatically()
       }
       .disposed(by: disposeBag)
-    
-    checkBoxControl.rx.isChecked
-      .subscribe(with: self) { owner, _ in
-//        owner.endEditing(true)
-      }
-      .disposed(by: disposeBag)
-    
   }
   
   private func updateTextViewHeightAutomatically() {

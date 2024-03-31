@@ -37,7 +37,6 @@ final class HomeViewController: BaseViewController {
   // MARK: - Properties
   
   private let viewModel: HomeViewModelType
-  //  weak var coordinator: HomeCoordinator?
   
   private let currentBannerPage = PublishSubject<Int>()
   
@@ -156,8 +155,7 @@ final class HomeViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    print("데이터 \(Environment.baseURLString)")
-    print("데이터 \(Environment.naverClientID)")
+
     _ = [scrollView, scrollContainerView, homeNoticeView, checkChapelDayView, newsCollectionView, newsTitleLabel, shortcutCollectionView, pageControl, bannerCollectionView].map { $0.isSkeletonable = true }
     
     let label = UILabel().then {
@@ -268,14 +266,8 @@ final class HomeViewController: BaseViewController {
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
-//        print("두근2 \(error)")
         if error == .networkError {
           AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터 연결 후 다시 시도해주세요.", viewController: owner) {
-//            UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                exit(0)
-//            }
-            
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
@@ -392,7 +384,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     if collectionView == shortcutCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
-      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
       
       UIView.transition(with: cell, duration: 0.1) {
         cell.alpha = 1
@@ -400,7 +391,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       }
     } else if collectionView == newsCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
-      let originalTransform = CGAffineTransform(scaleX: 1, y: 1)
+      
       UIView.transition(with: cell, duration: 0.1) {
         cell.alpha = 1
         cell.transform = .identity

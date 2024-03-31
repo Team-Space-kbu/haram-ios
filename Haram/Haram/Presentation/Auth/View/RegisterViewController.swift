@@ -434,9 +434,7 @@ extension RegisterViewController {
     
     // Y축으로 텍스트필드 하단 위치가 키보드 상단 위치보다 클 때 (즉, 텍스트필드가 키보드에 가려질 때가 되겠죠!)
     if textFieldBottomY > keyboardTopY && self.view.frame.origin.y == 0 {
-      let textFieldTopY = convertedTextFieldFrame.origin.y
       // 노가다를 통해서 모든 기종에 적절한 크기를 설정함.
-      let newFrame = textFieldTopY - keyboardTopY/1.6
       view.frame.origin.y -= keyboardHeight
     }
   }

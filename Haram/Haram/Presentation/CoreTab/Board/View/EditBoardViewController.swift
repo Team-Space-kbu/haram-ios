@@ -52,6 +52,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
   private lazy var scrollView = UIScrollView().then {
     $0.alwaysBounceVertical = true
     $0.delegate = self
+    $0.showsVerticalScrollIndicator = false
   }
   
   private let containerView = UIStackView().then {
@@ -67,14 +68,10 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     $0.textColor = .black
   }
   
-  private let titleTextView = UITextView().then {
-    $0.textColor = .hexD0D0D0
-    $0.textContainerInset = UIEdgeInsets(
-      top: 13,
-      left: 13,
-      bottom: 13,
-      right: 13
-    )
+  private lazy var titleTextField = UITextField().then {
+    $0.placeholder = Constants.titlePlaceholder
+    $0.leftViewMode = .always
+    $0.leftView = UIView(frame: .init(x: .zero, y: .zero, width: 13, height: .zero))
     $0.font = .regular14
     $0.backgroundColor = .hexF4F4F4
     $0.layer.masksToBounds = true
@@ -83,6 +80,8 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     $0.layer.borderWidth = 1
     $0.autocorrectionType = .no
     $0.spellCheckingType = .no
+    $0.delegate = self
+    $0.returnKeyType = .next
   }
   
   private let boardContentLabel = UILabel().then {
@@ -95,9 +94,9 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     $0.textColor = .hexD0D0D0
     $0.textContainerInset = UIEdgeInsets(
       top: 13,
-      left: 13,
+      left: 8,
       bottom: 13,
-      right: 13
+      right: 8
     )
     $0.font = .regular14
     $0.backgroundColor = .hexF4F4F4
@@ -121,8 +120,10 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     $0.delegate = self
   }
   
-  private let areaView = UIView().then {
-    $0.backgroundColor = .clear
+  private let tapGesture = UITapGestureRecognizer(target: EditBoardViewController.self, action: nil).then {
+    $0.numberOfTapsRequired = 1
+    $0.cancelsTouchesInView = false
+    $0.isEnabled = true
   }
   
   init(categorySeq: Int, viewModel: EditBoardViewModelType = EditBoardViewModel()) {
@@ -136,10 +137,14 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    removeNotifications()
+  }
+  
   override func setupStyles() {
     super.setupStyles()
+    registerNotifications()
     
-    titleTextView.text = Constants.titlePlaceholder
     contentTextView.text = Constants.contentPlaceholder
     
     setupBackButton()
@@ -148,40 +153,15 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     navigationItem.rightBarButtonItem = UIBarButtonItem(title: "작성", style: .done, target: self, action: nil)
     
     showFloatingPanel(self.floatingPanelVC)
+    view.addGestureRecognizer(tapGesture)
   }
   
   override func bind() {
     super.bind()
     
-    titleTextView.rx.didBeginEditing
-      .asDriver()
-      .drive(with: self) { owner, _ in
-        if owner.titleTextView.text.trimmingCharacters(in: .whitespacesAndNewlines) == Constants.titlePlaceholder &&
-            owner.titleTextView.textColor == .hexD0D0D0 {
-          owner.titleTextView.text = ""
-          owner.titleTextView.textColor = .hex545E6A
-        }
-      }
-      .disposed(by: disposeBag)
-    
-    titleTextView.rx.didEndEditing
-      .asDriver()
-      .drive(with: self) { owner, _ in
-        if owner.titleTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-            owner.titleTextView.textColor == .hex545E6A {
-          owner.titleTextView.text = Constants.titlePlaceholder
-          owner.titleTextView.textColor = .hexD0D0D0
-        }
-        
-        owner.updateTextViewHeightAutomatically(textView: owner.titleTextView)
-      }
-      .disposed(by: disposeBag)
-    
-    titleTextView.rx.text.orEmpty
-      .filter { $0 != Constants.titlePlaceholder }
-      .asDriver(onErrorDriveWith: .empty())
-      .drive(with: self){ owner, text in
-        owner.updateTextViewHeightAutomatically(textView: owner.titleTextView)
+    tapGesture.rx.event
+      .subscribe(with: self) { owner, _ in
+        owner.view.endEditing(true)
       }
       .disposed(by: disposeBag)
     
@@ -204,26 +184,15 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
           owner.contentTextView.text = Constants.contentPlaceholder
           owner.contentTextView.textColor = .hexD0D0D0
         }
-        
-        owner.updateTextViewHeightAutomatically(textView: owner.contentTextView, height: 209)
       }
       .disposed(by: disposeBag)
     
     navigationItem.rightBarButtonItem!.rx.tap
       .subscribe(with: self) { owner, _ in
-        let title = owner.titleTextView.text!
+        let title = owner.titleTextField.text!
         let content = owner.contentTextView.text!
-        
+        owner.view.endEditing(true)
         owner.viewModel.createBoard(categorySeq: owner.categorySeq, title: title, contents: content, isAnonymous: owner.isAnonymous)
-      }
-      .disposed(by: disposeBag)
-    
-    
-    contentTextView.rx.text.orEmpty
-      .filter { $0 != Constants.contentPlaceholder }
-      .asDriver(onErrorDriveWith: .empty())
-      .drive(with: self){ owner, text in
-        owner.updateTextViewHeightAutomatically(textView: owner.contentTextView, height: 209)
       }
       .disposed(by: disposeBag)
     
@@ -264,8 +233,8 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
-    _ = [containerView, areaView].map { scrollView.addSubview($0) }
-    _ = [boardTitleLabel, titleTextView, boardContentLabel, contentTextView, editBoardCollectionView].map { containerView.addArrangedSubview($0) }
+    _ = [containerView].map { scrollView.addSubview($0) }
+    _ = [boardTitleLabel, titleTextField, boardContentLabel, contentTextView, editBoardCollectionView].map { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -279,16 +248,11 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
-    areaView.snp.makeConstraints {
-      $0.top.equalTo(containerView.snp.bottom).offset(50)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview()
-    }
-    
     boardTitleLabel.snp.makeConstraints {
       $0.height.equalTo(18)
     }
     
-    titleTextView.snp.makeConstraints {
+    titleTextField.snp.makeConstraints {
       $0.height.equalTo(45)
     }
     
@@ -307,23 +271,23 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
   
   
   // TODO: - 나중에 텍스트 뷰 높이를 제한해야한다면 height값 이용해서 조건문 추가
-  private func updateTextViewHeightAutomatically(textView: UITextView, height: CGFloat = 45) {
-    let size = CGSize(
-      width: textView.frame.width,
-      height: .infinity
-    )
-    let estimatedSize = textView.sizeThatFits(size)
-    
-    if estimatedSize.height > height {
-      textView.snp.updateConstraints {
-        $0.height.equalTo(estimatedSize.height)
-      }
-    } else {
-      textView.snp.updateConstraints {
-        $0.height.equalTo(height)
-      }
-    }
-  }
+//  private func updateTextViewHeightAutomatically(textView: UITextView, height: CGFloat = 45) {
+//    let size = CGSize(
+//      width: textView.frame.width,
+//      height: .infinity
+//    )
+//    let estimatedSize = textView.sizeThatFits(size)
+//    
+//    if estimatedSize.height > height {
+//      textView.snp.updateConstraints {
+//        $0.height.equalTo(estimatedSize.height)
+//      }
+//    } else {
+//      textView.snp.updateConstraints {
+//        $0.height.equalTo(height)
+//      }
+//    }
+//  }
   
   @objc
   func didTappedBackButton() {
@@ -361,9 +325,9 @@ extension EditBoardViewController {
     
     var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
       return [
-        .full: FloatingPanelLayoutAnchor(fractionalInset: 0.6, edge: .bottom, referenceGuide: .safeArea),
+//        .full: FloatingPanelLayoutAnchor(fractionalInset: 0.6, edge: .bottom, referenceGuide: .safeArea),
         .half: FloatingPanelLayoutAnchor(absoluteInset: 198 - Device.bottomInset, edge: .bottom, referenceGuide: .superview),
-        .tip: FloatingPanelLayoutAnchor(fractionalInset: 0.1, edge: .bottom, referenceGuide: .safeArea)
+        .tip: FloatingPanelLayoutAnchor(fractionalInset: 0.05, edge: .bottom, referenceGuide: .safeArea)
       ]
     }
   }
@@ -421,7 +385,6 @@ extension EditBoardViewController: PHPickerViewControllerDelegate {
     config.filter = .images
     config.selection = .ordered
     config.preferredAssetRepresentationMode = .current
-//    config.preselectedAssetIdentifiers = selectedAssetIdentifiers
     
     let picker = PHPickerViewController(configuration: config)
     picker.delegate = self
@@ -525,8 +488,8 @@ extension EditBoardViewController {
     
     let keyboardHeight = keyboardSize.height
     
-    areaView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(keyboardHeight)
+    containerView.snp.updateConstraints {
+      $0.bottom.lessThanOrEqualToSuperview().inset(keyboardHeight)
     }
     
     UIView.animate(withDuration: 0.2) {
@@ -536,13 +499,21 @@ extension EditBoardViewController {
   
   @objc
   func keyboardWillHide(_ sender: Notification) {
-    
-    areaView.snp.updateConstraints {
-      $0.bottom.equalToSuperview()
+    containerView.snp.updateConstraints {
+      $0.bottom.lessThanOrEqualToSuperview()
     }
     
     UIView.animate(withDuration: 0.2) {
       self.view.layoutIfNeeded()
     }
+  }
+}
+
+extension EditBoardViewController: UITextFieldDelegate {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    if textField == titleTextField {
+      contentTextView.becomeFirstResponder()
+    }
+    return true
   }
 }

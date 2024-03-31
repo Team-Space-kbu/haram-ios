@@ -21,7 +21,6 @@ final class MoreUpdatePasswordViewController: BaseViewController {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
     $0.delegate = self
-//    $0.contentInsetAdjustmentBehavior = .never
   }
   
   private let containerView = UIStackView().then {
@@ -39,7 +38,7 @@ final class MoreUpdatePasswordViewController: BaseViewController {
   }
   
   private let alertLabel = UILabel().then {
-    $0.text = "비밀번호를 재설정하기 위해 코드를 인증해야합니다.\n사용자 이메일을 입력해주세요"
+    $0.text = "비밀번호를 재설정하기 위해\n새로 변경할 비밀번호를 입력해주세요"
     $0.textColor = .hex545E6A
     $0.font = .regular14
     $0.numberOfLines = 0

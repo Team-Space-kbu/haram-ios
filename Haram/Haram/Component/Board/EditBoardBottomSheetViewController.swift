@@ -34,13 +34,37 @@ final class EditBoardBottomSheetViewController: BaseViewController {
     
     registerImageMenuView.button.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedSelectedMenu()
+        owner.registerImageMenuView.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.1,
+                       delay: 0,
+                       options: .curveLinear,
+                       animations: { owner.registerImageMenuView.transform = CGAffineTransform.init(scaleX: 0.95, y: 0.95) }) { (done) in
+          UIView.animate(withDuration: 0.1,
+                         delay: 0,
+                         options: .curveLinear,
+                         animations: { owner.registerImageMenuView.transform = CGAffineTransform.init(scaleX: 1, y: 1) }) { _ in
+            owner.registerImageMenuView.isUserInteractionEnabled = true
+            owner.delegate?.didTappedSelectedMenu()
+          }
+        }
       }
       .disposed(by: disposeBag)
     
     registerAnonymousMenuView.button.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedAnonymousMenu(isChecked: owner.registerAnonymousMenuView.tappedCheckBoxButton())
+        owner.registerAnonymousMenuView.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.1,
+                       delay: 0,
+                       options: .curveLinear,
+                       animations: { owner.registerAnonymousMenuView.transform = CGAffineTransform.init(scaleX: 0.95, y: 0.95) }) { (done) in
+          UIView.animate(withDuration: 0.1,
+                         delay: 0,
+                         options: .curveLinear,
+                         animations: { owner.registerAnonymousMenuView.transform = CGAffineTransform.init(scaleX: 1, y: 1) }) { _ in
+            owner.registerAnonymousMenuView.isUserInteractionEnabled = true
+            owner.delegate?.didTappedAnonymousMenu(isChecked: owner.registerAnonymousMenuView.tappedCheckBoxButton())
+          }
+        }
       }
       .disposed(by: disposeBag)
   }
@@ -81,6 +105,7 @@ extension EditBoardBottomSheetViewController {
     private let editLabel = UILabel().then {
       $0.font = .bold18
       $0.textColor = .hex1A1E27
+      $0.textAlignment = .left
     }
     
     private lazy var indicatorImageView = UIImageView().then {
@@ -109,12 +134,12 @@ extension EditBoardBottomSheetViewController {
       }
       
       editImageView.snp.makeConstraints {
-        $0.leading.top.equalToSuperview()
+        $0.leading.centerY.equalToSuperview()
         $0.size.equalTo(19.5)
       }
       
       editLabel.snp.makeConstraints {
-        $0.centerY.equalTo(editImageView)
+        $0.centerY.equalToSuperview()
         $0.leading.equalTo(editImageView.snp.trailing).offset(10)
       }
       
@@ -131,7 +156,7 @@ extension EditBoardBottomSheetViewController {
           $0.leading.greaterThanOrEqualTo(editLabel.snp.trailing)
           $0.trailing.equalToSuperview()
           $0.size.equalTo(18)
-          $0.centerY.equalTo(editImageView)
+          $0.centerY.equalToSuperview()
         }
       }
       

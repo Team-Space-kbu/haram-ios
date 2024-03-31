@@ -15,13 +15,13 @@ final class IntranetCheckViewController: BaseViewController {
   private let backgroudImageView = BackgroundImageView()
   
   private let titleLabel = UILabel().then {
-    $0.text = "인트라넷로그인"
+    $0.text = "인트라넷 로그인"
     $0.font = .bold24
     $0.textColor = .black
   }
   
   private let subLabel = UILabel().then {
-    $0.text = "한국성서대학교 인트라넷 로그인이 필요합니다.\n재학중인 학생임을 확인하는 절차를 진행합니다.\n학교인트라넷 로그인 이후에는 학번을 조회 및 계정에 저장합니다.\n인트라넷 로그인정보(아이디, 비밀번호)는 저장되지않으며 로그인 이후에는 더이상 로그인하지않습니다."
+    $0.text = "한국성서대학교 인트라넷 로그인이 필요합니다.\n재학중인 학생임을 확인하는 절차로 학번을 조회합니다.\n인트라넷 로그인 정보는 어디에든 저장되지 않으며\n로그인 이후에는 더 이상 로그인하지 않습니다."
     $0.numberOfLines = 0
     $0.font = .regular14
     $0.textColor = .black
