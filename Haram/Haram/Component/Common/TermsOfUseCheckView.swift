@@ -102,11 +102,13 @@ final class TermsOfUseCheckView: UIView {
   private func bind() {
     checkBoxControl.rx.isChecked
       .subscribe(with: self) { owner, isChecked in
-        if owner.type == .all {
-          owner.delegate?.didTappedAll(isChecked: isChecked)
-        } else {
-          guard let policySeq = owner.policySeq else { return }
-          owner.delegate?.didTappedCheckBox(policySeq: policySeq, isChecked: isChecked)
+        owner.checkBoxControl.showAnimation {
+          if owner.type == .all {
+            owner.delegate?.didTappedAll(isChecked: isChecked)
+          } else {
+            guard let policySeq = owner.policySeq else { return }
+            owner.delegate?.didTappedCheckBox(policySeq: policySeq, isChecked: isChecked)
+          }
         }
       }
       .disposed(by: disposeBag)

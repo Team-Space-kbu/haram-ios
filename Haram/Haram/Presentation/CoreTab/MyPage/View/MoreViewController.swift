@@ -248,7 +248,7 @@ final class MoreViewController: BaseViewController {
     }
     
     moreTableView.snp.makeConstraints {
-      $0.top.equalTo(profileInfoView.snp.bottom).offset(31.33)
+      $0.top.equalTo(profileInfoView.snp.bottom).offset(31.33 - 12)
       $0.leading.equalToSuperview().inset(15)
       $0.trailing.equalToSuperview().inset(15)
       $0.height.equalTo((23 + 24) * MoreType.allCases.count)
@@ -266,7 +266,7 @@ final class MoreViewController: BaseViewController {
     }
     
     settingTableView.snp.makeConstraints {
-      $0.top.equalTo(settingLabel.snp.bottom).offset(17)
+      $0.top.equalTo(settingLabel.snp.bottom).offset(17 - 6.5)
       $0.leading.equalToSuperview().inset(15)
       $0.trailing.equalToSuperview().inset(15)
       $0.height.equalTo((23 + 13) * SettingType.allCases.count)
@@ -311,58 +311,46 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
     if tableView == settingTableView {
+      let cell = tableView.cellForRow(at: indexPath) as? SettingTableViewCell ?? SettingTableViewCell()
       let settingType = SettingType.allCases[indexPath.row]
-      if settingType == .logout {
-        
-        AlertManager.showAlert(title: "성서알리미 알림", message: "로그아웃 하시겠습니까 ?", viewController: self, confirmHandler: {
-          self.viewModel.requestLogoutUser()
-        }, cancelHandler: nil)
+      cell.showAnimation(scale: 0.98) { [weak self] in
+        guard let self = self else { return }
+        if settingType == .logout {
+          
+          AlertManager.showAlert(title: "성서알리미 알림", message: "로그아웃 하시겠습니까 ?", viewController: self, confirmHandler: {
+            self.viewModel.requestLogoutUser()
+          }, cancelHandler: nil)
 
-      } else if settingType == .license {
-        let acknowList = CustomAcknowListViewController(fileNamed: Constants.openLicenseFileName)
-        acknowList.title = "오픈소스 라이센스"
-        acknowList.hidesBottomBarWhenPushed = true
-        acknowList.navigationItem.leftBarButtonItem = UIBarButtonItem(
-          image: UIImage(resource: .back),
-          style: .done,
-          target: self,
-          action: #selector(didTappedBackButton)
-        )
-        navigationController?.pushViewController(acknowList, animated: true)
-      } else {
-        let vc = HaramProvisionViewController(url: settingType.url)
-        vc.title = settingType.title
-        vc.navigationItem.largeTitleDisplayMode = .never
-        vc.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(vc, animated: true)
+        } else if settingType == .license {
+          let acknowList = CustomAcknowListViewController(fileNamed: Constants.openLicenseFileName)
+          acknowList.title = "오픈소스 라이센스"
+          acknowList.hidesBottomBarWhenPushed = true
+          acknowList.navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(resource: .back),
+            style: .done,
+            target: self,
+            action: #selector(self.didTappedBackButton)
+          )
+          self.navigationController?.pushViewController(acknowList, animated: true)
+        } else {
+          let vc = HaramProvisionViewController(url: settingType.url)
+          vc.title = settingType.title
+          vc.navigationItem.largeTitleDisplayMode = .never
+          vc.hidesBottomBarWhenPushed = true
+          self.navigationController?.pushViewController(vc, animated: true)
+        }
       }
     } else {
-      let moreType = MoreType.allCases[indexPath.row]
-      let vc = MoreCategoryViewController(noticeType: moreType == .employmentInformation ? .jobStudent : .jobChurch)
-      vc.title = moreType.title
-      vc.navigationItem.largeTitleDisplayMode = .never
-      vc.hidesBottomBarWhenPushed = true
-      navigationController?.pushViewController(vc, animated: true)
-    }
-  }
-  
-  func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-    if tableView == moreTableView {
       let cell = tableView.cellForRow(at: indexPath) as? MoreTableViewCell ?? MoreTableViewCell()
-      cell.setHighlighted(isHighlighted: true)
-    } else if tableView == settingTableView {
-      let cell = tableView.cellForRow(at: indexPath) as? SettingTableViewCell ?? SettingTableViewCell()
-      cell.setHighlighted(isHighlighted: true)
-    }
-  }
-  
-  func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
-    if tableView == moreTableView {
-      let cell = tableView.cellForRow(at: indexPath) as? MoreTableViewCell ?? MoreTableViewCell()
-      cell.setHighlighted(isHighlighted: false)
-    } else if tableView == settingTableView {
-      let cell = tableView.cellForRow(at: indexPath) as? SettingTableViewCell ?? SettingTableViewCell()
-      cell.setHighlighted(isHighlighted: false)
+      cell.showAnimation(scale: 0.98) { [weak self] in
+        guard let self = self else { return }
+        let moreType = MoreType.allCases[indexPath.row]
+        let vc = MoreCategoryViewController(noticeType: moreType == .employmentInformation ? .jobStudent : .jobChurch)
+        vc.title = moreType.title
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
+      }
     }
   }
 }

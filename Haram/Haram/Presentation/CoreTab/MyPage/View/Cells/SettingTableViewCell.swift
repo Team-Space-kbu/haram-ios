@@ -54,8 +54,9 @@ final class SettingTableViewCell: UITableViewCell {
     [titleLabel, indicatorImageView].forEach { containerView.addSubview($0) }
     
     containerView.snp.makeConstraints { 
-      $0.top.directionalHorizontalEdges.equalToSuperview()
-      $0.bottom.equalToSuperview().inset(13)
+      $0.top.equalToSuperview().inset(6.5)
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(6.5)
     }
     
     titleLabel.snp.makeConstraints {
@@ -78,20 +79,16 @@ final class SettingTableViewCell: UITableViewCell {
   }
   
   func setHighlighted(isHighlighted: Bool) {
-//    containerView.backgroundColor = isHighlighted ? .lightGray : .clear
     
     if isHighlighted {
       let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
       UIView.transition(with: containerView, duration: 0.1) {
         self.containerView.alpha = 0.5
-  //      cell.setBackgroundColor(isHighlighted: true)
         self.containerView.transform = pressedDownTransform
       }
     } else {
       UIView.transition(with: containerView, duration: 0.1) {
-//        cell.contentView.backgroundColor = .clear
         self.containerView.alpha = 1
-//        cell.setBackgroundColor(isHighlighted: false)
         self.containerView.transform = .identity
       }
     }

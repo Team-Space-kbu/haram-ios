@@ -107,6 +107,7 @@ extension EditBoardBottomSheetViewController {
     }
     
     private func configureUI() {
+      
       _ = [editImageView, editLabel, type == .registerImage ? indicatorImageView : checkBoxControl, button].map { addSubview($0) }
       
       button.snp.makeConstraints {
@@ -136,7 +137,7 @@ extension EditBoardBottomSheetViewController {
           $0.leading.greaterThanOrEqualTo(editLabel.snp.trailing)
           $0.trailing.equalToSuperview()
           $0.size.equalTo(18)
-          $0.centerY.equalToSuperview()
+          $0.centerY.equalTo(editImageView)
         }
       }
       

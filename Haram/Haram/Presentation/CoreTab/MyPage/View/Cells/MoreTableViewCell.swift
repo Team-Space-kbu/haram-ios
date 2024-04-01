@@ -61,21 +61,22 @@ final class MoreTableViewCell: UITableViewCell {
     
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
-      $0.bottom.equalToSuperview().inset(24)
+      $0.bottom.equalToSuperview().inset(12)
     }
     
     moreImageView.snp.makeConstraints {
-      $0.top.leading.equalToSuperview()
+      $0.top.equalToSuperview().inset(12)
+      $0.leading.equalToSuperview()
       $0.size.equalTo(20)
     }
     
     titleLabel.snp.makeConstraints {
       $0.leading.equalTo(moreImageView.snp.trailing).offset(15)
-      $0.top.equalToSuperview()
+      $0.centerY.equalTo(moreImageView)
     }
     
     indicatorImageView.snp.makeConstraints {
-      $0.top.equalToSuperview()
+      $0.centerY.equalTo(moreImageView)
       $0.trailing.equalToSuperview().inset(10)
       $0.height.equalTo(14)
       $0.width.equalTo(14)
@@ -88,20 +89,16 @@ final class MoreTableViewCell: UITableViewCell {
   }
   
   func setHighlighted(isHighlighted: Bool) {
-//    containerView.backgroundColor = isHighlighted ? .lightGray : .clear
     
     if isHighlighted {
       let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
       UIView.transition(with: containerView, duration: 0.1) {
         self.containerView.alpha = 0.5
-  //      cell.setBackgroundColor(isHighlighted: true)
         self.containerView.transform = pressedDownTransform
       }
     } else {
       UIView.transition(with: containerView, duration: 0.1) {
-//        cell.contentView.backgroundColor = .clear
         self.containerView.alpha = 1
-//        cell.setBackgroundColor(isHighlighted: false)
         self.containerView.transform = .identity
       }
     }

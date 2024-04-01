@@ -58,7 +58,7 @@ final class StudyReservationViewModel {
   init(rothemRepository: RothemRepository = RothemRepositoryImpl(), roomSeq: Int) {
     self.rothemRepository = rothemRepository
     self.roomSeq = roomSeq
-//    inquireReservationInfo()
+
     getTimeInfoForReservation()
     saveTimeInfoForReservation()
     tryReserveStudyRoom()
@@ -266,7 +266,7 @@ extension StudyReservationViewModel: StudyReservationViewModelType {
       reservationNameSubject
     ) { [weak self] in
       guard let self = self else { return false }
-      return self.isValidPhoneNumber($0) && $1.filter { !$0.isChecked }.count == 0 && !$2.isEmpty && !$3.isEmpty
+      return self.isValidPhoneNumber($0) && $1.filter { !$0.isChecked }.isEmpty && !$2.isEmpty && !$3.isEmpty
     }
     .distinctUntilChanged()
     .asDriver(onErrorJustReturn: false)
