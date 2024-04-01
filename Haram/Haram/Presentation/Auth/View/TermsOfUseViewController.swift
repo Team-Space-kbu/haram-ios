@@ -187,7 +187,7 @@ final class TermsOfUseViewController: BaseViewController {
     }
     
     checkAllButton.snp.makeConstraints {
-      $0.top.equalTo(titleLabel.snp.bottom).offset(21)
+      $0.top.equalTo(titleLabel.snp.bottom).offset(21 - 5)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(28)
     }

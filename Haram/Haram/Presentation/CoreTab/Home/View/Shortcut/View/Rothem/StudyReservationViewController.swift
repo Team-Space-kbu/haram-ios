@@ -409,23 +409,30 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
       }
     } else if collectionView == selectedTimeCollectionView {
       
-      if !selectedTimeModel[indexPath.row].isReserved {
         let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
         cell.showAnimation(scale: 0.98) { [weak self] in
           guard let self = self else { return }
           let timeModel = self.selectedTimeModel[indexPath.row]
           if indexPath.section == 0 {
-            let isSelected = timeModel.isTimeSelected
-            let timeSeq = timeModel.timeSeq
-            isSelected ? self.viewModel.deSelectTimeSeq.onNext(timeSeq) : self.viewModel.selectTimeSeq.onNext(timeSeq)
+            if !selectedTimeModel[indexPath.row].isReserved {
+              let isSelected = timeModel.isTimeSelected
+              let timeSeq = timeModel.timeSeq
+              isSelected ? self.viewModel.deSelectTimeSeq.onNext(timeSeq) : self.viewModel.selectTimeSeq.onNext(timeSeq)
+            } else {
+              AlertManager.showAlert(title: "로뎀예약알림", message: "이미 예약된 시간이거나 지난 시간입니다\n다른 시간을 선택해주세요.", viewController: self, confirmHandler: nil)
+            }
           } else if indexPath.section == 1 {
             let amCount = self.selectedTimeModel.filter { $0.meridiem == .am }.count
-            let isSelected = self.selectedTimeModel[indexPath.row + amCount].isTimeSelected
-            let timeSeq = self.selectedTimeModel[indexPath.row + amCount].timeSeq
-            isSelected ? self.viewModel.deSelectTimeSeq.onNext(timeSeq) : self.viewModel.selectTimeSeq.onNext(timeSeq)
+            if !selectedTimeModel[indexPath.row + amCount].isReserved {
+              let isSelected = self.selectedTimeModel[indexPath.row + amCount].isTimeSelected
+              let timeSeq = self.selectedTimeModel[indexPath.row + amCount].timeSeq
+              isSelected ? self.viewModel.deSelectTimeSeq.onNext(timeSeq) : self.viewModel.selectTimeSeq.onNext(timeSeq)
+            } else {
+              AlertManager.showAlert(title: "로뎀예약알림", message: "이미 예약된 시간이거나 지난 시간입니다\n다른 시간을 선택해주세요.", viewController: self, confirmHandler: nil)
+            }
           }
         }
-      }
+      
     }
   }
   

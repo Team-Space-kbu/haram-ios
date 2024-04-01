@@ -92,7 +92,7 @@ final class CommentInputView: UIView, UITextViewDelegate {
     
     if writeableAnonymous {
       checkBoxControl.snp.makeConstraints {
-        $0.top.equalToSuperview().inset(19)
+        $0.top.equalToSuperview().inset(19 - 5 - 2)
         $0.leading.equalToSuperview().inset(15)
         $0.height.equalTo(38)
       }
@@ -134,6 +134,14 @@ final class CommentInputView: UIView, UITextViewDelegate {
   
   private func bind() {
     
+    checkBoxControl.rx.controlEvent(.touchUpInside)
+      .subscribe(with: self) { owner, _ in
+        owner.checkBoxControl.showAnimation {
+          
+        }
+      }
+      .disposed(by: disposeBag)
+    
     sendButton.rx.tap
       .throttle(.seconds(1), scheduler: MainScheduler.instance)
       .withLatestFrom(commentTextView.rx.text.orEmpty)
@@ -141,9 +149,11 @@ final class CommentInputView: UIView, UITextViewDelegate {
         let commentText = owner.commentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard commentText != owner.placeHolder else { return }
         
-        owner.commentTextView.textColor = .hexD0D0D0
-        owner.commentTextView.text = owner.placeHolder
-        owner.delegate?.writeComment(comment, isAnonymous: owner.writeableAnonymous ? owner.checkBoxControl.isChecked : false)
+        owner.sendButton.showAnimation {
+          owner.commentTextView.textColor = .hexD0D0D0
+          owner.commentTextView.text = owner.placeHolder
+          owner.delegate?.writeComment(comment, isAnonymous: owner.writeableAnonymous ? owner.checkBoxControl.isChecked : false)
+        }
       }
       .disposed(by: disposeBag)
     
@@ -194,13 +204,4 @@ final class CommentInputView: UIView, UITextViewDelegate {
   }
 }
 
-final class CommentAnonymousControl: UIControl {
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-}
+
