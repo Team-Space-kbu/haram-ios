@@ -86,4 +86,9 @@ extension PDFViewController: UIGestureRecognizerDelegate {
   func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     return true // or false
   }
+  
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
+    return true
+  }
 }
