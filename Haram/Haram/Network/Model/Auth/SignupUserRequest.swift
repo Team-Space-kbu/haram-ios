@@ -24,7 +24,7 @@ struct SignupUserRequest: Encodable {
   }
 }
 
-struct UserTermsRequest: Encodable {
+struct UserTermsRequest: Codable {
   let termsSeq: Int
   let termsAgreeYn: String
 }

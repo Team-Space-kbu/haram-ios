@@ -19,7 +19,7 @@ protocol MoreUpdatePasswordViewModelType {
   func checkPassword(password: String)
   func isEqualPasswordAndRePassword(password: String, repassword: String)
   
-  var IsValidPassword: Signal<Bool> { get }
+  var isValidPassword: Signal<Bool> { get }
   var isContinueButtonEnabled: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
   var successMessage: Signal<HaramError> { get }
@@ -31,7 +31,7 @@ final class MoreUpdatePasswordViewModel {
   private let disposeBag = DisposeBag()
   
   private let authRepository: AuthRepository
-  private let IsValidPasswordRelay = PublishRelay<Bool>()
+  private let isValidPasswordRelay = PublishRelay<Bool>()
   private let isContinueButtonEnabledRelay = BehaviorRelay<Bool>(value: false)
   private let oldPasswordSubject = BehaviorSubject<String>(value: "")
   private let updatePasswordSubject = BehaviorSubject<String>(value: "")
@@ -123,11 +123,11 @@ extension MoreUpdatePasswordViewModel: MoreUpdatePasswordViewModelType {
   
   func checkPassword(password: String) {
     let isEnabled = isValidPassword(password)
-    IsValidPasswordRelay.accept(isEnabled)
+    isValidPasswordRelay.accept(isEnabled)
   }
   
-  var IsValidPassword: RxCocoa.Signal<Bool> {
-    IsValidPasswordRelay.asSignal()
+  var isValidPassword: RxCocoa.Signal<Bool> {
+    isValidPasswordRelay.asSignal()
   }
   
 }

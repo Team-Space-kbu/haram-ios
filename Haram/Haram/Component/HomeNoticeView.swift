@@ -11,16 +11,20 @@ import SnapKit
 import Then
 
 struct HomeNoticeViewModel {
+  let bannerSeq: Int
   let title: String
   let content: String
   
   init(subNotice: SubNotice) {
     title = subNotice.title
     content = subNotice.content
+    bannerSeq = subNotice.spaceNoticeSeq
   }
 }
 
 final class HomeNoticeView: UIView {
+  
+  let button = UIButton()
   
   private let noticeImageView = UIImageView(image: UIImage(resource: .faceGray)).then {
     $0.contentMode = .scaleAspectFit
@@ -45,7 +49,7 @@ final class HomeNoticeView: UIView {
     layer.cornerRadius = 10
     layer.masksToBounds = true
     
-    [noticeImageView, noticeLabel].forEach { addSubview($0) }
+    [noticeImageView, noticeLabel, button].forEach { addSubview($0) }
     noticeImageView.snp.makeConstraints {
       $0.leading.equalToSuperview().inset(11.39)
       $0.directionalVerticalEdges.equalToSuperview().inset(9)
@@ -56,6 +60,10 @@ final class HomeNoticeView: UIView {
       $0.leading.equalTo(noticeImageView.snp.trailing).offset(10.02)
       $0.directionalVerticalEdges.equalToSuperview()
       $0.trailing.lessThanOrEqualToSuperview()
+    }
+    
+    button.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
   }
   

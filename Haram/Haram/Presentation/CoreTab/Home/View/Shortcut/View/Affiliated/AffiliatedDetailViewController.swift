@@ -13,9 +13,12 @@ import Then
 final class AffiliatedDetailViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: AffiliatedDetailViewModelType
+  private let id: Int
   
   private let detailImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFit
+    $0.contentMode = .scaleAspectFill
+    $0.layer.masksToBounds = true
+    $0.isSkeletonable = true
   }
   
   private let affiliatedDetailView = AffiliatedDetailInfoView().then {
@@ -25,9 +28,11 @@ final class AffiliatedDetailViewController: BaseViewController, BackButtonHandle
       arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner
     )
     $0.backgroundColor = .white
+    $0.isSkeletonable = true
   }
   
-  init(viewModel: AffiliatedDetailViewModelType = AffiliatedDetailViewModel()) {
+  init(id: Int, viewModel: AffiliatedDetailViewModelType = AffiliatedDetailViewModel()) {
+    self.id = id
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -40,7 +45,7 @@ final class AffiliatedDetailViewController: BaseViewController, BackButtonHandle
     super.setupStyles()
     
     setupBackButton()
-    detailImageView.kf.setImage(with: URL(string: "https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220726_135%2F1658824149602owtrU_JPEG%2FSE-bc4d3285-021e-49d8-b798-f273383d16b8.jpg"))
+    setupSkeletonView()
   }
   
   override func setupLayouts() {
@@ -66,9 +71,27 @@ final class AffiliatedDetailViewController: BaseViewController, BackButtonHandle
   override func bind() {
     super.bind()
     
+    viewModel.inquireAffiliatedDetail(id: id)
+    
     viewModel.affiliatedDetailModel
       .drive(with: self) { owner, model in
+        owner.view.hideSkeleton()
         owner.affiliatedDetailView.configureUI(with: model)
+        owner.detailImageView.kf.setImage(with: model.imageURL)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.errorMessage
+      .emit(with: self) { owner, error in
+        if error == .networkError {
+          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+              UIApplication.shared.open(url)
+            }
+            owner.navigationController?.popViewController(animated: true)
+          }
+        }
       }
       .disposed(by: disposeBag)
   }
@@ -79,6 +102,7 @@ final class AffiliatedDetailViewController: BaseViewController, BackButtonHandle
 }
 
 struct AffiliatedDetailInfoViewModel {
+  let imageURL: URL?
   let title: String
   let affiliatedLocationModel: AffiliatedLocationViewModel
   let affiliatedIntroduceModel: AffiliatedIntroduceViewModel
@@ -93,6 +117,7 @@ extension AffiliatedDetailViewController {
       $0.backgroundColor = .clear
       $0.alwaysBounceVertical = true
       $0.showsVerticalScrollIndicator = false
+      $0.isSkeletonable = true
     }
     
     private let containerView = UIStackView().then {
@@ -101,28 +126,40 @@ extension AffiliatedDetailViewController {
       $0.isLayoutMarginsRelativeArrangement = true
       $0.layoutMargins = .init(top: 30, left: 15, bottom: 15, right: 15)
       $0.spacing = 15
+      $0.isSkeletonable = true
     }
     
     private let affiliatedTitleLabel = UILabel().then {
       $0.font = .bold25
       $0.textColor = .black
+      $0.isSkeletonable = true
     }
     
-    private let affiliatedLocationView = AffiliatedLocationView()
+    private let affiliatedLocationView = AffiliatedLocationView().then {
+      $0.isSkeletonable = true
+    }
     
     private let lineView = UIView().then {
       $0.backgroundColor = .hexD8D8DA
+      $0.isSkeletonable = true
     }
     
-    private let affiliatedIntroduceView = AffiliatedIntroduceView()
+    private let affiliatedIntroduceView = AffiliatedIntroduceView().then {
+      $0.isSkeletonable = true
+    }
     
-    private let affiliatedBenefitView = AffiliatedBenefitView()
+    private let affiliatedBenefitView = AffiliatedBenefitView().then {
+      $0.isSkeletonable = true
+    }
     
     private let lineView2 = UIView().then {
       $0.backgroundColor = .hexD8D8DA
+      $0.isSkeletonable = true
     }
     
-    private let affiliatedMapView = AffiliatedMapView()
+    private let affiliatedMapView = AffiliatedMapView().then {
+      $0.isSkeletonable = true
+    }
     
     override init(frame: CGRect) {
       super.init(frame: frame)

@@ -45,6 +45,7 @@ final class HomeViewController: BaseViewController {
   private var bannerModel: [HomebannerCollectionViewCellModel] = []
   
   private var newsModel: [HomeNewsCollectionViewCellModel] = []
+  private var bannerSeq: Int?
   
   // MARK: - UI Components
   
@@ -157,9 +158,9 @@ final class HomeViewController: BaseViewController {
     super.setupStyles()
 
     _ = [scrollView, scrollContainerView, homeNoticeView, checkChapelDayView, newsCollectionView, newsTitleLabel, shortcutCollectionView, pageControl, bannerCollectionView].map { $0.isSkeletonable = true }
-    
+    print("두근 \(Environment.baseURLString)")
     let label = UILabel().then {
-      $0.text = "하람"
+      $0.text = "성서알리미"
       $0.textColor = .black
       $0.font = .bold26
     }
@@ -244,6 +245,7 @@ final class HomeViewController: BaseViewController {
       owner.newsModel = newsModel
       owner.bannerModel = bannerModel
       owner.homeNoticeView.configureUI(with: noticeModel)
+      owner.bannerSeq = noticeModel.bannerSeq
       
       owner.view.hideSkeleton()
       
@@ -273,6 +275,16 @@ final class HomeViewController: BaseViewController {
               UIApplication.shared.open(url)
             }
           }
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    homeNoticeView.button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.homeNoticeView.showAnimation {
+          let vc = HomeBannerDetailViewController(bannerSeq: owner.bannerSeq!)
+          vc.hidesBottomBarWhenPushed = true
+          owner.navigationController?.pushViewController(vc, animated: true)
         }
       }
       .disposed(by: disposeBag)

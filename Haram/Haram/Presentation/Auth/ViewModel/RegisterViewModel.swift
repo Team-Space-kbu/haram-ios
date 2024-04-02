@@ -75,7 +75,7 @@ final class RegisterViewModel {
         password: password,
         nickname: nickname,
         emailAuthCode: authCode, 
-        userTermsRequests: []
+        userTermsRequests: UserManager.shared.userTermsRequests!
       )
     )
     .subscribe(with: self) { owner, result in

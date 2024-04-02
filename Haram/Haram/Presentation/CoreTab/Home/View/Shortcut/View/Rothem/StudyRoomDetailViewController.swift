@@ -19,7 +19,8 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
   private let roomSeq: Int
   
   private let studyRoomImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFit
+    $0.contentMode = .scaleAspectFill
+    $0.layer.masksToBounds = true
     $0.isSkeletonable = true
   }
   

@@ -8,16 +8,16 @@
 import UIKit
 
 @objc protocol BackButtonHandler: AnyObject {
-    @objc func didTappedBackButton()
+  @objc func didTappedBackButton()
 }
 
 extension BackButtonHandler where Self: UIViewController {
-    func setupBackButton() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-          image: UIImage(resource: .back).withRenderingMode(.alwaysOriginal),
-            style: .plain,
-            target: self,
-            action: #selector(didTappedBackButton)
-        )
-    }
+  func setupBackButton() {
+    navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(resource: .back).withRenderingMode(.alwaysOriginal),
+      style: .plain,
+      target: self,
+      action: #selector(didTappedBackButton)
+    )
+  }
 }

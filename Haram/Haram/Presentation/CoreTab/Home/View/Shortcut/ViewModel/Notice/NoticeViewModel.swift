@@ -50,7 +50,7 @@ extension NoticeViewModel: NoticeViewModelType {
             
             return NoticeCollectionViewCellModel(
               title: $0.title,
-              description: DateformatterFactory.noticeWithHypen.string(from: iso8607Date) + " | " + $0.name,
+              description: DateformatterFactory.dateWithHypen.string(from: iso8607Date) + " | " + $0.name,
               noticeType: $0.loopnum,
               path: $0.path
             )

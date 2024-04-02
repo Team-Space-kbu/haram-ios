@@ -18,7 +18,7 @@ protocol UpdatePasswordViewModelType {
   var password: AnyObserver<String> { get }
   var rePassword: AnyObserver<String> { get }
   
-  var IsValidPassword: Signal<Bool> { get }
+  var isValidPassword: Signal<Bool> { get }
   var successUpdatePassword: Signal<Void> { get }
   var isContinueButtonEnabled: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
@@ -29,7 +29,7 @@ final class UpdatePasswordViewModel {
   private let disposeBag = DisposeBag()
   private let authRepository: AuthRepository
   
-  private let IsValidPasswordRelay = PublishRelay<Bool>()
+  private let isValidPasswordRelay = PublishRelay<Bool>()
   private let successUpdatePasswordRelay = PublishRelay<Void>()
   private let isContinueButtonEnabledRelay = BehaviorRelay<Bool>(value: false)
   private let passwordSubject = BehaviorSubject<String>(value: "")
@@ -69,8 +69,8 @@ extension UpdatePasswordViewModel: UpdatePasswordViewModelType {
     errorMessageRelay.asSignal()
   }
   
-  var IsValidPassword: RxCocoa.Signal<Bool> {
-    IsValidPasswordRelay.asSignal()
+  var isValidPassword: RxCocoa.Signal<Bool> {
+    isValidPasswordRelay.asSignal()
   }
   
   var password: RxSwift.AnyObserver<String> {
@@ -98,7 +98,7 @@ extension UpdatePasswordViewModel: UpdatePasswordViewModelType {
   
   func checkPassword(password: String) {
     let isEnabled = isValidPassword(password)
-    IsValidPasswordRelay.accept(isEnabled)
+    isValidPasswordRelay.accept(isEnabled)
   }
   
   var successUpdatePassword: RxCocoa.Signal<Void> {

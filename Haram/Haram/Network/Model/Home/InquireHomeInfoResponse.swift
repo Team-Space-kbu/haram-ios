@@ -64,4 +64,9 @@ struct Notice: Decodable {
 struct SubNotice: Decodable {
   let title: String
   let content: String
+  let spaceNoticeSeq: Int
+  let createdBy: String
+  let createdAt: String
+  let modifiedAt: String
+  let modifiedBy: String
 }

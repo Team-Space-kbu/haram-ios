@@ -8,6 +8,7 @@
 import CoreImage
 import UIKit
 
+import RxSwift
 import SnapKit
 import SkeletonView
 import Then
@@ -20,10 +21,12 @@ enum StudyListCollectionHeaderViewType {
 
 protocol StudyListCollectionHeaderViewDelegate: AnyObject {
   func didTappedCheckButton()
+  func didTappedRothemNotice()
 }
 
 final class StudyListCollectionHeaderView: UICollectionReusableView {
   
+  private let disposeBag = DisposeBag()
   static let identifier = "StudyListCollectionHeaderView"
   weak var delegate: StudyListCollectionHeaderViewDelegate?
   
@@ -49,10 +52,21 @@ final class StudyListCollectionHeaderView: UICollectionReusableView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func bind() {
+    studyListHeaderView.button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.studyListHeaderView.showAnimation {
+          owner.delegate?.didTappedRothemNotice()
+        }
+      }
+      .disposed(by: disposeBag)
   }
   
   private func configureUI() {
@@ -112,6 +126,8 @@ final class StudyListCollectionHeaderView: UICollectionReusableView {
 extension StudyListCollectionHeaderView {
   final class StudyListHeaderView: UIView {
     
+    let button = UIButton()
+    
     private let backgroudImageView = UIImageView().then {
       $0.contentMode = .scaleAspectFill
     }
@@ -140,9 +156,14 @@ extension StudyListCollectionHeaderView {
       isSkeletonable = true
       
       addSubview(backgroudImageView)
+      addSubview(button)
       [titleLabel, descriptionLabel].forEach { backgroudImageView.addSubview($0) }
       
       backgroudImageView.snp.makeConstraints {
+        $0.directionalEdges.equalToSuperview()
+      }
+      
+      button.snp.makeConstraints {
         $0.directionalEdges.equalToSuperview()
       }
       
@@ -217,12 +238,14 @@ extension StudyListCollectionHeaderView {
 }
 
 struct StudyListHeaderViewModel: Hashable {
+  let noticeSeq: Int
   let thumbnailImageURL: URL?
   let title: String
   let description: String
   private let identifier = UUID()
   
   init(rothemNotice: NoticeResponse) {
+    noticeSeq = rothemNotice.noticeSeq
     thumbnailImageURL = URL(string: rothemNotice.thumbnailPath)
     title = rothemNotice.title
     description = rothemNotice.content

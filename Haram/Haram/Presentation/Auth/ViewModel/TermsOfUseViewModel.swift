@@ -11,6 +11,7 @@ import RxCocoa
 
 protocol TermsOfUseViewModelType {
   
+  func saveTermsInfo()
   func inquireTermsSignUp()
   func checkedTermsSignUp(seq: Int, isChecked: Bool)
   func checkedAllTermsSignUp(isChecked: Bool)
@@ -38,6 +39,13 @@ final class TermsOfUseViewModel {
 }
 
 extension TermsOfUseViewModel: TermsOfUseViewModelType {
+  func saveTermsInfo() {
+    var termsOfModel = termsOfModelRelay.value
+    UserManager.shared.set(userTermsRequests: termsOfModel.map {
+      .init(termsSeq: $0.seq, termsAgreeYn: $0.isChecked ? "Y" : "N")
+    })
+  }
+  
   var errorMessage: RxCocoa.Signal<HaramError> {
     errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }

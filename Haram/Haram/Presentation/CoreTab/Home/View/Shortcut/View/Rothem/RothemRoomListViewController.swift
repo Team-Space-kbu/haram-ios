@@ -17,6 +17,7 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
   // MARK: - Properties
   
   private let viewModel: RothemRoomListViewModelType
+  private var mainNoticeSeq: Int?
   private var type: StudyListCollectionHeaderViewType = .noReservation {
     didSet {
       studyListCollectionView.reloadData()
@@ -45,6 +46,10 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
     $0.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: 15, right: .zero)
   }
   
+  private lazy var emptyView = EmptyView(text: "예약가능한 방이 존재하지 않습니다.").then {
+    $0.backgroundColor = .white
+  }
+  
   // MARK: - Initializations
   
   init(viewModel: RothemRoomListViewModelType = RothemRoomListViewModel()) {
@@ -65,11 +70,15 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(studyListCollectionView)
+    view.addSubview(emptyView)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     studyListCollectionView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    emptyView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
   }
@@ -88,8 +97,12 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
       owner.studyListModel = studyListModel
       owner.rothemMainNoticeModel = rothemMainNoticeModel
       owner.type = type
+      owner.mainNoticeSeq = rothemMainNoticeModel?.noticeSeq
       
       owner.view.hideSkeleton()
+      
+      
+      owner.emptyView.isHidden = !studyListModel.isEmpty
       
       owner.studyListCollectionView.reloadData()
     }
@@ -152,11 +165,16 @@ extension RothemRoomListViewController: UICollectionViewDelegateFlowLayout {
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: collectionView.frame.width - 30, height: 98)
+    CGSize(width: collectionView.frame.width - 30, height: 98)
   }
 }
 
 extension RothemRoomListViewController: StudyListCollectionHeaderViewDelegate {
+  func didTappedRothemNotice() {
+    let vc = RothemNoticeDetailViewController(noticeSeq: mainNoticeSeq!)
+    navigationController?.pushViewController(vc, animated: true)
+  }
+  
   func didTappedCheckButton() {
     let vc = CheckReservationViewController()
     vc.navigationItem.largeTitleDisplayMode = .never
