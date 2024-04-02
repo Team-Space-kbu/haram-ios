@@ -13,6 +13,7 @@ import SkeletonView
 import Then
 
 struct AffiliatedCollectionViewCellModel {
+  let id: Int
   let isLast: Bool
   let affiliatedImageURL: URL?
   let affiliatedTitle: String
@@ -20,9 +21,10 @@ struct AffiliatedCollectionViewCellModel {
   
   init(response: InquireAffiliatedResponse, isLast: Bool) {
     self.isLast = isLast
-    affiliatedImageURL = response.affiliatedImageURL
-    affiliatedTitle = response.affiliatedName
-    affiliatedSubTitle = response.description
+    id = response.id
+    affiliatedImageURL = URL(string: response.imageString)
+    affiliatedTitle = response.businessName
+    affiliatedSubTitle = response.address
   }
 }
 
@@ -95,7 +97,7 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell {
       $0.leading.equalTo(affiliatedTitleLabel.snp.leading)
       $0.top.equalTo(affiliatedTitleLabel.snp.bottom).offset(4)
       $0.trailing.equalToSuperview()
-      $0.bottom.equalToSuperview().inset(15)
+      $0.bottom.lessThanOrEqualToSuperview()
     }
   }
   

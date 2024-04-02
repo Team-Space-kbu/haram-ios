@@ -57,7 +57,9 @@ final class RegisterViewController: BaseViewController {
     title: Constants.password.title,
     placeholder: Constants.password.placeholder,
     options: [.errorLabel]
-  )
+  ).then {
+    $0.textField.isSecureTextEntry = true
+  }
   
   private let repwdTextField = HaramTextField(
     title: Constants.repassword.title,

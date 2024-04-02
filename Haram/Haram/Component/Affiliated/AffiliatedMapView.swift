@@ -23,6 +23,7 @@ final class AffiliatedMapView: UIView {
     $0.font = .bold18
     $0.textColor = .black
     $0.textAlignment = .left
+    $0.isSkeletonable = true
   }
   
   private let mapView = NMFNaverMapView().then {
@@ -33,6 +34,8 @@ final class AffiliatedMapView: UIView {
     $0.showZoomControls = false
     $0.showScaleBar = false
     $0.showLocationButton = false
+    $0.isSkeletonable = true
+    $0.mapView.isSkeletonable = true
   }
   
   override init(frame: CGRect) {

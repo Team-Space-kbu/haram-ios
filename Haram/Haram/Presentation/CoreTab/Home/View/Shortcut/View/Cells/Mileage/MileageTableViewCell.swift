@@ -113,7 +113,7 @@ final class MileageTableViewCell: UITableViewCell {
     let decimalMileage = formatter.string(for: mileage) ?? "0"
     
     mainLabel.text = mainText
-    subLabel.text = DateformatterFactory.noticeWithHypen.string(from: model.date)
+    subLabel.text = DateformatterFactory.dateWithHypen.string(from: model.date)
     mileageLabel.text = decimalMileage
     mileageImageView.image = UIImage(resource: model.imageSource)
   }

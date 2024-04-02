@@ -69,7 +69,7 @@ final class StudyReservationViewModel {
     calendarSeqSubject
       .distinctUntilChanged()
       .subscribe(with: self) { owner, calendarSeq in
-        let findModel = owner.model.filter({ $0.calendarSeq == calendarSeq }).first!
+        let findModel = owner.model.first(where: { $0.calendarSeq == calendarSeq })!
         
         /// 이용가능한 날짜만 선택가능
         guard findModel.isAvailable,
@@ -94,15 +94,15 @@ final class StudyReservationViewModel {
         }
         
         /// 선택된 시간이 이미 예약이 된 시간인지 확인
-        guard !timeModel.filter({ $0.timeSeq == timeSeq }).first!.isReserved else {
+        guard !timeModel.first(where: { $0.timeSeq == timeSeq })!.isReserved else {
           return
         }
         
         if timeModel.filter({ $0.isTimeSelected }).count == 1 {
           
           /// 선택한 timeSeq가 기존에 선택된 timeSeq와 연속적이라면
-          if timeModel.filter({ $0.isTimeSelected }).map({ $0.timeSeq }).filter({ timeSeq == $0 + 1 || timeSeq == $0 - 1 }).count > 0 {
-            let findModel = timeModel.filter { $0.timeSeq == timeSeq }.first!
+          if !timeModel.filter({ $0.isTimeSelected }).map({ $0.timeSeq }).filter({ timeSeq == $0 + 1 || timeSeq == $0 - 1 }).isEmpty {
+            let findModel = timeModel.first(where: { $0.timeSeq == timeSeq })!
             timeModel[timeModel.firstIndex(of: findModel)!].isTimeSelected = true
             owner.timeTable.accept(timeModel)
           } else {
@@ -112,7 +112,7 @@ final class StudyReservationViewModel {
           }
         }
         
-        let findModel = timeModel.filter { $0.timeSeq == timeSeq }.first!
+        let findModel = timeModel.first(where: { $0.timeSeq == timeSeq })!
         timeModel[timeModel.firstIndex(of: findModel)!].isTimeSelected = true
         owner.timeTable.accept(timeModel)
       }
@@ -121,7 +121,7 @@ final class StudyReservationViewModel {
     deSelectTimeSeqSubject
       .subscribe(with: self) { owner, timeSeq in
         var timeModel = owner.timeTable.value
-        let findModel = timeModel.filter { $0.timeSeq == timeSeq }.first!
+        let findModel = timeModel.first(where: { $0.timeSeq == timeSeq })!
         timeModel[timeModel.firstIndex(of: findModel)!].isTimeSelected = false
         owner.timeTable.accept(timeModel)
       }
@@ -141,7 +141,7 @@ final class StudyReservationViewModel {
         ) { ($0, $1, $2, $3, $4) }
       )
       .map { (userName, phoneNum, calendarSeq, reservationPolicyRequests, timeRequests) in
-        return ReserveStudyRoomRequest(
+        ReserveStudyRoomRequest(
           userName: userName,
           phoneNum: phoneNum,
           calendarSeq: calendarSeq,
@@ -189,7 +189,7 @@ extension StudyReservationViewModel: StudyReservationViewModelType {
         owner.model = response.calendarResponses
         owner.policyModelRelay.accept(response.policyResponses.sorted(by: { $0.policySeq > $1.policySeq }).map { TermsOfUseCheckViewModel(response: $0) })
         
-        if let model = response.calendarResponses.filter({ $0.isAvailable }).first {
+        if let model = response.calendarResponses.first(where: { $0.isAvailable }) {
           owner.calendarSeqSubject.onNext(model.calendarSeq)
         }
         owner.isLoadingSubject.onNext(false)

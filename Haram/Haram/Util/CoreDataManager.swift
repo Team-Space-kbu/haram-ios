@@ -84,7 +84,7 @@ final class CoreDataManager {
     
     do {
       if let results: [RevisionOfTranslation] = try context?.fetch(fetchRequest) as? [RevisionOfTranslation] {
-        if results.count != 0 {
+        if !results.isEmpty {
           context?.delete(results[0])
         }
       }

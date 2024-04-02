@@ -22,6 +22,9 @@ final class UserManager {
   @UserDefaultsWrapper<String>(key: "userID")
   private(set) var userID
   
+  @UserDefaultsWrapper<[UserTermsRequest]>(key: "userTermsRequests")
+  private(set) var userTermsRequests
+  
   /// 로그인한 디바이스에 대한 uuid
   @KeyChainWrapper<String>(key: "uuid")
   private(set) var uuid
@@ -68,11 +71,16 @@ extension UserManager {
     self.uuid = uuid
   }
   
+  func set(userTermsRequests: [UserTermsRequest]) {
+    self.userTermsRequests = userTermsRequests
+  }
+  
   /// 유저의 정보를 전부 초기화합니다.
   func clearAllInformations() {
     self.userID = nil
     self.accessToken = nil
     self.refreshToken = nil
+    self.userTermsRequests = nil
   }
   
   /// 가지고 있는 `refresh token`을 가지고 새로운 `access token`과 `refresh token`을 발급받습니다.

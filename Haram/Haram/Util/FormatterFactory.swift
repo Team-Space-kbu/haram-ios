@@ -30,12 +30,8 @@ enum DateformatterFactory {
     }
   }
   
-  static var noticeWithHypen: DateFormatter {
-    formatter.then { $0.dateFormat = "yyyy-MM-dd" }
-  }
-  
   static var dateWithHypen: DateFormatter {
-    formatter.then { $0.dateFormat = "yyyy-MM-dd HH:mm:ss" }
+    formatter.then { $0.dateFormat = "yyyy-MM-dd" }
   }
   
   static var dateWithSlash: DateFormatter {

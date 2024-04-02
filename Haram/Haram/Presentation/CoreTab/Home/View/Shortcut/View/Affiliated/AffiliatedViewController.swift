@@ -139,8 +139,9 @@ extension AffiliatedViewController: UICollectionViewDelegate, UICollectionViewDa
     let cell = collectionView.cellForItem(at: indexPath) as? AffiliatedCollectionViewCell ?? AffiliatedCollectionViewCell()
     cell.showAnimation(scale: 0.9) { [weak self] in
       guard let self = self else { return }
-      let vc = AffiliatedDetailViewController()
-      vc.title = affiliatedModel[indexPath.row].affiliatedTitle
+      let model = affiliatedModel[indexPath.row]
+      let vc = AffiliatedDetailViewController(id: model.id)
+      vc.title = model.affiliatedTitle
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     }

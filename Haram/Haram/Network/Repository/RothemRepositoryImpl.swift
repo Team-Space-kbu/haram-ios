@@ -16,6 +16,7 @@ protocol RothemRepository {
   func checkTimeAvailableForRothemReservation(roomSeq: Int) -> Single<CheckTimeAvailableForRothemReservationResponse>
   func reserveStudyRoom(roomSeq: Int, request: ReserveStudyRoomRequest) -> Single<EmptyModel>
   func cancelRothemReservation(request: CancelRothemReservationRequest) -> Single<EmptyModel>
+  func inquireRothemNoticeDetail(noticeSeq: Int) -> Single<InquireRothemNoticeDetailResponse>
 }
 
 final class RothemRepositoryImpl {
@@ -29,6 +30,10 @@ final class RothemRepositoryImpl {
 }
 
 extension RothemRepositoryImpl: RothemRepository {
+  func inquireRothemNoticeDetail(noticeSeq: Int) -> RxSwift.Single<InquireRothemNoticeDetailResponse> {
+    service.betarequest(router: RothemRouter.inquireRothemNoticeDetail(noticeSeq), type: InquireRothemNoticeDetailResponse.self)
+  }
+  
   func inquireAllRoomInfo() -> Single<[InquireAllRoomInfoResponse]> {
     service.betarequest(router: RothemRouter.inquireAllRoomInfo, type: [InquireAllRoomInfoResponse].self)
   }

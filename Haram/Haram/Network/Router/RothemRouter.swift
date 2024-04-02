@@ -16,13 +16,14 @@ enum RothemRouter {
   case checkTimeAvailableForRothemReservation(Int)
   case reserveStudyRoom(Int, ReserveStudyRoomRequest)
   case cancelRothemReservation(CancelRothemReservationRequest)
+  case inquireRothemNoticeDetail(Int)
 }
 
 extension RothemRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo, .inquireRothemReservationInfo, .checkTimeAvailableForRothemReservation:
+    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo, .inquireRothemReservationInfo, .checkTimeAvailableForRothemReservation, .inquireRothemNoticeDetail:
       return .get
     case .reserveStudyRoom:
       return .post
@@ -49,12 +50,14 @@ extension RothemRouter: Router {
       return "/v1/rothem/rooms/\(roomSeq)/reservations"
     case .cancelRothemReservation:
       return "/v1/rothem/reservations"
+    case let .inquireRothemNoticeDetail(noticeSeq):
+      return "/v1/bibles/notices/\(noticeSeq)"
     }
   }
   
   var parameters: ParameterType {
     switch self {
-    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo, .inquireRothemReservationInfo, .checkTimeAvailableForRothemReservation:
+    case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo, .inquireRothemRoomInfo, .inquireRothemReservationInfo, .checkTimeAvailableForRothemReservation, .inquireRothemNoticeDetail:
       return .plain
     case let .reserveStudyRoom(_, request):
       return .body(request)
@@ -65,7 +68,7 @@ extension RothemRouter: Router {
   
   var headers: HeaderType {
     switch self {
-    case .inquireRothemRoomInfo, .inquireRothemReservationInfo, .checkTimeAvailableForRothemReservation, .reserveStudyRoom, .cancelRothemReservation:
+    case .inquireRothemRoomInfo, .inquireRothemReservationInfo, .checkTimeAvailableForRothemReservation, .reserveStudyRoom, .cancelRothemReservation, .inquireRothemNoticeDetail:
       return .withAccessToken
     case .inquireAllRoomInfo, .inquireAllRothemNotice, .inquireRothemHomeInfo:
       return .withAccessToken

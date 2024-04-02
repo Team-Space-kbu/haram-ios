@@ -21,12 +21,14 @@ final class AffiliatedIntroduceView: UIView {
     $0.font = .bold18
     $0.textColor = .black
     $0.textAlignment = .left
+    $0.isSkeletonable = true
   }
   
   private let introduceContentLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .hex9F9FA4
     $0.numberOfLines = 0
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {

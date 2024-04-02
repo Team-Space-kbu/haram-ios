@@ -161,7 +161,7 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
     searchBar.rx.searchButtonClicked
       .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .withLatestFrom(searchBar.rx.text.orEmpty)
-      .filter { $0.trimmingCharacters(in: .whitespacesAndNewlines).count != 0 }
+      .filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
       .subscribe(with: self) { owner, searchQuery in
         owner.view.endEditing(true)
         

@@ -235,7 +235,7 @@ final class MoreUpdatePasswordViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    viewModel.IsValidPassword
+    viewModel.isValidPassword
       .emit(with: self) { owner, isValid in
         if !isValid {
           owner.updatepPasswordTextField.snp.updateConstraints {

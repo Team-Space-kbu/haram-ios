@@ -78,7 +78,7 @@ final class SelectedCategoryNoticeViewModel {
           if let iso8607Date = DateformatterFactory.iso8601_2.date(from: $0.regDate) {
             return NoticeCollectionViewCellModel(
               title: $0.title,
-              description: DateformatterFactory.noticeWithHypen.string(from: iso8607Date) + " | " + $0.name,
+              description: DateformatterFactory.dateWithHypen.string(from: iso8607Date) + " | " + $0.name,
               noticeType: $0.loopnum,
               path: $0.path)
           } else {

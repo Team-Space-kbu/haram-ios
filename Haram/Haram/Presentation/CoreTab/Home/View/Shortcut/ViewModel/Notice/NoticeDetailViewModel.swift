@@ -55,7 +55,7 @@ extension NoticeDetailViewModel: NoticeDetailViewModelType {
       owner.noticeDetailModelRelay.accept(
         NoticeDetailModel(
           title: response.title,
-          writerInfo: DateformatterFactory.noticeWithHypen.string(from: iso8607Date) + " | " + response.name ,
+          writerInfo: DateformatterFactory.dateWithHypen.string(from: iso8607Date) + " | " + response.name ,
           content: response.content + headerString
         )
       )

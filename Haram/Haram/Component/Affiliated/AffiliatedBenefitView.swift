@@ -21,6 +21,7 @@ final class AffiliatedBenefitView: UIView {
     $0.font = .bold18
     $0.textColor = .black
     $0.textAlignment = .left
+    $0.isSkeletonable = true
   }
   
   private let benefitContentLabel = PaddingLabel(withInsets: 8, 8, 8, 8).then {
@@ -29,6 +30,8 @@ final class AffiliatedBenefitView: UIView {
     $0.backgroundColor = .hexF2F3F5
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
+    $0.skeletonCornerRadius = 10
+    $0.isSkeletonable = true
   }
   
   override init(frame: CGRect) {

@@ -14,7 +14,7 @@ final class HaramTabbarController: UITabBarController {
   
   private let homeViewController = UINavigationController(rootViewController: HomeViewController().then {
     $0.tabBarItem = UITabBarItem(
-      title: "하람",
+      title: "성서알리미",
       image: UIImage(named: "home"),
       tag: 0
     )
