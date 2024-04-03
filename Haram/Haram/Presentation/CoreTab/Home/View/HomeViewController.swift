@@ -283,15 +283,15 @@ final class HomeViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-//    homeNoticeView.button.rx.tap
-//      .subscribe(with: self) { owner, _ in
-//        owner.homeNoticeView.showAnimation {
-//          let vc = HomeBannerDetailViewController(bannerSeq: owner.bannerSeq!)
-//          vc.hidesBottomBarWhenPushed = true
-//          owner.navigationController?.pushViewController(vc, animated: true)
-//        }
-//      }
-//      .disposed(by: disposeBag)
+    homeNoticeView.button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.homeNoticeView.showAnimation {
+          let vc = HomeNoticeViewController()
+          vc.hidesBottomBarWhenPushed = true
+          owner.navigationController?.pushViewController(vc, animated: true)
+        }
+      }
+      .disposed(by: disposeBag)
   }
   
   private func pageControlValueChanged(currentPage: Int) {

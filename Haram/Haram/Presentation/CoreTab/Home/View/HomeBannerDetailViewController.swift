@@ -33,7 +33,7 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
   }
   
   private let titleLabel = UILabel().then {
-    $0.font = .bold16
+    $0.font = .bold20
     $0.textColor = .black
     $0.numberOfLines = 0
     $0.isSkeletonable = true
@@ -49,9 +49,9 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
   }
   
   private let contentLabel = UILabel().then {
-    $0.textColor = .black
+    $0.textColor = .hex9F9FA4
     $0.numberOfLines = 0
-    $0.font = .regular14
+    $0.font = .regular18
     $0.isSkeletonable = true
     $0.skeletonTextNumberOfLines = 5
   }

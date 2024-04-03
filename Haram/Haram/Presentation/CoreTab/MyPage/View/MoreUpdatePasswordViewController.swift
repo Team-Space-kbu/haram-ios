@@ -48,7 +48,9 @@ final class MoreUpdatePasswordViewController: BaseViewController {
     title: "기존 비밀번호",
     placeholder: "Password",
     options: .errorLabel
-  )
+  ).then {
+    $0.textField.isSecureTextEntry = true
+  }
   
   private let updatepPasswordTextField = HaramTextField(
     title: "비밀번호",
