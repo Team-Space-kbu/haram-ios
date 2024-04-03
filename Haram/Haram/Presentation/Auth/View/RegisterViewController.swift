@@ -95,11 +95,6 @@ final class RegisterViewController: BaseViewController {
     $0.isEnabled = true
   }
   
-  private let panGesture = UIPanGestureRecognizer(target: RegisterViewController.self, action: nil).then {
-    $0.cancelsTouchesInView = false
-    $0.isEnabled = true
-  }
-  
   // MARK: - Initializations
   
   init(authCode: String, email: String, viewModel: RegisterViewModelType = RegisterViewModel()) {
@@ -125,12 +120,13 @@ final class RegisterViewController: BaseViewController {
     view.addGestureRecognizer(tapGesture)
     [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField].forEach { $0.textField.delegate = self }
     
-    _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
-    panGesture.delegate = self
+    _ = [tapGesture].map { view.addGestureRecognizer($0) }
+//    panGesture.delegate = self
     
     registerNotifications()
     
     emailTextField.textField.text = email
+    scrollView.delegate = self
   }
   
   override func setupLayouts() {
@@ -277,13 +273,6 @@ final class RegisterViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    panGesture.rx.event
-      .asDriver()
-      .drive(with: self) { owner, _ in
-        owner.view.endEditing(true)
-      }
-      .disposed(by: disposeBag)
-    
     viewModel.isLoading
       .drive(indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
@@ -421,29 +410,53 @@ extension RegisterViewController {
   
   func keyboardWillShow(_ notification: Notification) {
     
-    guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
-          let currentTextField = UIResponder.getCurrentResponder() as? UITextField else { return }
+    guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
     
     let keyboardHeight = keyboardFrame.cgRectValue.height
     
-    // Y축으로 키보드의 상단 위치
-    let keyboardTopY = keyboardFrame.cgRectValue.origin.y
-    // 현재 선택한 텍스트 필드의 Frame 값
-    let convertedTextFieldFrame = view.convert(currentTextField.frame,
-                                               from: currentTextField.superview)
-    // Y축으로 현재 텍스트 필드의 하단 위치
-    let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
-    
-    // Y축으로 텍스트필드 하단 위치가 키보드 상단 위치보다 클 때 (즉, 텍스트필드가 키보드에 가려질 때가 되겠죠!)
-    if textFieldBottomY > keyboardTopY && self.view.frame.origin.y == 0 {
-      // 노가다를 통해서 모든 기종에 적절한 크기를 설정함.
-      view.frame.origin.y -= keyboardHeight
+    registerButton.snp.updateConstraints {
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 + keyboardHeight : 12 + keyboardHeight)
     }
+
+    UIView.animate(withDuration: 0.2) {
+      self.view.layoutIfNeeded()
+    }
+    
+//    // Y축으로 키보드의 상단 위치
+//    let keyboardTopY = keyboardFrame.cgRectValue.origin.y
+//    // 현재 선택한 텍스트 필드의 Frame 값
+//    let convertedTextFieldFrame = view.convert(currentTextField.frame,
+//                                               from: currentTextField.superview)
+//    // Y축으로 현재 텍스트 필드의 하단 위치
+//    let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
+//    
+//    // Y축으로 텍스트필드 하단 위치가 키보드 상단 위치보다 클 때 (즉, 텍스트필드가 키보드에 가려질 때가 되겠죠!)
+//    if textFieldBottomY > keyboardTopY && self.view.frame.origin.y == 0 {
+//      // 노가다를 통해서 모든 기종에 적절한 크기를 설정함.
+//      view.frame.origin.y -= keyboardHeight
+//    }
   }
   
   func keyboardWillHide(_ notification: Notification) {
-    if view.frame.origin.y != 0 {
-      view.frame.origin.y = 0
+    registerButton.snp.updateConstraints {
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
+    }
+    
+    UIView.animate(withDuration: 0.2) {
+      self.view.layoutIfNeeded()
+    }
+  }
+}
+
+extension RegisterViewController: UIScrollViewDelegate {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
+      // 위에서 아래로 스크롤하는 경우
+      view.endEditing(true)
+      // 여기에 위에서 아래로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
+    } else {
+      // 아래에서 위로 스크롤하는 경우
+      // 여기에 아래에서 위로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
     }
   }
 }

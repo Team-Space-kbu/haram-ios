@@ -39,7 +39,9 @@ final class UpdatePasswordViewController: BaseViewController {
     title: "비밀번호",
     placeholder: "Password",
     options: .errorLabel
-  )
+  ).then {
+    $0.textField.isSecureTextEntry = true
+  }
   
   private let checkPasswordTextField = HaramTextField(
     title: "비밀번호 확인",

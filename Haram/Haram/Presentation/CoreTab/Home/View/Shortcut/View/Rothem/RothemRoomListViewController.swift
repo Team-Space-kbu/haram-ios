@@ -102,6 +102,8 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
       
       
       owner.emptyView.isHidden = !studyListModel.isEmpty
+        owner.studyListCollectionView.isScrollEnabled = !studyListModel.isEmpty
+      
       
       owner.studyListCollectionView.reloadData()
     }
