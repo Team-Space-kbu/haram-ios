@@ -36,15 +36,20 @@ final class IntranetCheckViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    navigationController?.setNavigationBarHidden(true, animated: true)
+    navigationController?.setNavigationBarHidden(true, animated: false)
     if let interactivePopGestureRecognizer = navigationController?.interactivePopGestureRecognizer {
       interactivePopGestureRecognizer.addTarget(self, action: #selector(handleSwipeBackGesture(_:)))
     }
+    if let navigationController = navigationController {
+      navigationController.interactivePopGestureRecognizer?.isEnabled = true
+    }
+
   }
   
   @objc func handleSwipeBackGesture(_ gesture: UIScreenEdgePanGestureRecognizer) {
     if gesture.state == .began {
-      navigationController?.setNavigationBarHidden(false, animated: true)
+//      navigationController?.popToRootViewController(animated: true)
+      navigationController?.setNavigationBarHidden(false, animated: false)
       navigationController?.popToRootViewController(animated: true)
     }
   }

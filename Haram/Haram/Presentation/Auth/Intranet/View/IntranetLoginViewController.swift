@@ -97,7 +97,9 @@ final class IntranetLoginViewController: BaseViewController {
     
     /// Set NavigationBar
     navigationController?.setNavigationBarHidden(true, animated: true)
-    
+    if let navigationController = navigationController {
+      navigationController.interactivePopGestureRecognizer?.isEnabled = false
+    }
     /// Set Delegate
     idTextField.textField.delegate = self
     pwTextField.textField.delegate = self
@@ -174,14 +176,18 @@ final class IntranetLoginViewController: BaseViewController {
       .drive(with: self) { owner, _ in
         owner.removeNotifications()
         owner.navigationController?.setNavigationBarHidden(false, animated: true)
+        owner.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         owner.navigationController?.popToRootViewController(animated: true)
       }
       .disposed(by: disposeBag)
     
     viewModel.successIntranetLogin
       .emit(with: self) { owner, message in
-        owner.navigationController?.setNavigationBarHidden(false, animated: true)
-        owner.navigationController?.popToRootViewController(animated: true)
+        AlertManager.showAlert(title: "인트라넷인증 성공", message: "지금부터 마일리지, 채플, 시간표같은 정보를\n편하게 이용해보세요, 홈으로 이동합니다.", viewController: owner) {
+          owner.navigationController?.setNavigationBarHidden(false, animated: true)
+          owner.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+          owner.navigationController?.popToRootViewController(animated: true)
+        }
       }
       .disposed(by: disposeBag)
     
