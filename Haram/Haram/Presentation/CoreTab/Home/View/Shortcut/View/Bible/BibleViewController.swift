@@ -55,6 +55,7 @@ final class BibleViewController: BaseViewController, BackButtonHandler {
       guard let self = self else { return nil }
       return type(of: self).createCollectionViewSection(type: BibleViewType.allCases[sec])
     }).then {
+      $0.register(EmptyCollectionViewCell.self, forCellWithReuseIdentifier: EmptyCollectionViewCell.identifier)
       $0.register(TodayPrayCollectionViewCell.self, forCellWithReuseIdentifier: TodayPrayCollectionViewCell.identifier)
       $0.register(TodayBibleWordCollectionViewCell.self, forCellWithReuseIdentifier: TodayBibleWordCollectionViewCell.identifier)
       $0.register(BibleNoticeCollectionViewCell.self, forCellWithReuseIdentifier: BibleNoticeCollectionViewCell.identifier)
@@ -261,9 +262,9 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     switch BibleViewType.allCases[section] {
     case .todayPray:
-      return todayPrayListModel.count
+      return todayPrayListModel.isEmpty ? 1 : todayPrayListModel.count
     case .notice:
-      return bibleMainNotice.count
+      return bibleMainNotice.isEmpty ? 1 : bibleMainNotice.count
     case .todayBibleWord:
       return todayBibleWordModel.count
     }
@@ -276,14 +277,25 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
       cell.configureUI(with: todayBibleWordModel[indexPath.row])
       return cell
     case .notice:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleNoticeCollectionViewCell.identifier, for: indexPath) as? BibleNoticeCollectionViewCell ?? BibleNoticeCollectionViewCell()
-      cell.configureUI(with: bibleMainNotice[indexPath.row])
-      return cell
+      if bibleMainNotice.isEmpty {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCollectionViewCell.identifier, for: indexPath) as? EmptyCollectionViewCell ?? EmptyCollectionViewCell()
+        cell.configureUI(with: "성경공지사항이 존재하지않습니다.")
+        return cell
+      } else {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleNoticeCollectionViewCell.identifier, for: indexPath) as? BibleNoticeCollectionViewCell ?? BibleNoticeCollectionViewCell()
+        cell.configureUI(with: bibleMainNotice[indexPath.row])
+        return cell
+      }
     case .todayPray:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayPrayCollectionViewCell.identifier, for: indexPath) as? TodayPrayCollectionViewCell ?? TodayPrayCollectionViewCell()
-      cell.configureUI(with: todayPrayListModel[indexPath.row])
-//      cell.configureUI(with: .init(prayTitle: "이건준, 컴소4", prayContent: "성공적으로 하람이 계획한대로 마무리되었으면 좋겠습니다. 하람팀원인 성묵이 상우에게도 좋은 기운이 취업에 있어서 가득하길 기도합니다 "))
-      return cell
+      if todayPrayListModel.isEmpty {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCollectionViewCell.identifier, for: indexPath) as? EmptyCollectionViewCell ?? EmptyCollectionViewCell()
+        cell.configureUI(with: "오늘의 기도가 존재하지않습니다.")
+        return cell
+      } else {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayPrayCollectionViewCell.identifier, for: indexPath) as? TodayPrayCollectionViewCell ?? TodayPrayCollectionViewCell()
+        cell.configureUI(with: todayPrayListModel[indexPath.row])
+        return cell
+      }
     }
   }
   
