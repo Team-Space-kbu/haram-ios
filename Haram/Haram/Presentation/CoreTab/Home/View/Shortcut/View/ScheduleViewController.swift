@@ -79,14 +79,18 @@ final class ScheduleViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
-  deinit {
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerNotifications()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
     removeNotifications()
   }
   
   override func setupStyles() {
     super.setupStyles()
-    
-    registerNotifications()
     
     /// Set Delegate & DataSource
     elliotable.delegate = self
