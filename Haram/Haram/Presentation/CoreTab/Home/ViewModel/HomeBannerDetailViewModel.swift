@@ -5,13 +5,15 @@
 //  Created by 이건준 on 4/3/24.
 //
 
+import Foundation
+
 import RxSwift
 import RxCocoa
 
 protocol HomeBannerDetailViewModelType {
   func inquireBannerInfo(bannerSeq: Int)
   
-  var bannerInfo: Signal<(title: String, content: String)> { get }
+  var bannerInfo: Signal<(title: String, content: String, thumbnailURL: URL?)> { get }
   var errorMessage: Signal<HaramError> { get }
 }
 
@@ -20,7 +22,7 @@ final class HomeBannerDetailViewModel {
   private let disposeBag = DisposeBag()
   private let homeRepository: HomeRepository
   
-  private let bannerInfoRelay = PublishRelay<(title: String, content: String)>()
+  private let bannerInfoRelay = PublishRelay<(title: String, content: String, thumbnailURL: URL?)>()
   private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   
   init(homeRepository: HomeRepository = HomeRepositoryImpl()) {
@@ -34,7 +36,7 @@ extension HomeBannerDetailViewModel: HomeBannerDetailViewModelType {
     errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }
   
-  var bannerInfo: RxCocoa.Signal<(title: String, content: String)> {
+  var bannerInfo: RxCocoa.Signal<(title: String, content: String, thumbnailURL: URL?)> {
     bannerInfoRelay.asSignal()
   }
   
@@ -42,7 +44,7 @@ extension HomeBannerDetailViewModel: HomeBannerDetailViewModelType {
     
     homeRepository.inquireBannerInfo(bannerSeq: bannerSeq)
       .subscribe(with: self, onSuccess: { owner, response in
-        owner.bannerInfoRelay.accept((title: response.title, content: response.content))
+        owner.bannerInfoRelay.accept((title: response.title, content: response.content, thumbnailURL: URL(string: response.thumbnailPath)))
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         owner.errorMessageRelay.accept(error)

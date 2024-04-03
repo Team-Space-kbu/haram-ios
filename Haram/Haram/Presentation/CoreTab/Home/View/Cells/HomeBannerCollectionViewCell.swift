@@ -13,9 +13,13 @@ import SkeletonView
 import Then
 
 struct HomebannerCollectionViewCellModel {
+  let bannerSeq: Int
   let imageURL: URL?
+  let title: String
   
   init(subBanner: SubBanner) {
+    title = subBanner.title
+    bannerSeq = subBanner.seq
     imageURL = URL(string: subBanner.filePath)
   }
 }

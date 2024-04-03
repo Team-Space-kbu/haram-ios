@@ -39,6 +39,7 @@ struct MainBanner: Decodable {
 }
 
 struct SubBanner: Decodable {
+  let seq: Int
   let title: String
   let content: String
   let filePath: String

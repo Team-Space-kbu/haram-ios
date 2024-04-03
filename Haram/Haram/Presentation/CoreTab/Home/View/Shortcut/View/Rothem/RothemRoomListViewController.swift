@@ -46,9 +46,7 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
     $0.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: 15, right: .zero)
   }
   
-  private lazy var emptyView = EmptyView(text: "예약가능한 방이 존재하지 않습니다.").then {
-    $0.backgroundColor = .white
-  }
+  private lazy var emptyView = EmptyView(text: "예약가능한 방이 존재하지 않습니다.")
   
   // MARK: - Initializations
   
@@ -79,7 +77,8 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
       $0.directionalEdges.equalToSuperview()
     }
     emptyView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.height.equalTo((Device.height - Device.navigationBarHeight) / 2)
     }
   }
   
@@ -171,7 +170,8 @@ extension RothemRoomListViewController: UICollectionViewDelegateFlowLayout {
 
 extension RothemRoomListViewController: StudyListCollectionHeaderViewDelegate {
   func didTappedRothemNotice() {
-    let vc = RothemNoticeDetailViewController(noticeSeq: mainNoticeSeq!)
+    guard let mainNoticeSeq = mainNoticeSeq else { return }
+    let vc = RothemNoticeDetailViewController(noticeSeq: mainNoticeSeq)
     navigationController?.pushViewController(vc, animated: true)
   }
   
@@ -250,3 +250,23 @@ extension RothemRoomListViewController {
   }
 }
 
+extension UICollectionView {
+    // 1
+    func setEmptyMessage(_ message: String) {
+        let messageLabel: UILabel = {
+            let label = UILabel()
+            label.text = message
+            label.textColor = .white
+            label.numberOfLines = 0;
+            label.textAlignment = .center;
+            label.font = .bold20
+            label.sizeToFit()
+            return label
+        }()
+        self.backgroundView = messageLabel;
+    }
+    // 2
+    func restore() {
+        self.backgroundView = nil
+    }
+}
