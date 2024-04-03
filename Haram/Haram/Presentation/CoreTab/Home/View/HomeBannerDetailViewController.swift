@@ -29,7 +29,7 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
     $0.isLayoutMarginsRelativeArrangement = true
     $0.layoutMargins = .init(top: .zero, left: 15, bottom: 15, right: 15)
     $0.isSkeletonable = true
-    $0.spacing = 5
+    $0.spacing = 10
   }
   
   private let titleLabel = UILabel().then {
@@ -38,6 +38,14 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
     $0.numberOfLines = 0
     $0.isSkeletonable = true
     $0.skeletonTextNumberOfLines = 1
+  }
+  
+  private let bannerImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFill
+    $0.layer.masksToBounds = true
+    $0.layer.cornerRadius = 10
+    $0.skeletonCornerRadius = 10
+    $0.isSkeletonable = true
   }
   
   private let contentLabel = UILabel().then {
@@ -64,9 +72,10 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
     
     viewModel.bannerInfo
       .emit(with: self) { owner, result in
-        let (title, content) = result
+        let (title, content, thumnailURL) = result
         owner.view.hideSkeleton()
     
+        owner.bannerImageView.kf.setImage(with: thumnailURL)
         owner.titleLabel.text = title
         owner.contentLabel.text = content
       }
@@ -91,7 +100,7 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
-    _ = [titleLabel, contentLabel].map { containerView.addArrangedSubview($0) }
+    _ = [titleLabel, bannerImageView, contentLabel].map { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -108,11 +117,15 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
     titleLabel.snp.makeConstraints {
       $0.height.equalTo(27)
     }
+    
+    bannerImageView.snp.makeConstraints {
+      $0.height.equalTo(200)
+    }
   }
   
   override func setupStyles() {
     super.setupStyles()
-    title = "공지사항"
+//    title = "공지사항"
     setupSkeletonView()
     setupBackButton()
     navigationController?.interactivePopGestureRecognizer?.delegate = self

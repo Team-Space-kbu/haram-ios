@@ -116,8 +116,4 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
     studyDescriptionLabel.addLineSpacing(lineSpacing: 3, string: model.description)
     studyImageView.kf.setImage(with: model.imageURL)
   }
-  
-//  func removeLastLineView() {
-//    lineView.removeFromSuperview()
-//  }
 }

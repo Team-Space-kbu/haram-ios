@@ -45,7 +45,6 @@ final class HomeViewController: BaseViewController {
   private var bannerModel: [HomebannerCollectionViewCellModel] = []
   
   private var newsModel: [HomeNewsCollectionViewCellModel] = []
-  private var bannerSeq: Int?
   
   // MARK: - UI Components
   
@@ -77,6 +76,8 @@ final class HomeViewController: BaseViewController {
       $0.minimumLineSpacing = .zero
     }
   ).then {
+    $0.layer.masksToBounds = true
+    $0.layer.cornerRadius = 10
     $0.backgroundColor = .white
     $0.delegate = self
     $0.dataSource = self
@@ -245,7 +246,10 @@ final class HomeViewController: BaseViewController {
       owner.newsModel = newsModel
       owner.bannerModel = bannerModel
       owner.homeNoticeView.configureUI(with: noticeModel)
-      owner.bannerSeq = noticeModel.bannerSeq
+      
+      if bannerModel.isEmpty {
+        owner.bannerCollectionView.backgroundColor = .hex79BD9A
+      }
       
       owner.view.hideSkeleton()
       
@@ -279,15 +283,15 @@ final class HomeViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    homeNoticeView.button.rx.tap
-      .subscribe(with: self) { owner, _ in
-        owner.homeNoticeView.showAnimation {
-          let vc = HomeBannerDetailViewController(bannerSeq: owner.bannerSeq!)
-          vc.hidesBottomBarWhenPushed = true
-          owner.navigationController?.pushViewController(vc, animated: true)
-        }
-      }
-      .disposed(by: disposeBag)
+//    homeNoticeView.button.rx.tap
+//      .subscribe(with: self) { owner, _ in
+//        owner.homeNoticeView.showAnimation {
+//          let vc = HomeBannerDetailViewController(bannerSeq: owner.bannerSeq!)
+//          vc.hidesBottomBarWhenPushed = true
+//          owner.navigationController?.pushViewController(vc, animated: true)
+//        }
+//      }
+//      .disposed(by: disposeBag)
   }
   
   private func pageControlValueChanged(currentPage: Int) {
@@ -373,6 +377,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let self = self else { return }
         let model = self.newsModel[indexPath.row]
         let vc = PDFViewController(pdfURL: model.pdfURL)
+        vc.title = model.title
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
+      }
+    } else {
+      let cell = collectionView.cellForItem(at: indexPath) as? HomeBannerCollectionViewCell ?? HomeBannerCollectionViewCell()
+      cell.showAnimation(scale: 0.9) { [weak self] in
+        guard let self = self else { return }
+        let model = self.bannerModel[indexPath.row]
+        let vc = HomeBannerDetailViewController(bannerSeq: model.bannerSeq)
         vc.title = model.title
         vc.navigationItem.largeTitleDisplayMode = .never
         vc.hidesBottomBarWhenPushed = true

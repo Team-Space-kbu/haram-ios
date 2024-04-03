@@ -11,14 +11,12 @@ import SnapKit
 import Then
 
 struct HomeNoticeViewModel {
-  let bannerSeq: Int
   let title: String
   let content: String
   
   init(subNotice: SubNotice) {
     title = subNotice.title
     content = subNotice.content
-    bannerSeq = subNotice.spaceNoticeSeq
   }
 }
 
