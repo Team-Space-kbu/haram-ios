@@ -42,7 +42,13 @@ final class MileageViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
-  deinit {
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerNotifications()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
     removeNotifications()
   }
   
@@ -90,7 +96,6 @@ final class MileageViewController: BaseViewController, BackButtonHandler {
     setupBackButton()
     navigationController?.interactivePopGestureRecognizer?.delegate = self
     setupSkeletonView()
-    registerNotifications()
   }
   
   override func setupLayouts() {
