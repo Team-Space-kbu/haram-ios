@@ -101,7 +101,7 @@ final class HomeShortcutCollectionViewCell: UICollectionViewCell {
   }
   
   private let shortcutImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFill
+    $0.contentMode = .scaleAspectFit
   }
   
   override init(frame: CGRect) {
@@ -134,16 +134,11 @@ final class HomeShortcutCollectionViewCell: UICollectionViewCell {
     }
     
     shortcutImageView.snp.makeConstraints {
-      $0.top.equalToSuperview()
-      $0.size.equalTo(20.03)
-      $0.centerX.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+//      $0.size.equalTo(20.03)
+//      $0.centerX.equalToSuperview()
       $0.bottom.lessThanOrEqualTo(titleLabel.snp.top)
     }
-    
-//    titleLabel.snp.makeConstraints {
-//      $0.top.greaterThanOrEqualTo(shortcutImageView.snp.bottom).offset(15.97)
-//      $0.directionalHorizontalEdges.bottom.equalToSuperview()
-//    }
   }
   
   func configureUI(with model: HomeShortcutCollectionViewCellModel) {

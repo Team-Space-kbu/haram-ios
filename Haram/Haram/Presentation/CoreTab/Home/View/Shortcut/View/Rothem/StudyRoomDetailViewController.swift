@@ -48,7 +48,13 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
     fatalError("init(coder:) has not been implemented")
   }
   
-  deinit {
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerNotification()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
     removeNotification()
   }
   
@@ -57,7 +63,6 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
     
     setupBackButton()
     setupSkeletonView()
-    registerNotification()
   }
   
   @objc func didTappedBackButton() {
