@@ -8,6 +8,7 @@
 import UIKit
 
 import QRCode
+import RxSwift
 import SnapKit
 import SkeletonView
 import Then
@@ -27,7 +28,15 @@ struct RothemReservationInfoViewModel {
   }
 }
 
+protocol RothemReservationInfoViewDelegate: AnyObject {
+  func didTappedQrCode(data: Data)
+  func didTappedBarCode(image: UIImage)
+}
+
 final class RothemReservationInfoView: UIView {
+  
+  weak var delegate: RothemReservationInfoViewDelegate?
+  private let disposeBag = DisposeBag()
   
   private let rothemRoomNameLabel = UILabel().then {
     $0.font = .bold25
@@ -53,20 +62,43 @@ final class RothemReservationInfoView: UIView {
   private let qrCodeView = QRCodeView().then {
     $0.backgroundColor = .clear
     $0.isSkeletonable = true
+    $0.isUserInteractionEnabled = true
   }
   
   private let barCodeView = UIImageView().then {
     $0.contentMode = .scaleAspectFit
     $0.isSkeletonable = true
+    $0.isUserInteractionEnabled = true
   }
+  
+  private let barCodeButton = UIButton()
+  private let qrCodeButton = UIButton()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+
+  private func bind() {
+    
+    barCodeButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.delegate?.didTappedBarCode(image: owner.barCodeView.image!)
+      }
+      .disposed(by: disposeBag)
+    
+    qrCodeButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        guard let data = owner.qrCodeView.qrCode?.data else { return }
+        owner.delegate?.didTappedQrCode(data: data)
+      }
+      .disposed(by: disposeBag)
+    
   }
   
   private func configureUI() {
@@ -77,6 +109,8 @@ final class RothemReservationInfoView: UIView {
     
     /// Set Layout
     _ = [rothemRoomNameLabel, rothemLocationLabel, reservationNameLabel, qrCodeView, barCodeView].map { addSubview($0) }
+    barCodeView.addSubview(barCodeButton)
+    qrCodeView.addSubview(qrCodeButton)
     
     /// Set Constraints
     rothemRoomNameLabel.snp.makeConstraints {
@@ -109,6 +143,14 @@ final class RothemReservationInfoView: UIView {
       $0.centerX.equalToSuperview()
       $0.bottom.equalToSuperview().inset(273 - 228)
     }   
+    
+    barCodeButton.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
+    qrCodeButton.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
   }
   
   func configureUI(with model: RothemReservationInfoViewModel) {

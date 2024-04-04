@@ -45,6 +45,7 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     setupBackButton()
     setupSkeletonView()
     registerNotification()
+    rothemReservationInfoView.delegate = self
   }
   
   override func setupLayouts() {
@@ -135,4 +136,21 @@ extension CheckReservationViewController {
   private func refreshWhenNetworkConnected() {
     viewModel.inquireRothemReservationInfo()
   }
+}
+
+extension CheckReservationViewController: RothemReservationInfoViewDelegate {
+  func didTappedQrCode(data: Data) {
+    guard let zoomImage = UIImage(data: data) else { return }
+    let modal = ZoomImageViewController(zoomImage: zoomImage)
+    modal.modalPresentationStyle = .fullScreen
+    present(modal, animated: true)
+  }
+  
+  func didTappedBarCode(image: UIImage) {
+    let modal = ZoomImageViewController(zoomImage: image)
+    modal.modalPresentationStyle = .fullScreen
+    present(modal, animated: true)
+  }
+  
+  
 }

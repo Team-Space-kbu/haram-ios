@@ -44,7 +44,7 @@ final class IntranetLoginViewController: BaseViewController {
   }
   
   private let intranetLabel = UILabel().then {
-    $0.text = "한국성서대학교 인트라넷"
+    $0.text = "한국성서대학교 인트라넷 로그인"
     $0.textColor = .black
     $0.font = .regular14
   }
@@ -85,21 +85,25 @@ final class IntranetLoginViewController: BaseViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     registerNotifications()
+    navigationController?.setNavigationBarHidden(true, animated: false)
+    let startIdx = navigationController?.viewControllers.startIndex
+    navigationController?.viewControllers.remove(at: startIdx! + 1)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     removeNotifications()
+    navigationController?.setNavigationBarHidden(false, animated: false)
   }
   
   override func setupStyles() {
     super.setupStyles()
-    
-    /// Set NavigationBar
-    navigationController?.setNavigationBarHidden(true, animated: true)
-    if let navigationController = navigationController {
-      navigationController.interactivePopGestureRecognizer?.isEnabled = false
-    }
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
+//    /// Set NavigationBar
+//    navigationController?.setNavigationBarHidden(true, animated: true)
+//    if let navigationController = navigationController {
+//      navigationController.interactivePopGestureRecognizer?.isEnabled = false
+//    }
     /// Set Delegate
     idTextField.textField.delegate = self
     pwTextField.textField.delegate = self
@@ -296,6 +300,17 @@ extension IntranetLoginViewController: UITextFieldDelegate {
       
       viewModel.whichIntranetInfo(intranetID: intranetID, intranetPassword: intranetPWD)
     }
+    return true
+  }
+}
+
+extension IntranetLoginViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
+  }
+  
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true
   }
 }

@@ -29,6 +29,7 @@ final class RentalLibraryCollectionViewCell: UICollectionViewCell {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
+    $0.backgroundColor = .white
   }
   
   override init(frame: CGRect) {

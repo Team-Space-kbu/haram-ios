@@ -197,6 +197,14 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
         }
       }
       .disposed(by: disposeBag)
+    
+    libraryDetailMainView.button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let modal = ZoomImageViewController(zoomImage: owner.libraryDetailMainView.mainImage)
+        modal.modalPresentationStyle = .fullScreen
+        owner.present(modal, animated: true)
+      }
+      .disposed(by: disposeBag)
   }
   
   @objc func didTappedBackButton() {

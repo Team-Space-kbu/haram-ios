@@ -126,16 +126,24 @@ final class HomeShortcutCollectionViewCell: UICollectionViewCell {
       $0.isSkeletonable = true
       contentView.addSubview($0)
     }
+    
+    titleLabel.snp.makeConstraints {
+//      $0.top.greaterThanOrEqualTo(shortcutImageView.snp.bottom).offset(15.97)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.height.equalTo(17)
+    }
+    
     shortcutImageView.snp.makeConstraints {
       $0.top.equalToSuperview()
       $0.size.equalTo(20.03)
       $0.centerX.equalToSuperview()
+      $0.bottom.lessThanOrEqualTo(titleLabel.snp.top)
     }
     
-    titleLabel.snp.makeConstraints {
-      $0.top.equalTo(shortcutImageView.snp.bottom).offset(15.97)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview()
-    }
+//    titleLabel.snp.makeConstraints {
+//      $0.top.greaterThanOrEqualTo(shortcutImageView.snp.bottom).offset(15.97)
+//      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+//    }
   }
   
   func configureUI(with model: HomeShortcutCollectionViewCellModel) {

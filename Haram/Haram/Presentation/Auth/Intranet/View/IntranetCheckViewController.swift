@@ -34,27 +34,23 @@ final class IntranetCheckViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "로그인하기", contentInsets: .zero)
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    navigationController?.setNavigationBarHidden(true, animated: false)
+    let startIdx = navigationController?.viewControllers.startIndex
+    navigationController?.viewControllers.remove(at: startIdx! + 1)
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    navigationController?.setNavigationBarHidden(false, animated: false)
+  }
+  
   override func setupStyles() {
     super.setupStyles()
-    navigationController?.setNavigationBarHidden(true, animated: false)
-    if let interactivePopGestureRecognizer = navigationController?.interactivePopGestureRecognizer {
-      interactivePopGestureRecognizer.addTarget(self, action: #selector(handleSwipeBackGesture(_:)))
-    }
-    if let navigationController = navigationController {
-      navigationController.interactivePopGestureRecognizer?.isEnabled = true
-    }
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
+  }
 
-  }
-  
-  @objc func handleSwipeBackGesture(_ gesture: UIScreenEdgePanGestureRecognizer) {
-    if gesture.state == .began {
-//      navigationController?.popToRootViewController(animated: true)
-      navigationController?.setNavigationBarHidden(false, animated: false)
-      navigationController?.popToRootViewController(animated: true)
-    }
-  }
-  
-  
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(backgroudImageView)
@@ -107,6 +103,7 @@ final class IntranetCheckViewController: BaseViewController {
       .throttle(.seconds(1), scheduler: MainScheduler.instance)
       .subscribe(with: self) { owner, _ in
         let vc = IntranetLoginViewController()
+        vc.hidesBottomBarWhenPushed = true
         vc.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)
       }
@@ -158,5 +155,15 @@ extension IntranetCheckViewController {
         $0.centerY.equalTo(mainImageView.snp.bottom).offset(50)
       }
     }
+  }
+}
+extension IntranetCheckViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true // or false
+  }
+  
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
+    return true
   }
 }

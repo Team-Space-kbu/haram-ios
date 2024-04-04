@@ -241,6 +241,7 @@ extension BoardDetailViewController: UICollectionViewDataSource, UICollectionVie
         for: indexPath
       ) as? BoardDetailHeaderView ?? BoardDetailHeaderView()
       header.configureUI(with: boardModel.first)
+      header.delegate = self
       return header
     }
     let header = collectionView.dequeueReusableSupplementaryView(
@@ -251,6 +252,7 @@ extension BoardDetailViewController: UICollectionViewDataSource, UICollectionVie
     return header
     
   }
+
   
 }
 
@@ -369,10 +371,14 @@ extension BoardDetailViewController: UIScrollViewDelegate {
     if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
       // 위에서 아래로 스크롤하는 경우
       view.endEditing(true)
-      // 여기에 위에서 아래로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
-    } else {
-      // 아래에서 위로 스크롤하는 경우
-      // 여기에 아래에서 위로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
     }
+  }
+}
+
+extension BoardDetailViewController: BoardDetailHeaderViewDelegate {
+  func didTappedBoardImage(url: URL?) {
+    let modal = ZoomImageViewController(zoomImageURL: url)
+    modal.modalPresentationStyle = .fullScreen
+    present(modal, animated: true)
   }
 }
