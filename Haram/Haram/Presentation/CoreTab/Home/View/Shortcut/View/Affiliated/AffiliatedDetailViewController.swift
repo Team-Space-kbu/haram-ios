@@ -19,7 +19,10 @@ final class AffiliatedDetailViewController: BaseViewController, BackButtonHandle
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.isSkeletonable = true
+    $0.isUserInteractionEnabled = true
   }
+  
+  private let button = UIButton()
   
   private let affiliatedDetailView = AffiliatedDetailInfoView().then {
     $0.layer.masksToBounds = true
@@ -51,6 +54,7 @@ final class AffiliatedDetailViewController: BaseViewController, BackButtonHandle
   override func setupLayouts() {
     super.setupLayouts()
     _ = [detailImageView, affiliatedDetailView].map { view.addSubview($0) }
+    detailImageView.addSubview(button)
   }
   
   override func setupConstraints() {
@@ -65,6 +69,10 @@ final class AffiliatedDetailViewController: BaseViewController, BackButtonHandle
     detailImageView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.equalTo(affiliatedDetailView.snp.top).offset(40)
+    }
+    
+    button.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
   }
   
@@ -92,6 +100,14 @@ final class AffiliatedDetailViewController: BaseViewController, BackButtonHandle
             owner.navigationController?.popViewController(animated: true)
           }
         }
+      }
+      .disposed(by: disposeBag)
+    
+    button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let modal = ZoomImageViewController(zoomImage: owner.detailImageView.image!)
+        modal.modalPresentationStyle = .fullScreen
+        owner.present(modal, animated: true)
       }
       .disposed(by: disposeBag)
   }

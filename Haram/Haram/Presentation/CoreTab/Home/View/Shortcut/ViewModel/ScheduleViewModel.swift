@@ -90,7 +90,9 @@ extension ScheduleViewModel: ScheduleViewModelType {
   }
   
   var scheduleInfo: Driver<[ElliottEvent]> {
-    schedulingInfo.asDriver(onErrorJustReturn: [])
+    schedulingInfo
+      .take(1)
+      .asDriver(onErrorJustReturn: [])
   }
   
   var isLoading: Driver<Bool> {

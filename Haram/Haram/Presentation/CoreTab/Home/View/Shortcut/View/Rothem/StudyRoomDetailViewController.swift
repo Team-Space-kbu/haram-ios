@@ -22,7 +22,10 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.isSkeletonable = true
+    $0.isUserInteractionEnabled = true
   }
+  
+  private let button = UIButton()
   
   private lazy var studyRoomDetailView = RothemRoomDetailView().then {
     $0.layer.masksToBounds = true
@@ -64,6 +67,7 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
   override func setupLayouts() {
     super.setupLayouts()
     [studyRoomImageView, studyRoomDetailView].forEach { view.addSubview($0) }
+    studyRoomImageView.addSubview(button)
   }
   
   override func setupConstraints() {
@@ -79,6 +83,10 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
       $0.topMargin.equalToSuperview()
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.equalTo(studyRoomDetailView.snp.top).offset(40)
+    }
+    
+    button.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
   }
@@ -113,6 +121,14 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
             }
           }
         }
+      }
+      .disposed(by: disposeBag)
+    
+    button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let modal = ZoomImageViewController(zoomImage: owner.studyRoomImageView.image!)
+        modal.modalPresentationStyle = .fullScreen
+        owner.present(modal, animated: true)
       }
       .disposed(by: disposeBag)
 

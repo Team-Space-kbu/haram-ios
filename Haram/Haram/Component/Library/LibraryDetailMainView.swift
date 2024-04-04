@@ -26,6 +26,10 @@ struct LibraryDetailMainViewModel {
 
 final class LibraryDetailMainView: UIView {
   
+  var mainImage: UIImage {
+    bookImageView.image!
+  }
+  
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 16
@@ -46,9 +50,12 @@ final class LibraryDetailMainView: UIView {
     $0.layer.backgroundColor = UIColor.clear.cgColor
     $0.clipsToBounds = true
     $0.layer.cornerRadius = 10
-    $0.backgroundColor = .clear
+    $0.backgroundColor = .white
     $0.contentMode = .scaleAspectFill
+    $0.isUserInteractionEnabled = true
   }
+  
+  let button = UIButton()
   
   private let titleLabel = UILabel().then {
     $0.font = .bold22
@@ -88,6 +95,7 @@ final class LibraryDetailMainView: UIView {
     addSubview(containerView)
     _ = [outerView, titleLabel, subLabel, bottomLineView].map { containerView.addArrangedSubview($0) }
     outerView.addSubview(bookImageView)
+    bookImageView.addSubview(button)
     
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
@@ -100,6 +108,10 @@ final class LibraryDetailMainView: UIView {
     }
     
     bookImageView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+    }
+    
+    button.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
     

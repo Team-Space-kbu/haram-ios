@@ -20,7 +20,13 @@ struct BoardDetailHeaderViewModel {
   let boardImageCollectionViewCellModel: [BoardImageCollectionViewCellModel]
 }
 
+protocol BoardDetailHeaderViewDelegate: AnyObject {
+  func didTappedBoardImage(url: URL?)
+}
+
 final class BoardDetailHeaderView: UICollectionReusableView {
+  
+  weak var delegate: BoardDetailHeaderViewDelegate?
   
   static let identifier = "BoardDetailHeaderView"
   private let disposeBag = DisposeBag()
@@ -189,6 +195,11 @@ extension BoardDetailHeaderView: UICollectionViewDataSource {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardImageCollectionViewCell.identifier, for: indexPath) as? BoardImageCollectionViewCell ?? BoardImageCollectionViewCell()
     cell.configureUI(with: boardImageCollectionViewCellModel[indexPath.row])
     return cell
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let model = boardImageCollectionViewCellModel[indexPath.row]
+    delegate?.didTappedBoardImage(url: model.imageURL)
   }
 }
 

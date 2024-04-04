@@ -100,6 +100,7 @@ final class ScheduleViewController: BaseViewController, BackButtonHandler {
     title = "시간표"
     setupBackButton()
     navigationController?.interactivePopGestureRecognizer?.delegate = self
+    indicatorView.startAnimating()
   }
   
   override func setupLayouts() {
@@ -125,11 +126,10 @@ final class ScheduleViewController: BaseViewController, BackButtonHandler {
     viewModel.inquireTimeSchedule()
     
     viewModel.scheduleInfo
-      .drive(rx.courseModel)
-      .disposed(by: disposeBag)
-    
-    viewModel.isLoading
-      .drive(indicatorView.rx.isAnimating)
+      .drive(with: self) { owner, model in
+        owner.courseModel = model
+        owner.indicatorView.stopAnimating()
+      }
       .disposed(by: disposeBag)
     
     viewModel.errorMessage
@@ -144,7 +144,6 @@ final class ScheduleViewController: BaseViewController, BackButtonHandler {
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           }
         }
       }

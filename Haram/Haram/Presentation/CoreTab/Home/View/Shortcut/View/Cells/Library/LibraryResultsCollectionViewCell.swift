@@ -45,6 +45,7 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
     $0.layer.cornerRadius = 10
     $0.contentMode = .scaleAspectFill
     $0.skeletonCornerRadius = 10
+    $0.backgroundColor = .white
   }
   
   private let mainLabel = UILabel().then {

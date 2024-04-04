@@ -49,7 +49,10 @@ final class RothemNoticeDetailViewController: BaseViewController, BackButtonHand
     $0.layer.cornerRadius = 10
     $0.skeletonCornerRadius = 10
     $0.isSkeletonable = true
+    $0.isUserInteractionEnabled = true
   }
+  
+  private let button = UIButton()
   
   private let contentLabel = UILabel().then {
     $0.textColor = .hex9F9FA4
@@ -98,6 +101,14 @@ final class RothemNoticeDetailViewController: BaseViewController, BackButtonHand
         }
       }
       .disposed(by: disposeBag)
+    
+    button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let modal = ZoomImageViewController(zoomImage: owner.rothemImageView.image!)
+        modal.modalPresentationStyle = .fullScreen
+        owner.present(modal, animated: true)
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -112,6 +123,7 @@ final class RothemNoticeDetailViewController: BaseViewController, BackButtonHand
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
     _ = [titleLabel, rothemImageView, contentLabel].map { containerView.addArrangedSubview($0) }
+    rothemImageView.addSubview(button)
   }
   
   override func setupConstraints() {
@@ -131,6 +143,10 @@ final class RothemNoticeDetailViewController: BaseViewController, BackButtonHand
     
     rothemImageView.snp.makeConstraints {
       $0.height.equalTo(200)
+    }
+    
+    button.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
   }
   

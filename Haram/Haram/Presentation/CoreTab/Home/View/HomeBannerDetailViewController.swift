@@ -47,7 +47,9 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
     $0.layer.cornerRadius = 10
     $0.skeletonCornerRadius = 10
     $0.isSkeletonable = true
+    $0.isUserInteractionEnabled = true
   }
+  let button = UIButton()
   
   private let contentLabel = UILabel().then {
     $0.textColor = .hex9F9FA4
@@ -96,13 +98,23 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
         }
       }
       .disposed(by: disposeBag)
+    
+    button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let modal = ZoomImageViewController(zoomImage: owner.bannerImageView.image!)
+        modal.modalPresentationStyle = .fullScreen
+        owner.present(modal, animated: true)
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
+    bannerImageView.addSubview(button)
     _ = [titleLabel, bannerImageView, contentLabel].map { containerView.addArrangedSubview($0) }
+    
   }
   
   override func setupConstraints() {
@@ -122,6 +134,10 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
     
     bannerImageView.snp.makeConstraints {
       $0.height.equalTo(200)
+    }
+    
+    button.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
   }
   
