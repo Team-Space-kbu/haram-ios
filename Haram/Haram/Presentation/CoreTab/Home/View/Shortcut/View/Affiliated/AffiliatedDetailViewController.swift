@@ -44,6 +44,16 @@ final class AffiliatedDetailViewController: BaseViewController, BackButtonHandle
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerNotifications()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    removeNotifications()
+  }
+  
   override func setupStyles() {
     super.setupStyles()
     
@@ -221,5 +231,20 @@ extension AffiliatedDetailViewController {
       affiliatedBenefitView.configureUI(with: model.affiliatedBenefitModel)
       affiliatedMapView.configureUI(with: model.affiliatedMapViewModel)
     }
+  }
+}
+
+extension AffiliatedDetailViewController {
+  private func registerNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+  }
+  
+  private func removeNotifications() {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  @objc
+  private func refreshWhenNetworkConnected() {
+    viewModel.inquireAffiliatedDetail(id: id)
   }
 }

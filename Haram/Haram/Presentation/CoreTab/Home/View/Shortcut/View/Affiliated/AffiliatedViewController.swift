@@ -30,7 +30,13 @@ final class AffiliatedViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
-  deinit {
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerNotifications()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
     removeNotifications()
   }
   
@@ -52,7 +58,7 @@ final class AffiliatedViewController: BaseViewController, BackButtonHandler {
   
   override func setupStyles() {
     super.setupStyles()
-    registerNotifications()
+    
     title = "제휴업체"
     setupBackButton()
     navigationController?.interactivePopGestureRecognizer?.delegate = self

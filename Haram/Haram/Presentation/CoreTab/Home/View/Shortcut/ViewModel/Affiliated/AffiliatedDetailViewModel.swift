@@ -39,6 +39,9 @@ extension AffiliatedDetailViewModel: AffiliatedDetailViewModelType {
   }
   
   func inquireAffiliatedDetail(id: Int) {
+    
+    guard affiliatedDetailModelRelay.value == nil else { return }
+    
     homeRepository.inquireAffiliatedDetail(id: id)
       .subscribe(with: self, onSuccess: { owner, response in
         owner.affiliatedDetailModelRelay.accept(.init(
@@ -70,6 +73,9 @@ extension AffiliatedDetailViewModel: AffiliatedDetailViewModelType {
   }
   
   var affiliatedDetailModel: RxCocoa.Driver<AffiliatedDetailInfoViewModel> {
-    affiliatedDetailModelRelay.compactMap { $0 }.asDriver(onErrorDriveWith: .empty())
+    affiliatedDetailModelRelay
+      .compactMap { $0 }
+      .take(1)
+      .asDriver(onErrorDriveWith: .empty())
   }
 }
