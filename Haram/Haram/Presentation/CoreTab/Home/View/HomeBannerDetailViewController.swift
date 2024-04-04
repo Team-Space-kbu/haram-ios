@@ -14,6 +14,7 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
   
   private let viewModel: HomeBannerDetailViewModelType
   private let bannerSeq: Int
+  private let department: Department
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -56,9 +57,10 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
     $0.skeletonTextNumberOfLines = 5
   }
   
-  init(bannerSeq: Int, viewModel: HomeBannerDetailViewModelType = HomeBannerDetailViewModel()) {
+  init(department: Department, bannerSeq: Int, viewModel: HomeBannerDetailViewModelType = HomeBannerDetailViewModel()) {
     self.viewModel = viewModel
     self.bannerSeq = bannerSeq
+    self.department = department
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -68,7 +70,7 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
   
   override func bind() {
     super.bind()
-    viewModel.inquireBannerInfo(bannerSeq: bannerSeq)
+    viewModel.inquireBannerInfo(bannerSeq: bannerSeq, department: department)
     
     viewModel.bannerInfo
       .emit(with: self) { owner, result in

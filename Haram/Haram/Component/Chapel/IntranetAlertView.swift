@@ -18,18 +18,18 @@ enum IntranetAlertViewType {
   var title: String {
     switch self {
     case .mileage:
-      return "마일리지반영"
+      return "마일리지 반영"
     case .chapel:
-      return "채플정보안내"
+      return "채플정보 안내"
     }
   }
   
   var description: String {
     switch self {
     case .mileage:
-      return "마일리지정보가 반영되는데 일정시간이 소요됩니다"
+      return "마일리지 정보가 반영되는데 일정 시간이 소요됩니다"
     case .chapel:
-      return "인트라넷정보와 차이가 발생할 수 있습니다"
+      return "채플 정보는 인트라넷과 차이가 발생할 수 있습니다"
     }
   }
 }

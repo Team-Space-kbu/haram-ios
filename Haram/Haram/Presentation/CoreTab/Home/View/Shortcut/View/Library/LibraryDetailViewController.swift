@@ -52,7 +52,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
   private let libraryRentalListView = LibraryRentalListView()
   
   private let relatedBookLabel = UILabel().then {
-    $0.text = "관련도서"
+    $0.text = "추천도서"
     $0.font = .bold18
     $0.textColor = .black
   }
@@ -68,9 +68,8 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     $0.register(LibraryRelatedBookCollectionViewCell.self, forCellWithReuseIdentifier: LibraryRelatedBookCollectionViewCell.identifier)
     $0.delegate = self
     $0.dataSource = self
-    $0.contentInset = .init(top: .zero, left: 15, bottom: .zero, right: 15)
+    $0.contentInset = .init(top: 3, left: 15, bottom: 15, right: 15)
     $0.showsHorizontalScrollIndicator = false
-    $0.isPagingEnabled = true
   }
   
   // MARK: - Initializations
@@ -140,12 +139,12 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     }
     
     relatedBookCollectionView.snp.makeConstraints {
-      $0.height.equalTo(165)
+      $0.height.equalTo(165 + 15 + 3 + 3)
       $0.directionalHorizontalEdges.equalToSuperview()
     }
     
     containerView.setCustomSpacing(20, after: libraryDetailInfoView)
-    containerView.setCustomSpacing(15, after: relatedBookLabel)
+    containerView.setCustomSpacing(15 - 3, after: relatedBookLabel)
   }
   
   override func bind() {

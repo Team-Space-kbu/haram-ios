@@ -256,6 +256,7 @@
 		70A24EC52BBC7FAA00572FAE /* RothemNoticeDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A24EC42BBC7FAA00572FAE /* RothemNoticeDetailViewModel.swift */; };
 		70A24EC72BBD717100572FAE /* EmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A24EC62BBD717100572FAE /* EmptyCollectionViewCell.swift */; };
 		70A24EC92BBD89FF00572FAE /* HomeNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A24EC82BBD89FF00572FAE /* HomeNoticeViewController.swift */; };
+		70A24ECB2BBEBC1900572FAE /* InquireBibleDetailInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A24ECA2BBEBC1900572FAE /* InquireBibleDetailInfoResponse.swift */; };
 		70A731C12B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C02B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift */; };
 		70A731C32B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C22B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift */; };
 		70A731C52B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C42B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift */; };
@@ -569,6 +570,7 @@
 		70A24EC42BBC7FAA00572FAE /* RothemNoticeDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemNoticeDetailViewModel.swift; sourceTree = "<group>"; };
 		70A24EC62BBD717100572FAE /* EmptyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCollectionViewCell.swift; sourceTree = "<group>"; };
 		70A24EC82BBD89FF00572FAE /* HomeNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNoticeViewController.swift; sourceTree = "<group>"; };
+		70A24ECA2BBEBC1900572FAE /* InquireBibleDetailInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBibleDetailInfoResponse.swift; sourceTree = "<group>"; };
 		70A731C02B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeTypeInfoRequest.swift; sourceTree = "<group>"; };
 		70A731C22B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeInfoResponse.swift; sourceTree = "<group>"; };
 		70A731C42B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryNoticeViewModel.swift; sourceTree = "<group>"; };
@@ -1498,6 +1500,7 @@
 				70375F082AB050E00032F6B8 /* InquireChapterToBibleResponse.swift */,
 				701F29DB2AEBB29C00E3E68B /* BibleNoticeResponse.swift */,
 				7032FD812B656AEE00B8481C /* InquireBibleHomeInfoResponse.swift */,
+				70A24ECA2BBEBC1900572FAE /* InquireBibleDetailInfoResponse.swift */,
 			);
 			path = Bible;
 			sourceTree = "<group>";
@@ -1922,6 +1925,7 @@
 				709AB6452B77E19B004B0F59 /* BoardImageCollectionViewCell.swift in Sources */,
 				7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */,
 				708312AE2A73936E00F7E283 /* CategoryCollectionViewCell.swift in Sources */,
+				70A24ECB2BBEBC1900572FAE /* InquireBibleDetailInfoResponse.swift in Sources */,
 				70A731C52B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift in Sources */,
 				70864F382B014A2D00CD4124 /* CreateCommentRequest.swift in Sources */,
 				70375F092AB050E00032F6B8 /* InquireChapterToBibleResponse.swift in Sources */,
@@ -2320,7 +2324,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = TK287254JR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Haram/Info.plist;
@@ -2357,7 +2361,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Haram/HaramRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = TK287254JR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Haram/Info.plist;
@@ -2393,7 +2397,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
@@ -2414,7 +2418,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
@@ -2434,7 +2438,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -2453,7 +2457,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = ASZ874HB9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
