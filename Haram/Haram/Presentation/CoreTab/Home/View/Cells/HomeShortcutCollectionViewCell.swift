@@ -59,7 +59,7 @@ enum ShortcutType: CaseIterable {
     case .schedule:
       return "시간표"
     case .readingRoom:
-      return "열람식조회"
+      return "로뎀예약"
     }
   }
   

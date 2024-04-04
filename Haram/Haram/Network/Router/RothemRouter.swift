@@ -51,7 +51,7 @@ extension RothemRouter: Router {
     case .cancelRothemReservation:
       return "/v1/rothem/reservations"
     case let .inquireRothemNoticeDetail(noticeSeq):
-      return "/v1/bibles/notices/\(noticeSeq)"
+      return "/v1/rothem/notices/\(noticeSeq)"
     }
   }
   

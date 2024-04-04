@@ -8,15 +8,19 @@
 import Foundation
 
 struct InquireRothemNoticeDetailResponse: Decodable {
-  let bibleNoticeSeq: Int
-  let title: String
-  let content: String
-  let thumbnailPath: String
+  let noticeResponse: NoticeResponse
+  let noticeFileResponses: [NoticeFileResponse]
+}
+
+struct NoticeFileResponse: Decodable {
+  let seq: Int
+  let noticeSeq: Int
+  let sortNum: Int
+  let filePath: String
   let createdBy: String
   let createdAt: String
   let modifiedBy: String
   let modifiedAt: String
-  let bibleNoticeFileResponses: [BibleNoticeFileResponse]
 }
 
 struct BibleNoticeFileResponse: Decodable {

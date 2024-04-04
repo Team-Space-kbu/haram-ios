@@ -16,8 +16,10 @@ struct HomebannerCollectionViewCellModel {
   let bannerSeq: Int
   let imageURL: URL?
   let title: String
+  let department: Department
   
   init(subBanner: SubBanner) {
+    department = subBanner.department
     title = subBanner.title
     bannerSeq = subBanner.seq
     imageURL = URL(string: subBanner.filePath)

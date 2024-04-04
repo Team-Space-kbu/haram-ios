@@ -10,6 +10,7 @@ import RxSwift
 protocol BibleRepository {
   func inquireChapterToBible(request: InquireChapterToBibleRequest) -> Single<[InquireChapterToBibleResponse]>
   func inquireBibleHomeInfo() -> Single<InquireBibleHomeInfoResponse>
+  func inquireBibleDetailInfo(noticeSeq: Int) -> Single<InquireBibleDetailInfoResponse>
 }
 
 final class BibleRepositoryImpl {
@@ -23,6 +24,10 @@ final class BibleRepositoryImpl {
 }
 
 extension BibleRepositoryImpl: BibleRepository {
+  func inquireBibleDetailInfo(noticeSeq: Int) -> RxSwift.Single<InquireBibleDetailInfoResponse> {
+    service.betarequest(router: BibleRouter.inquireBibleDetailInfo(noticeSeq), type: InquireBibleDetailInfoResponse.self)
+  }
+  
   
   func inquireChapterToBible(request: InquireChapterToBibleRequest) -> Single<[InquireChapterToBibleResponse]> {
     service.betarequest(router: BibleRouter.inquireChapterToBible(request), type: [InquireChapterToBibleResponse].self)

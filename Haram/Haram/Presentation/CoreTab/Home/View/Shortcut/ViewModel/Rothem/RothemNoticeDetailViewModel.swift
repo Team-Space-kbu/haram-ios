@@ -42,7 +42,7 @@ extension RothemNoticeDetailViewModel: RothemNoticeDetailViewModelType {
   func inquireRothemNoticeDetail(noticeSeq: Int) {
     rothemRepository.inquireRothemNoticeDetail(noticeSeq: noticeSeq)
       .subscribe(with: self, onSuccess: { owner, response in
-        owner.noticeDetailModelRelay.accept((title: response.title, content: response.content, thumbnailPath: URL(string: response.thumbnailPath)))
+        owner.noticeDetailModelRelay.accept((title: response.noticeResponse.title, content: response.noticeResponse.content, thumbnailPath: URL(string: response.noticeResponse.thumbnailPath)))
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         owner.errorMessageRelay.accept(error)

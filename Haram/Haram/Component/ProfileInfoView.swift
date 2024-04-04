@@ -87,7 +87,8 @@ final class ProfileInfoView: UIView {
     }
     
     button.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.top.equalTo(lineView.snp.bottom)
+      $0.bottom.directionalHorizontalEdges.equalToSuperview()
     }
   }
   

@@ -58,6 +58,7 @@ platform :ios do
         slack_url: ENV['SLACK_URL']
       )
     end
+  end
 
   lane :tests do
 run_tests(scheme: "Haram",

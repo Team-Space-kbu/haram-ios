@@ -10,13 +10,14 @@ import Alamofire
 enum BibleRouter {
   case inquireChapterToBible(InquireChapterToBibleRequest)
   case inquireBibleHomeInfo
+  case inquireBibleDetailInfo(Int)
 }
 
 extension BibleRouter: Router {
   
   var method: HTTPMethod {
     switch self {
-    case .inquireChapterToBible, .inquireBibleHomeInfo:
+    case .inquireChapterToBible, .inquireBibleHomeInfo, .inquireBibleDetailInfo:
       return .get
     }
   }
@@ -27,6 +28,8 @@ extension BibleRouter: Router {
       return "/v1/bibles/chapter"
     case .inquireBibleHomeInfo:
       return "/v1/bibles/home"
+    case let .inquireBibleDetailInfo(noticeSeq):
+      return "/v1/bibles/notices/\(noticeSeq)"
     }
   }
   
@@ -34,7 +37,7 @@ extension BibleRouter: Router {
     switch self {
     case let .inquireChapterToBible(request):
       return .query(request)
-    case .inquireBibleHomeInfo:
+    case .inquireBibleHomeInfo, .inquireBibleDetailInfo:
       return .plain
     }
   }
@@ -43,7 +46,7 @@ extension BibleRouter: Router {
     switch self {
     case .inquireChapterToBible:
       return .withAccessToken
-    case .inquireBibleHomeInfo:
+    case .inquireBibleHomeInfo, .inquireBibleDetailInfo:
       return .withAccessToken
     }
   }

@@ -128,7 +128,7 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
     
     /// Configure NavigationBar
     navigationController?.interactivePopGestureRecognizer?.delegate = self
-    title = "스터디"
+    title = "로뎀예약"
     setupBackButton()
     
     setupSkeletonView()

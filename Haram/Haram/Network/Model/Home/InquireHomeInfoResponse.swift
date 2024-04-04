@@ -43,7 +43,13 @@ struct SubBanner: Decodable {
   let title: String
   let content: String
   let filePath: String
-  let department: String
+  let department: Department
+}
+
+enum Department: String, Codable {
+  case banners = "banners"
+  case rothem = "rothem"
+  case bibles = "bibles"
 }
 
 struct Kokkoks: Decodable {

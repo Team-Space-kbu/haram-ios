@@ -57,7 +57,7 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
       $0.scrollDirection = .horizontal
-      $0.minimumLineSpacing = 2
+      $0.minimumLineSpacing = 18
     }).then {
       $0.backgroundColor = .white
       $0.isScrollEnabled = false
@@ -307,7 +307,7 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     containerView.setCustomSpacing(16, after: selectedDayLabel)
     
     selectedDayCollectionView.snp.makeConstraints {
-      $0.height.equalTo(69)
+      $0.height.equalTo(75)
     }
     
     selectedTimeLabel.snp.makeConstraints {
@@ -395,7 +395,7 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     if collectionView == selectedDayCollectionView {
-      return CGSize(width: (collectionView.frame.width - (2 * 4)) / 5, height: 69)
+      return CGSize(width: (collectionView.frame.width - (18 * 4)) / 5, height: 75)
     }
     return CGSize(width: 64, height: 33)
   }
