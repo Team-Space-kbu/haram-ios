@@ -47,10 +47,10 @@ final class SelectedCategoryNoticeViewModel {
   
   private func inquireNoticeList() {
     
-    guard NetworkManager.shared.isConnected else {
-      errorMessageRelay.accept(.networkError)
-      return
-    }
+//    guard NetworkManager.shared.isConnected else {
+//      errorMessageRelay.accept(.networkError)
+//      return
+//    }
     
     Observable.combineLatest(
       noticeTypeSubject,
@@ -94,6 +94,9 @@ final class SelectedCategoryNoticeViewModel {
         
         owner.isLoadingRelay.accept(false)
         owner.isLastPage.accept(Int(response.end)!)
+      }, onError: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
       })
       .disposed(by: disposeBag)
   }
