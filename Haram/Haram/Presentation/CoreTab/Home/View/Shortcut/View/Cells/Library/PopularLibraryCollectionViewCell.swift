@@ -59,6 +59,6 @@ final class PopularLibraryCollectionViewCell: UICollectionViewCell {
   
   func configureUI(with model: PopularLibraryCollectionViewCellModel) {
     hideSkeleton()
-    thumbnailImageView.kf.setImage(with: model.imageNameURL)
+    thumbnailImageView.kf.setImage(with: model.imageNameURL, placeholder: UIImage(systemName: "book"))
   }
 }

@@ -60,6 +60,6 @@ final class NewLibraryCollectionViewCell: UICollectionViewCell {
   
   func configureUI(with model: NewLibraryCollectionViewCellModel) {
     hideSkeleton()
-    thumbnailImageView.kf.setImage(with: model.imageNameURL)
+    thumbnailImageView.kf.setImage(with: model.imageNameURL, placeholder: UIImage(systemName: "book"))
   }
 }

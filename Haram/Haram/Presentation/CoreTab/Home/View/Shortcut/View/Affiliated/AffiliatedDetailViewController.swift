@@ -107,7 +107,6 @@ final class AffiliatedDetailViewController: BaseViewController, BackButtonHandle
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           }
         }
       }
@@ -115,9 +114,13 @@ final class AffiliatedDetailViewController: BaseViewController, BackButtonHandle
     
     button.rx.tap
       .subscribe(with: self) { owner, _ in
-        let modal = ZoomImageViewController(zoomImage: owner.detailImageView.image!)
-        modal.modalPresentationStyle = .fullScreen
-        owner.present(modal, animated: true)
+        if let zoomImage = owner.detailImageView.image {
+          let modal = ZoomImageViewController(zoomImage: zoomImage)
+          modal.modalPresentationStyle = .fullScreen
+          owner.present(modal, animated: true)
+        } else {
+          AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: owner, confirmHandler: nil)
+        }
       }
       .disposed(by: disposeBag)
   }

@@ -104,7 +104,9 @@ extension TermsOfUseViewModel: TermsOfUseViewModelType {
   }
   
   var termsOfModel: RxCocoa.Signal<[TermsOfUseTableViewCellModel]> {
-    termsOfModelRelay.skip(1).asSignal(onErrorSignalWith: .empty())
+    termsOfModelRelay
+      .filter { !$0.isEmpty }
+      .asSignal(onErrorSignalWith: .empty())
   }
   
   

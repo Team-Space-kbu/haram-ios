@@ -146,10 +146,15 @@ extension CheckReservationViewController: RothemReservationInfoViewDelegate {
     present(modal, animated: true)
   }
   
-  func didTappedBarCode(image: UIImage) {
-    let modal = ZoomImageViewController(zoomImage: image)
-    modal.modalPresentationStyle = .fullScreen
-    present(modal, animated: true)
+  func didTappedBarCode(image: UIImage?) {
+    if let zoomImage = image {
+      let modal = ZoomImageViewController(zoomImage: zoomImage)
+      modal.modalPresentationStyle = .fullScreen
+      present(modal, animated: true)
+    } else {
+      AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: self, confirmHandler: nil)
+    }
+    
   }
   
   

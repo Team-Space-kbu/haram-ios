@@ -192,7 +192,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
+//            owner.navigationController?.popViewController(animated: true)
           }
         }
       }
@@ -200,9 +200,14 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     
     libraryDetailMainView.button.rx.tap
       .subscribe(with: self) { owner, _ in
-        let modal = ZoomImageViewController(zoomImage: owner.libraryDetailMainView.mainImage)
-        modal.modalPresentationStyle = .fullScreen
-        owner.present(modal, animated: true)
+        if let zoomImage = owner.libraryDetailMainView.mainImage {
+          let modal = ZoomImageViewController(zoomImage: zoomImage)
+          modal.modalPresentationStyle = .fullScreen
+          owner.present(modal, animated: true)
+        } else {
+          AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: owner, confirmHandler: nil)
+        }
+        
       }
       .disposed(by: disposeBag)
   }
