@@ -101,9 +101,13 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
     
     button.rx.tap
       .subscribe(with: self) { owner, _ in
-        let modal = ZoomImageViewController(zoomImage: owner.bannerImageView.image!)
-        modal.modalPresentationStyle = .fullScreen
-        owner.present(modal, animated: true)
+        if let zoomImage = owner.bannerImageView.image {
+          let modal = ZoomImageViewController(zoomImage: zoomImage)
+          modal.modalPresentationStyle = .fullScreen
+          owner.present(modal, animated: true)
+        } else {
+          AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: owner, confirmHandler: nil)
+        }
       }
       .disposed(by: disposeBag)
   }

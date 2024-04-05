@@ -30,7 +30,7 @@ struct RothemReservationInfoViewModel {
 
 protocol RothemReservationInfoViewDelegate: AnyObject {
   func didTappedQrCode(data: Data)
-  func didTappedBarCode(image: UIImage)
+  func didTappedBarCode(image: UIImage?)
 }
 
 final class RothemReservationInfoView: UIView {
@@ -88,7 +88,7 @@ final class RothemReservationInfoView: UIView {
     
     barCodeButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedBarCode(image: owner.barCodeView.image!)
+        owner.delegate?.didTappedBarCode(image: owner.barCodeView.image)
       }
       .disposed(by: disposeBag)
     

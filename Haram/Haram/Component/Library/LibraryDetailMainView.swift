@@ -26,8 +26,8 @@ struct LibraryDetailMainViewModel {
 
 final class LibraryDetailMainView: UIView {
   
-  var mainImage: UIImage {
-    bookImageView.image!
+  var mainImage: UIImage? {
+    bookImageView.image
   }
   
   private let containerView = UIStackView().then {
@@ -130,9 +130,10 @@ final class LibraryDetailMainView: UIView {
   }
   
   func configureUI(with model: LibraryDetailMainViewModel) {
-    bookImageView.kf.setImage(with: model.bookImageURL)
+    bookImageView.kf.setImage(with: model.bookImageURL, placeholder: UIImage(systemName: "book"))
     titleLabel.text = model.title
     subLabel.text = model.subTitle
   }
 }
+
 

@@ -59,6 +59,7 @@ final class RentalLibraryCollectionViewCell: UICollectionViewCell {
   
   func configureUI(with model: RentalLibraryCollectionViewCellModel) {
     hideSkeleton()
-    thumbnailImageView.kf.setImage(with: model.imageNameURL)
+    thumbnailImageView.kf.setImage(with: model.imageNameURL, placeholder: UIImage(systemName: "book"))
   }
 }
+
