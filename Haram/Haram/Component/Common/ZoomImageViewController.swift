@@ -13,13 +13,14 @@ import Then
 final class ZoomImageViewController: BaseViewController {
   
   private let scrollView = UIScrollView().then {
-    $0.backgroundColor = .clear
+    $0.backgroundColor = .black
     $0.minimumZoomScale = 1.0
-    $0.maximumZoomScale = 2.0
+    $0.maximumZoomScale = 3.0
     $0.showsVerticalScrollIndicator = false
     $0.showsHorizontalScrollIndicator = false
     $0.alwaysBounceVertical = true
     $0.alwaysBounceHorizontal = true
+    $0.bouncesZoom = true
   }
   
   private let zoomImageView = UIImageView().then {
@@ -27,7 +28,7 @@ final class ZoomImageViewController: BaseViewController {
   }
   
   private let xButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .heavy))?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
+    $0.setImage(UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .heavy))?.withTintColor(.white, renderingMode: .alwaysOriginal), for: .normal)
     $0.backgroundColor = .clear
   }
   
@@ -52,8 +53,8 @@ final class ZoomImageViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(xButton)
     view.addSubview(scrollView)
+    view.addSubview(xButton)
     scrollView.addSubview(zoomImageView)
   }
   
@@ -62,19 +63,20 @@ final class ZoomImageViewController: BaseViewController {
     
     xButton.snp.makeConstraints {
       $0.top.equalTo(view.safeAreaLayoutGuide).offset(15)
-      $0.size.equalTo(32)
+      $0.size.equalTo(36)
       $0.trailing.equalToSuperview().inset(15)
     }
     
     scrollView.snp.makeConstraints {
-      $0.top.equalTo(xButton.snp.bottom)
-      $0.directionalHorizontalEdges.bottom.width.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
+//      $0.top.equalTo(xButton.snp.bottom)
+//      $0.directionalHorizontalEdges.bottom.width.equalToSuperview()
     }
     
     zoomImageView.snp.makeConstraints {
-      $0.center.equalToSuperview()
+      $0.directionalVerticalEdges.centerY.centerX.equalToSuperview()
       $0.width.directionalHorizontalEdges.equalToSuperview().inset(15)
-      $0.height.equalTo(Device.height / 2)
+//      $0.height.equalTo(200)
     }
   }
   
