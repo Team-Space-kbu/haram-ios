@@ -48,14 +48,14 @@ extension KeyboardResponder where Self: BaseViewController {
     }
     
     
-    UIView.animate(withDuration: 1) {
+    UIView.animate(withDuration: 0.2) {
       self.targetView.layoutIfNeeded()
     }
   }
   
   func keyboardWillHide(_ notification: Notification) {
     self.targetView.window?.frame.origin.y = 0
-    UIView.animate(withDuration: 1) {
+    UIView.animate(withDuration: 0.2) {
       self.targetView.layoutIfNeeded()
     }
   }

@@ -10,6 +10,7 @@ import CoreData
 
 import NMapsMap
 import SkeletonView
+import SDWebImageSVGCoder
 
 
 @main
@@ -101,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         .init(bibleName: "유다서", chapter: 1, jeol: 25, id: 65),
         .init(bibleName: "요한계시록", chapter: 22, jeol: 404, id: 66),
       ]) { success in
-        print("개역개정 초기 데이터 세팅: \(success)")
+        LogHelper.log("개역개정 초기 데이터 세팅: \(success)", level: .debug)
       }
     }
     
@@ -109,6 +110,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     NMFAuthManager.shared().clientId = NaverMapKeyConstants.clientID
     
     SkeletonAppearance.default.textLineHeight = .relativeToFont
+    
+    // Set UUID
+    if !UserManager.shared.hasUUID {
+      UserManager.shared.set(uuid: UUID().uuidString)
+    }
+    
+    // Set 이미지 SVG파일 UIImageView 파싱을 위함
+    let SVGCoder = SDImageSVGCoder.shared
+    SDImageCodersManager.shared.addCoder(SVGCoder)
+    
+    // Set Network Status
+    NetworkManager.shared.startMonitoring()
     
     return true
   }
