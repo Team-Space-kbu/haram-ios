@@ -30,17 +30,12 @@ final class HomeCollectionHeaderView: UICollectionReusableView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func prepareForReuse() {
-    super.prepareForReuse()
-    titleLabel.text = nil
-  }
-  
   private func configureUI() {
     isSkeletonable = true
     
     addSubview(titleLabel)
     titleLabel.snp.makeConstraints {
-      $0.top.leading.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.equalToSuperview().inset(13)
     }
   }
