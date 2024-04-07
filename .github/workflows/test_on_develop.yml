@@ -17,6 +17,16 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build Haram
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '2.7' # Fastlane을 실행하기 위한 Ruby 버전 설정
+
+    - name: Install dependencies
       run: |
-        pod install --repo-update --clean-install --project-directory=Haram/
-        xcodebuild clean test -workspace Haram/Haram.xcworkspace -scheme Haram -destination 'platform=iOS Simulator,name=iPhone 11 Pro,OS=latest'
+        gem install bundler
+        bundle install
+
+    - name: Run Fastlane beta lane
+      run: bundle exec fastlane beta
