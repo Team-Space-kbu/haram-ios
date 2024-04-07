@@ -128,16 +128,13 @@ final class HomeShortcutCollectionViewCell: UICollectionViewCell {
     }
     
     titleLabel.snp.makeConstraints {
-//      $0.top.greaterThanOrEqualTo(shortcutImageView.snp.bottom).offset(15.97)
       $0.directionalHorizontalEdges.bottom.equalToSuperview()
       $0.height.equalTo(17)
     }
     
     shortcutImageView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
-//      $0.size.equalTo(20.03)
-//      $0.centerX.equalToSuperview()
-      $0.bottom.lessThanOrEqualTo(titleLabel.snp.top)
+      $0.bottom.equalTo(titleLabel.snp.top).offset(-16)
     }
   }
   
