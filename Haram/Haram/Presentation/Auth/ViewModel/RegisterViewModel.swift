@@ -15,37 +15,23 @@ protocol RegisterViewModelType {
   var registerID: AnyObserver<String> { get }
   var registerPassword: AnyObserver<String> { get }
   var registerRePassword: AnyObserver<String> { get }
-//  var registerAuthCode: AnyObserver<String> { get }
   var registerNickname: AnyObserver<String> { get }
-//  var registerEmail: AnyObserver<String> { get }
   func registerMember(id: String, email: String, password: String, nickname: String, authCode: String)
   func checkUserIDIsValid(id: String)
   func checkPasswordIsValid(password: String)
-//  func checkEmailIsValid(email: String) -> Bool
-//  func checkAuthCodeIsValid(authCode: String)
   func checkNicknameIsValid(nickname: String)
   func checkRepasswordIsEqual(password: String, repassword: String)
-//  func requestEmailAuthCode(email: String)
   
   var isRegisterButtonEnabled: Driver<Bool> { get }
-//  var isSendAuthCodeButtonEnabled: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
   var successMessage: Signal<HaramError> { get }
   var signupSuccessMessage: Signal<String> { get }
   var isLoading: Driver<Bool> { get }
-//  var isSuccessRequestAuthCode: Driver<Bool> { get }
 }
 
 final class RegisterViewModel {
   private let disposeBag = DisposeBag()
   private let authRepository: AuthRepository
-  
-//  private let isValidIDSubject              = BehaviorSubject<Bool>(value: false)
-//  private let isValidPWDSubject             = BehaviorSubject<Bool>(value: false)
-//  private let isValidRePWDSubject           = BehaviorSubject<Bool>(value: false)
-//  private let isValidEmailSubject           = BehaviorSubject<Bool>(value: false)
-//  private let isValidNicknameSubject        = BehaviorSubject<Bool>(value: false)
-//  private let isValidAuthCodeSubject        = BehaviorSubject<Bool>(value: false)
   
   private let isRegisterButtonEnabledSubject = BehaviorSubject<Bool>(value: false)
   private let errorMessageRelay              = PublishRelay<HaramError>()
@@ -53,7 +39,6 @@ final class RegisterViewModel {
   private let signupSuccessMessageRelay      = PublishRelay<String>()
   private let isLoadingSubject               = PublishSubject<Bool>()
   private let isSuccessRequestAuthCodeSubject = BehaviorSubject<Bool>(value: false)
-//  private let registerEmailSubject            = BehaviorSubject<String>(value: "")
   private let registerIDSubject            = BehaviorSubject<String>(value: "")
   private let registerPasswordSubject            = BehaviorSubject<String>(value: "")
   private let registerNicknameSubject            = BehaviorSubject<String>(value: "")
