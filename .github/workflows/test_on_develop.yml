@@ -22,7 +22,7 @@ jobs:
           ruby-version: '2.7' # Fastlane을 실행하기 위한 Ruby 버전 설정
           
       - name: Change directory to Haram
-        run: cd Haram
+        run: cd Haram/Haram
         
       - name: Install dependencies
         run: |
