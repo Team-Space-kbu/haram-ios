@@ -121,7 +121,7 @@ final class RegisterViewController: BaseViewController {
     [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField].forEach { $0.textField.delegate = self }
     
     _ = [tapGesture].map { view.addGestureRecognizer($0) }
-//    panGesture.delegate = self
+    //    panGesture.delegate = self
     
     registerNotifications()
     
@@ -204,8 +204,7 @@ final class RegisterViewController: BaseViewController {
     registerButton.rx.tap
       .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .subscribe(with: self) { owner, _ in
-        //        owner.idTextField.removeError()
-        //        owner.repwdTextField.removeError()
+        
         guard let id = owner.idTextField.textField.text,
               let email = owner.emailTextField.textField.text,
               let password = owner.pwdTextField.textField.text,
@@ -237,6 +236,8 @@ final class RegisterViewController: BaseViewController {
               UIApplication.shared.open(url)
             }
           }
+        } else if error == .containProhibitedWord {
+          AlertManager.showAlert(title: "회원가입 알림", message: error.description!, viewController: owner, confirmHandler: nil)
         }
       }
       .disposed(by: disposeBag)
@@ -417,24 +418,10 @@ extension RegisterViewController {
     registerButton.snp.updateConstraints {
       $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 + keyboardHeight : 12 + keyboardHeight)
     }
-
+    
     UIView.animate(withDuration: 0.2) {
       self.view.layoutIfNeeded()
     }
-    
-//    // Y축으로 키보드의 상단 위치
-//    let keyboardTopY = keyboardFrame.cgRectValue.origin.y
-//    // 현재 선택한 텍스트 필드의 Frame 값
-//    let convertedTextFieldFrame = view.convert(currentTextField.frame,
-//                                               from: currentTextField.superview)
-//    // Y축으로 현재 텍스트 필드의 하단 위치
-//    let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
-//    
-//    // Y축으로 텍스트필드 하단 위치가 키보드 상단 위치보다 클 때 (즉, 텍스트필드가 키보드에 가려질 때가 되겠죠!)
-//    if textFieldBottomY > keyboardTopY && self.view.frame.origin.y == 0 {
-//      // 노가다를 통해서 모든 기종에 적절한 크기를 설정함.
-//      view.frame.origin.y -= keyboardHeight
-//    }
   }
   
   func keyboardWillHide(_ notification: Notification) {
@@ -453,10 +440,6 @@ extension RegisterViewController: UIScrollViewDelegate {
     if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
       // 위에서 아래로 스크롤하는 경우
       view.endEditing(true)
-      // 여기에 위에서 아래로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
-    } else {
-      // 아래에서 위로 스크롤하는 경우
-      // 여기에 아래에서 위로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
     }
   }
 }
