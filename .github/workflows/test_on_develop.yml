@@ -11,12 +11,10 @@ on:
 
 jobs:
   build:
-
     runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build Haram
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
