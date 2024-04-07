@@ -43,6 +43,7 @@ enum HaramError: Error, CaseIterable {
   case emailAlreadyUse // 이미 사용중인 이메일로 회원가입 시도할 경우
   case requestTimeOut // 메일 요청은 30초 지난 후에 재요청 가능
   case alreadyUseNickName // 이미 사용중인 이메일 경우
+  case containProhibitedWord // 금칙어를 사용한 경우
   
   /// 비밀번호변경 시 에러
   case expireAuthCode
@@ -129,6 +130,8 @@ extension HaramError {
       return "USER09"
     case .emailAlreadyUse:
       return "USER13"
+    case .containProhibitedWord:
+      return "USER23"
     case .noExistTodayBibleWord:
       return "BI01"
     case .noRequestFromNaver:
@@ -262,6 +265,8 @@ extension HaramError {
       return "기존 비밀번호와 변경할 비밀번호가 일치합니다\n 수정 후 다시 시도해주세요."
     case .notEqualOldPassword:
       return "기존 비밀번호와 일치하지않습니다\n 수정 후 다시 시도해주세요."
+    case .containProhibitedWord:
+      return "금칙어가 포함되어있습니다\n 수정 후 다시 시도해주세요."
     }
   }
 }
