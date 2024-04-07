@@ -20,7 +20,8 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: '2.7' # Fastlane을 실행하기 위한 Ruby 버전 설정
-
+    - name: Change directory to Haram
+      run: cd Haram
     - name: Install dependencies
       run: |
         gem install bundler -v 2.4.22
