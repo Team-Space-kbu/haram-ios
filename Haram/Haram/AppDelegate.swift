@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     setupNavigationBarStyle()
-//    FirebaseApp.configure()
+    FirebaseApp.configure()
     
     // Initialize RevisionOfTranslation
     let models = CoreDataManager.shared.getRevisionOfTranslation()
