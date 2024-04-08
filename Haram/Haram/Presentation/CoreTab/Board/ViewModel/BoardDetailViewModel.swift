@@ -58,7 +58,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
           BoardDetailHeaderViewModel(
             boardTitle: response.title,
             boardContent: response.contents,
-            boardDate: DateformatterFactory.iso8601.date(from: response.createdAt) ?? Date(),
+            boardDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: response.createdAt) ?? Date(),
             boardAuthorName: response.createdBy,
             boardImageCollectionViewCellModel: response.files.map {
               BoardImageCollectionViewCellModel(imageURL: URL(string: $0.fileUrl))
@@ -75,7 +75,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
             return BoardDetailCollectionViewCellModel(
               commentAuthorInfoModel: .init(
                 commentAuthorName: comment.createdBy,
-                commentDate: DateformatterFactory.iso8601.date(from: comment.createdAt) ?? Date()
+                commentDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: comment.createdAt) ?? Date()
               ),
               comment: comment.contents, isLastComment: comments.count - 1 == index ? true : false
             )

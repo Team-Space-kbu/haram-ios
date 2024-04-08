@@ -27,7 +27,7 @@ struct BoardDetailCollectionViewCellModel {
     self.comment = comment
     commentAuthorInfoModel = CommentAuthorInfoViewModel(
       commentAuthorName: UserManager.shared.userID!,
-      commentDate: DateformatterFactory.iso8601.date(from: createdAt) ?? Date())
+      commentDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: createdAt) ?? Date())
   }
 }
 
