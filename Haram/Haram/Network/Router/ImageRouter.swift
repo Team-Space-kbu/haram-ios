@@ -9,8 +9,6 @@ import Alamofire
 
 enum ImageRouter {
   case uploadImage
-//  case updateImage
-//  case deleteImage(String, ImageType)
 }
 
 extension ImageRouter: Router {

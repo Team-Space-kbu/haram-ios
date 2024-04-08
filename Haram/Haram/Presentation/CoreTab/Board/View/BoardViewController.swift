@@ -131,7 +131,6 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//    guard let boardHeaderTitle = boardHeaderTitle else { return nil }
     let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: BoardTableHeaderView.identifier) as? BoardTableHeaderView ?? BoardTableHeaderView()
     headerView.configureUI(with: "학교 게시판")
     return headerView

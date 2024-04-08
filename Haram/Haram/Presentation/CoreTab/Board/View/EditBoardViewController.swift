@@ -325,7 +325,6 @@ extension EditBoardViewController {
     
     var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
       return [
-//        .full: FloatingPanelLayoutAnchor(fractionalInset: 0.6, edge: .bottom, referenceGuide: .safeArea),
         .half: FloatingPanelLayoutAnchor(absoluteInset: 198 - Device.bottomInset, edge: .bottom, referenceGuide: .superview),
         .tip: FloatingPanelLayoutAnchor(fractionalInset: 0.05, edge: .bottom, referenceGuide: .safeArea)
       ]

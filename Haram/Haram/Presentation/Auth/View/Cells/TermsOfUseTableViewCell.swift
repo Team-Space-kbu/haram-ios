@@ -89,11 +89,9 @@ final class TermsOfUseTableViewCell: UITableViewCell {
     seq = nil
     alertLabel.text = nil
     isChecked = false
-//    checkImage.image = nil
     checkImage.backgroundColor = nil
     webView.stopLoading()
     webView.loadHTMLString("", baseURL: nil)
-//    checkImage.layer.borderColor = nil
   }
   
   private func configureUI() {

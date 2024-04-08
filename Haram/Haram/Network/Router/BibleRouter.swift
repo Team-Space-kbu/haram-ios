@@ -16,10 +16,7 @@ enum BibleRouter {
 extension BibleRouter: Router {
   
   var method: HTTPMethod {
-    switch self {
-    case .inquireChapterToBible, .inquireBibleHomeInfo, .inquireBibleDetailInfo:
-      return .get
-    }
+    .get
   }
   
   var path: String {

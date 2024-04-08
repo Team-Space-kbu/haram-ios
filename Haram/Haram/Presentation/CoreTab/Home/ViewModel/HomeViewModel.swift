@@ -111,7 +111,6 @@ extension HomeViewModel: HomeViewModelType {
     
     // Calendar 및 DateComponents를 사용하여 현재 시간에서 시간 구성 요소 추출
     let calendar = Calendar.current
-    //      let components = calendar.dateComponents([.hour, .minute], from: currentDate)
     
     // 시작 시간 설정 (예: 오전 11시30분)
     var startComponents = DateComponents()
@@ -142,8 +141,6 @@ extension HomeViewModel: HomeViewModelType {
       } else {
         isAvailableSimpleChapelModalSubject.onNext((false, nil))
       }
-      
-//      isAvailableSimpleChapelModalSubject.onNext(currentDate >= startDate && currentDate <= endDate)
     }
   }
 }

@@ -45,6 +45,7 @@ final class HomeViewController: BaseViewController {
   private var bannerModel: [HomebannerCollectionViewCellModel] = []
   
   private var newsModel: [HomeNewsCollectionViewCellModel] = []
+  private var noticeModel: HomeNoticeViewModel?
   
   // MARK: - UI Components
   
@@ -159,7 +160,7 @@ final class HomeViewController: BaseViewController {
     super.setupStyles()
 
     _ = [scrollView, scrollContainerView, homeNoticeView, checkChapelDayView, newsCollectionView, newsTitleLabel, shortcutCollectionView, pageControl, bannerCollectionView].map { $0.isSkeletonable = true }
-    print("두근 \(Environment.baseURLString)")
+    
     let label = UILabel().then {
       $0.text = "성서알리미"
       $0.textColor = .black
@@ -246,6 +247,7 @@ final class HomeViewController: BaseViewController {
       owner.newsModel = newsModel
       owner.bannerModel = bannerModel
       owner.homeNoticeView.configureUI(with: noticeModel)
+      owner.noticeModel = noticeModel
       
       if bannerModel.isEmpty {
         owner.bannerCollectionView.backgroundColor = .hex79BD9A
@@ -285,8 +287,9 @@ final class HomeViewController: BaseViewController {
     
     homeNoticeView.button.rx.tap
       .subscribe(with: self) { owner, _ in
+        guard let model = owner.noticeModel else { return }
         owner.homeNoticeView.showAnimation {
-          let vc = HomeNoticeViewController()
+          let vc = HomeNoticeViewController(title: model.title, content: model.content)
           vc.hidesBottomBarWhenPushed = true
           owner.navigationController?.pushViewController(vc, animated: true)
         }
@@ -366,6 +369,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       cell.showAnimation(scale: 0.9) { [weak self] in
         guard let self = self else { return }
         let type = ShortcutType.allCases[indexPath.row]
+        if type == .searchBible {
+          #if RELEASE
+            AlertManager.showAlert(title: "Space 알림", message: "교목실과 협의가 되지 않아\n사용할 수 없습니다.", viewController: self, confirmHandler: nil)
+            return
+          #endif
+        }
         let vc = type.viewController
         vc.navigationItem.largeTitleDisplayMode = .never
         vc.hidesBottomBarWhenPushed = true

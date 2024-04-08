@@ -70,8 +70,7 @@ final class BoardListCollectionViewCell: UICollectionViewCell {
   private func configureUI() {
     isSkeletonable = true
     skeletonCornerRadius = 10
-//    contentView.layer.cornerRadius = 10
-//    contentView.layer.masksToBounds = true
+
     contentView.backgroundColor = .clear
     
     contentView.addSubview(entireView)
@@ -122,22 +121,16 @@ final class BoardListCollectionViewCell: UICollectionViewCell {
   }
   
   func setHighlighted(isHighlighted: Bool) {
-//    contentView.backgroundColor = isHighlighted ? .lightGray : .hexF2F3F5
     
     if isHighlighted {
       let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
       UIView.transition(with: entireView, duration: 0.1) {
-//        self.contentView.alpha = 0.5
         self.entireView.backgroundColor = .lightGray
-  //      cell.setBackgroundColor(isHighlighted: true)
         self.entireView.transform = pressedDownTransform
       }
     } else {
       let pressedDownTransform = CGAffineTransform(scaleX: 1, y: 1)
       UIView.transition(with: entireView, duration: 0.1) {
-//        cell.contentView.backgroundColor = .clear
-//        self.contentView.alpha = 1
-//        cell.setBackgroundColor(isHighlighted: false)
         self.entireView.backgroundColor = .hexF8F8F8
         self.entireView.transform = pressedDownTransform
       }

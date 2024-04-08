@@ -69,8 +69,6 @@ final class NoticeCollectionViewCell: UICollectionViewCell {
     skeletonCornerRadius = 10
     
     contentView.backgroundColor = .clear
-//    contentView.layer.cornerRadius = 10
-//    contentView.layer.masksToBounds = true
     
     contentView.addSubview(entireView)
     entireView.snp.makeConstraints {

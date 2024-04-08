@@ -49,7 +49,6 @@ final class ChapelDayView: UIView {
     dayLabel.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(7)
       $0.directionalHorizontalEdges.bottom.equalToSuperview()
-//      $0.bottom.equalToSuperview()
     }
   }
   

@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 
+import Firebase
 import NMapsMap
 import SkeletonView
 import SDWebImageSVGCoder
@@ -30,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     setupNavigationBarStyle()
+//    FirebaseApp.configure()
     
     // Initialize RevisionOfTranslation
     let models = CoreDataManager.shared.getRevisionOfTranslation()

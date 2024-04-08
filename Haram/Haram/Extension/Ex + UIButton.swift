@@ -29,40 +29,11 @@ extension UIButton.Configuration {
   
   // MARK: Configuration Return Type
   
-  /// 회색으로 fill되어있는 Haram 버튼
+  /// 라벨로 된 Haram 버튼
   /// - Parameters:
   ///   - title: 버튼 내부의 text
-  ///   - contentInsets: 버튼 내부 text와 버튼 테두리 사이의 inset
-  static func cancelFilledButton(title: String, contentInsets: NSDirectionalEdgeInsets) -> UIButton.Configuration {
-    var style = UIButton.Configuration.filled()
-    
-    style.background = style.background.with {
-      $0.cornerRadius = 10
-      $0.backgroundColor = .hex9F9FA4
-    }
-    
-    style.contentInsets = contentInsets
-    style.baseForegroundColor = .white
-    style.title = title
-    style.font = .bold14
-    return style
-  }
-  
-  static func haramFilledButton(title: String, contentInsets: NSDirectionalEdgeInsets) -> UIButton.Configuration {
-    var style = UIButton.Configuration.filled()
-    
-    style.background = style.background.with {
-      $0.cornerRadius = 10
-      $0.backgroundColor = .hex79BD9A
-    }
-    
-    style.contentInsets = contentInsets
-    style.baseForegroundColor = .white
-    style.title = title
-    style.font = .bold14
-    return style
-  }
-  
+  ///   - font: 버튼 text의 폰트
+  ///   - forgroundColor: 버튼 text의 색상
   static func haramLabelButton(title: String, font: UIFont = .regular14, forgroundColor: UIColor = .black) -> UIButton.Configuration {
     var style = UIButton.Configuration.filled()
     
@@ -98,7 +69,6 @@ extension UIButton.Configuration {
     }
     
     style.baseForegroundColor = .white
-//    style.baseBackgroundColor = .hex79BD9A
     return style
   }
   
@@ -136,10 +106,13 @@ extension UIButton.Configuration {
     }
     
     style.baseForegroundColor = .white
-//    style.baseBackgroundColor = .hex79BD9A
     return style
   }
   
+  /// Haram 버튼
+  /// - Parameters:
+  ///   - text: 버튼 내부의 text
+  ///   - contentInsets: 버튼 내부 Inset
   func haramButton(label text: String, contentInsets: NSDirectionalEdgeInsets) -> UIButton.ConfigurationUpdateHandler {
     return { button in
       switch button.state {
@@ -157,6 +130,10 @@ extension UIButton.Configuration {
     }
   }
   
+  /// Haram 취소버튼
+  /// - Parameters:
+  ///   - text: 버튼 내부의 text
+  ///   - contentInsets: 버튼 내부 Inset
   func haramCancelButton(label text: String, contentInsets: NSDirectionalEdgeInsets) -> UIButton.ConfigurationUpdateHandler {
     return { button in
       switch button.state {

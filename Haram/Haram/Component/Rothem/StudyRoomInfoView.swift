@@ -36,14 +36,12 @@ final class StudyRoomInfoView: UIView {
   private let roomNameLabel = UILabel().then {
     $0.font = .bold18
     $0.textColor = .hex1A1E27
-//    $0.sizeToFit()
     $0.skeletonTextNumberOfLines = 1
     $0.isSkeletonable = true
     $0.textAlignment = .left
   }
   
   private let roomDescriptionLabel = UILabel().then {
-//    $0.sizeToFit()
     $0.numberOfLines = 0
     $0.font = .regular14
     $0.textColor = .hex1A1E27

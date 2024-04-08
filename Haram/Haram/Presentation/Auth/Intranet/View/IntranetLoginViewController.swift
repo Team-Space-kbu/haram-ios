@@ -99,11 +99,7 @@ final class IntranetLoginViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     navigationController?.interactivePopGestureRecognizer?.delegate = self
-//    /// Set NavigationBar
-//    navigationController?.setNavigationBarHidden(true, animated: true)
-//    if let navigationController = navigationController {
-//      navigationController.interactivePopGestureRecognizer?.isEnabled = false
-//    }
+
     /// Set Delegate
     idTextField.textField.delegate = self
     pwTextField.textField.delegate = self

@@ -360,10 +360,6 @@ extension MoreUpdatePasswordViewController: UIScrollViewDelegate {
     if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
       // 위에서 아래로 스크롤하는 경우
       view.endEditing(true)
-      // 여기에 위에서 아래로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
-    } else {
-      // 아래에서 위로 스크롤하는 경우
-      // 여기에 아래에서 위로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
     }
   }
 }

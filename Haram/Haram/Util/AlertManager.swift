@@ -41,7 +41,6 @@ final class AlertManager {
         viewController?.present(alert, animated: true)
       }
     }
-//    viewController.present(alert, animated: true)
   }
   
 }

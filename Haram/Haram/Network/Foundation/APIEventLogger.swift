@@ -10,13 +10,13 @@ import Foundation
 import Alamofire
 
 final class APIEventLogger: EventMonitor {
-  //1
-  let queue = DispatchQueue(label: "com.Jun.Haram")
-  //2
+  
+  let queue = DispatchQueue(label: "com.space.biblemon")
+  
   func requestDidFinish(_ request: Request) {
     LogHelper.log("⭐️Reqeust LOG\n" + request.description + "\nBody: " + (request.request?.httpBody?.toPrettyPrintedString ?? ""), level: .info)
   }
-  //3
+  
   func request<Value>(
     _ request: DataRequest,
     didParseResponse response: DataResponse<Value, AFError>

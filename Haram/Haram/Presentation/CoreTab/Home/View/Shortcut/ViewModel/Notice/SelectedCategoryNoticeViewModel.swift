@@ -9,7 +9,6 @@ import RxSwift
 import RxCocoa
 
 protocol SelectedCategoryNoticeViewModelType {
-//  func inquireNoticeList(type: NoticeType)
   var noticeType: AnyObserver<NoticeType> { get }
   var fetchMoreDatas: AnyObserver<Void> { get }
   var noticeCollectionViewCellModel: Driver<[NoticeCollectionViewCellModel]> { get }
@@ -46,11 +45,6 @@ final class SelectedCategoryNoticeViewModel {
   }
   
   private func inquireNoticeList() {
-    
-//    guard NetworkManager.shared.isConnected else {
-//      errorMessageRelay.accept(.networkError)
-//      return
-//    }
     
     Observable.combineLatest(
       noticeTypeSubject,

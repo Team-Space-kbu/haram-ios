@@ -186,18 +186,3 @@ extension LibraryResultsViewController {
     10
   }
 }
-
-//extension LibraryResultsViewController {
-//  private func registerNotifications() {
-//    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-//  }
-//  
-//  private func removeNotifications() {
-//    NotificationCenter.default.removeObserver(self)
-//  }
-//  
-//  @objc
-//  private func refreshWhenNetworkConnected() {
-//    viewModel.whichSearchText.onNext(searchQuery)
-//  }
-//}

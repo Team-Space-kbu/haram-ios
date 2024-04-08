@@ -174,7 +174,6 @@ final class CheckBoxControl: UIControl {
   
   private func setupConstraints() {
     checkImageView.snp.makeConstraints {
-//      $0.directionalVerticalEdges.equalToSuperview().inset(5)
       $0.leading.centerY.equalToSuperview()
       $0.size.equalTo(18)
     }

@@ -33,7 +33,6 @@ final class MoreViewModel {
   ) {
     self.authRepository = authRepository
     self.myPageRepository = myPageRepository
-//    inquireUserInfo()
   }
   
   func inquireUserInfo() {
