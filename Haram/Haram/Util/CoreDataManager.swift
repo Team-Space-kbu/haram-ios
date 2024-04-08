@@ -12,10 +12,10 @@ final class CoreDataManager {
   static let shared = CoreDataManager()
   private init() {}
   
-  let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
-  lazy var context = appDelegate?.persistentContainer.viewContext
+  private let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
+  private lazy var context = appDelegate?.persistentContainer.viewContext
   
-  let modelName: String = "RevisionOfTranslation"
+  private let modelName: String = "RevisionOfTranslation"
   
   func getRevisionOfTranslation(ascending: Bool = false) -> [RevisionOfTranslationModel] {
     var models: [RevisionOfTranslationModel] = [RevisionOfTranslationModel]()
@@ -31,7 +31,7 @@ final class CoreDataManager {
           models = fetchResult.map { RevisionOfTranslationModel(revisionOfTranslation: $0) }
         }
       } catch let error as NSError {
-        print("Could not fetch🥺: \(error), \(error.userInfo)")
+        LogHelper.log("초기개역데이터정보를 가져오는데 문제가 발생하였습니다. \(error.description)", level: .error)
       }
     }
     return models
@@ -84,12 +84,12 @@ final class CoreDataManager {
     
     do {
       if let results: [RevisionOfTranslation] = try context?.fetch(fetchRequest) as? [RevisionOfTranslation] {
-        if results.count != 0 {
+        if !results.isEmpty {
           context?.delete(results[0])
         }
       }
     } catch let error as NSError {
-      print("Could not fatch🥺: \(error), \(error.userInfo)")
+      LogHelper.log("초기개역데이터정보를 삭제하는데 문제가 발생하였습니다. \(error.description)", level: .error)
       onSuccess(false)
     }
     
@@ -112,7 +112,7 @@ extension CoreDataManager {
       try context?.save()
       onSuccess(true)
     } catch let error as NSError {
-      print("Could not save🥶: \(error), \(error.userInfo)")
+      LogHelper.log("초기개역데이터정보를 저장하는데 문제가 발생하였습니다. \(error.description)", level: .error)
       onSuccess(false)
     }
   }

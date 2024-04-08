@@ -14,12 +14,20 @@ final class UserManager {
   // MARK: - Properties
   
   static let shared = UserManager()
+  private let authRepository: AuthRepository
   
   // MARK: - User Options
   
   /// 로그인한 사용자의 아이디에 대한 변수
   @UserDefaultsWrapper<String>(key: "userID")
   private(set) var userID
+  
+  @UserDefaultsWrapper<[UserTermsRequest]>(key: "userTermsRequests")
+  private(set) var userTermsRequests
+  
+  /// 로그인한 디바이스에 대한 uuid
+  @KeyChainWrapper<String>(key: "uuid")
+  private(set) var uuid
   
   // MARK: - Haram Token
   
@@ -33,9 +41,15 @@ final class UserManager {
     return accessToken != nil && refreshToken != nil && userID != nil
   }
   
+  var hasUUID: Bool {
+    return uuid != nil
+  }
+  
   // MARK: - Initialization
   
-  private init() { }
+  private init() { 
+    self.authRepository = AuthRepositoryImpl()
+  }
 }
 
 extension UserManager {
@@ -53,17 +67,31 @@ extension UserManager {
     self.userID = userID
   }
   
+  func set(uuid: String) {
+    self.uuid = uuid
+  }
+  
+  func set(userTermsRequests: [UserTermsRequest]) {
+    self.userTermsRequests = userTermsRequests
+  }
+  
   /// 유저의 정보를 전부 초기화합니다.
   func clearAllInformations() {
     self.userID = nil
     self.accessToken = nil
     self.refreshToken = nil
+    self.userTermsRequests = nil
   }
   
   /// 가지고 있는 `refresh token`을 가지고 새로운 `access token`과 `refresh token`을 발급받습니다.
   func reissuanceAccessToken() -> Observable<Void> {
-    return AuthService.shared.reissuanceAccessToken(userID: UserManager.shared.userID ?? "")
-      .map { result in
+    return authRepository.reissuanceAccessToken(
+      request: .init(
+        userID: UserManager.shared.userID!,
+        uuid: UserManager.shared.uuid!
+      ))
+      .map { [weak self] result in
+        guard let self = self else { return }
         switch result {
         case .success(let tokenData):
           self.updateHaramToken(
