@@ -51,12 +51,6 @@ final class LibraryResultsViewModel: LibraryResultsViewModelType {
       var currentResultModel = searchBookResults.value
       currentResultModel.append(contentsOf: model)
       
-//      currentResultModel.enumerated().map { index, result in
-//        var result = result
-//        result.isLast = currentResultModel.count - 1 == index
-//        return result
-//      }
-      
       searchBookResults.accept(currentResultModel.enumerated().map { index, result in
         var result = result
         result.isLast = currentResultModel.count - 1 == index

@@ -16,10 +16,7 @@ enum NoticeRouter {
 extension NoticeRouter: Router {
   
   var method: HTTPMethod {
-    switch self {
-    case .inquireNoticeTypeInfo, .inquireMainNoticeList, .inquireNoticeDetailInfo:
-      return .get
-    }
+    .get
   }
   
   var path: String {
@@ -45,10 +42,7 @@ extension NoticeRouter: Router {
   }
   
   var headers: HeaderType {
-    switch self {
-    case .inquireNoticeTypeInfo, .inquireMainNoticeList, .inquireNoticeDetailInfo:
-      return .withAccessToken
-    }
+    .withAccessToken
   }
 }
 

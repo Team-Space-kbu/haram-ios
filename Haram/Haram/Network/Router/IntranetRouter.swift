@@ -17,10 +17,7 @@ enum IntranetRouter {
 extension IntranetRouter: Router {
   
   var method: HTTPMethod {
-    switch self {
-    case .inquireChapelInfo, .inquireChapelDetail, .inquireScheduleInfo, .inquireMileageInfo:
-      return .get
-    }
+    .get
   }
   
   var path: String {
@@ -37,16 +34,10 @@ extension IntranetRouter: Router {
   }
   
   var parameters: ParameterType {
-    switch self {
-    case .inquireChapelInfo, .inquireChapelDetail, .inquireScheduleInfo, .inquireMileageInfo:
-      return .plain
-    }
+    .plain
   }
   
   var headers: HeaderType {
-    switch self {
-    case .inquireChapelInfo, .inquireChapelDetail, .inquireScheduleInfo, .inquireMileageInfo:
-      return .withAccessToken
-    }
+    .withAccessToken
   }
 }

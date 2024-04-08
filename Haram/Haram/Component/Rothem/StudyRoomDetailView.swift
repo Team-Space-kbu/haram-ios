@@ -64,13 +64,6 @@ final class RothemRoomDetailView: UIView {
     $0.isSkeletonable = true
   }
   
-//  private let roomDestinationLabel = UILabel().then {
-//    $0.font = .regular12
-//    $0.textColor = .hex9F9FA4
-//    $0.sizeToFit()
-//    $0.isSkeletonable = true
-//  }
-  
   private let lineView = UIView().then {
     $0.backgroundColor = .hexD8D8DA
     $0.isSkeletonable = true
@@ -211,13 +204,6 @@ final class RothemRoomDetailView: UIView {
     amenityModel = model.amenityModel
     roomTitleLabel.text = model.roomTitle
     roomLocationView.configureUI(with: .init(locationImageResource: .locationGray, locationContent: model.roomDestination))
-//    let attributedString = NSMutableAttributedString(string: "")
-//    let imageAttachment = NSTextAttachment()
-//    imageAttachment.image = UIImage(resource: .locationGray)
-//    imageAttachment.bounds = CGRect(x: 0, y: 0, width: 10, height: 12)
-//    attributedString.append(NSAttributedString(attachment: imageAttachment))
-//    attributedString.append(NSAttributedString(string: model.roomDestination))
-//    roomDestinationLabel.attributedText = attributedString
     
     roomDescriptionContentLabel.addLineSpacing(lineSpacing: 2, string: model.roomDescription)
   }

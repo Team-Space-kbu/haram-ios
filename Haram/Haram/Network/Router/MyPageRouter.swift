@@ -14,10 +14,7 @@ enum MyPageRouter {
 extension MyPageRouter: Router {
   
   var method: HTTPMethod {
-    switch self {
-    case .inquireUserInfo:
-      return .get
-    }
+    .get
   }
   
   var path: String {
@@ -28,16 +25,10 @@ extension MyPageRouter: Router {
   }
   
   var parameters: ParameterType {
-    switch self {
-    case .inquireUserInfo:
-      return .plain
-    }
+    .plain
   }
   
   var headers: HeaderType {
-    switch self {
-    case .inquireUserInfo:
-      return .withAccessToken
-    }
+    .withAccessToken
   }
 }

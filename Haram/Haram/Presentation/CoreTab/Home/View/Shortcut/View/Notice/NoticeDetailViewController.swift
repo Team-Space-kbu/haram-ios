@@ -109,7 +109,6 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-//            owner.navigationController?.popViewController(animated: true)
           }
         }
       }
@@ -124,7 +123,6 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     setupBackButton()
     _ = [scrollView, containerView, titleLabel, writerInfoLabel, webView].map { $0.isSkeletonable = true }
     setupSkeletonView()
-//    navigationController?.interactivePopGestureRecognizer?.delegate = self
   }
   
   override func setupLayouts() {

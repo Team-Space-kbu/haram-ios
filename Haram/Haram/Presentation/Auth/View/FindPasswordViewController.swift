@@ -149,13 +149,6 @@ final class FindPasswordViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-//    viewModel.isContinueButtonEnabled
-//      .drive(with: self) { owner, isContinueButtonEnabled in
-//        owner.continueButton.isEnabled = isContinueButtonEnabled
-////        owner.continueButton.setupButtonType(type: isContinueButtonEnabled ? .apply : .cancel)
-//      }
-//      .disposed(by: disposeBag)
-    
     continueButton.rx.tap
       .withLatestFrom(schoolEmailTextField.rx.text.orEmpty)
       .subscribe(with: self) { owner, userMail in

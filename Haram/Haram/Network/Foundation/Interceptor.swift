@@ -25,7 +25,6 @@ final class Interceptor: RequestInterceptor {
     guard UserManager.shared.hasToken else { return }
     if statusCode == 401 {
       // 토큰 만료인 경우 토큰 값 갱신
-//      guard UserManager.shared.hasToken else { return }
       UserManager.shared.reissuanceAccessToken()
         .subscribe(onNext: { _ in
           // 재발급을 성공했다면 기존에 발생했던 요청 재시도

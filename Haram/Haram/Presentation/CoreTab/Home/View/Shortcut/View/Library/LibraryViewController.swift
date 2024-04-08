@@ -193,7 +193,6 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-//            owner.navigationController?.popViewController(animated: true)
           }
         }
       }

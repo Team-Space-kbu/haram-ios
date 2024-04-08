@@ -147,7 +147,7 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
   
   override func setupStyles() {
     super.setupStyles()
-//    title = "공지사항"
+
     setupSkeletonView()
     setupBackButton()
     navigationController?.interactivePopGestureRecognizer?.delegate = self

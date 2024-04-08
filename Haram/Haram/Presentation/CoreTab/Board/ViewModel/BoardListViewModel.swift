@@ -76,8 +76,6 @@ extension BoardListViewModel: BoardListViewModelType {
   
   func refreshBoardList(categorySeq: Int) {
     
-//    guard startPage <= endPage && !isLoading else { return }
-    
     isLoading = true
     
     let inquireBoardList = boardRepository.inquireBoardListInCategory(categorySeq: categorySeq, page: 1)

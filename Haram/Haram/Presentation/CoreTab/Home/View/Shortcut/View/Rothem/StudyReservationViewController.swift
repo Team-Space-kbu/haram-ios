@@ -435,36 +435,6 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
       
     }
   }
-  
-//  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-//    
-//    if collectionView == selectedDayCollectionView {
-//      if selectedDateModel[indexPath.row].isAvailable {
-//        let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
-//        cell.setHighlighted(isHighlighted: true)
-//      }
-//    } else if collectionView == selectedTimeCollectionView {
-//      if !selectedTimeModel[indexPath.row].isReserved {
-//        let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
-//        cell.setHighlighted(isHighlighted: true)
-//      }
-//    }
-//  }
-//  
-//  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-//    
-//    if collectionView == selectedDayCollectionView {
-//      if selectedDateModel[indexPath.row].isAvailable {
-//        let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
-//        cell.setHighlighted(isHighlighted: false)
-//      }
-//    } else if collectionView == selectedTimeCollectionView {
-//      if !selectedTimeModel[indexPath.row].isReserved {
-//        let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
-//        cell.setHighlighted(isHighlighted: false)
-//      }
-//    }
-//  }
 }
 
 // MARK: - SkeletonViewDataSource

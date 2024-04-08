@@ -251,24 +251,3 @@ extension RothemRoomListViewController {
     viewModel.inquireRothemRoomList()
   }
 }
-
-extension UICollectionView {
-    // 1
-    func setEmptyMessage(_ message: String) {
-        let messageLabel: UILabel = {
-            let label = UILabel()
-            label.text = message
-            label.textColor = .white
-            label.numberOfLines = 0;
-            label.textAlignment = .center;
-            label.font = .bold20
-            label.sizeToFit()
-            return label
-        }()
-        self.backgroundView = messageLabel;
-    }
-    // 2
-    func restore() {
-        self.backgroundView = nil
-    }
-}

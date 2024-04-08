@@ -100,21 +100,15 @@ final class BoardTableViewCell: UITableViewCell {
   }
   
   func setHighlighted(isHighlighted: Bool) {
-//    entireView.backgroundColor = isHighlighted ? .lightGray : .hexF2F3F5
     
     if isHighlighted {
       let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
       UIView.transition(with: entireView, duration: 0.1) {
-  //        cell.alpha = 0.5
-  //      cell.setBackgroundColor(isHighlighted: true)
         self.entireView.backgroundColor = .lightGray
         self.entireView.transform = pressedDownTransform
       }
     } else {
       UIView.transition(with: entireView, duration: 0.1) {
-//        cell.contentView.backgroundColor = .clear
-//        cell.alpha = 1
-//        cell.setBackgroundColor(isHighlighted: false)
         self.entireView.backgroundColor = .hexF2F3F5
         self.entireView.transform = .identity
       }
