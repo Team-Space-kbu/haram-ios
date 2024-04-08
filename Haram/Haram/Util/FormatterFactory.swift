@@ -43,15 +43,15 @@ enum DateformatterFactory {
     formatter.then { $0.dateFormat = "yyyy.MM.dd HH시mm분" }
   }
   
-  static var dateForChapel1: DateFormatter {
+  static var dateForYearMonthDayHourMinuteSecond: DateFormatter {
     formatter.then { $0.dateFormat = "yyyyMMddHHmmss" }
   }
   
-  static var iso8601: DateFormatter {
+  static var dateForISO8601LocalTimeZone: DateFormatter {
     formatter.then { $0.dateFormat = "yyyy-MM-dd'T'HH:mm:ss" }
   }
   
-  static var iso8601_2: DateFormatter {
+  static var dateForISO8601UTC: DateFormatter {
     formatter.then { $0.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ" }
   }
   

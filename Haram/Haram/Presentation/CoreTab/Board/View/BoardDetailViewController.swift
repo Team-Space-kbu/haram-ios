@@ -138,7 +138,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
             return BoardDetailCollectionViewCellModel(
               commentAuthorInfoModel: .init(
                 commentAuthorName: comment.createdBy,
-                commentDate: DateformatterFactory.iso8601.date(from: comment.createdAt)!
+                commentDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: comment.createdAt)!
               ),
               comment: comment.contents,
               isLastComment: comments.count - 1 == index ? true : false
