@@ -26,6 +26,7 @@ final class AffiliatedLocationView: UIView {
     $0.textAlignment = .left
     $0.font = .regular12
     $0.textColor = .hex9F9FA4
+    $0.numberOfLines = 0
   }
   
   override init(frame: CGRect) {
@@ -40,7 +41,7 @@ final class AffiliatedLocationView: UIView {
   private func configureUI() {
     _ = [locationImageView, locationLabel].map { addSubview($0) }
     locationImageView.snp.makeConstraints {
-      $0.leading.directionalVerticalEdges.equalToSuperview()
+      $0.leading.centerY.equalToSuperview()
       $0.width.equalTo(10)
     }
     

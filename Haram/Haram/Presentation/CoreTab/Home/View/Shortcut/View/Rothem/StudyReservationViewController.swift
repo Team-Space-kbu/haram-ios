@@ -297,7 +297,7 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     }
     
     studyRoomInfoView.snp.makeConstraints {
-      $0.height.equalTo(98)
+      $0.height.greaterThanOrEqualTo(98)
     }
     
     selectedDayLabel.snp.makeConstraints {

@@ -58,6 +58,7 @@ final class RothemRoomDetailView: UIView {
     $0.font = .bold25
     $0.textColor = .black
     $0.isSkeletonable = true
+    $0.numberOfLines = 0
   }
   
   private let roomLocationView = AffiliatedLocationView().then {
@@ -149,13 +150,13 @@ final class RothemRoomDetailView: UIView {
     roomTitleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(16)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-      $0.height.equalTo(30)
+      $0.height.greaterThanOrEqualTo(30)
     }
     
     roomLocationView.snp.makeConstraints {
       $0.top.equalTo(roomTitleLabel.snp.bottom).offset(5)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-      $0.height.equalTo(14)
+      $0.height.greaterThanOrEqualTo(14)
     }
     
     lineView.snp.makeConstraints {
