@@ -162,6 +162,7 @@ extension AffiliatedDetailViewController {
       $0.font = .bold25
       $0.textColor = .black
       $0.isSkeletonable = true
+      $0.numberOfLines = 0
     }
     
     private let affiliatedLocationView = AffiliatedLocationView().then {
