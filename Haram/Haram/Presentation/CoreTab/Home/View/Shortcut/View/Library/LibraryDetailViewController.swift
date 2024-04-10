@@ -22,7 +22,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - UI Models
   
-  private var relatedBookModel: [LibraryRelatedBookCollectionViewCellModel] = []
+  private var relatedBookModel: [LibraryCollectionViewCellModel] = []
   
   // MARK: - UI Components
   
@@ -65,7 +65,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     }
   ).then {
     $0.backgroundColor = .clear
-    $0.register(LibraryRelatedBookCollectionViewCell.self, forCellWithReuseIdentifier: LibraryRelatedBookCollectionViewCell.identifier)
+    $0.register(LibraryCollectionViewCell.self, forCellWithReuseIdentifier: LibraryCollectionViewCell.identifier)
     $0.delegate = self
     $0.dataSource = self
     $0.contentInset = .init(top: 3, left: 15, bottom: 15, right: 15)
@@ -228,7 +228,7 @@ extension LibraryDetailViewController: UICollectionViewDelegate, UICollectionVie
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryRelatedBookCollectionViewCell.identifier, for: indexPath) as? LibraryRelatedBookCollectionViewCell ?? LibraryRelatedBookCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
     cell.configureUI(with: relatedBookModel[indexPath.row])
     return cell
   }
@@ -236,7 +236,7 @@ extension LibraryDetailViewController: UICollectionViewDelegate, UICollectionVie
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let path = relatedBookModel[indexPath.row].path
     let vc = LibraryDetailViewController(path: path)
-    let cell = collectionView.cellForItem(at: indexPath) as? LibraryRelatedBookCollectionViewCell ?? LibraryRelatedBookCollectionViewCell()
+    let cell = collectionView.cellForItem(at: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
     cell.showAnimation(scale: 0.9) { [weak self] in
       guard let self = self else { return }
       vc.navigationItem.largeTitleDisplayMode = .never
@@ -261,7 +261,7 @@ extension LibraryDetailViewController: SkeletonCollectionViewDelegate, SkeletonC
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: LibraryRelatedBookCollectionViewCell.identifier, for: indexPath) as? LibraryRelatedBookCollectionViewCell ?? LibraryRelatedBookCollectionViewCell()
+    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
     return cell
   }
   
@@ -270,7 +270,7 @@ extension LibraryDetailViewController: SkeletonCollectionViewDelegate, SkeletonC
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
-    LibraryRelatedBookCollectionViewCell.identifier
+    LibraryCollectionViewCell.identifier
   }
 }
 

@@ -12,7 +12,7 @@ import SnapKit
 import SkeletonView
 import Then
 
-struct NewLibraryCollectionViewCellModel {
+struct LibraryCollectionViewCellModel {
   let path: Int
   let imageNameURL: URL?
   
@@ -20,11 +20,16 @@ struct NewLibraryCollectionViewCellModel {
     path = bookInfo.path
     imageNameURL = URL(string: bookInfo.image)
   }
+  
+  init(relatedBook: RelatedBook) {
+    path = relatedBook.path
+    imageNameURL = URL(string: relatedBook.image)
+  }
 }
 
-final class NewLibraryCollectionViewCell: UICollectionViewCell {
+final class LibraryCollectionViewCell: UICollectionViewCell {
   
-  static let identifier = "NewLibraryCollectionViewCell"
+  static let identifier = "LibraryCollectionViewCell"
   
   private let thumbnailImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
@@ -58,7 +63,7 @@ final class NewLibraryCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  func configureUI(with model: NewLibraryCollectionViewCellModel) {
+  func configureUI(with model: LibraryCollectionViewCellModel) {
     hideSkeleton()
     thumbnailImageView.kf.setImage(with: model.imageNameURL, placeholder: UIImage(systemName: "book"))
   }
