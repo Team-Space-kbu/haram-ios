@@ -91,7 +91,7 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
         let (title, content, imageModel) = result
         owner.bannerModel = imageModel
         owner.view.hideSkeleton()
-    
+        
         owner.bannerCollectionView.reloadData()
         owner.titleLabel.text = title
         owner.contentLabel.text = content
@@ -143,7 +143,7 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
   
   override func setupStyles() {
     super.setupStyles()
-
+    
     setupSkeletonView()
     setupBackButton()
     navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -184,13 +184,17 @@ extension BannerDetailViewController: UICollectionViewDelegate, UICollectionView
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     
-    if let zoomImageURL = bannerModel[indexPath.row].imageURL {
-       let modal = ZoomImageViewController(zoomImageURL: zoomImageURL)
-       modal.modalPresentationStyle = .fullScreen
-       present(modal, animated: true)
-     } else {
-       AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: self, confirmHandler: nil)
-     }
+    let cell = collectionView.cellForItem(at: indexPath) as? HomeBannerCollectionViewCell ?? HomeBannerCollectionViewCell()
+    cell.showAnimation(scale: 0.9) { [weak self] in
+      guard let self = self else { return }
+      if let zoomImageURL = self.bannerModel[indexPath.row].imageURL {
+        let modal = ZoomImageViewController(zoomImageURL: zoomImageURL)
+        modal.modalPresentationStyle = .fullScreen
+        self.present(modal, animated: true)
+      } else {
+        AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: self, confirmHandler: nil)
+      }
+    }
   }
 }
 
