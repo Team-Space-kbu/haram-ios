@@ -225,7 +225,7 @@ final class RegisterViewController: BaseViewController {
           owner.nicknameTextField.setError(description: error.description!)
         } else if error == .unvalidUserIDFormat {
           owner.idTextField.setError(description: error.description!)
-        }  else if error == .unvalidAuthCode || error == .expireAuthCode || error == .emailAlreadyUse || error == .alreadyUseNickName {
+        }  else if error == .unvalidAuthCode || error == .expireAuthCode || error == .emailAlreadyUse {
           AlertManager.showAlert(title: "회원가입 알림", message: error.description!, viewController: owner) {
             owner.navigationController?.popViewController(animated: true)
           }
@@ -236,8 +236,10 @@ final class RegisterViewController: BaseViewController {
               UIApplication.shared.open(url)
             }
           }
-        } else if error == .containProhibitedWord {
+        } else if error == .containProhibitedWord || error == .alreadyUseNickName {
           AlertManager.showAlert(title: "회원가입 알림", message: error.description!, viewController: owner, confirmHandler: nil)
+        } else if error == .failedRegisterError {
+          AlertManager.showAlert(title: "회원가입 알림", message: "해당 아이디는 이미 사용중입니다\n다른 아이디로 수정해주세요.", viewController: owner, confirmHandler: nil)
         }
       }
       .disposed(by: disposeBag)

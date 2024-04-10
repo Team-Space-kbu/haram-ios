@@ -24,6 +24,27 @@ struct HomebannerCollectionViewCellModel {
     bannerSeq = subBanner.seq
     imageURL = URL(string: subBanner.filePath)
   }
+  
+  init(response: BannerFileResponse) {
+    bannerSeq = response.bannerSeq
+    imageURL = URL(string: response.filePath)
+    title = ""
+    department = .banners
+  }
+  
+  init(response: NoticeFileResponse) {
+    bannerSeq = response.noticeSeq
+    imageURL = URL(string: response.filePath)
+    title = ""
+    department = .rothem
+  }
+  
+  init(response: BibleNoticeFileResponse) {
+    bannerSeq = response.bibleNoticeSeq
+    imageURL = URL(string: response.filePath)
+    title = ""
+    department = .bibles
+  }
 }
 
 final class HomeBannerCollectionViewCell: UICollectionViewCell {

@@ -7,14 +7,16 @@
 
 import UIKit
 
+import SkeletonView
 import SnapKit
 import Then
 
-final class HomeBannerDetailViewController: BaseViewController, BackButtonHandler {
+final class BannerDetailViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: HomeBannerDetailViewModelType
   private let bannerSeq: Int
   private let department: Department
+  private var bannerModel: [HomebannerCollectionViewCellModel] = []
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -41,15 +43,25 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
     $0.skeletonTextNumberOfLines = 1
   }
   
-  private let bannerImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFill
+  private lazy var bannerCollectionView = UICollectionView(
+    frame: .zero,
+    collectionViewLayout: UICollectionViewFlowLayout().then {
+      $0.scrollDirection = .horizontal
+      $0.minimumLineSpacing = .zero
+    }
+  ).then {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
+    $0.backgroundColor = .white
+    $0.delegate = self
+    $0.dataSource = self
+    $0.register(HomeBannerCollectionViewCell.self, forCellWithReuseIdentifier: HomeBannerCollectionViewCell.identifier)
+    $0.alwaysBounceHorizontal = true
+    $0.showsHorizontalScrollIndicator = false
+    $0.isPagingEnabled = true
     $0.skeletonCornerRadius = 10
     $0.isSkeletonable = true
-    $0.isUserInteractionEnabled = true
   }
-  let button = UIButton()
   
   private let contentLabel = UILabel().then {
     $0.textColor = .hex9F9FA4
@@ -76,10 +88,11 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
     
     viewModel.bannerInfo
       .emit(with: self) { owner, result in
-        let (title, content, thumnailURL) = result
+        let (title, content, imageModel) = result
+        owner.bannerModel = imageModel
         owner.view.hideSkeleton()
     
-        owner.bannerImageView.kf.setImage(with: thumnailURL)
+        owner.bannerCollectionView.reloadData()
         owner.titleLabel.text = title
         owner.contentLabel.text = content
       }
@@ -98,26 +111,13 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
         }
       }
       .disposed(by: disposeBag)
-    
-    button.rx.tap
-      .subscribe(with: self) { owner, _ in
-        if let zoomImage = owner.bannerImageView.image {
-          let modal = ZoomImageViewController(zoomImage: zoomImage)
-          modal.modalPresentationStyle = .fullScreen
-          owner.present(modal, animated: true)
-        } else {
-          AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: owner, confirmHandler: nil)
-        }
-      }
-      .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
-    bannerImageView.addSubview(button)
-    _ = [titleLabel, bannerImageView, contentLabel].map { containerView.addArrangedSubview($0) }
+    _ = [titleLabel, bannerCollectionView, contentLabel].map { containerView.addArrangedSubview($0) }
     
   }
   
@@ -136,12 +136,8 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
       $0.height.equalTo(27)
     }
     
-    bannerImageView.snp.makeConstraints {
+    bannerCollectionView.snp.makeConstraints {
       $0.height.equalTo(200)
-    }
-    
-    button.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
     }
   }
   
@@ -159,7 +155,7 @@ final class HomeBannerDetailViewController: BaseViewController, BackButtonHandle
   
 }
 
-extension HomeBannerDetailViewController: UIGestureRecognizerDelegate {
+extension BannerDetailViewController: UIGestureRecognizerDelegate {
   func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     return true // or false
   }
@@ -167,5 +163,47 @@ extension HomeBannerDetailViewController: UIGestureRecognizerDelegate {
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true
+  }
+}
+
+extension BannerDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    
+    return CGSize(width: collectionView.frame.width, height: 200)
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    bannerModel.count
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeBannerCollectionViewCell.identifier, for: indexPath) as? HomeBannerCollectionViewCell ?? HomeBannerCollectionViewCell()
+    cell.configureUI(with: bannerModel[indexPath.row])
+    return cell
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    
+    if let zoomImageURL = bannerModel[indexPath.row].imageURL {
+       let modal = ZoomImageViewController(zoomImageURL: zoomImageURL)
+       modal.modalPresentationStyle = .fullScreen
+       present(modal, animated: true)
+     } else {
+       AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: self, confirmHandler: nil)
+     }
+  }
+}
+
+extension BannerDetailViewController: SkeletonCollectionViewDataSource {
+  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+    HomeBannerCollectionViewCell.identifier
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
+    skeletonView.dequeueReusableCell(withReuseIdentifier: HomeBannerCollectionViewCell.identifier, for: indexPath) as? HomeBannerCollectionViewCell
+  }
+  
+  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return 10
   }
 }
