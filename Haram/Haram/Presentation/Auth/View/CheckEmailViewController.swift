@@ -109,6 +109,7 @@ final class CheckEmailViewController: BaseViewController {
     containerView.setCustomSpacing(7, after: titleLabel)
     
     buttonStackView.snp.makeConstraints {
+      $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
       $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo(48)

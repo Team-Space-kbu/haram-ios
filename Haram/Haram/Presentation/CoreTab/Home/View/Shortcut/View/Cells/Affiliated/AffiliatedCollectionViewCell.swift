@@ -32,6 +32,10 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell {
   
   static let identifier = "AffiliatedCollectionViewCell"
   
+  let containerView = UIView().then {
+    $0.backgroundColor = .clear
+  }
+  
   private let affiliatedImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
@@ -80,7 +84,14 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell {
     contentView.isSkeletonable = true
     contentView.backgroundColor = .white
     
-    [affiliatedImageView, affiliatedTitleLabel, affiliatedSubTitleLabel].forEach { contentView.addSubview($0) }
+    contentView.addSubview(containerView)
+    [affiliatedImageView, affiliatedTitleLabel, affiliatedSubTitleLabel].forEach { containerView.addSubview($0) }
+    
+    containerView.snp.makeConstraints {
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.height.equalTo(94)
+    }
+    
     affiliatedImageView.snp.makeConstraints {
       $0.top.leading.equalToSuperview()
       $0.size.equalTo(94)

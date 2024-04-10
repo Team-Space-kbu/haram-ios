@@ -13,7 +13,7 @@ import RxCocoa
 protocol HomeBannerDetailViewModelType {
   func inquireBannerInfo(bannerSeq: Int, department: Department)
   
-  var bannerInfo: Signal<(title: String, content: String, thumbnailURL: URL?)> { get }
+  var bannerInfo: Signal<(title: String, content: String, imageModel: [HomebannerCollectionViewCellModel])> { get }
   var errorMessage: Signal<HaramError> { get }
 }
 
@@ -24,7 +24,7 @@ final class HomeBannerDetailViewModel {
   private let rothemRepository: RothemRepository
   private let bibleRepository: BibleRepository
   
-  private let bannerInfoRelay = PublishRelay<(title: String, content: String, thumbnailURL: URL?)>()
+  private let bannerInfoRelay = PublishRelay<(title: String, content: String, imageModel: [HomebannerCollectionViewCellModel])>()
   private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   
   init(homeRepository: HomeRepository = HomeRepositoryImpl(), rothemRepository: RothemRepository = RothemRepositoryImpl(), bibleRepository: BibleRepository = BibleRepositoryImpl()) {
@@ -40,7 +40,7 @@ extension HomeBannerDetailViewModel: HomeBannerDetailViewModelType {
     errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }
   
-  var bannerInfo: RxCocoa.Signal<(title: String, content: String, thumbnailURL: URL?)> {
+  var bannerInfo: RxCocoa.Signal<(title: String, content: String, imageModel: [HomebannerCollectionViewCellModel])> {
     bannerInfoRelay.asSignal()
   }
   
@@ -49,7 +49,13 @@ extension HomeBannerDetailViewModel: HomeBannerDetailViewModelType {
     case .banners:
       homeRepository.inquireBannerInfo(bannerSeq: bannerSeq)
         .subscribe(with: self, onSuccess: { owner, response in
-          owner.bannerInfoRelay.accept((title: response.title, content: response.content, thumbnailURL: URL(string: response.thumbnailPath)))
+          owner.bannerInfoRelay.accept(
+            (
+              title: response.title,
+              content: response.content,
+              imageModel: response.bannerFileResponses.map { HomebannerCollectionViewCellModel(response: $0) }
+            )
+          )
         }, onFailure: { owner, error in
           guard let error = error as? HaramError else { return }
           owner.errorMessageRelay.accept(error)
@@ -58,7 +64,13 @@ extension HomeBannerDetailViewModel: HomeBannerDetailViewModelType {
     case .rothem:
       rothemRepository.inquireRothemNoticeDetail(noticeSeq: bannerSeq)
         .subscribe(with: self, onSuccess: { owner, response in
-          owner.bannerInfoRelay.accept((title: response.noticeResponse.title, content: response.noticeResponse.content, thumbnailURL: URL(string: response.noticeResponse.thumbnailPath)))
+          owner.bannerInfoRelay.accept(
+            (
+              title: response.noticeResponse.title,
+              content: response.noticeResponse.content,
+              imageModel: response.noticeFileResponses.map { HomebannerCollectionViewCellModel(response: $0) }
+            )
+          )
         }, onFailure: { owner, error in
           guard let error = error as? HaramError else { return }
           owner.errorMessageRelay.accept(error)
@@ -67,7 +79,13 @@ extension HomeBannerDetailViewModel: HomeBannerDetailViewModelType {
     case .bibles:
       bibleRepository.inquireBibleDetailInfo(noticeSeq: bannerSeq)
         .subscribe(with: self, onSuccess: { owner, response in
-          owner.bannerInfoRelay.accept((title: response.title, content: response.content, thumbnailURL: URL(string: response.thumbnailPath)))
+          owner.bannerInfoRelay.accept(
+            (
+              title: response.title,
+              content: response.content,
+              imageModel: response.bibleNoticeFileResponses.map { HomebannerCollectionViewCellModel(response: $0) }
+            )
+          )
         }, onFailure: { owner, error in
           guard let error = error as? HaramError else { return }
           owner.errorMessageRelay.accept(error)

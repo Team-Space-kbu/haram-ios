@@ -56,14 +56,7 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     $0.skeletonTextNumberOfLines = 1
   }
   
-  private let postingAuthorNameLabel = UILabel().then {
-    $0.font = .bold14
-    $0.textColor = .black
-    $0.isSkeletonable = true
-    $0.skeletonTextNumberOfLines = 1
-  }
-  
-  private let postingDateLabel = UILabel().then {
+  private let postingAuthorAndDateLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .black
     $0.isSkeletonable = true
@@ -116,8 +109,7 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     super.prepareForReuse()
     postingTitleLabel.text = nil
     postingDescriptionLabel.text = nil
-    postingAuthorNameLabel.text = nil
-    postingDateLabel.text = nil
+    postingAuthorAndDateLabel.text = nil
   }
   
   private func pageControlValueChanged(currentPage: Int) {
@@ -143,10 +135,10 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     isSkeletonable = true
     containerView.isSkeletonable = true
     
-    _ = [postingTitleLabel, postingAuthorNameLabel, postingDateLabel, postingDescriptionLabel].map { $0.isSkeletonable = true }
+    _ = [postingTitleLabel, postingAuthorAndDateLabel, postingDescriptionLabel].map { $0.isSkeletonable = true }
     
     _ = [containerView, lineView].map { addSubview($0) }
-    _ = [postingTitleLabel, postingAuthorNameLabel, postingDateLabel, postingDescriptionLabel].map { containerView.addArrangedSubview($0) }
+    _ = [postingTitleLabel, postingAuthorAndDateLabel, postingDescriptionLabel].map { containerView.addArrangedSubview($0) }
     
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
@@ -159,7 +151,7 @@ final class BoardDetailHeaderView: UICollectionReusableView {
       $0.directionalHorizontalEdges.equalToSuperview()
     }
 
-    containerView.setCustomSpacing(222 - 162 - 38, after: postingDateLabel)
+    containerView.setCustomSpacing(222 - 162 - 38, after: postingAuthorAndDateLabel)
     containerView.setCustomSpacing(397 - 222 - 157, after: postingDescriptionLabel)
   }
   
@@ -167,8 +159,7 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     guard let model = model else { return }
     postingTitleLabel.text = model.boardTitle
     postingDescriptionLabel.addLineSpacing(lineSpacing: 2, string: model.boardContent)
-    postingAuthorNameLabel.text = model.boardAuthorName
-    postingDateLabel.text = DateformatterFactory.dateWithSlash.string(from: model.boardDate)
+    postingAuthorAndDateLabel.text = DateformatterFactory.dateWithSlash.string(from: model.boardDate) + " | " + model.boardAuthorName
     
     if !model.boardImageCollectionViewCellModel.isEmpty {
       [boardImageCollectionView, pageControl].forEach { containerView.addArrangedSubview($0) }

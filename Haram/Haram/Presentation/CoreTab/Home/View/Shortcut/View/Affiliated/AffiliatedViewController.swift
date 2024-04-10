@@ -142,7 +142,7 @@ extension AffiliatedViewController: UICollectionViewDelegate, UICollectionViewDa
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let cell = collectionView.cellForItem(at: indexPath) as? AffiliatedCollectionViewCell ?? AffiliatedCollectionViewCell()
-    cell.showAnimation(scale: 0.9) { [weak self] in
+    cell.containerView.showAnimation(scale: 0.9) { [weak self] in
       guard let self = self else { return }
       let model = affiliatedModel[indexPath.row]
       let vc = AffiliatedDetailViewController(id: model.id)

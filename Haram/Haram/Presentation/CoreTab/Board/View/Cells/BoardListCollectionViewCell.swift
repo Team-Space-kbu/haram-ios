@@ -126,13 +126,13 @@ final class BoardListCollectionViewCell: UICollectionViewCell {
       let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
       UIView.transition(with: entireView, duration: 0.1) {
         self.entireView.backgroundColor = .lightGray
-        self.entireView.transform = pressedDownTransform
+//        self.entireView.transform = pressedDownTransform
       }
     } else {
       let pressedDownTransform = CGAffineTransform(scaleX: 1, y: 1)
       UIView.transition(with: entireView, duration: 0.1) {
         self.entireView.backgroundColor = .hexF8F8F8
-        self.entireView.transform = pressedDownTransform
+//        self.entireView.transform = pressedDownTransform
       }
     }
   }
