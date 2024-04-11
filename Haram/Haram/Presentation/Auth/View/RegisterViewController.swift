@@ -32,7 +32,7 @@ final class RegisterViewController: BaseViewController {
     $0.axis = .vertical
     $0.spacing = 25
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: 66, left: 15, bottom: 49, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: 30, left: 15, bottom: 49, right: 15)
   }
   
   private let titleLabel = UILabel().then {
