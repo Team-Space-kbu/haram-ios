@@ -17,12 +17,12 @@ struct BoardListCollectionViewCellModel {
   let subTitle: String
   let boardType: [String]
   
-  init(board: Board) {
-    boardSeq = board.boardSeq
-    title = board.title
-    subTitle = board.contents
-    boardType = []
-  }
+//  init(board: Board) {
+//    boardSeq = board.boardSeq
+//    title = board.title
+//    subTitle = board.contents
+//    boardType = []
+//  }
 }
 
 final class BoardListCollectionViewCell: UICollectionViewCell {

@@ -198,9 +198,9 @@ final class RothemRoomDetailView: UIView {
   
   func configureUI(with model: RothemRoomDetailViewModel) {
     
-    roomTitleLabel.hideSkeleton()
-    roomLocationView.hideSkeleton()
-    roomDescriptionContentLabel.hideSkeleton()
+//    roomTitleLabel.hideSkeleton()
+//    roomLocationView.hideSkeleton()
+//    roomDescriptionContentLabel.hideSkeleton()
     
     amenityModel = model.amenityModel
     roomTitleLabel.text = model.roomTitle
@@ -231,6 +231,7 @@ extension RothemRoomDetailView: UICollectionViewDelegate, UICollectionViewDataSo
     guard !amenityModel.isEmpty else {
       return CGSize(width: 48, height: 56)
     }
+
     let label = UILabel().then {
       $0.font = .regular12
       $0.text = amenityModel[indexPath.row].amenityContent
@@ -251,6 +252,6 @@ extension RothemRoomDetailView: SkeletonCollectionViewDataSource {
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    5
+    amenityModel.count
   }
 }

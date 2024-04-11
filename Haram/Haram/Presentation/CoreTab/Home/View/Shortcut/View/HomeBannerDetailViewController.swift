@@ -2,7 +2,7 @@
 //  HomeBannerDetailViewController.swift
 //  Haram
 //
-//  Created by 이건준 on 4/3/24.
+//  Created by 이건준 on 4/11/24.
 //
 
 import UIKit
@@ -11,7 +11,7 @@ import SkeletonView
 import SnapKit
 import Then
 
-final class BannerDetailViewController: BaseViewController, BackButtonHandler {
+final class HomeBannerDetailViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: HomeBannerDetailViewModelType
   private let bannerSeq: Int
@@ -146,7 +146,7 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
     
     setupSkeletonView()
     setupBackButton()
-//    navigationController?.interactivePopGestureRecognizer?.delegate = self
+    navigationController?.interactivePopGestureRecognizer?.delegate = self
   }
   
   func didTappedBackButton() {
@@ -155,7 +155,7 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
   
 }
 
-extension BannerDetailViewController: UIGestureRecognizerDelegate {
+extension HomeBannerDetailViewController: UIGestureRecognizerDelegate {
   func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     return true // or false
   }
@@ -166,7 +166,7 @@ extension BannerDetailViewController: UIGestureRecognizerDelegate {
   }
 }
 
-extension BannerDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension HomeBannerDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     
     return CGSize(width: collectionView.frame.width, height: 200)
@@ -198,7 +198,7 @@ extension BannerDetailViewController: UICollectionViewDelegate, UICollectionView
   }
 }
 
-extension BannerDetailViewController: SkeletonCollectionViewDataSource {
+extension HomeBannerDetailViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
     HomeBannerCollectionViewCell.identifier
   }
@@ -211,3 +211,4 @@ extension BannerDetailViewController: SkeletonCollectionViewDataSource {
     return 10
   }
 }
+
