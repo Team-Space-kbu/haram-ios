@@ -30,6 +30,7 @@ final class HaramTextField: UIView {
   private let titleLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .black
+    $0.textAlignment = .left
   }
   
   let textField = UITextField().then {
@@ -50,6 +51,7 @@ final class HaramTextField: UIView {
     $0.textColor = .red
     $0.font = .regular14
     $0.numberOfLines = 0
+    $0.textAlignment = .left
   }
   
   private lazy var defaultLabel = UILabel().then {
@@ -109,8 +111,8 @@ final class HaramTextField: UIView {
       addSubview(titleLabel)
       addSubview(textField)
       titleLabel.snp.makeConstraints {
-        $0.top.leading.equalToSuperview()
-        $0.trailing.lessThanOrEqualToSuperview()
+        $0.top.directionalHorizontalEdges.equalToSuperview()
+//        $0.trailing.lessThanOrEqualToSuperview()
         $0.height.equalTo(18)
       }
       
@@ -167,8 +169,8 @@ extension HaramTextField {
     addSubview(errorLabel)
     errorLabel.snp.makeConstraints {
       $0.top.equalTo(textField.snp.bottom).offset(10)
-      $0.trailing.lessThanOrEqualToSuperview()
-      $0.leading.equalToSuperview()
+//      $0.trailing.lessThanOrEqualToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
     errorLabel.text = description
