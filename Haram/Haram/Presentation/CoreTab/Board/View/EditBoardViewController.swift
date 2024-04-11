@@ -225,7 +225,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
           }
           return
         }
-        AlertManager.showAlert(title: error.description!, viewController: owner, confirmHandler: nil)
+        AlertManager.showAlert(title: "Space 알림", message: error.description!, viewController: owner, confirmHandler: nil)
       }
       .disposed(by: disposeBag)
   }

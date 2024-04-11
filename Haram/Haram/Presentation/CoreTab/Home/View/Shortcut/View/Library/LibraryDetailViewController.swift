@@ -183,7 +183,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     viewModel.errorMessage
       .emit(with: self) { owner, error in
         if error == .noEnglishRequest || error == .noRequestFromNaver {
-          AlertManager.showAlert(title: error.description!, viewController: owner) {
+          AlertManager.showAlert(title: "Space 알림", message: error.description!, viewController: owner) {
             self.navigationController?.popViewController(animated: true)
           }
         } else if error == .networkError {
