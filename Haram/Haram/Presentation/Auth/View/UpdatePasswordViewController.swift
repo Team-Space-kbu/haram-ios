@@ -102,6 +102,14 @@ final class UpdatePasswordViewController: BaseViewController {
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
+    
+    titleLabel.snp.makeConstraints {
+      $0.height.equalTo(30)
+    }
+    
+    alertLabel.snp.makeConstraints {
+      $0.height.equalTo(38)
+    }
 
     passwordTextField.snp.makeConstraints {
       $0.height.equalTo(73)

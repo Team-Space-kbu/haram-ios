@@ -90,6 +90,14 @@ final class FindPasswordViewController: BaseViewController {
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
+    titleLabel.snp.makeConstraints {
+      $0.height.equalTo(30)
+    }
+    
+    alertLabel.snp.makeConstraints {
+      $0.height.equalTo(38)
+    }
+    
     schoolEmailTextField.snp.makeConstraints {
       $0.height.greaterThanOrEqualTo(73)
     }

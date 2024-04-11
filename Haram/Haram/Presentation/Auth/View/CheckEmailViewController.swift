@@ -98,6 +98,14 @@ final class CheckEmailViewController: BaseViewController {
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
+    titleLabel.snp.makeConstraints {
+      $0.height.equalTo(30)
+    }
+    
+    alertLabel.snp.makeConstraints {
+      $0.height.equalTo(38)
+    }
+    
     checkEmailTextField.snp.makeConstraints {
       $0.height.equalTo(73)
     }

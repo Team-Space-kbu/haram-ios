@@ -254,6 +254,7 @@
 		70A24ECB2BBEBC1900572FAE /* InquireBibleDetailInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A24ECA2BBEBC1900572FAE /* InquireBibleDetailInfoResponse.swift */; };
 		70A24ECD2BBED36000572FAE /* ZoomImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A24ECC2BBED36000572FAE /* ZoomImageViewController.swift */; };
 		70A24ED32BC44C4F00572FAE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70A24ED22BC44C4F00572FAE /* GoogleService-Info.plist */; };
+		70A24ED62BC7D6EC00572FAE /* HomeBannerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A24ED52BC7D6EC00572FAE /* HomeBannerDetailViewController.swift */; };
 		70A731C12B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C02B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift */; };
 		70A731C32B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C22B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift */; };
 		70A731C52B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A731C42B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift */; };
@@ -565,6 +566,7 @@
 		70A24ECA2BBEBC1900572FAE /* InquireBibleDetailInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBibleDetailInfoResponse.swift; sourceTree = "<group>"; };
 		70A24ECC2BBED36000572FAE /* ZoomImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomImageViewController.swift; sourceTree = "<group>"; };
 		70A24ED22BC44C4F00572FAE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		70A24ED52BC7D6EC00572FAE /* HomeBannerDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBannerDetailViewController.swift; sourceTree = "<group>"; };
 		70A731C02B84E0DC007EA1B4 /* InquireNoticeTypeInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeTypeInfoRequest.swift; sourceTree = "<group>"; };
 		70A731C22B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireNoticeInfoResponse.swift; sourceTree = "<group>"; };
 		70A731C42B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryNoticeViewModel.swift; sourceTree = "<group>"; };
@@ -1180,6 +1182,7 @@
 				70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */,
 				70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */,
 				70727AA229D88AEE003DE956 /* ScheduleViewController.swift */,
+				70A24ED52BC7D6EC00572FAE /* HomeBannerDetailViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2157,6 +2160,7 @@
 				708ED7D22A9203DF00107CDF /* BibleSearchResultViewController.swift in Sources */,
 				7051E4FD2ADAB71200C2134B /* BoardRepositoryImpl.swift in Sources */,
 				705FD2AF2A16246F00F353FE /* LibraryResultsViewController.swift in Sources */,
+				70A24ED62BC7D6EC00572FAE /* HomeBannerDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
