@@ -51,7 +51,8 @@ platform :ios do
         force: true,
         automatic_release: true,
         skip_screenshots: true,
-        skip_metadata: false
+        skip_metadata: false,
+	submission_information: { add_id_info_uses_idfa: false }
       )
       slack(
         message: "AppStore 배포에 성공했습니다!",

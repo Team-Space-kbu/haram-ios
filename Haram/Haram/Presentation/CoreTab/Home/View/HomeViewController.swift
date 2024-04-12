@@ -397,7 +397,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let self = self else { return }
         let model = self.bannerModel[indexPath.row]
         let vc = HomeBannerDetailViewController(department: model.department, bannerSeq: model.bannerSeq)
-        vc.title = model.title
+        vc.title = "공지사항"
         vc.navigationItem.largeTitleDisplayMode = .never
         vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
