@@ -85,14 +85,12 @@ extension TermsOfUseViewModel: TermsOfUseViewModelType {
   /// 맨 처음 약관 동의를 위한 데이터 조회하는 함수
   func inquireTermsSignUp() {
     authRepository.inquireTermsSignUp()
-      .subscribe(with: self) { owner, result in
-        switch result {
-        case let .success(response):
-          owner.termsOfModelRelay.accept(response.map { .init(response: $0) })
-        case let .failure(error):
-          owner.errorMessageRelay.accept(error)
-        }
-      }
+      .subscribe(with: self, onSuccess: { owner, response in
+        owner.termsOfModelRelay.accept(response.map { .init(response: $0) })
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      }) 
       .disposed(by: disposeBag)
   }
   
