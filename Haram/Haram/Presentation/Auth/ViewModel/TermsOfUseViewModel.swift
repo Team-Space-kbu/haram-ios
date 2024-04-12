@@ -49,7 +49,7 @@ extension TermsOfUseViewModel: TermsOfUseViewModelType {
   }
   
   var isCheckallCheckButton: RxCocoa.Driver<Bool> {
-    termsOfModelRelay.skip(1).map { $0.filter { !$0.isChecked }.isEmpty }.asDriver(onErrorJustReturn: false)
+    termsOfModelRelay.skip(1).map( { $0.filter { !$0.isChecked }.isEmpty }).asDriver(onErrorJustReturn: false)
   }
   
   var isContinueButtonEnabled: RxCocoa.Driver<Bool> {

@@ -51,8 +51,8 @@ public extension UIApplication {
       .shared
       .connectedScenes
       .compactMap { $0 as? UIWindowScene }
-      .flatMap { $0.windows }
-      .first { $0.isKeyWindow }
+      .flatMap(\.windows)
+      .first(where: (\.isKeyWindow))
   }
   
   // https://stackoverflow.com/questions/26667009/get-top-most-uiviewcontroller

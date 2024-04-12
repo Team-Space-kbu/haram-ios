@@ -367,7 +367,7 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
     cell.configureUI(with: selectedDateModel[indexPath.row])
     
     /// 이용가능한 날짜가 존재한다면 맨 처음 셀을 선택
-    if let row = selectedDateModel.firstIndex(where: { $0.isAvailable }) {
+    if let row = selectedDateModel.firstIndex(where: (\.isAvailable)) {
       collectionView.selectItem(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .left)
     }
     return cell

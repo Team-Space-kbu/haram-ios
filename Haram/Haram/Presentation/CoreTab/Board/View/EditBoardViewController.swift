@@ -443,7 +443,7 @@ extension EditBoardViewController: PHPickerViewControllerDelegate {
     selections = newSelections
     // Picker에서 선택한 이미지의 Identifier들을 저장 (assetIdentifier은 옵셔널 값이라서 compactMap 받음)
     // 위의 PHPickerConfiguration에서 사용하기 위해서 입니다.
-    selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
+    selectedAssetIdentifiers = results.compactMap(\.assetIdentifier)
     
     if !selections.isEmpty {
       displayImage()

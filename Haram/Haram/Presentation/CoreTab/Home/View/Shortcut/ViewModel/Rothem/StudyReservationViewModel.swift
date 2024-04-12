@@ -75,7 +75,7 @@ final class StudyReservationViewModel {
         guard findModel.isAvailable,
               let filterModel = findModel.times else { return }
         
-        owner.timeTable.accept(filterModel.map { SelectedTimeCollectionViewCellModel(time: $0) })
+        owner.timeTable.accept(filterModel.map( { SelectedTimeCollectionViewCellModel(time: $0) }))
       }
       .disposed(by: disposeBag)
   }
@@ -88,7 +88,7 @@ final class StudyReservationViewModel {
         var timeModel = owner.timeTable.value
         
         /// 최대 선택 개수 2개
-        guard timeModel.filter({ $0.isTimeSelected }).count < 2 else {
+        guard timeModel.filter(\.isTimeSelected).count < 2 else {
           owner.errorMessageRelay.accept(.maxReservationCount)
           return
         }
@@ -98,10 +98,10 @@ final class StudyReservationViewModel {
           return
         }
         
-        if timeModel.filter({ $0.isTimeSelected }).count == 1 {
+        if timeModel.filter(\.isTimeSelected).count == 1 {
           
           /// 선택한 timeSeq가 기존에 선택된 timeSeq와 연속적이라면
-          if !timeModel.filter({ $0.isTimeSelected }).map({ $0.timeSeq }).filter({ timeSeq == $0 + 1 || timeSeq == $0 - 1 }).isEmpty {
+          if !timeModel.filter(\.isTimeSelected).map(\.timeSeq).filter({ timeSeq == $0 + 1 || timeSeq == $0 - 1 }).isEmpty {
             let findModel = timeModel.first(where: { $0.timeSeq == timeSeq })!
             timeModel[timeModel.firstIndex(of: findModel)!].isTimeSelected = true
             owner.timeTable.accept(timeModel)
@@ -121,7 +121,7 @@ final class StudyReservationViewModel {
     deSelectTimeSeqSubject
       .subscribe(with: self) { owner, timeSeq in
         var timeModel = owner.timeTable.value
-        let findModel = timeModel.first(where: { $0.timeSeq == timeSeq })!
+        let findModel = timeModel.first(where: ({ $0.timeSeq == timeSeq }))!
         timeModel[timeModel.firstIndex(of: findModel)!].isTimeSelected = false
         owner.timeTable.accept(timeModel)
       }
@@ -137,7 +137,7 @@ final class StudyReservationViewModel {
           reservationPhoneNumerSubject,
           calendarSeqSubject,
           policyModelRelay.map { $0.map { ReservationPolicyRequest(policySeq: $0.policySeq, policyAgreeYn: "Y") } },
-          timeTable.map { $0.filter { $0.isTimeSelected }.map { TimeRequest(timeSeq: $0.timeSeq) } }
+          timeTable.map { $0.filter(\.isTimeSelected).map { TimeRequest(timeSeq: $0.timeSeq) } }
         ) { ($0, $1, $2, $3, $4) }
       )
       .map { (userName, phoneNum, calendarSeq, reservationPolicyRequests, timeRequests) in
@@ -189,7 +189,7 @@ extension StudyReservationViewModel: StudyReservationViewModelType {
         owner.model = response.calendarResponses
         owner.policyModelRelay.accept(response.policyResponses.sorted(by: { $0.policySeq > $1.policySeq }).map { TermsOfUseCheckViewModel(response: $0) })
         
-        if let model = response.calendarResponses.first(where: { $0.isAvailable }) {
+        if let model = response.calendarResponses.first(where: (\.isAvailable)) {
           owner.calendarSeqSubject.onNext(model.calendarSeq)
         }
         owner.isLoadingSubject.onNext(false)
@@ -262,7 +262,7 @@ extension StudyReservationViewModel: StudyReservationViewModelType {
     Observable.combineLatest(
       reservationPhoneNumerSubject,
       policyModelRelay,
-      timeTable.map { $0.filter { $0.isTimeSelected } },
+      timeTable.map { $0.filter(\.isTimeSelected) },
       reservationNameSubject
     ) { [weak self] in
       guard let self = self else { return false }
