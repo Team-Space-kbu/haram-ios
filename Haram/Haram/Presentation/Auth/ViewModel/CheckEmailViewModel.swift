@@ -77,14 +77,12 @@ extension CheckEmailViewModel: CheckEmailViewModelType {
   
   func verifyEmailAuthCode(userMail: String, authCode: String) {
     authRepository.verifyFindPassword(userMail: userMail, authCode: authCode)
-      .subscribe(with: self) { owner, result in
-        switch result {
-        case let .success(authCode):
-          owner.verifyEmailAuthCodeRelay.accept(authCode)
-        case let .failure(error):
-          owner.errorMessageRelay.accept(error)
-        }
-      }
+      .subscribe(with: self, onSuccess: { owner, authCode in
+        owner.verifyEmailAuthCodeRelay.accept(authCode)
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      }) 
       .disposed(by: disposeBag)
   }
   

@@ -49,13 +49,12 @@ extension IntranetLoginViewModel: IntranetLoginViewModelType {
         intranetPWD: intranetPassword
       )
     )
-    .subscribe(with: self, onNext: { owner, result in
-      switch result {
-      case .success(_):
-        owner.intranetLoginMessage.onNext(())
-      case .failure(let error):
-        owner.errorMessageRelay.accept(error)
-      }
+    .subscribe(with: self, onSuccess: { owner, _ in
+      owner.intranetLoginMessage.onNext(())
+      owner.isLoadingSubject.onNext(false)
+    }, onFailure: { owner, error in
+      guard let error = error as? HaramError else { return }
+      owner.errorMessageRelay.accept(error)
       owner.isLoadingSubject.onNext(false)
     })
     .disposed(by: disposeBag)

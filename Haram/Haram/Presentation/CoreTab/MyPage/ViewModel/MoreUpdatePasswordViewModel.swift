@@ -110,13 +110,11 @@ extension MoreUpdatePasswordViewModel: MoreUpdatePasswordViewModelType {
         newPassword: newPassword
       )
     )
-    .subscribe(with: self, onNext: { owner, result in
-      switch result {
-      case .success(_):
-        owner.successUpdatePasswordRelay.accept(())
-      case let .failure(error):
-        owner.errorMessageRelay.accept(error)
-      }
+    .subscribe(with: self, onSuccess: { owner, _ in
+      owner.successUpdatePasswordRelay.accept(())
+    }, onFailure: { owner, error in
+      guard let error = error as? HaramError else { return }
+      owner.errorMessageRelay.accept(error)
     })
     .disposed(by: disposeBag)
   }

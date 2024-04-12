@@ -53,16 +53,14 @@ final class MoreViewModel {
         userID: UserManager.shared.userID!,
         uuid: UserManager.shared.uuid!
       ))
-      .subscribe(with: self) { owner, result in
-        switch result {
-        case .success(_):
-          UserManager.shared.clearAllInformations()
-          owner.successMessageRelay.accept("로그아웃 성공하였습니다.")
-        case .failure(let error):
-          owner.errorMessageRelay.accept(error == .networkError ? .retryError : error)
-        }
-      }
-      .disposed(by: disposeBag)
+    .subscribe(with: self, onSuccess: { owner, _ in
+      UserManager.shared.clearAllInformations()
+      owner.successMessageRelay.accept("로그아웃 성공하였습니다.")
+    }, onFailure: { owner, error in
+      guard let error = error as? HaramError else { return }
+      owner.errorMessageRelay.accept(error == .networkError ? .retryError : error)
+    }) 
+    .disposed(by: disposeBag)
   }
 }
 

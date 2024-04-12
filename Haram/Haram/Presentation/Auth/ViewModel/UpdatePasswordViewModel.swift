@@ -114,16 +114,14 @@ extension UpdatePasswordViewModel: UpdatePasswordViewModelType {
       ),
       userEmail: userMail
     )
-    .subscribe(with: self) { owner, result in
-      switch result {
-      case let .success(success):
-        if success {
-          owner.successUpdatePasswordRelay.accept(())
-        }
-      case let .failure(error):
-        owner.errorMessageRelay.accept(error)
+    .subscribe(with: self, onSuccess: { owner, success in
+      if success {
+        owner.successUpdatePasswordRelay.accept(())
       }
-    }
+    }, onFailure: { owner, error in
+      guard let error = error as? HaramError else { return }
+      owner.errorMessageRelay.accept(error)
+    }) 
     .disposed(by: disposeBag)
   }
 }
