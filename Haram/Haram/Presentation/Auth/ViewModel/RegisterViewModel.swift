@@ -63,15 +63,14 @@ final class RegisterViewModel {
         userTermsRequests: UserManager.shared.userTermsRequests!
       )
     )
-    .subscribe(with: self) { owner, result in
-      switch result {
-      case .success(_):
-        owner.signupSuccessMessageRelay.accept("회원가입 성공")
-      case .failure(let error):
-        owner.errorMessageRelay.accept(error)
-      }
+    .subscribe(with: self, onSuccess: { owner, _ in
+      owner.signupSuccessMessageRelay.accept("회원가입 성공")
       owner.isLoadingSubject.onNext(false)
-    }
+    }, onFailure: { owner, error in
+      guard let error = error as? HaramError else { return }
+      owner.errorMessageRelay.accept(error)
+      owner.isLoadingSubject.onNext(false)
+    })
     .disposed(by: disposeBag)
   }
   

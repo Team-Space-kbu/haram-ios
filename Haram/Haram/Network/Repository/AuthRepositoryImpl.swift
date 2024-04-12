@@ -8,8 +8,8 @@
 import RxSwift
 
 protocol AuthRepository {
-  func signupUser(request: SignupUserRequest) -> Observable<Result<EmptyModel, HaramError>>
-  func loginMember(request: LoginRequest) -> Observable<Result<LoginResponse, HaramError>>
+  func signupUser(request: SignupUserRequest) -> Single<EmptyModel>
+  func loginMember(request: LoginRequest) -> Single<LoginResponse>
   func reissuanceAccessToken(request: ReissuanceAccessTokenRequest) -> Observable<Result<LoginResponse, HaramError>>
   func loginIntranet(request: IntranetLoginRequest) -> Observable<Result<EmptyModel, HaramError>>
   func logoutUser(request: LogoutUserRequest) -> Observable<Result<EmptyModel, HaramError>>
@@ -17,7 +17,7 @@ protocol AuthRepository {
   func updatePassword(request: UpdatePasswordRequest, userEmail: String) -> Observable<Result<Bool, HaramError>>
   func verifyMailAuthCode(userMail: String, authCode: String) -> Observable<Result<Bool, HaramError>>
   func verifyFindPassword(userMail: String, authCode: String) -> Observable<Result<String, HaramError>>
-  func inquireTermsSignUp() -> Observable<Result<[InquireTermsSignUpResponse], HaramError>>
+  func inquireTermsSignUp() -> Single<[InquireTermsSignUpResponse]>
   func updateUserPassword(userID: String, request: UpdateUserPasswordRequest) -> Observable<Result<Bool, HaramError>>
 }
 
@@ -36,8 +36,8 @@ extension AuthRepositoryImpl: AuthRepository {
     service.request(router: AuthRouter.updateUserPassword(userID, request), type: Bool.self)
   }
   
-  func inquireTermsSignUp() -> RxSwift.Observable<Result<[InquireTermsSignUpResponse], HaramError>> {
-    service.request(router: AuthRouter.inquireTermsSignUp, type: [InquireTermsSignUpResponse].self)
+  func inquireTermsSignUp() -> Single<[InquireTermsSignUpResponse]> {
+    service.betarequest(router: AuthRouter.inquireTermsSignUp, type: [InquireTermsSignUpResponse].self)
   }
   
   func verifyFindPassword(userMail: String, authCode: String) -> RxSwift.Observable<Result<String, HaramError>> {
@@ -56,12 +56,12 @@ extension AuthRepositoryImpl: AuthRepository {
     service.betarequest(router: AuthRouter.requestEmailAuthCode(userEmail), type: Bool.self)
   }
   
-  func signupUser(request: SignupUserRequest) -> Observable<Result<EmptyModel, HaramError>> {
-    service.request(router: AuthRouter.signupUser(request), type: EmptyModel.self)
+  func signupUser(request: SignupUserRequest) -> Single<EmptyModel> {
+    service.betarequest(router: AuthRouter.signupUser(request), type: EmptyModel.self)
   }
   
-  func loginMember(request: LoginRequest) -> Observable<Result<LoginResponse, HaramError>> {
-    service.request(router: AuthRouter.loginMember(request), type: LoginResponse.self)
+  func loginMember(request: LoginRequest) -> Single<LoginResponse> {
+    service.betarequest(router: AuthRouter.loginMember(request), type: LoginResponse.self)
   }
   
   func reissuanceAccessToken(request: ReissuanceAccessTokenRequest) -> Observable<Result<LoginResponse, HaramError>> {
