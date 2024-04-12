@@ -86,14 +86,12 @@ extension VerifyEmailViewModel: VerifyEmailViewModelType {
     }
     
     authRepository.verifyMailAuthCode(userMail: self.userMail!, authCode: authCode)
-      .subscribe(with: self) { owner, result in
-        switch result {
-        case .success(_):
-          owner.successVerifyAuthCodeRelay.accept(())
-        case let .failure(error):
-          owner.errorMessageRelay.accept(error)
-        }
-      }
+      .subscribe(with: self, onSuccess: { owner, _ in
+        owner.successVerifyAuthCodeRelay.accept(())
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      }) 
       .disposed(by: disposeBag)
   }
   

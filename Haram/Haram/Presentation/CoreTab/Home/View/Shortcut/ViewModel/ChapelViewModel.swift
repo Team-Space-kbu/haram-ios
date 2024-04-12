@@ -39,44 +39,40 @@ extension ChapelViewModel: ChapelViewModelType {
   
   func inquireChapelInfo() {
     intranetRepository.inquireChapelInfo()
-      .subscribe(with: self) { owner, result in
-        switch result {
-        case let .success(response):
-          let confirmationDays = Int(response.confirmationDays)!
-          let regulatedDays = Int(response.regulateDays)!
-          
-          owner.chapelHeaderModelRelay.accept(
-            ChapelCollectionHeaderViewModel(
-              chapelDayViewModel: response.confirmationDays,
-              chapelInfoViewModel: .init(
-                attendanceDays: response.attendanceDays,
-                remainDays: "\(regulatedDays - confirmationDays)",
-                lateDays: response.lateDays
-              )
+      .subscribe(with: self, onSuccess: { owner, response in
+        let confirmationDays = Int(response.confirmationDays)!
+        let regulatedDays = Int(response.regulateDays)!
+        
+        owner.chapelHeaderModelRelay.accept(
+          ChapelCollectionHeaderViewModel(
+            chapelDayViewModel: response.confirmationDays,
+            chapelInfoViewModel: .init(
+              attendanceDays: response.attendanceDays,
+              remainDays: "\(regulatedDays - confirmationDays)",
+              lateDays: response.lateDays
             )
           )
-        case let .failure(error):
-          owner.errorMessageRelay.accept(error)
-        }
-        
+        )
         owner.isLoadingSubject.onNext(false)
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+        owner.isLoadingSubject.onNext(false)
+      }) 
       .disposed(by: disposeBag)
   }
   
   func inquireChapelDetail() {
     intranetRepository.inquireChapelDetail()
-      .subscribe(with: self) { owner, result in
-        switch result {
-        case let .success(response):
-          let chapelListModel = response.map { ChapelCollectionViewCellModel(response: $0) }
-          owner.chapelListModelRelay.accept(chapelListModel)
-        case let .failure(error):
-          owner.errorMessageRelay.accept(error)
-        }
-        
+      .subscribe(with: self, onSuccess: { owner, response in
+        let chapelListModel = response.map { ChapelCollectionViewCellModel(response: $0) }
+        owner.chapelListModelRelay.accept(chapelListModel)
         owner.isLoadingSubject.onNext(false)
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+        owner.isLoadingSubject.onNext(false)
+      }) 
       .disposed(by: disposeBag)
   }
   

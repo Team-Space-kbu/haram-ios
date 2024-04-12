@@ -129,14 +129,11 @@ extension HomeViewModel: HomeViewModelType {
       
       if currentDate >= startDate && currentDate <= endDate {
         intranetRepository.inquireChapelInfo()
-          .subscribe(with: self) { owner, result in
-            switch result {
-            case .success(let response):
-              owner.isAvailableSimpleChapelModalSubject.onNext((true, .init(regulatedDay: response.regulateDays, chapelDay: response.confirmationDays)))
-            case .failure(_):
-              owner.isAvailableSimpleChapelModalSubject.onNext((false, nil))
-            }
-          }
+          .subscribe(with: self, onSuccess: { owner, response in
+            owner.isAvailableSimpleChapelModalSubject.onNext((true, .init(regulatedDay: response.regulateDays, chapelDay: response.confirmationDays)))
+          }, onFailure: { owner, _ in
+            owner.isAvailableSimpleChapelModalSubject.onNext((false, nil))
+          }) 
           .disposed(by: disposeBag)
       } else {
         isAvailableSimpleChapelModalSubject.onNext((false, nil))
