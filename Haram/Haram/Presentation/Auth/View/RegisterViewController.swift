@@ -120,9 +120,6 @@ final class RegisterViewController: BaseViewController {
     view.addGestureRecognizer(tapGesture)
     [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField].forEach { $0.textField.delegate = self }
     
-    _ = [tapGesture].map { view.addGestureRecognizer($0) }
-    //    panGesture.delegate = self
-    
     registerNotifications()
     
     emailTextField.textField.text = email

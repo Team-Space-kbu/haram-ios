@@ -90,7 +90,7 @@ extension HaramError {
   }
   
   static func getError(with code: String) -> Self {
-    guard let error = HaramError.allCases.filter({ $0.code == code }).first else {
+    guard let error = HaramError.allCases.first(where: { $0.code == code }) else {
       return .unknownedError
     }
     return error
