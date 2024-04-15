@@ -396,7 +396,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       cell.showAnimation(scale: 0.9) { [weak self] in
         guard let self = self else { return }
         let model = self.bannerModel[indexPath.row]
-        let vc = HomeBannerDetailViewController(department: model.department, bannerSeq: model.bannerSeq)
+        let vc = BannerDetailViewController(department: model.department, bannerSeq: model.bannerSeq, bannerDetailType: .useBackGesture)
         vc.title = "공지사항"
         vc.navigationItem.largeTitleDisplayMode = .never
         vc.hidesBottomBarWhenPushed = true
