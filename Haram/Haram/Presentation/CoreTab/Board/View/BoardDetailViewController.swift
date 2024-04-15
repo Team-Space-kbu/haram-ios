@@ -181,7 +181,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
           }
         } else if error == .internalServerError || error == .alreadyReportBoard {
           AlertManager.showAlert(title: "Space 알림", message: error.description!, viewController: owner, confirmHandler: nil)
-        } 
+        }
       }
       .disposed(by: disposeBag)
     
@@ -327,6 +327,7 @@ extension BoardDetailViewController {
     viewModel.inquireBoardDetail(categorySeq: categorySeq, boardSeq: boardSeq)
   }
 }
+
 extension BoardDetailViewController {
   func registerNotifications() {
     NotificationCenter.default.addObserver(

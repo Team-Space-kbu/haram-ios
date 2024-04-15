@@ -11,9 +11,16 @@ import SkeletonView
 import SnapKit
 import Then
 
+enum BannerDetailType {
+  case useBackGesture
+  case noBackGesture
+}
+
 final class BannerDetailViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: HomeBannerDetailViewModelType
+  
+  private let bannerDetailType: BannerDetailType
   private let bannerSeq: Int
   private let department: Department
   private var bannerModel: [HomebannerCollectionViewCellModel] = []
@@ -71,7 +78,8 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
     $0.skeletonTextNumberOfLines = 5
   }
   
-  init(department: Department, bannerSeq: Int, viewModel: HomeBannerDetailViewModelType = HomeBannerDetailViewModel()) {
+  init(department: Department, bannerSeq: Int, bannerDetailType: BannerDetailType = .noBackGesture, viewModel: HomeBannerDetailViewModelType = HomeBannerDetailViewModel()) {
+    self.bannerDetailType = bannerDetailType
     self.viewModel = viewModel
     self.bannerSeq = bannerSeq
     self.department = department
@@ -146,7 +154,10 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
     
     setupSkeletonView()
     setupBackButton()
-//    navigationController?.interactivePopGestureRecognizer?.delegate = self
+    
+    if bannerDetailType == .useBackGesture {
+      navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
   }
   
   func didTappedBackButton() {
