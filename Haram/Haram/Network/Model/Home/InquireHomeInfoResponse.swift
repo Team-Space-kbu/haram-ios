@@ -75,5 +75,4 @@ struct SubNotice: Decodable {
   let createdBy: String
   let createdAt: String
   let modifiedAt: String
-  let modifiedBy: String
 }

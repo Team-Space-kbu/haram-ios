@@ -21,6 +21,17 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   private let categorySeq: Int
   private let writeableAnonymous: Bool
   private let writeableComment: Bool
+  private var items: [UIAction] {
+    return ReportTitleType.allCases.map { reportType in
+      UIAction(
+        title: reportType.title,
+        handler: { [unowned self] _ in
+          AlertManager.showAlert(title: reportType.title, message: "신고 사유에 맞지 않은 신고를 했을경우 신고가 처리되지 않을 수 있습니다", viewController: self, confirmHandler: {
+            self.viewModel.reportBoard(boardSeq: self.boardSeq, reportType: reportType)
+          }, cancelHandler: nil)
+        })
+    }
+  }
   
   // MARK: - UI Models
   
@@ -29,7 +40,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   private var boardModel: [BoardDetailHeaderViewModel] = []
   
   // MARK: - UI Component
-
+  
   private lazy var commentInputView = CommentInputView(writeableAnonymous: writeableAnonymous).then {
     $0.delegate = self
     $0.isSkeletonable = true
@@ -47,6 +58,8 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     $0.alwaysBounceVertical = true
     $0.isSkeletonable = true
   }
+  
+  private lazy var interaction = UIContextMenuInteraction(delegate: self)
   
   // MARK: - Initializations
   init(categorySeq: Int, boardSeq: Int, writeableAnonymous: Bool, writeableComment: Bool, viewModel: BoardDetailViewModelType = BoardDetailViewModel()) {
@@ -74,8 +87,10 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     
     /// Set NavigationBar
     setupBackButton()
+    setupRightBarButtonItem()
+    
     setupSkeletonView()
-
+    
     registerNotifications()
     
   }
@@ -164,7 +179,15 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
               UIApplication.shared.open(url)
             }
           }
-        }
+        } else if error == .internalServerError || error == .alreadyReportBoard {
+          AlertManager.showAlert(title: "Space 알림", message: error.description!, viewController: owner, confirmHandler: nil)
+        } 
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successReportBoard
+      .emit(with: self) { owner, _ in
+        AlertManager.showAlert(title: "Space 알림", message: "성공적으로 신고가 접수되었습니다.", viewController: owner, confirmHandler: nil)
       }
       .disposed(by: disposeBag)
   }
@@ -174,6 +197,11 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   @objc
   func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
+  }
+  
+  @objc
+  private func didTappedReportButton() {
+    
   }
   
   // MARK: - UICompositonalLayout Function
@@ -210,6 +238,22 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     section.interGroupSpacing = 16
     section.boundarySupplementaryItems = [header]
     return section
+  }
+  
+  private func setupRightBarButtonItem() {
+    let button = UIButton().then {
+      $0.setImage(UIImage(resource: .ellipsisVertical).withRenderingMode(.alwaysOriginal), for: .normal)
+      $0.addTarget(self, action: #selector(didTappedReportButton), for: .touchUpInside)
+      $0.showsMenuAsPrimaryAction = true
+    }
+    let menu = UIMenu(title: "신고", children: items)
+    let mainMenu = UIMenu(children: [menu])
+    button.menu = mainMenu
+    
+    let rightBarButtonItem = UIBarButtonItem(customView: button)
+    button.addInteraction(interaction)
+    
+    navigationItem.rightBarButtonItem = rightBarButtonItem
   }
 }
 
@@ -252,7 +296,7 @@ extension BoardDetailViewController: UICollectionViewDataSource, UICollectionVie
     return header
     
   }
-
+  
   
 }
 
@@ -380,5 +424,18 @@ extension BoardDetailViewController: BoardDetailHeaderViewDelegate {
     let modal = ZoomImageViewController(zoomImageURL: url)
     modal.modalPresentationStyle = .fullScreen
     present(modal, animated: true)
+  }
+}
+
+extension BoardDetailViewController: UIContextMenuInteractionDelegate {
+  func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+    
+    return UIContextMenuConfiguration(actionProvider:  { [unowned self] suggestedActions in
+      
+      let menu = UIMenu(title: "메뉴1",
+                        children: self.items)
+      
+      return menu
+    })
   }
 }
