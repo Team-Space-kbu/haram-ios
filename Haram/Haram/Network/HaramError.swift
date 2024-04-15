@@ -235,7 +235,7 @@ extension HaramError {
     case .noToken:
       return "헤더에 토큰값이 존재하지않습니다."
     case .internalServerError:
-      return "서버측에서 알 수 없는 에러가 발생했습니다."
+      return "서버측에서 알 수 없는 에러가 발생했습니다\n다시 시도해주세요."
     case .occuredServerConnectError:
       return "서버연결 중 오류 발생"
     case .emailAlreadyUse:

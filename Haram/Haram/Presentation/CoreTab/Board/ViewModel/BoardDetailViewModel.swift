@@ -10,6 +10,7 @@ import RxCocoa
 import Foundation
 
 protocol BoardDetailViewModelType {
+  func reportBoard(boardSeq: Int, reportType: ReportTitleType)
   func createComment(boardComment: String, categorySeq: Int, boardSeq: Int, isAnonymous: Bool)
   func inquireBoardDetail(categorySeq: Int, boardSeq: Int)
   
@@ -17,6 +18,7 @@ protocol BoardDetailViewModelType {
   var boardCommentModel: Driver<[BoardDetailCollectionViewCellModel]> { get }
   var successCreateComment: Signal<[Comment]> { get }
   var errorMessage: Signal<HaramError> { get }
+  var successReportBoard: Signal<Void> { get }
 }
 
 final class BoardDetailViewModel {
@@ -28,6 +30,7 @@ final class BoardDetailViewModel {
   private let currentBoardInfoRelay = PublishRelay<[BoardDetailHeaderViewModel]>()
   private let successCreateCommentRelay = PublishRelay<[Comment]>()
   private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
+  private let successReportBoardRelay = PublishRelay<Void>()
   
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
@@ -36,6 +39,27 @@ final class BoardDetailViewModel {
 }
 
 extension BoardDetailViewModel: BoardDetailViewModelType {
+  var successReportBoard: RxCocoa.Signal<Void> {
+    successReportBoardRelay.asSignal()
+  }
+  
+  func reportBoard(boardSeq: Int, reportType: ReportTitleType) {
+    boardRepository.reportBoard(
+      request: .init(
+        reportType: .board,
+        refSeq: boardSeq,
+        reportTitle: reportType,
+        content: reportType.title
+      )
+    ).subscribe(with: self, onSuccess: { owner, _ in
+        owner.successReportBoardRelay.accept(())
+    }, onFailure: { owner, error in
+      guard let error = error as? HaramError else { return }
+      owner.errorMessageRelay.accept(error)
+    })
+    .disposed(by: disposeBag)
+  }
+  
   var errorMessage: RxCocoa.Signal<HaramError> {
     errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }
