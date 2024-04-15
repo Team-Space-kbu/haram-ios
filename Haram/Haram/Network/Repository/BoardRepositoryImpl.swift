@@ -14,6 +14,7 @@ protocol BoardRepository {
   func inquireBoardDetail(categorySeq: Int, boardSeq: Int) -> Single<InquireBoardDetailResponse>
   func createBoard(categorySeq: Int, request: CreateBoardRequest) -> Single<Bool>
   func createComment(request: CreateCommentRequest, categorySeq: Int, boardSeq: Int) -> Single<[Comment]>
+  func reportBoard(request: ReportBoardRequest) -> Single<Bool>
   
 }
 
@@ -28,6 +29,10 @@ final class BoardRepositoryImpl {
 }
 
 extension BoardRepositoryImpl: BoardRepository {
+  func reportBoard(request: ReportBoardRequest) -> RxSwift.Single<Bool> {
+    service.betarequest(router: BoardRouter.reportBoard(request), type: Bool.self)
+  }
+  
   func createBoard(categorySeq: Int, request: CreateBoardRequest) -> RxSwift.Single<Bool> {
     service.betarequest(router: BoardRouter.createBoard(categorySeq, request), type: Bool.self)
   }

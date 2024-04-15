@@ -66,6 +66,7 @@ enum HaramError: Error, CaseIterable {
   
   case returnWrongFormat
   case noExistBoard // 게시글이 존재하지않을 때 발생하는 에러
+  case alreadyReportBoard // 이미 신고했던 게시글일 경우 발생하는 에러
   
   /// 로뎀 예약시 에러
   case alreadyReservationList // 이미 예약된 내역이 있습니다.
@@ -170,6 +171,8 @@ extension HaramError {
       return "IMG04"
     case .unvalidBoardTitle:
       return "BD17"
+    case .alreadyReportBoard:
+      return "BD24"
     }
   }
   
@@ -267,6 +270,8 @@ extension HaramError {
       return "기존 비밀번호와 일치하지않습니다\n 수정 후 다시 시도해주세요."
     case .containProhibitedWord:
       return "금칙어가 포함되어있습니다\n 수정 후 다시 시도해주세요."
+    case .alreadyReportBoard:
+      return "해당 게시글은 이미 신고한 게시글입니다."
     }
   }
 }
