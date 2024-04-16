@@ -237,6 +237,8 @@ final class RegisterViewController: BaseViewController {
           AlertManager.showAlert(title: "회원가입 알림", message: error.description!, viewController: owner, confirmHandler: nil)
         } else if error == .failedRegisterError {
           AlertManager.showAlert(title: "회원가입 알림", message: "해당 아이디는 이미 사용중입니다\n다른 아이디로 수정해주세요.", viewController: owner, confirmHandler: nil)
+        } else {
+          AlertManager.showAlert(title: "회원가입 알림", message: "서버측에서 알 수 없는 에러가 발생하였습니다\n다음에 다시 시도해주세요.", viewController: owner, confirmHandler: nil)
         }
       }
       .disposed(by: disposeBag)
