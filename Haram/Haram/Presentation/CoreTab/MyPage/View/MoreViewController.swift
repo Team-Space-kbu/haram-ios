@@ -221,8 +221,10 @@ final class MoreViewController: BaseViewController {
       .subscribe(with: self) { owner, _ in
         owner.profileInfoView.showAnimation {
           let vc = MoreUpdatePasswordViewController()
-          vc.hidesBottomBarWhenPushed = true
-          owner.navigationController?.pushViewController(vc, animated: true)
+          vc.modalPresentationStyle = .fullScreen
+          owner.present(vc, animated: true)
+//          vc.hidesBottomBarWhenPushed = true
+//          owner.navigationController?.pushViewController(vc, animated: true)
         }
       }
       .disposed(by: disposeBag)

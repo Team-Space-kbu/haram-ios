@@ -64,7 +64,7 @@ final class UpdatePasswordViewController: BaseViewController {
   }
   
   private let continueButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "계속하기", contentInsets: .zero)
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "변경하기", contentInsets: .zero)
   }
   
   init(userEmail: String, authCode: String, viewModel: UpdatePasswordViewModelType = UpdatePasswordViewModel()) {
