@@ -14,6 +14,7 @@ import Then
 struct CommentAuthorInfoViewModel {
   let commentAuthorName: String
   let commentDate: Date
+  let isUpdatable: Bool
 }
 
 final class CommentAuthorInfoView: UIView {
@@ -31,6 +32,10 @@ final class CommentAuthorInfoView: UIView {
     $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }
   
+  let boardDeleteButton = UIButton(configuration: .haramLabelButton(title: "삭제", font: .regular14, forgroundColor: .black)).then {
+    $0.sizeToFit()
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -41,7 +46,7 @@ final class CommentAuthorInfoView: UIView {
   }
   
   private func configureUI() {
-    [commentNameLabel, commentDateLabel].forEach { addSubview($0) }
+    [commentNameLabel, commentDateLabel, boardDeleteButton].forEach { addSubview($0) }
     
     commentNameLabel.snp.makeConstraints {
       $0.directionalVerticalEdges.leading.equalToSuperview()
@@ -50,7 +55,12 @@ final class CommentAuthorInfoView: UIView {
     commentDateLabel.snp.makeConstraints {
       $0.directionalVerticalEdges.equalToSuperview()
       $0.leading.equalTo(commentNameLabel.snp.trailing).offset(44 - 15 - 25)
-      $0.trailing.lessThanOrEqualToSuperview()
+//      $0.trailing.lessThanOrEqualToSuperview()
+    }
+    
+    boardDeleteButton.snp.makeConstraints {
+      $0.leading.greaterThanOrEqualTo(commentDateLabel.snp.trailing)
+      $0.trailing.directionalVerticalEdges.equalToSuperview()
     }
   }
   
@@ -62,5 +72,6 @@ final class CommentAuthorInfoView: UIView {
   func configureUI(with model: CommentAuthorInfoViewModel) {
     commentNameLabel.text = model.commentAuthorName
     commentDateLabel.text = DateformatterFactory.dateWithSlash.string(from: model.commentDate)
+    boardDeleteButton.isHidden = !model.isUpdatable
   }
 }

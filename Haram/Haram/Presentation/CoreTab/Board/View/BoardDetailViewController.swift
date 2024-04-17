@@ -151,9 +151,10 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
         owner.cellModel = comments.enumerated()
           .map { index, comment in
             return BoardDetailCollectionViewCellModel(
-              commentAuthorInfoModel: .init(
+              commentSeq: comment.seq, commentAuthorInfoModel: .init(
                 commentAuthorName: comment.createdBy,
-                commentDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: comment.createdAt)!
+                commentDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: comment.createdAt)!, 
+                isUpdatable: comment.isUpdatable
               ),
               comment: comment.contents,
               isLastComment: comments.count - 1 == index ? true : false
@@ -188,6 +189,15 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     viewModel.successReportBoard
       .emit(with: self) { owner, _ in
         AlertManager.showAlert(title: "Space 알림", message: "성공적으로 신고가 접수되었습니다.", viewController: owner, confirmHandler: nil)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successDeleteboard
+      .emit(with: self) { owner, _ in
+        NotificationCenter.default.post(name: .refreshBoardList, object: nil)
+        AlertManager.showAlert(title: "Space 알림", message: "성공적으로 게시글이 삭제되었습니다.", viewController: owner) {
+          owner.navigationController?.popViewController(animated: true)
+        }
       }
       .disposed(by: disposeBag)
   }
@@ -274,6 +284,7 @@ extension BoardDetailViewController: UICollectionViewDataSource, UICollectionVie
     guard indexPath.section == 1 else { return UICollectionViewCell() }
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardDetailCollectionViewCell.identifier, for: indexPath) as? BoardDetailCollectionViewCell ?? BoardDetailCollectionViewCell()
     cell.configureUI(with: cellModel[indexPath.row])
+    cell.delegate = self
     return cell
   }
   
@@ -394,7 +405,7 @@ extension BoardDetailViewController: SkeletonCollectionViewDataSource, SkeletonC
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     guard indexPath.section == 1 else { return nil }
     let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: BoardDetailCollectionViewCell.identifier, for: indexPath) as? BoardDetailCollectionViewCell ?? BoardDetailCollectionViewCell()
-    cell.configureUI(with: .init(comment: "안녕하세요, 스켈레톤을 위한 목데이터입니다.", createdAt: "2023/11/10"))
+    cell.configureUI(with: .init(comment: "안녕하세요, 스켈레톤을 위한 목데이터입니다.", createdAt: "2023/11/10", isUpdatable: false, commentSeq: 0))
     return cell
   }
   
@@ -421,6 +432,10 @@ extension BoardDetailViewController: UIScrollViewDelegate {
 }
 
 extension BoardDetailViewController: BoardDetailHeaderViewDelegate {
+  func didTappedDeleteButton(boardSeq: Int) {
+    viewModel.deleteBoard(categorySeq: categorySeq, boardSeq: boardSeq)
+  }
+  
   func didTappedBoardImage(url: URL?) {
     let modal = ZoomImageViewController(zoomImageURL: url)
     modal.modalPresentationStyle = .fullScreen
@@ -438,5 +453,11 @@ extension BoardDetailViewController: UIContextMenuInteractionDelegate {
       
       return menu
     })
+  }
+}
+
+extension BoardDetailViewController: BoardDetailCollectionViewCellDelegate {
+  func didTappedCommentDeleteButton(seq: Int) {
+    viewModel.deleteComment(categorySeq: categorySeq, boardSeq: boardSeq, commentSeq: seq)
   }
 }
