@@ -13,12 +13,15 @@ protocol BoardDetailViewModelType {
   func reportBoard(boardSeq: Int, reportType: ReportTitleType)
   func createComment(boardComment: String, categorySeq: Int, boardSeq: Int, isAnonymous: Bool)
   func inquireBoardDetail(categorySeq: Int, boardSeq: Int)
+  func deleteBoard(categorySeq: Int, boardSeq: Int)
+  func deleteComment(categorySeq: Int, boardSeq: Int, commentSeq: Int)
   
   var boardInfoModel: Driver<[BoardDetailHeaderViewModel]> { get }
   var boardCommentModel: Driver<[BoardDetailCollectionViewCellModel]> { get }
   var successCreateComment: Signal<[Comment]> { get }
   var errorMessage: Signal<HaramError> { get }
   var successReportBoard: Signal<Void> { get }
+  var successDeleteboard: Signal<Void> { get }
 }
 
 final class BoardDetailViewModel {
@@ -31,7 +34,7 @@ final class BoardDetailViewModel {
   private let successCreateCommentRelay = PublishRelay<[Comment]>()
   private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   private let successReportBoardRelay = PublishRelay<Void>()
-  
+  private let successDeleteBoardRelay = PublishRelay<Void>()
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
     self.boardRepository = boardRepository
@@ -39,6 +42,38 @@ final class BoardDetailViewModel {
 }
 
 extension BoardDetailViewModel: BoardDetailViewModelType {
+  var successDeleteboard: RxCocoa.Signal<Void> {
+    successDeleteBoardRelay.asSignal()
+  }
+  
+  func deleteBoard(categorySeq: Int, boardSeq: Int) {
+    boardRepository.deleteBoard(categorySeq: categorySeq, boardSeq: boardSeq)
+      .subscribe(with: self) { owner, _ in
+        owner.successDeleteBoardRelay.accept(())
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  func deleteComment(categorySeq: Int, boardSeq: Int, commentSeq: Int) {
+    boardRepository.deleteComment(categorySeq: categorySeq, boardSeq: boardSeq, commentSeq: commentSeq)
+      .subscribe(with: self) { owner, comments in
+        owner.currentBoardListRelay.accept(
+          comments.enumerated()
+            .map { index, comment in
+            return BoardDetailCollectionViewCellModel(
+              commentSeq: comment.seq, commentAuthorInfoModel: .init(
+                commentAuthorName: comment.createdBy,
+                commentDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: comment.createdAt) ?? Date(),
+                isUpdatable: comment.isUpdatable
+              ),
+              comment: comment.contents, isLastComment: comments.count - 1 == index ? true : false
+            )
+          }
+        )
+      }
+      .disposed(by: disposeBag)
+  }
+  
   var successReportBoard: RxCocoa.Signal<Void> {
     successReportBoardRelay.asSignal()
   }
@@ -80,13 +115,13 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
       .subscribe(with: self, onSuccess: { owner, response in
         owner.currentBoardInfoRelay.accept([
           BoardDetailHeaderViewModel(
-            boardTitle: response.title,
+            boardSeq: response.boardSeq, boardTitle: response.title,
             boardContent: response.contents,
             boardDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: response.createdAt) ?? Date(),
             boardAuthorName: response.createdBy,
             boardImageCollectionViewCellModel: response.files.map {
               BoardImageCollectionViewCellModel(imageURL: URL(string: $0.fileUrl))
-            })
+            }, isUpdatable: response.isUpdatable)
         ])
 
         guard let comments = response.comments else {
@@ -97,9 +132,10 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
           comments.enumerated()
             .map { index, comment in
             return BoardDetailCollectionViewCellModel(
-              commentAuthorInfoModel: .init(
+              commentSeq: comment.seq, commentAuthorInfoModel: .init(
                 commentAuthorName: comment.createdBy,
-                commentDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: comment.createdAt) ?? Date()
+                commentDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: comment.createdAt) ?? Date(),
+                isUpdatable: comment.isUpdatable
               ),
               comment: comment.contents, isLastComment: comments.count - 1 == index ? true : false
             )
