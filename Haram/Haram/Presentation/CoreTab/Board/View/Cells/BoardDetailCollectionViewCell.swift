@@ -86,7 +86,9 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
   private func bind() {
     commentAuthorInfoView.boardDeleteButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedCommentDeleteButton(seq: owner.commentSeq!)
+        owner.commentAuthorInfoView.boardDeleteButton.showAnimation {
+          owner.delegate?.didTappedCommentDeleteButton(seq: owner.commentSeq!)
+        }
       }
       .disposed(by: disposeBag)
   }

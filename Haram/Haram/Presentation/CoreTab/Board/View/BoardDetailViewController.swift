@@ -209,11 +209,6 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     navigationController?.popViewController(animated: true)
   }
   
-  @objc
-  private func didTappedReportButton() {
-    
-  }
-  
   // MARK: - UICompositonalLayout Function
   
   static private func createCollectionViewLayout(sec: Int) -> NSCollectionLayoutSection? {
@@ -253,7 +248,6 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   private func setupRightBarButtonItem() {
     let button = UIButton().then {
       $0.setImage(UIImage(resource: .ellipsisVertical).withRenderingMode(.alwaysOriginal), for: .normal)
-      $0.addTarget(self, action: #selector(didTappedReportButton), for: .touchUpInside)
       $0.showsMenuAsPrimaryAction = true
     }
     let menu = UIMenu(title: "신고", children: items)
@@ -433,7 +427,9 @@ extension BoardDetailViewController: UIScrollViewDelegate {
 
 extension BoardDetailViewController: BoardDetailHeaderViewDelegate {
   func didTappedDeleteButton(boardSeq: Int) {
-    viewModel.deleteBoard(categorySeq: categorySeq, boardSeq: boardSeq)
+    AlertManager.showAlert(title: "Space 알림", message: "정말 해당 게시글을 삭제하시겠습니까 ?", viewController: self, confirmHandler: {
+      self.viewModel.deleteBoard(categorySeq: self.categorySeq, boardSeq: boardSeq)
+    }, cancelHandler: nil)
   }
   
   func didTappedBoardImage(url: URL?) {
@@ -458,6 +454,9 @@ extension BoardDetailViewController: UIContextMenuInteractionDelegate {
 
 extension BoardDetailViewController: BoardDetailCollectionViewCellDelegate {
   func didTappedCommentDeleteButton(seq: Int) {
-    viewModel.deleteComment(categorySeq: categorySeq, boardSeq: boardSeq, commentSeq: seq)
+    AlertManager.showAlert(title: "Space 알림", message: "정말 해당 댓글을 삭제하시겠습니까 ?", viewController: self, confirmHandler: {
+      self.viewModel.deleteComment(categorySeq: self.categorySeq, boardSeq: self.boardSeq, commentSeq: seq)
+    }, cancelHandler: nil)
+
   }
 }
