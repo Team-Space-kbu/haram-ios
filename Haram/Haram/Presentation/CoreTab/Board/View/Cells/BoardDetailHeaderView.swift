@@ -131,7 +131,9 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     
     postingInfoView.boardDeleteButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedDeleteButton(boardSeq: owner.boardSeq!)
+        owner.postingInfoView.boardDeleteButton.showAnimation {
+          owner.delegate?.didTappedDeleteButton(boardSeq: owner.boardSeq!)
+        }
       }
       .disposed(by: disposeBag)
   }
