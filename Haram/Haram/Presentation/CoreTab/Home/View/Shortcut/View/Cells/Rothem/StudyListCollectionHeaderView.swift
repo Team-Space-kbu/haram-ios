@@ -140,7 +140,7 @@ extension StudyListCollectionHeaderView {
     private let descriptionLabel = UILabel().then {
       $0.textColor = .white
       $0.font = .regular14
-      $0.numberOfLines = 0
+      $0.numberOfLines = 2
     }
     
     override init(frame: CGRect) {

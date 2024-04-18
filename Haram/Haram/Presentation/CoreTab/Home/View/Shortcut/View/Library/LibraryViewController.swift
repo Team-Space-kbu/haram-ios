@@ -82,7 +82,10 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
     $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
     $0.isSkeletonable = true
+    $0.isUserInteractionEnabled = true
   }
+  
+  private let button = UIButton()
   
   private lazy var libraryCollectionView = UICollectionView(
     frame: .zero,
@@ -91,8 +94,6 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
       return self.createCollectionViewSection()
     }).then {
       $0.register(LibraryCollectionViewCell.self, forCellWithReuseIdentifier: LibraryCollectionViewCell.identifier)
-//      $0.register(PopularLibraryCollectionViewCell.self, forCellWithReuseIdentifier: PopularLibraryCollectionViewCell.identifier)
-//      $0.register(RentalLibraryCollectionViewCell.self, forCellWithReuseIdentifier: RentalLibraryCollectionViewCell.identifier)
       $0.register(LibraryCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LibraryCollectionHeaderView.identifier)
       $0.delegate = self
       $0.dataSource = self
@@ -197,6 +198,18 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
         }
       }
       .disposed(by: disposeBag)
+    
+    button.rx.tap
+      .subscribe(with: self) { owner, _ in
+        if let zoomImage = owner.bannerImageView.image {
+          let modal = ZoomImageViewController(zoomImage: zoomImage)
+          modal.modalPresentationStyle = .fullScreen
+          owner.present(modal, animated: true)
+        } else {
+          AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: owner, confirmHandler: nil)
+        }
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupStyles() {
@@ -220,6 +233,7 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
     view.addSubview(scrollView)
     _ = [searchBar, containerView].map { scrollView.addSubview($0) }
     _ = [bannerImageView, libraryCollectionView].map { containerView.addArrangedSubview($0) }
+    bannerImageView.addSubview(button)
   }
   
   override func setupConstraints() {
@@ -243,6 +257,10 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
     
     bannerImageView.snp.makeConstraints {
       $0.height.equalTo(185)
+    }
+    
+    button.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
     libraryCollectionView.snp.makeConstraints {
@@ -318,17 +336,11 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
     switch type {
     case .new:
-//      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewLibraryCollectionViewCell.identifier, for: indexPath) as? NewLibraryCollectionViewCell ?? NewLibraryCollectionViewCell()
       cell.configureUI(with: newBookModel[indexPath.row])
-//      return cell
     case .popular:
-//      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularLibraryCollectionViewCell.identifier, for: indexPath) as? PopularLibraryCollectionViewCell ?? PopularLibraryCollectionViewCell()
       cell.configureUI(with: bestBookModel[indexPath.row])
-//      return cell
     case .rental:
-//      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RentalLibraryCollectionViewCell.identifier, for: indexPath) as? RentalLibraryCollectionViewCell ?? RentalLibraryCollectionViewCell()
       cell.configureUI(with: rentalBookModel[indexPath.row])
-//      return cell
     }
     return cell
   }
@@ -371,14 +383,6 @@ extension LibraryViewController: SkeletonCollectionViewDataSource, SkeletonColle
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     let type = LibraryType.allCases[indexPath.section]
     return skeletonView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
-//    switch type {
-//    case .new:
-//      return skeletonView.dequeueReusableCell(withReuseIdentifier: NewLibraryCollectionViewCell.identifier, for: indexPath) as? NewLibraryCollectionViewCell ?? NewLibraryCollectionViewCell()
-//    case .popular:
-//      return skeletonView.dequeueReusableCell(withReuseIdentifier: PopularLibraryCollectionViewCell.identifier, for: indexPath) as? PopularLibraryCollectionViewCell ?? PopularLibraryCollectionViewCell()
-//    case .rental:
-//      return skeletonView.dequeueReusableCell(withReuseIdentifier: RentalLibraryCollectionViewCell.identifier, for: indexPath) as? RentalLibraryCollectionViewCell ?? RentalLibraryCollectionViewCell()
-//    }
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -387,15 +391,6 @@ extension LibraryViewController: SkeletonCollectionViewDataSource, SkeletonColle
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
     return LibraryCollectionViewCell.identifier
-//    let type = LibraryType.allCases[indexPath.section]
-//    switch type {
-//    case .new:
-//      return NewLibraryCollectionViewCell.identifier
-//    case .popular:
-//      return PopularLibraryCollectionViewCell.identifier
-//    case .rental:
-//      return RentalLibraryCollectionViewCell.identifier
-//    }
   }
   
   func numSections(in collectionSkeletonView: UICollectionView) -> Int {
