@@ -237,6 +237,16 @@ final class HomeViewController: BaseViewController {
       let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
       
       
+      owner.newsModel = newsModel
+      owner.bannerModel = bannerModel
+      owner.noticeModel = noticeModel
+      
+      owner.view.hideSkeleton()
+      
+      if bannerModel.isEmpty {
+        owner.bannerCollectionView.backgroundColor = .hex79BD9A
+      }
+      
       if isAvailableSimpleChapelModal && !isContain {
         owner.checkChapelDayView.configureUI(with: checkChapelDayViewModel!)
         owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
@@ -244,17 +254,7 @@ final class HomeViewController: BaseViewController {
         owner.checkChapelDayView.removeFromSuperview()
       }
       
-      owner.newsModel = newsModel
-      owner.bannerModel = bannerModel
       owner.homeNoticeView.configureUI(with: noticeModel)
-      owner.noticeModel = noticeModel
-      
-      if bannerModel.isEmpty {
-        owner.bannerCollectionView.backgroundColor = .hex79BD9A
-      }
-      
-      owner.view.hideSkeleton()
-      
       owner.pageControl.numberOfPages = bannerModel.count
       owner.bannerCollectionView.reloadData()
       owner.newsCollectionView.reloadData()
