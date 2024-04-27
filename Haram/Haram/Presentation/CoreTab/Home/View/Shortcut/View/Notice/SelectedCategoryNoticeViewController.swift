@@ -34,6 +34,7 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
     $0.contentInsetAdjustmentBehavior = .always
     $0.isSkeletonable = true
     $0.contentInset = .init(top: 20, left: .zero, bottom: 15, right: .zero)
+    $0.alwaysBounceVertical = true
   }
   
   init(noticeType: NoticeType, viewModel: SelectedCategoryNoticeViewModelType = SelectedCategoryNoticeViewModel()) {

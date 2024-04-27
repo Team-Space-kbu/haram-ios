@@ -11,6 +11,7 @@ import Foundation
 
 protocol BoardDetailViewModelType {
   func reportBoard(boardSeq: Int, reportType: ReportTitleType)
+  func bannedUser(boardSeq: Int)
   func createComment(boardComment: String, categorySeq: Int, boardSeq: Int, isAnonymous: Bool)
   func inquireBoardDetail(categorySeq: Int, boardSeq: Int)
   func deleteBoard(categorySeq: Int, boardSeq: Int)
@@ -22,6 +23,7 @@ protocol BoardDetailViewModelType {
   var errorMessage: Signal<HaramError> { get }
   var successReportBoard: Signal<Void> { get }
   var successDeleteboard: Signal<Void> { get }
+  var successBannedboard: Signal<Void> { get }
 }
 
 final class BoardDetailViewModel {
@@ -34,6 +36,7 @@ final class BoardDetailViewModel {
   private let successCreateCommentRelay = PublishRelay<[Comment]>()
   private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   private let successReportBoardRelay = PublishRelay<Void>()
+  private let successBannedBoardRelay = PublishRelay<Void>()
   private let successDeleteBoardRelay = PublishRelay<Void>()
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
@@ -42,21 +45,39 @@ final class BoardDetailViewModel {
 }
 
 extension BoardDetailViewModel: BoardDetailViewModelType {
+  var successBannedboard: RxCocoa.Signal<Void> {
+    successBannedBoardRelay.asSignal()
+  }
+  
+  func bannedUser(boardSeq: Int) {
+    boardRepository.bannedUser(boardSeq: boardSeq)
+      .subscribe(with: self, onSuccess: { owner, _ in
+        owner.successBannedBoardRelay.accept(())
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
+      .disposed(by: disposeBag)
+  }
+  
   var successDeleteboard: RxCocoa.Signal<Void> {
     successDeleteBoardRelay.asSignal()
   }
   
   func deleteBoard(categorySeq: Int, boardSeq: Int) {
     boardRepository.deleteBoard(categorySeq: categorySeq, boardSeq: boardSeq)
-      .subscribe(with: self) { owner, _ in
+      .subscribe(with: self, onSuccess: { owner, _ in
         owner.successDeleteBoardRelay.accept(())
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
       .disposed(by: disposeBag)
   }
   
   func deleteComment(categorySeq: Int, boardSeq: Int, commentSeq: Int) {
     boardRepository.deleteComment(categorySeq: categorySeq, boardSeq: boardSeq, commentSeq: commentSeq)
-      .subscribe(with: self) { owner, comments in
+      .subscribe(with: self, onSuccess: { owner, comments in
         owner.currentBoardListRelay.accept(
           comments.enumerated()
             .map { index, comment in
@@ -70,7 +91,10 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
             )
           }
         )
-      }
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        owner.errorMessageRelay.accept(error)
+      })
       .disposed(by: disposeBag)
   }
   
