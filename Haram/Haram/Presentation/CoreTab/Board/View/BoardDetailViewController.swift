@@ -32,6 +32,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
         })
     }
   }
+
   
   // MARK: - UI Models
   
@@ -200,6 +201,15 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
         }
       }
       .disposed(by: disposeBag)
+    
+    viewModel.successBannedboard
+      .emit(with: self) { owner, _ in
+        NotificationCenter.default.post(name: .refreshBoardList, object: nil)
+        AlertManager.showAlert(title: "Space 알림", message: "성공적으로 게시글 작성자를 차단하였습니다.", viewController: owner) {
+          owner.navigationController?.popViewController(animated: true)
+        }
+      }
+      .disposed(by: disposeBag)
   }
   
   // MARK: - Action Function
@@ -250,8 +260,17 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
       $0.setImage(UIImage(resource: .ellipsisVertical).withRenderingMode(.alwaysOriginal), for: .normal)
       $0.showsMenuAsPrimaryAction = true
     }
-    let menu = UIMenu(title: "신고", children: items)
-    let mainMenu = UIMenu(children: [menu])
+    
+    let reportMenu = UIMenu(title: "신고", children: items)
+    let banAction = UIAction(
+      title: "차단",
+      handler: { [unowned self] _ in
+        AlertManager.showAlert(title: "이 작성자의 게시물이\n목록에 노출되지 않으며,\n다시 해제하실 수 없습니다.", viewController: self, confirmHandler: {
+          self.viewModel.bannedUser(boardSeq: self.boardSeq)
+        }, cancelHandler: nil)
+      })
+    
+    let mainMenu = UIMenu(children: [reportMenu, banAction])
     button.menu = mainMenu
     
     let rightBarButtonItem = UIBarButtonItem(customView: button)

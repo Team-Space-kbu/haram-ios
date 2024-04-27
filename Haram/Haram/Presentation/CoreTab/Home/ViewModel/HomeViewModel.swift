@@ -28,12 +28,13 @@ protocol HomeViewModelType {
 final class HomeViewModel {
   
   private let disposeBag = DisposeBag()
+  private var isFetched: Bool = false
   private let homeRepository: HomeRepository
   private let intranetRepository: IntranetRepository
   
-  private let newsModelRelay   = BehaviorRelay<[HomeNewsCollectionViewCellModel]>(value: [])
-  private let bannerModelRelay = BehaviorRelay<[HomebannerCollectionViewCellModel]>(value: [])
-  private let shortcutModelRelay = BehaviorRelay<[HomeShortcutCollectionViewCellModel]>(value: [])
+  private let newsModelRelay   = PublishRelay<[HomeNewsCollectionViewCellModel]>()
+  private let bannerModelRelay = PublishRelay<[HomebannerCollectionViewCellModel]>()
+  private let shortcutModelRelay = PublishRelay<[HomeShortcutCollectionViewCellModel]>()
   private let noticeModelRelay = PublishRelay<HomeNoticeViewModel>()
   private let isLoadingSubject = PublishSubject<Bool>()
   private let isAvailableSimpleChapelModalSubject = PublishSubject<(Bool, CheckChapelDayViewModel?)>()
@@ -42,13 +43,14 @@ final class HomeViewModel {
   init(homeRepository: HomeRepository = HomeRepositoryImpl(), intranetRepository: IntranetRepository = IntranetRepositoryImpl()) {
     self.homeRepository = homeRepository
     self.intranetRepository = intranetRepository
-    inquireHomeInfo()
   }
 }
 
 extension HomeViewModel {
   func inquireHomeInfo() {
     
+    guard !isFetched else { return }
+    isFetched = true
     let inquireHomeInfo = homeRepository.inquireHomeInfo()
     
     inquireHomeInfo
@@ -58,6 +60,7 @@ extension HomeViewModel {
       })
       .subscribe(with: self, onSuccess: { owner, response in
         guard let subNotice = response.notice.notices.first else { return }
+        
         let news = response.kokkoks.kokkoksNews.map { HomeNewsCollectionViewCellModel(kokkoksNews: $0) }
         let banners = response.banner.banners.map { HomebannerCollectionViewCellModel(subBanner: $0) }
         let notices = HomeNoticeViewModel(subNotice: subNotice)
@@ -69,6 +72,7 @@ extension HomeViewModel {
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         owner.errorMessageRelay.accept(error)
+        owner.isFetched = false
       })
       .disposed(by: disposeBag)
   }
@@ -80,14 +84,14 @@ extension HomeViewModel: HomeViewModelType {
   }
   
   var shortcutModel: RxCocoa.Driver<[HomeShortcutCollectionViewCellModel]> {
-    shortcutModelRelay.asDriver()
+    shortcutModelRelay.asDriver(onErrorJustReturn: [])
   }
   
   var newsModel: Driver<[HomeNewsCollectionViewCellModel]> {
-    newsModelRelay.asDriver()
+    newsModelRelay.asDriver(onErrorJustReturn: [])
   }
   var bannerModel: Driver<[HomebannerCollectionViewCellModel]> {
-    bannerModelRelay.asDriver()
+    bannerModelRelay.asDriver(onErrorJustReturn: [])
   }
   var noticeModel: Driver<HomeNoticeViewModel> {
     noticeModelRelay.asDriver(onErrorDriveWith: .empty())
@@ -112,10 +116,10 @@ extension HomeViewModel: HomeViewModelType {
     // Calendar 및 DateComponents를 사용하여 현재 시간에서 시간 구성 요소 추출
     let calendar = Calendar.current
     
-    // 시작 시간 설정 (예: 오전 11시30분)
+    // 시작 시간 설정 (예: 오전 10시00분)
     var startComponents = DateComponents()
-    startComponents.hour = 11
-    startComponents.minute = 30
+    startComponents.hour = 10
+    startComponents.minute = 00
     
     // 끝 시간 설정 (예: 오후 1시)
     var endComponents = DateComponents()

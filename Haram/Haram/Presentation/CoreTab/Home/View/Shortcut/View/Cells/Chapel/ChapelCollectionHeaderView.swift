@@ -105,9 +105,10 @@ final class ChapelCollectionHeaderView: UICollectionReusableView {
     guard let model = model else { return }
     chapelDayView.configureUI(with: model.chapelDayViewModel)
     chapelInfoView.configureUI(with: .init(
-      attendanceDays: model.chapelInfoViewModel.attendanceDays,
+      regulateDays: model.chapelInfoViewModel.regulateDays,
       remainDays: model.chapelInfoViewModel.remainDays,
-      lateDays: model.chapelInfoViewModel.lateDays)
-    )
+      lateDays: model.chapelInfoViewModel.lateDays, 
+      completionDays: model.chapelInfoViewModel.completionDays
+    ))
   }
 }

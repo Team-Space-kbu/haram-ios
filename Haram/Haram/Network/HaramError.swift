@@ -16,6 +16,7 @@ enum HaramError: Error, CaseIterable {
   case serverError
   case networkError // 네트워크 연결이 안되있을 경우
   case retryError // 네트워크 연결이 안되어 재시도
+  case timeoutError
   
   /// 로그인 시 에러
   case notFindUserError // 사용자를 찾을 수 없는 상태입니다.
@@ -103,7 +104,7 @@ extension HaramError {
 extension HaramError {
   var code: String? { // 하람 서버에서 제공하는 code, Notion 참고
     switch self {
-    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .titleIsEmpty, .contentsIsEmpty, .uploadingImage, .maxReservationCount, .nonConsecutiveReservations, .networkError, .retryError:
+    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .titleIsEmpty, .contentsIsEmpty, .uploadingImage, .maxReservationCount, .nonConsecutiveReservations, .networkError, .retryError, .timeoutError:
       return nil
     case .unvalidAuthCode:
       return "MAIL01"
@@ -272,6 +273,8 @@ extension HaramError {
       return "금칙어가 포함되어있습니다\n 수정 후 다시 시도해주세요."
     case .alreadyReportBoard:
       return "해당 게시글은 이미 신고한 게시글입니다."
+    case .timeoutError:
+      return "서버 응답이 지연되고 있습니다, 재시도해주세요."
     }
   }
 }

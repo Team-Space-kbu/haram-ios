@@ -17,7 +17,7 @@ struct LogHelper {
   private init() {}
   
   static func log(_ message: String, level: Level) {
-#if DEBUG
+//#if DEBUG
     if #available(iOS 14.0, *) {
       let logger = Logger(subsystem: Logger.subsystem, category: level.category)
       let logMessage = "\(message)"
@@ -34,7 +34,7 @@ struct LogHelper {
         logger.error("\(logMessage, privacy: .public)")
       }
     }
-#endif
+//#endif
   }
 }
 

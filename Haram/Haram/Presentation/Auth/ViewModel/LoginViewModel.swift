@@ -40,6 +40,10 @@ extension LoginViewModel {
   func loginMember(userID: String, password: String) {
     isLoadingSubject.onNext(true)
     
+    if !UserManager.shared.hasUUID {
+      UserManager.shared.set(uuid: UUID().uuidString)
+    }
+    
     authRepository.loginMember(
       request: .init(
         userID: userID,

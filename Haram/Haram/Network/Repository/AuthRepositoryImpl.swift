@@ -10,7 +10,7 @@ import RxSwift
 protocol AuthRepository {
   func signupUser(request: SignupUserRequest) -> Single<EmptyModel>
   func loginMember(request: LoginRequest) -> Single<LoginResponse>
-  func reissuanceAccessToken(request: ReissuanceAccessTokenRequest) -> Observable<Result<LoginResponse, HaramError>>
+  func reissuanceAccessToken(request: ReissuanceAccessTokenRequest) -> Single<LoginResponse>
   func loginIntranet(request: IntranetLoginRequest) -> Single<EmptyModel>
   func logoutUser(request: LogoutUserRequest) -> Single<EmptyModel>
   func requestEmailAuthCode(userEmail: String) -> Single<Bool>
@@ -64,8 +64,8 @@ extension AuthRepositoryImpl: AuthRepository {
     service.betarequest(router: AuthRouter.loginMember(request), type: LoginResponse.self)
   }
   
-  func reissuanceAccessToken(request: ReissuanceAccessTokenRequest) -> Observable<Result<LoginResponse, HaramError>> {
-    service.request(router: AuthRouter.reissuanceAccessToken(request), type: LoginResponse.self)
+  func reissuanceAccessToken(request: ReissuanceAccessTokenRequest) -> Single<LoginResponse> {
+    service.betarequest(router: AuthRouter.reissuanceAccessToken(request), type: LoginResponse.self)
   }
   
   func loginIntranet(request: IntranetLoginRequest) -> Single<EmptyModel> {

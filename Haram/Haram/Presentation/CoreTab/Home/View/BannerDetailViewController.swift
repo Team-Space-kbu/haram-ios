@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import SkeletonView
 import SnapKit
 import Then
@@ -24,6 +25,8 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
   private let bannerSeq: Int
   private let department: Department
   private var bannerModel: [HomebannerCollectionViewCellModel] = []
+
+  private let currentBannerPage = PublishSubject<Int>()
   
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
@@ -70,6 +73,13 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
     $0.isSkeletonable = true
   }
   
+  private let pageControl = UIPageControl().then {
+    $0.currentPage = 0
+    $0.pageIndicatorTintColor = .systemGray2
+    $0.currentPageIndicatorTintColor = UIColor.hex79BD9A
+    $0.isSkeletonable = true
+  }
+  
   private let contentLabel = UILabel().then {
     $0.textColor = .hex9F9FA4
     $0.numberOfLines = 0
@@ -101,6 +111,7 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
         owner.view.hideSkeleton()
         
         owner.bannerCollectionView.reloadData()
+        owner.pageControl.numberOfPages = imageModel.count
         owner.titleLabel.text = title
         owner.contentLabel.text = content
       }
@@ -119,13 +130,24 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
         }
       }
       .disposed(by: disposeBag)
+    
+    pageControl.rx.controlEvent(.valueChanged)
+      .subscribe(with: self) { owner,  _ in
+        owner.pageControlValueChanged(currentPage: owner.pageControl.currentPage)
+      }
+      .disposed(by: disposeBag)
+    
+    currentBannerPage
+      .asDriver(onErrorDriveWith: .empty())
+      .drive(pageControl.rx.currentPage)
+      .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
-    _ = [titleLabel, bannerCollectionView, contentLabel].map { containerView.addArrangedSubview($0) }
+    _ = [titleLabel, bannerCollectionView, pageControl, contentLabel].map { containerView.addArrangedSubview($0) }
     
   }
   
@@ -147,6 +169,10 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
     bannerCollectionView.snp.makeConstraints {
       $0.height.equalTo(200)
     }
+    
+    pageControl.snp.makeConstraints {
+      $0.height.equalTo(20)
+    }
   }
   
   override func setupStyles() {
@@ -162,6 +188,12 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
   
   func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
+  }
+  
+  private func pageControlValueChanged(currentPage: Int) {
+    bannerCollectionView.isPagingEnabled = false
+    bannerCollectionView.scrollToItem(at: .init(row: currentPage, section: 0), at: .left, animated: true)
+    bannerCollectionView.isPagingEnabled = true
   }
   
 }
@@ -220,5 +252,15 @@ extension BannerDetailViewController: SkeletonCollectionViewDataSource {
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return 10
+  }
+}
+
+extension BannerDetailViewController: UIScrollViewDelegate {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    guard scrollView == bannerCollectionView else { return }
+    let contentOffset = scrollView.contentOffset
+    let bannerIndex = Int(max(0, round(contentOffset.x / scrollView.bounds.width)))
+    
+    self.currentBannerPage.onNext(bannerIndex)
   }
 }

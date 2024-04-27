@@ -224,17 +224,17 @@ final class HomeViewController: BaseViewController {
     
     viewModel.inquireHomeInfo()
     
-    Driver.combineLatest(
+    Driver.zip(
       viewModel.newsModel,
       viewModel.bannerModel,
-      viewModel.noticeModel,
-      viewModel.isAvailableSimpleChapelModal
+      viewModel.noticeModel
+//      viewModel.isAvailableSimpleChapelModal
     )
     .drive(with: self) { owner, result in
-      let (newsModel, bannerModel, noticeModel, modalModel) = result
-      let (isAvailableSimpleChapelModal, checkChapelDayViewModel) = modalModel
-      
-      let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
+      let (newsModel, bannerModel, noticeModel) = result
+//      let (isAvailableSimpleChapelModal, checkChapelDayViewModel) = modalModel
+//      
+//      let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
       
       
       owner.newsModel = newsModel
@@ -247,12 +247,12 @@ final class HomeViewController: BaseViewController {
         owner.bannerCollectionView.backgroundColor = .hex79BD9A
       }
       
-      if isAvailableSimpleChapelModal && !isContain {
-        owner.checkChapelDayView.configureUI(with: checkChapelDayViewModel!)
-        owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
-      } else if !isAvailableSimpleChapelModal && isContain {
-        owner.checkChapelDayView.removeFromSuperview()
-      }
+//      if isAvailableSimpleChapelModal && !isContain {
+//        owner.checkChapelDayView.configureUI(with: checkChapelDayViewModel!)
+//        owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
+//      } else if !isAvailableSimpleChapelModal && isContain {
+//        owner.checkChapelDayView.removeFromSuperview()
+//      }
       
       owner.homeNoticeView.configureUI(with: noticeModel)
       owner.pageControl.numberOfPages = bannerModel.count
@@ -260,6 +260,20 @@ final class HomeViewController: BaseViewController {
       owner.newsCollectionView.reloadData()
     }
     .disposed(by: disposeBag)
+    
+    viewModel.isAvailableSimpleChapelModal
+      .drive(with: self) { owner, modalModel in
+        let (isAvailableSimpleChapelModal, checkChapelDayViewModel) = modalModel
+        
+        let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
+        if isAvailableSimpleChapelModal && !isContain {
+          owner.checkChapelDayView.configureUI(with: checkChapelDayViewModel!)
+          owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
+        } else if !isAvailableSimpleChapelModal && isContain {
+          owner.checkChapelDayView.removeFromSuperview()
+        }
+      }
+      .disposed(by: disposeBag)
     
     pageControl.rx.controlEvent(.valueChanged)
       .subscribe(with: self) { owner,  _ in
@@ -468,6 +482,8 @@ extension HomeViewController {
   
   @objc
   private func refreshWhenNetworkConnected() {
-    viewModel.inquireHomeInfo()
+//    DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+      self.viewModel.inquireHomeInfo()
+//    }
   }
 }

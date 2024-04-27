@@ -11,7 +11,7 @@ import Alamofire
 import RxSwift
 
 protocol ImageRepository {
-  func uploadImage(image: UIImage, request: UploadImageRequest, fileName: String) -> Observable<Result<UploadImageResponse, HaramError>>
+  func uploadImage(image: UIImage, request: UploadImageRequest, fileName: String) -> Single<UploadImageResponse>
 }
 
 final class ImageRepositoryImpl {
@@ -51,7 +51,7 @@ final class ImageRepositoryImpl {
 }
 
 extension ImageRepositoryImpl: ImageRepository {
-  func uploadImage(image: UIImage, request: UploadImageRequest, fileName: String) -> Observable<Result<UploadImageResponse, HaramError>> {
+  func uploadImage(image: UIImage, request: UploadImageRequest, fileName: String) -> Single<UploadImageResponse> {
     service.sendRequestWithImage(setUpImageData(
       image: image,
       params: request.toDictionary,

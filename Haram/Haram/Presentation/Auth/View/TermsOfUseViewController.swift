@@ -61,8 +61,8 @@ final class TermsOfUseViewController: BaseViewController {
   
   private let cancelButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.haramCancelButton(label: "취소", contentInsets: .zero)
-    $0.isSkeletonable = true
-    $0.skeletonCornerRadius = 10
+//    $0.isSkeletonable = true
+//    $0.skeletonCornerRadius = 10
   }
   
   private let applyButton = UIButton(configuration: .plain()).then {
@@ -156,7 +156,7 @@ final class TermsOfUseViewController: BaseViewController {
               UIApplication.shared.open(url)
             }
           }
-        }
+        } 
       }
       .disposed(by: disposeBag)
     
