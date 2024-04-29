@@ -40,16 +40,18 @@ extension ChapelViewModel: ChapelViewModelType {
   func inquireChapelInfo() {
     intranetRepository.inquireChapelInfo()
       .subscribe(with: self, onSuccess: { owner, response in
-        let confirmationDays = Int(response.confirmationDays)!
-        let regulatedDays = Int(response.regulateDays)!
+        let confirmationDays = Int(response.confirmationDays) ?? -1
+        let regulatedDays = Int(response.regulateDays) ?? -1
+        let remainDays = regulatedDays - confirmationDays
         
         owner.chapelHeaderModelRelay.accept(
           ChapelCollectionHeaderViewModel(
             chapelDayViewModel: response.confirmationDays,
             chapelInfoViewModel: .init(
-              attendanceDays: response.attendanceDays,
-              remainDays: "\(regulatedDays - confirmationDays)",
-              lateDays: response.lateDays
+              regulateDays: response.regulateDays,
+              remainDays: "\(remainDays < 0 ? -99 : remainDays)",
+              lateDays: response.lateDays,
+              completionDays: response.attendanceDays
             )
           )
         )

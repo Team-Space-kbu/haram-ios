@@ -12,14 +12,17 @@ import SkeletonView
 import Then
 
 enum ChapelViewType: CaseIterable {
-  case attendance
+  case regulate
+  case completionDays
   case remain
   case tardy
   
   var title: String {
     switch self {
-    case .attendance:
-      return "출석"
+    case .regulate:
+      return "규정일수"
+    case .completionDays:
+      return "이수일수"
     case .remain:
       return "남은일수"
     case .tardy:
@@ -29,9 +32,10 @@ enum ChapelViewType: CaseIterable {
 }
 
 struct ChapelInfoViewModel {
-  let attendanceDays: String
+  let regulateDays: String
   let remainDays: String
   let lateDays: String
+  let completionDays: String
 }
 
 final class ChapelView: UIView {
@@ -86,11 +90,12 @@ final class ChapelView: UIView {
 final class ChapelInfoView: UIView {
   private let contentStackView = UIStackView().then {
     $0.axis = .horizontal
-    $0.spacing = 36
-    $0.distribution = .equalSpacing
+    $0.spacing = 18
+    $0.distribution = .fill
   }
   
-  private let attendanceView = ChapelView(type: .attendance)
+  private let regulateDaysView = ChapelView(type: .regulate)
+  private let completionDaysView = ChapelView(type: .completionDays)
   private let remainView = ChapelView(type: .remain)
   private let tardyView = ChapelView(type: .tardy)
   
@@ -99,6 +104,10 @@ final class ChapelInfoView: UIView {
   }
   
   private let lineView1 = UIView().then {
+    $0.backgroundColor = .hexD8D8DA
+  }
+  
+  private let lineView2 = UIView().then {
     $0.backgroundColor = .hexD8D8DA
   }
   
@@ -115,7 +124,7 @@ final class ChapelInfoView: UIView {
     contentStackView.isSkeletonable = true
     
     addSubview(contentStackView)
-    [attendanceView, lineView, remainView, lineView1, tardyView].forEach {
+    [regulateDaysView, lineView, completionDaysView, lineView2, remainView, lineView1, tardyView].forEach {
       $0.isSkeletonable = true
       contentStackView.addArrangedSubview($0)
     }
@@ -131,11 +140,16 @@ final class ChapelInfoView: UIView {
     lineView1.snp.makeConstraints {
       $0.width.equalTo(1)
     }
+    
+    lineView2.snp.makeConstraints {
+      $0.width.equalTo(1)
+    }
   }
   
   func configureUI(with model: ChapelInfoViewModel) {
-    attendanceView.configureUI(with: model.attendanceDays)
+    regulateDaysView.configureUI(with: model.regulateDays)
     remainView.configureUI(with: model.remainDays)
     tardyView.configureUI(with: model.lateDays)
+    completionDaysView.configureUI(with: model.completionDays)
   }
 }
