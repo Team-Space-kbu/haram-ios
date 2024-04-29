@@ -12,5 +12,4 @@ struct InquireChapelInfoResponse: Decodable {
   let attendanceDays: String
   let lateDays: String
   let confirmationDays: String
-//  let entireDays: String
 }
