@@ -222,7 +222,7 @@ final class HomeViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    viewModel.inquireHomeInfo()
+//    viewModel.inquireHomeInfo()
     
     Driver.combineLatest(
       viewModel.newsModel,

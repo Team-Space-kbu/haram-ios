@@ -59,21 +59,19 @@ extension EditBoardViewModel: EditBoardViewModelType {
     
     for (image, fileName) in images {
       imageRepository.uploadImage(image: image, request: .init(aggregateType: type), fileName: fileName.replacingOccurrences(of: "/", with: "-") + ".jpeg")
-        .subscribe(with: self) { owner, result in
-          switch result {
-          case .success(let response):
-            owner.tempFileList.append(.init(
-              tempFilePath: response.tempFilePath,
-              fileName: response.fileName,
-              fileExt: response.fileExt,
-              fileSize: response.fileSize,
-              sortNum: 1
-            ))
-            owner.successUploadImageRelay.accept((response, image))
-          case .failure(let error):
-            owner.errorMessageRelay.accept(error)
-          }
-        }
+        .subscribe(with: self, onSuccess: { owner, response in
+          owner.tempFileList.append(.init(
+            tempFilePath: response.tempFilePath,
+            fileName: response.fileName,
+            fileExt: response.fileExt,
+            fileSize: response.fileSize,
+            sortNum: 1
+          ))
+          owner.successUploadImageRelay.accept((response, image))
+        }, onFailure: { owner, error in
+          guard let error = error as? HaramError else { return }
+          owner.errorMessageRelay.accept(error)
+        })
         .disposed(by: disposeBag)
     }
     isLoading = false
