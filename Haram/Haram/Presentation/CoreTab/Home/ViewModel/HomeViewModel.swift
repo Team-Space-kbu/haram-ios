@@ -112,10 +112,10 @@ extension HomeViewModel: HomeViewModelType {
     // Calendar 및 DateComponents를 사용하여 현재 시간에서 시간 구성 요소 추출
     let calendar = Calendar.current
     
-    // 시작 시간 설정 (예: 오전 11시30분)
+    // 시작 시간 설정 (예: 오전 10시00분)
     var startComponents = DateComponents()
-    startComponents.hour = 11
-    startComponents.minute = 30
+    startComponents.hour = 10
+    startComponents.minute = 00
     
     // 끝 시간 설정 (예: 오후 1시)
     var endComponents = DateComponents()
