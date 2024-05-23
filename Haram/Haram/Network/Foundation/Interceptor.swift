@@ -24,7 +24,11 @@ final class Interceptor: RequestInterceptor {
       completion(.doNotRetry)
       return
     }
-    guard UserManager.shared.hasToken else { return }
+    guard UserManager.shared.hasToken else {
+      completion(.doNotRetry)
+      return
+    }
+    
     if statusCode == 401 {
       // 토큰 만료인 경우 토큰 값 갱신
       if request.retryCount < self.retryLimit {
@@ -54,6 +58,7 @@ final class Interceptor: RequestInterceptor {
           AlertManager.showAlert(title: "로그아웃 알림", message: "다른 기기에서 로그인되었습니다", viewController: vc, confirmHandler: nil)
         }
       }
+      completion(.doNotRetryWithError(error))
     } else {
       completion(.doNotRetryWithError(error))
     }

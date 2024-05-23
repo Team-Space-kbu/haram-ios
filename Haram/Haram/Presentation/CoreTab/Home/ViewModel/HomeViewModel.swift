@@ -28,12 +28,13 @@ protocol HomeViewModelType {
 final class HomeViewModel {
   
   private let disposeBag = DisposeBag()
+  private var isFetched: Bool = false
   private let homeRepository: HomeRepository
   private let intranetRepository: IntranetRepository
   
-  private let newsModelRelay   = BehaviorRelay<[HomeNewsCollectionViewCellModel]>(value: [])
-  private let bannerModelRelay = BehaviorRelay<[HomebannerCollectionViewCellModel]>(value: [])
-  private let shortcutModelRelay = BehaviorRelay<[HomeShortcutCollectionViewCellModel]>(value: [])
+  private let newsModelRelay   = PublishRelay<[HomeNewsCollectionViewCellModel]>()
+  private let bannerModelRelay = PublishRelay<[HomebannerCollectionViewCellModel]>()
+  private let shortcutModelRelay = PublishRelay<[HomeShortcutCollectionViewCellModel]>()
   private let noticeModelRelay = PublishRelay<HomeNoticeViewModel>()
   private let isLoadingSubject = PublishSubject<Bool>()
   private let isAvailableSimpleChapelModalSubject = PublishSubject<(Bool, CheckChapelDayViewModel?)>()
@@ -42,12 +43,13 @@ final class HomeViewModel {
   init(homeRepository: HomeRepository = HomeRepositoryImpl(), intranetRepository: IntranetRepository = IntranetRepositoryImpl()) {
     self.homeRepository = homeRepository
     self.intranetRepository = intranetRepository
-    inquireHomeInfo()
   }
 }
 
 extension HomeViewModel {
   func inquireHomeInfo() {
+    
+    guard !isFetched else { return }
     
     let inquireHomeInfo = homeRepository.inquireHomeInfo()
     
@@ -66,6 +68,7 @@ extension HomeViewModel {
         owner.bannerModelRelay.accept(banners)
         owner.noticeModelRelay.accept(notices)
         owner.isLoadingSubject.onNext(false)
+        owner.isFetched = true
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         owner.errorMessageRelay.accept(error)
@@ -80,14 +83,14 @@ extension HomeViewModel: HomeViewModelType {
   }
   
   var shortcutModel: RxCocoa.Driver<[HomeShortcutCollectionViewCellModel]> {
-    shortcutModelRelay.asDriver()
+    shortcutModelRelay.asDriver(onErrorJustReturn: [])
   }
   
   var newsModel: Driver<[HomeNewsCollectionViewCellModel]> {
-    newsModelRelay.asDriver()
+    newsModelRelay.asDriver(onErrorJustReturn: [])
   }
   var bannerModel: Driver<[HomebannerCollectionViewCellModel]> {
-    bannerModelRelay.asDriver()
+    bannerModelRelay.asDriver(onErrorJustReturn: [])
   }
   var noticeModel: Driver<HomeNoticeViewModel> {
     noticeModelRelay.asDriver(onErrorDriveWith: .empty())

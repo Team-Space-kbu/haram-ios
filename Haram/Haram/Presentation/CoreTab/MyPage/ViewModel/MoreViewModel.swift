@@ -23,6 +23,7 @@ final class MoreViewModel {
   private let authRepository: AuthRepository
   private let myPageRepository: MyPageRepository
   
+  private var isFetched: Bool = false
   private let currentUserInfoRelay = BehaviorRelay<ProfileInfoViewModel?>(value: nil)
   private let successMessageRelay  = PublishRelay<String>()
   private let errorMessageRelay    = BehaviorRelay<HaramError?>(value: nil)
@@ -36,10 +37,14 @@ final class MoreViewModel {
   }
   
   func inquireUserInfo() {
+    
+    guard !isFetched else { return }
+    
     myPageRepository.inquireUserInfo(userID: UserManager.shared.userID!)
       .subscribe(with: self, onSuccess: { owner, response in
         let profileInfoViewModel = ProfileInfoViewModel(response: response)
         owner.currentUserInfoRelay.accept(profileInfoViewModel)
+        owner.isFetched = true
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         owner.errorMessageRelay.accept(error)
