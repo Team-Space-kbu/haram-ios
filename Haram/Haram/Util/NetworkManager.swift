@@ -36,9 +36,9 @@ final class NetworkManager {
       self?.isConnected = path.status == .satisfied
       self?.getConnectionType(path)
       
-      if self?.isConnected == true {
-        NotificationCenter.default.post(name: .refreshWhenNetworkConnected, object: nil)
-      } 
+//      if self?.isConnected == true {
+//        NotificationCenter.default.post(name: .refreshWhenNetworkConnected, object: nil)
+//      } 
     }
   }
   

@@ -27,7 +27,9 @@ final class ApiService: BaseService {
   
   private init() {}
   
-  private let configuration = URLSessionConfiguration.af.default
+  private let configuration = URLSessionConfiguration.af.default.then {
+    $0.timeoutIntervalForRequest = 30
+  }
   
   private let monitor = APIEventLogger()
   private lazy var session = Session(configuration: configuration, interceptor: Interceptor(), eventMonitors: [monitor])
@@ -145,7 +147,11 @@ final class ApiService: BaseService {
             }
             
           case .failure(let error):
-            observer(.failure(error))
+            if let afError = error.asAFError, afError.isRequestRetryError {
+              observer(.failure(HaramError.timeoutError))
+            } else {
+              observer(.failure(error))
+            }
           }
         }
       return Disposables.create()

@@ -482,6 +482,8 @@ extension HomeViewController {
   
   @objc
   private func refreshWhenNetworkConnected() {
-    viewModel.inquireHomeInfo()
+//    DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+      self.viewModel.inquireHomeInfo()
+//    }
   }
 }
