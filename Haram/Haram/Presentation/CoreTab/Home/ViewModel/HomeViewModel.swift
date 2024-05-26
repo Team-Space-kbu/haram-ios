@@ -50,7 +50,7 @@ extension HomeViewModel {
   func inquireHomeInfo() {
     
     guard !isFetched else { return }
-    
+    isFetched = true
     let inquireHomeInfo = homeRepository.inquireHomeInfo()
     
     inquireHomeInfo
@@ -60,6 +60,7 @@ extension HomeViewModel {
       })
       .subscribe(with: self, onSuccess: { owner, response in
         guard let subNotice = response.notice.notices.first else { return }
+        
         let news = response.kokkoks.kokkoksNews.map { HomeNewsCollectionViewCellModel(kokkoksNews: $0) }
         let banners = response.banner.banners.map { HomebannerCollectionViewCellModel(subBanner: $0) }
         let notices = HomeNoticeViewModel(subNotice: subNotice)
@@ -68,10 +69,10 @@ extension HomeViewModel {
         owner.bannerModelRelay.accept(banners)
         owner.noticeModelRelay.accept(notices)
         owner.isLoadingSubject.onNext(false)
-        owner.isFetched = true
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         owner.errorMessageRelay.accept(error)
+        owner.isFetched = false
       })
       .disposed(by: disposeBag)
   }

@@ -92,7 +92,6 @@ final class CheckEmailViewController: BaseViewController {
     super.setupConstraints()
     
     containerView.snp.makeConstraints {
-//      $0.directionalEdges.equalToSuperview()
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }

@@ -87,8 +87,6 @@ final class FindPasswordViewController: BaseViewController {
     
     containerView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
-//      $0.top.directionalHorizontalEdges.equalToSuperview()
-//      $0.bottom.lessThanOrEqualToSuperview()
     }
     
     titleLabel.snp.makeConstraints {
