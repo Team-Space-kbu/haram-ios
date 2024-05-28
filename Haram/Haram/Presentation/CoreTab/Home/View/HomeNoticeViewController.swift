@@ -35,7 +35,6 @@ final class HomeNoticeViewController: BaseViewController, BackButtonHandler {
     $0.numberOfLines = 0
     $0.isSkeletonable = true
     $0.skeletonTextNumberOfLines = 1
-    $0.text = "안녕하세요 Team Space 입니다!"
   }
   
   private let contentLabel = UILabel().then {
@@ -43,17 +42,16 @@ final class HomeNoticeViewController: BaseViewController, BackButtonHandler {
     $0.numberOfLines = 0
     $0.font = .regular18
     $0.textAlignment = .left
-    $0.text =
-    """
-    안녕하세요 Team Space 입니다!
-    오랜 시간동안 준비하여 드디어 어플리케이션 서비스를 시작하게 되었습니다.
-    저는 Space의 팀원 이건준입니다. 졸업하여 이제는 제가 쓸 수 없게 되었지만
-    후배분들이 조금이나마 더 편리하게 사용할 수 있으면 만족합니다.
-    개발된 기능은 아직 모두 추가하지 못하였지만 협의가 되지않은 기능이 많기 때문에
-    차근차근 업데이트를 진행할 예정입니다. 다양한 기능들이 준비되어 있으니 기대부탁드립니다 !
-    그리고 이 서비스를 개발하기위해 팀원으로 고생한 임성묵, 문상우 학우와 서비스를 개발하는데
-    도움을 주신 모든 분들께 감사하다는 말을 전하고 싶습니다, 감사합니다.
-    """
+  }
+  
+  init(title: String, content: String) {
+    titleLabel.text = title
+    contentLabel.text = content
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   override func setupLayouts() {

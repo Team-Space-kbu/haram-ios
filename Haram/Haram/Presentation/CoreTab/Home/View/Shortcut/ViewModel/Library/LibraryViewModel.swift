@@ -14,9 +14,9 @@ protocol LibraryViewModelType {
   
   func inquireLibrary()
   
-  var newBookModel: Driver<[NewLibraryCollectionViewCellModel]> { get }
-  var bestBookModel: Driver<[PopularLibraryCollectionViewCellModel]> { get }
-  var rentalBookModel: Driver<[RentalLibraryCollectionViewCellModel]> { get }
+  var newBookModel: Driver<[LibraryCollectionViewCellModel]> { get }
+  var bestBookModel: Driver<[LibraryCollectionViewCellModel]> { get }
+  var rentalBookModel: Driver<[LibraryCollectionViewCellModel]> { get }
   var bannerImage: Driver<URL?> { get }
   var isLoading: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
@@ -27,9 +27,9 @@ final class LibraryViewModel {
   private let disposeBag = DisposeBag()
   private let libraryRepository: LibraryRepository
   
-  private let currentNewBookModel    = BehaviorRelay<[NewLibraryCollectionViewCellModel]>(value: [])
-  private let currentBestBookModel   = BehaviorRelay<[PopularLibraryCollectionViewCellModel]>(value: [])
-  private let currentRentalBookModel = BehaviorRelay<[RentalLibraryCollectionViewCellModel]>(value: [])
+  private let currentNewBookModel    = BehaviorRelay<[LibraryCollectionViewCellModel]>(value: [])
+  private let currentBestBookModel   = BehaviorRelay<[LibraryCollectionViewCellModel]>(value: [])
+  private let currentRentalBookModel = BehaviorRelay<[LibraryCollectionViewCellModel]>(value: [])
   private let bannerImageRelay       = PublishRelay<URL?>()
   private let isLoadingSubject       = BehaviorSubject<Bool>(value: true)
   private let errorMessageRelay      = BehaviorRelay<HaramError?>(value: nil)
@@ -51,10 +51,10 @@ extension LibraryViewModel: LibraryViewModelType {
     
     inquireLibrary
       .subscribe(with: self, onSuccess: { owner, response in
-        owner.currentNewBookModel.accept(response.newBook.map { NewLibraryCollectionViewCellModel(bookInfo: $0) })
-        owner.currentBestBookModel.accept(response.bestBook.map { PopularLibraryCollectionViewCellModel(bookInfo: $0) })
+        owner.currentNewBookModel.accept(response.newBook.map { LibraryCollectionViewCellModel(bookInfo: $0) })
+        owner.currentBestBookModel.accept(response.bestBook.map { LibraryCollectionViewCellModel(bookInfo: $0) })
         owner.currentRentalBookModel.accept(response.rentalBook.map {
-          RentalLibraryCollectionViewCellModel(bookInfo: $0) })
+          LibraryCollectionViewCellModel(bookInfo: $0) })
         owner.bannerImageRelay.accept(URL(string: response.image.first!))
         
         owner.isLoadingSubject.onNext(false)
@@ -65,17 +65,17 @@ extension LibraryViewModel: LibraryViewModelType {
       .disposed(by: disposeBag)
   }
   
-  var newBookModel: Driver<[NewLibraryCollectionViewCellModel]> {
+  var newBookModel: Driver<[LibraryCollectionViewCellModel]> {
     currentNewBookModel
       .asDriver(onErrorDriveWith: .empty())
   }
   
-  var bestBookModel: Driver<[PopularLibraryCollectionViewCellModel]> {
+  var bestBookModel: Driver<[LibraryCollectionViewCellModel]> {
     currentBestBookModel
       .asDriver(onErrorDriveWith: .empty())
   }
   
-  var rentalBookModel: Driver<[RentalLibraryCollectionViewCellModel]> {
+  var rentalBookModel: Driver<[LibraryCollectionViewCellModel]> {
     currentRentalBookModel
       .asDriver(onErrorDriveWith: .empty())
   }

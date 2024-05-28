@@ -17,10 +17,7 @@ enum HomeRouter {
 extension HomeRouter: Router {
   
   var method: HTTPMethod {
-    switch self {
-    case .inquireHomeInfo, .inquireAffiliatedList, .inquireBannerInfo, .inquireAffiliatedDetail:
-      return .get
-    }
+    .get
   }
   
   var path: String {
@@ -37,17 +34,11 @@ extension HomeRouter: Router {
   }
   
   var parameters: ParameterType {
-    switch self {
-    case .inquireHomeInfo, .inquireAffiliatedList, .inquireBannerInfo, .inquireAffiliatedDetail:
-      return .plain
-    }
+    .plain
   }
   
   var headers: HeaderType {
-    switch self {
-    case .inquireHomeInfo, .inquireAffiliatedList, .inquireBannerInfo, .inquireAffiliatedDetail:
-      return .withAccessToken
-    }
+    .withAccessToken
   }
 }
 

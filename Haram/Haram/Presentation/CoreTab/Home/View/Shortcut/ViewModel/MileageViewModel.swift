@@ -68,7 +68,7 @@ extension MileageViewModel: MileageViewModelType {
             
             return MileageTableViewCellModel(
               mainText: mainText,
-              date: DateformatterFactory.iso8601_2.date(from: mileageDetail.changeDate) ?? Date(),
+              date: DateformatterFactory.dateForISO8601UTC.date(from: mileageDetail.changeDate) ?? Date(),
               mileage: mileageDetail.point,
               imageSource: owner.getMileageImageResource(which: mileageDetail.type)
             )

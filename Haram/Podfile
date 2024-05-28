@@ -7,6 +7,8 @@ target 'Haram' do
   pod 'NMapsMap'
   pod 'Elliotable'
   pod 'AcknowList'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Crashlytics'
 
   use_frameworks!
   pod 'ZXingObjC', '~> 3.6.4'

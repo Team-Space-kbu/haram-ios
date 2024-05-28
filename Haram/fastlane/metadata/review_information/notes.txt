@@ -1,0 +1,14 @@
+@bible.ac.kr 메일 정보를 갖고 있어야 회원가입이 가능합니다. 따라서 저희가 제공하는 로그인 정보로 로그인을 해야 앱 내부를 확인할 수 있습니다.
+전용계정을 통해 로그인후 확인하시면 될것 같습니다.
+
+@bible.ac.kr You need to have your email information to sign up. Therefore, you need to log in with the login information we provide to check the inside of the app.
+I think you can log in through a dedicated account and check it out.
+
+
+서버의 보안을 위해 GeoIP 설정이 등록되어 있습니다. 한국 IP를 제외한 IP인경우 서버 접속이 Reject 당하여 로그인이 안될 수 있습니다.
+만약 테스트를 위해 접속이 필요하다면 연락처 정보를 통해 IP 범위를 지정하시면 등록처리를 도와드리겠습니다.
+
+GeoIP settings are registered for the security of the server. In the case of IP except for Korean IP, the server connection may be rejected and login may not be possible.
+If you need access for testing, please specify the IP range through your contact information and we will help you with the registration process.
+
+첨부파일에 게시글에 대한 신고하는 과정을 녹화하여 추가하였습니다.

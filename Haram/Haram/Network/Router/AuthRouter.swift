@@ -25,10 +25,7 @@ enum AuthRouter {
 extension AuthRouter: Router {
   
   var baseURL: String {
-    switch self {
-    case .signupUser, .loginMember, .reissuanceAccessToken, .logoutUser, .loginIntranet, .requestEmailAuthCode, .updatePassword, .verifyMailAuthCode, .verifyFindPassword, .inquireTermsSignUp, .updateUserPassword:
-      return URLConstants.baseURL
-    }
+    URLConstants.baseURL
   }
   
   var method: HTTPMethod {

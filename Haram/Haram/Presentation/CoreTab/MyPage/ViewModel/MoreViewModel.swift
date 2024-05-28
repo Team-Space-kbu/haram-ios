@@ -23,6 +23,7 @@ final class MoreViewModel {
   private let authRepository: AuthRepository
   private let myPageRepository: MyPageRepository
   
+  private var isFetched: Bool = false
   private let currentUserInfoRelay = BehaviorRelay<ProfileInfoViewModel?>(value: nil)
   private let successMessageRelay  = PublishRelay<String>()
   private let errorMessageRelay    = BehaviorRelay<HaramError?>(value: nil)
@@ -33,14 +34,17 @@ final class MoreViewModel {
   ) {
     self.authRepository = authRepository
     self.myPageRepository = myPageRepository
-//    inquireUserInfo()
   }
   
   func inquireUserInfo() {
+    
+    guard !isFetched else { return }
+    
     myPageRepository.inquireUserInfo(userID: UserManager.shared.userID!)
       .subscribe(with: self, onSuccess: { owner, response in
         let profileInfoViewModel = ProfileInfoViewModel(response: response)
         owner.currentUserInfoRelay.accept(profileInfoViewModel)
+        owner.isFetched = true
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         owner.errorMessageRelay.accept(error)
@@ -54,16 +58,14 @@ final class MoreViewModel {
         userID: UserManager.shared.userID!,
         uuid: UserManager.shared.uuid!
       ))
-      .subscribe(with: self) { owner, result in
-        switch result {
-        case .success(_):
-          UserManager.shared.clearAllInformations()
-          owner.successMessageRelay.accept("로그아웃 성공하였습니다.")
-        case .failure(let error):
-          owner.errorMessageRelay.accept(error == .networkError ? .retryError : error)
-        }
-      }
-      .disposed(by: disposeBag)
+    .subscribe(with: self, onSuccess: { owner, _ in
+      UserManager.shared.clearAllInformations()
+      owner.successMessageRelay.accept("로그아웃 성공하였습니다.")
+    }, onFailure: { owner, error in
+      guard let error = error as? HaramError else { return }
+      owner.errorMessageRelay.accept(error == .networkError ? .retryError : error)
+    }) 
+    .disposed(by: disposeBag)
   }
 }
 

@@ -13,15 +13,18 @@ import SnapKit
 import Then
 
 struct BoardDetailHeaderViewModel {
+  let boardSeq: Int
   let boardTitle: String
   let boardContent: String
   let boardDate: Date
   let boardAuthorName: String
   let boardImageCollectionViewCellModel: [BoardImageCollectionViewCellModel]
+  let isUpdatable: Bool
 }
 
 protocol BoardDetailHeaderViewDelegate: AnyObject {
   func didTappedBoardImage(url: URL?)
+  func didTappedDeleteButton(boardSeq: Int)
 }
 
 final class BoardDetailHeaderView: UICollectionReusableView {
@@ -31,6 +34,8 @@ final class BoardDetailHeaderView: UICollectionReusableView {
   static let identifier = "BoardDetailHeaderView"
   private let disposeBag = DisposeBag()
   private let currentBannerPage = PublishSubject<Int>()
+  
+  private var boardSeq: Int?
   
   private var boardImageCollectionViewCellModel: [BoardImageCollectionViewCellModel] = [] {
     didSet {
@@ -56,19 +61,7 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     $0.skeletonTextNumberOfLines = 1
   }
   
-  private let postingAuthorNameLabel = UILabel().then {
-    $0.font = .bold14
-    $0.textColor = .black
-    $0.isSkeletonable = true
-    $0.skeletonTextNumberOfLines = 1
-  }
-  
-  private let postingDateLabel = UILabel().then {
-    $0.font = .regular14
-    $0.textColor = .black
-    $0.isSkeletonable = true
-    $0.skeletonTextNumberOfLines = 1
-  }
+  private let postingInfoView = PostingInfoView()
   
   private let postingDescriptionLabel = UILabel().then {
     $0.font = .regular14
@@ -116,8 +109,6 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     super.prepareForReuse()
     postingTitleLabel.text = nil
     postingDescriptionLabel.text = nil
-    postingAuthorNameLabel.text = nil
-    postingDateLabel.text = nil
   }
   
   private func pageControlValueChanged(currentPage: Int) {
@@ -137,16 +128,24 @@ final class BoardDetailHeaderView: UICollectionReusableView {
       .asDriver(onErrorDriveWith: .empty())
       .drive(pageControl.rx.currentPage)
       .disposed(by: disposeBag)
+    
+    postingInfoView.boardDeleteButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.postingInfoView.boardDeleteButton.showAnimation {
+          owner.delegate?.didTappedDeleteButton(boardSeq: owner.boardSeq!)
+        }
+      }
+      .disposed(by: disposeBag)
   }
   
   private func configureUI() {
     isSkeletonable = true
     containerView.isSkeletonable = true
     
-    _ = [postingTitleLabel, postingAuthorNameLabel, postingDateLabel, postingDescriptionLabel].map { $0.isSkeletonable = true }
+    _ = [postingTitleLabel, postingInfoView, postingDescriptionLabel].map { $0.isSkeletonable = true }
     
     _ = [containerView, lineView].map { addSubview($0) }
-    _ = [postingTitleLabel, postingAuthorNameLabel, postingDateLabel, postingDescriptionLabel].map { containerView.addArrangedSubview($0) }
+    _ = [postingTitleLabel, postingInfoView, postingDescriptionLabel].map { containerView.addArrangedSubview($0) }
     
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
@@ -159,7 +158,7 @@ final class BoardDetailHeaderView: UICollectionReusableView {
       $0.directionalHorizontalEdges.equalToSuperview()
     }
 
-    containerView.setCustomSpacing(222 - 162 - 38, after: postingDateLabel)
+    containerView.setCustomSpacing(222 - 162 - 38, after: postingInfoView)
     containerView.setCustomSpacing(397 - 222 - 157, after: postingDescriptionLabel)
   }
   
@@ -167,8 +166,8 @@ final class BoardDetailHeaderView: UICollectionReusableView {
     guard let model = model else { return }
     postingTitleLabel.text = model.boardTitle
     postingDescriptionLabel.addLineSpacing(lineSpacing: 2, string: model.boardContent)
-    postingAuthorNameLabel.text = model.boardAuthorName
-    postingDateLabel.text = DateformatterFactory.dateWithSlash.string(from: model.boardDate)
+    postingInfoView.configureUI(with: (model.isUpdatable, DateformatterFactory.dateWithSlash.string(from: model.boardDate) + " | " + model.boardAuthorName))
+    boardSeq = model.boardSeq
     
     if !model.boardImageCollectionViewCellModel.isEmpty {
       [boardImageCollectionView, pageControl].forEach { containerView.addArrangedSubview($0) }
@@ -216,5 +215,47 @@ extension BoardDetailHeaderView: UIScrollViewDelegate {
     let bannerIndex = Int(max(0, round(contentOffset.x / scrollView.bounds.width)))
     
     self.currentBannerPage.onNext(bannerIndex)
+  }
+}
+
+extension BoardDetailHeaderView {
+  
+  final class PostingInfoView: UIView {
+    
+    private let postingAuthorAndDateLabel = UILabel().then {
+      $0.font = .regular14
+      $0.textColor = .black
+    }
+    
+    let boardDeleteButton = UIButton(configuration: .haramLabelButton(title: "삭제", font: .regular14, forgroundColor: .black)).then {
+      $0.sizeToFit()
+    }
+    
+    override init(frame: CGRect) {
+      super.init(frame: frame)
+      configureUI()
+    }
+    
+    required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureUI() {
+      _ = [postingAuthorAndDateLabel, boardDeleteButton].map { addSubview($0) }
+      
+      boardDeleteButton.snp.makeConstraints {
+        $0.directionalVerticalEdges.trailing.equalToSuperview()
+      }
+      
+      postingAuthorAndDateLabel.snp.makeConstraints {
+        $0.directionalVerticalEdges.leading.equalToSuperview()
+        $0.trailing.lessThanOrEqualTo(boardDeleteButton.snp.leading)
+      }
+    }
+    
+    func configureUI(with model: (isUpdatable: Bool, content: String)) {
+      postingAuthorAndDateLabel.text = model.content
+      boardDeleteButton.isHidden = !model.isUpdatable
+    }
   }
 }

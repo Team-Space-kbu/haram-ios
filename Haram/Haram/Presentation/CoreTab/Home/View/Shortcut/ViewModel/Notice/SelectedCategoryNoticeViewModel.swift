@@ -9,7 +9,6 @@ import RxSwift
 import RxCocoa
 
 protocol SelectedCategoryNoticeViewModelType {
-//  func inquireNoticeList(type: NoticeType)
   var noticeType: AnyObserver<NoticeType> { get }
   var fetchMoreDatas: AnyObserver<Void> { get }
   var noticeCollectionViewCellModel: Driver<[NoticeCollectionViewCellModel]> { get }
@@ -47,11 +46,6 @@ final class SelectedCategoryNoticeViewModel {
   
   private func inquireNoticeList() {
     
-//    guard NetworkManager.shared.isConnected else {
-//      errorMessageRelay.accept(.networkError)
-//      return
-//    }
-    
     Observable.combineLatest(
       noticeTypeSubject,
       currentPageSubject
@@ -75,7 +69,7 @@ final class SelectedCategoryNoticeViewModel {
         var noticeModel = owner.noticeCollectionViewCellModelRelay.value
         noticeModel.append(contentsOf: response.notices.map {
           
-          if let iso8607Date = DateformatterFactory.iso8601_2.date(from: $0.regDate) {
+          if let iso8607Date = DateformatterFactory.dateForISO8601UTC.date(from: $0.regDate) {
             return NoticeCollectionViewCellModel(
               title: $0.title,
               description: DateformatterFactory.dateWithHypen.string(from: iso8607Date) + " | " + $0.name,

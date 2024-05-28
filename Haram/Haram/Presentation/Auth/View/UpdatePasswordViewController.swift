@@ -54,8 +54,8 @@ final class UpdatePasswordViewController: BaseViewController {
   private let buttonStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.spacing = 17
-    $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
+//    $0.isLayoutMarginsRelativeArrangement = true
+//    $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
     $0.distribution = .fillEqually
   }
   
@@ -64,7 +64,7 @@ final class UpdatePasswordViewController: BaseViewController {
   }
   
   private let continueButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "계속하기", contentInsets: .zero)
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "변경하기", contentInsets: .zero)
   }
   
   init(userEmail: String, authCode: String, viewModel: UpdatePasswordViewModelType = UpdatePasswordViewModel()) {
@@ -90,17 +90,24 @@ final class UpdatePasswordViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [containerView, buttonStackView].forEach { view.addSubview($0) }
+    [containerView].forEach { view.addSubview($0) }
     [cancelButton, continueButton].forEach { buttonStackView.addArrangedSubview($0) }
-    [titleLabel, alertLabel, passwordTextField, checkPasswordTextField].forEach { containerView.addArrangedSubview($0) }
+    [titleLabel, alertLabel, passwordTextField, checkPasswordTextField, buttonStackView].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
     containerView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
+      $0.directionalEdges.equalToSuperview()
+    }
+    
+    titleLabel.snp.makeConstraints {
+      $0.height.equalTo(30)
+    }
+    
+    alertLabel.snp.makeConstraints {
+      $0.height.equalTo(38)
     }
 
     passwordTextField.snp.makeConstraints {
@@ -116,7 +123,7 @@ final class UpdatePasswordViewController: BaseViewController {
     
     buttonStackView.snp.makeConstraints {
       $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.directionalHorizontalEdges.width.equalToSuperview().inset(15)
       $0.height.equalTo(48)
     }
     

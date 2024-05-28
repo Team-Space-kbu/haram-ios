@@ -39,7 +39,11 @@ extension LoginViewModel {
   
   func loginMember(userID: String, password: String) {
     isLoadingSubject.onNext(true)
-
+    
+    if !UserManager.shared.hasUUID {
+      UserManager.shared.set(uuid: UUID().uuidString)
+    }
+    
     authRepository.loginMember(
       request: .init(
         userID: userID,
@@ -53,21 +57,18 @@ extension LoginViewModel {
         )
       )
     )
-    .subscribe(with: self, onNext: { owner, result in
-      switch result {
-        case .success(let response):
-          
-          UserManager.shared.updateHaramToken(
-            accessToken: response.accessToken,
-            refreshToken: response.refreshToken
-          )
-          
-          UserManager.shared.set(userID: userID)
-        owner.successLoginRelay.accept(())
-
-        case .failure(let error):
-          owner.errorMessageRelay.accept(error)
-      }
+    .subscribe(with: self, onSuccess: { owner, response in    
+      UserManager.shared.updateHaramToken(
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken
+      )
+      
+      UserManager.shared.set(userID: userID)
+      owner.successLoginRelay.accept(())
+      owner.isLoadingSubject.onNext(false)
+    }, onFailure: { owner, error in
+      guard let error = error as? HaramError else { return }
+      owner.errorMessageRelay.accept(error)
       owner.isLoadingSubject.onNext(false)
     })
     .disposed(by: disposeBag)
@@ -93,5 +94,5 @@ extension LoginViewModel: LoginViewModelType {
     errorMessageRelay
       .asSignal(onErrorSignalWith: .empty())
   }
-
+  
 }

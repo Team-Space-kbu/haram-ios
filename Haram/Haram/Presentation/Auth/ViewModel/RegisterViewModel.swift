@@ -63,15 +63,14 @@ final class RegisterViewModel {
         userTermsRequests: UserManager.shared.userTermsRequests!
       )
     )
-    .subscribe(with: self) { owner, result in
-      switch result {
-      case .success(_):
-        owner.signupSuccessMessageRelay.accept("회원가입 성공")
-      case .failure(let error):
-        owner.errorMessageRelay.accept(error)
-      }
+    .subscribe(with: self, onSuccess: { owner, _ in
+      owner.signupSuccessMessageRelay.accept("회원가입 성공")
       owner.isLoadingSubject.onNext(false)
-    }
+    }, onFailure: { owner, error in
+      guard let error = error as? HaramError else { return }
+      owner.errorMessageRelay.accept(error)
+      owner.isLoadingSubject.onNext(false)
+    })
     .disposed(by: disposeBag)
   }
   
@@ -116,18 +115,10 @@ extension RegisterViewModel: RegisterViewModelType {
   var registerRePassword: RxSwift.AnyObserver<String> {
     registerRepasswordSubject.asObserver()
   }
-//  
-//  var registerAuthCode: RxSwift.AnyObserver<String> {
-//    registerAuthcodeSubject.asObserver()
-//  }
   
   var registerNickname: RxSwift.AnyObserver<String> {
     registerNicknameSubject.asObserver()
   }
-  
-//  var registerEmail: RxSwift.AnyObserver<String> {
-//    registerEmailSubject.asObserver()
-//  }
   
   func checkRepasswordIsEqual(password: String, repassword: String) {
     
@@ -137,7 +128,6 @@ extension RegisterViewModel: RegisterViewModelType {
     } else {
       errorMessageRelay.accept(.noEqualPassword)
     }
-//    isValidRePWDSubject.onNext(password == repassword)
   }
   
   var successMessage: RxCocoa.Signal<HaramError> {
@@ -149,7 +139,6 @@ extension RegisterViewModel: RegisterViewModelType {
     // userId가 4~30자, 영어 or 숫자만 가능
     
     let isUnValid = 4 > id.count || 30 < id.count || !isValidAlphanumeric(id)
-//    isValidIDSubject.onNext(!isUnValid)
     LogHelper.log("아이디 유효안함 \(isUnValid)", level: .debug)
     if isUnValid {
       errorMessageRelay.accept(.unvalidUserIDFormat)
@@ -172,7 +161,7 @@ extension RegisterViewModel: RegisterViewModelType {
   func checkNicknameIsValid(nickname: String) {
     
     let isUnValid = 0..<2 ~= nickname.count || 15 < nickname.count || !isValidKoreanAlphanumeric(nickname)
-//    isValidNicknameSubject.onNext(!isUnValid)
+
     LogHelper.log("닉네임 유효안함 \(isUnValid)", level: .debug)
     if isUnValid {
       errorMessageRelay.accept(.unvalidNicknameFormat)

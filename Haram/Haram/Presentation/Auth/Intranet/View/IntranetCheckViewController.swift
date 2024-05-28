@@ -64,7 +64,6 @@ final class IntranetCheckViewController: BaseViewController {
     }
     
     loginButton.snp.makeConstraints {
-//      $0.top.lessThanOrEqualTo(subLabel.snp.bottom).offset(104)
       $0.bottom.equalToSuperview().inset(47)
       $0.trailing.equalToSuperview().inset(46)
       $0.height.equalTo(39)

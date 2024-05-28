@@ -58,18 +58,12 @@ final class RothemRoomDetailView: UIView {
     $0.font = .bold25
     $0.textColor = .black
     $0.isSkeletonable = true
+    $0.numberOfLines = 0
   }
   
   private let roomLocationView = AffiliatedLocationView().then {
     $0.isSkeletonable = true
   }
-  
-//  private let roomDestinationLabel = UILabel().then {
-//    $0.font = .regular12
-//    $0.textColor = .hex9F9FA4
-//    $0.sizeToFit()
-//    $0.isSkeletonable = true
-//  }
   
   private let lineView = UIView().then {
     $0.backgroundColor = .hexD8D8DA
@@ -156,13 +150,13 @@ final class RothemRoomDetailView: UIView {
     roomTitleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().inset(16)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-      $0.height.equalTo(30)
+      $0.height.greaterThanOrEqualTo(30)
     }
     
     roomLocationView.snp.makeConstraints {
       $0.top.equalTo(roomTitleLabel.snp.bottom).offset(5)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-      $0.height.equalTo(14)
+      $0.height.greaterThanOrEqualTo(14)
     }
     
     lineView.snp.makeConstraints {
@@ -204,20 +198,13 @@ final class RothemRoomDetailView: UIView {
   
   func configureUI(with model: RothemRoomDetailViewModel) {
     
-    roomTitleLabel.hideSkeleton()
-    roomLocationView.hideSkeleton()
-    roomDescriptionContentLabel.hideSkeleton()
+//    roomTitleLabel.hideSkeleton()
+//    roomLocationView.hideSkeleton()
+//    roomDescriptionContentLabel.hideSkeleton()
     
     amenityModel = model.amenityModel
     roomTitleLabel.text = model.roomTitle
     roomLocationView.configureUI(with: .init(locationImageResource: .locationGray, locationContent: model.roomDestination))
-//    let attributedString = NSMutableAttributedString(string: "")
-//    let imageAttachment = NSTextAttachment()
-//    imageAttachment.image = UIImage(resource: .locationGray)
-//    imageAttachment.bounds = CGRect(x: 0, y: 0, width: 10, height: 12)
-//    attributedString.append(NSAttributedString(attachment: imageAttachment))
-//    attributedString.append(NSAttributedString(string: model.roomDestination))
-//    roomDestinationLabel.attributedText = attributedString
     
     roomDescriptionContentLabel.addLineSpacing(lineSpacing: 2, string: model.roomDescription)
   }
@@ -244,6 +231,7 @@ extension RothemRoomDetailView: UICollectionViewDelegate, UICollectionViewDataSo
     guard !amenityModel.isEmpty else {
       return CGSize(width: 48, height: 56)
     }
+
     let label = UILabel().then {
       $0.font = .regular12
       $0.text = amenityModel[indexPath.row].amenityContent
@@ -264,6 +252,6 @@ extension RothemRoomDetailView: SkeletonCollectionViewDataSource {
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    5
+    amenityModel.count
   }
 }

@@ -47,7 +47,7 @@ final class UserManager {
   
   // MARK: - Initialization
   
-  private init() { 
+  private init() {
     self.authRepository = AuthRepositoryImpl()
   }
 }
@@ -84,26 +84,20 @@ extension UserManager {
   }
   
   /// 가지고 있는 `refresh token`을 가지고 새로운 `access token`과 `refresh token`을 발급받습니다.
-  func reissuanceAccessToken() -> Observable<Void> {
+  func reissuanceAccessToken() -> Single<Void> {
     return authRepository.reissuanceAccessToken(
       request: .init(
         userID: UserManager.shared.userID!,
         uuid: UserManager.shared.uuid!
       ))
-      .map { [weak self] result in
-        guard let self = self else { return }
-        switch result {
-        case .success(let tokenData):
-          self.updateHaramToken(
-            accessToken: tokenData.accessToken,
-            refreshToken: tokenData.refreshToken
-          )
-          return Void()
-        case .failure(_):
-          UserManager.shared.clearAllInformations()
-          (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = LoginViewController()
-        }
-      }
+    .map { [weak self] tokenData in
+      guard let self = self else { return }
+      self.updateHaramToken(
+        accessToken: tokenData.accessToken,
+        refreshToken: tokenData.refreshToken
+      )
+      return Void()
+    }
   }
   
   

@@ -45,6 +45,7 @@ final class HomeViewController: BaseViewController {
   private var bannerModel: [HomebannerCollectionViewCellModel] = []
   
   private var newsModel: [HomeNewsCollectionViewCellModel] = []
+  private var noticeModel: HomeNoticeViewModel?
   
   // MARK: - UI Components
   
@@ -159,7 +160,7 @@ final class HomeViewController: BaseViewController {
     super.setupStyles()
 
     _ = [scrollView, scrollContainerView, homeNoticeView, checkChapelDayView, newsCollectionView, newsTitleLabel, shortcutCollectionView, pageControl, bannerCollectionView].map { $0.isSkeletonable = true }
-    print("두근 \(Environment.baseURLString)")
+    
     let label = UILabel().then {
       $0.text = "성서알리미"
       $0.textColor = .black
@@ -223,41 +224,56 @@ final class HomeViewController: BaseViewController {
     
     viewModel.inquireHomeInfo()
     
-    Driver.combineLatest(
+    Driver.zip(
       viewModel.newsModel,
       viewModel.bannerModel,
-      viewModel.noticeModel,
-      viewModel.isAvailableSimpleChapelModal
+      viewModel.noticeModel
+//      viewModel.isAvailableSimpleChapelModal
     )
     .drive(with: self) { owner, result in
-      let (newsModel, bannerModel, noticeModel, modalModel) = result
-      let (isAvailableSimpleChapelModal, checkChapelDayViewModel) = modalModel
+      let (newsModel, bannerModel, noticeModel) = result
+//      let (isAvailableSimpleChapelModal, checkChapelDayViewModel) = modalModel
+//      
+//      let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
       
-      let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
-      
-      
-      if isAvailableSimpleChapelModal && !isContain {
-        owner.checkChapelDayView.configureUI(with: checkChapelDayViewModel!)
-        owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
-      } else if !isAvailableSimpleChapelModal && isContain {
-        owner.checkChapelDayView.removeFromSuperview()
-      }
       
       owner.newsModel = newsModel
       owner.bannerModel = bannerModel
-      owner.homeNoticeView.configureUI(with: noticeModel)
+      owner.noticeModel = noticeModel
+      
+      owner.view.hideSkeleton()
       
       if bannerModel.isEmpty {
         owner.bannerCollectionView.backgroundColor = .hex79BD9A
       }
       
-      owner.view.hideSkeleton()
+//      if isAvailableSimpleChapelModal && !isContain {
+//        owner.checkChapelDayView.configureUI(with: checkChapelDayViewModel!)
+//        owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
+//      } else if !isAvailableSimpleChapelModal && isContain {
+//        owner.checkChapelDayView.removeFromSuperview()
+//      }
       
+      owner.homeNoticeView.configureUI(with: noticeModel)
       owner.pageControl.numberOfPages = bannerModel.count
       owner.bannerCollectionView.reloadData()
       owner.newsCollectionView.reloadData()
     }
     .disposed(by: disposeBag)
+    
+    viewModel.isAvailableSimpleChapelModal
+      .drive(with: self) { owner, modalModel in
+        let (isAvailableSimpleChapelModal, checkChapelDayViewModel) = modalModel
+        
+        let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
+        if isAvailableSimpleChapelModal && !isContain {
+          owner.checkChapelDayView.configureUI(with: checkChapelDayViewModel!)
+          owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
+        } else if !isAvailableSimpleChapelModal && isContain {
+          owner.checkChapelDayView.removeFromSuperview()
+        }
+      }
+      .disposed(by: disposeBag)
     
     pageControl.rx.controlEvent(.valueChanged)
       .subscribe(with: self) { owner,  _ in
@@ -285,8 +301,9 @@ final class HomeViewController: BaseViewController {
     
     homeNoticeView.button.rx.tap
       .subscribe(with: self) { owner, _ in
+        guard let model = owner.noticeModel else { return }
         owner.homeNoticeView.showAnimation {
-          let vc = HomeNoticeViewController()
+          let vc = HomeNoticeViewController(title: model.title, content: model.content)
           vc.hidesBottomBarWhenPushed = true
           owner.navigationController?.pushViewController(vc, animated: true)
         }
@@ -366,6 +383,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       cell.showAnimation(scale: 0.9) { [weak self] in
         guard let self = self else { return }
         let type = ShortcutType.allCases[indexPath.row]
+        if type == .searchBible {
+          #if RELEASE
+            AlertManager.showAlert(title: "Space 알림", message: "교목실과 협의가 되지 않아\n사용할 수 없습니다.", viewController: self, confirmHandler: nil)
+            return
+          #endif
+        }
         let vc = type.viewController
         vc.navigationItem.largeTitleDisplayMode = .never
         vc.hidesBottomBarWhenPushed = true
@@ -387,8 +410,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       cell.showAnimation(scale: 0.9) { [weak self] in
         guard let self = self else { return }
         let model = self.bannerModel[indexPath.row]
-        let vc = HomeBannerDetailViewController(department: model.department, bannerSeq: model.bannerSeq)
-        vc.title = model.title
+        let vc = BannerDetailViewController(department: model.department, bannerSeq: model.bannerSeq, bannerDetailType: .useBackGesture)
+        vc.title = "공지사항"
         vc.navigationItem.largeTitleDisplayMode = .never
         vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
@@ -459,6 +482,8 @@ extension HomeViewController {
   
   @objc
   private func refreshWhenNetworkConnected() {
-    viewModel.inquireHomeInfo()
+//    DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+      self.viewModel.inquireHomeInfo()
+//    }
   }
 }

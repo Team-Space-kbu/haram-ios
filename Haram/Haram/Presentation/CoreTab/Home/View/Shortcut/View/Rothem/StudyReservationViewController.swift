@@ -297,7 +297,7 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     }
     
     studyRoomInfoView.snp.makeConstraints {
-      $0.height.equalTo(98)
+      $0.height.greaterThanOrEqualTo(98)
     }
     
     selectedDayLabel.snp.makeConstraints {
@@ -367,7 +367,7 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
     cell.configureUI(with: selectedDateModel[indexPath.row])
     
     /// 이용가능한 날짜가 존재한다면 맨 처음 셀을 선택
-    if let row = selectedDateModel.firstIndex(where: { $0.isAvailable }) {
+    if let row = selectedDateModel.firstIndex(where: (\.isAvailable)) {
       collectionView.selectItem(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .left)
     }
     return cell
@@ -435,36 +435,6 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
       
     }
   }
-  
-//  func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-//    
-//    if collectionView == selectedDayCollectionView {
-//      if selectedDateModel[indexPath.row].isAvailable {
-//        let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
-//        cell.setHighlighted(isHighlighted: true)
-//      }
-//    } else if collectionView == selectedTimeCollectionView {
-//      if !selectedTimeModel[indexPath.row].isReserved {
-//        let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
-//        cell.setHighlighted(isHighlighted: true)
-//      }
-//    }
-//  }
-//  
-//  func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-//    
-//    if collectionView == selectedDayCollectionView {
-//      if selectedDateModel[indexPath.row].isAvailable {
-//        let cell = collectionView.cellForItem(at: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
-//        cell.setHighlighted(isHighlighted: false)
-//      }
-//    } else if collectionView == selectedTimeCollectionView {
-//      if !selectedTimeModel[indexPath.row].isReserved {
-//        let cell = collectionView.cellForItem(at: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
-//        cell.setHighlighted(isHighlighted: false)
-//      }
-//    }
-//  }
 }
 
 // MARK: - SkeletonViewDataSource

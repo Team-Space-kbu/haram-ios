@@ -130,7 +130,7 @@ final class LoginViewController: BaseViewController {
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
-        
+        guard error != .timeoutError else { return }
         if error == .networkError {
           AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
@@ -299,46 +299,19 @@ extension LoginViewController {
     guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
       return
     }
-
+    
     let keyboardHeight = keyboardSize.height
     
-//    // Y축으로 키보드의 상단 위치
-//    let keyboardTopY = keyboardFrame.cgRectValue.origin.y
-//    // 현재 선택한 텍스트 필드의 Frame 값
-//    let convertedTextFieldFrame = view.convert(currentTextField.frame,
-//                                               from: currentTextField.superview)
-//    // Y축으로 현재 텍스트 필드의 하단 위치
-//    let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
-    
-    // Y축으로 텍스트필드 하단 위치가 키보드 상단 위치보다 클 때 (즉, 텍스트필드가 키보드에 가려질 때가 되겠죠!)
-//    if textFieldBottomY > keyboardTopY {
-//      let textFieldTopY = convertedTextFieldFrame.origin.y
-//      // 노가다를 통해서 모든 기종에 적절한 크기를 설정함.
-//      let newFrame = textFieldTopY - keyboardTopY/1.6
-      
-//    self.containerView.transform.is
     if self.containerView.transform == .init(translationX: 0, y: 0) {
       UIView.animate(withDuration: 0.1, animations: {
         self.containerView.transform = CGAffineTransform(translationX: 0, y: -keyboardHeight + 16 + 25)
       })
     }
-      
-      
-//    }
   }
   
   func keyboardWillHide(_ notification: Notification) {
-    
-//    guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-//      return
-//    }
-//
-//    let keyboardHeight = keyboardSize.height
-    
-//    if self.containerView.transform == .init(translationX: 0, y: -keyboardHeight) {
-      UIView.animate(withDuration: 0.1, animations: {
-        self.containerView.transform = .identity
-      })
-//    }
+    UIView.animate(withDuration: 0.1, animations: {
+      self.containerView.transform = .identity
+    })
   }
 }

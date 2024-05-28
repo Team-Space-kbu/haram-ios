@@ -94,7 +94,6 @@ final class StudyListCollectionViewCell: UICollectionViewCell {
       $0.top.equalTo(studyTitleLabel.snp.bottom).offset(6)
       $0.leading.equalTo(studyTitleLabel)
       $0.trailing.lessThanOrEqualTo(studyImageView.snp.leading).offset(-15)
-//      $0.bottom.lessThanOrEqualTo(studyImageView)
     }
     
   }

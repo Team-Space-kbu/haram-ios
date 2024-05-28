@@ -69,14 +69,11 @@ final class ZoomImageViewController: BaseViewController {
     
     scrollView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
-//      $0.top.equalTo(xButton.snp.bottom)
-//      $0.directionalHorizontalEdges.bottom.width.equalToSuperview()
     }
     
     zoomImageView.snp.makeConstraints {
       $0.directionalVerticalEdges.centerY.centerX.equalToSuperview()
       $0.width.directionalHorizontalEdges.equalToSuperview().inset(15)
-//      $0.height.equalTo(200)
     }
   }
   

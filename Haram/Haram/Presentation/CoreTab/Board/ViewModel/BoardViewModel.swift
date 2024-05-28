@@ -22,6 +22,7 @@ final class BoardViewModel {
   private let disposeBag = DisposeBag()
   private let boardRepository: BoardRepository
   
+  private var isFetched: Bool = false
   private let boardModelRelay = PublishRelay<[BoardTableViewCellModel]>()
   private let boardHeaderTitleRelay = PublishRelay<String>()
   private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
@@ -32,6 +33,9 @@ final class BoardViewModel {
   }
   
   func inquireBoardCategory() {
+    
+    guard !isFetched else { return }
+    
     boardRepository.inquireBoardCategory()
       .subscribe(with: self, onSuccess: { owner, response in
         owner.boardModelRelay.accept(response.map {
@@ -44,6 +48,7 @@ final class BoardViewModel {
           )
         })
         owner.boardHeaderTitleRelay.accept("학교 게시판")
+        owner.isFetched = true
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         owner.errorMessageRelay.accept(error)

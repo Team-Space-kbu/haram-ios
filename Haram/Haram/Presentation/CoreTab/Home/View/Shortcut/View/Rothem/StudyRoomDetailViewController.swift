@@ -27,6 +27,15 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
   
   private let button = UIButton()
   
+  private let backgroundView = UIView().then {
+    $0.backgroundColor = .clear
+    $0.layer.shadowColor = UIColor(hex: 0x000000).withAlphaComponent(0.16).cgColor
+    $0.layer.shadowOpacity = 1
+    $0.layer.shadowRadius = 10
+    $0.layer.shadowOffset = CGSize(width: 0, height: -3)
+    $0.isSkeletonable = true
+  }
+  
   private lazy var studyRoomDetailView = RothemRoomDetailView().then {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
@@ -71,17 +80,22 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
   
   override func setupLayouts() {
     super.setupLayouts()
-    [studyRoomImageView, studyRoomDetailView].forEach { view.addSubview($0) }
+    [studyRoomImageView, backgroundView].forEach { view.addSubview($0) }
+    backgroundView.addSubview(studyRoomDetailView)
     studyRoomImageView.addSubview(button)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    studyRoomDetailView.snp.makeConstraints {
+    backgroundView.snp.makeConstraints {
       $0.bottom.equalToSuperview()
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo((((UIScreen.main.bounds.height - UINavigationController().navigationBar.frame.height) / 3) * 2))
+    }
+    
+    studyRoomDetailView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
     studyRoomImageView.snp.makeConstraints {
@@ -131,14 +145,15 @@ final class StudyRoomDetailViewController: BaseViewController, BackButtonHandler
     
     button.rx.tap
       .subscribe(with: self) { owner, _ in
-        if let zoomImage = owner.studyRoomImageView.image {
-          let modal = ZoomImageViewController(zoomImage: zoomImage)
-          modal.modalPresentationStyle = .fullScreen
-          owner.present(modal, animated: true)
-        } else {
-          AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: owner, confirmHandler: nil)
+        owner.studyRoomImageView.showAnimation(scale: 0.98) {
+          if let zoomImage = owner.studyRoomImageView.image {
+            let modal = ZoomImageViewController(zoomImage: zoomImage)
+            modal.modalPresentationStyle = .fullScreen
+            owner.present(modal, animated: true)
+          } else {
+            AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: owner, confirmHandler: nil)
+          }
         }
-        
       }
       .disposed(by: disposeBag)
 

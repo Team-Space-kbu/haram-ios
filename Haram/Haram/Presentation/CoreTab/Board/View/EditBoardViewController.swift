@@ -225,7 +225,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
           }
           return
         }
-        AlertManager.showAlert(title: error.description!, viewController: owner, confirmHandler: nil)
+        AlertManager.showAlert(title: "Space 알림", message: error.description!, viewController: owner, confirmHandler: nil)
       }
       .disposed(by: disposeBag)
   }
@@ -325,7 +325,6 @@ extension EditBoardViewController {
     
     var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
       return [
-//        .full: FloatingPanelLayoutAnchor(fractionalInset: 0.6, edge: .bottom, referenceGuide: .safeArea),
         .half: FloatingPanelLayoutAnchor(absoluteInset: 198 - Device.bottomInset, edge: .bottom, referenceGuide: .superview),
         .tip: FloatingPanelLayoutAnchor(fractionalInset: 0.05, edge: .bottom, referenceGuide: .safeArea)
       ]
@@ -444,7 +443,7 @@ extension EditBoardViewController: PHPickerViewControllerDelegate {
     selections = newSelections
     // Picker에서 선택한 이미지의 Identifier들을 저장 (assetIdentifier은 옵셔널 값이라서 compactMap 받음)
     // 위의 PHPickerConfiguration에서 사용하기 위해서 입니다.
-    selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
+    selectedAssetIdentifiers = results.compactMap(\.assetIdentifier)
     
     if !selections.isEmpty {
       displayImage()

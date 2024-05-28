@@ -7,33 +7,47 @@
 
 import UIKit
 
+import RxSwift
 import SkeletonView
 import SnapKit
 import Then
 
 struct BoardDetailCollectionViewCellModel {
+  let commentSeq: Int
   let isLastComment: Bool
   let commentAuthorInfoModel: CommentAuthorInfoViewModel
   let comment: String
   
-  init(commentAuthorInfoModel: CommentAuthorInfoViewModel, comment: String, isLastComment: Bool) {
+  init(commentSeq: Int, commentAuthorInfoModel: CommentAuthorInfoViewModel, comment: String, isLastComment: Bool) {
     self.isLastComment = isLastComment
     self.commentAuthorInfoModel = commentAuthorInfoModel
     self.comment = comment
+    self.commentSeq = commentSeq
   }
   
-  init(comment: String, createdAt: String) {
+  init(comment: String, createdAt: String, isUpdatable: Bool, commentSeq: Int) {
+    self.commentSeq = commentSeq
     self.isLastComment = false
     self.comment = comment
     commentAuthorInfoModel = CommentAuthorInfoViewModel(
       commentAuthorName: UserManager.shared.userID!,
-      commentDate: DateformatterFactory.iso8601.date(from: createdAt) ?? Date())
+      commentDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: createdAt) ?? Date(),
+      isUpdatable: isUpdatable
+    )
   }
+}
+
+protocol BoardDetailCollectionViewCellDelegate: AnyObject {
+  func didTappedCommentDeleteButton(seq: Int)
 }
 
 final class BoardDetailCollectionViewCell: UICollectionViewCell {
   
+  weak var delegate: BoardDetailCollectionViewCellDelegate?
   static let identifier = "BoardDetailCollectionViewCell"
+  private let disposeBag = DisposeBag()
+  
+  private var commentSeq: Int?
   
   private let commentAuthorInfoView = CommentAuthorInfoView().then {
     $0.isSkeletonable = true
@@ -56,6 +70,7 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
+    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -66,6 +81,16 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     super.prepareForReuse()
     commentLabel.text = nil
     commentAuthorInfoView.initializeView()
+  }
+  
+  private func bind() {
+    commentAuthorInfoView.boardDeleteButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.commentAuthorInfoView.boardDeleteButton.showAnimation {
+          owner.delegate?.didTappedCommentDeleteButton(seq: owner.commentSeq!)
+        }
+      }
+      .disposed(by: disposeBag)
   }
   
   private func configureUI() {
@@ -100,5 +125,6 @@ final class BoardDetailCollectionViewCell: UICollectionViewCell {
     
     commentAuthorInfoView.configureUI(with: model.commentAuthorInfoModel)
     commentLabel.addLineSpacing(lineSpacing: 2, string: model.comment)
+    self.commentSeq = model.commentSeq
   }
 }

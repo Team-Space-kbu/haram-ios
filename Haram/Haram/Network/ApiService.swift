@@ -18,7 +18,7 @@ protocol BaseService {
     _ formData: MultipartFormData,
     _ router: Router,
     type: T.Type
-  ) -> Observable<Result<T, HaramError>> where T : Decodable
+  ) -> Single<T> where T : Decodable
 }
 
 final class ApiService: BaseService {
@@ -27,7 +27,9 @@ final class ApiService: BaseService {
   
   private init() {}
   
-  private let configuration = URLSessionConfiguration.af.default
+  private let configuration = URLSessionConfiguration.af.default.then {
+    $0.timeoutIntervalForRequest = 30
+  }
   
   private let monitor = APIEventLogger()
   private lazy var session = Session(configuration: configuration, interceptor: Interceptor(), eventMonitors: [monitor])
@@ -145,7 +147,11 @@ final class ApiService: BaseService {
             }
             
           case .failure(let error):
-            observer(.failure(error))
+            if let afError = error.asAFError, afError.isRequestRetryError {
+              observer(.failure(HaramError.timeoutError))
+            } else {
+              observer(.failure(error))
+            }
           }
         }
       return Disposables.create()
@@ -156,13 +162,13 @@ final class ApiService: BaseService {
     _ formData: MultipartFormData,
     _ router: Router,
     type: T.Type = EmptyModel.self
-  ) -> Observable<Result<T, HaramError>> where T : Decodable {
+  ) -> Single<T> where T : Decodable {
     
     guard NetworkManager.shared.isConnected else {
-      return .just(.failure(.networkError))
+      return .error(HaramError.networkError)
     }
     
-    return Observable.create { observer in
+    return Single.create { observer in
       self.session.upload(multipartFormData: formData, with: router)
         .validate({ request, response, data in
           let statusCode = response.statusCode
@@ -179,32 +185,32 @@ final class ApiService: BaseService {
           case .success(let data):
             guard let statusCode = response.response?.statusCode
             else {
-              observer.onNext(.failure(HaramError.unknownedError))
+              observer(.failure(HaramError.unknownedError))
               return
             }
             guard let decodedData = try? JSONDecoder().decode(BaseEntity<T>.self, from: data) else {
               LogHelper.log("Decoding Error: \(router.urlRequest!)", level: .error)
-              return observer.onNext(.failure(HaramError.decodedError))
+              return observer(.failure(HaramError.decodedError))
             }
             
             let code = decodedData.code
             
             if HaramError.isExist(with: code) {
-              return observer.onNext(.failure(HaramError.getError(with: code)))
+              return observer(.failure(HaramError.getError(with: code)))
             }
             
             switch statusCode {
             case 200..<300:
               if decodedData.data != nil {
-                return observer.onNext(.success(decodedData.data!))
+                return observer(.success(decodedData.data!))
               }
-              return observer.onNext(.success(EmptyModel() as! T))
+              return observer(.success(EmptyModel() as! T))
             case 400..<500:
-              return observer.onNext(.failure(HaramError.requestError))
+              return observer(.failure(HaramError.requestError))
             case 500..<600:
-              return observer.onNext(.failure(HaramError.serverError))
+              return observer(.failure(HaramError.serverError))
             default:
-              return observer.onNext(.failure(HaramError.unknownedError))
+              return observer(.failure(HaramError.unknownedError))
             }
             
           case .failure(_):

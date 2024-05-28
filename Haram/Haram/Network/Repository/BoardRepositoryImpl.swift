@@ -14,7 +14,10 @@ protocol BoardRepository {
   func inquireBoardDetail(categorySeq: Int, boardSeq: Int) -> Single<InquireBoardDetailResponse>
   func createBoard(categorySeq: Int, request: CreateBoardRequest) -> Single<Bool>
   func createComment(request: CreateCommentRequest, categorySeq: Int, boardSeq: Int) -> Single<[Comment]>
-  
+  func reportBoard(request: ReportBoardRequest) -> Single<EmptyModel>
+  func deleteBoard(categorySeq: Int, boardSeq: Int) -> Single<EmptyModel>
+  func deleteComment(categorySeq: Int, boardSeq: Int, commentSeq: Int) -> Single<[Comment]>
+  func bannedUser(boardSeq: Int) -> Single<EmptyModel>
 }
 
 final class BoardRepositoryImpl {
@@ -28,6 +31,22 @@ final class BoardRepositoryImpl {
 }
 
 extension BoardRepositoryImpl: BoardRepository {
+  func bannedUser(boardSeq: Int) -> RxSwift.Single<EmptyModel> {
+    service.betarequest(router: BoardRouter.bannedUser(boardSeq), type: EmptyModel.self)
+  }
+  
+  func deleteBoard(categorySeq: Int, boardSeq: Int) -> RxSwift.Single<EmptyModel> {
+    service.betarequest(router: BoardRouter.deleteBoard(categorySeq, boardSeq), type: EmptyModel.self)
+  }
+  
+  func deleteComment(categorySeq: Int, boardSeq: Int, commentSeq: Int) -> RxSwift.Single<[Comment]> {
+    service.betarequest(router: BoardRouter.deleteComment(categorySeq, boardSeq, commentSeq), type: [Comment].self)
+  }
+  
+  func reportBoard(request: ReportBoardRequest) -> RxSwift.Single<EmptyModel> {
+    service.betarequest(router: BoardRouter.reportBoard(request), type: EmptyModel.self)
+  }
+  
   func createBoard(categorySeq: Int, request: CreateBoardRequest) -> RxSwift.Single<Bool> {
     service.betarequest(router: BoardRouter.createBoard(categorySeq, request), type: Bool.self)
   }

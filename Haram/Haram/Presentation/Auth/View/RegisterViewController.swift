@@ -32,7 +32,7 @@ final class RegisterViewController: BaseViewController {
     $0.axis = .vertical
     $0.spacing = 25
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: 66, left: 15, bottom: 49, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: 30, left: 15, bottom: 49, right: 15)
   }
   
   private let titleLabel = UILabel().then {
@@ -119,9 +119,6 @@ final class RegisterViewController: BaseViewController {
     navigationController?.navigationBar.isHidden = true
     view.addGestureRecognizer(tapGesture)
     [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField].forEach { $0.textField.delegate = self }
-    
-    _ = [tapGesture].map { view.addGestureRecognizer($0) }
-    //    panGesture.delegate = self
     
     registerNotifications()
     
@@ -225,7 +222,7 @@ final class RegisterViewController: BaseViewController {
           owner.nicknameTextField.setError(description: error.description!)
         } else if error == .unvalidUserIDFormat {
           owner.idTextField.setError(description: error.description!)
-        }  else if error == .unvalidAuthCode || error == .expireAuthCode || error == .emailAlreadyUse || error == .alreadyUseNickName {
+        }  else if error == .unvalidAuthCode || error == .expireAuthCode || error == .emailAlreadyUse {
           AlertManager.showAlert(title: "회원가입 알림", message: error.description!, viewController: owner) {
             owner.navigationController?.popViewController(animated: true)
           }
@@ -236,8 +233,12 @@ final class RegisterViewController: BaseViewController {
               UIApplication.shared.open(url)
             }
           }
-        } else if error == .containProhibitedWord {
+        } else if error == .containProhibitedWord || error == .alreadyUseNickName {
           AlertManager.showAlert(title: "회원가입 알림", message: error.description!, viewController: owner, confirmHandler: nil)
+        } else if error == .failedRegisterError {
+          AlertManager.showAlert(title: "회원가입 알림", message: "해당 아이디는 이미 사용중입니다\n다른 아이디로 수정해주세요.", viewController: owner, confirmHandler: nil)
+        } else {
+          AlertManager.showAlert(title: "회원가입 알림", message: "서버측에서 알 수 없는 에러가 발생하였습니다\n다음에 다시 시도해주세요.", viewController: owner, confirmHandler: nil)
         }
       }
       .disposed(by: disposeBag)

@@ -109,7 +109,6 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-//            owner.navigationController?.popViewController(animated: true)
           }
         }
       }
@@ -124,7 +123,6 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     setupBackButton()
     _ = [scrollView, containerView, titleLabel, writerInfoLabel, webView].map { $0.isSkeletonable = true }
     setupSkeletonView()
-//    navigationController?.interactivePopGestureRecognizer?.delegate = self
   }
   
   override func setupLayouts() {
@@ -163,8 +161,13 @@ extension NoticeDetailViewController: WKNavigationDelegate {
     webView.evaluateJavaScript("document.readyState") { complete, error in
       if complete != nil {
         webView.evaluateJavaScript("document.body.scrollHeight") { height, error in
-          webView.snp.updateConstraints {
-            $0.height.equalTo(height as! CGFloat)
+          if let height = height as? CGFloat {
+            webView.snp.updateConstraints {
+              $0.height.equalTo(height)
+            }
+          } else {
+            // height 변환에 실패한 경우
+            print("Error converting height: \(String(describing: error))")
           }
         }
       }

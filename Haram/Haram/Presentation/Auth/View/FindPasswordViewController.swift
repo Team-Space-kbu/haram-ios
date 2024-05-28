@@ -43,8 +43,8 @@ final class FindPasswordViewController: BaseViewController {
   private let buttonStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.spacing = 17
-    $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
+//    $0.isLayoutMarginsRelativeArrangement = true
+//    $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
     $0.distribution = .fillEqually
   }
   
@@ -77,17 +77,24 @@ final class FindPasswordViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [containerView, buttonStackView].forEach { view.addSubview($0) }
+    [containerView].forEach { view.addSubview($0) }
     [cancelButton, continueButton].forEach { buttonStackView.addArrangedSubview($0) }
-    [titleLabel, alertLabel, schoolEmailTextField].forEach { containerView.addArrangedSubview($0) }
+    [titleLabel, alertLabel, schoolEmailTextField, buttonStackView].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
     containerView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
+      $0.directionalEdges.equalToSuperview()
+    }
+    
+    titleLabel.snp.makeConstraints {
+      $0.height.equalTo(30)
+    }
+    
+    alertLabel.snp.makeConstraints {
+      $0.height.equalTo(38)
     }
     
     schoolEmailTextField.snp.makeConstraints {
@@ -98,7 +105,7 @@ final class FindPasswordViewController: BaseViewController {
     
     buttonStackView.snp.makeConstraints {
       $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.directionalHorizontalEdges.width.equalToSuperview().inset(15)
       $0.height.equalTo(48)
     }
     
@@ -134,7 +141,7 @@ final class FindPasswordViewController: BaseViewController {
         }
         
         if error == .requestTimeOut {
-          AlertManager.showAlert(title: error.description!, viewController: owner, confirmHandler: nil)
+          AlertManager.showAlert(title: "Space 알림", message: error.description!, viewController: owner, confirmHandler: nil)
           return
         }
         owner.schoolEmailTextField.setError(description: error.description!)
@@ -148,13 +155,6 @@ final class FindPasswordViewController: BaseViewController {
         owner.viewModel.findPasswordEmail.onNext(text)
       }
       .disposed(by: disposeBag)
-    
-//    viewModel.isContinueButtonEnabled
-//      .drive(with: self) { owner, isContinueButtonEnabled in
-//        owner.continueButton.isEnabled = isContinueButtonEnabled
-////        owner.continueButton.setupButtonType(type: isContinueButtonEnabled ? .apply : .cancel)
-//      }
-//      .disposed(by: disposeBag)
     
     continueButton.rx.tap
       .withLatestFrom(schoolEmailTextField.rx.text.orEmpty)

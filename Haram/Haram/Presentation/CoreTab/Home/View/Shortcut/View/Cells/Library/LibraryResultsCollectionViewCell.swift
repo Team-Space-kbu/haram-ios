@@ -112,11 +112,6 @@ final class LibraryResultsCollectionViewCell: UICollectionViewCell {
       $0.trailing.lessThanOrEqualToSuperview()
       $0.bottom.lessThanOrEqualTo(bookImageView)
     }
-    
-//    bottomLineView.snp.makeConstraints {
-//      $0.height.equalTo(1)
-//      $0.bottom.directionalHorizontalEdges.equalToSuperview()
-//    }
   }
   
   func configureUI(with model: LibraryResultsCollectionViewCellModel) {

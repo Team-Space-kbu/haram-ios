@@ -68,7 +68,7 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(studyListCollectionView)
-    view.addSubview(emptyView)
+//    view.addSubview(emptyView)
   }
   
   override func setupConstraints() {
@@ -76,10 +76,10 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
     studyListCollectionView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
-    emptyView.snp.makeConstraints {
-      $0.directionalHorizontalEdges.bottom.equalToSuperview()
-      $0.height.equalTo((Device.height - Device.navigationBarHeight) / 2)
-    }
+//    emptyView.snp.makeConstraints {
+//      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+//      $0.height.equalTo((Device.height - Device.navigationBarHeight) / 2)
+//    }
   }
   
   override func bind() {
@@ -100,8 +100,15 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
       
       owner.view.hideSkeleton()
       
+      if studyListModel.isEmpty {
+        owner.view.addSubview(owner.emptyView)
+        owner.emptyView.snp.makeConstraints {
+          $0.directionalHorizontalEdges.bottom.equalToSuperview()
+          $0.height.equalTo((Device.height - Device.navigationBarHeight) / 2)
+        }
+      }
       
-      owner.emptyView.isHidden = !studyListModel.isEmpty
+//      owner.emptyView.isHidden = !studyListModel.isEmpty
         owner.studyListCollectionView.isScrollEnabled = !studyListModel.isEmpty
       
       
@@ -173,7 +180,8 @@ extension RothemRoomListViewController: UICollectionViewDelegateFlowLayout {
 extension RothemRoomListViewController: StudyListCollectionHeaderViewDelegate {
   func didTappedRothemNotice() {
     guard let mainNoticeSeq = mainNoticeSeq else { return }
-    let vc = RothemNoticeDetailViewController(noticeSeq: mainNoticeSeq)
+    let vc = BannerDetailViewController(department: .rothem, bannerSeq: mainNoticeSeq)
+    vc.title = "스터디 공지사항"
     navigationController?.pushViewController(vc, animated: true)
   }
   
@@ -250,25 +258,4 @@ extension RothemRoomListViewController {
   func refreshRothemList() {
     viewModel.inquireRothemRoomList()
   }
-}
-
-extension UICollectionView {
-    // 1
-    func setEmptyMessage(_ message: String) {
-        let messageLabel: UILabel = {
-            let label = UILabel()
-            label.text = message
-            label.textColor = .white
-            label.numberOfLines = 0;
-            label.textAlignment = .center;
-            label.font = .bold20
-            label.sizeToFit()
-            return label
-        }()
-        self.backgroundView = messageLabel;
-    }
-    // 2
-    func restore() {
-        self.backgroundView = nil
-    }
 }

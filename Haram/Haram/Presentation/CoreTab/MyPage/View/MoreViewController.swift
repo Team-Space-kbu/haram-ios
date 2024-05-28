@@ -40,6 +40,7 @@ enum SettingType: CaseIterable {
   case provision
   case privacyInfo
   case license
+  case customerService
   case logout
   
   var title: String {
@@ -50,6 +51,8 @@ enum SettingType: CaseIterable {
       return "개인정보처리방침"
     case .license:
       return "오픈소스라이센스"
+    case .customerService:
+      return "고객센터 안내"
     case .logout:
       return "로그아웃"
     }
@@ -61,6 +64,8 @@ enum SettingType: CaseIterable {
       return URL(string: "https://team-spaces.notion.site/space-51257ec335724f90ad69ce20ae3e2393?pvs=4")
     case .privacyInfo:
       return URL(string: "https://team-spaces.notion.site/238de2ae5b7a4000a40492037ed35640?pvs=4")
+    case .customerService:
+      return URL(string: "https://team-spaces.notion.site/027b854625fe4d2f8b2938f63a2532f2?pvs=4")
     default:
       return nil
     }
@@ -216,8 +221,10 @@ final class MoreViewController: BaseViewController {
       .subscribe(with: self) { owner, _ in
         owner.profileInfoView.showAnimation {
           let vc = MoreUpdatePasswordViewController()
-          vc.hidesBottomBarWhenPushed = true
-          owner.navigationController?.pushViewController(vc, animated: true)
+          vc.modalPresentationStyle = .fullScreen
+          owner.present(vc, animated: true)
+//          vc.hidesBottomBarWhenPushed = true
+//          owner.navigationController?.pushViewController(vc, animated: true)
         }
       }
       .disposed(by: disposeBag)
@@ -331,6 +338,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
             target: self,
             action: #selector(self.didTappedBackButton)
           )
+          
           self.navigationController?.pushViewController(acknowList, animated: true)
         } else {
           let vc = HaramProvisionViewController(url: settingType.url)

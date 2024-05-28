@@ -56,7 +56,15 @@ extension BoardListViewModel: BoardListViewModelType {
     inquireBoardList
       .subscribe(with: self, onSuccess: { owner, response in
         var currentBoardList = owner.currentBoardListRelay.value
-        let addBoardList = response.boards.map { BoardListCollectionViewCellModel(board: $0) }
+        let categoryName = response.categoryName
+        let addBoardList = response.boards.map {
+          BoardListCollectionViewCellModel(
+            boardSeq: $0.boardSeq,
+            title: $0.title,
+            subTitle: $0.contents,
+            boardType: [categoryName]
+          )
+        }
         currentBoardList.append(contentsOf: addBoardList)
         
         owner.writeableAnonymousSubject.onNext(response.writeableAnonymous)
@@ -76,8 +84,6 @@ extension BoardListViewModel: BoardListViewModelType {
   
   func refreshBoardList(categorySeq: Int) {
     
-//    guard startPage <= endPage && !isLoading else { return }
-    
     isLoading = true
     
     let inquireBoardList = boardRepository.inquireBoardListInCategory(categorySeq: categorySeq, page: 1)
@@ -85,7 +91,15 @@ extension BoardListViewModel: BoardListViewModelType {
     inquireBoardList
       .subscribe(with: self, onSuccess: { owner, response in
         var currentBoardList = owner.currentBoardListRelay.value
-        let addBoardList = response.boards.map { BoardListCollectionViewCellModel(board: $0) }
+        let categoryName = response.categoryName
+        let addBoardList = response.boards.map {
+          BoardListCollectionViewCellModel(
+            boardSeq: $0.boardSeq,
+            title: $0.title,
+            subTitle: $0.contents,
+            boardType: [categoryName]
+          )
+        }
         currentBoardList.append(contentsOf: addBoardList)
         
         owner.writeableAnonymousSubject.onNext(response.writeableAnonymous)

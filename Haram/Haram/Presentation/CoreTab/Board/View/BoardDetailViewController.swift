@@ -21,6 +21,18 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   private let categorySeq: Int
   private let writeableAnonymous: Bool
   private let writeableComment: Bool
+  private var items: [UIAction] {
+    return ReportTitleType.allCases.map { reportType in
+      UIAction(
+        title: reportType.title,
+        handler: { [unowned self] _ in
+          AlertManager.showAlert(title: reportType.title, message: "신고 사유에 맞지 않은 신고를 했을경우 신고가 처리되지 않을 수 있습니다", viewController: self, confirmHandler: {
+            self.viewModel.reportBoard(boardSeq: self.boardSeq, reportType: reportType)
+          }, cancelHandler: nil)
+        })
+    }
+  }
+
   
   // MARK: - UI Models
   
@@ -29,7 +41,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   private var boardModel: [BoardDetailHeaderViewModel] = []
   
   // MARK: - UI Component
-
+  
   private lazy var commentInputView = CommentInputView(writeableAnonymous: writeableAnonymous).then {
     $0.delegate = self
     $0.isSkeletonable = true
@@ -47,6 +59,8 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     $0.alwaysBounceVertical = true
     $0.isSkeletonable = true
   }
+  
+  private lazy var interaction = UIContextMenuInteraction(delegate: self)
   
   // MARK: - Initializations
   init(categorySeq: Int, boardSeq: Int, writeableAnonymous: Bool, writeableComment: Bool, viewModel: BoardDetailViewModelType = BoardDetailViewModel()) {
@@ -74,8 +88,10 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     
     /// Set NavigationBar
     setupBackButton()
+    setupRightBarButtonItem()
+    
     setupSkeletonView()
-
+    
     registerNotifications()
     
   }
@@ -136,9 +152,10 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
         owner.cellModel = comments.enumerated()
           .map { index, comment in
             return BoardDetailCollectionViewCellModel(
-              commentAuthorInfoModel: .init(
+              commentSeq: comment.seq, commentAuthorInfoModel: .init(
                 commentAuthorName: comment.createdBy,
-                commentDate: DateformatterFactory.iso8601.date(from: comment.createdAt)!
+                commentDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: comment.createdAt)!, 
+                isUpdatable: comment.isUpdatable
               ),
               comment: comment.contents,
               isLastComment: comments.count - 1 == index ? true : false
@@ -164,6 +181,32 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
               UIApplication.shared.open(url)
             }
           }
+        } else if error == .internalServerError || error == .alreadyReportBoard {
+          AlertManager.showAlert(title: "Space 알림", message: error.description!, viewController: owner, confirmHandler: nil)
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successReportBoard
+      .emit(with: self) { owner, _ in
+        AlertManager.showAlert(title: "Space 알림", message: "성공적으로 신고가 접수되었습니다.", viewController: owner, confirmHandler: nil)
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successDeleteboard
+      .emit(with: self) { owner, _ in
+        NotificationCenter.default.post(name: .refreshBoardList, object: nil)
+        AlertManager.showAlert(title: "Space 알림", message: "성공적으로 게시글이 삭제되었습니다.", viewController: owner) {
+          owner.navigationController?.popViewController(animated: true)
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    viewModel.successBannedboard
+      .emit(with: self) { owner, _ in
+        NotificationCenter.default.post(name: .refreshBoardList, object: nil)
+        AlertManager.showAlert(title: "Space 알림", message: "성공적으로 게시글 작성자를 차단하였습니다.", viewController: owner) {
+          owner.navigationController?.popViewController(animated: true)
         }
       }
       .disposed(by: disposeBag)
@@ -211,6 +254,30 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     section.boundarySupplementaryItems = [header]
     return section
   }
+  
+  private func setupRightBarButtonItem() {
+    let button = UIButton().then {
+      $0.setImage(UIImage(resource: .ellipsisVertical).withRenderingMode(.alwaysOriginal), for: .normal)
+      $0.showsMenuAsPrimaryAction = true
+    }
+    
+    let reportMenu = UIMenu(title: "신고", children: items)
+    let banAction = UIAction(
+      title: "차단",
+      handler: { [unowned self] _ in
+        AlertManager.showAlert(title: "이 작성자의 게시물이\n목록에 노출되지 않으며,\n다시 해제하실 수 없습니다.", viewController: self, confirmHandler: {
+          self.viewModel.bannedUser(boardSeq: self.boardSeq)
+        }, cancelHandler: nil)
+      })
+    
+    let mainMenu = UIMenu(children: [reportMenu, banAction])
+    button.menu = mainMenu
+    
+    let rightBarButtonItem = UIBarButtonItem(customView: button)
+    button.addInteraction(interaction)
+    
+    navigationItem.rightBarButtonItem = rightBarButtonItem
+  }
 }
 
 // MARK: - UICollectionDataSource
@@ -230,6 +297,7 @@ extension BoardDetailViewController: UICollectionViewDataSource, UICollectionVie
     guard indexPath.section == 1 else { return UICollectionViewCell() }
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardDetailCollectionViewCell.identifier, for: indexPath) as? BoardDetailCollectionViewCell ?? BoardDetailCollectionViewCell()
     cell.configureUI(with: cellModel[indexPath.row])
+    cell.delegate = self
     return cell
   }
   
@@ -252,7 +320,7 @@ extension BoardDetailViewController: UICollectionViewDataSource, UICollectionVie
     return header
     
   }
-
+  
   
 }
 
@@ -283,6 +351,7 @@ extension BoardDetailViewController {
     viewModel.inquireBoardDetail(categorySeq: categorySeq, boardSeq: boardSeq)
   }
 }
+
 extension BoardDetailViewController {
   func registerNotifications() {
     NotificationCenter.default.addObserver(
@@ -349,7 +418,7 @@ extension BoardDetailViewController: SkeletonCollectionViewDataSource, SkeletonC
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     guard indexPath.section == 1 else { return nil }
     let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: BoardDetailCollectionViewCell.identifier, for: indexPath) as? BoardDetailCollectionViewCell ?? BoardDetailCollectionViewCell()
-    cell.configureUI(with: .init(comment: "안녕하세요, 스켈레톤을 위한 목데이터입니다.", createdAt: "2023/11/10"))
+    cell.configureUI(with: .init(comment: "안녕하세요, 스켈레톤을 위한 목데이터입니다.", createdAt: "2023/11/10", isUpdatable: false, commentSeq: 0))
     return cell
   }
   
@@ -376,9 +445,37 @@ extension BoardDetailViewController: UIScrollViewDelegate {
 }
 
 extension BoardDetailViewController: BoardDetailHeaderViewDelegate {
+  func didTappedDeleteButton(boardSeq: Int) {
+    AlertManager.showAlert(title: "Space 알림", message: "정말 해당 게시글을 삭제하시겠습니까 ?", viewController: self, confirmHandler: {
+      self.viewModel.deleteBoard(categorySeq: self.categorySeq, boardSeq: boardSeq)
+    }, cancelHandler: nil)
+  }
+  
   func didTappedBoardImage(url: URL?) {
     let modal = ZoomImageViewController(zoomImageURL: url)
     modal.modalPresentationStyle = .fullScreen
     present(modal, animated: true)
+  }
+}
+
+extension BoardDetailViewController: UIContextMenuInteractionDelegate {
+  func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+    
+    return UIContextMenuConfiguration(actionProvider:  { [unowned self] suggestedActions in
+      
+      let menu = UIMenu(title: "메뉴1",
+                        children: self.items)
+      
+      return menu
+    })
+  }
+}
+
+extension BoardDetailViewController: BoardDetailCollectionViewCellDelegate {
+  func didTappedCommentDeleteButton(seq: Int) {
+    AlertManager.showAlert(title: "Space 알림", message: "정말 해당 댓글을 삭제하시겠습니까 ?", viewController: self, confirmHandler: {
+      self.viewModel.deleteComment(categorySeq: self.categorySeq, boardSeq: self.boardSeq, commentSeq: seq)
+    }, cancelHandler: nil)
+
   }
 }

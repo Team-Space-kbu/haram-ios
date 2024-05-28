@@ -17,10 +17,7 @@ enum LibraryRouter {
 extension LibraryRouter: Router {
   
   var method: HTTPMethod {
-    switch self {
-    case .inquireLibrary, .searchBook, .requestBookInfo, .requestBookLoanStatus:
-      return .get
-    }
+    .get
   }
   
   var path: String {
@@ -46,10 +43,7 @@ extension LibraryRouter: Router {
   }
   
   var headers: HeaderType {
-    switch self {
-    case .inquireLibrary, .searchBook, .requestBookInfo, .requestBookLoanStatus:
-      return .withAccessToken
-    }
+    .withAccessToken
   }
 }
 

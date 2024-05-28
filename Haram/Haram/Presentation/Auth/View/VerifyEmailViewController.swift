@@ -151,7 +151,7 @@ final class VerifyEmailViewController: BaseViewController {
         } else if error == .expireAuthCode || error == .unvalidAuthCode {
           owner.checkEmailTextField.setError(description: error.description!)
         } else if error == .requestTimeOut {
-          AlertManager.showAlert(title: error.description!, viewController: owner, confirmHandler: nil)
+          AlertManager.showAlert(title: "Space 알림", message: error.description!, viewController: owner, confirmHandler: nil)
         } else if error == .networkError {
           AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }

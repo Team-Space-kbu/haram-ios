@@ -79,7 +79,7 @@ final class MoreUpdatePasswordViewController: BaseViewController {
   }
   
   private let continueButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "계속하기", contentInsets: .zero)
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "변경하기", contentInsets: .zero)
   }
   
   private let tapGesture = UITapGestureRecognizer(target: MoreUpdatePasswordViewController.self, action: nil).then {
@@ -101,20 +101,20 @@ final class MoreUpdatePasswordViewController: BaseViewController {
     removeKeyboardNotification()
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    navigationController?.setNavigationBarHidden(true, animated: false)
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    navigationController?.setNavigationBarHidden(false, animated: false)
-  }
+//  override func viewWillAppear(_ animated: Bool) {
+//    super.viewWillAppear(animated)
+//    navigationController?.setNavigationBarHidden(true, animated: false)
+//  }
+//  
+//  override func viewWillDisappear(_ animated: Bool) {
+//    super.viewWillDisappear(animated)
+//    navigationController?.setNavigationBarHidden(false, animated: false)
+//  }
   
   override func setupStyles() {
     super.setupStyles()
     registerKeyboardNotification()
-    navigationController?.interactivePopGestureRecognizer?.delegate = self
+//    navigationController?.interactivePopGestureRecognizer?.delegate = self
     view.addGestureRecognizer(tapGesture)
   }
   
@@ -235,7 +235,8 @@ final class MoreUpdatePasswordViewController: BaseViewController {
     
     cancelButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.navigationController?.popViewController(animated: true)
+        owner.dismiss(animated: true)
+//        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
     
@@ -264,11 +265,12 @@ final class MoreUpdatePasswordViewController: BaseViewController {
     viewModel.successUpdatePassword
       .emit(with: self) { owner, _ in
         AlertManager.showAlert(title: "비밀번호 변경 성공", message: "더보기화면으로 이동합니다.", viewController: owner) {
-          owner.navigationController?.popViewController(animated: true)
+          owner.dismiss(animated: true)
+//          owner.navigationController?.popViewController(animated: true)
         }
       }
       .disposed(by: disposeBag)
-//    
+    
     viewModel.errorMessage
       .emit(with: self) { owner, error in
         if error == .networkError {
@@ -344,26 +346,22 @@ extension MoreUpdatePasswordViewController {
   }
 }
 
-extension MoreUpdatePasswordViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    return true // or false
-  }
-  
-  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-    // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
-    return true
-  }
-}
+//extension MoreUpdatePasswordViewController: UIGestureRecognizerDelegate {
+//  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+//    return true // or false
+//  }
+//  
+//  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+//    // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
+//    return true
+//  }
+//}
 
 extension MoreUpdatePasswordViewController: UIScrollViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
       // 위에서 아래로 스크롤하는 경우
       view.endEditing(true)
-      // 여기에 위에서 아래로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
-    } else {
-      // 아래에서 위로 스크롤하는 경우
-      // 여기에 아래에서 위로 스크롤할 때 실행할 코드를 추가할 수 있습니다.
     }
   }
 }

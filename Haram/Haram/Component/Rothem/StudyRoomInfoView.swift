@@ -36,18 +36,17 @@ final class StudyRoomInfoView: UIView {
   private let roomNameLabel = UILabel().then {
     $0.font = .bold18
     $0.textColor = .hex1A1E27
-//    $0.sizeToFit()
     $0.skeletonTextNumberOfLines = 1
     $0.isSkeletonable = true
     $0.textAlignment = .left
+    $0.numberOfLines = 0
   }
   
   private let roomDescriptionLabel = UILabel().then {
-//    $0.sizeToFit()
     $0.numberOfLines = 0
     $0.font = .regular14
     $0.textColor = .hex1A1E27
-    $0.numberOfLines = 4
+    $0.numberOfLines = 0
     $0.isSkeletonable = true
     $0.skeletonTextNumberOfLines = 3
     $0.textAlignment = .left
@@ -67,7 +66,7 @@ final class StudyRoomInfoView: UIView {
     
     [roomImageView, roomNameLabel, roomDescriptionLabel].forEach { addSubview($0) }
     roomImageView.snp.makeConstraints {
-      $0.leading.top.equalToSuperview()
+      $0.leading.centerY.equalToSuperview()
       $0.size.equalTo(98)
     }
     

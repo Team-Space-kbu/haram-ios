@@ -46,8 +46,6 @@ final class CheckEmailViewController: BaseViewController {
   private let buttonStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.spacing = 17
-    $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
     $0.distribution = .fillEqually
   }
   
@@ -98,8 +96,16 @@ final class CheckEmailViewController: BaseViewController {
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
+    titleLabel.snp.makeConstraints {
+      $0.height.equalTo(30)
+    }
+    
+    alertLabel.snp.makeConstraints {
+      $0.height.equalTo(38)
+    }
+    
     checkEmailTextField.snp.makeConstraints {
-      $0.height.equalTo(73)
+      $0.height.equalTo(74)
     }
     
     reRequestAlertView.snp.makeConstraints {
@@ -107,10 +113,12 @@ final class CheckEmailViewController: BaseViewController {
     }
     
     containerView.setCustomSpacing(7, after: titleLabel)
+    containerView.setCustomSpacing(23, after: checkEmailTextField)
     
     buttonStackView.snp.makeConstraints {
+      $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
       $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.directionalHorizontalEdges.width.equalToSuperview().inset(15)
       $0.height.equalTo(48)
     }
     
@@ -142,9 +150,9 @@ final class CheckEmailViewController: BaseViewController {
     
     viewModel.verifyEmailAuthCode
       .emit(with: self) { owner, authCode in
-          owner.checkEmailTextField.snp.updateConstraints {
-            $0.height.equalTo(73)
-          }
+        owner.checkEmailTextField.snp.updateConstraints {
+          $0.height.equalTo(74)
+        }
           owner.checkEmailTextField.removeError()
           let vc = UpdatePasswordViewController(userEmail: owner.userMail, authCode: authCode)
           owner.navigationController?.pushViewController(vc, animated: true)
@@ -165,9 +173,16 @@ final class CheckEmailViewController: BaseViewController {
         }
         
         owner.checkEmailTextField.snp.updateConstraints {
-          $0.height.equalTo(73 + 28)
+          $0.height.equalTo(74 + 28)
         }
-        owner.checkEmailTextField.setError(description: error.description!)
+        
+        if error == .notFindUserError {
+          AlertManager.showAlert(title: "Space 알림", message: "해당 이메일에 대한 사용자가 존재하지않습니다\n다른 이메일로 시도해주세요.", viewController: owner) {
+            owner.navigationController?.popViewController(animated: true)
+          }
+        } else {
+          owner.checkEmailTextField.setError(description: error.description!)
+        }
       }
       .disposed(by: disposeBag)
     

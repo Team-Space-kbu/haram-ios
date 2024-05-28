@@ -17,7 +17,7 @@ protocol LibraryDetailViewModelType {
   var detailSubModel: Driver<LibraryDetailSubViewModel> { get }
   var detailInfoModel: Driver<[LibraryInfoViewModel]> { get }
   var detailRentalModel: Driver<[LibraryRentalViewModel]> { get }
-  var relatedBookModel: Driver<[LibraryRelatedBookCollectionViewCellModel]> { get }
+  var relatedBookModel: Driver<[LibraryCollectionViewCellModel]> { get }
   var isLoading: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
 }
@@ -32,7 +32,7 @@ final class LibraryDetailViewModel {
   private let currentDetailSubModel    = BehaviorRelay<LibraryDetailSubViewModel?>(value: nil)
   private let currentDetailInfoModel   = BehaviorRelay<[LibraryInfoViewModel]>(value: [])
   private let currentDetailRentalModel = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
-  private let currentRelatedBookModel  = BehaviorRelay<[LibraryRelatedBookCollectionViewCellModel]>(value: [])
+  private let currentRelatedBookModel  = BehaviorRelay<[LibraryCollectionViewCellModel]>(value: [])
   private let isLoadingSubject         = BehaviorSubject<Bool>(value: false)
   private let errorMessageRelay        = BehaviorRelay<HaramError?>(value: nil)
   
@@ -87,7 +87,7 @@ extension LibraryDetailViewModel: LibraryDetailViewModelType {
           response.keepBooks.keepBooks.map { .init(keepBook: $0) }
         )
         owner.currentRelatedBookModel.accept(
-          response.relateBooks.relatedBooks.map { LibraryRelatedBookCollectionViewCellModel(relatedBook: $0) }
+          response.relateBooks.relatedBooks.map { LibraryCollectionViewCellModel(relatedBook: $0) }
         )
         
       }
@@ -117,7 +117,7 @@ extension LibraryDetailViewModel: LibraryDetailViewModelType {
     currentDetailRentalModel.asDriver()
   }
   
-  var relatedBookModel: RxCocoa.Driver<[LibraryRelatedBookCollectionViewCellModel]> {
+  var relatedBookModel: RxCocoa.Driver<[LibraryCollectionViewCellModel]> {
     currentRelatedBookModel.asDriver()
   }
   

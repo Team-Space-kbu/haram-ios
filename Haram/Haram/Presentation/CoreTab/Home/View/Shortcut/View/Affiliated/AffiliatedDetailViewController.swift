@@ -24,6 +24,15 @@ final class AffiliatedDetailViewController: BaseViewController, BackButtonHandle
   
   private let button = UIButton()
   
+  private let backgroundView = UIView().then {
+    $0.backgroundColor = .clear
+    $0.layer.shadowColor = UIColor(hex: 0x000000).withAlphaComponent(0.16).cgColor
+    $0.layer.shadowOpacity = 1
+    $0.layer.shadowRadius = 10
+    $0.layer.shadowOffset = CGSize(width: 0, height: -3)
+    $0.isSkeletonable = true
+  }
+  
   private let affiliatedDetailView = AffiliatedDetailInfoView().then {
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
@@ -63,17 +72,22 @@ final class AffiliatedDetailViewController: BaseViewController, BackButtonHandle
   
   override func setupLayouts() {
     super.setupLayouts()
-    _ = [detailImageView, affiliatedDetailView].map { view.addSubview($0) }
+    _ = [detailImageView, backgroundView].map { view.addSubview($0) }
+    backgroundView.addSubview(affiliatedDetailView)
     detailImageView.addSubview(button)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    affiliatedDetailView.snp.makeConstraints {
+    backgroundView.snp.makeConstraints {
       $0.bottom.equalToSuperview()
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo((((UIScreen.main.bounds.height - UINavigationController().navigationBar.frame.height) / 3) * 2))
+    }
+    
+    affiliatedDetailView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
     detailImageView.snp.makeConstraints {
@@ -162,6 +176,7 @@ extension AffiliatedDetailViewController {
       $0.font = .bold25
       $0.textColor = .black
       $0.isSkeletonable = true
+      $0.numberOfLines = 0
     }
     
     private let affiliatedLocationView = AffiliatedLocationView().then {

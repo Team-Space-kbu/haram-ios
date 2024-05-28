@@ -36,7 +36,6 @@ final class MoreTableViewCell: UITableViewCell {
   private let indicatorImageView = UIImageView().then {
     $0.image = UIImage(resource: .darkIndicator)
     $0.contentMode = .scaleAspectFit
-//    $0.setImage(UIImage(resource: .darkIndicator), for: .normal)
   }
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
