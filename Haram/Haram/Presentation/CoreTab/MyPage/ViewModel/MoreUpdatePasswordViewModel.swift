@@ -39,6 +39,7 @@ final class MoreUpdatePasswordViewModel {
   private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   private let successMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   private let successUpdatePasswordRelay = PublishRelay<Void>()
+  private let userManager: UserManager = UserManager.shared
   
   init(authRepository: AuthRepository = AuthRepositoryImpl()) {
     self.authRepository = authRepository
@@ -104,7 +105,7 @@ extension MoreUpdatePasswordViewModel: MoreUpdatePasswordViewModelType {
   
   func updateUserPassword(oldPassword: String, newPassword: String) {
     authRepository.updateUserPassword(
-      userID: UserManager.shared.userID!,
+      userID: userManager.userID!,
       request: .init(
         oldPassword: oldPassword,
         newPassword: newPassword

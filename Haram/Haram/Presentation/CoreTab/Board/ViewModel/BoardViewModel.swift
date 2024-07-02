@@ -13,8 +13,8 @@ import RxCocoa
 protocol BoardViewModelType {
   func inquireBoardCategory()
   var boardModel: Driver<[BoardTableViewCellModel]> { get }
-  var boardHeaderTitle: Driver<String> { get }
   var errorMessage: Signal<HaramError> { get }
+  var headerTitle: String { get }
 }
 
 final class BoardViewModel {
@@ -24,12 +24,12 @@ final class BoardViewModel {
   
   private var isFetched: Bool = false
   private let boardModelRelay = PublishRelay<[BoardTableViewCellModel]>()
-  private let boardHeaderTitleRelay = PublishRelay<String>()
   private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
+  
+  var headerTitle: String = "학교 게시판"
   
   init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
     self.boardRepository = boardRepository
-  
   }
   
   func inquireBoardCategory() {
@@ -47,7 +47,6 @@ final class BoardViewModel {
             writeableComment: $0.writeableComment
           )
         })
-        owner.boardHeaderTitleRelay.accept("학교 게시판")
         owner.isFetched = true
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
@@ -61,10 +60,6 @@ final class BoardViewModel {
 extension BoardViewModel: BoardViewModelType {
   var errorMessage: RxCocoa.Signal<HaramError> {
     errorMessageRelay.compactMap { $0 }.distinctUntilChanged().asSignal(onErrorSignalWith: .empty())
-  }
-  
-  var boardHeaderTitle: RxCocoa.Driver<String> {
-    boardHeaderTitleRelay.asDriver(onErrorDriveWith: .empty())
   }
   
   var boardModel: RxCocoa.Driver<[BoardTableViewCellModel]> {

@@ -26,6 +26,7 @@ final class TermsOfUseViewModel {
   
   private let disposeBag = DisposeBag()
   private let authRepository: AuthRepository
+  private let userManager: UserManager = UserManager.shared
   
   private let termsOfModelRelay = BehaviorRelay<[TermsOfUseTableViewCellModel]>(value: [])
   private let isContinueButtonEnabledSubject = BehaviorSubject<Bool>(value: false)
@@ -39,7 +40,7 @@ final class TermsOfUseViewModel {
 extension TermsOfUseViewModel: TermsOfUseViewModelType {
   func saveTermsInfo() {
     var termsOfModel = termsOfModelRelay.value
-    UserManager.shared.set(userTermsRequests: termsOfModel.map {
+    userManager.set(userTermsRequests: termsOfModel.map {
       .init(termsSeq: $0.seq, termsAgreeYn: $0.isChecked ? "Y" : "N")
     })
   }
@@ -99,6 +100,5 @@ extension TermsOfUseViewModel: TermsOfUseViewModelType {
       .filter { !$0.isEmpty }
       .asSignal(onErrorSignalWith: .empty())
   }
-  
   
 }

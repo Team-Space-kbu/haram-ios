@@ -17,7 +17,6 @@ final class BoardViewController: BaseViewController {
   private let viewModel: BoardViewModelType
   
   private var boardModel: [BoardTableViewCellModel] = []
-  private var boardHeaderTitle: String?
   
   private lazy var boardTableView = UITableView(frame: .zero, style: .grouped).then {
     $0.register(BoardTableViewCell.self, forCellReuseIdentifier: BoardTableViewCell.identifier)
@@ -55,20 +54,15 @@ final class BoardViewController: BaseViewController {
     super.bind()
     viewModel.inquireBoardCategory()
     
-    Driver.combineLatest(
-      viewModel.boardModel,
-      viewModel.boardHeaderTitle
-    )
-    .drive(with: self) { owner, result in
-      let (model, headerTitle) = result
-      owner.boardModel = model
-      owner.boardHeaderTitle = headerTitle
-      
+    viewModel.boardModel
+      .drive(with: self) { owner, model in
+        owner.boardModel = model
+        
         owner.view.hideSkeleton()
-      
-      owner.boardTableView.reloadData()
-    }
-    .disposed(by: disposeBag)
+        
+        owner.boardTableView.reloadData()
+      }
+      .disposed(by: disposeBag)
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
@@ -82,7 +76,7 @@ final class BoardViewController: BaseViewController {
         }
       }
       .disposed(by: disposeBag)
-      
+    
   }
   
   override func setupStyles() {
@@ -132,7 +126,7 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: BoardTableHeaderView.identifier) as? BoardTableHeaderView ?? BoardTableHeaderView()
-    headerView.configureUI(with: "학교 게시판")
+    headerView.configureUI(with: viewModel.headerTitle)
     return headerView
   }
   
@@ -148,7 +142,7 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
         categorySeq: boardModel.categorySeq,
         writeableComment: boardModel.writeableComment,
         writeableBoard: boardModel.writeableBoard
-    ))
+      ))
     vc.title = boardModel.title
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.hidesBottomBarWhenPushed = true

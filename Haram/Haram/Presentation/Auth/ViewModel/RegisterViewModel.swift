@@ -48,6 +48,7 @@ final class RegisterViewModel {
   private let registerAuthcodeSubject            = BehaviorSubject<String>(value: "")
   
   private let authCode: String
+  private let userManager: UserManager = UserManager.shared
   let email: String
   
   init(authCode: String, email: String, authRepository: AuthRepository = AuthRepositoryImpl()) {
@@ -67,7 +68,7 @@ final class RegisterViewModel {
         password: password,
         nickname: nickname,
         emailAuthCode: authCode, 
-        userTermsRequests: UserManager.shared.userTermsRequests!
+        userTermsRequests: userManager.userTermsRequests!
       )
     )
     .subscribe(with: self, onSuccess: { owner, _ in

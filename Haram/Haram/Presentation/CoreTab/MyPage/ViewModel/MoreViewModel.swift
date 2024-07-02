@@ -27,6 +27,7 @@ final class MoreViewModel {
   private let currentUserInfoRelay = BehaviorRelay<ProfileInfoViewModel?>(value: nil)
   private let successMessageRelay  = PublishRelay<String>()
   private let errorMessageRelay    = BehaviorRelay<HaramError?>(value: nil)
+  private let userManager: UserManager = UserManager.shared
   
   init(
     authRepository: AuthRepository = AuthRepositoryImpl(),
@@ -40,7 +41,7 @@ final class MoreViewModel {
     
     guard !isFetched else { return }
     
-    myPageRepository.inquireUserInfo(userID: UserManager.shared.userID!)
+    myPageRepository.inquireUserInfo(userID: userManager.userID!)
       .subscribe(with: self, onSuccess: { owner, response in
         let profileInfoViewModel = ProfileInfoViewModel(response: response)
         owner.currentUserInfoRelay.accept(profileInfoViewModel)
@@ -55,11 +56,11 @@ final class MoreViewModel {
   func requestLogoutUser() {
     authRepository.logoutUser(
       request: .init(
-        userID: UserManager.shared.userID!,
-        uuid: UserManager.shared.uuid!
+        userID: userManager.userID!,
+        uuid: userManager.uuid!
       ))
     .subscribe(with: self, onSuccess: { owner, _ in
-      UserManager.shared.clearAllInformations()
+      owner.userManager.clearAllInformations()
       owner.successMessageRelay.accept("로그아웃 성공하였습니다.")
     }, onFailure: { owner, error in
       guard let error = error as? HaramError else { return }

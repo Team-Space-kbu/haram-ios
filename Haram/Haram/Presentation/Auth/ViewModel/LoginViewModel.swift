@@ -26,6 +26,7 @@ final class LoginViewModel {
   private let errorMessageRelay      = PublishRelay<HaramError>()
   private let isLoadingSubject       = BehaviorSubject<Bool>(value: false)
   private let successLoginRelay      = PublishRelay<Void>()
+  private let userManager: UserManager = UserManager.shared
   
   init(authRepository: AuthRepository = AuthRepositoryImpl()) {
     self.authRepository = authRepository
@@ -41,14 +42,14 @@ extension LoginViewModel {
     isLoadingSubject.onNext(true)
     
     if !UserManager.shared.hasUUID {
-      UserManager.shared.set(uuid: UUID().uuidString)
+      userManager.set(uuid: UUID().uuidString)
     }
     
     authRepository.loginMember(
       request: .init(
         userID: userID,
         password: password,
-        uuid: UserManager.shared.uuid!, 
+        uuid: userManager.uuid!,
         deviceInfo: .init(
           maker: "Apple",
           model: Device.getModelName(),
@@ -58,12 +59,12 @@ extension LoginViewModel {
       )
     )
     .subscribe(with: self, onSuccess: { owner, response in    
-      UserManager.shared.updateHaramToken(
+      owner.userManager.updateHaramToken(
         accessToken: response.accessToken,
         refreshToken: response.refreshToken
       )
       
-      UserManager.shared.set(userID: userID)
+      owner.userManager.set(userID: userID)
       owner.successLoginRelay.accept(())
       owner.isLoadingSubject.onNext(false)
     }, onFailure: { owner, error in
@@ -94,5 +95,4 @@ extension LoginViewModel: LoginViewModelType {
     errorMessageRelay
       .asSignal(onErrorSignalWith: .empty())
   }
-  
 }
