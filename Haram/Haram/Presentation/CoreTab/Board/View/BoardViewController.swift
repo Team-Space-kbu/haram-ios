@@ -144,10 +144,11 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
     
     let boardModel = boardModel[indexPath.row]
     let vc = BoardListViewController(
-      categorySeq: boardModel.categorySeq,
-      writeableBoard: boardModel.writeableBoard, 
-      writeableComment: boardModel.writeableComment
-    )
+      viewModel: BoardListViewModel(
+        categorySeq: boardModel.categorySeq,
+        writeableComment: boardModel.writeableComment,
+        writeableBoard: boardModel.writeableBoard
+    ))
     vc.title = boardModel.title
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.hidesBottomBarWhenPushed = true

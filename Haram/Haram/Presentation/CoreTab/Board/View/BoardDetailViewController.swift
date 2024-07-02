@@ -17,17 +17,13 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   // MARK: - Property
   
   private let viewModel: BoardDetailViewModelType
-  private let boardSeq: Int
-  private let categorySeq: Int
-  private let writeableAnonymous: Bool
-  private let writeableComment: Bool
   private var items: [UIAction] {
     return ReportTitleType.allCases.map { reportType in
       UIAction(
         title: reportType.title,
         handler: { [unowned self] _ in
           AlertManager.showAlert(title: reportType.title, message: "신고 사유에 맞지 않은 신고를 했을경우 신고가 처리되지 않을 수 있습니다", viewController: self, confirmHandler: {
-            self.viewModel.reportBoard(boardSeq: self.boardSeq, reportType: reportType)
+            self.viewModel.reportBoard(reportType: reportType)
           }, cancelHandler: nil)
         })
     }
@@ -42,7 +38,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - UI Component
   
-  private lazy var commentInputView = CommentInputView(writeableAnonymous: writeableAnonymous).then {
+  private lazy var commentInputView = CommentInputView(writeableAnonymous: viewModel.writeableAnonymous).then {
     $0.delegate = self
     $0.isSkeletonable = true
   }
@@ -63,12 +59,8 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   private lazy var interaction = UIContextMenuInteraction(delegate: self)
   
   // MARK: - Initializations
-  init(categorySeq: Int, boardSeq: Int, writeableAnonymous: Bool, writeableComment: Bool, viewModel: BoardDetailViewModelType = BoardDetailViewModel()) {
+  init(viewModel: BoardDetailViewModelType) {
     self.viewModel = viewModel
-    self.boardSeq = boardSeq
-    self.categorySeq = categorySeq
-    self.writeableAnonymous = writeableAnonymous
-    self.writeableComment = writeableComment
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -99,7 +91,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(boardDetailCollectionView)
-    if writeableComment {
+    if viewModel.writeableComment {
       view.addSubview(commentInputView)
     }
   }
@@ -107,7 +99,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   override func setupConstraints() {
     super.setupConstraints()
     
-    if writeableComment {
+    if viewModel.writeableComment {
       boardDetailCollectionView.snp.makeConstraints {
         $0.top.directionalHorizontalEdges.equalToSuperview()
       }
@@ -129,7 +121,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
   override func bind() {
     super.bind()
     
-    viewModel.inquireBoardDetail(categorySeq: categorySeq, boardSeq: boardSeq)
+    viewModel.inquireBoardDetail()
     
     Driver.combineLatest(
       viewModel.boardInfoModel,
@@ -266,7 +258,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
       title: "차단",
       handler: { [unowned self] _ in
         AlertManager.showAlert(title: "이 작성자의 게시물이\n목록에 노출되지 않으며,\n다시 해제하실 수 없습니다.", viewController: self, confirmHandler: {
-          self.viewModel.bannedUser(boardSeq: self.boardSeq)
+          self.viewModel.bannedUser()
         }, cancelHandler: nil)
       })
     
@@ -285,7 +277,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
 extension BoardDetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return writeableComment ? 2 : 1
+    return viewModel.writeableComment ? 2 : 1
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -339,7 +331,7 @@ extension BoardDetailViewController: CommentInputViewDelegate {
     if comment.isEmpty {
       AlertManager.showAlert(title: "댓글작성 알림", message: "댓글을 반드시 작성해주세요.", viewController: self, confirmHandler: nil)
     }
-    viewModel.createComment(boardComment: comment, categorySeq: categorySeq, boardSeq: boardSeq, isAnonymous: isAnonymous)
+    viewModel.createComment(boardComment: comment, isAnonymous: isAnonymous)
     view.endEditing(true)
   }
 }
@@ -348,7 +340,7 @@ extension BoardDetailViewController: CommentInputViewDelegate {
 extension BoardDetailViewController {
   @objc
   private func refreshWhenNetworkConnected() {
-    viewModel.inquireBoardDetail(categorySeq: categorySeq, boardSeq: boardSeq)
+    viewModel.inquireBoardDetail()
   }
 }
 
@@ -447,7 +439,7 @@ extension BoardDetailViewController: UIScrollViewDelegate {
 extension BoardDetailViewController: BoardDetailHeaderViewDelegate {
   func didTappedDeleteButton(boardSeq: Int) {
     AlertManager.showAlert(title: "Space 알림", message: "정말 해당 게시글을 삭제하시겠습니까 ?", viewController: self, confirmHandler: {
-      self.viewModel.deleteBoard(categorySeq: self.categorySeq, boardSeq: boardSeq)
+      self.viewModel.deleteBoard()
     }, cancelHandler: nil)
   }
   
@@ -474,7 +466,7 @@ extension BoardDetailViewController: UIContextMenuInteractionDelegate {
 extension BoardDetailViewController: BoardDetailCollectionViewCellDelegate {
   func didTappedCommentDeleteButton(seq: Int) {
     AlertManager.showAlert(title: "Space 알림", message: "정말 해당 댓글을 삭제하시겠습니까 ?", viewController: self, confirmHandler: {
-      self.viewModel.deleteComment(categorySeq: self.categorySeq, boardSeq: self.boardSeq, commentSeq: seq)
+      self.viewModel.deleteComment(commentSeq: seq)
     }, cancelHandler: nil)
 
   }

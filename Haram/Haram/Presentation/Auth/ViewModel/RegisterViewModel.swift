@@ -16,7 +16,7 @@ protocol RegisterViewModelType {
   var registerPassword: AnyObserver<String> { get }
   var registerRePassword: AnyObserver<String> { get }
   var registerNickname: AnyObserver<String> { get }
-  func registerMember(id: String, email: String, password: String, nickname: String, authCode: String)
+  func registerMember(id: String, password: String, nickname: String)
   func checkUserIDIsValid(id: String)
   func checkPasswordIsValid(password: String)
   func checkNicknameIsValid(nickname: String)
@@ -27,6 +27,8 @@ protocol RegisterViewModelType {
   var successMessage: Signal<HaramError> { get }
   var signupSuccessMessage: Signal<String> { get }
   var isLoading: Driver<Bool> { get }
+  
+  var email: String { get }
 }
 
 final class RegisterViewModel {
@@ -45,11 +47,16 @@ final class RegisterViewModel {
   private let registerRepasswordSubject            = BehaviorSubject<String>(value: "")
   private let registerAuthcodeSubject            = BehaviorSubject<String>(value: "")
   
-  init(authRepository: AuthRepository = AuthRepositoryImpl()) {
+  private let authCode: String
+  let email: String
+  
+  init(authCode: String, email: String, authRepository: AuthRepository = AuthRepositoryImpl()) {
     self.authRepository = authRepository
+    self.authCode = authCode
+    self.email = email
   }
   
-  func registerMember(id: String, email: String, password: String, nickname: String, authCode: String) {
+  func registerMember(id: String, password: String, nickname: String) {
     
     isLoadingSubject.onNext(true)
     // TODO: - 회원가입 시 약관정책에 대한 정보 반환

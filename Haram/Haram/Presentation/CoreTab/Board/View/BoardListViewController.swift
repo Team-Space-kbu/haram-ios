@@ -15,11 +15,6 @@ import Then
 final class BoardListViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: BoardListViewModelType
-  private let categorySeq: Int
-  private let writeableBoard: Bool
-  private var writeableAnonymous: Bool?
-  private let writeableComment: Bool
-  
   private var boardListModel: [BoardListCollectionViewCellModel] = []
   
   private let boardListCollectionView = UICollectionView(
@@ -50,11 +45,8 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   
   private lazy var emptyView = EmptyView(text: "게시글이 없습니다.")
   
-  init(categorySeq: Int, writeableBoard: Bool, writeableComment: Bool, viewModel: BoardListViewModelType = BoardListViewModel()) {
+  init(viewModel: BoardListViewModelType) {
     self.viewModel = viewModel
-    self.categorySeq = categorySeq
-    self.writeableBoard = writeableBoard
-    self.writeableComment = writeableComment
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -103,7 +95,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
   override func bind() {
     super.bind()
     
-    viewModel.inquireBoardList(categorySeq: categorySeq)
+    viewModel.inquireBoardList()
     
     viewModel.boardListModel
       .skip(1)
@@ -114,7 +106,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
         owner.view.hideSkeleton()
         
         owner.boardListCollectionView.reloadData()
-        if owner.writeableBoard {
+        if owner.viewModel.writeableBoard {
           owner.view.addSubview(owner.editBoardButton)
           owner.editBoardButton.snp.makeConstraints {
             $0.size.equalTo(50)
@@ -125,14 +117,10 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
       }
       .disposed(by: disposeBag)
     
-    viewModel.writeableAnonymous
-      .emit(to: rx.writeableAnonymous)
-      .disposed(by: disposeBag)
-    
     editBoardButton.rx.tap
       .asDriver()
       .drive(with: self) { owner, _ in
-        let vc = EditBoardViewController(categorySeq: owner.categorySeq)
+        let vc = EditBoardViewController(viewModel: EditBoardViewModel(categorySeq: owner.viewModel.categorySeq))
         vc.title = "게시글 작성"
         owner.navigationController?.pushViewController(vc, animated: true)
       }
@@ -157,7 +145,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
         let contentHeight = owner.boardListCollectionView.contentSize.height
         
         if offSetY > (contentHeight - owner.boardListCollectionView.frame.size.height) {
-          owner.viewModel.inquireBoardList(categorySeq: owner.categorySeq)
+          owner.viewModel.inquireBoardList()
         }
       }
       .disposed(by: disposeBag)
@@ -186,7 +174,14 @@ extension BoardListViewController: UICollectionViewDelegateFlowLayout, UICollect
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = BoardDetailViewController(categorySeq: categorySeq, boardSeq: boardListModel[indexPath.row].boardSeq, writeableAnonymous: self.writeableAnonymous!, writeableComment: writeableComment)
+    let vc = BoardDetailViewController(
+      viewModel: BoardDetailViewModel(
+        categorySeq: viewModel.categorySeq,
+        boardSeq: boardListModel[indexPath.row].boardSeq,
+        writeableAnonymous: viewModel.writeableAnonymous,
+        writeableComment: viewModel.writeableComment
+      )
+    )
     vc.navigationItem.largeTitleDisplayMode = .never
     vc.title = title
     self.navigationController?.pushViewController(vc, animated: true)
@@ -236,12 +231,12 @@ extension BoardListViewController {
   
   @objc
   private func refreshBoardList() {
-    viewModel.refreshBoardList(categorySeq: categorySeq)
+    viewModel.refreshBoardList()
   }
   
   @objc
   private func refreshWhenNetworkConnected() {
-    viewModel.refreshBoardList(categorySeq: categorySeq)
+    viewModel.refreshBoardList()
   }
 }
 

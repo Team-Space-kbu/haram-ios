@@ -11,8 +11,6 @@ import RxSwift
 final class UpdatePasswordViewController: BaseViewController {
   
   private let viewModel: UpdatePasswordViewModelType
-  private let userEmail: String
-  private let authCode: String
   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
@@ -54,8 +52,6 @@ final class UpdatePasswordViewController: BaseViewController {
   private let buttonStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.spacing = 17
-//    $0.isLayoutMarginsRelativeArrangement = true
-//    $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
     $0.distribution = .fillEqually
   }
   
@@ -67,10 +63,8 @@ final class UpdatePasswordViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "변경하기", contentInsets: .zero)
   }
   
-  init(userEmail: String, authCode: String, viewModel: UpdatePasswordViewModelType = UpdatePasswordViewModel()) {
-    self.authCode = authCode
+  init(viewModel: UpdatePasswordViewModelType) {
     self.viewModel = viewModel
-    self.userEmail = userEmail
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -180,7 +174,7 @@ final class UpdatePasswordViewController: BaseViewController {
       .subscribe(with: self) { owner, _ in
         guard let password = owner.passwordTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
         owner.view.endEditing(true)
-        owner.viewModel.requestUpdatePassword(password: password, authCode: owner.authCode, userMail: owner.userEmail)
+        owner.viewModel.requestUpdatePassword(password: password)
       }
       .disposed(by: disposeBag)
     

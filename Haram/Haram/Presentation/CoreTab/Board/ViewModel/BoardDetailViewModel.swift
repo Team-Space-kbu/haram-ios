@@ -10,12 +10,12 @@ import RxCocoa
 import Foundation
 
 protocol BoardDetailViewModelType {
-  func reportBoard(boardSeq: Int, reportType: ReportTitleType)
-  func bannedUser(boardSeq: Int)
-  func createComment(boardComment: String, categorySeq: Int, boardSeq: Int, isAnonymous: Bool)
-  func inquireBoardDetail(categorySeq: Int, boardSeq: Int)
-  func deleteBoard(categorySeq: Int, boardSeq: Int)
-  func deleteComment(categorySeq: Int, boardSeq: Int, commentSeq: Int)
+  func reportBoard(reportType: ReportTitleType)
+  func bannedUser()
+  func createComment(boardComment: String, isAnonymous: Bool)
+  func inquireBoardDetail()
+  func deleteBoard()
+  func deleteComment(commentSeq: Int)
   
   var boardInfoModel: Driver<[BoardDetailHeaderViewModel]> { get }
   var boardCommentModel: Driver<[BoardDetailCollectionViewCellModel]> { get }
@@ -24,12 +24,21 @@ protocol BoardDetailViewModelType {
   var successReportBoard: Signal<Void> { get }
   var successDeleteboard: Signal<Void> { get }
   var successBannedboard: Signal<Void> { get }
+  
+  var categorySeq: Int { get }
+  var boardSeq: Int { get }
+  var writeableAnonymous: Bool { get }
+  var writeableComment: Bool { get }
 }
 
 final class BoardDetailViewModel {
   
   private let boardRepository: BoardRepository
   private let disposeBag = DisposeBag()
+  let categorySeq: Int
+  let boardSeq: Int
+  var writeableComment: Bool
+  var writeableAnonymous: Bool
   
   private let currentBoardListRelay = PublishRelay<[BoardDetailCollectionViewCellModel]>()
   private let currentBoardInfoRelay = PublishRelay<[BoardDetailHeaderViewModel]>()
@@ -39,8 +48,12 @@ final class BoardDetailViewModel {
   private let successBannedBoardRelay = PublishRelay<Void>()
   private let successDeleteBoardRelay = PublishRelay<Void>()
   
-  init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
+  init(categorySeq: Int, boardSeq: Int, writeableAnonymous: Bool, writeableComment: Bool, boardRepository: BoardRepository = BoardRepositoryImpl()) {
     self.boardRepository = boardRepository
+    self.categorySeq = categorySeq
+    self.boardSeq = boardSeq
+    self.writeableComment = writeableComment
+    self.writeableAnonymous = writeableAnonymous
   }
 }
 
@@ -49,7 +62,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
     successBannedBoardRelay.asSignal()
   }
   
-  func bannedUser(boardSeq: Int) {
+  func bannedUser() {
     boardRepository.bannedUser(boardSeq: boardSeq)
       .subscribe(with: self, onSuccess: { owner, _ in
         owner.successBannedBoardRelay.accept(())
@@ -64,7 +77,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
     successDeleteBoardRelay.asSignal()
   }
   
-  func deleteBoard(categorySeq: Int, boardSeq: Int) {
+  func deleteBoard() {
     boardRepository.deleteBoard(categorySeq: categorySeq, boardSeq: boardSeq)
       .subscribe(with: self, onSuccess: { owner, _ in
         owner.successDeleteBoardRelay.accept(())
@@ -75,7 +88,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
       .disposed(by: disposeBag)
   }
   
-  func deleteComment(categorySeq: Int, boardSeq: Int, commentSeq: Int) {
+  func deleteComment(commentSeq: Int) {
     boardRepository.deleteComment(categorySeq: categorySeq, boardSeq: boardSeq, commentSeq: commentSeq)
       .subscribe(with: self, onSuccess: { owner, comments in
         owner.currentBoardListRelay.accept(
@@ -102,7 +115,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
     successReportBoardRelay.asSignal()
   }
   
-  func reportBoard(boardSeq: Int, reportType: ReportTitleType) {
+  func reportBoard(reportType: ReportTitleType) {
     boardRepository.reportBoard(
       request: .init(
         reportType: .board,
@@ -129,7 +142,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   
   
   /// 게시글에 대한 정보를 조회합니다
-  func inquireBoardDetail(categorySeq: Int, boardSeq: Int) {
+  func inquireBoardDetail() {
     let inquireBoard = boardRepository.inquireBoardDetail(
       categorySeq: categorySeq,
       boardSeq: boardSeq
@@ -174,7 +187,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
   
   
   /// 해당 게시글에 대한 댓글을 생성합니다
-  func createComment(boardComment: String, categorySeq: Int, boardSeq: Int, isAnonymous: Bool) {
+  func createComment(boardComment: String, isAnonymous: Bool) {
     guard !boardComment.isEmpty else { return }
     boardRepository.createComment(
       request: .init(

@@ -11,7 +11,6 @@ import RxSwift
 
 final class CheckEmailViewController: BaseViewController {
   
-  private let userMail: String
   private let viewModel: CheckEmailViewModelType
   
   private let containerView = UIStackView().then {
@@ -61,8 +60,7 @@ final class CheckEmailViewController: BaseViewController {
     $0.delegate = self
   }
   
-  init(userMail: String, viewModel: CheckEmailViewModelType = CheckEmailViewModel()) {
-    self.userMail = userMail
+  init(viewModel: CheckEmailViewModelType) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -144,7 +142,7 @@ final class CheckEmailViewController: BaseViewController {
       .withLatestFrom(checkEmailTextField.rx.text.orEmpty)
       .subscribe(with: self) { owner, authCode in
         owner.view.endEditing(true)
-        owner.viewModel.verifyEmailAuthCode(userMail: owner.userMail, authCode: authCode)
+        owner.viewModel.verifyEmailAuthCode(authCode: authCode)
       }
       .disposed(by: disposeBag)
     
@@ -154,7 +152,7 @@ final class CheckEmailViewController: BaseViewController {
           $0.height.equalTo(74)
         }
           owner.checkEmailTextField.removeError()
-          let vc = UpdatePasswordViewController(userEmail: owner.userMail, authCode: authCode)
+        let vc = UpdatePasswordViewController(viewModel: UpdatePasswordViewModel(userEmail: owner.viewModel.userEmail, authCode: authCode))
           owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
@@ -258,6 +256,6 @@ extension CheckEmailViewController {
 
 extension CheckEmailViewController: RerequestAlertViewDelegate {
   func didTappedRequestAuthCode() {
-    viewModel.requestEmailAuthCode(email: self.userMail)
-  }  
+    viewModel.requestEmailAuthCode()
+  }
 }

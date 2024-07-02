@@ -16,12 +16,10 @@ import Then
 final class EditBoardViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: EditBoardViewModelType
-  private let categorySeq: Int
   
   private var imageModel: [UIImage] = []
   private var selections = [String : PHPickerResult]()
   private var selectedAssetIdentifiers = [String]()
-  private var isAnonymous = false
   
   private lazy var editBoardBottomSheet = EditBoardBottomSheetViewController().then {
     $0.delegate = self
@@ -126,12 +124,10 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     $0.isEnabled = true
   }
   
-  init(categorySeq: Int, viewModel: EditBoardViewModelType = EditBoardViewModel()) {
+  init(viewModel: EditBoardViewModelType) {
     self.viewModel = viewModel
-    self.categorySeq = categorySeq
     super.init(nibName: nil, bundle: nil)
   }
-  
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -192,7 +188,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
         let title = owner.titleTextField.text!
         let content = owner.contentTextView.text!
         owner.view.endEditing(true)
-        owner.viewModel.createBoard(categorySeq: owner.categorySeq, title: title, contents: content, isAnonymous: owner.isAnonymous)
+        owner.viewModel.createBoard(title: title, contents: content)
       }
       .disposed(by: disposeBag)
     
@@ -269,26 +265,6 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     }
   }
   
-  
-  // TODO: - 나중에 텍스트 뷰 높이를 제한해야한다면 height값 이용해서 조건문 추가
-//  private func updateTextViewHeightAutomatically(textView: UITextView, height: CGFloat = 45) {
-//    let size = CGSize(
-//      width: textView.frame.width,
-//      height: .infinity
-//    )
-//    let estimatedSize = textView.sizeThatFits(size)
-//    
-//    if estimatedSize.height > height {
-//      textView.snp.updateConstraints {
-//        $0.height.equalTo(estimatedSize.height)
-//      }
-//    } else {
-//      textView.snp.updateConstraints {
-//        $0.height.equalTo(height)
-//      }
-//    }
-//  }
-  
   @objc
   func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
@@ -343,7 +319,7 @@ extension EditBoardViewController: UIGestureRecognizerDelegate {
 
 extension EditBoardViewController: EditBoardBottomSheetViewDelegate {
   func didTappedAnonymousMenu(isChecked: Bool) {
-    self.isAnonymous = isChecked
+    viewModel.didTappedAnonymousMenu.onNext(isChecked)
   }
   
   func didTappedSelectedMenu() {

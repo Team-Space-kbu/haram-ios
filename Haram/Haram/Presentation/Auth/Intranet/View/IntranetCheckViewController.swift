@@ -101,7 +101,7 @@ final class IntranetCheckViewController: BaseViewController {
     loginButton.rx.tap
       .throttle(.seconds(1), scheduler: MainScheduler.instance)
       .subscribe(with: self) { owner, _ in
-        let vc = IntranetLoginViewController()
+        let vc = IntranetLoginViewController(viewModel: IntranetLoginViewModel(type: .noShortcut))
         vc.hidesBottomBarWhenPushed = true
         vc.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)

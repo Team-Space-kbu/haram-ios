@@ -12,12 +12,16 @@ import RxCocoa
 
 protocol EditBoardViewModelType {
   
-  func createBoard(categorySeq: Int, title: String, contents: String, isAnonymous: Bool)
+  func createBoard(title: String, contents: String)
   func uploadImage(images: [(UIImage, String)], type: AggregateType)
+  
+  var didTappedAnonymousMenu: PublishSubject<Bool> { get }
   
   var successUploadImage: Signal<(UploadImageResponse, UIImage)> { get }
   var successCreateBoard: Signal<Void> { get }
   var errorMessage: Signal<HaramError> { get }
+  
+  var isAnonymous: Bool { get }
 }
 
 final class EditBoardViewModel {
@@ -31,15 +35,27 @@ final class EditBoardViewModel {
   private let successCreateBoardRelay = PublishRelay<Void>()
   private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   private var isLoading = false
+  private let categorySeq: Int
   
-  init(boardRepository: BoardRepository = BoardRepositoryImpl(), imageRepository: ImageRepository = ImageRepositoryImpl()) {
+  var isAnonymous: Bool = false
+  var didTappedAnonymousMenu = PublishSubject<Bool>()
+  
+  init(categorySeq: Int, boardRepository: BoardRepository = BoardRepositoryImpl(), imageRepository: ImageRepository = ImageRepositoryImpl()) {
     self.boardRepository = boardRepository
     self.imageRepository = imageRepository
+    self.categorySeq = categorySeq
+    
+    didTappedAnonymousMenu
+      .subscribe(with: self) { owner, isAnonymous in
+        owner.isAnonymous = isAnonymous
+      }
+      .disposed(by: disposeBag)
   }
   
 }
 
 extension EditBoardViewModel: EditBoardViewModelType {
+  
   var errorMessage: RxCocoa.Signal<HaramError> {
     errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }
@@ -77,7 +93,7 @@ extension EditBoardViewModel: EditBoardViewModelType {
     isLoading = false
   }
   
-  func createBoard(categorySeq: Int, title: String, contents: String, isAnonymous: Bool) {
+  func createBoard(title: String, contents: String) {
     
     if title == Constants.titlePlaceholder || title.isEmpty {
       errorMessageRelay.accept(.titleIsEmpty)

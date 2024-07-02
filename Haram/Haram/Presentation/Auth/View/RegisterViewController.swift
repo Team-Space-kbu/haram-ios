@@ -17,8 +17,6 @@ final class RegisterViewController: BaseViewController {
   // MARK: - Property
   
   private let viewModel: RegisterViewModelType
-  private let email: String
-  private let authCode: String
   
   // MARK: - UI Components
   
@@ -97,10 +95,8 @@ final class RegisterViewController: BaseViewController {
   
   // MARK: - Initializations
   
-  init(authCode: String, email: String, viewModel: RegisterViewModelType = RegisterViewModel()) {
+  init(viewModel: RegisterViewModelType) {
     self.viewModel = viewModel
-    self.email = email
-    self.authCode = authCode
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -122,7 +118,7 @@ final class RegisterViewController: BaseViewController {
     
     registerNotifications()
     
-    emailTextField.textField.text = email
+    emailTextField.textField.text = viewModel.email
     scrollView.delegate = self
   }
   
@@ -203,10 +199,9 @@ final class RegisterViewController: BaseViewController {
       .subscribe(with: self) { owner, _ in
         
         guard let id = owner.idTextField.textField.text,
-              let email = owner.emailTextField.textField.text,
               let password = owner.pwdTextField.textField.text,
               let nickname = owner.nicknameTextField.textField.text else { return }
-        owner.viewModel.registerMember(id: id, email: email, password: password, nickname: nickname, authCode: owner.authCode)
+        owner.viewModel.registerMember(id: id, password: password, nickname: nickname)
       }
       .disposed(by: disposeBag)
     

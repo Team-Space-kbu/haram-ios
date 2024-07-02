@@ -21,9 +21,6 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: HomeBannerDetailViewModelType
   
-  private let bannerDetailType: BannerDetailType
-  private let bannerSeq: Int
-  private let department: Department
   private var bannerModel: [HomebannerCollectionViewCellModel] = []
 
   private let currentBannerPage = PublishSubject<Int>()
@@ -88,11 +85,8 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
     $0.skeletonTextNumberOfLines = 5
   }
   
-  init(department: Department, bannerSeq: Int, bannerDetailType: BannerDetailType = .noBackGesture, viewModel: HomeBannerDetailViewModelType = HomeBannerDetailViewModel()) {
-    self.bannerDetailType = bannerDetailType
+  init(viewModel: HomeBannerDetailViewModelType) {
     self.viewModel = viewModel
-    self.bannerSeq = bannerSeq
-    self.department = department
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -102,7 +96,7 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
   
   override func bind() {
     super.bind()
-    viewModel.inquireBannerInfo(bannerSeq: bannerSeq, department: department)
+    viewModel.inquireBannerInfo()
     
     viewModel.bannerInfo
       .emit(with: self) { owner, result in
@@ -181,7 +175,7 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
     setupSkeletonView()
     setupBackButton()
     
-    if bannerDetailType == .useBackGesture {
+    if viewModel.bannerDetailType == .useBackGesture {
       navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
   }

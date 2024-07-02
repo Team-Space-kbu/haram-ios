@@ -131,7 +131,7 @@ final class VerifyEmailViewController: BaseViewController {
         
         let userMail = owner.schoolEmailTextField.textField.text!
         let authCode = owner.checkEmailTextField.textField.text!
-        let vc = RegisterViewController(authCode: authCode, email: userMail)
+        let vc = RegisterViewController(viewModel: RegisterViewModel(authCode: authCode, email: userMail))
         owner.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)
         owner.schoolEmailTextField.textField.text = nil

@@ -14,6 +14,7 @@ protocol IntranetLoginViewModelType {
   var successIntranetLogin: Signal<Void> { get }
   var isLoading: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
+  var type: IntranetLoginType { get }
 }
 
 final class IntranetLoginViewModel {
@@ -25,8 +26,11 @@ final class IntranetLoginViewModel {
   private let isLoadingSubject     = BehaviorSubject<Bool>(value: false)
   private let errorMessageRelay    = PublishRelay<HaramError>()
   
-  init(authRepository: AuthRepository = AuthRepositoryImpl()) {
+  let type: IntranetLoginType
+  
+  init(type: IntranetLoginType, authRepository: AuthRepository = AuthRepositoryImpl()) {
     self.authRepository = authRepository
+    self.type = type
   }
 }
 

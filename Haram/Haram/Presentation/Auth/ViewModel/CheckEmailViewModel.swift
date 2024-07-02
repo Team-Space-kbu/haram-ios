@@ -15,8 +15,10 @@ protocol CheckEmailViewModelType {
   var errorMessage: Signal<HaramError> { get }
   var successSendAuthCode: Signal<Void> { get }
   
-  func verifyEmailAuthCode(userMail: String, authCode: String)
-  func requestEmailAuthCode(email: String)
+  func verifyEmailAuthCode(authCode: String)
+  func requestEmailAuthCode()
+  
+  var userEmail: String { get }
 }
 
 final class CheckEmailViewModel {
@@ -28,8 +30,11 @@ final class CheckEmailViewModel {
   private let errorMessageRelay = PublishRelay<HaramError>()
   private let successSendAuthCodeRelay = PublishRelay<Void>()
   
-  init(authRepository: AuthRepository = AuthRepositoryImpl()) {
+  let userEmail: String
+  
+  init(userMail: String, authRepository: AuthRepository = AuthRepositoryImpl()) {
     self.authRepository = authRepository
+    self.userEmail = userMail
   }
   
   private func checkAuthCodeIsValid(authCode: String) -> Bool {
@@ -64,8 +69,8 @@ extension CheckEmailViewModel: CheckEmailViewModelType {
     verifyEmailAuthCodeRelay.asSignal()
   }
   
-  func requestEmailAuthCode(email: String) {
-    authRepository.requestEmailAuthCode(userEmail: email)
+  func requestEmailAuthCode() {
+    authRepository.requestEmailAuthCode(userEmail: userEmail)
       .subscribe(with: self, onSuccess: { owner, _ in
         owner.successSendAuthCodeRelay.accept(())
       }, onFailure: { owner, error in
@@ -75,8 +80,8 @@ extension CheckEmailViewModel: CheckEmailViewModelType {
       .disposed(by: disposeBag)
   }
   
-  func verifyEmailAuthCode(userMail: String, authCode: String) {
-    authRepository.verifyFindPassword(userMail: userMail, authCode: authCode)
+  func verifyEmailAuthCode(authCode: String) {
+    authRepository.verifyFindPassword(userMail: userEmail, authCode: authCode)
       .subscribe(with: self, onSuccess: { owner, authCode in
         owner.verifyEmailAuthCodeRelay.accept(authCode)
       }, onFailure: { owner, error in

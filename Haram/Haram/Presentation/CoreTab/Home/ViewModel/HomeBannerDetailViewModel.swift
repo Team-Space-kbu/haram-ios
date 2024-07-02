@@ -11,26 +11,33 @@ import RxSwift
 import RxCocoa
 
 protocol HomeBannerDetailViewModelType {
-  func inquireBannerInfo(bannerSeq: Int, department: Department)
+  func inquireBannerInfo()
   
   var bannerInfo: Signal<(title: String, content: String, imageModel: [HomebannerCollectionViewCellModel])> { get }
   var errorMessage: Signal<HaramError> { get }
+  var bannerDetailType: BannerDetailType { get }
 }
 
 final class HomeBannerDetailViewModel {
   
   private let disposeBag = DisposeBag()
+  private let bannerSeq: Int
+  private let department: Department
   private let homeRepository: HomeRepository
   private let rothemRepository: RothemRepository
   private let bibleRepository: BibleRepository
+  var bannerDetailType: BannerDetailType
   
   private let bannerInfoRelay = PublishRelay<(title: String, content: String, imageModel: [HomebannerCollectionViewCellModel])>()
   private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   
-  init(homeRepository: HomeRepository = HomeRepositoryImpl(), rothemRepository: RothemRepository = RothemRepositoryImpl(), bibleRepository: BibleRepository = BibleRepositoryImpl()) {
+  init(bannerDetailType: BannerDetailType, department: Department, bannerSeq: Int, homeRepository: HomeRepository = HomeRepositoryImpl(), rothemRepository: RothemRepository = RothemRepositoryImpl(), bibleRepository: BibleRepository = BibleRepositoryImpl()) {
     self.rothemRepository = rothemRepository
     self.homeRepository = homeRepository
     self.bibleRepository = bibleRepository
+    self.bannerSeq = bannerSeq
+    self.department = department
+    self.bannerDetailType = bannerDetailType
   }
   
 }
@@ -44,7 +51,7 @@ extension HomeBannerDetailViewModel: HomeBannerDetailViewModelType {
     bannerInfoRelay.asSignal()
   }
   
-  func inquireBannerInfo(bannerSeq: Int, department: Department) {
+  func inquireBannerInfo() {
     switch department {
     case .banners:
       homeRepository.inquireBannerInfo(bannerSeq: bannerSeq)

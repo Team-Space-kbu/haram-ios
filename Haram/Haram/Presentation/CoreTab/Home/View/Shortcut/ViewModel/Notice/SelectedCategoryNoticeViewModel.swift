@@ -9,10 +9,11 @@ import RxSwift
 import RxCocoa
 
 protocol SelectedCategoryNoticeViewModelType {
-  var noticeType: AnyObserver<NoticeType> { get }
   var fetchMoreDatas: AnyObserver<Void> { get }
   var noticeCollectionViewCellModel: Driver<[NoticeCollectionViewCellModel]> { get }
   var errorMessage: Signal<HaramError> { get }
+  
+  var noticeType: NoticeType { get }
 }
 
 final class SelectedCategoryNoticeViewModel {
@@ -25,11 +26,14 @@ final class SelectedCategoryNoticeViewModel {
   private let fetchingDatas      = PublishSubject<Void>()
   private let isLastPage         = BehaviorRelay<Int>(value: 1)
   private let isLoadingRelay     = BehaviorRelay<Bool>(value: false)
-  private let noticeTypeSubject    = PublishSubject<NoticeType>()
   private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   
-  init(noticeRepository: NoticeRepository = NoticeRepositoryImpl()) {
+  let noticeType: NoticeType
+  
+  init(noticeType: NoticeType, noticeRepository: NoticeRepository = NoticeRepositoryImpl()) {
     self.noticeRepository = noticeRepository
+    self.noticeType = noticeType
+    
     inquireNoticeList()
     
     fetchingDatas
@@ -46,20 +50,16 @@ final class SelectedCategoryNoticeViewModel {
   
   private func inquireNoticeList() {
     
-    Observable.combineLatest(
-      noticeTypeSubject,
       currentPageSubject
-    ) { ($0, $1) }
       .withUnretained(self)
       .do(onNext: { owner, _ in
         owner.isLoadingRelay.accept(true)
       })
-      .flatMapLatest { owner, result in
-        let (type, page) = result
+      .flatMapLatest { owner, page in
         
         return owner.noticeRepository.inquireNoticeInfo(
           request: .init(
-            type: type,
+            type: owner.noticeType,
             page: page
           )
         )
@@ -102,14 +102,9 @@ extension SelectedCategoryNoticeViewModel: SelectedCategoryNoticeViewModelType {
     errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }
   
-  var noticeType: RxSwift.AnyObserver<NoticeType> {
-    noticeTypeSubject.asObserver()
-  }
-  
   var fetchMoreDatas: RxSwift.AnyObserver<Void> {
     fetchingDatas.asObserver()
   }
-  
 
   var noticeCollectionViewCellModel: RxCocoa.Driver<[NoticeCollectionViewCellModel]> {
     noticeCollectionViewCellModelRelay

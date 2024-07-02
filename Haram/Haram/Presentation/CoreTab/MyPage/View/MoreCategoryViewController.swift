@@ -15,7 +15,6 @@ import Then
 final class MoreCategoryViewController: BaseViewController {
   
   private let viewModel: SelectedCategoryNoticeViewModelType
-  private let noticeType: NoticeType
   
   private var noticeModel: [NoticeCollectionViewCellModel] = []
   
@@ -37,9 +36,8 @@ final class MoreCategoryViewController: BaseViewController {
     $0.alwaysBounceVertical = true
   }
   
-  init(noticeType: NoticeType, viewModel: SelectedCategoryNoticeViewModelType = SelectedCategoryNoticeViewModel()) {
+  init(viewModel: SelectedCategoryNoticeViewModelType) {
     self.viewModel = viewModel
-    self.noticeType = noticeType
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -49,7 +47,6 @@ final class MoreCategoryViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    viewModel.noticeType.onNext(noticeType)
     
     viewModel.noticeCollectionViewCellModel
       .drive(with: self) { owner, noticeModel in
@@ -108,7 +105,7 @@ final class MoreCategoryViewController: BaseViewController {
 
 extension MoreCategoryViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = NoticeDetailViewController(type: noticeType, path: noticeModel[indexPath.row].path)
+    let vc = NoticeDetailViewController(type: viewModel.noticeType, path: noticeModel[indexPath.row].path)
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }

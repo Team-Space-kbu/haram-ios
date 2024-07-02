@@ -10,22 +10,28 @@ import RxCocoa
 
 protocol BoardListViewModelType {
   
-  func inquireBoardList(categorySeq: Int)
-  func refreshBoardList(categorySeq: Int)
+  func inquireBoardList()
+  func refreshBoardList()
+  var writeableBoard: Bool { get }
+  var categorySeq: Int { get }
+  var writeableComment: Bool { get }
+  var writeableAnonymous: Bool { get }
   
   var boardListModel: Driver<[BoardListCollectionViewCellModel]> { get }
   var errorMessage: Signal<HaramError> { get }
-  var writeableAnonymous: Signal<Bool> { get }
 }
 
 final class BoardListViewModel {
   
   private let boardRepository: BoardRepository
   private let disposeBag = DisposeBag()
+  let categorySeq: Int
+  var writeableComment: Bool
+  var writeableBoard: Bool
+  var writeableAnonymous: Bool = true
   
   private let currentBoardListRelay = BehaviorRelay<[BoardListCollectionViewCellModel]>(value: [])
   private let errorMessageRelay     = BehaviorRelay<HaramError?>(value: nil)
-  private let writeableAnonymousSubject = PublishSubject<Bool>()
   
   private var isLoading = false
   
@@ -35,17 +41,17 @@ final class BoardListViewModel {
   /// 마지막 페이지
   private var endPage = 2
   
-  init(boardRepository: BoardRepository = BoardRepositoryImpl()) {
+  init(categorySeq: Int, writeableComment: Bool, writeableBoard: Bool, boardRepository: BoardRepository = BoardRepositoryImpl()) {
     self.boardRepository = boardRepository
+    self.categorySeq = categorySeq
+    self.writeableComment = writeableComment
+    self.writeableBoard = writeableBoard
   }
 }
 
 extension BoardListViewModel: BoardListViewModelType {
-  var writeableAnonymous: RxCocoa.Signal<Bool> {
-    writeableAnonymousSubject.asSignal(onErrorSignalWith: .empty())
-  }
   
-  func inquireBoardList(categorySeq: Int) {
+  func inquireBoardList() {
     
     guard startPage <= endPage && !isLoading else { return }
     
@@ -67,7 +73,7 @@ extension BoardListViewModel: BoardListViewModelType {
         }
         currentBoardList.append(contentsOf: addBoardList)
         
-        owner.writeableAnonymousSubject.onNext(response.writeableAnonymous)
+        owner.writeableAnonymous = response.writeableAnonymous
         owner.currentBoardListRelay.accept(currentBoardList)
         owner.isLoading = false
         
@@ -82,7 +88,7 @@ extension BoardListViewModel: BoardListViewModelType {
       .disposed(by: disposeBag)
   }
   
-  func refreshBoardList(categorySeq: Int) {
+  func refreshBoardList() {
     
     isLoading = true
     
@@ -102,7 +108,7 @@ extension BoardListViewModel: BoardListViewModelType {
         }
         currentBoardList.append(contentsOf: addBoardList)
         
-        owner.writeableAnonymousSubject.onNext(response.writeableAnonymous)
+        owner.writeableAnonymous = response.writeableAnonymous
         owner.currentBoardListRelay.accept(addBoardList)
         owner.isLoading = false
         

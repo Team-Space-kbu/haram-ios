@@ -122,7 +122,7 @@ final class FindPasswordViewController: BaseViewController {
     viewModel.successSendAuthCode
       .emit(with: self) { owner, userMail in
         owner.schoolEmailTextField.removeError()
-        let vc = CheckEmailViewController(userMail: userMail)
+        let vc = CheckEmailViewController(viewModel: CheckEmailViewModel(userMail: userMail))
         owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)

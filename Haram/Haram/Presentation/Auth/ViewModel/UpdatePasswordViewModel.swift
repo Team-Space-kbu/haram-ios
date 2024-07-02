@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 protocol UpdatePasswordViewModelType {
-  func requestUpdatePassword(password: String, authCode: String, userMail: String)
+  func requestUpdatePassword(password: String)
   func checkPassword(password: String)
   func isEqualPasswordAndRePassword(password: String, repassword: String)
   
@@ -37,8 +37,13 @@ final class UpdatePasswordViewModel {
   private let errorMessageRelay = PublishRelay<HaramError>()
   private let successMessageRelay = BehaviorRelay<HaramError?>(value: nil)
   
-  init(authRepository: AuthRepository = AuthRepositoryImpl()) {
+  private let userEmail: String
+  private let authCode: String
+  
+  init(userEmail: String, authCode: String, authRepository: AuthRepository = AuthRepositoryImpl()) {
     self.authRepository = authRepository
+    self.userEmail = userEmail
+    self.authCode = authCode
   }
   
   private func isValidPassword(_ password: String) -> Bool {
@@ -86,7 +91,6 @@ extension UpdatePasswordViewModel: UpdatePasswordViewModelType {
       passwordSubject,
       rePasswordSubject
     )
-//    .filter { !$0.0.isEmpty && !$0.1.isEmpty }
     .withUnretained(self)
     .map { owner, result in
       let (password, rePassword) = result
@@ -105,14 +109,14 @@ extension UpdatePasswordViewModel: UpdatePasswordViewModelType {
     successUpdatePasswordRelay.asSignal()
   }
   
-  func requestUpdatePassword(password: String, authCode: String, userMail: String) {
+  func requestUpdatePassword(password: String) {
     
     authRepository.updatePassword(
       request: .init(
         newPassword: password,
         authCode: authCode
       ),
-      userEmail: userMail
+      userEmail: userEmail
     )
     .subscribe(with: self, onSuccess: { owner, success in
       if success {

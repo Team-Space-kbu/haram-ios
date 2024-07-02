@@ -21,7 +21,6 @@ final class IntranetLoginViewController: BaseViewController {
   // MARK: - Property
   
   private let viewModel: IntranetLoginViewModelType
-  private let type: IntranetLoginType
   
   // MARK: - UI Components
   
@@ -70,9 +69,8 @@ final class IntranetLoginViewController: BaseViewController {
   
   // MARK: - Initialization
   
-  init(type: IntranetLoginType = .noShortcut, viewModel: IntranetLoginViewModelType = IntranetLoginViewModel()) {
+  init(viewModel: IntranetLoginViewModelType) {
     self.viewModel = viewModel
-    self.type = type
     super.init(nibName: nil, bundle: nil)
   }
   
