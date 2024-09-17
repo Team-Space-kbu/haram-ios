@@ -899,6 +899,9 @@
 		70727A5329D87B25003DE956 /* Haram */ = {
 			isa = PBXGroup;
 			children = (
+				70DC8F512C99F848006DDAF7 /* Resource */,
+				70DC8F502C99F832006DDAF7 /* Application */,
+				70DC8F4F2C99F81E006DDAF7 /* Common */,
 				70A24ED22BC44C4F00572FAE /* GoogleService-Info.plist */,
 				70B310BF2BB7231500EF21CE /* Configuration */,
 				701FC8922B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist */,
@@ -907,15 +910,7 @@
 				7095D3882AD67C85008DAA39 /* Constants */,
 				70E4D1552AD638BF00351B35 /* LaunchScreen */,
 				708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */,
-				708312942A691A8200F7E283 /* Util */,
-				70727AB629D95E2A003DE956 /* Extension */,
-				70727AAB29D95575003DE956 /* Font */,
 				70727A8629D87DFA003DE956 /* Network */,
-				70727A5429D87B25003DE956 /* AppDelegate.swift */,
-				70727A5629D87B25003DE956 /* SceneDelegate.swift */,
-				70727A5D29D87B27003DE956 /* Assets.xcassets */,
-				70727A5F29D87B27003DE956 /* LaunchScreen.storyboard */,
-				70727A6229D87B27003DE956 /* Info.plist */,
 			);
 			path = Haram;
 			sourceTree = "<group>";
@@ -1573,6 +1568,35 @@
 				70DC8F4E2C99E0AB006DDAF7 /* ReleaseConfig.xcconfig */,
 			);
 			path = Configuration;
+			sourceTree = "<group>";
+		};
+		70DC8F4F2C99F81E006DDAF7 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				70727AB629D95E2A003DE956 /* Extension */,
+				708312942A691A8200F7E283 /* Util */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		70DC8F502C99F832006DDAF7 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				70727A5429D87B25003DE956 /* AppDelegate.swift */,
+				70727A5629D87B25003DE956 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		70DC8F512C99F848006DDAF7 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				70727AAB29D95575003DE956 /* Font */,
+				70727A5D29D87B27003DE956 /* Assets.xcassets */,
+				70727A5F29D87B27003DE956 /* LaunchScreen.storyboard */,
+				70727A6229D87B27003DE956 /* Info.plist */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		70E4D1552AD638BF00351B35 /* LaunchScreen */ = {
@@ -2338,7 +2362,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = TK287254JR;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Haram/Info.plist;
+				INFOPLIST_FILE = Haram/Resource/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Application needs camera access to publish stream";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location allows you to view restaurants in delivery range of your address.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -2375,7 +2399,7 @@
 				CURRENT_PROJECT_VERSION = 50;
 				DEVELOPMENT_TEAM = TK287254JR;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Haram/Info.plist;
+				INFOPLIST_FILE = Haram/Resource/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Application needs camera access to publish stream";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location allows you to view restaurants in delivery range of your address.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
