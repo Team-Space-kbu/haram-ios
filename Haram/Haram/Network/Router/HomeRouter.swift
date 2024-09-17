@@ -9,7 +9,7 @@ import Alamofire
 
 enum HomeRouter {
   case inquireHomeInfo
-  case inquireAffiliatedList
+  case inquireAffiliatedModel
   case inquireAffiliatedDetail(Int)
   case inquireBannerInfo(Int)
 }
@@ -23,8 +23,8 @@ extension HomeRouter: Router {
   var path: String {
     switch self {
     case .inquireHomeInfo:
-      return "/v1/homes"
-    case .inquireAffiliatedList:
+      return "/v2/homes"
+    case .inquireAffiliatedModel:
       return "/v1/partners"
     case let .inquireBannerInfo(bannerSeq):
       return "/v1/banners/notices/\(bannerSeq)"

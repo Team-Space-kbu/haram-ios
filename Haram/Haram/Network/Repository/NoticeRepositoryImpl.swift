@@ -11,6 +11,7 @@ protocol NoticeRepository {
   func inquireNoticeInfo(request: InquireNoticeTypeInfoRequest) -> Single<InquireNoticeInfoResponse>
   func inquireMainNoticeList() -> Single<InquireMainNoticeListResponse>
   func inquireNoticeDetailInfo(request: InquireNoticeDetailInfoRequest) -> Single<InquireNoticeDetailInfoResponse>
+  func inquireNoticeDetail(seq: Int) -> Single<InquireNoticeDetailResponse>
 }
 
 final class NoticeRepositoryImpl {
@@ -24,15 +25,19 @@ final class NoticeRepositoryImpl {
 }
 
 extension NoticeRepositoryImpl: NoticeRepository {
+  func inquireNoticeDetail(seq: Int) -> RxSwift.Single<InquireNoticeDetailResponse> {
+    service.request(router: NoticeRouter.inquireNoticeDetail(seq), type: InquireNoticeDetailResponse.self)
+  }
+  
   func inquireNoticeDetailInfo(request: InquireNoticeDetailInfoRequest) -> RxSwift.Single<InquireNoticeDetailInfoResponse> {
-    service.betarequest(router: NoticeRouter.inquireNoticeDetailInfo(request), type: InquireNoticeDetailInfoResponse.self)
+    service.request(router: NoticeRouter.inquireNoticeDetailInfo(request), type: InquireNoticeDetailInfoResponse.self)
   }
   
   func inquireMainNoticeList() -> RxSwift.Single<InquireMainNoticeListResponse> {
-    service.betarequest(router: NoticeRouter.inquireMainNoticeList, type: InquireMainNoticeListResponse.self)
+    service.request(router: NoticeRouter.inquireMainNoticeList, type: InquireMainNoticeListResponse.self)
   }
   
   func inquireNoticeInfo(request: InquireNoticeTypeInfoRequest) -> RxSwift.Single<InquireNoticeInfoResponse> {
-    service.betarequest(router: NoticeRouter.inquireNoticeTypeInfo(request), type: InquireNoticeInfoResponse.self)
+    service.request(router: NoticeRouter.inquireNoticeTypeInfo(request), type: InquireNoticeInfoResponse.self)
   }
 }

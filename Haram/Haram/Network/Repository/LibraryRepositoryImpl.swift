@@ -26,11 +26,11 @@ final class LibraryRepositoryImpl {
 
 extension LibraryRepositoryImpl: LibraryRepository {
   func inquireLibrary() -> Single<InquireLibraryResponse> {
-    service.betarequest(router: LibraryRouter.inquireLibrary, type: InquireLibraryResponse.self)
+    service.request(router: LibraryRouter.inquireLibrary, type: InquireLibraryResponse.self)
   }
   
   func searchBook(query: String, page: Int = 1) -> Single<SearchBookResponse> {
-    service.betarequest(router: LibraryRouter.searchBook(
+    service.request(router: LibraryRouter.searchBook(
       SearchBookRequest(
         query: query,
         page: page
@@ -38,10 +38,10 @@ extension LibraryRepositoryImpl: LibraryRepository {
   }
   
   func requestBookInfo(text: Int) -> Single<RequestBookInfoResponse> {
-    service.betarequest(router: LibraryRouter.requestBookInfo(text), type: RequestBookInfoResponse.self)
+    service.request(router: LibraryRouter.requestBookInfo(text), type: RequestBookInfoResponse.self)
   }
   
   func requestBookLoanStatus(path: Int) -> Single<RequestBookLoanStatusResponse> {
-    service.betarequest(router: LibraryRouter.requestBookLoanStatus(path), type: RequestBookLoanStatusResponse.self)
+    service.request(router: LibraryRouter.requestBookLoanStatus(path), type: RequestBookLoanStatusResponse.self)
   }
 }

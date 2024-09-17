@@ -11,6 +11,7 @@ enum NoticeRouter {
   case inquireNoticeTypeInfo(InquireNoticeTypeInfoRequest)
   case inquireMainNoticeList
   case inquireNoticeDetailInfo(InquireNoticeDetailInfoRequest)
+  case inquireNoticeDetail(Int)
 }
 
 extension NoticeRouter: Router {
@@ -27,6 +28,8 @@ extension NoticeRouter: Router {
       return "/v1/notice"
     case .inquireNoticeDetailInfo:
       return "/v1/notice/detail"
+    case let .inquireNoticeDetail(seq):
+      return "/v2/space/notice/\(seq)"
     }
   }
   
@@ -38,6 +41,8 @@ extension NoticeRouter: Router {
       return .plain
     case .inquireNoticeDetailInfo(let request):
       return .query(request)
+    case .inquireNoticeDetail:
+      return .plain
     }
   }
   

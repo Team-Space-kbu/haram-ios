@@ -32,39 +32,39 @@ final class BoardRepositoryImpl {
 
 extension BoardRepositoryImpl: BoardRepository {
   func bannedUser(boardSeq: Int) -> RxSwift.Single<EmptyModel> {
-    service.betarequest(router: BoardRouter.bannedUser(boardSeq), type: EmptyModel.self)
+    service.request(router: BoardRouter.bannedUser(boardSeq), type: EmptyModel.self)
   }
   
   func deleteBoard(categorySeq: Int, boardSeq: Int) -> RxSwift.Single<EmptyModel> {
-    service.betarequest(router: BoardRouter.deleteBoard(categorySeq, boardSeq), type: EmptyModel.self)
+    service.request(router: BoardRouter.deleteBoard(categorySeq, boardSeq), type: EmptyModel.self)
   }
   
   func deleteComment(categorySeq: Int, boardSeq: Int, commentSeq: Int) -> RxSwift.Single<[Comment]> {
-    service.betarequest(router: BoardRouter.deleteComment(categorySeq, boardSeq, commentSeq), type: [Comment].self)
+    service.request(router: BoardRouter.deleteComment(categorySeq, boardSeq, commentSeq), type: [Comment].self)
   }
   
   func reportBoard(request: ReportBoardRequest) -> RxSwift.Single<EmptyModel> {
-    service.betarequest(router: BoardRouter.reportBoard(request), type: EmptyModel.self)
+    service.request(router: BoardRouter.reportBoard(request), type: EmptyModel.self)
   }
   
   func createBoard(categorySeq: Int, request: CreateBoardRequest) -> RxSwift.Single<Bool> {
-    service.betarequest(router: BoardRouter.createBoard(categorySeq, request), type: Bool.self)
+    service.request(router: BoardRouter.createBoard(categorySeq, request), type: Bool.self)
   }
   
   func inquireBoardCategory() -> RxSwift.Single<[InquireBoardCategoryResponse]> {
-    service.betarequest(router: BoardRouter.inquireBoardCategory, type: [InquireBoardCategoryResponse].self)
+    service.request(router: BoardRouter.inquireBoardCategory, type: [InquireBoardCategoryResponse].self)
   }
   
   func inquireBoardListInCategory(categorySeq: Int, page: Int = 1) -> RxSwift.Single<InquireBoardListInCategoryResponse> {
-    service.betarequest(router: BoardRouter.inquireBoardListInCategory(categorySeq, page), type: InquireBoardListInCategoryResponse.self)
+    service.request(router: BoardRouter.inquireBoardListInCategory(categorySeq, page), type: InquireBoardListInCategoryResponse.self)
   }
   
   func inquireBoardDetail(categorySeq: Int, boardSeq: Int) -> RxSwift.Single<InquireBoardDetailResponse> {
-    service.betarequest(router: BoardRouter.inquireBoardDetail(categorySeq, boardSeq), type: InquireBoardDetailResponse.self)
+    service.request(router: BoardRouter.inquireBoardDetail(categorySeq, boardSeq), type: InquireBoardDetailResponse.self)
   }
   
   func createComment(request: CreateCommentRequest, categorySeq: Int, boardSeq: Int) -> RxSwift.Single<[Comment]> {
-    service.betarequest(router: BoardRouter.createComment(request, categorySeq, boardSeq), type: [Comment].self)
+    service.request(router: BoardRouter.createComment(request, categorySeq, boardSeq), type: [Comment].self)
   }
   
   

@@ -31,38 +31,38 @@ final class RothemRepositoryImpl {
 
 extension RothemRepositoryImpl: RothemRepository {
   func inquireRothemNoticeDetail(noticeSeq: Int) -> RxSwift.Single<InquireRothemNoticeDetailResponse> {
-    service.betarequest(router: RothemRouter.inquireRothemNoticeDetail(noticeSeq), type: InquireRothemNoticeDetailResponse.self)
+    service.request(router: RothemRouter.inquireRothemNoticeDetail(noticeSeq), type: InquireRothemNoticeDetailResponse.self)
   }
   
   func inquireAllRoomInfo() -> Single<[InquireAllRoomInfoResponse]> {
-    service.betarequest(router: RothemRouter.inquireAllRoomInfo, type: [InquireAllRoomInfoResponse].self)
+    service.request(router: RothemRouter.inquireAllRoomInfo, type: [InquireAllRoomInfoResponse].self)
   }
   
   func inquireAllRothemNotice() -> Single<[InquireAllRothemNoticeResponse]> {
-    service.betarequest(router: RothemRouter.inquireAllRothemNotice, type: [InquireAllRothemNoticeResponse].self)
+    service.request(router: RothemRouter.inquireAllRothemNotice, type: [InquireAllRothemNoticeResponse].self)
   }
   
   func inquireRothemHomeInfo(userID: String) -> Single<InquireRothemHomeInfoResponse> {
-    service.betarequest(router: RothemRouter.inquireRothemHomeInfo(userID), type: InquireRothemHomeInfoResponse.self)
+    service.request(router: RothemRouter.inquireRothemHomeInfo(userID), type: InquireRothemHomeInfoResponse.self)
   }
   
   func inquireRothemRoomInfo(roomSeq: Int) -> Single<InquireRothemRoomInfoResponse>  {
-    service.betarequest(router: RothemRouter.inquireRothemRoomInfo(roomSeq), type: InquireRothemRoomInfoResponse.self)
+    service.request(router: RothemRouter.inquireRothemRoomInfo(roomSeq), type: InquireRothemRoomInfoResponse.self)
   }
   
   func inquireRothemReservationInfo(userID: String) -> Single<InquireRothemReservationInfoResponse> {
-    service.betarequest(router: RothemRouter.inquireRothemReservationInfo(userID), type: InquireRothemReservationInfoResponse.self)
+    service.request(router: RothemRouter.inquireRothemReservationInfo(userID), type: InquireRothemReservationInfoResponse.self)
   }
   
   func checkTimeAvailableForRothemReservation(roomSeq: Int) -> Single<CheckTimeAvailableForRothemReservationResponse> {
-    service.betarequest(router: RothemRouter.checkTimeAvailableForRothemReservation(roomSeq), type: CheckTimeAvailableForRothemReservationResponse.self)
+    service.request(router: RothemRouter.checkTimeAvailableForRothemReservation(roomSeq), type: CheckTimeAvailableForRothemReservationResponse.self)
   }
   
   func reserveStudyRoom(roomSeq: Int, request: ReserveStudyRoomRequest) -> Single<EmptyModel> {
-    service.betarequest(router: RothemRouter.reserveStudyRoom(roomSeq, request), type: EmptyModel.self)
+    service.request(router: RothemRouter.reserveStudyRoom(roomSeq, request), type: EmptyModel.self)
   }
   
   func cancelRothemReservation(request: CancelRothemReservationRequest) -> Single<EmptyModel> {
-    service.betarequest(router: RothemRouter.cancelRothemReservation(request), type: EmptyModel.self)
+    service.request(router: RothemRouter.cancelRothemReservation(request), type: EmptyModel.self)
   }
 }

@@ -25,16 +25,16 @@ final class BibleRepositoryImpl {
 
 extension BibleRepositoryImpl: BibleRepository {
   func inquireBibleDetailInfo(noticeSeq: Int) -> RxSwift.Single<InquireBibleDetailInfoResponse> {
-    service.betarequest(router: BibleRouter.inquireBibleDetailInfo(noticeSeq), type: InquireBibleDetailInfoResponse.self)
+    service.request(router: BibleRouter.inquireBibleDetailInfo(noticeSeq), type: InquireBibleDetailInfoResponse.self)
   }
   
   
   func inquireChapterToBible(request: InquireChapterToBibleRequest) -> Single<[InquireChapterToBibleResponse]> {
-    service.betarequest(router: BibleRouter.inquireChapterToBible(request), type: [InquireChapterToBibleResponse].self)
+    service.request(router: BibleRouter.inquireChapterToBible(request), type: [InquireChapterToBibleResponse].self)
   }
   
   func inquireBibleHomeInfo() -> Single<InquireBibleHomeInfoResponse> {
-    service.betarequest(router: BibleRouter.inquireBibleHomeInfo, type: InquireBibleHomeInfoResponse.self)
+    service.request(router: BibleRouter.inquireBibleHomeInfo, type: InquireBibleHomeInfoResponse.self)
   }
 }
 

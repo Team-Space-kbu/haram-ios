@@ -9,7 +9,7 @@ import RxSwift
 
 protocol HomeRepository {
   func inquireHomeInfo() -> Single<InquireHomeInfoResponse>
-  func inquireAffiliatedList() -> Single<[InquireAffiliatedResponse]>
+  func inquireAffiliatedModel() -> Single<[InquireAffiliatedResponse]>
   func inquireBannerInfo(bannerSeq: Int) -> Single<InquireBannerInfoResponse>
   func inquireAffiliatedDetail(id: Int) -> Single<InquireAffiliatedDetailResponse>
 }
@@ -26,18 +26,18 @@ final class HomeRepositoryImpl {
 
 extension HomeRepositoryImpl: HomeRepository {
   func inquireAffiliatedDetail(id: Int) -> RxSwift.Single<InquireAffiliatedDetailResponse> {
-    service.betarequest(router: HomeRouter.inquireAffiliatedDetail(id), type: InquireAffiliatedDetailResponse.self)
+    service.request(router: HomeRouter.inquireAffiliatedDetail(id), type: InquireAffiliatedDetailResponse.self)
   }
   
   func inquireBannerInfo(bannerSeq: Int) -> RxSwift.Single<InquireBannerInfoResponse> {
-    service.betarequest(router: HomeRouter.inquireBannerInfo(bannerSeq), type: InquireBannerInfoResponse.self)
+    service.request(router: HomeRouter.inquireBannerInfo(bannerSeq), type: InquireBannerInfoResponse.self)
   }
   
   func inquireHomeInfo() -> Single<InquireHomeInfoResponse> {
-    service.betarequest(router: HomeRouter.inquireHomeInfo, type: InquireHomeInfoResponse.self)
+    service.request(router: HomeRouter.inquireHomeInfo, type: InquireHomeInfoResponse.self)
   }
   
-  func inquireAffiliatedList() -> Single<[InquireAffiliatedResponse]> {
-    service.betarequest(router: HomeRouter.inquireAffiliatedList, type: [InquireAffiliatedResponse].self)
+  func inquireAffiliatedModel() -> Single<[InquireAffiliatedResponse]> {
+    service.request(router: HomeRouter.inquireAffiliatedModel, type: [InquireAffiliatedResponse].self)
   }
 }

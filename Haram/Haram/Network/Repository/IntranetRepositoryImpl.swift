@@ -27,19 +27,19 @@ final class IntranetRepositoryImpl {
 extension IntranetRepositoryImpl: IntranetRepository {
   
   func inquireChapelInfo() -> Single<InquireChapelInfoResponse> {
-    service.betarequest(router: IntranetRouter.inquireChapelInfo, type: InquireChapelInfoResponse.self)
+    service.request(router: IntranetRouter.inquireChapelInfo, type: InquireChapelInfoResponse.self)
   }
   
   func inquireChapelDetail() -> Single<[InquireChapelDetailResponse]> {
-    service.betarequest(router: IntranetRouter.inquireChapelDetail, type: [InquireChapelDetailResponse].self)
+    service.request(router: IntranetRouter.inquireChapelDetail, type: [InquireChapelDetailResponse].self)
   }
   
   func inquireScheduleInfo() -> Single<[InquireScheduleInfoResponse]> {
-    service.betarequest(router: IntranetRouter.inquireScheduleInfo, type: [InquireScheduleInfoResponse].self)
+    service.request(router: IntranetRouter.inquireScheduleInfo, type: [InquireScheduleInfoResponse].self)
   }
   
   func inquireMileageInfo() -> Single<InquireMileageInfoResponse> {
-    service.betarequest(router: IntranetRouter.inquireMileageInfo, type: InquireMileageInfoResponse.self)
+    service.request(router: IntranetRouter.inquireMileageInfo, type: InquireMileageInfoResponse.self)
   }
 }
 
