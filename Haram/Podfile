@@ -5,10 +5,10 @@ target 'Haram' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
   pod 'NMapsMap'
-  pod 'Elliotable'
-  pod 'AcknowList'
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Crashlytics'
+  pod 'Elliotable', '1.2.5'
+  pod 'AcknowList', '3.1.0'
+  pod 'Firebase/Analytics', '~> 10.23.1'
+  pod 'Firebase/Crashlytics', '10.23.1'
 
   use_frameworks!
   pod 'ZXingObjC', '~> 3.6.4'
