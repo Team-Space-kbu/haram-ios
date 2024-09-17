@@ -24,9 +24,7 @@ struct HomeNewsCollectionViewCellModel {
   }
 }
 
-final class HomeNewsCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "HomeNewsCollectionViewCell"
+final class HomeNewsCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let outerView = UIView().then {
     $0.layer.shadowColor = UIColor.black.cgColor

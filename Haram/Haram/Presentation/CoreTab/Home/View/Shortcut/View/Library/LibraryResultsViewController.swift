@@ -22,8 +22,8 @@ final class LibraryResultsViewController: BaseViewController, BackButtonHandler 
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout()
   ).then {
-    $0.register(LibraryResultsCollectionViewCell.self, forCellWithReuseIdentifier: LibraryResultsCollectionViewCell.identifier)
-    $0.register(LibraryResultsCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LibraryResultsCollectionHeaderView.identifier)
+    $0.register(LibraryResultsCollectionViewCell.self)
+    $0.register(LibraryResultsCollectionHeaderView.self, of: UICollectionView.elementKindSectionHeader)
     $0.delegate = self
     $0.dataSource = self
     $0.contentInset = .init(top: 21.97, left: 15, bottom: .zero, right: 15)
@@ -130,7 +130,7 @@ extension LibraryResultsViewController: SkeletonCollectionViewDelegate, Skeleton
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryResultsCollectionViewCell.identifier, for: indexPath) as? LibraryResultsCollectionViewCell ?? LibraryResultsCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(LibraryResultsCollectionViewCell.self, for: indexPath) ?? LibraryResultsCollectionViewCell()
     cell.configureUI(with: model[indexPath.row])
     return cell
   }
@@ -143,7 +143,7 @@ extension LibraryResultsViewController: SkeletonCollectionViewDelegate, Skeleton
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: LibraryResultsCollectionHeaderView.identifier, for: indexPath) as? LibraryResultsCollectionHeaderView ?? LibraryResultsCollectionHeaderView()
+    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: LibraryResultsCollectionHeaderView.reuseIdentifier, for: indexPath) as? LibraryResultsCollectionHeaderView ?? LibraryResultsCollectionHeaderView()
     return header
   }
   
@@ -167,7 +167,7 @@ extension LibraryResultsViewController: SkeletonCollectionViewDelegate, Skeleton
 
 extension LibraryResultsViewController {
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: LibraryResultsCollectionViewCell.identifier, for: indexPath) as? LibraryResultsCollectionViewCell ?? LibraryResultsCollectionViewCell()
+    let cell = skeletonView.dequeueReusableCell(LibraryResultsCollectionViewCell.self, for: indexPath) ?? LibraryResultsCollectionViewCell()
     cell.configureUI(with: .init(result: .init(
       title: "Lorem ipsum dolor sit amet,\nconsetetur sadipscing elitr, sed",
       description: "박유성자유아카데미, 2020,",
@@ -179,7 +179,7 @@ extension LibraryResultsViewController {
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
-    LibraryResultsCollectionViewCell.identifier
+    LibraryResultsCollectionViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

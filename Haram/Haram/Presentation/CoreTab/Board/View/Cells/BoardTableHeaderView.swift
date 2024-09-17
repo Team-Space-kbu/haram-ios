@@ -11,9 +11,7 @@ import SkeletonView
 import SnapKit
 import Then
 
-final class BoardTableHeaderView: UITableViewHeaderFooterView {
-  
-  static let identifier = "BoardTableHeaderView"
+final class BoardTableHeaderView: UITableViewHeaderFooterView, ReusableView {
   
   private let titleLabel = UILabel().then {
     $0.font = .bold22

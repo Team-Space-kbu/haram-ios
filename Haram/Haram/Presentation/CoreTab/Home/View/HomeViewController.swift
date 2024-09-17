@@ -82,7 +82,7 @@ final class HomeViewController: BaseViewController {
     $0.backgroundColor = .white
     $0.delegate = self
     $0.dataSource = self
-    $0.register(HomeBannerCollectionViewCell.self, forCellWithReuseIdentifier: HomeBannerCollectionViewCell.identifier)
+    $0.register(HomeBannerCollectionViewCell.self)
     $0.alwaysBounceHorizontal = true
     $0.showsHorizontalScrollIndicator = false
     $0.isPagingEnabled = true
@@ -103,8 +103,8 @@ final class HomeViewController: BaseViewController {
     $0.backgroundColor = .white
     $0.delegate = self
     $0.dataSource = self
-    $0.register(HomeShortcutCollectionViewCell.self, forCellWithReuseIdentifier: HomeShortcutCollectionViewCell.identifier)
-    $0.register(HomeCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeCollectionHeaderView.identifier)
+    $0.register(HomeShortcutCollectionViewCell.self)
+    $0.register(HomeCollectionHeaderView.self, of: UICollectionView.elementKindSectionHeader)
     $0.showsVerticalScrollIndicator = false
     $0.isScrollEnabled = false
     $0.bounces = false
@@ -126,7 +126,7 @@ final class HomeViewController: BaseViewController {
     $0.backgroundColor = .white
     $0.delegate = self
     $0.dataSource = self
-    $0.register(HomeNewsCollectionViewCell.self, forCellWithReuseIdentifier: HomeNewsCollectionViewCell.identifier)
+    $0.register(HomeNewsCollectionViewCell.self)
     $0.showsHorizontalScrollIndicator = false
   }
   
@@ -353,23 +353,23 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
     if collectionView == shortcutCollectionView {
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeShortcutCollectionViewCell.identifier, for: indexPath) as? HomeShortcutCollectionViewCell ?? HomeShortcutCollectionViewCell()
+      let cell = collectionView.dequeueReusableCell(HomeShortcutCollectionViewCell.self, for: indexPath) ?? HomeShortcutCollectionViewCell()
       let type = ShortcutType.allCases[indexPath.row]
       cell.configureUI(with: .init(title: type.title, imageResource: type.imageResource))
       return cell
     } else if collectionView == newsCollectionView {
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeNewsCollectionViewCell.identifier, for: indexPath) as? HomeNewsCollectionViewCell ?? HomeNewsCollectionViewCell()
+      let cell = collectionView.dequeueReusableCell(HomeNewsCollectionViewCell.self, for: indexPath) ?? HomeNewsCollectionViewCell()
       cell.configureUI(with: newsModel[indexPath.row])
       return cell
     }
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeBannerCollectionViewCell.identifier, for: indexPath) as? HomeBannerCollectionViewCell ?? HomeBannerCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(HomeBannerCollectionViewCell.self, for: indexPath) ?? HomeBannerCollectionViewCell()
     cell.configureUI(with: bannerModel[indexPath.row])
     return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     if collectionView == shortcutCollectionView {
-      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeCollectionHeaderView.identifier, for: indexPath) as? HomeCollectionHeaderView ?? HomeCollectionHeaderView()
+      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeCollectionHeaderView.reuseIdentifier, for: indexPath) as? HomeCollectionHeaderView ?? HomeCollectionHeaderView()
       header.configureUI(with: HomeType.shortcut.title)
       return header
     }
@@ -425,11 +425,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 extension HomeViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     if skeletonView == bannerCollectionView {
-      return skeletonView.dequeueReusableCell(withReuseIdentifier: HomeBannerCollectionViewCell.identifier, for: indexPath) as? HomeBannerCollectionViewCell
+      return skeletonView.dequeueReusableCell(HomeBannerCollectionViewCell.self, for: indexPath)
     } else if skeletonView == shortcutCollectionView {
-      return skeletonView.dequeueReusableCell(withReuseIdentifier: HomeShortcutCollectionViewCell.identifier, for: indexPath) as? HomeShortcutCollectionViewCell
+      return skeletonView.dequeueReusableCell(HomeShortcutCollectionViewCell.self, for: indexPath)
     }
-    return skeletonView.dequeueReusableCell(withReuseIdentifier: HomeNewsCollectionViewCell.identifier, for: indexPath) as? HomeNewsCollectionViewCell
+    return skeletonView.dequeueReusableCell(HomeNewsCollectionViewCell.self, for: indexPath)
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -438,16 +438,16 @@ extension HomeViewController: SkeletonCollectionViewDataSource {
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
     if skeletonView == bannerCollectionView {
-      return HomeBannerCollectionViewCell.identifier
+      return HomeBannerCollectionViewCell.reuseIdentifier
     } else if skeletonView == shortcutCollectionView {
-      return HomeShortcutCollectionViewCell.identifier
+      return HomeShortcutCollectionViewCell.reuseIdentifier
     }
-    return HomeNewsCollectionViewCell.identifier
+    return HomeNewsCollectionViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
     if skeletonView == shortcutCollectionView {
-      return HomeCollectionHeaderView.identifier
+      return HomeCollectionHeaderView.reuseIdentifier
     }
     return nil
   }

@@ -21,8 +21,8 @@ final class MileageViewController: BaseViewController, BackButtonHandler {
   private var model: [MileageTableViewCellModel] = []
   
   private lazy var mileageTableView = UITableView(frame: .zero, style: .grouped).then {
-    $0.register(MileageTableViewCell.self, forCellReuseIdentifier: MileageTableViewCell.identifier)
-    $0.register(MileageTableHeaderView.self, forHeaderFooterViewReuseIdentifier: MileageTableHeaderView.identifier)
+    $0.register(MileageTableViewCell.self)
+    $0.register(MileageTableHeaderView.self)
     $0.separatorStyle = .none
     $0.delegate = self
     $0.dataSource = self
@@ -123,7 +123,7 @@ extension MileageViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: MileageTableViewCell.identifier, for: indexPath) as? MileageTableViewCell ?? MileageTableViewCell()
+    let cell = tableView.dequeueReusableCell(MileageTableViewCell.self, for: indexPath) ?? MileageTableViewCell()
     cell.configureUI(with: model[indexPath.row])
     return cell
   }
@@ -138,7 +138,7 @@ extension MileageViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MileageTableHeaderView.identifier) as? MileageTableHeaderView ?? MileageTableHeaderView()
+    let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MileageTableHeaderView.reuseIdentifier) as? MileageTableHeaderView ?? MileageTableHeaderView()
     header.configureUI(with: mileagePayInfoModel ?? MileageTableHeaderViewModel(totalMileage: 0))
     return header
   }
@@ -146,13 +146,13 @@ extension MileageViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension MileageViewController: SkeletonTableViewDelegate, SkeletonTableViewDataSource {
   func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
-    let cell = skeletonView.dequeueReusableCell(withIdentifier: MileageTableViewCell.identifier, for: indexPath) as? MileageTableViewCell ?? MileageTableViewCell()
+    let cell = skeletonView.dequeueReusableCell(withIdentifier: MileageTableViewCell.reuseIdentifier, for: indexPath) as? MileageTableViewCell ?? MileageTableViewCell()
     cell.configureUI(with: .init(mainText: "2023 총장배소프트웨어경진대회 - 컴소", date: Date(), mileage: -1000, imageSource: .cafeCostes))
     return cell
   }
   
   func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
-    MileageTableViewCell.identifier
+    MileageTableViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -160,7 +160,7 @@ extension MileageViewController: SkeletonTableViewDelegate, SkeletonTableViewDat
   }
   
   func collectionSkeletonView(_ skeletonView: UITableView, identifierForHeaderInSection section: Int) -> ReusableHeaderFooterIdentifier? {
-    MileageTableHeaderView.identifier
+    MileageTableHeaderView.reuseIdentifier
   }
   
 }

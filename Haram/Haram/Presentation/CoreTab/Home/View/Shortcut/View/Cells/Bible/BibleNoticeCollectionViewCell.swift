@@ -22,8 +22,7 @@ struct BibleNoticeCollectionViewCellModel {
   }
 }
 
-final class BibleNoticeCollectionViewCell: UICollectionViewCell {
-  static let identifier = "BibleNoticeCollectionViewCell"
+final class BibleNoticeCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let noticeImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill

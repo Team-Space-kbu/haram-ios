@@ -55,11 +55,12 @@ final class BibleViewController: BaseViewController, BackButtonHandler {
       guard let self = self else { return nil }
       return type(of: self).createCollectionViewSection(type: BibleViewType.allCases[sec])
     }).then {
-      $0.register(EmptyCollectionViewCell.self, forCellWithReuseIdentifier: EmptyCollectionViewCell.identifier)
-      $0.register(TodayPrayCollectionViewCell.self, forCellWithReuseIdentifier: TodayPrayCollectionViewCell.identifier)
-      $0.register(TodayBibleWordCollectionViewCell.self, forCellWithReuseIdentifier: TodayBibleWordCollectionViewCell.identifier)
-      $0.register(BibleNoticeCollectionViewCell.self, forCellWithReuseIdentifier: BibleNoticeCollectionViewCell.identifier)
-      $0.register(BibleCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BibleCollectionHeaderView.identifier)
+      $0.register(EmptyCollectionViewCell.self)
+      $0.register(TodayPrayCollectionViewCell.self)
+      $0.register(TodayBibleWordCollectionViewCell.self)
+      $0.register(BibleNoticeCollectionViewCell.self)
+      $0.register(EmptyCollectionViewCell.self)
+      $0.register(BibleCollectionHeaderView.self, of: UICollectionView.elementKindSectionHeader)
       $0.dataSource = self
       $0.delegate = self
       $0.contentInset = UIEdgeInsets(top: 20, left: .zero, bottom: .zero, right: .zero)
@@ -273,26 +274,26 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     switch BibleViewType.allCases[indexPath.section] {
     case .todayBibleWord:
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayBibleWordCollectionViewCell.identifier, for: indexPath) as? TodayBibleWordCollectionViewCell ?? TodayBibleWordCollectionViewCell()
+      let cell = collectionView.dequeueReusableCell(TodayBibleWordCollectionViewCell.self, for: indexPath) ?? TodayBibleWordCollectionViewCell()
       cell.configureUI(with: todayBibleWordModel[indexPath.row])
       return cell
     case .notice:
       if bibleMainNotice.isEmpty {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCollectionViewCell.identifier, for: indexPath) as? EmptyCollectionViewCell ?? EmptyCollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(EmptyCollectionViewCell.self, for: indexPath) ?? EmptyCollectionViewCell()
         cell.configureUI(with: "성경공지사항이 존재하지않습니다.")
         return cell
       } else {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleNoticeCollectionViewCell.identifier, for: indexPath) as? BibleNoticeCollectionViewCell ?? BibleNoticeCollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(BibleNoticeCollectionViewCell.self, for: indexPath) ?? BibleNoticeCollectionViewCell()
         cell.configureUI(with: bibleMainNotice[indexPath.row])
         return cell
       }
     case .todayPray:
       if todayPrayListModel.isEmpty {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCollectionViewCell.identifier, for: indexPath) as? EmptyCollectionViewCell ?? EmptyCollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(EmptyCollectionViewCell.self, for: indexPath) ?? EmptyCollectionViewCell()
         cell.configureUI(with: "오늘의 기도가 존재하지않습니다.")
         return cell
       } else {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodayPrayCollectionViewCell.identifier, for: indexPath) as? TodayPrayCollectionViewCell ?? TodayPrayCollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(TodayPrayCollectionViewCell.self, for: indexPath) ?? TodayPrayCollectionViewCell()
         cell.configureUI(with: todayPrayListModel[indexPath.row])
         return cell
       }
@@ -300,7 +301,7 @@ extension BibleViewController: UICollectionViewDelegateFlowLayout, UICollectionV
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BibleCollectionHeaderView.identifier, for: indexPath) as? BibleCollectionHeaderView ?? BibleCollectionHeaderView()
+    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: BibleCollectionHeaderView.reuseIdentifier, for: indexPath) as? BibleCollectionHeaderView ?? BibleCollectionHeaderView()
     header.configureUI(with: BibleViewType.allCases[indexPath.section].title)
     return header
   }
@@ -312,22 +313,22 @@ extension BibleViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
     switch BibleViewType.allCases[indexPath.section] {
     case .todayBibleWord:
-      return TodayBibleWordCollectionViewCell.identifier
+      return TodayBibleWordCollectionViewCell.reuseIdentifier
     case .notice:
-      return BibleNoticeCollectionViewCell.identifier
+      return BibleNoticeCollectionViewCell.reuseIdentifier
     case .todayPray:
-      return TodayPrayCollectionViewCell.identifier
+      return TodayPrayCollectionViewCell.reuseIdentifier
     }
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     switch BibleViewType.allCases[indexPath.section] {
     case .todayBibleWord:
-      return skeletonView.dequeueReusableCell(withReuseIdentifier: TodayBibleWordCollectionViewCell.identifier, for: indexPath) as? TodayBibleWordCollectionViewCell ?? TodayBibleWordCollectionViewCell()
+      return skeletonView.dequeueReusableCell(TodayBibleWordCollectionViewCell.self, for: indexPath) ?? TodayBibleWordCollectionViewCell()
     case .notice:
-      return skeletonView.dequeueReusableCell(withReuseIdentifier: BibleNoticeCollectionViewCell.identifier, for: indexPath) as? BibleNoticeCollectionViewCell ?? BibleNoticeCollectionViewCell()
+      return skeletonView.dequeueReusableCell(BibleNoticeCollectionViewCell.self, for: indexPath) ?? BibleNoticeCollectionViewCell()
     case .todayPray:
-      return skeletonView.dequeueReusableCell(withReuseIdentifier: TodayPrayCollectionViewCell.identifier, for: indexPath) as? TodayPrayCollectionViewCell ?? TodayPrayCollectionViewCell()
+      return skeletonView.dequeueReusableCell(TodayPrayCollectionViewCell.self, for: indexPath) ?? TodayPrayCollectionViewCell()
     }
   }
   
@@ -341,7 +342,7 @@ extension BibleViewController: SkeletonCollectionViewDataSource {
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
-    BibleCollectionHeaderView.identifier
+    BibleCollectionHeaderView.reuseIdentifier
   }
   
   func numSections(in collectionSkeletonView: UICollectionView) -> Int {

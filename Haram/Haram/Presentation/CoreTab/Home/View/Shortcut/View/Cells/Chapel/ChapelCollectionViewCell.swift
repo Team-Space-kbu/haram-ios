@@ -53,9 +53,7 @@ enum ChapelResultType: CaseIterable {
   }
 }
 
-final class ChapelCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "ChapelCollectionViewCell"
+final class ChapelCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let chapelImageView = UIImageView().then {
     $0.layer.masksToBounds = true

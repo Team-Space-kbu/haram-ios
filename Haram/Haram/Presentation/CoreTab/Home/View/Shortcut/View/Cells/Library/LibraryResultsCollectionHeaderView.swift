@@ -10,9 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class LibraryResultsCollectionHeaderView: UICollectionReusableView {
-  
-  static let identifier = "LibraryResultsCollectionHeaderView"
+final class LibraryResultsCollectionHeaderView: UICollectionReusableView, ReusableView {
   
   private let titleLabel = UILabel().then {
     $0.textColor = .black

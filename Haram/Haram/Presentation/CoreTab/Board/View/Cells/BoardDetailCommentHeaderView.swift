@@ -11,9 +11,7 @@ import SnapKit
 import SkeletonView
 import Then
 
-final class BoardDetailCommentHeaderView: UICollectionReusableView {
-  
-  static let identifier = "BoardDetailCommentHeaderView"
+final class BoardDetailCommentHeaderView: UICollectionReusableView, ReusableView {
   
   private let commentTitleLabel = UILabel().then {
     $0.font = .bold16

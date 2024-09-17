@@ -16,9 +16,7 @@ struct ChapelCollectionHeaderViewModel {
   let chapelInfoViewModel: ChapelInfoViewModel
 }
 
-final class ChapelCollectionHeaderView: UICollectionReusableView {
-  
-  static let identifier = "ChapelCollectionHeaderView"
+final class ChapelCollectionHeaderView: UICollectionReusableView, ReusableView {
   
   private let containerStackView = UIStackView().then {
     $0.axis = .vertical

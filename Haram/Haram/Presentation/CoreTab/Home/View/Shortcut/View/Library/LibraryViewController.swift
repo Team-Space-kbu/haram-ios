@@ -93,8 +93,8 @@ final class LibraryViewController: BaseViewController, BackButtonHandler {
       guard let self = self else { return nil }
       return self.createCollectionViewSection()
     }).then {
-      $0.register(LibraryCollectionViewCell.self, forCellWithReuseIdentifier: LibraryCollectionViewCell.identifier)
-      $0.register(LibraryCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: LibraryCollectionHeaderView.identifier)
+      $0.register(LibraryCollectionViewCell.self)
+      $0.register(LibraryCollectionHeaderView.self, of: UICollectionView.elementKindSectionHeader)
       $0.delegate = self
       $0.dataSource = self
       $0.isSkeletonable = true
@@ -333,7 +333,7 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let type = LibraryType.allCases[indexPath.section]
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(LibraryCollectionViewCell.self, for: indexPath) ?? LibraryCollectionViewCell()
     switch type {
     case .new:
       cell.configureUI(with: newBookModel[indexPath.row])
@@ -350,7 +350,7 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     let header = collectionView.dequeueReusableSupplementaryView(
       ofKind: kind,
-      withReuseIdentifier: LibraryCollectionHeaderView.identifier,
+      withReuseIdentifier: LibraryCollectionHeaderView.reuseIdentifier,
       for: indexPath
     ) as? LibraryCollectionHeaderView ?? LibraryCollectionHeaderView()
     header.configureUI(with: type.title)
@@ -381,8 +381,7 @@ extension LibraryViewController: UICollectionViewDelegate, UICollectionViewDataS
 
 extension LibraryViewController: SkeletonCollectionViewDataSource, SkeletonCollectionViewDelegate {
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    let type = LibraryType.allCases[indexPath.section]
-    return skeletonView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
+    skeletonView.dequeueReusableCell(LibraryCollectionViewCell.self, for: indexPath)
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -390,7 +389,7 @@ extension LibraryViewController: SkeletonCollectionViewDataSource, SkeletonColle
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
-    return LibraryCollectionViewCell.identifier
+    return LibraryCollectionViewCell.reuseIdentifier
   }
   
   func numSections(in collectionSkeletonView: UICollectionView) -> Int {
@@ -398,7 +397,7 @@ extension LibraryViewController: SkeletonCollectionViewDataSource, SkeletonColle
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
-    LibraryCollectionHeaderView.identifier
+    LibraryCollectionHeaderView.reuseIdentifier
   }
   
 }

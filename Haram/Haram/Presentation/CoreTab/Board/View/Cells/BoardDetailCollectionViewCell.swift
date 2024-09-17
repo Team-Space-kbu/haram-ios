@@ -41,10 +41,9 @@ protocol BoardDetailCollectionViewCellDelegate: AnyObject {
   func didTappedCommentDeleteButton(seq: Int)
 }
 
-final class BoardDetailCollectionViewCell: UICollectionViewCell {
+final class BoardDetailCollectionViewCell: UICollectionViewCell, ReusableView {
   
   weak var delegate: BoardDetailCollectionViewCellDelegate?
-  static let identifier = "BoardDetailCollectionViewCell"
   private let disposeBag = DisposeBag()
   
   private var commentSeq: Int?

@@ -51,9 +51,9 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     guard let self = self else { return nil }
     return type(of: self).createCollectionViewLayout(sec: sec)
   }).then {
-    $0.register(BoardDetailCollectionViewCell.self, forCellWithReuseIdentifier: BoardDetailCollectionViewCell.identifier)
-    $0.register(BoardDetailHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardDetailHeaderView.identifier)
-    $0.register(BoardDetailCommentHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BoardDetailCommentHeaderView.identifier)
+    $0.register(BoardDetailCollectionViewCell.self)
+    $0.register(BoardDetailHeaderView.self, of: UICollectionView.elementKindSectionHeader)
+    $0.register(BoardDetailCommentHeaderView.self, of: UICollectionView.elementKindSectionHeader)
     $0.dataSource = self
     $0.delegate = self
     $0.alwaysBounceVertical = true
@@ -295,7 +295,7 @@ extension BoardDetailViewController: UICollectionViewDataSource, UICollectionVie
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard indexPath.section == 1 else { return UICollectionViewCell() }
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardDetailCollectionViewCell.identifier, for: indexPath) as? BoardDetailCollectionViewCell ?? BoardDetailCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(BoardDetailCollectionViewCell.self, for: indexPath) ?? BoardDetailCollectionViewCell()
     cell.configureUI(with: cellModel[indexPath.row])
     cell.delegate = self
     return cell
@@ -305,7 +305,7 @@ extension BoardDetailViewController: UICollectionViewDataSource, UICollectionVie
     if indexPath.section == 0 {
       let header = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind,
-        withReuseIdentifier: BoardDetailHeaderView.identifier,
+        withReuseIdentifier: BoardDetailHeaderView.reuseIdentifier,
         for: indexPath
       ) as? BoardDetailHeaderView ?? BoardDetailHeaderView()
       header.configureUI(with: boardModel.first)
@@ -314,7 +314,7 @@ extension BoardDetailViewController: UICollectionViewDataSource, UICollectionVie
     }
     let header = collectionView.dequeueReusableSupplementaryView(
       ofKind: kind,
-      withReuseIdentifier: BoardDetailCommentHeaderView.identifier,
+      withReuseIdentifier: BoardDetailCommentHeaderView.reuseIdentifier,
       for: indexPath
     ) as? BoardDetailCommentHeaderView ?? BoardDetailCommentHeaderView()
     return header
@@ -407,7 +407,7 @@ extension BoardDetailViewController: SkeletonCollectionViewDataSource, SkeletonC
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
     guard indexPath.section == 1 else { return "" }
-    return BoardDetailCollectionViewCell.identifier
+    return BoardDetailCollectionViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -417,16 +417,16 @@ extension BoardDetailViewController: SkeletonCollectionViewDataSource, SkeletonC
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     guard indexPath.section == 1 else { return nil }
-    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: BoardDetailCollectionViewCell.identifier, for: indexPath) as? BoardDetailCollectionViewCell ?? BoardDetailCollectionViewCell()
+    let cell = skeletonView.dequeueReusableCell(BoardDetailCollectionViewCell.self, for: indexPath) ?? BoardDetailCollectionViewCell()
     cell.configureUI(with: .init(comment: "안녕하세요, 스켈레톤을 위한 목데이터입니다.", createdAt: "2023/11/10", isUpdatable: false, commentSeq: 0))
     return cell
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
     if indexPath.section == 0 {
-      return BoardDetailHeaderView.identifier
+      return BoardDetailHeaderView.reuseIdentifier
     } else  {
-      return BoardDetailCommentHeaderView.identifier
+      return BoardDetailCommentHeaderView.reuseIdentifier
     }
   }
   

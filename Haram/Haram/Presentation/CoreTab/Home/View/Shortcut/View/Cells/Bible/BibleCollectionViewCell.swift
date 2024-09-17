@@ -10,9 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class BibleCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "BibleCollectionViewCell"
+final class BibleCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let bibleNameLabel = UILabel().then {
     $0.textColor = .black

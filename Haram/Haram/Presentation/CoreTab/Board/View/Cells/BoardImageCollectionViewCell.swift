@@ -15,9 +15,7 @@ struct BoardImageCollectionViewCellModel {
   let imageURL: URL?
 }
 
-final class BoardImageCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "BoardImageCollectionViewCell"
+final class BoardImageCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let boardImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill

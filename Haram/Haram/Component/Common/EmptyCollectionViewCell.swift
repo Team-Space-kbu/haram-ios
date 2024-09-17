@@ -10,9 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class EmptyCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "EmptyCollectionViewCell"
+final class EmptyCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let alertLabel = UILabel().then {
     $0.font = .bold18

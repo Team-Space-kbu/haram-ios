@@ -65,7 +65,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     }
   ).then {
     $0.backgroundColor = .clear
-    $0.register(LibraryCollectionViewCell.self, forCellWithReuseIdentifier: LibraryCollectionViewCell.identifier)
+    $0.register(LibraryCollectionViewCell.self)
     $0.delegate = self
     $0.dataSource = self
     $0.contentInset = .init(top: 3, left: 15, bottom: 15, right: 15)
@@ -228,7 +228,7 @@ extension LibraryDetailViewController: UICollectionViewDelegate, UICollectionVie
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(LibraryCollectionViewCell.self, for: indexPath) ?? LibraryCollectionViewCell()
     cell.configureUI(with: relatedBookModel[indexPath.row])
     return cell
   }
@@ -261,8 +261,7 @@ extension LibraryDetailViewController: SkeletonCollectionViewDelegate, SkeletonC
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: LibraryCollectionViewCell.identifier, for: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
-    return cell
+    skeletonView.dequeueReusableCell(LibraryCollectionViewCell.self, for: indexPath)
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -270,7 +269,7 @@ extension LibraryDetailViewController: SkeletonCollectionViewDelegate, SkeletonC
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
-    LibraryCollectionViewCell.identifier
+    LibraryCollectionViewCell.reuseIdentifier
   }
 }
 

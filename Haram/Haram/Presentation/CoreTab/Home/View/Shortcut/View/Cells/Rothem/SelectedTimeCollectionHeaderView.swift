@@ -10,8 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class SelectedTimeCollectionHeaderView: UICollectionReusableView {
-  static let identifier = "SelectedTimeCollectionHeaderView"
+final class SelectedTimeCollectionHeaderView: UICollectionReusableView, ReusableView {
   
   private let titleLabel = UILabel().then {
     $0.font = .regular14

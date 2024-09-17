@@ -28,9 +28,7 @@ struct AffiliatedCollectionViewCellModel {
   }
 }
 
-final class AffiliatedCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "AffiliatedCollectionViewCell"
+final class AffiliatedCollectionViewCell: UICollectionViewCell, ReusableView {
   
   let containerView = UIView().then {
     $0.backgroundColor = .clear

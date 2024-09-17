@@ -83,7 +83,7 @@ final class MoreViewController: BaseViewController {
   private lazy var moreTableView = UITableView(frame: .zero, style: .plain).then {
     $0.delegate = self
     $0.dataSource = self
-    $0.register(MoreTableViewCell.self, forCellReuseIdentifier: MoreTableViewCell.identifier)
+    $0.register(MoreTableViewCell.self)
     $0.backgroundColor = .white
     $0.sectionHeaderHeight = .leastNonzeroMagnitude
     $0.sectionFooterHeight = .leastNonzeroMagnitude
@@ -97,7 +97,7 @@ final class MoreViewController: BaseViewController {
   private lazy var settingTableView = UITableView(frame: .zero, style: .plain).then {
     $0.delegate = self
     $0.dataSource = self
-    $0.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
+    $0.register(SettingTableViewCell.self)
     $0.backgroundColor = .white
     $0.sectionHeaderHeight = .leastNonzeroMagnitude
     $0.sectionFooterHeight = .leastNonzeroMagnitude
@@ -299,11 +299,11 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if tableView == moreTableView {
-      let cell = tableView.dequeueReusableCell(withIdentifier: MoreTableViewCell.identifier, for: indexPath) as? MoreTableViewCell ?? MoreTableViewCell()
+      let cell = tableView.dequeueReusableCell(MoreTableViewCell.self, for: indexPath) ?? MoreTableViewCell()
       cell.configureUI(with: .init(imageResource: MoreType.allCases[indexPath.row].imageResource, title: MoreType.allCases[indexPath.row].title))
       return cell
     }
-    let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier, for: indexPath) as? SettingTableViewCell ?? SettingTableViewCell()
+    let cell = tableView.dequeueReusableCell(SettingTableViewCell.self, for: indexPath) ?? SettingTableViewCell()
     cell.configureUI(with: .init(title: SettingType.allCases[indexPath.row].title))
     return cell
   }
@@ -366,18 +366,18 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
 extension MoreViewController: SkeletonTableViewDataSource {
   func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
     if skeletonView == moreTableView {
-      return skeletonView.dequeueReusableCell(withIdentifier: MoreTableViewCell.identifier, for: indexPath) as? MoreTableViewCell
+      return skeletonView.dequeueReusableCell(MoreTableViewCell.self, for: indexPath)
     } else if skeletonView == settingTableView {
-      return skeletonView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier, for: indexPath) as? SettingTableViewCell
+      return skeletonView.dequeueReusableCell(SettingTableViewCell.self, for: indexPath)
     }
     return nil
   }
   
   func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
     if skeletonView == moreTableView {
-      return MoreTableViewCell.identifier
+      return MoreTableViewCell.reuseIdentifier
     }
-    return SettingTableViewCell.identifier
+    return SettingTableViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {

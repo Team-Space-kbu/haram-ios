@@ -28,9 +28,7 @@ struct StudyListCollectionViewCellModel {
   }
 }
 
-final class StudyListCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "StudyListCollectionViewCell"
+final class StudyListCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let studyTitleLabel = UILabel().then {
     $0.font = .bold18

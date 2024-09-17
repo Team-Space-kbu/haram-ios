@@ -47,9 +47,7 @@ struct HomebannerCollectionViewCellModel {
   }
 }
 
-final class HomeBannerCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "HomeBannerCollectionViewCell"
+final class HomeBannerCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let bannerImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill

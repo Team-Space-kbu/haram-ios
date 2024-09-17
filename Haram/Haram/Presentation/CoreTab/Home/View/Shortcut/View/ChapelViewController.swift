@@ -23,8 +23,8 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
   private lazy var chapelCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
     $0.minimumLineSpacing = 20
   }).then {
-    $0.register(ChapelCollectionViewCell.self, forCellWithReuseIdentifier: ChapelCollectionViewCell.identifier)
-    $0.register(ChapelCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ChapelCollectionHeaderView.identifier)
+    $0.register(ChapelCollectionViewCell.self)
+    $0.register(ChapelCollectionHeaderView.self, of: UICollectionView.elementKindSectionHeader)
     $0.dataSource = self
     $0.delegate = self
     $0.backgroundColor = .white
@@ -127,13 +127,13 @@ extension ChapelViewController: UICollectionViewDelegate, UICollectionViewDataSo
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChapelCollectionViewCell.identifier, for: indexPath) as? ChapelCollectionViewCell ?? ChapelCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(ChapelCollectionViewCell.self, for: indexPath) ?? ChapelCollectionViewCell()
     cell.configureUI(with: chapelListModel[indexPath.row])
     return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ChapelCollectionHeaderView.identifier, for: indexPath) as? ChapelCollectionHeaderView ?? ChapelCollectionHeaderView()
+    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ChapelCollectionHeaderView.reuseIdentifier, for: indexPath) as? ChapelCollectionHeaderView ?? ChapelCollectionHeaderView()
     header.configureUI(with: chapelHeaderModel)
     return header
   }
@@ -151,11 +151,11 @@ extension ChapelViewController: UICollectionViewDelegateFlowLayout {
 
 extension ChapelViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-    ChapelCollectionViewCell.identifier
+    ChapelCollectionViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: ChapelCollectionViewCell.identifier, for: indexPath) as? ChapelCollectionViewCell
+    let cell = skeletonView.dequeueReusableCell(ChapelCollectionViewCell.self, for: indexPath)
     cell?.configureUI(with: .init(chapelResult: .absence))
     return cell
   }
@@ -165,7 +165,7 @@ extension ChapelViewController: SkeletonCollectionViewDataSource {
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
-    ChapelCollectionHeaderView.identifier
+    ChapelCollectionHeaderView.reuseIdentifier
   }
 }
 

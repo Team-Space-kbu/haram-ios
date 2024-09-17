@@ -29,7 +29,7 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     }
   ).then {
     $0.backgroundColor = .clear
-    $0.register(BoardListCollectionViewCell.self, forCellWithReuseIdentifier: BoardListCollectionViewCell.identifier)
+    $0.register(BoardListCollectionViewCell.self)
     $0.contentInset = UIEdgeInsets(top: 20, left: 15, bottom: 15, right: 15)
     $0.alwaysBounceVertical = true
     $0.isSkeletonable = true
@@ -176,7 +176,7 @@ extension BoardListViewController: UICollectionViewDelegateFlowLayout, UICollect
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardListCollectionViewCell.identifier, for: indexPath) as? BoardListCollectionViewCell ?? BoardListCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(BoardListCollectionViewCell.self, for: indexPath) ?? BoardListCollectionViewCell()
     cell.configureUI(with: boardListModel[indexPath.row])
     return cell
   }
@@ -211,11 +211,11 @@ extension BoardListViewController: UICollectionViewDelegateFlowLayout, UICollect
 
 extension BoardListViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-    BoardListCollectionViewCell.identifier
+    BoardListCollectionViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    skeletonView.dequeueReusableCell(withReuseIdentifier: BoardListCollectionViewCell.identifier, for: indexPath) as? BoardListCollectionViewCell
+    skeletonView.dequeueReusableCell(BoardListCollectionViewCell.self, for: indexPath)
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

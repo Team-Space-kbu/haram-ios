@@ -27,7 +27,7 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
     }
   ).then {
     $0.backgroundColor = .white
-    $0.register(NoticeCollectionViewCell.self, forCellWithReuseIdentifier: NoticeCollectionViewCell.identifier)
+    $0.register(NoticeCollectionViewCell.self)
     $0.delegate = self
     $0.dataSource = self
     $0.showsVerticalScrollIndicator = true
@@ -139,7 +139,7 @@ extension SelectedCategoryNoticeViewController: UICollectionViewDataSource, UICo
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoticeCollectionViewCell.identifier, for: indexPath) as? NoticeCollectionViewCell ?? NoticeCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(NoticeCollectionViewCell.self, for: indexPath) ?? NoticeCollectionViewCell()
     cell.configureUI(with: noticeModel[indexPath.row])
     return cell
   }
@@ -159,11 +159,11 @@ extension SelectedCategoryNoticeViewController: BackButtonHandler {
 
 extension SelectedCategoryNoticeViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-    NoticeCollectionViewCell.identifier
+    NoticeCollectionViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    skeletonView.dequeueReusableCell(withReuseIdentifier: NoticeCollectionViewCell.identifier, for: indexPath) as? NoticeCollectionViewCell
+    skeletonView.dequeueReusableCell(NoticeCollectionViewCell.self, for: indexPath)
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

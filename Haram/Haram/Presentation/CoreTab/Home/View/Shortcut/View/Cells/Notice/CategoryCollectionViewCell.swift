@@ -11,9 +11,7 @@ import SnapKit
 import SkeletonView
 import Then
 
-final class CategoryCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "CategoryCollectionViewCell"
+final class CategoryCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let categoryLabel = UILabel().then {
     $0.font = .medium18

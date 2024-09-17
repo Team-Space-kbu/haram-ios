@@ -23,9 +23,7 @@ struct PopularAmenityCollectionViewCellModel {
 
 }
 
-final class PopularAmenityCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "PopularAmenityCollectionViewCell"
+final class PopularAmenityCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let amenityImageView = UIImageView().then {
     $0.layer.masksToBounds = true

@@ -16,9 +16,7 @@ struct TodayPrayCollectionViewCellModel {
   let prayContent: String
 }
 
-final class TodayPrayCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "TodayPrayCollectionViewCell"
+final class TodayPrayCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let prayTitleLabel = UILabel().then {
     $0.font = .bold18

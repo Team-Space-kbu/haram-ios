@@ -98,7 +98,7 @@ final class RothemRoomDetailView: UIView {
       $0.minimumInteritemSpacing = 17
     }
   ).then {
-    $0.register(PopularAmenityCollectionViewCell.self, forCellWithReuseIdentifier: PopularAmenityCollectionViewCell.identifier)
+    $0.register(PopularAmenityCollectionViewCell.self)
     $0.delegate = self
     $0.dataSource = self
     $0.isSkeletonable = true
@@ -198,9 +198,9 @@ final class RothemRoomDetailView: UIView {
   
   func configureUI(with model: RothemRoomDetailViewModel) {
     
-//    roomTitleLabel.hideSkeleton()
-//    roomLocationView.hideSkeleton()
-//    roomDescriptionContentLabel.hideSkeleton()
+    //    roomTitleLabel.hideSkeleton()
+    //    roomLocationView.hideSkeleton()
+    //    roomDescriptionContentLabel.hideSkeleton()
     
     amenityModel = model.amenityModel
     roomTitleLabel.text = model.roomTitle
@@ -222,7 +222,7 @@ extension RothemRoomDetailView: UICollectionViewDelegate, UICollectionViewDataSo
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularAmenityCollectionViewCell.identifier, for: indexPath) as? PopularAmenityCollectionViewCell ?? PopularAmenityCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(PopularAmenityCollectionViewCell.self, for: indexPath) ?? PopularAmenityCollectionViewCell()
     cell.configureUI(with: amenityModel[indexPath.row])
     return cell
   }
@@ -231,7 +231,7 @@ extension RothemRoomDetailView: UICollectionViewDelegate, UICollectionViewDataSo
     guard !amenityModel.isEmpty else {
       return CGSize(width: 48, height: 56)
     }
-
+    
     let label = UILabel().then {
       $0.font = .regular12
       $0.text = amenityModel[indexPath.row].amenityContent
@@ -243,12 +243,10 @@ extension RothemRoomDetailView: UICollectionViewDelegate, UICollectionViewDataSo
 
 extension RothemRoomDetailView: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-    PopularAmenityCollectionViewCell.identifier
+    PopularAmenityCollectionViewCell.reuseIdentifier
   }
   
-  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: PopularAmenityCollectionViewCell.identifier, for: indexPath) as? PopularAmenityCollectionViewCell ?? PopularAmenityCollectionViewCell()
-    return cell
+  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? { skeletonView.dequeueReusableCell(PopularAmenityCollectionViewCell.self, for: indexPath)
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
