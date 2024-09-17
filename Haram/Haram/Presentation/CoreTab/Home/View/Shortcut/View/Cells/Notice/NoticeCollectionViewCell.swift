@@ -18,9 +18,7 @@ struct NoticeCollectionViewCellModel {
   let path: String
 }
 
-final class NoticeCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "NoticeCollectionViewCell"
+final class NoticeCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let entireView = UIView().then {
     $0.backgroundColor = .hexF8F8F8

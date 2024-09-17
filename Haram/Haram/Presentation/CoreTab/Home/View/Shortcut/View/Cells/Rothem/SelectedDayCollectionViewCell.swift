@@ -25,9 +25,7 @@ struct SelectedDayCollectionViewCellModel {
   }
 }
 
-final class SelectedDayCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "SelectedDayCollectionViewCell"
+final class SelectedDayCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let entireView = UIView().then {
     $0.layer.masksToBounds = true

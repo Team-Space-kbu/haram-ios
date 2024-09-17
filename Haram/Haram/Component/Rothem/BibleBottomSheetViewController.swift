@@ -30,7 +30,7 @@ final class BibleBottomSheetViewController: BottomSheetViewController {
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout()
   ).then {
-    $0.register(BibleCollectionViewCell.self, forCellWithReuseIdentifier: BibleCollectionViewCell.identifier)
+    $0.register(BibleCollectionViewCell.self)
   }
   
   init(type: BibleBottomSheetViewType) {
@@ -79,11 +79,11 @@ extension BibleBottomSheetViewController: UICollectionViewDelegate, UICollection
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     switch type {
       case let .revisionOfTranslation(model):
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleCollectionViewCell.identifier, for: indexPath) as? BibleCollectionViewCell ?? BibleCollectionViewCell()
+      let cell = collectionView.dequeueReusableCell(BibleCollectionViewCell.self, for: indexPath) ?? BibleCollectionViewCell()
         cell.configureUI(with: model[indexPath.row].bibleName)
         return cell
       case let .chapter(model):
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BibleCollectionViewCell.identifier, for: indexPath) as? BibleCollectionViewCell ?? BibleCollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(BibleCollectionViewCell.self, for: indexPath) ?? BibleCollectionViewCell()
         cell.configureUI(with: "\(model[indexPath.row])장")
         return cell
     }

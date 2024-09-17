@@ -20,8 +20,8 @@ final class BoardViewController: BaseViewController {
   private var boardHeaderTitle: String?
   
   private lazy var boardTableView = UITableView(frame: .zero, style: .grouped).then {
-    $0.register(BoardTableViewCell.self, forCellReuseIdentifier: BoardTableViewCell.identifier)
-    $0.register(BoardTableHeaderView.self, forHeaderFooterViewReuseIdentifier: BoardTableHeaderView.identifier)
+    $0.register(BoardTableViewCell.self)
+    $0.register(BoardTableHeaderView.self)
     $0.delegate = self
     $0.dataSource = self
     $0.sectionHeaderHeight = 28 + 11
@@ -125,13 +125,13 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: BoardTableViewCell.identifier, for: indexPath) as? BoardTableViewCell ?? BoardTableViewCell()
+    let cell = tableView.dequeueReusableCell(BoardTableViewCell.self, for: indexPath) ?? BoardTableViewCell()
     cell.configureUI(with: boardModel[indexPath.row])
     return cell
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: BoardTableHeaderView.identifier) as? BoardTableHeaderView ?? BoardTableHeaderView()
+    let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: BoardTableHeaderView.reuseIdentifier) as? BoardTableHeaderView ?? BoardTableHeaderView()
     headerView.configureUI(with: "학교 게시판")
     return headerView
   }
@@ -171,11 +171,11 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension BoardViewController: SkeletonTableViewDataSource {
   func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
-    skeletonView.dequeueReusableCell(withIdentifier: BoardTableViewCell.identifier, for: indexPath) as? BoardTableViewCell
+    skeletonView.dequeueReusableCell(BoardTableViewCell.self, for: indexPath)
   }
   
   func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
-    BoardTableViewCell.identifier
+    BoardTableViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -183,7 +183,7 @@ extension BoardViewController: SkeletonTableViewDataSource {
   }
   
   func collectionSkeletonView(_ skeletonView: UITableView, identifierForHeaderInSection section: Int) -> ReusableHeaderFooterIdentifier? {
-    BoardTableHeaderView.identifier
+    BoardTableHeaderView.reuseIdentifier
   }
 }
 

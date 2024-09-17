@@ -24,10 +24,9 @@ protocol StudyListCollectionHeaderViewDelegate: AnyObject {
   func didTappedRothemNotice()
 }
 
-final class StudyListCollectionHeaderView: UICollectionReusableView {
+final class StudyListCollectionHeaderView: UICollectionReusableView, ReusableView {
   
   private let disposeBag = DisposeBag()
-  static let identifier = "StudyListCollectionHeaderView"
   weak var delegate: StudyListCollectionHeaderViewDelegate?
   
   // MARK: - UI Components

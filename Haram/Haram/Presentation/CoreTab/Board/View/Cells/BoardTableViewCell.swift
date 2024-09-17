@@ -21,9 +21,7 @@ struct BoardTableViewCellModel {
   let writeableComment: Bool
 }
 
-final class BoardTableViewCell: UITableViewCell {
-  
-  static let identifier = "BoardTableViewCell"
+final class BoardTableViewCell: UITableViewCell, ReusableView {
   
   private let entireView = UIView().then {
     $0.backgroundColor = .hexF2F3F5

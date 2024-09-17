@@ -90,9 +90,7 @@ struct HomeShortcutCollectionViewCellModel {
   let imageResource: ImageResource
 }
 
-final class HomeShortcutCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "HomeShortcutCollectionViewCell"
+final class HomeShortcutCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let titleLabel = UILabel().then {
     $0.textColor = .hex1A1E27

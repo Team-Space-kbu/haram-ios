@@ -11,9 +11,7 @@ import SnapKit
 import SkeletonView
 import Then
 
-final class HomeCollectionHeaderView: UICollectionReusableView {
-  
-  static let identifier = "HomeCollectionHeaderView"
+final class HomeCollectionHeaderView: UICollectionReusableView, ReusableView {
   
   private let titleLabel = UILabel().then {
     $0.textColor = .black

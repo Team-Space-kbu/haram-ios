@@ -61,7 +61,7 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     }).then {
       $0.backgroundColor = .white
       $0.isScrollEnabled = false
-      $0.register(SelectedDayCollectionViewCell.self, forCellWithReuseIdentifier: SelectedDayCollectionViewCell.identifier)
+      $0.register(SelectedDayCollectionViewCell.self)
       $0.isSkeletonable = true
     }
   
@@ -80,8 +80,8 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
       $0.minimumLineSpacing = 6
     }).then {
       $0.backgroundColor = .white
-      $0.register(SelectedTimeCollectionViewCell.self, forCellWithReuseIdentifier: SelectedTimeCollectionViewCell.identifier)
-      $0.register(SelectedTimeCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SelectedTimeCollectionHeaderView.identifier)
+      $0.register(SelectedTimeCollectionViewCell.self)
+      $0.register(SelectedTimeCollectionHeaderView.self, of: UICollectionView.elementKindSectionHeader)
       $0.allowsMultipleSelection = true
       $0.isSkeletonable = true
       $0.isScrollEnabled = false
@@ -359,11 +359,11 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if collectionView == selectedTimeCollectionView {
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedTimeCollectionViewCell.identifier, for: indexPath) as? SelectedTimeCollectionViewCell ?? SelectedTimeCollectionViewCell()
+      let cell = collectionView.dequeueReusableCell(SelectedTimeCollectionViewCell.self, for: indexPath) ?? SelectedTimeCollectionViewCell()
       cell.configureUI(with: indexPath.section == 0 ? selectedTimeModel.filter { $0.meridiem == .am }[indexPath.row] : selectedTimeModel.filter { $0.meridiem == .pm }[indexPath.row])
       return cell
     }
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedDayCollectionViewCell.identifier, for: indexPath) as? SelectedDayCollectionViewCell ?? SelectedDayCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(SelectedDayCollectionViewCell.self, for: indexPath) ?? SelectedDayCollectionViewCell()
     cell.configureUI(with: selectedDateModel[indexPath.row])
     
     /// 이용가능한 날짜가 존재한다면 맨 처음 셀을 선택
@@ -377,7 +377,7 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
     if collectionView == selectedTimeCollectionView {
       let header = collectionView.dequeueReusableSupplementaryView(
         ofKind: kind,
-        withReuseIdentifier: SelectedTimeCollectionHeaderView.identifier,
+        withReuseIdentifier: SelectedTimeCollectionHeaderView.reuseIdentifier,
         for: indexPath
       ) as? SelectedTimeCollectionHeaderView ?? SelectedTimeCollectionHeaderView()
       header.configureUI(with: indexPath.section == 0 ? "오전" : "오후")
@@ -441,16 +441,16 @@ extension StudyReservationViewController: UICollectionViewDelegate, UICollection
 extension StudyReservationViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
     if skeletonView == selectedDayCollectionView {
-      return SelectedDayCollectionViewCell.identifier
+      return SelectedDayCollectionViewCell.reuseIdentifier
     }
-    return SelectedTimeCollectionViewCell.identifier
+    return SelectedTimeCollectionViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     if skeletonView == selectedDayCollectionView {
-      return skeletonView.dequeueReusableCell(withReuseIdentifier: SelectedDayCollectionViewCell.identifier, for: indexPath) as? SelectedDayCollectionViewCell
+      return skeletonView.dequeueReusableCell(SelectedDayCollectionViewCell.self, for: indexPath)
     }
-    return skeletonView.dequeueReusableCell(withReuseIdentifier: SelectedTimeCollectionViewCell.identifier, for: indexPath) as? SelectedTimeCollectionViewCell
+    return skeletonView.dequeueReusableCell(SelectedTimeCollectionViewCell.self, for: indexPath)
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -462,7 +462,7 @@ extension StudyReservationViewController: SkeletonCollectionViewDataSource {
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
     if skeletonView == selectedTimeCollectionView {
-      return SelectedTimeCollectionHeaderView.identifier
+      return SelectedTimeCollectionHeaderView.reuseIdentifier
     }
     return nil
   }

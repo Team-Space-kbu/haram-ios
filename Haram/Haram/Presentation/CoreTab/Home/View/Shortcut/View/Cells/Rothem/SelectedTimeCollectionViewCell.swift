@@ -35,9 +35,7 @@ struct SelectedTimeCollectionViewCellModel: Hashable {
   }
 }
 
-final class SelectedTimeCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "SelectedTimeCollectionViewCell"
+final class SelectedTimeCollectionViewCell: UICollectionViewCell, ReusableView {
   
   var isReserved: Bool = false {
     didSet {

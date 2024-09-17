@@ -11,9 +11,7 @@ import SkeletonView
 import SnapKit
 import Then
 
-final class LibraryCollectionHeaderView: UICollectionReusableView {
-  
-  static let identifier = "LibraryCollectionHeaderView"
+final class LibraryCollectionHeaderView: UICollectionReusableView, ReusableView {
   
   private let titleLabel = UILabel().then {
     $0.font = .bold20

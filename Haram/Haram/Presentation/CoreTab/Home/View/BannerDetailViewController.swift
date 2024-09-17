@@ -65,7 +65,7 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
     $0.backgroundColor = .white
     $0.delegate = self
     $0.dataSource = self
-    $0.register(HomeBannerCollectionViewCell.self, forCellWithReuseIdentifier: HomeBannerCollectionViewCell.identifier)
+    $0.register(HomeBannerCollectionViewCell.self)
     $0.alwaysBounceHorizontal = true
     $0.showsHorizontalScrollIndicator = false
     $0.isPagingEnabled = true
@@ -220,7 +220,7 @@ extension BannerDetailViewController: UICollectionViewDelegate, UICollectionView
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeBannerCollectionViewCell.identifier, for: indexPath) as? HomeBannerCollectionViewCell ?? HomeBannerCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(HomeBannerCollectionViewCell.self, for: indexPath) ?? HomeBannerCollectionViewCell()
     cell.configureUI(with: bannerModel[indexPath.row])
     return cell
   }
@@ -243,11 +243,11 @@ extension BannerDetailViewController: UICollectionViewDelegate, UICollectionView
 
 extension BannerDetailViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
-    HomeBannerCollectionViewCell.identifier
+    HomeBannerCollectionViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    skeletonView.dequeueReusableCell(withReuseIdentifier: HomeBannerCollectionViewCell.identifier, for: indexPath) as? HomeBannerCollectionViewCell
+    skeletonView.dequeueReusableCell(HomeBannerCollectionViewCell.self, for: indexPath)
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

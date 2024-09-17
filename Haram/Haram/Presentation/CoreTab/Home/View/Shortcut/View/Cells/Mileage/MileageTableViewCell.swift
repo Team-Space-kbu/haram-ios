@@ -18,8 +18,7 @@ struct MileageTableViewCellModel {
   let imageSource: ImageResource
 }
 
-final class MileageTableViewCell: UITableViewCell {
-  static let identifier = "MileageTableViewCell"
+final class MileageTableViewCell: UITableViewCell, ReusableView {
   
   private let mileageImageView = UIImageView().then {
     $0.backgroundColor = .hexD9D9D9

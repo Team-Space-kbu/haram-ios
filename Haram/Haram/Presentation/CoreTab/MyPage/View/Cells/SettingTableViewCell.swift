@@ -15,9 +15,7 @@ struct SettingTableViewCellModel {
   let title: String
 }
 
-final class SettingTableViewCell: UITableViewCell {
-  
-  static let identifier = "SettingTableViewCell"
+final class SettingTableViewCell: UITableViewCell, ReusableView {
   
   private let containerView = UIView().then {
     $0.backgroundColor = .clear

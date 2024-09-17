@@ -29,9 +29,7 @@ struct TermsOfUseTableViewCellModel {
   }
 }
 
-final class TermsOfUseTableViewCell: UITableViewCell {
-  
-  static let identifier = "TermsOfUseTableViewCell"
+final class TermsOfUseTableViewCell: UITableViewCell, ReusableView {
   
   private var seq: Int?
   private var isChecked = false {

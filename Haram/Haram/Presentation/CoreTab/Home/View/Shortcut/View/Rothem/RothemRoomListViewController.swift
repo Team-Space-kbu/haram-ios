@@ -36,8 +36,8 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
     frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
     $0.minimumLineSpacing = 20
   }).then {
-    $0.register(StudyListCollectionViewCell.self, forCellWithReuseIdentifier: StudyListCollectionViewCell.identifier)
-    $0.register(StudyListCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: StudyListCollectionHeaderView.identifier)
+    $0.register(StudyListCollectionViewCell.self)
+    $0.register(StudyListCollectionHeaderView.self, of: UICollectionView.elementKindSectionHeader)
     $0.backgroundColor = .clear
     $0.delegate = self
     $0.dataSource = self
@@ -194,11 +194,11 @@ extension RothemRoomListViewController: StudyListCollectionHeaderViewDelegate {
 
 extension RothemRoomListViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-    StudyListCollectionViewCell.identifier
+    StudyListCollectionViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: StudyListCollectionViewCell.identifier, for: indexPath) as? StudyListCollectionViewCell ?? StudyListCollectionViewCell()
+    let cell = skeletonView.dequeueReusableCell(StudyListCollectionViewCell.self, for: indexPath) ?? StudyListCollectionViewCell()
     cell.configureUI(with: .init(rothemRoom: .init(roomSeq: -1, location: "", thumbnailPath: "", roomName: "Lorem ipsum dolor sit amet", roomExplanation: "Lorem ipsum dolor sit amet, consetetur\nsadipscing elitr, sed diam nonumy", peopleCount: 0, createdBy: "", createdAt: "", modifiedBy: "", modifiedAt: ""), isLast: false))
     return cell
   }
@@ -212,7 +212,7 @@ extension RothemRoomListViewController: SkeletonCollectionViewDataSource {
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StudyListCollectionViewCell.identifier, for: indexPath) as? StudyListCollectionViewCell ?? StudyListCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(StudyListCollectionViewCell.self, for: indexPath) ?? StudyListCollectionViewCell()
     cell.configureUI(with: studyListModel[indexPath.row])
     return cell
   }
@@ -220,7 +220,7 @@ extension RothemRoomListViewController: SkeletonCollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(
       ofKind: kind,
-      withReuseIdentifier: StudyListCollectionHeaderView.identifier,
+      withReuseIdentifier: StudyListCollectionHeaderView.reuseIdentifier,
       for: indexPath
     ) as? StudyListCollectionHeaderView ?? StudyListCollectionHeaderView()
     header.configureUI(with: rothemMainNoticeModel, type: type)
@@ -229,7 +229,7 @@ extension RothemRoomListViewController: SkeletonCollectionViewDataSource {
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
-    StudyListCollectionHeaderView.identifier
+    StudyListCollectionHeaderView.reuseIdentifier
   }
 }
 

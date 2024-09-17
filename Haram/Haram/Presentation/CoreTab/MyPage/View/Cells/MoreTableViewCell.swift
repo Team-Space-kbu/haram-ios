@@ -16,9 +16,7 @@ struct MoreTableViewCellModel {
   let title: String
 }
 
-final class MoreTableViewCell: UITableViewCell {
-  
-  static let identifier = "MoreTableViewCell"
+final class MoreTableViewCell: UITableViewCell, ReusableView {
   
   private let containerView = UIView().then {
     $0.backgroundColor = .clear

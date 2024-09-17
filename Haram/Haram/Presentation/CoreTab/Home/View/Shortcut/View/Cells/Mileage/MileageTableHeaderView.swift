@@ -16,9 +16,8 @@ struct MileageTableHeaderViewModel {
   let totalMileage: Int
 }
 
-final class MileageTableHeaderView: UITableViewHeaderFooterView {
-  
-  static let identifier = "MileageTableHeaderView"
+final class MileageTableHeaderView: UITableViewHeaderFooterView, ReusableView {
+
   private var disposeBag = DisposeBag()
   
   private let totalMileageLabel = UILabel().then {

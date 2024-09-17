@@ -27,11 +27,10 @@ protocol BoardDetailHeaderViewDelegate: AnyObject {
   func didTappedDeleteButton(boardSeq: Int)
 }
 
-final class BoardDetailHeaderView: UICollectionReusableView {
+final class BoardDetailHeaderView: UICollectionReusableView, ReusableView {
   
   weak var delegate: BoardDetailHeaderViewDelegate?
-  
-  static let identifier = "BoardDetailHeaderView"
+
   private let disposeBag = DisposeBag()
   private let currentBannerPage = PublishSubject<Int>()
   
@@ -82,7 +81,7 @@ final class BoardDetailHeaderView: UICollectionReusableView {
   }).then {
     $0.delegate = self
     $0.dataSource = self
-    $0.register(BoardImageCollectionViewCell.self, forCellWithReuseIdentifier: BoardImageCollectionViewCell.identifier)
+    $0.register(BoardImageCollectionViewCell.self)
     $0.isPagingEnabled = true
     $0.showsHorizontalScrollIndicator = false
     $0.isSkeletonable = true
@@ -191,7 +190,7 @@ extension BoardDetailHeaderView: UICollectionViewDataSource {
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BoardImageCollectionViewCell.identifier, for: indexPath) as? BoardImageCollectionViewCell ?? BoardImageCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(BoardImageCollectionViewCell.self, for: indexPath) ?? BoardImageCollectionViewCell()
     cell.configureUI(with: boardImageCollectionViewCellModel[indexPath.row])
     return cell
   }

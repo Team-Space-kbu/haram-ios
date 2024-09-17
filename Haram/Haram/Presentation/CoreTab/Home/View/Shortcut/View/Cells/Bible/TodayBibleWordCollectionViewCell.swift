@@ -16,8 +16,7 @@ struct TodayBibleWordCollectionViewCellModel {
   let todayBibleBookName: String
 }
 
-final class TodayBibleWordCollectionViewCell: UICollectionViewCell {
-  static let identifier = "TodayBibleWordCollectionViewCell"
+final class TodayBibleWordCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let todayBibleWordLabel = UILabel().then {
     $0.font = .bold18

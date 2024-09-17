@@ -16,18 +16,9 @@ struct BoardListCollectionViewCellModel {
   let title: String
   let subTitle: String
   let boardType: [String]
-  
-//  init(board: Board) {
-//    boardSeq = board.boardSeq
-//    title = board.title
-//    subTitle = board.contents
-//    boardType = []
-//  }
 }
 
-final class BoardListCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "BoardListCollectionViewCell"
+final class BoardListCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let entireView = UIView().then {
     $0.backgroundColor = .hexF8F8F8

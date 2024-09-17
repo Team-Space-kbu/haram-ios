@@ -15,9 +15,8 @@ protocol NoticeCollectionHeaderViewDelegate: AnyObject {
   func didTappedCategory(noticeType: NoticeType)
 }
 
-final class NoticeCollectionHeaderView: UICollectionReusableView {
-  
-  static let identifier = "NoticeCollectionHeaderView"
+final class NoticeCollectionHeaderView: UICollectionReusableView, ReusableView {
+
   weak var delegate: NoticeCollectionHeaderViewDelegate?
   private var model: [MainNoticeType] = [] {
     didSet {
@@ -39,7 +38,7 @@ final class NoticeCollectionHeaderView: UICollectionReusableView {
       $0.minimumInteritemSpacing = 15
     }
   ).then {
-    $0.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier)
+    $0.register(CategoryCollectionViewCell.self)
     $0.showsVerticalScrollIndicator = false
     $0.isScrollEnabled = false
     $0.backgroundColor = .clear
@@ -89,7 +88,7 @@ extension NoticeCollectionHeaderView: UICollectionViewDelegate, UICollectionView
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as? CategoryCollectionViewCell ?? CategoryCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(CategoryCollectionViewCell.self, for: indexPath) ?? CategoryCollectionViewCell()
     cell.configureUI(with: model[indexPath.row])
     return cell
   }
@@ -133,12 +132,12 @@ extension NoticeCollectionHeaderView: UICollectionViewDelegate, UICollectionView
 
 extension NoticeCollectionHeaderView: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-    CategoryCollectionViewCell.identifier
+    CategoryCollectionViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    let cell = skeletonView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as? CategoryCollectionViewCell
-    cell?.configureUI(with: .init(key: .library, tag: "도서관"))
+    let cell = skeletonView.dequeueReusableCell(CategoryCollectionViewCell.self, for: indexPath) ?? CategoryCollectionViewCell()    
+    cell.configureUI(with: .init(key: .library, tag: "도서관"))
     return cell
   }
   

@@ -26,7 +26,7 @@ final class TermsOfUseViewController: BaseViewController {
   }
   
   private lazy var termsOfUseTableView = UITableView(frame: .zero, style: .plain).then {
-    $0.register(TermsOfUseTableViewCell.self, forCellReuseIdentifier: TermsOfUseTableViewCell.identifier)
+    $0.register(TermsOfUseTableViewCell.self)
     $0.dataSource = self
     $0.delegate = self
     $0.backgroundColor = .white
@@ -61,8 +61,8 @@ final class TermsOfUseViewController: BaseViewController {
   
   private let cancelButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.haramCancelButton(label: "취소", contentInsets: .zero)
-//    $0.isSkeletonable = true
-//    $0.skeletonCornerRadius = 10
+    //    $0.isSkeletonable = true
+    //    $0.skeletonCornerRadius = 10
   }
   
   private let applyButton = UIButton(configuration: .plain()).then {
@@ -221,7 +221,7 @@ extension TermsOfUseViewController: UITableViewDataSource, UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: TermsOfUseTableViewCell.identifier, for: indexPath) as? TermsOfUseTableViewCell ?? TermsOfUseTableViewCell()
+    let cell = tableView.dequeueReusableCell(TermsOfUseTableViewCell.self, for: indexPath) ?? TermsOfUseTableViewCell()
     cell.configureUI(with: termsOfModel[indexPath.row])
     return cell
   }
@@ -239,12 +239,11 @@ extension TermsOfUseViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension TermsOfUseViewController: SkeletonTableViewDataSource {
   func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
-    let cell = skeletonView.dequeueReusableCell(withIdentifier: TermsOfUseTableViewCell.identifier, for: indexPath) as? TermsOfUseTableViewCell ?? TermsOfUseTableViewCell()
-    return cell
+    skeletonView.dequeueReusableCell(TermsOfUseTableViewCell.self, for: indexPath)
   }
   
   func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
-    return TermsOfUseTableViewCell.identifier
+    TermsOfUseTableViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {

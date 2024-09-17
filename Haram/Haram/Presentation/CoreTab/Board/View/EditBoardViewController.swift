@@ -112,7 +112,7 @@ final class EditBoardViewController: BaseViewController, BackButtonHandler {
     $0.minimumLineSpacing = 25
     $0.minimumInteritemSpacing = 25
   }).then {
-    $0.register(EditBoardCollectionViewCell.self, forCellWithReuseIdentifier: EditBoardCollectionViewCell.identifier)
+    $0.register(EditBoardCollectionViewCell.self)
     $0.isScrollEnabled = false
     $0.showsVerticalScrollIndicator = false
     $0.showsHorizontalScrollIndicator = false
@@ -357,7 +357,7 @@ extension EditBoardViewController: UICollectionViewDataSource, UICollectionViewD
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EditBoardCollectionViewCell.identifier, for: indexPath) as? EditBoardCollectionViewCell ?? EditBoardCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(EditBoardCollectionViewCell.self, for: indexPath) ?? EditBoardCollectionViewCell()
     cell.configureUI(with: imageModel[indexPath.row])
     return cell
   }

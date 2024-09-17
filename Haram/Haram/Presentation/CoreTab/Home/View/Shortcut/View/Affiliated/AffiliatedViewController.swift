@@ -47,7 +47,7 @@ final class AffiliatedViewController: BaseViewController, BackButtonHandler {
       $0.minimumLineSpacing = 21
     }
   ).then {
-    $0.register(AffiliatedCollectionViewCell.self, forCellWithReuseIdentifier: AffiliatedCollectionViewCell.identifier)
+    $0.register(AffiliatedCollectionViewCell.self)
     $0.backgroundColor = .white
     $0.alwaysBounceVertical = true
     $0.showsVerticalScrollIndicator = false
@@ -131,7 +131,7 @@ extension AffiliatedViewController: UICollectionViewDelegate, UICollectionViewDa
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AffiliatedCollectionViewCell.identifier, for: indexPath) as? AffiliatedCollectionViewCell ?? AffiliatedCollectionViewCell()
+    let cell = collectionView.dequeueReusableCell(AffiliatedCollectionViewCell.self, for: indexPath) ?? AffiliatedCollectionViewCell()
     cell.configureUI(with: affiliatedModel[indexPath.row])
     return cell
   }
@@ -155,11 +155,11 @@ extension AffiliatedViewController: UICollectionViewDelegate, UICollectionViewDa
 
 extension AffiliatedViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-    AffiliatedCollectionViewCell.identifier
+    AffiliatedCollectionViewCell.reuseIdentifier
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    return skeletonView.dequeueReusableCell(withReuseIdentifier: AffiliatedCollectionViewCell.identifier, for: indexPath) as? AffiliatedCollectionViewCell
+    return skeletonView.dequeueReusableCell(AffiliatedCollectionViewCell.self, for: indexPath)
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

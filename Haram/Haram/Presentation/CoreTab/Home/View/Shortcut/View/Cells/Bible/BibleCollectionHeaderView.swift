@@ -11,9 +11,7 @@ import SkeletonView
 import SnapKit
 import Then
 
-final class BibleCollectionHeaderView: UICollectionReusableView {
-  
-  static let identifier = "BibleCollectionHeaderView"
+final class BibleCollectionHeaderView: UICollectionReusableView, ReusableView {
   
   private let titleLabel = UILabel().then {
     $0.font = .bold20

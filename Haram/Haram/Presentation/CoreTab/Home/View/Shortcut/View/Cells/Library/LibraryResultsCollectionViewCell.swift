@@ -28,9 +28,7 @@ struct LibraryResultsCollectionViewCellModel {
   }
 }
 
-final class LibraryResultsCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "LibraryResultsCollectionViewCell"
+final class LibraryResultsCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let outerView = UIView().then {
     $0.layer.shadowColor = UIColor.black.cgColor

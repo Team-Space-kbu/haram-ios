@@ -10,8 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class EditBoardCollectionViewCell: UICollectionViewCell {
-  static let identifier = "EditBoardCollectionViewCell"
+final class EditBoardCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let boardImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill

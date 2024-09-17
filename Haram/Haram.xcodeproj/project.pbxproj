@@ -303,6 +303,7 @@
 		70C9CCB22A067D8000BEB5F2 /* ChapelDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */; };
 		70C9CCB42A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */; };
 		70C9CCB62A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */; };
+		70DC8F542C99F994006DDAF7 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DC8F532C99F994006DDAF7 /* ReusableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -618,6 +619,7 @@
 		70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelCollectionHeaderView.swift; sourceTree = "<group>"; };
 		70DC8F4D2C99E09E006DDAF7 /* DebugConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DebugConfig.xcconfig; sourceTree = "<group>"; };
 		70DC8F4E2C99E0AB006DDAF7 /* ReleaseConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ReleaseConfig.xcconfig; sourceTree = "<group>"; };
+		70DC8F532C99F994006DDAF7 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		74FE3B264DC16090B2D9CFB4 /* Pods-Haram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram.release.xcconfig"; path = "Target Support Files/Pods-Haram/Pods-Haram.release.xcconfig"; sourceTree = "<group>"; };
 		79664C453E77F09B732479B2 /* Pods_Haram_HaramUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haram_HaramUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DB02293774336B31B7FCCBA /* Pods-Haram-HaramUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.debug.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -908,7 +910,6 @@
 				705E70B429E1C79500156B1F /* Component */,
 				708DACF52B35A44D00E3AD45 /* Presentation */,
 				7095D3882AD67C85008DAA39 /* Constants */,
-				70E4D1552AD638BF00351B35 /* LaunchScreen */,
 				708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */,
 				70727A8629D87DFA003DE956 /* Network */,
 			);
@@ -1573,6 +1574,7 @@
 		70DC8F4F2C99F81E006DDAF7 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				70DC8F522C99F930006DDAF7 /* Protocol */,
 				70727AB629D95E2A003DE956 /* Extension */,
 				708312942A691A8200F7E283 /* Util */,
 			);
@@ -1591,12 +1593,21 @@
 		70DC8F512C99F848006DDAF7 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				70E4D1552AD638BF00351B35 /* LaunchScreen */,
 				70727AAB29D95575003DE956 /* Font */,
 				70727A5D29D87B27003DE956 /* Assets.xcassets */,
 				70727A5F29D87B27003DE956 /* LaunchScreen.storyboard */,
 				70727A6229D87B27003DE956 /* Info.plist */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		70DC8F522C99F930006DDAF7 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				70DC8F532C99F994006DDAF7 /* ReusableView.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		70E4D1552AD638BF00351B35 /* LaunchScreen */ = {
@@ -2069,6 +2080,7 @@
 				70B310AC2BB2F4C600EF21CE /* AffiliatedMapView.swift in Sources */,
 				708312BE2A7A3C6200F7E283 /* SignupMemberRequest.swift in Sources */,
 				70727AA829D93F24003DE956 /* HomeNewsCollectionViewCell.swift in Sources */,
+				70DC8F542C99F994006DDAF7 /* ReusableView.swift in Sources */,
 				708ED7B32A90D4ED00107CDF /* StudyRoomDetailViewController.swift in Sources */,
 				705FD2A12A15F75900F353FE /* LoginAlertView.swift in Sources */,
 				70AD2A672B86001600CB9791 /* InquireNoticeDetailInfoResponse.swift in Sources */,

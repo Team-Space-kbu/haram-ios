@@ -27,9 +27,7 @@ struct LibraryCollectionViewCellModel {
   }
 }
 
-final class LibraryCollectionViewCell: UICollectionViewCell {
-  
-  static let identifier = "LibraryCollectionViewCell"
+final class LibraryCollectionViewCell: UICollectionViewCell, ReusableView {
   
   private let thumbnailImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
