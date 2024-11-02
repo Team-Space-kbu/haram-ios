@@ -17,10 +17,10 @@ struct HomeNewsCollectionViewCellModel {
   let thumbnailURL: URL?
   let pdfURL: URL?
   
-  init(kokkoksNews: KokkoksNews) {
-    title = kokkoksNews.title
-    thumbnailURL = URL(string: kokkoksNews.img)
-    pdfURL = URL(string: kokkoksNews.file)
+  init(kokkok: Kokkok) {
+    title = kokkok.title
+    thumbnailURL = URL(string: kokkok.img)
+    pdfURL = URL(string: kokkok.file)
   }
 }
 

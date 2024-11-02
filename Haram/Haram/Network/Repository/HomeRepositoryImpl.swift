@@ -9,7 +9,7 @@ import RxSwift
 
 protocol HomeRepository {
   func inquireHomeInfo() -> Single<InquireHomeInfoResponse>
-  func inquireAffiliatedList() -> Single<[InquireAffiliatedResponse]>
+  func inquireAffiliatedModel() -> Single<[InquireAffiliatedResponse]>
   func inquireBannerInfo(bannerSeq: Int) -> Single<InquireBannerInfoResponse>
   func inquireAffiliatedDetail(id: Int) -> Single<InquireAffiliatedDetailResponse>
 }
@@ -37,7 +37,7 @@ extension HomeRepositoryImpl: HomeRepository {
     service.betarequest(router: HomeRouter.inquireHomeInfo, type: InquireHomeInfoResponse.self)
   }
   
-  func inquireAffiliatedList() -> Single<[InquireAffiliatedResponse]> {
-    service.betarequest(router: HomeRouter.inquireAffiliatedList, type: [InquireAffiliatedResponse].self)
+  func inquireAffiliatedModel() -> Single<[InquireAffiliatedResponse]> {
+    service.betarequest(router: HomeRouter.inquireAffiliatedModel, type: [InquireAffiliatedResponse].self)
   }
 }

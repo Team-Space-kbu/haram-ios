@@ -21,7 +21,14 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
   }
   
   private let reservationCancelButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "예약취소하기", contentInsets: .zero)
+    $0.configuration?.baseBackgroundColor = .clear
+    $0.configuration?.baseForegroundColor = .hex3B8686
+    let fontAttribute = [NSAttributedString.Key.font: UIFont.bold16]
+    let attributedTitle = NSAttributedString(string: "예약 취소하기", attributes: fontAttribute)
+    $0.setAttributedTitle(attributedTitle, for: .normal)
+    $0.configuration?.background.cornerRadius = 10
+    $0.configuration?.background.strokeColor = .hex79BD9A
+    $0.configuration?.background.strokeWidth = 1
     $0.isSkeletonable = true
     $0.skeletonCornerRadius = 10
   }
@@ -41,7 +48,7 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
   
   override func setupStyles() {
     super.setupStyles()
-    title = "예약확인하기"
+    title = "예약정보"
     setupBackButton()
     setupSkeletonView()
     registerNotification()
@@ -63,10 +70,9 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     
     reservationCancelButton.snp.makeConstraints {
       $0.top.greaterThanOrEqualTo(rothemReservationInfoView.snp.bottom)
-      $0.width.equalTo(141)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(48)
       $0.bottom.equalToSuperview().inset(58)
-      $0.centerX.equalToSuperview()
     }
   }
   
@@ -99,7 +105,7 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     
     viewModel.successCancelReservation
       .drive(with: self) { owner, _ in
-        NotificationCenter.default.post(name: .refreshRothemList, object: nil)
+        NotificationCenter.default.post(name: .refreshRothemModel, object: nil)
         AlertManager.showAlert(title: "로뎀예약취소 성공", message: "로뎀메인화면으로 이동합니다.", viewController: owner) { owner.navigationController?.popViewController(animated: true) }
       }
       .disposed(by: disposeBag)

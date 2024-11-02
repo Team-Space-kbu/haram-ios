@@ -32,9 +32,9 @@ final class AffiliatedViewModel {
 extension AffiliatedViewModel: AffiliatedViewModelType {
   
   func tryInquireAffiliated() {
-    let inquireAffiliatedList = homeRepository.inquireAffiliatedList()
+    let inquireAffiliatedModel = homeRepository.inquireAffiliatedModel()
     
-    inquireAffiliatedList
+    inquireAffiliatedModel
       .map { affiliated in
         affiliated.enumerated().map { index, response in
           AffiliatedCollectionViewCellModel(response: response, isLast: index == affiliated.count - 1)

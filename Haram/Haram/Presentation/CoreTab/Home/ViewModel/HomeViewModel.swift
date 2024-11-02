@@ -17,7 +17,6 @@ protocol HomeViewModelType {
   
   var newsModel: Driver<[HomeNewsCollectionViewCellModel]> { get }
   var bannerModel: Driver<[HomebannerCollectionViewCellModel]> { get }
-  var noticeModel: Driver<HomeNoticeViewModel> { get }
   var shortcutModel: Driver<[HomeShortcutCollectionViewCellModel]> { get }
   
   var isLoading: Driver<Bool> { get }
@@ -35,7 +34,6 @@ final class HomeViewModel {
   private let newsModelRelay   = PublishRelay<[HomeNewsCollectionViewCellModel]>()
   private let bannerModelRelay = PublishRelay<[HomebannerCollectionViewCellModel]>()
   private let shortcutModelRelay = PublishRelay<[HomeShortcutCollectionViewCellModel]>()
-  private let noticeModelRelay = PublishRelay<HomeNoticeViewModel>()
   private let isLoadingSubject = PublishSubject<Bool>()
   private let isAvailableSimpleChapelModalSubject = PublishSubject<(Bool, CheckChapelDayViewModel?)>()
   private let errorMessageRelay = BehaviorRelay<HaramError?>(value: nil)
@@ -59,15 +57,11 @@ extension HomeViewModel {
         self.isLoadingSubject.onNext(true)
       })
       .subscribe(with: self, onSuccess: { owner, response in
-        guard let subNotice = response.notice.notices.first else { return }
-        
-        let news = response.kokkoks.kokkoksNews.map { HomeNewsCollectionViewCellModel(kokkoksNews: $0) }
-        let banners = response.banner.banners.map { HomebannerCollectionViewCellModel(subBanner: $0) }
-        let notices = HomeNoticeViewModel(subNotice: subNotice)
+        let news = response.kokkoks.map { HomeNewsCollectionViewCellModel(kokkok: $0) }
+        let banners = response.notice.map { HomebannerCollectionViewCellModel(bannerSeq: $0.noticeSeq, imageURL: URL(string: $0.thumbnailPath)) }
         
         owner.newsModelRelay.accept(news)
         owner.bannerModelRelay.accept(banners)
-        owner.noticeModelRelay.accept(notices)
         owner.isLoadingSubject.onNext(false)
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
@@ -92,9 +86,6 @@ extension HomeViewModel: HomeViewModelType {
   }
   var bannerModel: Driver<[HomebannerCollectionViewCellModel]> {
     bannerModelRelay.asDriver(onErrorJustReturn: [])
-  }
-  var noticeModel: Driver<HomeNoticeViewModel> {
-    noticeModelRelay.asDriver(onErrorDriveWith: .empty())
   }
   
   var isLoading: RxCocoa.Driver<Bool> {

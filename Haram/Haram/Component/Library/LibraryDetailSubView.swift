@@ -36,10 +36,6 @@ final class LibraryDetailSubView: UIView {
     $0.skeletonTextNumberOfLines = 7
   }
   
-  private let bottomLineView = UIView().then {
-    $0.backgroundColor = .hexD8D8DA
-  }
-  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -51,25 +47,20 @@ final class LibraryDetailSubView: UIView {
   
   private func configureUI() {
     
-    [titleLabel, descriptionLabel, bottomLineView].forEach {
+    [titleLabel, descriptionLabel].forEach {
       $0.isSkeletonable = true
       addSubview($0)
     }
     
     titleLabel.snp.makeConstraints {
-      $0.top.leading.equalToSuperview()
+      $0.top.equalToSuperview()
+      $0.leading.equalToSuperview().inset(15)
     }
     
     descriptionLabel.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(11)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.bottom.equalToSuperview().inset(28)
-    }
-    
-    bottomLineView.snp.makeConstraints {
-      $0.top.equalTo(descriptionLabel.snp.bottom).offset(28)
-      $0.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo(1)
     }
   }
   

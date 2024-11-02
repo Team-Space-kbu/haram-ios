@@ -44,14 +44,13 @@ final class AffiliatedViewController: BaseViewController, BackButtonHandler {
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
       $0.scrollDirection = .vertical
-      $0.minimumLineSpacing = 21
+      $0.minimumLineSpacing = .zero
     }
   ).then {
     $0.register(AffiliatedCollectionViewCell.self)
     $0.backgroundColor = .white
     $0.alwaysBounceVertical = true
     $0.showsVerticalScrollIndicator = false
-    $0.contentInset = UIEdgeInsets(top: 25, left: 15, bottom: 15, right: 15)
     $0.isScrollEnabled = true
     $0.isSkeletonable = true
   }
@@ -78,8 +77,7 @@ final class AffiliatedViewController: BaseViewController, BackButtonHandler {
   override func setupConstraints() {
     super.setupConstraints()
     affiliatedCollectionView.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(25)
-      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+      $0.directionalEdges.equalToSuperview()
     }
   }
   
@@ -137,7 +135,7 @@ extension AffiliatedViewController: UICollectionViewDelegate, UICollectionViewDa
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: collectionView.frame.width - 30, height: 109)
+    return CGSize(width: collectionView.frame.width, height: 15 + 15 + 100)
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

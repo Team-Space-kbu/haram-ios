@@ -17,29 +17,28 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
   // MARK: - Property
   
   private let viewModel: NoticeViewModelType
-  
   private var noticeModel: [NoticeCollectionViewCellModel] = []
-  
-  private var noticeTagModel: [MainNoticeType] = []
   
   // MARK: - UI Components
   
-  private lazy var noticeCollectionView = UICollectionView(
-    frame: .zero,
-    collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
-      guard let self = self else { return nil }
-      return type(of: self).setCollectionViewSection()
-    }
-  ).then {
-    $0.backgroundColor = .white
-    $0.register(NoticeCollectionViewCell.self)
-    $0.register(NoticeCollectionHeaderView.self, of: UICollectionView.elementKindSectionHeader)
-    $0.delegate = self
-    $0.dataSource = self
+  private let scrollView = UIScrollView().then {
+    $0.alwaysBounceVertical = true
+    $0.backgroundColor = .clear
     $0.showsVerticalScrollIndicator = false
-    $0.contentInsetAdjustmentBehavior = .always
+    $0.showsHorizontalScrollIndicator = false
     $0.isSkeletonable = true
   }
+  
+  private let containerView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 20
+    $0.alignment = .fill
+    $0.distribution = .fill
+    $0.isSkeletonable = true
+  }
+  
+  private let noticeCategoryView = NoticeCollectionHeaderView()
+  private let noticeListView = NoticeListView()
   
   // MARK: - Initializations
   
@@ -75,12 +74,11 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
     )
     .drive(with: self) { owner, result in
       let (noticeModel, noticeTagModel) = result
+      owner.noticeListView.configureUI(with: noticeModel)
+      owner.noticeCategoryView.configureUI(with: noticeTagModel)
       owner.noticeModel = noticeModel
-      owner.noticeTagModel = noticeTagModel
       
-      owner.noticeCollectionView.hideSkeleton()
-      
-      owner.noticeCollectionView.reloadData()
+      owner.view.hideSkeleton()
     }
     .disposed(by: disposeBag)
     
@@ -104,51 +102,30 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
     setupBackButton()
     setupSkeletonView()
     navigationController?.interactivePopGestureRecognizer?.delegate = self
+    noticeCategoryView.delegate = self
+    noticeListView.noticeCollectionView.delegate = self
+//    noticeListView.noticeCollectionView.dataSource = self
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(noticeCollectionView)
+    view.addSubview(scrollView)
+    scrollView.addSubview(containerView)
+    
+    let subViews = [noticeCategoryView, noticeListView]
+    containerView.addArrangedDividerSubViews(subViews, thickness: 10)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    noticeCollectionView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+    scrollView.snp.makeConstraints {
+      $0.directionalEdges.width.equalToSuperview()
     }
-  }
-  
-  static private func setCollectionViewSection() -> NSCollectionLayoutSection? {
-    let item = NSCollectionLayoutItem(
-      layoutSize: NSCollectionLayoutSize(
-        widthDimension: .fractionalWidth(1),
-        heightDimension: .fractionalHeight(1)
-      )
-    )
     
-    let verticalGroup = NSCollectionLayoutGroup.vertical(
-      layoutSize: NSCollectionLayoutSize(
-        widthDimension: .fractionalWidth(1),
-        heightDimension: .absolute(92)
-      ),
-      subitems: [item]
-    )
-    
-    let header = NSCollectionLayoutBoundarySupplementaryItem(
-      layoutSize: NSCollectionLayoutSize(
-        widthDimension: .fractionalWidth(1),
-        heightDimension: .absolute(189 + 30)
-      ),
-      elementKind: UICollectionView.elementKindSectionHeader,
-      alignment: .top
-    )
-    
-    let section = NSCollectionLayoutSection(group: verticalGroup)
-    section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 15, bottom: 15, trailing: 15)
-    section.interGroupSpacing = 20
-    section.boundarySupplementaryItems = [header]
-    return section
+    containerView.snp.makeConstraints {
+      $0.directionalEdges.width.equalToSuperview()
+    }
   }
   
   @objc func didTappedBackButton() {
@@ -160,26 +137,13 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
   }
 }
 
-extension NoticeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-  func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 1
-  }
+extension NoticeViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
   
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return noticeModel.count
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(NoticeCollectionViewCell.self, for: indexPath) ?? NoticeCollectionViewCell()
-    cell.configureUI(with: noticeModel[indexPath.row])
-    return cell
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: NoticeCollectionHeaderView.reuseIdentifier, for: indexPath) as? NoticeCollectionHeaderView ?? NoticeCollectionHeaderView()
-    header.delegate = self
-    header.configureUI(with: noticeTagModel)
-    return header
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    if collectionView == noticeListView.noticeCollectionView {
+      return .init(width: collectionView.frame.width, height: 92)
+    }
+    return .zero
   }
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -192,7 +156,7 @@ extension NoticeViewController: UICollectionViewDelegate, UICollectionViewDataSo
   
   func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
     
-    if collectionView == noticeCollectionView {
+    if collectionView == noticeListView.noticeCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? NoticeCollectionViewCell ?? NoticeCollectionViewCell()
       cell.setHighlighted(isHighlighted: true)
     }
@@ -200,7 +164,7 @@ extension NoticeViewController: UICollectionViewDelegate, UICollectionViewDataSo
   
   func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
     
-    if collectionView == noticeCollectionView {
+    if collectionView == noticeListView.noticeCollectionView {
       let cell = collectionView.cellForItem(at: indexPath) as? NoticeCollectionViewCell ?? NoticeCollectionViewCell()
       cell.setHighlighted(isHighlighted: false)
     }
@@ -214,25 +178,6 @@ extension NoticeViewController: NoticeCollectionHeaderViewDelegate {
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }
-}
-
-extension NoticeViewController: SkeletonCollectionViewDataSource {
-  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-    NoticeCollectionViewCell.reuseIdentifier
-  }
-  
-  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    skeletonView.dequeueReusableCell(NoticeCollectionViewCell.self, for: indexPath)
-  }
-  
-  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    10
-  }
-  
-  func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
-    NoticeCollectionHeaderView.reuseIdentifier
-  }
-  
 }
 
 extension NoticeViewController: UIGestureRecognizerDelegate {

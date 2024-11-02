@@ -72,10 +72,6 @@ final class LibraryDetailMainView: UIView {
     $0.skeletonTextNumberOfLines = 1
   }
   
-  private let bottomLineView = UIView().then {
-    $0.backgroundColor = .hexD8D8DA
-  }
-  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -88,17 +84,18 @@ final class LibraryDetailMainView: UIView {
   private func configureUI() {
     backgroundColor = .clear
     
-    _ = [containerView, outerView, titleLabel, subLabel, bottomLineView].map { $0.isSkeletonable = true }
+    _ = [containerView, outerView, titleLabel, subLabel].map { $0.isSkeletonable = true }
     
     outerView.skeletonCornerRadius = 10
     
     addSubview(containerView)
-    _ = [outerView, titleLabel, subLabel, bottomLineView].map { containerView.addArrangedSubview($0) }
+    _ = [outerView, titleLabel, subLabel].map { containerView.addArrangedSubview($0) }
     outerView.addSubview(bookImageView)
     bookImageView.addSubview(button)
     
     containerView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.top.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
@@ -117,13 +114,7 @@ final class LibraryDetailMainView: UIView {
     
     titleLabel.snp.makeConstraints {
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-    }
-    
-    containerView.setCustomSpacing(10, after: titleLabel)
-    
-    bottomLineView.snp.makeConstraints {
-      $0.height.equalTo(1)
-      $0.width.equalTo(UIScreen.main.bounds.width)
+      $0.bottom.equalToSuperview().inset(10)
     }
     
     containerView.setCustomSpacing(31, after: subLabel)

@@ -7,13 +7,8 @@
 
 import UIKit
 
-import RxSwift
 import SnapKit
 import Then
-
-protocol CheckChapelDayViewDelegate: AnyObject {
-  func didTappedXButton()
-}
 
 struct CheckChapelDayViewModel {
   let regulatedDay: String
@@ -22,9 +17,6 @@ struct CheckChapelDayViewModel {
 
 /// 홈 메인에서 특정 시간대에 채플 일 수를 확인할 수 있는 뷰
 final class CheckChapelDayView: UIView {
-  
-  weak var delegate: CheckChapelDayViewDelegate?
-  private let disposeBag = DisposeBag()
   
   private let dayImageView = UIImageView(image: UIImage(resource: .bibleCheck)).then {
     $0.layer.masksToBounds = true
@@ -46,26 +38,13 @@ final class CheckChapelDayView: UIView {
     $0.backgroundColor = .white
   }
   
-  private let xButton = UIButton().then {
-    $0.setImage(UIImage(resource: .xMarkWhite), for: .normal)
-  }
-  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
-    bind()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  private func bind() {
-    xButton.rx.tap
-      .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedXButton()
-      }
-      .disposed(by: disposeBag)
   }
   
   private func configureUI() {
@@ -76,13 +55,8 @@ final class CheckChapelDayView: UIView {
     layer.masksToBounds = true
     layer.cornerRadius = 10
     
-    _ = [dayImageView, containerView, xButton].map { addSubview($0) }
+    _ = [dayImageView, containerView].map { addSubview($0) }
     _ = [regulatedCheckChapelLabelView, verticalLineView, chapelCheckChapelLabelView].map { containerView.addArrangedSubview($0) }
-    
-    xButton.snp.makeConstraints {
-      $0.top.trailing.equalToSuperview().inset(9)
-      $0.size.equalTo(10)
-    }
     
     dayImageView.snp.makeConstraints {
       $0.size.equalTo(40)
@@ -93,7 +67,7 @@ final class CheckChapelDayView: UIView {
     containerView.snp.makeConstraints {
       $0.directionalVerticalEdges.equalToSuperview()
       $0.leading.equalTo(dayImageView.snp.trailing).offset(105 - 15 - 40 - 19)
-      $0.trailing.equalTo(xButton.snp.leading).offset(-26)
+      $0.trailing.equalToSuperview().inset(105 - 15 - 40 - 19)
     }
     
     verticalLineView.snp.makeConstraints {

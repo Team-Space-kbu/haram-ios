@@ -23,8 +23,8 @@ final class LoginViewController: BaseViewController {
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: 118 - Device.topInset, left: 22, bottom: .zero, right: 22)
-    $0.spacing = 25
+    $0.layoutMargins = .init(top: (95 - Device.topInset) * 2, left: 15, bottom: .zero, right: 15)
+    $0.spacing = 10
     $0.backgroundColor = .clear
   }
   
@@ -66,8 +66,14 @@ final class LoginViewController: BaseViewController {
     $0.delegate = self
   }
   
-  private lazy var loginAlertView = LoginAlertView().then {
-    $0.delegate = self
+  private let newAccountButton = UIButton(configuration: .plain()).then {
+    $0.configuration?.title = "새 계정 만들기"
+    $0.configuration?.baseBackgroundColor = .clear
+    $0.configuration?.baseForegroundColor = .hex3B8686
+    $0.configuration?.font = .bold16
+    $0.configuration?.background.cornerRadius = 10
+    $0.configuration?.background.strokeColor = .hex79BD9A
+    $0.configuration?.background.strokeWidth = 1
   }
   
   private let indicatorView = UIActivityIndicatorView(style: .large)
@@ -153,29 +159,43 @@ final class LoginViewController: BaseViewController {
     viewModel.isLoading
       .drive(indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
+    
+    newAccountButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let vc = UINavigationController(rootViewController: TermsOfUseViewController())
+        vc.modalPresentationStyle = .fullScreen
+        owner.present(vc, animated: true) {
+          self.errorMessageLabel.removeFromSuperview()
+          self.errorMessageLabel.text = nil
+        }
+      }
+      .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    [containerView, indicatorView, loginAlertView].forEach { view.addSubview($0) }
-    [loginImageView, loginLabel, schoolLabel, emailTextField, passwordTextField, loginButton].forEach { containerView.addArrangedSubview($0) }
+    [loginImageView, containerView, indicatorView, newAccountButton].forEach { view.addSubview($0) }
+    [loginLabel, schoolLabel, emailTextField, passwordTextField, loginButton].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
+    loginImageView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide).offset(95 - Device.topInset)
+      $0.centerX.equalToSuperview()
+      $0.height.equalTo(120)
+      $0.width.equalTo(123.4)
+    }
+    
     containerView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.top.equalTo(loginImageView.snp.bottom)
+      $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
     indicatorView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
-    }
-    
-    loginImageView.snp.makeConstraints {
-      $0.height.equalTo(249)
-      $0.width.equalTo(238)
     }
     
     [emailTextField, passwordTextField].forEach {
@@ -197,18 +217,18 @@ final class LoginViewController: BaseViewController {
     }
     
     loginButton.snp.makeConstraints {
-      $0.height.equalTo(48)
+      $0.height.equalTo(48 + 20 + 48)
     }
     
-    containerView.setCustomSpacing(37, after: loginImageView)
     containerView.setCustomSpacing(12, after: loginLabel)
     containerView.setCustomSpacing(20, after: schoolLabel)
+    containerView.setCustomSpacing(20, after: passwordTextField)
     
-    loginAlertView.snp.makeConstraints {
-      $0.top.equalTo(containerView.snp.bottom).offset(41)
-      $0.bottomMargin.equalToSuperview().inset(25)
-      $0.centerX.equalToSuperview()
-      $0.height.equalTo(16)
+    newAccountButton.snp.makeConstraints {
+      $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      $0.height.equalTo(50)
     }
   }
 }
@@ -225,7 +245,7 @@ extension LoginViewController: LoginButtonDelegate {
   }
   
   func didTappedFindPasswordButton() {
-    let vc = UINavigationController(rootViewController: FindPasswordViewController())
+    let vc = UINavigationController(rootViewController: FindAccountViewController(viewModel: .init()))
     vc.modalPresentationStyle = .fullScreen
     
     present(vc, animated: true) {
@@ -251,21 +271,6 @@ extension LoginViewController: UITextFieldDelegate {
     }
     return true
   }
-}
-
-// MARK: - LoginAlertViewDelegate
-
-extension LoginViewController: LoginAlertViewDelegate {
-  func didTappedRegisterButton() {
-    let vc = UINavigationController(rootViewController: TermsOfUseViewController())
-    vc.modalPresentationStyle = .fullScreen
-    present(vc, animated: true) {
-      self.errorMessageLabel.removeFromSuperview()
-      self.errorMessageLabel.text = nil
-    }
-  }
-  
-  
 }
 
 // MARK: - Keyboard Notification

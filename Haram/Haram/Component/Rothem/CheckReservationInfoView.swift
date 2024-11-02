@@ -27,7 +27,7 @@ final class CheckReservationInfoView: UIView {
   private let titleLabel = UILabel().then {
     $0.textColor = .hex1A1E27
     $0.font = .bold18
-    $0.text = "예약된 정보확인하기"
+    $0.text = "예정된 예약"
   }
   
   private let descriptionLabel = UILabel().then {
@@ -39,6 +39,7 @@ final class CheckReservationInfoView: UIView {
   
   private let checkReservationButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "예약확인", contentInsets: .init(top: 4, leading: 15, bottom: 4, trailing: 15))
+    $0.configuration?.background.cornerRadius = 15
   }
   
   // MARK: - Initializations
@@ -69,7 +70,8 @@ final class CheckReservationInfoView: UIView {
     checkReservationButton.snp.makeConstraints {
       $0.leading.greaterThanOrEqualTo(descriptionLabel.snp.trailing)
       $0.trailing.centerY.equalToSuperview()
-      $0.height.equalTo(25)
+      $0.height.equalTo(35)
+      $0.width.equalTo(94)
     }
   }
   

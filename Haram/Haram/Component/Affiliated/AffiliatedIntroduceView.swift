@@ -25,7 +25,7 @@ final class AffiliatedIntroduceView: UIView {
   }
   
   private let introduceContentLabel = UILabel().then {
-    $0.font = .regular14
+    $0.font = .bold14
     $0.textColor = .hex9F9FA4
     $0.numberOfLines = 0
     $0.isSkeletonable = true

@@ -10,6 +10,23 @@ import UIKit.UIViewController
 import class RxSwift.DisposeBag
 import SkeletonView
 
+protocol BaseViewControllerPorotocol where Self: BaseViewController {
+  associatedtype ViewHolder: ViewHolderType
+  associatedtype ViewModel: ViewModelType
+  
+  var viewModel: ViewModel { get }
+  var viewHolder: ViewHolder { get }
+}
+
+extension BaseViewControllerPorotocol {
+  func viewHolderConfigure() {
+    viewHolder.place(in: view)
+    viewHolder.configureConstraints(for: view)
+  }
+}
+
+typealias ViewController = BaseViewController & BaseViewControllerPorotocol
+
 class BaseViewController: UIViewController {
   
   /// A dispose bag. 각 ViewController에 종속적이다.

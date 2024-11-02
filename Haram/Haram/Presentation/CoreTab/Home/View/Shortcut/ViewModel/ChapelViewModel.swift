@@ -14,6 +14,7 @@ protocol ChapelViewModelType {
   func inquireChapelDetail()
   
   var chapelListModel: Driver<[ChapelCollectionViewCellModel]> { get }
+  var chapelDetailModel: Driver<[ChapelDetailInfoViewModel]> { get }
   var chapelHeaderModel: Driver<ChapelCollectionHeaderViewModel?> { get }
   var isLoading: Driver<Bool> { get }
   
@@ -26,6 +27,7 @@ final class ChapelViewModel {
   private let intranetRepository: IntranetRepository
   
   private let chapelListModelRelay   = PublishRelay<[ChapelCollectionViewCellModel]>()
+  private let chapelDetailModelRelay = PublishRelay<[ChapelDetailInfoViewModel]>()
   private let chapelHeaderModelRelay = PublishRelay<ChapelCollectionHeaderViewModel?>()
   private let isLoadingSubject       = BehaviorSubject<Bool>(value: true)
   private let errorMessageRelay    = BehaviorRelay<HaramError?>(value: nil)
@@ -47,14 +49,17 @@ extension ChapelViewModel: ChapelViewModelType {
         owner.chapelHeaderModelRelay.accept(
           ChapelCollectionHeaderViewModel(
             chapelDayViewModel: response.confirmationDays,
-            chapelInfoViewModel: .init(
-              regulateDays: response.regulateDays,
-              remainDays: "\(remainDays < 0 ? -99 : remainDays)",
-              lateDays: response.lateDays,
-              completionDays: response.attendanceDays
-            )
+            chapelInfoViewModel: []
           )
         )
+        owner.chapelDetailModelRelay.accept([
+          .init(title: "규정일수", day: response.regulateDays + "일"),
+          .init(title: "남은일수", day: "\(remainDays < 0 ? 0 : remainDays)" + "일"),
+          .init(title: "지각", day: response.lateDays + "일"),
+          .init(title: "이수일수", day: response.attendanceDays + "일"),
+          .init(title: "확정일수", day: response.confirmationDays + "일") // 이게 뭐지
+        ])
+
         owner.isLoadingSubject.onNext(false)
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
@@ -91,5 +96,8 @@ extension ChapelViewModel: ChapelViewModelType {
     errorMessageRelay
       .compactMap { $0 }
       .asSignal(onErrorSignalWith: .empty())
+  }
+  var chapelDetailModel: Driver<[ChapelDetailInfoViewModel]> {
+    chapelDetailModelRelay.asDriver(onErrorDriveWith: .empty())
   }
 }

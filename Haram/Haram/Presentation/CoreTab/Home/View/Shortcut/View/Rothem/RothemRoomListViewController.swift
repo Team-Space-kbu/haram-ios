@@ -163,12 +163,11 @@ extension RothemRoomListViewController: UICollectionViewDelegate {
 extension RothemRoomListViewController: UICollectionViewDelegateFlowLayout {
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    /// 헤더뷰랑 로뎀스터디룸예약 라벨 사이의 간격을 모르겠음 30을 수정해야함
     switch type {
     case .noReservation:
-      return CGSize(width: collectionView.frame.width, height: 22 + 26 + 294 + 26)
+      return CGSize(width: collectionView.frame.width, height: 22 + 26 + 294 + 26 - 134)
     case .reservation:
-      return CGSize(width: collectionView.frame.width, height: 453.97 - 17.97)
+      return CGSize(width: collectionView.frame.width, height: 453.97 - 17.97 - 134)
     }
   }
   
@@ -180,7 +179,7 @@ extension RothemRoomListViewController: UICollectionViewDelegateFlowLayout {
 extension RothemRoomListViewController: StudyListCollectionHeaderViewDelegate {
   func didTappedRothemNotice() {
     guard let mainNoticeSeq = mainNoticeSeq else { return }
-    let vc = BannerDetailViewController(department: .rothem, bannerSeq: mainNoticeSeq)
+    let vc = BannerDetailViewController(bannerSeq: mainNoticeSeq)
     vc.title = "스터디 공지사항"
     navigationController?.pushViewController(vc, animated: true)
   }
@@ -199,7 +198,7 @@ extension RothemRoomListViewController: SkeletonCollectionViewDataSource {
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     let cell = skeletonView.dequeueReusableCell(StudyListCollectionViewCell.self, for: indexPath) ?? StudyListCollectionViewCell()
-    cell.configureUI(with: .init(rothemRoom: .init(roomSeq: -1, location: "", thumbnailPath: "", roomName: "Lorem ipsum dolor sit amet", roomExplanation: "Lorem ipsum dolor sit amet, consetetur\nsadipscing elitr, sed diam nonumy", peopleCount: 0, createdBy: "", createdAt: "", modifiedBy: "", modifiedAt: ""), isLast: false))
+    cell.configureUI(with: .init(rothemRoom: .init(roomSeq: -1, location: "", thumbnailPath: "", roomName: "Lorem ipsum dolor sit amet", roomExplanation: "Lorem ipsum dolor sit amet, consetetur\nsadipscing elitr, sed diam nonumy", peopleCount: 0), isLast: false))
     return cell
   }
   
@@ -246,8 +245,8 @@ extension RothemRoomListViewController: UIGestureRecognizerDelegate {
 
 extension RothemRoomListViewController {
   func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshRothemList), name: .refreshRothemList, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshRothemList), name: .refreshWhenNetworkConnected, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshRothemModel), name: .refreshRothemModel, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(refreshRothemModel), name: .refreshWhenNetworkConnected, object: nil)
   }
   
   func removeNotifications() {
@@ -255,7 +254,7 @@ extension RothemRoomListViewController {
   }
   
   @objc
-  func refreshRothemList() {
+  func refreshRothemModel() {
     viewModel.inquireRothemRoomList()
   }
 }

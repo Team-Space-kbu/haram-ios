@@ -43,8 +43,6 @@ final class FindPasswordViewController: BaseViewController {
   private let buttonStackView = UIStackView().then {
     $0.axis = .horizontal
     $0.spacing = 17
-//    $0.isLayoutMarginsRelativeArrangement = true
-//    $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
     $0.distribution = .fillEqually
   }
   
@@ -53,7 +51,7 @@ final class FindPasswordViewController: BaseViewController {
   }
   
   private let continueButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "계속하기", contentInsets: .zero)
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "인증코드 발송", contentInsets: .zero)
   }
   
   init(viewModel: FindPasswordViewModelType = FindPasswordViewModel()) {
@@ -166,7 +164,7 @@ final class FindPasswordViewController: BaseViewController {
     
     cancelButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        owner.dismiss(animated: true)
+        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
   }

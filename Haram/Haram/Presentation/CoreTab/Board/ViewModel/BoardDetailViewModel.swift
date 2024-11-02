@@ -83,7 +83,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
             .map { index, comment in
             return BoardDetailCollectionViewCellModel(
               commentSeq: comment.seq, commentAuthorInfoModel: .init(
-                commentAuthorName: comment.createdBy,
+                commentAuthorName: comment.createdBy ?? "",
                 commentDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: comment.createdAt) ?? Date(),
                 isUpdatable: comment.isUpdatable
               ),
@@ -157,7 +157,7 @@ extension BoardDetailViewModel: BoardDetailViewModelType {
             .map { index, comment in
             return BoardDetailCollectionViewCellModel(
               commentSeq: comment.seq, commentAuthorInfoModel: .init(
-                commentAuthorName: comment.createdBy,
+                commentAuthorName: comment.createdBy ?? "",
                 commentDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: comment.createdAt) ?? Date(),
                 isUpdatable: comment.isUpdatable
               ),

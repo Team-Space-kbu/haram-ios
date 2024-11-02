@@ -25,7 +25,7 @@ final class AffiliatedBenefitView: UIView {
   }
   
   private let benefitContentLabel = PaddingLabel(withInsets: 8, 8, 8, 8).then {
-    $0.font = .regular14
+    $0.font = .bold14
     $0.textColor = .hex9F9FA4
     $0.backgroundColor = .hexF2F3F5
     $0.layer.masksToBounds = true

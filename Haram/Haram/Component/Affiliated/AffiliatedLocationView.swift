@@ -51,8 +51,9 @@ final class AffiliatedLocationView: UIView {
     }
   }
   
-  func configureUI(with model: AffiliatedLocationViewModel) {
+  func configureUI(with model: AffiliatedLocationViewModel, textColor: UIColor = .hex9F9FA4) {
     locationImageView.image = UIImage(resource: model.locationImageResource)
     locationLabel.text = model.locationContent
+    locationLabel.textColor = textColor
   }
 }

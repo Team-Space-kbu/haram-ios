@@ -88,34 +88,14 @@ final class LibraryDetailInfoView: UIView {
   
   private let containerView = UIStackView().then {
     $0.axis = .horizontal
-    $0.spacing = 3
-    $0.alignment = .top
+    $0.alignment = .fill
+    $0.distribution = .equalSpacing
   }
   
   private let authorInfoView = LibraryInfoView()
   private let publisherInfoView = LibraryInfoView()
   private let pubDateInfoView = LibraryInfoView()
   private let discountInfoView = LibraryInfoView()
-  
-  private lazy var lineView = UIView().then {
-    $0.backgroundColor = .hexD8D8DA
-  }
-  
-  private lazy var lineView1 = UIView().then {
-    $0.backgroundColor = .hexD8D8DA
-  }
-  
-  private lazy var lineView2 = UIView().then {
-    $0.backgroundColor = .hexD8D8DA
-  }
-  
-  private lazy var lineView3 = UIView().then {
-    $0.backgroundColor = .hexD8D8DA
-  }
-  
-  private lazy var lineView4 = UIView().then {
-    $0.backgroundColor = .hexD8D8DA
-  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -129,27 +109,13 @@ final class LibraryDetailInfoView: UIView {
   private func configureUI() {
     
     addSubview(containerView)
-    [authorInfoView, lineView, publisherInfoView, lineView1, pubDateInfoView, lineView2, discountInfoView].forEach {
-      containerView.addArrangedSubview($0)
-    }
-    
-    [authorInfoView, publisherInfoView, pubDateInfoView, discountInfoView].forEach {
-      $0.snp.makeConstraints {
-        $0.width.equalTo((UIScreen.main.bounds.width - 3 - 60) / 4)
-      }
-    }
-    
     containerView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
+      $0.directionalVerticalEdges.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
     }
     
-    [lineView, lineView1, lineView2].forEach {
-      $0.snp.makeConstraints {
-        $0.width.equalTo(1)
-        $0.centerY.height.equalToSuperview()
-      }
-    }
+    let subViews = [authorInfoView, publisherInfoView, pubDateInfoView, discountInfoView]
+    containerView.addArrangedDividerSubViews(subViews, isVertical: true)
   }
   
   func configureUI(with model: [LibraryInfoViewModel]) {

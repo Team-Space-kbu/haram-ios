@@ -11,55 +11,79 @@ import SnapKit
 import SkeletonView
 import Then
 
-enum IntranetAlertViewType {
-  case mileage
-  case chapel
+enum ChapelAlertType {
+  case info
+  case inquiry
   
   var title: String {
     switch self {
-    case .mileage:
-      return "마일리지 반영"
-    case .chapel:
-      return "채플정보 안내"
+    case .info:
+      return "채플 정보 반영"
+    case .inquiry:
+      return "채플 관련 문의"
     }
   }
   
   var description: String {
     switch self {
-    case .mileage:
-      return "마일리지 정보가 반영되는데 일정 시간이 소요됩니다"
-    case .chapel:
-      return "채플 정보는 인트라넷과 차이가 발생할 수 있습니다"
+    case .info:
+      return "인트라넷 채플정보와 차이가 발생할 수 있습니다."
+    case .inquiry:
+      return "교목실(02-950-5439)로 문의하면 됩니다."
+    }
+  }
+  
+  var mainTitle: String {
+    switch self {
+    case .info:
+      return "반영"
+    case .inquiry:
+      return "문의"
+    }
+  }
+  
+  var color: UIColor {
+    switch self {
+    case .info:
+      return .hexA8DBA8
+    case .inquiry:
+      return .hexFFB6B6
     }
   }
 }
 
 final class IntranetAlertView: UIView {
   
-  private let type: IntranetAlertViewType
+  private let type: ChapelAlertType
   
-  private let rocketImageView = UIImageView(image: UIImage(resource: .rocketBlue)).then {
-    $0.contentMode = .scaleAspectFill
-    $0.layer.cornerRadius = 22.5
+  private lazy var mainView = UILabel().then {
+    $0.layer.cornerRadius = 10
     $0.layer.masksToBounds = true
     $0.isSkeletonable = true
-    $0.skeletonCornerRadius = 22.5
+    $0.skeletonCornerRadius = 10
+    $0.textColor = .white
+    $0.font = .bold12
+    $0.text = type.mainTitle
+    $0.backgroundColor = type.color
+    $0.textAlignment = .center
   }
   
-  private let alertMainLabel = UILabel().then {
-    $0.font = .bold18
+  private lazy var alertTitleLabel = UILabel().then {
+    $0.font = .bold14
     $0.textColor = .hex545E6A
     $0.isSkeletonable = true
+    $0.text = type.title
   }
   
-  private let alertDescriptionLabel = UILabel().then {
+  private lazy var alertDescriptionLabel = UILabel().then {
     $0.font = .regular14
     $0.textColor = .hex545E6A
     $0.numberOfLines = 0
     $0.isSkeletonable = true
+    $0.text = type.description
   }
   
-  init(type: IntranetAlertViewType) {
+  init(type: ChapelAlertType) {
     self.type = type
     super.init(frame: .zero)
     configureUI()
@@ -73,25 +97,38 @@ final class IntranetAlertView: UIView {
     
     isSkeletonable = true
     
-    _ = [rocketImageView, alertMainLabel, alertDescriptionLabel].map { addSubview($0) }
-    rocketImageView.snp.makeConstraints {
-      $0.leading.centerY.equalToSuperview()
-      $0.size.equalTo(45)
+    _ = [mainView, alertTitleLabel, alertDescriptionLabel].map { addSubview($0) }
+    mainView.snp.makeConstraints {
+      $0.leading.directionalVerticalEdges.equalToSuperview()
+      $0.size.equalTo(40)
     }
     
-    alertMainLabel.snp.makeConstraints {
-      $0.top.equalTo(rocketImageView)
-      $0.leading.equalTo(rocketImageView.snp.trailing).offset(10)
+    alertTitleLabel.snp.makeConstraints {
+      $0.top.equalTo(mainView.snp.top).offset(4)
+      $0.leading.equalTo(mainView.snp.trailing).offset(9)
     }
     
     alertDescriptionLabel.snp.makeConstraints {
-      $0.top.equalTo(alertMainLabel.snp.bottom)
-      $0.leading.equalTo(alertMainLabel)
+      $0.top.equalTo(alertTitleLabel.snp.bottom)
+      $0.leading.equalTo(alertTitleLabel)
       $0.trailing.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
-    
-    alertMainLabel.text = type.title
-    alertDescriptionLabel.text = type.description
+  }
+}
+
+struct IntranetAlertViewModel {
+  let mainTitle: String
+  let mainColor: UIColor
+  let title: String
+  let description: String
+}
+
+extension IntranetAlertView {
+  func configureUI(with model: IntranetAlertViewModel) {
+    mainView.text = model.mainTitle
+    mainView.backgroundColor = model.mainColor
+    alertTitleLabel.text = model.title
+    alertDescriptionLabel.text = model.description
   }
 }

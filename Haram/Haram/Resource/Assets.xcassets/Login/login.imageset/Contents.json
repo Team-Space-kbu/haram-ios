@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "그림 1.png",
+      "filename" : "space_store 1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "그림@2x 1.png",
+      "filename" : "space_store 1@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "그림@3x 1.png",
+      "filename" : "space_store 1@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

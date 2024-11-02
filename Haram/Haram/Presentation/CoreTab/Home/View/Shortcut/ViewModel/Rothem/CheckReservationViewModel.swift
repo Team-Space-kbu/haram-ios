@@ -45,6 +45,7 @@ extension CheckReservationViewModel: CheckReservationViewModelType {
         owner.reservationSeq = response.reservationSeq
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
+        print("에러 \(error)")
         owner.errorMessageRelay.accept(error)
       })
       .disposed(by: disposeBag)

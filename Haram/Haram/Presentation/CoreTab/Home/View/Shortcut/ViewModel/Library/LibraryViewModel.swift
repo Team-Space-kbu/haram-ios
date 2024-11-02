@@ -17,7 +17,7 @@ protocol LibraryViewModelType {
   var newBookModel: Driver<[LibraryCollectionViewCellModel]> { get }
   var bestBookModel: Driver<[LibraryCollectionViewCellModel]> { get }
   var rentalBookModel: Driver<[LibraryCollectionViewCellModel]> { get }
-  var bannerImage: Driver<URL?> { get }
+  var bannerImageModel: Driver<[URL?]> { get }
   var isLoading: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
 }
@@ -30,7 +30,7 @@ final class LibraryViewModel {
   private let currentNewBookModel    = BehaviorRelay<[LibraryCollectionViewCellModel]>(value: [])
   private let currentBestBookModel   = BehaviorRelay<[LibraryCollectionViewCellModel]>(value: [])
   private let currentRentalBookModel = BehaviorRelay<[LibraryCollectionViewCellModel]>(value: [])
-  private let bannerImageRelay       = PublishRelay<URL?>()
+  private let bannerImageRelay       = BehaviorRelay<[URL?]>(value: [])
   private let isLoadingSubject       = BehaviorSubject<Bool>(value: true)
   private let errorMessageRelay      = BehaviorRelay<HaramError?>(value: nil)
   
@@ -55,7 +55,7 @@ extension LibraryViewModel: LibraryViewModelType {
         owner.currentBestBookModel.accept(response.bestBook.map { LibraryCollectionViewCellModel(bookInfo: $0) })
         owner.currentRentalBookModel.accept(response.rentalBook.map {
           LibraryCollectionViewCellModel(bookInfo: $0) })
-        owner.bannerImageRelay.accept(URL(string: response.image.first!))
+        owner.bannerImageRelay.accept(response.image.map { URL(string: $0) })
         
         owner.isLoadingSubject.onNext(false)
       }, onFailure: { owner, error in
@@ -80,7 +80,7 @@ extension LibraryViewModel: LibraryViewModelType {
       .asDriver(onErrorDriveWith: .empty())
   }
   
-  var bannerImage: Driver<URL?> {
+  var bannerImageModel: Driver<[URL?]> {
     bannerImageRelay
       .asDriver(onErrorDriveWith: .empty())
   }
