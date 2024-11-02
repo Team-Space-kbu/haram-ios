@@ -167,8 +167,8 @@ extension AffiliatedDetailViewController {
       $0.backgroundColor = .clear
       $0.axis = .vertical
       $0.isLayoutMarginsRelativeArrangement = true
-      $0.layoutMargins = .init(top: 30, left: 15, bottom: 15, right: 15)
-      $0.spacing = 15
+      $0.layoutMargins = .init(top: 15, left: 15, bottom: 15, right: 15)
+      $0.spacing = 20
       $0.isSkeletonable = true
     }
     
@@ -183,21 +183,11 @@ extension AffiliatedDetailViewController {
       $0.isSkeletonable = true
     }
     
-    private let lineView = UIView().then {
-      $0.backgroundColor = .hexD8D8DA
-      $0.isSkeletonable = true
-    }
-    
     private let affiliatedIntroduceView = AffiliatedIntroduceView().then {
       $0.isSkeletonable = true
     }
     
     private let affiliatedBenefitView = AffiliatedBenefitView().then {
-      $0.isSkeletonable = true
-    }
-    
-    private let lineView2 = UIView().then {
-      $0.backgroundColor = .hexD8D8DA
       $0.isSkeletonable = true
     }
     
@@ -217,22 +207,16 @@ extension AffiliatedDetailViewController {
     private func configureUI() {
       addSubview(scrollView)
       scrollView.addSubview(containerView)
-      _ = [affiliatedTitleLabel, affiliatedLocationView, lineView, affiliatedIntroduceView, affiliatedBenefitView, lineView2, affiliatedMapView].map { containerView.addArrangedSubview($0) }
+      
+      let subView = [affiliatedTitleLabel, affiliatedLocationView, affiliatedIntroduceView, affiliatedBenefitView, affiliatedMapView]
+      containerView.addArrangedDividerSubViews(subView, exclude: [0])
       
       scrollView.snp.makeConstraints {
         $0.directionalEdges.width.equalToSuperview()
       }
       
       containerView.snp.makeConstraints {
-        $0.directionalVerticalEdges.width.equalToSuperview()
-      }
-      
-      lineView.snp.makeConstraints {
-        $0.height.equalTo(1)
-      }
-      
-      lineView2.snp.makeConstraints {
-        $0.height.equalTo(1)
+        $0.directionalEdges.width.equalToSuperview()
       }
       
       affiliatedMapView.snp.makeConstraints {

@@ -86,18 +86,18 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell, ReusableView {
     [affiliatedImageView, affiliatedTitleLabel, affiliatedSubTitleLabel].forEach { containerView.addSubview($0) }
     
     containerView.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo(94)
+      $0.directionalEdges.equalToSuperview().inset(15)
+      $0.height.equalTo(100)
     }
     
     affiliatedImageView.snp.makeConstraints {
-      $0.top.leading.equalToSuperview()
-      $0.size.equalTo(94)
+      $0.leading.directionalVerticalEdges.equalToSuperview()
+      $0.size.equalTo(100)
     }
     
     affiliatedTitleLabel.snp.makeConstraints {
       $0.top.equalToSuperview()
-      $0.leading.equalTo(affiliatedImageView.snp.trailing).offset(23)
+      $0.leading.equalTo(affiliatedImageView.snp.trailing).offset(12)
       $0.trailing.equalToSuperview()
       $0.height.equalTo(24)
     }
@@ -117,6 +117,7 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell, ReusableView {
     } else {
       contentView.addSubview(lineView)
       lineView.snp.makeConstraints {
+        $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
         $0.height.equalTo(1)
         $0.directionalHorizontalEdges.bottom.equalToSuperview()
       }

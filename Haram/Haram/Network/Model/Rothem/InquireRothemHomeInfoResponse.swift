@@ -26,10 +26,6 @@ struct RoomResponse: Decodable {
   let roomName: String
   let roomExplanation: String
   let peopleCount: Int
-  let createdBy: String
-  let createdAt: String
-  let modifiedBy: String
-  let modifiedAt: String
 }
 
 struct NoticeResponse: Decodable {

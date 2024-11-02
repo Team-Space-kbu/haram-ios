@@ -88,7 +88,7 @@ final class StudyListCollectionHeaderView: UICollectionReusableView, ReusableVie
     
     studyListHeaderView.snp.makeConstraints {
       $0.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo(294)
+      $0.height.equalTo(160)
     }
     
     studyReservationLabel.snp.makeConstraints {
@@ -129,6 +129,8 @@ extension StudyListCollectionHeaderView {
     
     private let backgroudImageView = UIImageView().then {
       $0.contentMode = .scaleAspectFill
+      $0.layer.masksToBounds = true
+      $0.layer.cornerRadius = 10
     }
     
     private let titleLabel = UILabel().then {
@@ -159,7 +161,8 @@ extension StudyListCollectionHeaderView {
       [titleLabel, descriptionLabel].forEach { backgroudImageView.addSubview($0) }
       
       backgroudImageView.snp.makeConstraints {
-        $0.directionalEdges.equalToSuperview()
+        $0.directionalVerticalEdges.equalToSuperview()
+        $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       }
       
       button.snp.makeConstraints {

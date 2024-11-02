@@ -153,7 +153,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
           .map { index, comment in
             return BoardDetailCollectionViewCellModel(
               commentSeq: comment.seq, commentAuthorInfoModel: .init(
-                commentAuthorName: comment.createdBy,
+                commentAuthorName: comment.createdBy ?? "",
                 commentDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: comment.createdAt)!, 
                 isUpdatable: comment.isUpdatable
               ),
@@ -195,7 +195,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     
     viewModel.successDeleteboard
       .emit(with: self) { owner, _ in
-        NotificationCenter.default.post(name: .refreshBoardList, object: nil)
+        NotificationCenter.default.post(name: .refreshBoardModel, object: nil)
         AlertManager.showAlert(title: "Space 알림", message: "성공적으로 게시글이 삭제되었습니다.", viewController: owner) {
           owner.navigationController?.popViewController(animated: true)
         }
@@ -204,7 +204,7 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     
     viewModel.successBannedboard
       .emit(with: self) { owner, _ in
-        NotificationCenter.default.post(name: .refreshBoardList, object: nil)
+        NotificationCenter.default.post(name: .refreshBoardModel, object: nil)
         AlertManager.showAlert(title: "Space 알림", message: "성공적으로 게시글 작성자를 차단하였습니다.", viewController: owner) {
           owner.navigationController?.popViewController(animated: true)
         }

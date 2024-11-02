@@ -15,7 +15,7 @@ protocol NoticeCollectionHeaderViewDelegate: AnyObject {
   func didTappedCategory(noticeType: NoticeType)
 }
 
-final class NoticeCollectionHeaderView: UICollectionReusableView, ReusableView {
+final class NoticeCollectionHeaderView: UIView {
 
   weak var delegate: NoticeCollectionHeaderViewDelegate?
   private var model: [MainNoticeType] = [] {
@@ -66,13 +66,15 @@ final class NoticeCollectionHeaderView: UICollectionReusableView, ReusableView {
     [categoryLabel, categoryCollectionView].forEach { addSubview($0) }
     
     categoryLabel.snp.makeConstraints {
-      $0.top.leading.equalToSuperview()
+      $0.top.equalToSuperview()
+      $0.leading.equalToSuperview().inset(15)
       $0.trailing.lessThanOrEqualToSuperview()
     }
     
     categoryCollectionView.snp.makeConstraints {
       $0.top.equalTo(categoryLabel.snp.bottom).offset(17)
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      $0.bottom.equalToSuperview()
       $0.height.equalTo(41 + 71 + 41)
     }
   }

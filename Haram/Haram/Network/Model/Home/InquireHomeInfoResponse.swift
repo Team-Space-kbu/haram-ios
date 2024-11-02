@@ -8,71 +8,18 @@
 import Foundation
 
 struct InquireHomeInfoResponse: Decodable {
-  let homes: [HomeShortcut]
-  let banner: MainBanner
-  let kokkoks: Kokkoks
-  let notice: Notice
-  let bottomBars: [BottomBar]
+  let kokkoks: [Kokkok]
+  let notice: [Notice]
 }
 
-struct BottomBar: Decodable {
-  let createdAt: String
-  let modifiedAt: String?
-  let iconSeq: Int
-  let iconName: String
-  let iconFilePath: String
-  let uiType: String
-}
-
-struct HomeShortcut: Decodable {
-  let createdAt: String
-  let modifiedAt: String?
-  let iconSeq: Int
-  let iconName: String
-  let iconFilePath: String
-  let uiType: String
-}
-
-struct MainBanner: Decodable {
-  let index: Int
-  let banners: [SubBanner]
-}
-
-struct SubBanner: Decodable {
-  let seq: Int
-  let title: String
-  let content: String
-  let filePath: String
-  let department: Department
-}
-
-enum Department: String, Codable {
-  case banners = "banners"
-  case rothem = "rothem"
-  case bibles = "bibles"
-}
-
-struct Kokkoks: Decodable {
-  let index: Int
-  let kokkoksNews: [KokkoksNews]
-}
-
-struct KokkoksNews: Decodable {
+struct Kokkok: Decodable {
   let title: String
   let img: String
   let file: String
 }
 
 struct Notice: Decodable {
-  let index: Int
-  let notices: [SubNotice]
-}
-
-struct SubNotice: Decodable {
+  let noticeSeq: Int
+  let thumbnailPath: String
   let title: String
-  let content: String
-  let spaceNoticeSeq: Int
-  let createdBy: String
-  let createdAt: String
-  let modifiedAt: String
 }

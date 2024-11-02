@@ -21,7 +21,7 @@ struct InquireBoardDetailResponse: Decodable {
 struct Comment: Decodable {
   let seq: Int
   let contents: String
-  let createdBy: String
+  let createdBy: String?
   let createdAt: String
   let isUpdatable: Bool
 }

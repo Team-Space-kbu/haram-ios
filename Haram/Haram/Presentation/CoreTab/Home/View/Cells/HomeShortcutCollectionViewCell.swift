@@ -12,27 +12,27 @@ import SkeletonView
 import Then
 
 enum ShortcutType: CaseIterable {
-  case mileage
+  case emptyClass
   case chapel
   case notice
   case searchBook
-  case searchBible
+  case coursePlan
   case affiliate
   case schedule
   case readingRoom
   
   var viewController: BaseViewController {
     switch self {
-    case .mileage:
-      return MileageViewController()
+    case .emptyClass:
+      return EmptyClassViewController()
     case .chapel:
       return ChapelViewController()
     case .notice:
       return NoticeViewController()
     case .searchBook:
       return LibraryViewController()
-    case .searchBible:
-      return BibleViewController()
+    case .coursePlan:
+      return CoursePlanViewController()
     case .affiliate:
       return AffiliatedViewController()
     case .schedule:
@@ -44,37 +44,37 @@ enum ShortcutType: CaseIterable {
   
   var title: String {
     switch self {
-    case .mileage:
-      return "마일리지"
+    case .emptyClass:
+      return "빈강의실"
     case .chapel:
       return "채플일수"
     case .notice:
       return "공지사항"
     case .searchBook:
       return "도서검색"
-    case .searchBible:
-      return "성경검색"
+    case .coursePlan:
+      return "강의계획서"
     case .affiliate:
       return "제휴업체"
     case .schedule:
       return "시간표"
     case .readingRoom:
-      return "로뎀예약"
+      return "열람실 조회"
     }
   }
   
   var imageResource: ImageResource {
     switch self {
-    case .mileage:
-      return .boxGreen
+    case .emptyClass:
+      return .gameGreen
     case .chapel:
       return .chapelGreen
     case .notice:
       return .noticeGreen
     case .searchBook:
       return .bookGreen
-    case .searchBible:
-      return .bibleGreen
+    case .coursePlan:
+      return .tvGreen
     case .affiliate:
       return .flagGreen
     case .schedule:

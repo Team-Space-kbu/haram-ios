@@ -19,12 +19,14 @@ struct RothemReservationInfoViewModel {
   let rothemLocation: String
   let reservationName: String
   let authCode: String
+  let reservationDate: String
   
   init(response: InquireRothemReservationInfoResponse) {
     rothemRoomName = response.roomResponse.roomName
     rothemLocation = response.roomResponse.location
     reservationName = response.userId
     authCode = response.reservationCode
+    reservationDate = response.calendarResponse.year + "-" + response.calendarResponse.month + "-" + response.calendarResponse.date
   }
 }
 
@@ -45,18 +47,32 @@ final class RothemReservationInfoView: UIView {
     $0.isSkeletonable = true
   }
   
-  private let rothemLocationLabel = UILabel().then {
-    $0.font = .regular12
+  private let locationView = AffiliatedLocationView().then {
+    $0.isSkeletonable = true
+  }
+  
+  private let reservationInfoLabel = UILabel().then {
+    $0.text = "예약 정보"
+    $0.font = .bold18
     $0.textColor = .white
     $0.textAlignment = .left
     $0.isSkeletonable = true
   }
   
-  private let reservationNameLabel = UILabel().then {
+  private let dateTitleLabel = UILabel().then {
+    $0.text = "날짜"
     $0.font = .regular14
     $0.textColor = .white
-    $0.textAlignment = .left
+    $0.textAlignment = .right
     $0.isSkeletonable = true
+  }
+  
+  private let reservationDateLabel = UILabel().then {
+    $0.font = .bold18
+    $0.textColor = .white
+    $0.textAlignment = .right
+    $0.isSkeletonable = true
+    $0.text = "2024-07-01"
   }
   
   private let qrCodeView = QRCodeView().then {
@@ -103,43 +119,52 @@ final class RothemReservationInfoView: UIView {
   
   private func configureUI() {
     
-    backgroundColor = .hexA8DBA8
+    backgroundColor = .hex79BD9A
     layer.masksToBounds = true
     layer.cornerRadius = 10
     
     /// Set Layout
-    _ = [rothemRoomNameLabel, rothemLocationLabel, reservationNameLabel, qrCodeView, barCodeView].map { addSubview($0) }
+    _ = [rothemRoomNameLabel, qrCodeView, barCodeView, reservationInfoLabel, reservationDateLabel, dateTitleLabel, locationView].map { addSubview($0) }
     barCodeView.addSubview(barCodeButton)
     qrCodeView.addSubview(qrCodeButton)
     
     /// Set Constraints
+    reservationInfoLabel.snp.makeConstraints {
+      $0.top.equalToSuperview().inset(20)
+      $0.leading.equalToSuperview().inset(15)
+    }
+    
+    reservationDateLabel.snp.makeConstraints {
+      $0.trailing.equalToSuperview().inset(15)
+      $0.centerY.equalTo(reservationInfoLabel)
+    }
+    
+    dateTitleLabel.snp.makeConstraints {
+      $0.bottom.equalTo(reservationDateLabel.snp.top)
+      $0.trailing.equalTo(reservationDateLabel)
+      $0.top.leading.greaterThanOrEqualToSuperview()
+    }
+    
+    barCodeView.snp.makeConstraints {
+      $0.top.equalTo(reservationInfoLabel.snp.bottom).offset(20)
+      $0.height.equalTo(85)
+      $0.directionalHorizontalEdges.equalToSuperview()
+    }
+    
     rothemRoomNameLabel.snp.makeConstraints {
-      $0.top.equalToSuperview().inset(174 - 158)
+      $0.top.equalTo(barCodeView.snp.bottom).offset(20)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(30)
     }
     
-    rothemLocationLabel.snp.makeConstraints {
+    locationView.snp.makeConstraints {
       $0.top.equalTo(rothemRoomNameLabel.snp.bottom).offset(5)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(14)
     }
     
-    barCodeView.snp.makeConstraints {
-      $0.top.equalTo(rothemLocationLabel.snp.bottom).offset(5)
-      $0.height.equalTo(115)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-      
-    }
-    
-    reservationNameLabel.snp.makeConstraints {
-      $0.leading.equalTo(rothemLocationLabel.snp.leading)
-      $0.trailing.equalToSuperview().inset(15)
-      $0.top.equalTo(barCodeView.snp.bottom).offset(5)
-    }
-    
     qrCodeView.snp.makeConstraints {
-      $0.size.equalTo(102)
+      $0.size.equalTo(138)
       $0.centerX.equalToSuperview()
       $0.bottom.equalToSuperview().inset(273 - 228)
     }   
@@ -158,8 +183,8 @@ final class RothemReservationInfoView: UIView {
     hideSkeleton()
     
     rothemRoomNameLabel.text = model.rothemRoomName
-    rothemLocationLabel.text = model.rothemLocation
-    reservationNameLabel.text = model.reservationName
+    locationView.configureUI(with: .init(locationImageResource: .locationWhite, locationContent: model.rothemLocation), textColor: .white)
+    reservationDateLabel.text = model.reservationDate
     qrCodeView.qrCode = QRCode(string: model.authCode)
     
     let write = ZXMultiFormatWriter.init()

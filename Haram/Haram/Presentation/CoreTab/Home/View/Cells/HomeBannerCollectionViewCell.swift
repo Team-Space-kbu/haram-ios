@@ -15,36 +15,6 @@ import Then
 struct HomebannerCollectionViewCellModel {
   let bannerSeq: Int
   let imageURL: URL?
-  let title: String
-  let department: Department
-  
-  init(subBanner: SubBanner) {
-    department = subBanner.department
-    title = subBanner.title
-    bannerSeq = subBanner.seq
-    imageURL = URL(string: subBanner.filePath)
-  }
-  
-  init(response: BannerFileResponse) {
-    bannerSeq = response.bannerSeq
-    imageURL = URL(string: response.filePath)
-    title = ""
-    department = .banners
-  }
-  
-  init(response: NoticeFileResponse) {
-    bannerSeq = response.noticeSeq
-    imageURL = URL(string: response.filePath)
-    title = ""
-    department = .rothem
-  }
-  
-  init(response: BibleNoticeFileResponse) {
-    bannerSeq = response.bibleNoticeSeq
-    imageURL = URL(string: response.filePath)
-    title = ""
-    department = .bibles
-  }
 }
 
 final class HomeBannerCollectionViewCell: UICollectionViewCell, ReusableView {
@@ -53,6 +23,8 @@ final class HomeBannerCollectionViewCell: UICollectionViewCell, ReusableView {
     $0.contentMode = .scaleAspectFill
     $0.layer.masksToBounds = true
     $0.layer.cornerRadius = 10
+    $0.layer.borderWidth = 1
+    $0.layer.borderColor = UIColor.hexD9D9D9.cgColor
   }
   
   override init(frame: CGRect) {
@@ -73,6 +45,7 @@ final class HomeBannerCollectionViewCell: UICollectionViewCell, ReusableView {
     isSkeletonable = true
     skeletonCornerRadius = 10
     contentView.isSkeletonable = true
+    
     contentView.addSubview(bannerImageView)
     bannerImageView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()

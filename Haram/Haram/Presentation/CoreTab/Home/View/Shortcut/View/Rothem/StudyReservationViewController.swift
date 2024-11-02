@@ -202,7 +202,7 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     viewModel.successRothemReservation
       .emit(with: self) { owner, _ in
         owner.phoneNumberTextField.removeError()
-        NotificationCenter.default.post(name: .refreshRothemList, object: nil)
+        NotificationCenter.default.post(name: .refreshRothemModel, object: nil)
         
         AlertManager.showAlert(title: "로뎀예약알림", message: "성공적으로 예약하였습니다\n메인화면으로 이동합니다.", viewController: owner) {
           let vc = owner.navigationController?.viewControllers[1]

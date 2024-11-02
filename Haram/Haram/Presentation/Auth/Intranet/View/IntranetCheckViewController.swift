@@ -28,7 +28,15 @@ final class IntranetCheckViewController: BaseViewController {
     $0.textAlignment = .center
   }
   
-  private let lastButton = UIButton(configuration: .haramLabelButton(title: "나중에"))
+  private let buttonStackView = UIStackView().then {
+    $0.axis = .horizontal
+    $0.spacing = 17
+    $0.distribution = .fillEqually
+  }
+  
+  private let lastButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramCancelButton(label: "나중에", contentInsets: .zero)
+  }
   
   private let loginButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "로그인하기", contentInsets: .zero)
@@ -54,7 +62,8 @@ final class IntranetCheckViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(backgroudImageView)
-    _ = [titleLabel, subLabel, lastButton, loginButton].map { backgroudImageView.addSubview($0) }
+    [lastButton, loginButton].forEach { buttonStackView.addArrangedSubview($0) }
+    _ = [titleLabel, subLabel, buttonStackView].map { backgroudImageView.addSubview($0) }
   }
   
   override func setupConstraints() {
@@ -63,17 +72,10 @@ final class IntranetCheckViewController: BaseViewController {
       $0.directionalEdges.equalToSuperview()
     }
     
-    loginButton.snp.makeConstraints {
-      $0.bottom.equalToSuperview().inset(47)
-      $0.trailing.equalToSuperview().inset(46)
-      $0.height.equalTo(39)
-      $0.width.equalTo(95)
-    }
-    
-    lastButton.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(66)
-      $0.centerY.equalTo(loginButton)
-      $0.height.equalTo(39)
+    buttonStackView.snp.makeConstraints {
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
+      $0.directionalHorizontalEdges.width.equalToSuperview().inset(15)
+      $0.height.equalTo(48)
     }
     
     subLabel.snp.makeConstraints {

@@ -36,41 +36,19 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
   private let containerView = UIStackView().then {
     $0.backgroundColor = .clear
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: 42, left: 15, bottom: 15, right: 15)
+    $0.layoutMargins = .init(top: 42, left: .zero, bottom: 15, right: .zero)
     $0.axis = .vertical
-    $0.alignment = .center
+    $0.alignment = .fill
     $0.distribution = .fill
     $0.spacing = 18
   }
   
   private let libraryDetailMainView = LibraryDetailMainView()
-  
   private let libraryDetailSubView = LibraryDetailSubView()
-  
   private let libraryDetailInfoView = LibraryDetailInfoView()
-  
   private let libraryRentalListView = LibraryRentalListView()
+  private let libraryRecommendedView = LibraryRecommendedView()
   
-  private let relatedBookLabel = UILabel().then {
-    $0.text = "추천도서"
-    $0.font = .bold18
-    $0.textColor = .black
-  }
-  
-  private lazy var relatedBookCollectionView = UICollectionView(
-    frame: .zero,
-    collectionViewLayout: UICollectionViewFlowLayout().then {
-      $0.scrollDirection = .horizontal
-      $0.minimumLineSpacing = 20
-    }
-  ).then {
-    $0.backgroundColor = .clear
-    $0.register(LibraryCollectionViewCell.self)
-    $0.delegate = self
-    $0.dataSource = self
-    $0.contentInset = .init(top: 3, left: 15, bottom: 15, right: 15)
-    $0.showsHorizontalScrollIndicator = false
-  }
   
   // MARK: - Initializations
   
@@ -101,8 +79,10 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     title = "도서 상세"
     setupBackButton()
     
-    _ = [view, scrollView, containerView, libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, relatedBookCollectionView].map { $0.isSkeletonable = true }
+    _ = [view, scrollView, containerView, libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, libraryRecommendedView].map { $0.isSkeletonable = true }
 
+    libraryRecommendedView.relatedBookCollectionView.delegate = self
+    libraryRecommendedView.relatedBookCollectionView.dataSource = self
     setupSkeletonView()
   }
   
@@ -111,7 +91,8 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
     
-    [libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, relatedBookLabel, relatedBookCollectionView].forEach { containerView.addArrangedSubview($0) }
+    let subViews = [libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, libraryRecommendedView]
+    containerView.addArrangedDividerSubViews(subViews, thickness: 10)
   }
   
   override func setupConstraints() {
@@ -122,29 +103,8 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
     }
     
     containerView.snp.makeConstraints {
-      $0.top.width.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
+      $0.directionalEdges.width.equalToSuperview()
     }
-    
-    [libraryDetailSubView, libraryRentalListView].forEach {
-      $0.snp.makeConstraints {
-        $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-      }
-    }
-    
-    relatedBookLabel.snp.makeConstraints {
-      $0.leading.equalToSuperview().inset(15)
-      $0.height.equalTo(23)
-      $0.trailing.lessThanOrEqualToSuperview()
-    }
-    
-    relatedBookCollectionView.snp.makeConstraints {
-      $0.height.equalTo(165 + 15 + 3 + 3)
-      $0.directionalHorizontalEdges.equalToSuperview()
-    }
-    
-    containerView.setCustomSpacing(20, after: libraryDetailInfoView)
-    containerView.setCustomSpacing(15 - 3, after: relatedBookLabel)
   }
   
   override func bind() {
@@ -163,9 +123,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
       let (mainModel, subModel, infoModel, rentalModel, relatedBookModel) = result
       
       if relatedBookModel.isEmpty {
-        owner.relatedBookLabel.removeFromSuperview()
-        owner.relatedBookCollectionView.removeFromSuperview()
-        owner.libraryRentalListView.removeLastIineView()
+        owner.libraryRecommendedView.removeFromSuperview()
       }
       
       owner.relatedBookModel = relatedBookModel
@@ -176,7 +134,7 @@ final class LibraryDetailViewController: BaseViewController, BackButtonHandler {
       owner.libraryDetailSubView.configureUI(with: subModel)
       owner.libraryDetailInfoView.configureUI(with: infoModel)
       owner.libraryRentalListView.configureUI(with: rentalModel)
-      owner.relatedBookCollectionView.reloadData()
+      owner.libraryRecommendedView.relatedBookCollectionView.reloadData()
     }
     .disposed(by: disposeBag)
     

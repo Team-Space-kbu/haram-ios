@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '13.0'
+# platform :ios, '15.0'
 
 target 'Haram' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -9,8 +9,6 @@ target 'Haram' do
   pod 'AcknowList', '3.1.0'
   pod 'Firebase/Analytics', '~> 10.23.1'
   pod 'Firebase/Crashlytics', '10.23.1'
-
-  use_frameworks!
   pod 'ZXingObjC', '~> 3.6.4'
   # Pods for Haram
 

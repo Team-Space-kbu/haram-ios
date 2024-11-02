@@ -45,7 +45,6 @@ final class HomeViewController: BaseViewController {
   private var bannerModel: [HomebannerCollectionViewCellModel] = []
   
   private var newsModel: [HomeNewsCollectionViewCellModel] = []
-  private var noticeModel: HomeNoticeViewModel?
   
   // MARK: - UI Components
   
@@ -61,14 +60,10 @@ final class HomeViewController: BaseViewController {
     $0.backgroundColor = .clear
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: 10, left: 15, bottom: 10, right: 15)
+    $0.layoutMargins = .init(top: 24, left: 15, bottom: 10, right: 15)
   }
   
-  private let homeNoticeView = HomeNoticeView()
-  
-  private lazy var checkChapelDayView = CheckChapelDayView().then {
-    $0.delegate = self
-  }
+  private lazy var checkChapelDayView = CheckChapelDayView()
   
   private lazy var bannerCollectionView = UICollectionView(
     frame: .zero,
@@ -159,7 +154,7 @@ final class HomeViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
 
-    _ = [scrollView, scrollContainerView, homeNoticeView, checkChapelDayView, newsCollectionView, newsTitleLabel, shortcutCollectionView, pageControl, bannerCollectionView].map { $0.isSkeletonable = true }
+    _ = [scrollView, scrollContainerView, checkChapelDayView, newsCollectionView, newsTitleLabel, shortcutCollectionView, pageControl, bannerCollectionView].map { $0.isSkeletonable = true }
     
     let label = UILabel().then {
       $0.text = "성서알리미"
@@ -176,7 +171,7 @@ final class HomeViewController: BaseViewController {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(scrollContainerView)
-    [homeNoticeView, bannerCollectionView, pageControl, shortcutCollectionView, newsTitleLabel, newsCollectionView].forEach { scrollContainerView.addArrangedSubview($0) }
+    [bannerCollectionView, pageControl, shortcutCollectionView, newsTitleLabel, newsCollectionView].forEach { scrollContainerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
@@ -190,12 +185,8 @@ final class HomeViewController: BaseViewController {
       $0.width.directionalVerticalEdges.equalToSuperview()
     }
     
-    homeNoticeView.snp.makeConstraints {
-      $0.height.equalTo(35) //공지 뷰
-    }
-    
     bannerCollectionView.snp.makeConstraints {
-      $0.height.equalTo(142)
+      $0.height.equalTo(160)
     }
     
     pageControl.snp.makeConstraints {
@@ -213,8 +204,7 @@ final class HomeViewController: BaseViewController {
     newsCollectionView.snp.makeConstraints {
       $0.height.equalTo(165 + 17 + 6)
     }
-    
-    scrollContainerView.setCustomSpacing(20, after: homeNoticeView)
+  
     scrollContainerView.setCustomSpacing(22, after: pageControl)
     scrollContainerView.setCustomSpacing(13, after: newsTitleLabel)
   }
@@ -226,35 +216,21 @@ final class HomeViewController: BaseViewController {
     
     Driver.zip(
       viewModel.newsModel,
-      viewModel.bannerModel,
-      viewModel.noticeModel
-//      viewModel.isAvailableSimpleChapelModal
+      viewModel.bannerModel
     )
     .drive(with: self) { owner, result in
-      let (newsModel, bannerModel, noticeModel) = result
-//      let (isAvailableSimpleChapelModal, checkChapelDayViewModel) = modalModel
-//      
-//      let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
+      let (newsModel, bannerModel) = result
       
       
       owner.newsModel = newsModel
       owner.bannerModel = bannerModel
-      owner.noticeModel = noticeModel
       
       owner.view.hideSkeleton()
       
       if bannerModel.isEmpty {
         owner.bannerCollectionView.backgroundColor = .hex79BD9A
       }
-      
-//      if isAvailableSimpleChapelModal && !isContain {
-//        owner.checkChapelDayView.configureUI(with: checkChapelDayViewModel!)
-//        owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
-//      } else if !isAvailableSimpleChapelModal && isContain {
-//        owner.checkChapelDayView.removeFromSuperview()
-//      }
-      
-      owner.homeNoticeView.configureUI(with: noticeModel)
+
       owner.pageControl.numberOfPages = bannerModel.count
       owner.bannerCollectionView.reloadData()
       owner.newsCollectionView.reloadData()
@@ -268,7 +244,7 @@ final class HomeViewController: BaseViewController {
         let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
         if isAvailableSimpleChapelModal && !isContain {
           owner.checkChapelDayView.configureUI(with: checkChapelDayViewModel!)
-          owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 3)
+          owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 2)
         } else if !isAvailableSimpleChapelModal && isContain {
           owner.checkChapelDayView.removeFromSuperview()
         }
@@ -298,17 +274,6 @@ final class HomeViewController: BaseViewController {
         }
       }
       .disposed(by: disposeBag)
-    
-    homeNoticeView.button.rx.tap
-      .subscribe(with: self) { owner, _ in
-        guard let model = owner.noticeModel else { return }
-        owner.homeNoticeView.showAnimation {
-          let vc = HomeNoticeViewController(title: model.title, content: model.content)
-          vc.hidesBottomBarWhenPushed = true
-          owner.navigationController?.pushViewController(vc, animated: true)
-        }
-      }
-      .disposed(by: disposeBag)
   }
   
   private func pageControlValueChanged(currentPage: Int) {
@@ -329,7 +294,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     } else if collectionView == newsCollectionView {
       return CGSize(width: 118, height: 165 + 17 + 6)
     } else if collectionView == bannerCollectionView {
-      return CGSize(width: collectionView.frame.width, height: 142)
+      return CGSize(width: collectionView.frame.width, height: 160)
     }
     return .zero
   }
@@ -383,12 +348,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       cell.showAnimation(scale: 0.9) { [weak self] in
         guard let self = self else { return }
         let type = ShortcutType.allCases[indexPath.row]
-        if type == .searchBible {
-          #if RELEASE
-            AlertManager.showAlert(title: "Space 알림", message: "교목실과 협의가 되지 않아\n사용할 수 없습니다.", viewController: self, confirmHandler: nil)
-            return
-          #endif
-        }
         let vc = type.viewController
         vc.navigationItem.largeTitleDisplayMode = .never
         vc.hidesBottomBarWhenPushed = true
@@ -410,7 +369,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
       cell.showAnimation(scale: 0.9) { [weak self] in
         guard let self = self else { return }
         let model = self.bannerModel[indexPath.row]
-        let vc = BannerDetailViewController(department: model.department, bannerSeq: model.bannerSeq, bannerDetailType: .useBackGesture)
+        let vc = BannerDetailViewController(bannerSeq: model.bannerSeq, bannerDetailType: .useBackGesture)
         vc.title = "공지사항"
         vc.navigationItem.largeTitleDisplayMode = .never
         vc.hidesBottomBarWhenPushed = true
@@ -460,14 +419,6 @@ extension HomeViewController: UIScrollViewDelegate {
     let bannerIndex = Int(max(0, round(contentOffset.x / scrollView.bounds.width)))
     
     self.currentBannerPage.onNext(bannerIndex)
-  }
-}
-
-extension HomeViewController: CheckChapelDayViewDelegate {
-  func didTappedXButton() {
-    if scrollContainerView.contains(checkChapelDayView) {
-      checkChapelDayView.removeFromSuperview()
-    }
   }
 }
 

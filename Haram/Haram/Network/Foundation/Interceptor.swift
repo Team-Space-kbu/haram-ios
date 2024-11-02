@@ -16,6 +16,10 @@ final class Interceptor: RequestInterceptor {
   private let retryLimit = 3 // 재시도 제한 횟수
   private let retryDelay: TimeInterval = 1 // 재시도 딜레이 시간
   
+  init() {
+    
+  }
+  
   func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
     
     // 200 성공대인 경우 retry 무시

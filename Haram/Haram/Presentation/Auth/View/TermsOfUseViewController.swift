@@ -121,7 +121,7 @@ final class TermsOfUseViewController: BaseViewController {
       .subscribe(with: self) { owner, _ in
         owner.viewModel.saveTermsInfo()
         
-        let vc = VerifyEmailViewController()
+        let vc = NewAccountViewController(viewModel: .init())
         vc.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)
       }

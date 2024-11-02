@@ -13,10 +13,6 @@ import Then
 
 final class LibraryRentalListView: UIView {
   
-  private let lineView1 = UIView().then {
-    $0.backgroundColor = .hexD8D8DA
-  }
-  
   private let rentalInfoLabel = UILabel().then {
     $0.text = Constants.rentalInfoText
     $0.font = .bold18
@@ -30,10 +26,6 @@ final class LibraryRentalListView: UIView {
     $0.layer.cornerRadius = 10
   }
   
-  private let lineView = UIView().then {
-    $0.backgroundColor = .hexD8D8DA
-  }
-  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -44,31 +36,19 @@ final class LibraryRentalListView: UIView {
   }
   
   private func configureUI() {
-    _ = [lineView1, rentalInfoLabel, containerView, lineView].map {
+    _ = [rentalInfoLabel, containerView].map {
       $0.isSkeletonable = true
       addSubview($0)
     }
     
-    lineView1.snp.makeConstraints {
-      $0.top.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo(1)
-    }
-    
     rentalInfoLabel.snp.makeConstraints {
-      $0.top.equalTo(lineView1.snp.bottom).offset(21)
-      $0.leading.equalToSuperview()
+      $0.top.equalToSuperview()
+      $0.leading.equalToSuperview().inset(15)
     }
     
     containerView.snp.makeConstraints {
       $0.top.equalTo(rentalInfoLabel.snp.bottom).offset(10)
-      $0.directionalHorizontalEdges.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
-    }
-    
-    lineView.snp.makeConstraints {
-      $0.height.equalTo(1)
-      $0.directionalHorizontalEdges.equalToSuperview()
-      $0.top.equalTo(containerView.snp.bottom).offset(20)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.bottom.equalToSuperview()
     }
   }
@@ -108,10 +88,6 @@ final class LibraryRentalListView: UIView {
       $0.height.equalTo(307 / 4)
     }
     containerView.addArrangedSubview(vw)
-  }
-  
-  func removeLastIineView() {
-    lineView.removeFromSuperview()
   }
 }
 

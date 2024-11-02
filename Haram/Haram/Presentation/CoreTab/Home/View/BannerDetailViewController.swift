@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import WebKit
 
 import RxSwift
 import SkeletonView
@@ -23,76 +24,53 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
   
   private let bannerDetailType: BannerDetailType
   private let bannerSeq: Int
-  private let department: Department
   private var bannerModel: [HomebannerCollectionViewCellModel] = []
 
-  private let currentBannerPage = PublishSubject<Int>()
-  
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
-    $0.showsHorizontalScrollIndicator = false
-    $0.showsVerticalScrollIndicator = true
-    $0.isSkeletonable = true
     $0.alwaysBounceVertical = true
+    $0.showsHorizontalScrollIndicator = false
+    $0.showsVerticalScrollIndicator = false
   }
   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.backgroundColor = .clear
+    $0.spacing = 11
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: .zero, left: 15, bottom: 15, right: 15)
-    $0.isSkeletonable = true
-    $0.spacing = 10
+    $0.layoutMargins = UIEdgeInsets(top: 34, left: 15, bottom: 15, right: 15)
   }
   
   private let titleLabel = UILabel().then {
-    $0.font = .bold20
+    $0.font = .bold16
     $0.textColor = .black
     $0.numberOfLines = 0
-    $0.isSkeletonable = true
-    $0.skeletonTextNumberOfLines = 1
   }
   
-  private lazy var bannerCollectionView = UICollectionView(
-    frame: .zero,
-    collectionViewLayout: UICollectionViewFlowLayout().then {
-      $0.scrollDirection = .horizontal
-      $0.minimumLineSpacing = .zero
-    }
-  ).then {
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 10
-    $0.backgroundColor = .white
-    $0.delegate = self
-    $0.dataSource = self
-    $0.register(HomeBannerCollectionViewCell.self)
-    $0.alwaysBounceHorizontal = true
-    $0.showsHorizontalScrollIndicator = false
-    $0.isPagingEnabled = true
-    $0.skeletonCornerRadius = 10
-    $0.isSkeletonable = true
+  private let writerInfoLabel = UILabel().then {
+    $0.font = .regular15
+    $0.textColor = .black
   }
   
-  private let pageControl = UIPageControl().then {
-    $0.currentPage = 0
-    $0.pageIndicatorTintColor = .systemGray2
-    $0.currentPageIndicatorTintColor = UIColor.hex79BD9A
-    $0.isSkeletonable = true
+  private let configuration = WKWebViewConfiguration().then {
+    let preferences = WKPreferences()
+    WKWebpagePreferences().allowsContentJavaScript = true
+    preferences.javaScriptCanOpenWindowsAutomatically = true
+    $0.preferences = preferences
   }
   
-  private let contentLabel = UILabel().then {
-    $0.textColor = .hex9F9FA4
-    $0.numberOfLines = 0
-    $0.font = .regular18
-    $0.isSkeletonable = true
-    $0.skeletonTextNumberOfLines = 5
+  
+  private lazy var webView = WKWebView(frame: .zero, configuration: configuration).then {
+    $0.scrollView.showsVerticalScrollIndicator = false
+    $0.scrollView.showsHorizontalScrollIndicator = false
+    $0.scrollView.bounces = false
+    $0.navigationDelegate = self
   }
   
-  init(department: Department, bannerSeq: Int, bannerDetailType: BannerDetailType = .noBackGesture, viewModel: HomeBannerDetailViewModelType = HomeBannerDetailViewModel()) {
+  init(bannerSeq: Int, bannerDetailType: BannerDetailType = .noBackGesture, viewModel: HomeBannerDetailViewModelType = HomeBannerDetailViewModel()) {
     self.bannerDetailType = bannerDetailType
     self.viewModel = viewModel
     self.bannerSeq = bannerSeq
-    self.department = department
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -102,18 +80,16 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
   
   override func bind() {
     super.bind()
-    viewModel.inquireBannerInfo(bannerSeq: bannerSeq, department: department)
+    viewModel.inquireBannerInfo(bannerSeq: bannerSeq)
     
     viewModel.bannerInfo
       .emit(with: self) { owner, result in
-        let (title, content, imageModel) = result
-        owner.bannerModel = imageModel
+        let (title, content, writerInfo) = result
         owner.view.hideSkeleton()
         
-        owner.bannerCollectionView.reloadData()
-        owner.pageControl.numberOfPages = imageModel.count
+        owner.webView.loadHTMLString(content, baseURL: nil)
         owner.titleLabel.text = title
-        owner.contentLabel.text = content
+        owner.writerInfoLabel.text = writerInfo
       }
       .disposed(by: disposeBag)
     
@@ -130,24 +106,13 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
         }
       }
       .disposed(by: disposeBag)
-    
-    pageControl.rx.controlEvent(.valueChanged)
-      .subscribe(with: self) { owner,  _ in
-        owner.pageControlValueChanged(currentPage: owner.pageControl.currentPage)
-      }
-      .disposed(by: disposeBag)
-    
-    currentBannerPage
-      .asDriver(onErrorDriveWith: .empty())
-      .drive(pageControl.rx.currentPage)
-      .disposed(by: disposeBag)
   }
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
-    _ = [titleLabel, bannerCollectionView, pageControl, contentLabel].map { containerView.addArrangedSubview($0) }
+    [titleLabel, writerInfoLabel, webView].forEach { containerView.addArrangedSubview($0) }
     
   }
   
@@ -158,25 +123,20 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
     }
     
     containerView.snp.makeConstraints {
-      $0.top.width.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
+      $0.directionalEdges.width.equalToSuperview()
     }
     
-    titleLabel.snp.makeConstraints {
-      $0.height.equalTo(27)
+    webView.snp.makeConstraints {
+      $0.height.equalTo(UIScreen.main.bounds.height)
     }
     
-    bannerCollectionView.snp.makeConstraints {
-      $0.height.equalTo(200)
-    }
-    
-    pageControl.snp.makeConstraints {
-      $0.height.equalTo(20)
-    }
+    containerView.setCustomSpacing(16, after: writerInfoLabel)
   }
   
   override func setupStyles() {
     super.setupStyles()
+    
+    _ = [scrollView, containerView, titleLabel, writerInfoLabel, webView].map { $0.isSkeletonable = true }
     
     setupSkeletonView()
     setupBackButton()
@@ -189,13 +149,6 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
   func didTappedBackButton() {
     navigationController?.popViewController(animated: true)
   }
-  
-  private func pageControlValueChanged(currentPage: Int) {
-    bannerCollectionView.isPagingEnabled = false
-    bannerCollectionView.scrollToItem(at: .init(row: currentPage, section: 0), at: .left, animated: true)
-    bannerCollectionView.isPagingEnabled = true
-  }
-  
 }
 
 extension BannerDetailViewController: UIGestureRecognizerDelegate {
@@ -209,58 +162,21 @@ extension BannerDetailViewController: UIGestureRecognizerDelegate {
   }
 }
 
-extension BannerDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    
-    return CGSize(width: collectionView.frame.width, height: 200)
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    bannerModel.count
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(HomeBannerCollectionViewCell.self, for: indexPath) ?? HomeBannerCollectionViewCell()
-    cell.configureUI(with: bannerModel[indexPath.row])
-    return cell
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    
-    let cell = collectionView.cellForItem(at: indexPath) as? HomeBannerCollectionViewCell ?? HomeBannerCollectionViewCell()
-    cell.showAnimation(scale: 0.9) { [weak self] in
-      guard let self = self else { return }
-      if let zoomImageURL = self.bannerModel[indexPath.row].imageURL {
-        let modal = ZoomImageViewController(zoomImageURL: zoomImageURL)
-        modal.modalPresentationStyle = .fullScreen
-        self.present(modal, animated: true)
-      } else {
-        AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: self, confirmHandler: nil)
+extension BannerDetailViewController: WKNavigationDelegate {
+  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    webView.evaluateJavaScript("document.readyState") { complete, error in
+      if complete != nil {
+        webView.evaluateJavaScript("document.body.scrollHeight") { height, error in
+          if let height = height as? CGFloat {
+            webView.snp.updateConstraints {
+              $0.height.equalTo(height)
+            }
+          } else {
+            // height 변환에 실패한 경우
+            print("Error converting height: \(String(describing: error))")
+          }
+        }
       }
     }
-  }
-}
-
-extension BannerDetailViewController: SkeletonCollectionViewDataSource {
-  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
-    HomeBannerCollectionViewCell.reuseIdentifier
-  }
-  
-  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    skeletonView.dequeueReusableCell(HomeBannerCollectionViewCell.self, for: indexPath)
-  }
-  
-  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
-  }
-}
-
-extension BannerDetailViewController: UIScrollViewDelegate {
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    guard scrollView == bannerCollectionView else { return }
-    let contentOffset = scrollView.contentOffset
-    let bannerIndex = Int(max(0, round(contentOffset.x / scrollView.bounds.width)))
-    
-    self.currentBannerPage.onNext(bannerIndex)
   }
 }

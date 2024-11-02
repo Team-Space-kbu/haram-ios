@@ -50,9 +50,23 @@ final class VerifyEmailViewController: BaseViewController {
     $0.textField.keyboardType = .numberPad
   }
   
-  private let continueButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "계속하기", contentInsets: .zero)
+  private let buttonStackView = UIStackView().then {
+    $0.axis = .horizontal
+    $0.spacing = 17
+    $0.distribution = .fillEqually
   }
+  
+  private let cancelButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramCancelButton(label: "취소", contentInsets: .zero)
+  }
+  
+  private let continueButton = UIButton(configuration: .plain()).then {
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "인증코드 발송", contentInsets: .zero)
+  }
+  
+//  private let continueButton = UIButton(configuration: .plain()).then {
+//    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "계속하기", contentInsets: .zero)
+//  }
   
   init(viewModel: VerifyEmailViewModelType = VerifyEmailViewModel()) {
     self.viewModel = viewModel
@@ -70,12 +84,12 @@ final class VerifyEmailViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     registerKeyboardNotification()
-    navigationController?.navigationBar.isHidden = true
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    [containerView, continueButton].forEach { view.addSubview($0) }
+    [cancelButton, continueButton].forEach { buttonStackView.addArrangedSubview($0) }
+    [containerView, buttonStackView].forEach { view.addSubview($0) }
     [titleLabel, alertLabel, schoolEmailTextField, checkEmailTextField].forEach { containerView.addArrangedSubview($0) }
   }
   
@@ -97,12 +111,17 @@ final class VerifyEmailViewController: BaseViewController {
     
     containerView.setCustomSpacing(7, after: titleLabel)
     
-    continueButton.snp.makeConstraints {
+    buttonStackView.snp.makeConstraints {
       $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      $0.directionalHorizontalEdges.width.equalToSuperview().inset(15)
       $0.height.equalTo(48)
     }
     
+    [cancelButton, continueButton].forEach {
+      $0.snp.makeConstraints {
+        $0.height.equalTo(48)
+      }
+    }
   }
   
   override func bind() {
@@ -163,11 +182,11 @@ final class VerifyEmailViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    viewModel.isContinueButtonEnabled
-      .drive(with: self) { owner, isContinueButtonEnabled in
-        owner.continueButton.isEnabled = isContinueButtonEnabled
-      }
-      .disposed(by: disposeBag)
+//    viewModel.isContinueButtonEnabled
+//      .drive(with: self) { owner, isContinueButtonEnabled in
+//        owner.continueButton.isEnabled = isContinueButtonEnabled
+//      }
+//      .disposed(by: disposeBag)
     
     continueButton.rx.tap
       .withLatestFrom(
@@ -178,8 +197,16 @@ final class VerifyEmailViewController: BaseViewController {
       )
       .subscribe(with: self) { owner, result in
         let (userMail, authCode) = result
-        owner.viewModel.verifyEmailAuthCode(userMail: userMail, authCode: authCode)
+//        owner.viewModel.verifyEmailAuthCode(userMail: userMail, authCode: authCode)
+//        owner.view.endEditing(true)
+        owner.viewModel.requestEmailAuthCode(email: userMail)
         owner.view.endEditing(true)
+      }
+      .disposed(by: disposeBag)
+    
+    cancelButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
   }
@@ -187,9 +214,9 @@ final class VerifyEmailViewController: BaseViewController {
 
 extension VerifyEmailViewController: HaramTextFieldDelegate {
   func didTappedButton() {
-    guard let email = schoolEmailTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
-    viewModel.requestEmailAuthCode(email: email)
-    view.endEditing(true)
+//    guard let email = schoolEmailTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+//    viewModel.requestEmailAuthCode(email: email)
+//    view.endEditing(true)
   }
   
   func didTappedReturnKey() {
@@ -225,7 +252,7 @@ extension VerifyEmailViewController {
     
     let keyboardHeight = keyboardSize.height
     
-    continueButton.snp.updateConstraints {
+    buttonStackView.snp.updateConstraints {
       $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 + keyboardHeight : 12 + keyboardHeight)
     }
     
@@ -237,7 +264,7 @@ extension VerifyEmailViewController {
   @objc
   func keyboardWillHide(_ sender: Notification) {
     
-    continueButton.snp.updateConstraints {
+    buttonStackView.snp.updateConstraints {
       $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
     }
     

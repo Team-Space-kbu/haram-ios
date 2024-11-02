@@ -20,18 +20,24 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
   
   private var chapelListModel: [ChapelCollectionViewCellModel] = []
   
-  private lazy var chapelCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
-    $0.minimumLineSpacing = 20
-  }).then {
-    $0.register(ChapelCollectionViewCell.self)
-    $0.register(ChapelCollectionHeaderView.self, of: UICollectionView.elementKindSectionHeader)
-    $0.dataSource = self
-    $0.delegate = self
-    $0.backgroundColor = .white
-    $0.contentInset = .init(top: .zero, left: 15, bottom: 15, right: 15)
-    $0.isSkeletonable = true
+  private let scrollView = UIScrollView().then {
     $0.alwaysBounceVertical = true
+    $0.backgroundColor = .clear
+    $0.showsVerticalScrollIndicator = false
+    $0.showsHorizontalScrollIndicator = false
   }
+  
+  private let containerView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 20
+    $0.alignment = .fill
+    $0.distribution = .fill
+  }
+  
+  private let chapelDayView = ChapelDayView()
+  private let chapelInfoView = ChapelDetailInfoView()
+  private let chapelAlertView = ChapelAlertView()
+  private let chapelListView = ChapelListView()
   
   init(viewModel: ChapelViewModelType = ChapelViewModel()) {
     self.viewModel = viewModel
@@ -70,9 +76,18 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
         
         owner.view.hideSkeleton()
         
-        owner.chapelCollectionView.reloadData()
+        owner.chapelListView.chapelCollectionView.reloadData()
       }
       .disposed(by: disposeBag)
+    
+    viewModel.chapelDetailModel
+      .drive(chapelInfoView.chapelDetailInfoView.rx.items(
+            cellIdentifier: ChapelDetailCell.reuseIdentifier,
+            cellType: ChapelDetailCell.self)
+        ) { index, item, cell in
+        cell.configureUI(with: .init(title: item.title, day: item.day))
+        }
+        .disposed(by: disposeBag)
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
@@ -94,13 +109,22 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
   
   override func setupLayouts() {
     super.setupLayouts()
-    _ = [chapelCollectionView].map { view.addSubview($0) }
+    view.addSubview(scrollView)
+    scrollView.addSubview(containerView)
+    
+    let subViews = [chapelDayView, chapelInfoView, chapelAlertView, chapelListView]
+    containerView.addArrangedDividerSubViews(subViews, exclude: [0], thickness: 10)
   }
   
   override func setupConstraints() {
     super.setupConstraints()  
-    chapelCollectionView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+    
+    scrollView.snp.makeConstraints {
+      $0.directionalEdges.width.equalToSuperview()
+    }
+    
+    containerView.snp.makeConstraints {
+      $0.directionalEdges.width.equalToSuperview()
     }
   }
   
@@ -110,6 +134,8 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
     setupBackButton()
     navigationController?.interactivePopGestureRecognizer?.delegate = self
     setupSkeletonView()
+    chapelListView.chapelCollectionView.delegate = self
+    chapelListView.chapelCollectionView.dataSource = self
   }
   
   @objc func didTappedBackButton() {
@@ -118,54 +144,52 @@ final class ChapelViewController: BaseViewController, BackButtonHandler {
 }
 
 extension ChapelViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-  func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 1
-  }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return chapelListModel.count
+    if collectionView == chapelListView.chapelCollectionView {
+      return chapelListModel.count
+    }
+    return 0
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(ChapelCollectionViewCell.self, for: indexPath) ?? ChapelCollectionViewCell()
-    cell.configureUI(with: chapelListModel[indexPath.row])
-    return cell
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ChapelCollectionHeaderView.reuseIdentifier, for: indexPath) as? ChapelCollectionHeaderView ?? ChapelCollectionHeaderView()
-    header.configureUI(with: chapelHeaderModel)
-    return header
+    if collectionView == chapelListView.chapelCollectionView {
+      let cell = collectionView.dequeueReusableCell(ChapelCollectionViewCell.self, for: indexPath) ?? ChapelCollectionViewCell()
+      cell.configureUI(with: chapelListModel[indexPath.row])
+      return cell
+    }
+    return UICollectionViewCell()
   }
 }
 
 extension ChapelViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: collectionView.bounds.width, height: 44)
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    return CGSize(width: collectionView.bounds.width, height: 28 + 14 + 320 + 45 + 40 - 20)
+    if collectionView == chapelListView.chapelCollectionView {
+      return CGSize(width: collectionView.bounds.width, height: 44)
+    }
+    return .zero
   }
 }
 
 extension ChapelViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-    ChapelCollectionViewCell.reuseIdentifier
+    if skeletonView == chapelListView.chapelCollectionView {
+      return ChapelCollectionViewCell.reuseIdentifier
+    }
+    return ""
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    let cell = skeletonView.dequeueReusableCell(ChapelCollectionViewCell.self, for: indexPath)
-    cell?.configureUI(with: .init(chapelResult: .absence))
-    return cell
+    if skeletonView == chapelListView.chapelCollectionView {
+      let cell = skeletonView.dequeueReusableCell(ChapelCollectionViewCell.self, for: indexPath)
+      cell?.configureUI(with: .init(chapelResult: .absence))
+      return cell
+    }
+    return nil
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return 10
-  }
-  
-  func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
-    ChapelCollectionHeaderView.reuseIdentifier
   }
 }
 

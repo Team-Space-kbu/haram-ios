@@ -29,7 +29,7 @@ final class IntranetLoginViewController: BaseViewController {
     $0.axis = .vertical
     $0.spacing = 10
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: 95, left: 20, bottom: .zero, right: 20)
+    $0.layoutMargins = .init(top: 95, left: 15, bottom: .zero, right: 15)
   }
   
   private let logoImageView = UIImageView().then {
@@ -59,7 +59,13 @@ final class IntranetLoginViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "로그인", contentInsets: .zero)
   }
   
-  private let lastAuthButton = UIButton(configuration: .haramLabelButton(title: "나중에인증하기"))
+  private let lastAuthButton = UIButton(configuration: .plain()).then {
+    $0.configuration?.background.backgroundColor = .hexD8D8DA
+    $0.configuration?.title = "나중에 인증하기"
+    $0.configuration?.font = .regular14
+    $0.configuration?.background.cornerRadius = 10
+    $0.configuration?.baseForegroundColor = .hex2F2E41
+  }
   
   private lazy var errorMessageLabel = UILabel().then {
     $0.textColor = .red
@@ -143,8 +149,9 @@ final class IntranetLoginViewController: BaseViewController {
     }
     
     lastAuthButton.snp.makeConstraints {
-      $0.centerX.equalToSuperview()
-      $0.bottomMargin.equalToSuperview().inset(20)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      $0.height.equalTo(48)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
     }
     
     containerStackView.setCustomSpacing(28, after: intranetLabel)

@@ -22,14 +22,15 @@ final class LoginButton: UIView {
   weak var delegate: LoginButtonDelegate?
   
   private let containerView = UIStackView().then {
-    $0.axis = .horizontal
+    $0.axis = .vertical
+    $0.spacing = 0
   }
   
   private let loginButton = UIButton(configuration: .plain()).then {
     $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "로그인", contentInsets: .zero)
   }
   
-  private let findPasswordButton = UIButton(configuration: .haramLabelButton(title: "비밀번호를 잊으셨나요?"))
+  private let findPasswordButton = UIButton(configuration: .haramLabelButton(title: "회원 정보를 잊으셨나요?"))
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -61,11 +62,14 @@ final class LoginButton: UIView {
     [loginButton, findPasswordButton].forEach { containerView.addArrangedSubview($0) }
     
     containerView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
     }
     
-    loginButton.snp.makeConstraints {
-      $0.width.equalTo(165)
+    [loginButton, findPasswordButton].forEach {
+      $0.snp.makeConstraints {
+        $0.height.equalTo(48)
+      }
     }
   }
 }
