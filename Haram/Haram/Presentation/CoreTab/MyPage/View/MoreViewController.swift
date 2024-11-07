@@ -353,7 +353,7 @@ extension MoreViewController: UITableViewDelegate, UITableViewDataSource {
       cell.showAnimation(scale: 0.98) { [weak self] in
         guard let self = self else { return }
         let moreType = MoreType.allCases[indexPath.row]
-        let vc = MoreCategoryViewController(noticeType: moreType == .employmentInformation ? .jobStudent : .jobChurch)
+        let vc = MoreCategoryViewController(viewModel: SelectedCategoryNoticeViewModel(payLoad: .init(noticeType: moreType == .employmentInformation ? .jobStudent : .jobChurch)))
         vc.title = moreType.title
         vc.navigationItem.largeTitleDisplayMode = .never
         vc.hidesBottomBarWhenPushed = true

@@ -1,4 +1,9 @@
-
+//
+//  CheckAuthCodeViewController.swift
+//  Haram
+//
+//  Created by 이건준 on 11/5/24.
+//
 
 import UIKit
 
@@ -7,9 +12,10 @@ import RxCocoa
 import SnapKit
 import Then
 
-final class VerifyEmailViewController: BaseViewController {
+final class CheckAuthCodeViewController: BaseViewController {
   
-  private let viewModel: VerifyEmailViewModelType
+  private let viewModel: CheckAuthCodeViewModelType
+  private let userMail: String
   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
@@ -33,11 +39,11 @@ final class VerifyEmailViewController: BaseViewController {
   }
   
   private let schoolEmailTextField = HaramTextField(
-    title: "학교 이메일",
-    placeholder: "Email",
-    options: [.defaultEmail, .errorLabel]
+    title: "이메일 확인",
+    placeholder: "확인코드",
+    options: [.errorLabel]
   ).then {
-    $0.textField.keyboardType = .emailAddress
+    $0.textField.keyboardType = .numberPad
   }
   
   private let buttonStackView = UIStackView().then {
@@ -51,10 +57,11 @@ final class VerifyEmailViewController: BaseViewController {
   }
   
   private let continueButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "인증코드 발송", contentInsets: .zero)
+    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "인증코드 확인", contentInsets: .zero)
   }
   
-  init(viewModel: VerifyEmailViewModelType = VerifyEmailViewModel()) {
+  init(userMail: String, viewModel: CheckAuthCodeViewModelType = CheckAuthCodeViewModel()) {
+    self.userMail = userMail
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -109,21 +116,19 @@ final class VerifyEmailViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    
-    viewModel.successSendAuthCode
+    viewModel.successVerifyAuthCode
       .emit(with: self) { owner, _ in
-        let userMail = owner.schoolEmailTextField.textField.text!
-        let vc = CheckAuthCodeViewController(userMail: userMail)
+        let authCode = owner.schoolEmailTextField.textField.text!
+        let vc = RegisterViewController(authCode: authCode, email: owner.userMail)
         owner.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)
         owner.schoolEmailTextField.textField.text = nil
-        owner.schoolEmailTextField.removeError()
       }
       .disposed(by: disposeBag)
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
-        if error == .unvalidEmailFormat {
+        if error == .expireAuthCode || error == .unvalidAuthCode {
           owner.schoolEmailTextField.setError(description: error.description!)
         } else if error == .requestTimeOut {
           AlertManager.showAlert(title: "Space 알림", message: error.description!, viewController: owner, confirmHandler: nil)
@@ -140,11 +145,9 @@ final class VerifyEmailViewController: BaseViewController {
     
     continueButton.rx.tap
       .throttle(.milliseconds(500), latest: false, scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
-      .subscribe(with: self) { owner, _ in
-        guard let userMail = owner.schoolEmailTextField.textField.text else {
-          return
-        }
-        owner.viewModel.requestEmailAuthCode(email: userMail)
+      .withLatestFrom(schoolEmailTextField.rx.text.orEmpty)
+      .subscribe(with: self) { owner, authCode in
+        owner.viewModel.verifyEmailAuthCode(userMail: owner.userMail, authCode: authCode)
         owner.view.endEditing(true)
       }
       .disposed(by: disposeBag)
@@ -157,7 +160,7 @@ final class VerifyEmailViewController: BaseViewController {
   }
 }
 
-extension VerifyEmailViewController {
+extension CheckAuthCodeViewController {
   func registerKeyboardNotification() {
     NotificationCenter.default.addObserver(
       self, selector: #selector(keyboardWillShow(_:)),
@@ -205,3 +208,4 @@ extension VerifyEmailViewController {
     }
   }
 }
+

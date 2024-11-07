@@ -11,15 +11,15 @@ import RxSwift
 import RxCocoa
 
 protocol VerifyEmailViewModelType {
-  var authCode: AnyObserver<String> { get }
+//  var authCode: AnyObserver<String> { get }
   func requestEmailAuthCode(email: String)
-  func verifyEmailAuthCode(userMail: String, authCode: String)
-  func resetVerifyEmailStatus()
+//  func verifyEmailAuthCode(userMail: String, authCode: String)
+//  func resetVerifyEmailStatus()
   
   var isContinueButtonEnabled: Driver<Bool> { get }
   var errorMessage: Signal<HaramError> { get }
   var successSendAuthCode: Signal<String> { get }
-  var successVerifyAuthCode: Signal<Void> { get }
+//  var successVerifyAuthCode: Signal<Void> { get }
 }
 
 final class VerifyEmailViewModel {
@@ -29,26 +29,26 @@ final class VerifyEmailViewModel {
   private let isContinueButtonRelay = BehaviorRelay<Bool>(value: false)
   private let errorMessageRelay = PublishRelay<HaramError>()
   private let successSendAuthCodeRelay = PublishRelay<String>()
-  private let successVerifyAuthCodeRelay = PublishRelay<Void>()
-  private let authCodeSubject = PublishSubject<String>()
-  private var userMail: String?
+//  private let successVerifyAuthCodeRelay = PublishRelay<Void>()
+//  private let authCodeSubject = PublishSubject<String>()
+//  private var userMail: String?
   
   init(authRepository: AuthRepository = AuthRepositoryImpl()) {
     self.authRepository = authRepository
-    isEnabledContinueButton()
+//    isEnabledContinueButton()
   }
   
-  private func isEnabledContinueButton() {
-    Observable.combineLatest(
-      authCodeSubject,
-      successSendAuthCodeRelay.map { !$0.isEmpty }
-    )
-    .subscribe(with: self) { owner, result in
-      let (authCode, isSuccessSendAuthCode) = result
-      owner.isContinueButtonRelay.accept(isSuccessSendAuthCode && owner.isValidAuthCode(authCode: authCode))
-    }
-    .disposed(by: disposeBag)
-  }
+//  private func isEnabledContinueButton() {
+//    Observable.combineLatest(
+//      authCodeSubject,
+//      successSendAuthCodeRelay.map { !$0.isEmpty }
+//    )
+//    .subscribe(with: self) { owner, result in
+//      let (authCode, isSuccessSendAuthCode) = result
+//      owner.isContinueButtonRelay.accept(isSuccessSendAuthCode && owner.isValidAuthCode(authCode: authCode))
+//    }
+//    .disposed(by: disposeBag)
+//  }
   
   func isValidBibleEmail(_ email: String) -> Bool {
       // 이메일 형식 정규식
@@ -59,41 +59,41 @@ final class VerifyEmailViewModel {
       
       return emailPredicate.evaluate(with: email)
   }
-  
-  private func isValidAuthCode(authCode: String) -> Bool {
-    return authCode.count == 6
-  }
+//  
+//  private func isValidAuthCode(authCode: String) -> Bool {
+//    return authCode.count == 6
+//  }
 }
 
 extension VerifyEmailViewModel: VerifyEmailViewModelType {
-  func resetVerifyEmailStatus() {
-    isContinueButtonRelay.accept(false)
-  }
+//  func resetVerifyEmailStatus() {
+//    isContinueButtonRelay.accept(false)
+//  }
   
-  var authCode: RxSwift.AnyObserver<String> {
-    authCodeSubject.asObserver()
-  }
+//  var authCode: RxSwift.AnyObserver<String> {
+//    authCodeSubject.asObserver()
+//  }
   
-  var successVerifyAuthCode: RxCocoa.Signal<Void> {
-    successVerifyAuthCodeRelay.asSignal()
-  }
+//  var successVerifyAuthCode: RxCocoa.Signal<Void> {
+//    successVerifyAuthCodeRelay.asSignal()
+//  }
   
-  func verifyEmailAuthCode(userMail: String, authCode: String) {
-    
-    if !isValidBibleEmail(self.userMail!) {
-      errorMessageRelay.accept(.unvalidEmailFormat)
-      return
-    }
-    
-    authRepository.verifyMailAuthCode(userMail: self.userMail!, authCode: authCode)
-      .subscribe(with: self, onSuccess: { owner, _ in
-        owner.successVerifyAuthCodeRelay.accept(())
-      }, onFailure: { owner, error in
-        guard let error = error as? HaramError else { return }
-        owner.errorMessageRelay.accept(error)
-      }) 
-      .disposed(by: disposeBag)
-  }
+//  func verifyEmailAuthCode(userMail: String, authCode: String) {
+//    
+//    if !isValidBibleEmail(self.userMail!) {
+//      errorMessageRelay.accept(.unvalidEmailFormat)
+//      return
+//    }
+//    
+//    authRepository.verifyMailAuthCode(userMail: self.userMail!, authCode: authCode)
+//      .subscribe(with: self, onSuccess: { owner, _ in
+//        owner.successVerifyAuthCodeRelay.accept(())
+//      }, onFailure: { owner, error in
+//        guard let error = error as? HaramError else { return }
+//        owner.errorMessageRelay.accept(error)
+//      }) 
+//      .disposed(by: disposeBag)
+//  }
   
   var successSendAuthCode: RxCocoa.Signal<String> {
     successSendAuthCodeRelay.asSignal()
@@ -113,7 +113,6 @@ extension VerifyEmailViewModel: VerifyEmailViewModelType {
     authRepository.requestEmailAuthCode(userEmail: email + "@bible.ac.kr")
       .subscribe(with: self, onSuccess: { owner, _ in
         owner.successSendAuthCodeRelay.accept("이메일이 성공적으로 발송되었습니다.")
-        owner.userMail = email + "@bible.ac.kr"
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         owner.errorMessageRelay.accept(error)

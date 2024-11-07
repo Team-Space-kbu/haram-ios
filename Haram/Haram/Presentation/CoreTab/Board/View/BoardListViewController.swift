@@ -62,7 +62,13 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
-  deinit {
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerNotifications()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
     removeNotifications()
   }
   
@@ -75,12 +81,9 @@ final class BoardListViewController: BaseViewController, BackButtonHandler {
     
     /// Set Navigationbar
     setupBackButton()
-    navigationController?.interactivePopGestureRecognizer?.delegate = self
     
     setupSkeletonView()
     emptyView.isHidden = true
-    
-    registerNotifications()
   }
   
   override func setupLayouts() {
@@ -246,10 +249,6 @@ extension BoardListViewController {
 }
 
 extension BoardListViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    return true // or false
-  }
-  
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true

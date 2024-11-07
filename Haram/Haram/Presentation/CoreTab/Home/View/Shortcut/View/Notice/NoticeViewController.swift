@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RxSwift
 import RxCocoa
 import SnapKit
 import SkeletonView
@@ -16,8 +17,7 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - Property
   
-  private let viewModel: NoticeViewModelType
-  private var noticeModel: [NoticeCollectionViewCellModel] = []
+  private let viewModel: NoticeViewModel
   
   // MARK: - UI Components
   
@@ -42,7 +42,7 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - Initializations
   
-  init(viewModel: NoticeViewModelType = NoticeViewModel()) {
+  init(viewModel: NoticeViewModel = NoticeViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -51,38 +51,31 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotifications()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
-  }
-  
   // MARK: - Configurations
   
   override func bind() {
     super.bind()
     
-    viewModel.inquireMainNoticeList()
-    
-    Driver.combineLatest(
-      viewModel.noticeModel,
-      viewModel.noticeTagModel
+    let input = NoticeViewModel.Input(
+      viewDidLoad: .just(()),
+      viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear)).map { _ in Void() }
     )
-    .drive(with: self) { owner, result in
+    let output = viewModel.transform(input: input)
+    
+    Observable.combineLatest(
+      output.noticeModelRelay,
+      output.noticeTagModelRelay
+    )
+    .subscribe(with: self) { owner, result in
       let (noticeModel, noticeTagModel) = result
       owner.noticeListView.configureUI(with: noticeModel)
-      owner.noticeCategoryView.configureUI(with: noticeTagModel)
-      owner.noticeModel = noticeModel
-      
+      owner.noticeCategoryView.configureUI(with: noticeTagModel)  
       owner.view.hideSkeleton()
     }
     .disposed(by: disposeBag)
     
-    viewModel.errorMessage
+    output.errorMessageRelay
+      .asSignal(onErrorSignalWith: .empty())
       .emit(with: self) { owner, error in
         if error == .networkError {
           AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
@@ -101,10 +94,9 @@ final class NoticeViewController: BaseViewController, BackButtonHandler {
     title = "공지사항"
     setupBackButton()
     setupSkeletonView()
-    navigationController?.interactivePopGestureRecognizer?.delegate = self
+    
     noticeCategoryView.delegate = self
     noticeListView.noticeCollectionView.delegate = self
-//    noticeListView.noticeCollectionView.dataSource = self
   }
   
   override func setupLayouts() {
@@ -148,7 +140,12 @@ extension NoticeViewController: UICollectionViewDelegate, UICollectionViewDelega
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let vc = NoticeDetailViewController(
-      type: .student, path: noticeModel[indexPath.row].path
+      viewModel: NoticeDetailViewModel(
+        payLoad: .init(
+          type: .student,
+          path: viewModel.noticeModel[indexPath.row].path
+        )
+      )
     )
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
@@ -173,7 +170,7 @@ extension NoticeViewController: UICollectionViewDelegate, UICollectionViewDelega
 
 extension NoticeViewController: NoticeCollectionHeaderViewDelegate {
   func didTappedCategory(noticeType: NoticeType) {
-    let vc = SelectedCategoryNoticeViewController(noticeType: noticeType)
+    let vc = SelectedCategoryNoticeViewController(viewModel: SelectedCategoryNoticeViewModel(payLoad: .init(noticeType: noticeType)))
     vc.title = "공지사항"
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
@@ -181,27 +178,8 @@ extension NoticeViewController: NoticeCollectionHeaderViewDelegate {
 }
 
 extension NoticeViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    return true // or false
-  }
-  
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true
-  }
-}
-
-extension NoticeViewController {
-  private func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-    viewModel.inquireMainNoticeList()
   }
 }

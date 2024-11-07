@@ -5,6 +5,8 @@
 //  Created by 이건준 on 10/10/24.
 //
 
+import Foundation
+
 import RxSwift
 import RxCocoa
 
@@ -21,11 +23,13 @@ final class LectureListViewModel: ViewModelType {
   
   struct Input {
     let viewDidLoad: Observable<Void>
+    let didTappedLecture: Observable<IndexPath>
   }
   
   struct Output {
     let lectureList = BehaviorRelay<[String]>(value: [])
     let isLoading = BehaviorRelay<Bool>(value: true)
+    let showLectureScheduleViewController = PublishRelay<String>()
   }
   
   init(payLoad: PayLoad, lectureRepository: LectureRepository = LectureRepositoryImpl()) {
@@ -37,6 +41,16 @@ final class LectureListViewModel: ViewModelType {
     input.viewDidLoad
       .subscribe(with: self) { owner, _ in
         owner.requestLectureList(classRoom: owner.payLoad.classRoom)
+      }
+      .disposed(by: disposeBag)
+    
+    input.didTappedLecture
+      .withUnretained(self)
+      .map { owner, indexPath in
+        return owner.output.lectureList.value[indexPath.row]
+      }
+      .subscribe(with: self) { owner, selectedClassRoom in
+        owner.output.showLectureScheduleViewController.accept(selectedClassRoom)
       }
       .disposed(by: disposeBag)
     

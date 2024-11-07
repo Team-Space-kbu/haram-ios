@@ -33,7 +33,10 @@ final class LectureListViewController: ViewController, BackButtonHandler {
   
   override func bind() {
     super.bind()
-    let input = LectureListViewModel.Input(viewDidLoad: .just(()))
+    let input = LectureListViewModel.Input(
+      viewDidLoad: .just(()),
+      didTappedLecture: viewHolder.lectureListView.rx.itemSelected.asObservable()
+    )
     let output = viewModel.transform(input: input)
     output.isLoading
       .subscribe(with: self) { owner, isLoading in
@@ -46,14 +49,16 @@ final class LectureListViewController: ViewController, BackButtonHandler {
       }
       .disposed(by: disposeBag)
     
-    viewHolder.lectureListView.rx.itemSelected
-      .withUnretained(self)
-      .map { $0.viewModel.output.lectureList.value[$1.row] }
-      .subscribe(with: self) { owner, selectedLecture in
-//        let vc = PDFViewController(pdfURL: URL(string: selectedLecture.pdfFile))
-//        vc.navigationItem.largeTitleDisplayMode = .never
-//        vc.title = selectedLecture.title
-//        owner.navigationController?.pushViewController(vc, animated: true)
+    output.showLectureScheduleViewController
+      .subscribe(with: self) { owner, selectedClassRoom in
+        let vc = LectureScheduleViewController(
+          viewModel: LectureScheduleViewModel(
+            payLoad: .init(classRoom: selectedClassRoom),
+            dependency: .init(lectureRepository: LectureRepositoryImpl())
+          )
+        )
+        vc.title = selectedClassRoom
+        owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
   }

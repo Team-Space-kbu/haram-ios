@@ -22,9 +22,7 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - Property
   
-  private let viewModel: NoticeDetailViewModelType
-  private let path: String
-  private let type: NoticeType
+  private let viewModel: NoticeDetailViewModel
   
   // MARK: - UI Components
   
@@ -71,10 +69,8 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - Initializations
   
-  init(type: NoticeType, path: String, viewModel: NoticeDetailViewModelType = NoticeDetailViewModel()) {
+  init(viewModel: NoticeDetailViewModel) {
     self.viewModel = viewModel
-    self.path = path
-    self.type = type
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -82,17 +78,15 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
-  deinit {
-    removeNotifications()
-  }
-  
   // MARK: - Configurations
   
   override func bind() {
     super.bind()
-    viewModel.inquireNoticeDetailInfo(type: type, path: path)
+    let input = NoticeDetailViewModel.Input(viewDidLoad: .just(()))
+    let output = viewModel.transform(input: input)
     
-    viewModel.noticeDetailModel
+    output.noticeDetailModelRelay
+      .asDriver(onErrorDriveWith: .empty())
       .drive(with: self) { owner, model in
         owner.view.hideSkeleton()
         owner.webView.loadHTMLString(model.content, baseURL: nil)
@@ -101,7 +95,8 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
       }
       .disposed(by: disposeBag)
     
-    viewModel.errorMessage
+    output.errorMessageRelay
+      .asSignal()
       .emit(with: self) { owner, error in
         if error == .networkError {
           AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
@@ -119,7 +114,7 @@ final class NoticeDetailViewController: BaseViewController, BackButtonHandler {
   override func setupStyles() {
     super.setupStyles()
     title = "공지사항"
-    registerNotifications()
+//    registerNotifications()
     setupBackButton()
     _ = [scrollView, containerView, titleLabel, writerInfoLabel, webView].map { $0.isSkeletonable = true }
     setupSkeletonView()
@@ -175,17 +170,17 @@ extension NoticeDetailViewController: WKNavigationDelegate {
   }
 }
 
-extension NoticeDetailViewController {
-  private func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-    viewModel.inquireNoticeDetailInfo(type: type, path: path)
-  }
-}
+//extension NoticeDetailViewController {
+//  private func registerNotifications() {
+//    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
+//  }
+//  
+//  private func removeNotifications() {
+//    NotificationCenter.default.removeObserver(self)
+//  }
+//  
+//  @objc
+//  private func refreshWhenNetworkConnected() {
+//    viewModel.inquireNoticeDetailInfo(type: type, path: path)
+//  }
+//}

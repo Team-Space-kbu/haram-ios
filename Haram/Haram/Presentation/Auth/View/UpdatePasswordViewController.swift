@@ -78,13 +78,18 @@ final class UpdatePasswordViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  deinit {
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerKeyboardNotification()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
     removeKeyboardNotification()
   }
   
   override func setupStyles() {
     super.setupStyles()
-    registerKeyboardNotification()
     navigationController?.navigationBar.isHidden = true
   }
   

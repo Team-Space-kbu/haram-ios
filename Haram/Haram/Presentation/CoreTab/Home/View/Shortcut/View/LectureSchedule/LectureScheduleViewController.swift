@@ -1,8 +1,8 @@
 //
-//  ScheduleViewController.swift
+//  LectureScheduleViewController.swift
 //  Haram
 //
-//  Created by 이건준 on 2023/04/02.
+//  Created by 이건준 on 11/6/24.
 //
 
 import UIKit
@@ -11,47 +11,8 @@ import Elliotable
 import SnapKit
 import Then
 
-enum Day: String, Decodable, CaseIterable {
-  case MONDAY
-  case TUESDAY
-  case WEDNESDAY
-  case THURSDAY
-  case FRIDAY
-  
-  var text: String {
-    switch self {
-    case .MONDAY:
-      return "월"
-    case .TUESDAY:
-      return "화"
-    case .WEDNESDAY:
-      return "수"
-    case .THURSDAY:
-      return "목"
-    case .FRIDAY:
-      return "금"
-    }
-  }
-  
-  var elliotDay: ElliotDay {
-    switch self {
-    case .MONDAY:
-      return .monday
-    case .TUESDAY:
-      return .tuesday
-    case .WEDNESDAY:
-      return .wednesday
-    case .THURSDAY:
-      return .thursday
-    case .FRIDAY:
-      return .friday
-    }
-  }
-}
-
-final class ScheduleViewController: BaseViewController, BackButtonHandler {
-  
-  private let viewModel: ScheduleViewModel
+final class LectureScheduleViewController: BaseViewController, BackButtonHandler {
+  let viewModel: LectureScheduleViewModel
   
   private let elliotable = Elliotable().then {
     $0.roundCorner = .none
@@ -64,7 +25,7 @@ final class ScheduleViewController: BaseViewController, BackButtonHandler {
   
   private let indicatorView = UIActivityIndicatorView(style: .large)
   
-  init(viewModel: ScheduleViewModel) {
+  init(viewModel: LectureScheduleViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -73,16 +34,6 @@ final class ScheduleViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
-//  override func viewWillAppear(_ animated: Bool) {
-//    super.viewWillAppear(animated)
-//    registerNotifications()
-//  }
-//  
-//  override func viewWillDisappear(_ animated: Bool) {
-//    super.viewWillDisappear(animated)
-//    removeNotifications()
-//  }
-  
   override func setupStyles() {
     super.setupStyles()
     
@@ -90,8 +41,6 @@ final class ScheduleViewController: BaseViewController, BackButtonHandler {
     elliotable.delegate = self
     elliotable.dataSource = self
     
-    /// Set Navigationbar
-    title = "시간표"
     setupBackButton()
     indicatorView.startAnimating()
   }
@@ -115,7 +64,7 @@ final class ScheduleViewController: BaseViewController, BackButtonHandler {
   
   override func bind() {
     super.bind()
-    let input = ScheduleViewModel.Input(viewDidLoad: .just(()))
+    let input = LectureScheduleViewModel.Input(viewDidLoad: .just(()))
     let output = viewModel.transform(input: input)
     output.schedulingInfo
       .subscribe(with: self) { owner, model in
@@ -147,8 +96,7 @@ final class ScheduleViewController: BaseViewController, BackButtonHandler {
   }
 }
 
-extension ScheduleViewController: ElliotableDelegate, ElliotableDataSource {
-  
+extension LectureScheduleViewController: ElliotableDelegate, ElliotableDataSource {
   func elliotable(elliotable: Elliotable, didSelectCourse selectedCourse: ElliottEvent) {
     
   }

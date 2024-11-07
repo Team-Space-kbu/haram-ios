@@ -23,7 +23,7 @@ final class LoginViewController: BaseViewController {
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: (95 - Device.topInset) * 2, left: 15, bottom: .zero, right: 15)
+    $0.layoutMargins = .init(top: .zero, left: 15, bottom: .zero, right: 15)
     $0.spacing = 10
     $0.backgroundColor = .clear
   }
@@ -180,18 +180,16 @@ final class LoginViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
-    
-    loginImageView.snp.makeConstraints {
-      $0.top.equalTo(view.safeAreaLayoutGuide).offset(95 - Device.topInset)
-      $0.centerX.equalToSuperview()
-      $0.height.equalTo(120)
-      $0.width.equalTo(123.4)
+    newAccountButton.snp.makeConstraints {
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
+      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
+      $0.height.equalTo(50)
     }
     
     containerView.snp.makeConstraints {
-      $0.top.equalTo(loginImageView.snp.bottom)
       $0.directionalHorizontalEdges.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
+      $0.bottom.lessThanOrEqualTo(newAccountButton.snp.top)
+      $0.centerY.equalToSuperview()
     }
     
     indicatorView.snp.makeConstraints {
@@ -217,18 +215,17 @@ final class LoginViewController: BaseViewController {
     }
     
     loginButton.snp.makeConstraints {
-      $0.height.equalTo(48 + 20 + 48)
+      $0.height.equalTo(48 + 48)
     }
     
     containerView.setCustomSpacing(12, after: loginLabel)
     containerView.setCustomSpacing(20, after: schoolLabel)
     containerView.setCustomSpacing(20, after: passwordTextField)
     
-    newAccountButton.snp.makeConstraints {
-      $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-      $0.height.equalTo(50)
+    loginImageView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.equalTo(containerView.snp.top)
     }
   }
 }

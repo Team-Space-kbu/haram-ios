@@ -136,8 +136,13 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     fatalError("init(coder:) has not been implemented")
   }
   
-  deinit {
-    removeNotifications()
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerNotification()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
     removeNotification()
   }
   
@@ -267,9 +272,6 @@ final class StudyReservationViewController: BaseViewController, BackButtonHandle
     /// Set Gesture
     _ = [tapGesture, panGesture].map { view.addGestureRecognizer($0) }
     panGesture.delegate = self
-    
-    registerNotifications()
-    registerNotification()
     
     setupSkeletonView()
   }

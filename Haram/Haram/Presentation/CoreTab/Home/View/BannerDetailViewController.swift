@@ -13,19 +13,13 @@ import SkeletonView
 import SnapKit
 import Then
 
-enum BannerDetailType {
-  case useBackGesture
-  case noBackGesture
-}
-
 final class BannerDetailViewController: BaseViewController, BackButtonHandler {
   
   private let viewModel: HomeBannerDetailViewModelType
-  
-  private let bannerDetailType: BannerDetailType
+
   private let bannerSeq: Int
   private var bannerModel: [HomebannerCollectionViewCellModel] = []
-
+  
   private let scrollView = UIScrollView().then {
     $0.backgroundColor = .clear
     $0.alwaysBounceVertical = true
@@ -67,8 +61,7 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
     $0.navigationDelegate = self
   }
   
-  init(bannerSeq: Int, bannerDetailType: BannerDetailType = .noBackGesture, viewModel: HomeBannerDetailViewModelType = HomeBannerDetailViewModel()) {
-    self.bannerDetailType = bannerDetailType
+  init(bannerSeq: Int, viewModel: HomeBannerDetailViewModelType = HomeBannerDetailViewModel()) {
     self.viewModel = viewModel
     self.bannerSeq = bannerSeq
     super.init(nibName: nil, bundle: nil)
@@ -140,10 +133,6 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
     
     setupSkeletonView()
     setupBackButton()
-    
-    if bannerDetailType == .useBackGesture {
-      navigationController?.interactivePopGestureRecognizer?.delegate = self
-    }
   }
   
   func didTappedBackButton() {
@@ -152,10 +141,6 @@ final class BannerDetailViewController: BaseViewController, BackButtonHandler {
 }
 
 extension BannerDetailViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    return true // or false
-  }
-  
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true

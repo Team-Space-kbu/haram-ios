@@ -36,7 +36,7 @@ enum ShortcutType: CaseIterable {
     case .affiliate:
       return AffiliatedViewController()
     case .schedule:
-      return ScheduleViewController()
+      return ScheduleViewController(viewModel: ScheduleViewModel(dependency: .init(intranetRepository: IntranetRepositoryImpl())))
     case .readingRoom:
       return RothemRoomListViewController()
     }

@@ -10,19 +10,15 @@ import UIKit
 import SnapKit
 import SkeletonView
 import Then
-import RxCocoa
+import RxSwift
 
 final class RothemRoomListViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - Properties
   
-  private let viewModel: RothemRoomListViewModelType
+  private let viewModel: RothemRoomListViewModel
   private var mainNoticeSeq: Int?
-  private var type: StudyListCollectionHeaderViewType = .noReservation {
-    didSet {
-      studyListCollectionView.reloadData()
-    }
-  }
+  private var type: StudyListCollectionHeaderViewType = .noReservation
   
   // MARK: - UI Models
   
@@ -34,23 +30,23 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
   
   private lazy var studyListCollectionView = UICollectionView(
     frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
-    $0.minimumLineSpacing = 20
-  }).then {
-    $0.register(StudyListCollectionViewCell.self)
-    $0.register(StudyListCollectionHeaderView.self, of: UICollectionView.elementKindSectionHeader)
-    $0.backgroundColor = .clear
-    $0.delegate = self
-    $0.dataSource = self
-    $0.isSkeletonable = true
-    $0.alwaysBounceVertical = true
-    $0.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: 15, right: .zero)
-  }
+      $0.minimumLineSpacing = 20
+    }).then {
+      $0.register(StudyListCollectionViewCell.self)
+      $0.register(StudyListCollectionHeaderView.self, of: UICollectionView.elementKindSectionHeader)
+      $0.backgroundColor = .clear
+      $0.delegate = self
+      $0.dataSource = self
+      $0.isSkeletonable = true
+      $0.alwaysBounceVertical = true
+      $0.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: 15, right: .zero)
+    }
   
   private lazy var emptyView = EmptyView(text: "예약가능한 방이 존재하지 않습니다.")
   
   // MARK: - Initializations
   
-  init(viewModel: RothemRoomListViewModelType = RothemRoomListViewModel()) {
+  init(viewModel: RothemRoomListViewModel = RothemRoomListViewModel()) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -59,16 +55,12 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
     fatalError("init(coder:) has not been implemented")
   }
   
-  deinit {
-    removeNotifications()
-  }
-  
   // MARK: - Configurations
   
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(studyListCollectionView)
-//    view.addSubview(emptyView)
+    //    view.addSubview(emptyView)
   }
   
   override func setupConstraints() {
@@ -76,26 +68,30 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
     studyListCollectionView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
-//    emptyView.snp.makeConstraints {
-//      $0.directionalHorizontalEdges.bottom.equalToSuperview()
-//      $0.height.equalTo((Device.height - Device.navigationBarHeight) / 2)
-//    }
+    //    emptyView.snp.makeConstraints {
+    //      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+    //      $0.height.equalTo((Device.height - Device.navigationBarHeight) / 2)
+    //    }
   }
   
   override func bind() {
     super.bind()
-    viewModel.inquireRothemRoomList()
-    
-    Driver.combineLatest(
-      viewModel.currentStudyReservationList,
-      viewModel.currentRothemMainNotice,
-      viewModel.isReservation
+    let input = RothemRoomListViewModel.Input(
+      viewDidLoad: .just(()),
+      viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear)).map { _ in Void() }
     )
-    .drive(with: self) { owner, result in
-      let (studyListModel, rothemMainNoticeModel, type) = result
+    let output = viewModel.transform(input: input)
+    
+    Observable.combineLatest(
+      output.studyReservationListRelay,
+      output.rothemMainNoticeRelay,
+      output.isReservationSubject
+    )
+    .subscribe(with: self) { owner, result in
+      let (studyListModel, rothemMainNoticeModel, isReservation) = result
       owner.studyListModel = studyListModel
       owner.rothemMainNoticeModel = rothemMainNoticeModel
-      owner.type = type
+      owner.type = isReservation ? .reservation : .noReservation
       owner.mainNoticeSeq = rothemMainNoticeModel?.noticeSeq
       
       owner.view.hideSkeleton()
@@ -103,20 +99,17 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
       if studyListModel.isEmpty {
         owner.view.addSubview(owner.emptyView)
         owner.emptyView.snp.makeConstraints {
-          $0.directionalHorizontalEdges.bottom.equalToSuperview()
-          $0.height.equalTo((Device.height - Device.navigationBarHeight) / 2)
+          $0.bottom.equalTo(owner.view.safeAreaLayoutGuide).offset(-22)
+          $0.directionalHorizontalEdges.equalToSuperview()
+          $0.height.equalTo((Device.height) / 2)
         }
       }
-      
-//      owner.emptyView.isHidden = !studyListModel.isEmpty
-        owner.studyListCollectionView.isScrollEnabled = !studyListModel.isEmpty
-      
-      
+      owner.studyListCollectionView.isScrollEnabled = !studyListModel.isEmpty
       owner.studyListCollectionView.reloadData()
     }
     .disposed(by: disposeBag)
     
-    viewModel.errorMessage
+    output.errorMessageRelay.asSignal()
       .emit(with: self) { owner, error in
         if error == .networkError {
           AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
@@ -134,12 +127,10 @@ final class RothemRoomListViewController: BaseViewController, BackButtonHandler 
     super.setupStyles()
     
     /// Configure NavigationBar
-    navigationController?.interactivePopGestureRecognizer?.delegate = self
     title = "로뎀예약"
     setupBackButton()
     
     setupSkeletonView()
-    registerNotifications()
   }
   
   @objc func didTappedBackButton() {
@@ -157,7 +148,7 @@ extension RothemRoomListViewController: UICollectionViewDelegate {
       vc.navigationItem.largeTitleDisplayMode = .never
       self.navigationController?.pushViewController(vc, animated: true)
     }
-  }  
+  }
 }
 
 extension RothemRoomListViewController: UICollectionViewDelegateFlowLayout {
@@ -209,7 +200,7 @@ extension RothemRoomListViewController: SkeletonCollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     studyListModel.count
   }
-
+  
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(StudyListCollectionViewCell.self, for: indexPath) ?? StudyListCollectionViewCell()
     cell.configureUI(with: studyListModel[indexPath.row])
@@ -233,28 +224,8 @@ extension RothemRoomListViewController: SkeletonCollectionViewDataSource {
 }
 
 extension RothemRoomListViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    return true // or false
-  }
-  
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true
-  }
-}
-
-extension RothemRoomListViewController {
-  func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshRothemModel), name: .refreshRothemModel, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshRothemModel), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  func refreshRothemModel() {
-    viewModel.inquireRothemRoomList()
   }
 }
