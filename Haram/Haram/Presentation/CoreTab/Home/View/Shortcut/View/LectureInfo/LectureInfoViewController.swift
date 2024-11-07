@@ -35,6 +35,7 @@ final class LectureInfoViewController: ViewController, BackButtonHandler {
     super.bind()
     let input = LectureInfoViewModel.Input(viewDidLoad: .just(()))
     let output = viewModel.transform(input: input)
+    
     output.isLoading
       .subscribe(with: self) { owner, isLoading in
         if isLoading {

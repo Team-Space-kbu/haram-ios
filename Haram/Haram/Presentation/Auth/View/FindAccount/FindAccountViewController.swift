@@ -32,13 +32,25 @@ final class FindAccountViewController: ViewController {
     super.bind()
     viewHolder.findIDButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        
+        let vc = FindIDViewController(
+          viewModel: FindPasswordViewModel(
+            payLoad: .init(),
+            dependency: .init(authRepository: AuthRepositoryImpl())
+          )
+        )
+        vc.navigationItem.largeTitleDisplayMode = .never
+        owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
     
     viewHolder.findPWDButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        let vc = FindPasswordViewController()
+        let vc = FindPasswordViewController(
+          viewModel: FindPasswordViewModel(
+            payLoad: .init(),
+            dependency: .init(authRepository: AuthRepositoryImpl())
+          )
+        )
         vc.navigationItem.largeTitleDisplayMode = .never
         owner.navigationController?.pushViewController(vc, animated: true)
       }

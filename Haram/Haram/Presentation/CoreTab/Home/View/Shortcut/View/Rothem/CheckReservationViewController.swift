@@ -42,7 +42,13 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     fatalError("init(coder:) has not been implemented")
   }
   
-  deinit {
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerNotification()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
     removeNotification()
   }
   
@@ -51,7 +57,6 @@ final class CheckReservationViewController: BaseViewController, BackButtonHandle
     title = "예약정보"
     setupBackButton()
     setupSkeletonView()
-    registerNotification()
     rothemReservationInfoView.delegate = self
   }
   
@@ -160,8 +165,5 @@ extension CheckReservationViewController: RothemReservationInfoViewDelegate {
     } else {
       AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: self, confirmHandler: nil)
     }
-    
   }
-  
-  
 }

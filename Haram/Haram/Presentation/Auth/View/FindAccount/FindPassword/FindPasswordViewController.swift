@@ -9,7 +9,7 @@ import UIKit
 
 final class FindPasswordViewController: BaseViewController {
   
-  private let viewModel: FindPasswordViewModelType
+  private let viewModel: FindPasswordViewModel
   
   private let containerView = UIStackView().then {
     $0.axis = .vertical
@@ -54,7 +54,7 @@ final class FindPasswordViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "인증코드 발송", contentInsets: .zero)
   }
   
-  init(viewModel: FindPasswordViewModelType = FindPasswordViewModel()) {
+  init(viewModel: FindPasswordViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
@@ -63,13 +63,18 @@ final class FindPasswordViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  deinit {
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerKeyboardNotification()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
     removeKeyboardNotification()
   }
   
   override func setupStyles() {
     super.setupStyles()
-    registerKeyboardNotification()
     navigationController?.navigationBar.isHidden = true
   }
   
@@ -116,18 +121,26 @@ final class FindPasswordViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    
-    viewModel.successSendAuthCode
-      .emit(with: self) { owner, userMail in
+    let input = FindPasswordViewModel.Input(
+      didUpdatedUserMail: schoolEmailTextField.rx.text.orEmpty.asObservable(),
+      didTappedSendButton: continueButton.rx.tap.asObservable()
+    )
+    let output = viewModel.transform(input: input)
+    output.successSendAuthCodeRelay
+      .subscribe(with: self) { owner, userMail in
         owner.schoolEmailTextField.removeError()
-        let vc = CheckEmailViewController(userMail: userMail)
+        let vc = CheckEmailViewController(
+          viewModel: CheckEmailViewModel(
+            payLoad: .init(userMail: userMail),
+            dependency: .init(authRepository: AuthRepositoryImpl())
+          )
+        )
         owner.navigationController?.pushViewController(vc, animated: true)
       }
       .disposed(by: disposeBag)
     
-    viewModel.errorMessage
-      .emit(with: self) { owner, error in
-        
+    output.errorMessageRelay
+      .subscribe(with: self) { owner, error in
         if error == .networkError {
           AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
@@ -143,22 +156,6 @@ final class FindPasswordViewController: BaseViewController {
           return
         }
         owner.schoolEmailTextField.setError(description: error.description!)
-      }
-      .disposed(by: disposeBag)
-    
-    schoolEmailTextField.textField.rx.text.orEmpty
-      .distinctUntilChanged()
-      .skip(1)
-      .subscribe(with: self) { owner, text in
-        owner.viewModel.findPasswordEmail.onNext(text)
-      }
-      .disposed(by: disposeBag)
-    
-    continueButton.rx.tap
-      .withLatestFrom(schoolEmailTextField.rx.text.orEmpty)
-      .subscribe(with: self) { owner, userMail in
-        owner.view.endEditing(true)
-        owner.viewModel.requestEmailAuthCode(email: userMail)
       }
       .disposed(by: disposeBag)
     

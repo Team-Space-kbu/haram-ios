@@ -12,7 +12,7 @@ protocol AffiliatedViewModelType {
   
   func tryInquireAffiliated()
   
-  var affiliatedModel: Driver<[AffiliatedCollectionViewCellModel]> { get }
+  var affiliatedModel: Driver<[AffiliatedTableViewCellModel]> { get }
   var errorMessage: Signal<HaramError> { get }
 }
 
@@ -21,7 +21,7 @@ final class AffiliatedViewModel {
   private let disposeBag = DisposeBag()
   private let homeRepository: HomeRepository
   
-  private let affiliatedModelRelay = BehaviorRelay<[AffiliatedCollectionViewCellModel]>(value: [])
+  private let affiliatedModelRelay = BehaviorRelay<[AffiliatedTableViewCellModel]>(value: [])
   private let errorMessageRelay    = BehaviorRelay<HaramError?>(value: nil)
   
   init(homeRepository: HomeRepository = HomeRepositoryImpl()) {
@@ -36,9 +36,7 @@ extension AffiliatedViewModel: AffiliatedViewModelType {
     
     inquireAffiliatedModel
       .map { affiliated in
-        affiliated.enumerated().map { index, response in
-          AffiliatedCollectionViewCellModel(response: response, isLast: index == affiliated.count - 1)
-        }
+        affiliated.map { AffiliatedTableViewCellModel(response: $0) }
       }
       .subscribe(with: self, onSuccess: { owner, model in
         owner.affiliatedModelRelay.accept(model)
@@ -53,7 +51,7 @@ extension AffiliatedViewModel: AffiliatedViewModelType {
     errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
   }
   
-  var affiliatedModel: Driver<[AffiliatedCollectionViewCellModel]> {
+  var affiliatedModel: Driver<[AffiliatedTableViewCellModel]> {
     affiliatedModelRelay.filter { !$0.isEmpty }.asDriver(onErrorJustReturn: [])
   }
 }

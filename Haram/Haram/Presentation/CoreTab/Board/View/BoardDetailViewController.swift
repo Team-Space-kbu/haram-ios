@@ -76,8 +76,13 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     fatalError("init(coder:) has not been implemented")
   }
   
-  deinit {
-    LogHelper.log(#function, level: .debug)
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    registerNotifications()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
     removeNotifications()
   }
   
@@ -91,9 +96,6 @@ final class BoardDetailViewController: BaseViewController, BackButtonHandler {
     setupRightBarButtonItem()
     
     setupSkeletonView()
-    
-    registerNotifications()
-    
   }
   
   override func setupLayouts() {

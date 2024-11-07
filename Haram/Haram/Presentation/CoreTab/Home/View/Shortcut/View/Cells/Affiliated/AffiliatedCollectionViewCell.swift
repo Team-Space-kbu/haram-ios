@@ -12,15 +12,13 @@ import SnapKit
 import SkeletonView
 import Then
 
-struct AffiliatedCollectionViewCellModel {
+struct AffiliatedTableViewCellModel {
   let id: Int
-  let isLast: Bool
   let affiliatedImageURL: URL?
   let affiliatedTitle: String
   let affiliatedSubTitle: String
   
-  init(response: InquireAffiliatedResponse, isLast: Bool) {
-    self.isLast = isLast
+  init(response: InquireAffiliatedResponse) {
     id = response.id
     affiliatedImageURL = URL(string: response.imageString)
     affiliatedTitle = response.businessName
@@ -28,7 +26,7 @@ struct AffiliatedCollectionViewCellModel {
   }
 }
 
-final class AffiliatedCollectionViewCell: UICollectionViewCell, ReusableView {
+final class AffiliatedTableViewCell: UITableViewCell, ReusableView {
   
   let containerView = UIView().then {
     $0.backgroundColor = .clear
@@ -56,13 +54,8 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell, ReusableView {
     $0.skeletonTextNumberOfLines = 2
   }
   
-  private let lineView = UIView().then {
-    $0.backgroundColor = .hexD8D8DA
-    $0.isSkeletonable = true
-  }
-  
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    super.init(style: style, reuseIdentifier: reuseIdentifier)
     configureUI()
   }
   
@@ -78,6 +71,7 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell, ReusableView {
   }
   
   private func configureUI() {
+    selectionStyle = .none
     isSkeletonable = true
     contentView.isSkeletonable = true
     contentView.backgroundColor = .white
@@ -110,19 +104,7 @@ final class AffiliatedCollectionViewCell: UICollectionViewCell, ReusableView {
     }
   }
   
-  func configureUI(with model: AffiliatedCollectionViewCellModel) {
-    
-    if model.isLast {
-      lineView.removeFromSuperview()
-    } else {
-      contentView.addSubview(lineView)
-      lineView.snp.makeConstraints {
-        $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
-        $0.height.equalTo(1)
-        $0.directionalHorizontalEdges.bottom.equalToSuperview()
-      }
-    }
-    
+  func configureUI(with model: AffiliatedTableViewCellModel) {
     affiliatedImageView.kf.setImage(with: model.affiliatedImageURL)
     affiliatedTitleLabel.text = model.affiliatedTitle
     affiliatedSubTitleLabel.text = model.affiliatedSubTitle

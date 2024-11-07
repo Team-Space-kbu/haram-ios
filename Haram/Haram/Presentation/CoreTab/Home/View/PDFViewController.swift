@@ -38,7 +38,6 @@ final class PDFViewController: BaseViewController, BackButtonHandler, PDFDocumen
     
     /// Set Navigationbar
     setupBackButton()
-    navigationController?.interactivePopGestureRecognizer?.delegate = self
    
     guard NetworkManager.shared.isConnected else {
       AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: self) {
@@ -83,10 +82,6 @@ final class PDFViewController: BaseViewController, BackButtonHandler, PDFDocumen
 }
 
 extension PDFViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    return true // or false
-  }
-  
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true

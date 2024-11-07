@@ -310,6 +310,16 @@
 		70AED78A2CD4B14100AB22C5 /* NewAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7892CD4B14100AB22C5 /* NewAccountViewController.swift */; };
 		70AED78C2CD4B14C00AB22C5 /* NewAccountViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED78B2CD4B14C00AB22C5 /* NewAccountViewHolder.swift */; };
 		70AED78E2CD4B15B00AB22C5 /* NewAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED78D2CD4B15B00AB22C5 /* NewAccountViewModel.swift */; };
+		70AED7922CD87CFC00AB22C5 /* FindIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7912CD87CFC00AB22C5 /* FindIDViewController.swift */; };
+		70AED7942CD8806600AB22C5 /* CheckIDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7932CD8806600AB22C5 /* CheckIDViewController.swift */; };
+		70AED7962CD8813C00AB22C5 /* CheckIDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7952CD8813C00AB22C5 /* CheckIDViewModel.swift */; };
+		70AED79C2CDA266500AB22C5 /* CheckAuthCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED79B2CDA266500AB22C5 /* CheckAuthCodeViewController.swift */; };
+		70AED79E2CDA281900AB22C5 /* CheckAuthCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED79D2CDA281900AB22C5 /* CheckAuthCodeViewModel.swift */; };
+		70AED7A02CDB52DE00AB22C5 /* FindIDResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED79F2CDB52DE00AB22C5 /* FindIDResultViewController.swift */; };
+		70AED7A22CDB548C00AB22C5 /* FindIDResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7A12CDB548C00AB22C5 /* FindIDResultViewModel.swift */; };
+		70AED7A42CDB6AE800AB22C5 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7A32CDB6AE800AB22C5 /* NavigationController.swift */; };
+		70AED7A72CDB804200AB22C5 /* LectureScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7A62CDB804200AB22C5 /* LectureScheduleViewController.swift */; };
+		70AED7A92CDB805A00AB22C5 /* LectureScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7A82CDB805A00AB22C5 /* LectureScheduleViewModel.swift */; };
 		70B310922BA1798200EF21CE /* Ex + UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310912BA1798200EF21CE /* Ex + UIButton.swift */; };
 		70B310942BA1DAFD00EF21CE /* MoreCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310932BA1DAFD00EF21CE /* MoreCategoryViewController.swift */; };
 		70B310962BA73C7D00EF21CE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310952BA73C7D00EF21CE /* NetworkManager.swift */; };
@@ -666,6 +676,16 @@
 		70AED7892CD4B14100AB22C5 /* NewAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAccountViewController.swift; sourceTree = "<group>"; };
 		70AED78B2CD4B14C00AB22C5 /* NewAccountViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAccountViewHolder.swift; sourceTree = "<group>"; };
 		70AED78D2CD4B15B00AB22C5 /* NewAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAccountViewModel.swift; sourceTree = "<group>"; };
+		70AED7912CD87CFC00AB22C5 /* FindIDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDViewController.swift; sourceTree = "<group>"; };
+		70AED7932CD8806600AB22C5 /* CheckIDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckIDViewController.swift; sourceTree = "<group>"; };
+		70AED7952CD8813C00AB22C5 /* CheckIDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckIDViewModel.swift; sourceTree = "<group>"; };
+		70AED79B2CDA266500AB22C5 /* CheckAuthCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckAuthCodeViewController.swift; sourceTree = "<group>"; };
+		70AED79D2CDA281900AB22C5 /* CheckAuthCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckAuthCodeViewModel.swift; sourceTree = "<group>"; };
+		70AED79F2CDB52DE00AB22C5 /* FindIDResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDResultViewController.swift; sourceTree = "<group>"; };
+		70AED7A12CDB548C00AB22C5 /* FindIDResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDResultViewModel.swift; sourceTree = "<group>"; };
+		70AED7A32CDB6AE800AB22C5 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		70AED7A62CDB804200AB22C5 /* LectureScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureScheduleViewController.swift; sourceTree = "<group>"; };
+		70AED7A82CDB805A00AB22C5 /* LectureScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureScheduleViewModel.swift; sourceTree = "<group>"; };
 		70B310912BA1798200EF21CE /* Ex + UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIButton.swift"; sourceTree = "<group>"; };
 		70B310932BA1DAFD00EF21CE /* MoreCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCategoryViewController.swift; sourceTree = "<group>"; };
 		70B310952BA73C7D00EF21CE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -1257,6 +1277,7 @@
 		708DAD022B35A7BE00E3AD45 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				70AED7A52CDB803400AB22C5 /* LectureSchedule */,
 				70AED7542CBAA50B00AB22C5 /* LectureInfo */,
 				70AED74D2CB8083200AB22C5 /* LectureList */,
 				70AED7462CB5989700AB22C5 /* CoursePlan */,
@@ -1468,8 +1489,9 @@
 				70727A9829D88A22003DE956 /* RegisterViewController.swift */,
 				70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */,
 				70727A9129D889AE003DE956 /* LoginViewController.swift */,
-				70AD2A822B8CBA7200CB9791 /* CheckEmailViewController.swift */,
 				70AD2A952B93738000CB9791 /* VerifyEmailViewController.swift */,
+				70AED79B2CDA266500AB22C5 /* CheckAuthCodeViewController.swift */,
+				70AED79D2CDA281900AB22C5 /* CheckAuthCodeViewModel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1669,6 +1691,7 @@
 				70AED7282CB3355100AB22C5 /* ViewHolderType.swift */,
 				70AED73A2CB3E93000AB22C5 /* ViewModelType.swift */,
 				70AED73D2CB5633500AB22C5 /* Coordinator.swift */,
+				70AED7A32CDB6AE800AB22C5 /* NavigationController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1724,7 +1747,8 @@
 		70AED77F2CD42E4900AB22C5 /* FindAccount */ = {
 			isa = PBXGroup;
 			children = (
-				70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */,
+				70AED7902CD87CE000AB22C5 /* FindID */,
+				70AED78F2CD87CD600AB22C5 /* FindPassword */,
 				70AED7802CD42E5600AB22C5 /* FindAccountViewController.swift */,
 				70AED7822CD42E9300AB22C5 /* FindAccountViewHolder.swift */,
 				70AED7842CD434D900AB22C5 /* FindAccountViewModel.swift */,
@@ -1740,6 +1764,36 @@
 				70AED78D2CD4B15B00AB22C5 /* NewAccountViewModel.swift */,
 			);
 			path = NewAccount;
+			sourceTree = "<group>";
+		};
+		70AED78F2CD87CD600AB22C5 /* FindPassword */ = {
+			isa = PBXGroup;
+			children = (
+				70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */,
+				70AD2A822B8CBA7200CB9791 /* CheckEmailViewController.swift */,
+			);
+			path = FindPassword;
+			sourceTree = "<group>";
+		};
+		70AED7902CD87CE000AB22C5 /* FindID */ = {
+			isa = PBXGroup;
+			children = (
+				70AED7912CD87CFC00AB22C5 /* FindIDViewController.swift */,
+				70AED7932CD8806600AB22C5 /* CheckIDViewController.swift */,
+				70AED7952CD8813C00AB22C5 /* CheckIDViewModel.swift */,
+				70AED79F2CDB52DE00AB22C5 /* FindIDResultViewController.swift */,
+				70AED7A12CDB548C00AB22C5 /* FindIDResultViewModel.swift */,
+			);
+			path = FindID;
+			sourceTree = "<group>";
+		};
+		70AED7A52CDB803400AB22C5 /* LectureSchedule */ = {
+			isa = PBXGroup;
+			children = (
+				70AED7A62CDB804200AB22C5 /* LectureScheduleViewController.swift */,
+				70AED7A82CDB805A00AB22C5 /* LectureScheduleViewModel.swift */,
+			);
+			path = LectureSchedule;
 			sourceTree = "<group>";
 		};
 		70B3109B2BAB2ED700EF21CE /* Cells */ = {
@@ -2143,6 +2197,7 @@
 				70727A9929D88A22003DE956 /* RegisterViewController.swift in Sources */,
 				70AED74F2CB8092800AB22C5 /* LectureListViewController.swift in Sources */,
 				70912FFF2B15FF7D005B88B4 /* CancelRothemReservationRequest.swift in Sources */,
+				70AED79C2CDA266500AB22C5 /* CheckAuthCodeViewController.swift in Sources */,
 				708ED7A72A8FA1C500107CDF /* StudyReservationViewController.swift in Sources */,
 				701FC8A82B9CAC6500291FC3 /* UploadImageRequest.swift in Sources */,
 				701F29D72AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift in Sources */,
@@ -2173,6 +2228,7 @@
 				70AD2A852B8CE16C00CB9791 /* UpdatePasswordViewModel.swift in Sources */,
 				708ED7EF2A9E232A00107CDF /* AffiliatedViewModel.swift in Sources */,
 				70AD2A6D2B88976500CB9791 /* InquireBoardCategoryResponse.swift in Sources */,
+				70AED7A72CDB804200AB22C5 /* LectureScheduleViewController.swift in Sources */,
 				709AB6452B77E19B004B0F59 /* BoardImageCollectionViewCell.swift in Sources */,
 				7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */,
 				708312AE2A73936E00F7E283 /* CategoryCollectionViewCell.swift in Sources */,
@@ -2210,6 +2266,7 @@
 				705FD2CC2A23BA6A00F353FE /* InquireLibraryResponse.swift in Sources */,
 				70727A9029D88935003DE956 /* BaseViewController.swift in Sources */,
 				705FD28E2A10FC0200F353FE /* KeyChainWrapper.swift in Sources */,
+				70AED7A22CDB548C00AB22C5 /* FindIDResultViewModel.swift in Sources */,
 				701F29DE2AEBB7FF00E3E68B /* CheckReservationViewModel.swift in Sources */,
 				70B310AA2BB2F29A00EF21CE /* AffiliatedBenefitView.swift in Sources */,
 				708ED7D42A9228D200107CDF /* BottomSheetViewController.swift in Sources */,
@@ -2217,6 +2274,7 @@
 				70AED7452CB57FE100AB22C5 /* LoginCoordinator.swift in Sources */,
 				708ED7C92A911E8700107CDF /* BibleCollectionHeaderView.swift in Sources */,
 				708ED7B12A90CC0C00107CDF /* StudyRoomInfoView.swift in Sources */,
+				70AED79E2CDA281900AB22C5 /* CheckAuthCodeViewModel.swift in Sources */,
 				708312602A388D8B00F7E283 /* ScheduleViewModel.swift in Sources */,
 				708ED7982A8E6F8F00107CDF /* RothemRepositoryImpl.swift in Sources */,
 				708ED7B52A90D61100107CDF /* StudyRoomDetailView.swift in Sources */,
@@ -2224,9 +2282,11 @@
 				70A24ECD2BBED36000572FAE /* ZoomImageViewController.swift in Sources */,
 				7083128A2A655BD900F7E283 /* MileageTableHeaderView.swift in Sources */,
 				70AD2A962B93738000CB9791 /* VerifyEmailViewController.swift in Sources */,
+				70AED7962CD8813C00AB22C5 /* CheckIDViewModel.swift in Sources */,
 				7051E4FB2ADAB6C700C2134B /* BoardRouter.swift in Sources */,
 				7083128C2A6561CD00F7E283 /* MyPageRouter.swift in Sources */,
 				70AED75E2CBBABB800AB22C5 /* LectureRouter.swift in Sources */,
+				70AED7A42CDB6AE800AB22C5 /* NavigationController.swift in Sources */,
 				708ED7B92A91191C00107CDF /* BibleRouter.swift in Sources */,
 				705FD29B2A13C19A00F353FE /* SignupUserRequest.swift in Sources */,
 				70B310942BA1DAFD00EF21CE /* MoreCategoryViewController.swift in Sources */,
@@ -2258,6 +2318,8 @@
 				708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */,
 				708ED79B2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift in Sources */,
 				70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */,
+				70AED7922CD87CFC00AB22C5 /* FindIDViewController.swift in Sources */,
+				70AED7A02CDB52DE00AB22C5 /* FindIDResultViewController.swift in Sources */,
 				708ED7E72A94B61100107CDF /* RevisionOfTranslation+CoreDataProperties.swift in Sources */,
 				7032FD822B656AEE00B8481C /* InquireBibleHomeInfoResponse.swift in Sources */,
 				705FD2922A13B9E600F353FE /* AuthRepositoryImpl.swift in Sources */,
@@ -2340,6 +2402,7 @@
 				70727A9B29D88A3A003DE956 /* FindPasswordViewController.swift in Sources */,
 				70AED7532CB8093800AB22C5 /* LectureListViewHolder.swift in Sources */,
 				70AED7422CB57C4800AB22C5 /* AppCoordinator.swift in Sources */,
+				70AED7942CD8806600AB22C5 /* CheckIDViewController.swift in Sources */,
 				701FC8A32B9C998900291FC3 /* CreateBoardRequest.swift in Sources */,
 				708312B82A77E36900F7E283 /* HaramTextField.swift in Sources */,
 				70AED7812CD42E5600AB22C5 /* FindAccountViewController.swift in Sources */,
@@ -2362,6 +2425,7 @@
 				70A24EB92BBC679F00572FAE /* InquireBannerInfoResponse.swift in Sources */,
 				70912FFA2B15EF2C005B88B4 /* RothemReservationInfoView.swift in Sources */,
 				70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */,
+				70AED7A92CDB805A00AB22C5 /* LectureScheduleViewModel.swift in Sources */,
 				70AED7832CD42E9300AB22C5 /* FindAccountViewHolder.swift in Sources */,
 				7051E5022ADABC4400C2134B /* Ex + UILabel.swift in Sources */,
 				708ED7892A8E02B800107CDF /* StudyListCollectionHeaderView.swift in Sources */,

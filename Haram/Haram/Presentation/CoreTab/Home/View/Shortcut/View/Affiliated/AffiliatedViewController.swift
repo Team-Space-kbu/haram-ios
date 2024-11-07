@@ -19,7 +19,7 @@ final class AffiliatedViewController: BaseViewController, BackButtonHandler {
   
   // MARK: - UI Models
   
-  private var affiliatedModel: [AffiliatedCollectionViewCellModel] = []
+  private var affiliatedModel: [AffiliatedTableViewCellModel] = []
   
   init(viewModel: AffiliatedViewModelType = AffiliatedViewModel()) {
     self.viewModel = viewModel
@@ -40,18 +40,19 @@ final class AffiliatedViewController: BaseViewController, BackButtonHandler {
     removeNotifications()
   }
   
-  private let affiliatedCollectionView = UICollectionView(
-    frame: .zero,
-    collectionViewLayout: UICollectionViewFlowLayout().then {
-      $0.scrollDirection = .vertical
-      $0.minimumLineSpacing = .zero
-    }
-  ).then {
-    $0.register(AffiliatedCollectionViewCell.self)
+  private lazy var affiliatedListView = UITableView(frame: .zero, style: .plain).then {
+    $0.register(AffiliatedTableViewCell.self)
+    $0.dataSource = self
+    $0.delegate = self
     $0.backgroundColor = .white
-    $0.alwaysBounceVertical = true
+    $0.separatorStyle = .singleLine
+    $0.separatorColor = .hexD8D8DA
+    $0.separatorInset = .zero
+    $0.separatorInsetReference = .fromCellEdges
+    $0.sectionFooterHeight = .leastNonzeroMagnitude
+    $0.sectionHeaderHeight = .leastNonzeroMagnitude
     $0.showsVerticalScrollIndicator = false
-    $0.isScrollEnabled = true
+    $0.alwaysBounceVertical = true
     $0.isSkeletonable = true
   }
   
@@ -60,23 +61,21 @@ final class AffiliatedViewController: BaseViewController, BackButtonHandler {
     
     title = "제휴업체"
     setupBackButton()
-    navigationController?.interactivePopGestureRecognizer?.delegate = self
     
-    /// Set CollectionView delegate & dataSource
-    affiliatedCollectionView.delegate = self
-    affiliatedCollectionView.dataSource = self
+    affiliatedListView.delegate = self
+    affiliatedListView.dataSource = self
     
     setupSkeletonView()
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(affiliatedCollectionView)
+    view.addSubview(affiliatedListView)
   }
   
   override func setupConstraints() {
     super.setupConstraints()
-    affiliatedCollectionView.snp.makeConstraints {
+    affiliatedListView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
   }
@@ -92,7 +91,7 @@ final class AffiliatedViewController: BaseViewController, BackButtonHandler {
         
         owner.view.hideSkeleton()
         
-        owner.affiliatedCollectionView.reloadData()
+        owner.affiliatedListView.reloadData()
       }
       .disposed(by: disposeBag)
     
@@ -117,29 +116,25 @@ final class AffiliatedViewController: BaseViewController, BackButtonHandler {
   }
 }
 
-// MARK: - UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
+// MARK: - UITableViewDelegate, SkeletonTableViewDataSource
 
-extension AffiliatedViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-  func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 1
+extension AffiliatedViewController: UITableViewDelegate, SkeletonTableViewDataSource {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    affiliatedModel.count
   }
   
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return affiliatedModel.count
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(AffiliatedCollectionViewCell.self, for: indexPath) ?? AffiliatedCollectionViewCell()
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(AffiliatedTableViewCell.self, for: indexPath) ?? AffiliatedTableViewCell()
     cell.configureUI(with: affiliatedModel[indexPath.row])
     return cell
   }
   
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: collectionView.frame.width, height: 15 + 15 + 100)
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return 15 + 15 + 100
   }
   
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let cell = collectionView.cellForItem(at: indexPath) as? AffiliatedCollectionViewCell ?? AffiliatedCollectionViewCell()
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let cell = tableView.cellForRow(at: indexPath) as? AffiliatedTableViewCell ?? AffiliatedTableViewCell()
     cell.containerView.showAnimation(scale: 0.9) { [weak self] in
       guard let self = self else { return }
       let model = affiliatedModel[indexPath.row]
@@ -149,27 +144,21 @@ extension AffiliatedViewController: UICollectionViewDelegate, UICollectionViewDa
       self.navigationController?.pushViewController(vc, animated: true)
     }
   }
-}
-
-extension AffiliatedViewController: SkeletonCollectionViewDataSource {
-  func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-    AffiliatedCollectionViewCell.reuseIdentifier
+  
+  func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+    AffiliatedTableViewCell.reuseIdentifier
   }
   
-  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    return skeletonView.dequeueReusableCell(AffiliatedCollectionViewCell.self, for: indexPath)
+  func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
+    return skeletonView.dequeueReusableCell(AffiliatedTableViewCell.self, for: indexPath)
   }
   
-  func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
     10
   }
 }
 
 extension AffiliatedViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    return true // or false
-  }
-  
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true

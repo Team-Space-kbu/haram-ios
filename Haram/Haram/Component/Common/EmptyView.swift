@@ -15,6 +15,7 @@ final class EmptyView: UIView {
   private let alertLabel = UILabel().then {
     $0.font = .bold20
     $0.textColor = .black
+    $0.numberOfLines = 0
   }
   
   init(text: String) {

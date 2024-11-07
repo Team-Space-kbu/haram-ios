@@ -1,29 +1,19 @@
 //
-//  ScheduleViewModel.swift
+//  LectureScheduleViewModel.swift
 //  Haram
 //
-//  Created by 이건준 on 2023/06/13.
+//  Created by 이건준 on 11/6/24.
 //
 
-import UIKit
+import Foundation
 
 import Elliotable
 import RxSwift
 import RxCocoa
 
-
-protocol ScheduleViewModelType {
-  
-  func inquireTimeSchedule()
-  
-  var scheduleInfo: Driver<[ElliottEvent]> { get }
-  var isLoading: Driver<Bool> { get }
-  var errorMessage: Signal<HaramError> { get }
-}
-
-final class ScheduleViewModel: ViewModelType {
-  
+final class LectureScheduleViewModel: ViewModelType {
   private let disposeBag = DisposeBag()
+  private let payLoad: PayLoad
   private let dependency: Dependency
   
   private(set) var courseModel: [ElliottEvent] = []
@@ -44,8 +34,12 @@ final class ScheduleViewModel: ViewModelType {
   /// 강좌에 따라 색상 구분을 해주기위한 딕셔너리
   private var colorInfo: [String: UIColor] = [:]
   
+  struct PayLoad {
+    let classRoom: String
+  }
+  
   struct Dependency {
-    let intranetRepository: IntranetRepository
+    let lectureRepository: LectureRepository
   }
   
   struct Input {
@@ -57,7 +51,8 @@ final class ScheduleViewModel: ViewModelType {
     let errorMessageRelay = PublishRelay<HaramError>()
   }
   
-  init(dependency: Dependency) {
+  init(payLoad: PayLoad, dependency: Dependency) {
+    self.payLoad = payLoad
     self.dependency = dependency
   }
   
@@ -66,7 +61,7 @@ final class ScheduleViewModel: ViewModelType {
     
     input.viewDidLoad
       .subscribe(with: self) { owner, _ in
-        owner.inquireTimeSchedule(output: output)
+        owner.inquireLectureSchedule(output: output)
       }
       .disposed(by: disposeBag)
     
@@ -74,9 +69,9 @@ final class ScheduleViewModel: ViewModelType {
   }
 }
 
-extension ScheduleViewModel {
-  func inquireTimeSchedule(output: Output) {
-    dependency.intranetRepository.inquireScheduleInfo()
+extension LectureScheduleViewModel {
+  private func inquireLectureSchedule(output: Output) {
+    dependency.lectureRepository.inquireEmptyClassDetail(classRoom: payLoad.classRoom)
       .subscribe(with: self, onSuccess: { owner, response in
         let scheduleModel = response
           .enumerated()
@@ -107,20 +102,4 @@ extension ScheduleViewModel {
       })
       .disposed(by: disposeBag)
   }
-//  
-//  var scheduleInfo: Driver<[ElliottEvent]> {
-//    schedulingInfo
-//      .take(1)
-//      .asDriver(onErrorJustReturn: [])
-//  }
-//  
-//  var isLoading: Driver<Bool> {
-//    isLoadingSubject.distinctUntilChanged().asDriver(onErrorJustReturn: false)
-//  }
-//  
-//  var errorMessage: Signal<HaramError> {
-//    errorMessageRelay
-//      .compactMap { $0 }
-//      .asSignal(onErrorSignalWith: .empty())
-//  }
 }

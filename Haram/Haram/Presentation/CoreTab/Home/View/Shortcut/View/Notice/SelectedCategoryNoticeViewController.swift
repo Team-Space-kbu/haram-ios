@@ -14,10 +14,7 @@ import Then
 
 final class SelectedCategoryNoticeViewController: BaseViewController {
   
-  private let viewModel: SelectedCategoryNoticeViewModelType
-  private let noticeType: NoticeType
-  
-  private var noticeModel: [NoticeCollectionViewCellModel] = []
+  private let viewModel: SelectedCategoryNoticeViewModel
   
   private lazy var noticeCollectionView = UICollectionView(
     frame: .zero,
@@ -37,9 +34,8 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
     $0.alwaysBounceVertical = true
   }
   
-  init(noticeType: NoticeType, viewModel: SelectedCategoryNoticeViewModelType = SelectedCategoryNoticeViewModel()) {
+  init(viewModel: SelectedCategoryNoticeViewModel) {
     self.viewModel = viewModel
-    self.noticeType = noticeType
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -49,11 +45,13 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    viewModel.noticeType.onNext(noticeType)
+    let input = SelectedCategoryNoticeViewModel.Input(viewDidLoad: .just(()))
+    let output = viewModel.transform(input: input)
     
-    viewModel.noticeCollectionViewCellModel
+    output.noticeCollectionViewCellModelRelay
+      .asDriver()
+      .filter { !$0.isEmpty }
       .drive(with: self) { owner, noticeModel in
-        owner.noticeModel = noticeModel
         owner.view.hideSkeleton()
         owner.noticeCollectionView.reloadData()
       }
@@ -65,12 +63,13 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
         let contentHeight = owner.noticeCollectionView.contentSize.height
         
         if offSetY > (contentHeight - owner.noticeCollectionView.frame.size.height - 92 * 3) {
-          owner.viewModel.fetchMoreDatas.onNext(())
+          input.fetchMoreDatas.onNext(())
         }
       }
       .disposed(by: disposeBag)
     
-    viewModel.errorMessage
+    output.errorMessageRelay
+      .asSignal()
       .emit(with: self) { owner, error in
         if error == .networkError {
           AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
@@ -106,7 +105,14 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
 
 extension SelectedCategoryNoticeViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = NoticeDetailViewController(type: noticeType, path: noticeModel[indexPath.row].path)
+    let vc = NoticeDetailViewController(
+      viewModel: NoticeDetailViewModel(
+        payLoad: .init(
+          type: viewModel.payLoad.noticeType,
+          path: viewModel.noticeModel[indexPath.row].path
+        )
+      )
+    )
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }
@@ -135,12 +141,12 @@ extension SelectedCategoryNoticeViewController: UICollectionViewDataSource, UICo
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return noticeModel.count
+    return viewModel.noticeModel.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(NoticeCollectionViewCell.self, for: indexPath) ?? NoticeCollectionViewCell()
-    cell.configureUI(with: noticeModel[indexPath.row])
+    cell.configureUI(with: viewModel.noticeModel[indexPath.row])
     return cell
   }
   
@@ -160,10 +166,6 @@ extension SelectedCategoryNoticeViewController: BackButtonHandler {
 extension SelectedCategoryNoticeViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
     NoticeCollectionViewCell.reuseIdentifier
-  }
-  
-  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    skeletonView.dequeueReusableCell(NoticeCollectionViewCell.self, for: indexPath)
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

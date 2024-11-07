@@ -12,7 +12,7 @@ import Then
 
 final class HaramTabbarController: UITabBarController {
   
-  private let homeViewController = UINavigationController(rootViewController: HomeViewController().then {
+  private let homeViewController = NavigationController(rootViewController: HomeViewController().then {
     $0.tabBarItem = UITabBarItem(
       title: "성서알리미",
       image: UIImage(named: "home"),
@@ -20,7 +20,7 @@ final class HaramTabbarController: UITabBarController {
     )
   })
   
-  private let boardViewController = UINavigationController(rootViewController: BoardViewController().then {
+  private let boardViewController = NavigationController(rootViewController: BoardViewController().then {
     $0.tabBarItem = UITabBarItem(
       title: "게시판",
       image: UIImage(named: "board"),
@@ -28,7 +28,7 @@ final class HaramTabbarController: UITabBarController {
     )
   })
   
-  private let moreViewController = UINavigationController(rootViewController: MoreViewController().then {
+  private let moreViewController = NavigationController(rootViewController: MoreViewController().then {
     $0.tabBarItem = UITabBarItem(
       title: "더보기",
       image: UIImage(named: "more"),

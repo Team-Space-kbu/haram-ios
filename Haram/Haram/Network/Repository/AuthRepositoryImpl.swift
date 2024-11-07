@@ -17,6 +17,7 @@ protocol AuthRepository {
   func updatePassword(request: UpdatePasswordRequest, userEmail: String) -> Single<Bool>
   func verifyMailAuthCode(userMail: String, authCode: String) -> Single<Bool>
   func verifyFindPassword(userMail: String, authCode: String) -> Single<String>
+  func verifyFindID(userMail: String, authCode: String) -> Single<String>
   func inquireTermsSignUp() -> Single<[InquireTermsSignUpResponse]>
   func updateUserPassword(userID: String, request: UpdateUserPasswordRequest) -> Single<Bool>
 }
@@ -32,6 +33,10 @@ final class AuthRepositoryImpl {
 }
 
 extension AuthRepositoryImpl: AuthRepository {
+  func verifyFindID(userMail: String, authCode: String) -> RxSwift.Single<String> {
+    service.betarequest(router: AuthRouter.verifyFindID(userMail, authCode), type: String.self)
+  }
+  
   func updateUserPassword(userID: String, request: UpdateUserPasswordRequest) -> Single<Bool> {
     service.betarequest(router: AuthRouter.updateUserPassword(userID, request), type: Bool.self)
   }

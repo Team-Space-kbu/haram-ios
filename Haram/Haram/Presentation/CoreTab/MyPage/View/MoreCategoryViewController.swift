@@ -14,8 +14,7 @@ import Then
 
 final class MoreCategoryViewController: BaseViewController {
   
-  private let viewModel: SelectedCategoryNoticeViewModelType
-  private let noticeType: NoticeType
+  private let viewModel: SelectedCategoryNoticeViewModel
   
   private var noticeModel: [NoticeCollectionViewCellModel] = []
   
@@ -37,9 +36,8 @@ final class MoreCategoryViewController: BaseViewController {
     $0.alwaysBounceVertical = true
   }
   
-  init(noticeType: NoticeType, viewModel: SelectedCategoryNoticeViewModelType = SelectedCategoryNoticeViewModel()) {
+  init(viewModel: SelectedCategoryNoticeViewModel) {
     self.viewModel = viewModel
-    self.noticeType = noticeType
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -49,9 +47,12 @@ final class MoreCategoryViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    viewModel.noticeType.onNext(noticeType)
+    let input = SelectedCategoryNoticeViewModel.Input(viewDidLoad: .just(()))
+    let output = viewModel.transform(input: input)
     
-    viewModel.noticeCollectionViewCellModel
+    output.noticeCollectionViewCellModelRelay
+      .asDriver()
+      .filter { !$0.isEmpty }
       .drive(with: self) { owner, noticeModel in
         owner.noticeModel = noticeModel
         
@@ -66,12 +67,13 @@ final class MoreCategoryViewController: BaseViewController {
         let contentHeight = owner.noticeCollectionView.contentSize.height
         
         if offSetY > (contentHeight - owner.noticeCollectionView.frame.size.height - 92 * 3) {
-          owner.viewModel.fetchMoreDatas.onNext(())
+          input.fetchMoreDatas.onNext(())
         }
       }
       .disposed(by: disposeBag)
     
-    viewModel.errorMessage
+    output.errorMessageRelay
+      .asSignal()
       .emit(with: self) { owner, error in
         if error == .networkError {
           AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
@@ -90,7 +92,6 @@ final class MoreCategoryViewController: BaseViewController {
     super.setupStyles()
     setupBackButton()
     setupSkeletonView()
-    navigationController?.interactivePopGestureRecognizer?.delegate = self
   }
   
   override func setupLayouts() {
@@ -108,7 +109,14 @@ final class MoreCategoryViewController: BaseViewController {
 
 extension MoreCategoryViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let vc = NoticeDetailViewController(type: noticeType, path: noticeModel[indexPath.row].path)
+    let vc = NoticeDetailViewController(
+      viewModel: NoticeDetailViewModel(
+        payLoad: .init(
+          type: viewModel.payLoad.noticeType,
+          path: noticeModel[indexPath.row].path
+        )
+      )
+    )
     vc.navigationItem.largeTitleDisplayMode = .never
     navigationController?.pushViewController(vc, animated: true)
   }
@@ -163,10 +171,6 @@ extension MoreCategoryViewController: SkeletonCollectionViewDataSource {
     NoticeCollectionViewCell.reuseIdentifier
   }
   
-  func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    skeletonView.dequeueReusableCell(NoticeCollectionViewCell.self, for: indexPath)
-  }
-  
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     10
   }
@@ -176,9 +180,5 @@ extension MoreCategoryViewController: UIGestureRecognizerDelegate {
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true
-  }
-  
-  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    return true // or false
   }
 }
