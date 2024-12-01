@@ -8,7 +8,6 @@
 import UIKit
 
 protocol Coordinator: AnyObject {
-  var navigationController: UINavigationController { get }
   var parentCoordinator: Coordinator? { get set }
   var childCoordinators: [Coordinator] { get set }
   func start()
@@ -19,3 +18,9 @@ extension Coordinator {
     childCoordinators.removeAll { $0 === child }
   }
 }
+
+/// UINavigation에 속한 ViewController에서 사용할 Coordinator
+protocol NavigationCoordinator: Coordinator {
+  var navigationController: UINavigationController { get }
+}
+

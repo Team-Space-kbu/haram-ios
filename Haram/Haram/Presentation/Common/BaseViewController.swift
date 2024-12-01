@@ -97,6 +97,15 @@ class BaseViewController: UIViewController {
   /// ```
   func bind() { }
   
+  func setupBackButton() {
+    navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(resource: .back).withRenderingMode(.alwaysOriginal),
+      style: .plain,
+      target: self,
+      action: nil
+    )
+  }
+  
   func setupSkeletonView() {
     /// Configure Skeleton UI
     view.isSkeletonable = true
