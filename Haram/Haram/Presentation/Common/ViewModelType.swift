@@ -10,6 +10,8 @@ import RxSwift
 protocol ViewModelType {
   associatedtype Input
   associatedtype Output
+  associatedtype Dependency
+  associatedtype Payload
   
   @discardableResult
   func transform(input: Input) -> Output

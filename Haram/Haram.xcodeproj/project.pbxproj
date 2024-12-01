@@ -247,7 +247,6 @@
 		70A24EC32BBC7F1A00572FAE /* InquireRothemNoticeDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A24EC22BBC7F1A00572FAE /* InquireRothemNoticeDetailResponse.swift */; };
 		70A24EC52BBC7FAA00572FAE /* RothemNoticeDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A24EC42BBC7FAA00572FAE /* RothemNoticeDetailViewModel.swift */; };
 		70A24EC72BBD717100572FAE /* EmptyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A24EC62BBD717100572FAE /* EmptyCollectionViewCell.swift */; };
-		70A24EC92BBD89FF00572FAE /* HomeNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A24EC82BBD89FF00572FAE /* HomeNoticeViewController.swift */; };
 		70A24ECB2BBEBC1900572FAE /* InquireBibleDetailInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A24ECA2BBEBC1900572FAE /* InquireBibleDetailInfoResponse.swift */; };
 		70A24ECD2BBED36000572FAE /* ZoomImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A24ECC2BBED36000572FAE /* ZoomImageViewController.swift */; };
 		70A24ED32BC44C4F00572FAE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70A24ED22BC44C4F00572FAE /* GoogleService-Info.plist */; };
@@ -320,6 +319,40 @@
 		70AED7A42CDB6AE800AB22C5 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7A32CDB6AE800AB22C5 /* NavigationController.swift */; };
 		70AED7A72CDB804200AB22C5 /* LectureScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7A62CDB804200AB22C5 /* LectureScheduleViewController.swift */; };
 		70AED7A92CDB805A00AB22C5 /* LectureScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7A82CDB805A00AB22C5 /* LectureScheduleViewModel.swift */; };
+		70AED7AC2CDDF99000AB22C5 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7AB2CDDF99000AB22C5 /* HomeCoordinator.swift */; };
+		70AED7AE2CDDFA0200AB22C5 /* BoardCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7AD2CDDFA0200AB22C5 /* BoardCoordinator.swift */; };
+		70AED7B02CDDFA0C00AB22C5 /* MyPageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7AF2CDDFA0C00AB22C5 /* MyPageCoordinator.swift */; };
+		70AED7B22CDDFD8800AB22C5 /* MainTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7B12CDDFD8800AB22C5 /* MainTabCoordinator.swift */; };
+		70AED7B42CE9DA4400AB22C5 /* NewAccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7B32CE9DA4400AB22C5 /* NewAccountCoordinator.swift */; };
+		70AED7B62CE9E01000AB22C5 /* FindAccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7B52CE9E01000AB22C5 /* FindAccountCoordinator.swift */; };
+		70AED7B82CE9E67400AB22C5 /* FindPasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7B72CE9E67400AB22C5 /* FindPasswordCoordinator.swift */; };
+		70AED7BB2CE9E97D00AB22C5 /* CheckEmailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7BA2CE9E97D00AB22C5 /* CheckEmailCoordinator.swift */; };
+		70AED7BE2CE9EC7D00AB22C5 /* FindIDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7BD2CE9EC7D00AB22C5 /* FindIDViewModel.swift */; };
+		70AED7C02CE9ECBC00AB22C5 /* FindIDCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7BF2CE9ECBC00AB22C5 /* FindIDCoordinator.swift */; };
+		70AED7C32CE9EEA600AB22C5 /* VerifyEmailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7C22CE9EEA600AB22C5 /* VerifyEmailCoordinator.swift */; };
+		70AED7C62CE9F39800AB22C5 /* CheckAuthCodeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7C52CE9F39800AB22C5 /* CheckAuthCodeCoordinator.swift */; };
+		70AED7CB2CEB2A8C00AB22C5 /* TermsOfUseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7CA2CEB2A8C00AB22C5 /* TermsOfUseCoordinator.swift */; };
+		70AED7CF2CEB3FEA00AB22C5 /* LibraryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7CE2CEB3FEA00AB22C5 /* LibraryCoordinator.swift */; };
+		70AED7D12CEB737E00AB22C5 /* LectureListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7D02CEB737E00AB22C5 /* LectureListCoordinator.swift */; };
+		70AED7D32CEB74C800AB22C5 /* LectureScheduleCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7D22CEB74C800AB22C5 /* LectureScheduleCoordinator.swift */; };
+		70AED7D62CEE109800AB22C5 /* ChapelCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7D52CEE109800AB22C5 /* ChapelCoordinator.swift */; };
+		70AED7D82CEE3DC100AB22C5 /* NoticeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7D72CEE3DC100AB22C5 /* NoticeCoordinator.swift */; };
+		70AED7DA2CEE3F3E00AB22C5 /* CoursePlanCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7D92CEE3F3E00AB22C5 /* CoursePlanCoordinator.swift */; };
+		70AED7DC2CEE3F6200AB22C5 /* AffiliatedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7DB2CEE3F6200AB22C5 /* AffiliatedCoordinator.swift */; };
+		70AED7DF2CEE3F9D00AB22C5 /* ScheduleCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7DE2CEE3F9D00AB22C5 /* ScheduleCoordinator.swift */; };
+		70AED7E12CEE3FD200AB22C5 /* RothemRoomCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7E02CEE3FD200AB22C5 /* RothemRoomCoordinator.swift */; };
+		70AED7E42CEF603B00AB22C5 /* CheckReservationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7E32CEF603B00AB22C5 /* CheckReservationCoordinator.swift */; };
+		70AED7E82CEF70DC00AB22C5 /* StudyRoomDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7E72CEF70DC00AB22C5 /* StudyRoomDetailCoordinator.swift */; };
+		70AED7EA2CEF9D2F00AB22C5 /* AffiliatedDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7E92CEF9D2F00AB22C5 /* AffiliatedDetailCoordinator.swift */; };
+		70AED7FF2CEFA78D00AB22C5 /* NoticeDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED7FE2CEFA78D00AB22C5 /* NoticeDetailCoordinator.swift */; };
+		70AED8012CEFA7A000AB22C5 /* SelectedCategoryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED8002CEFA7A000AB22C5 /* SelectedCategoryCoordinator.swift */; };
+		70AED8032CF0B16A00AB22C5 /* LectureInfoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED8022CF0B16A00AB22C5 /* LectureInfoCoordinator.swift */; };
+		70AED8052CF1CEFB00AB22C5 /* BannerDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED8042CF1CEFB00AB22C5 /* BannerDetailCoordinator.swift */; };
+		70AED8072CF230EF00AB22C5 /* MoreCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED8062CF230EF00AB22C5 /* MoreCategoryViewModel.swift */; };
+		70AED8092CF2312F00AB22C5 /* MoreCategoryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED8082CF2312F00AB22C5 /* MoreCategoryCoordinator.swift */; };
+		70AED80B2CF33FA100AB22C5 /* AnimationCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED80A2CF33FA100AB22C5 /* AnimationCollectionView.swift */; };
+		70AED8122CF47A2E00AB22C5 /* BoardListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED8112CF47A2E00AB22C5 /* BoardListCoordinator.swift */; };
+		70AED8142CF5D08400AB22C5 /* BoardDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70AED8132CF5D08400AB22C5 /* BoardDetailCoordinator.swift */; };
 		70B310922BA1798200EF21CE /* Ex + UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310912BA1798200EF21CE /* Ex + UIButton.swift */; };
 		70B310942BA1DAFD00EF21CE /* MoreCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310932BA1DAFD00EF21CE /* MoreCategoryViewController.swift */; };
 		70B310962BA73C7D00EF21CE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B310952BA73C7D00EF21CE /* NetworkManager.swift */; };
@@ -388,7 +421,7 @@
 		701F29DB2AEBB29C00E3E68B /* BibleNoticeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleNoticeResponse.swift; sourceTree = "<group>"; };
 		701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReservationViewModel.swift; sourceTree = "<group>"; };
 		701FC8922B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Pods-Haram-acknowledgements.plist"; sourceTree = "<group>"; };
-		701FC8942B97000700291FC3 /* CustomAcknowListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAcknowListViewController.swift; sourceTree = "<group>"; };
+		701FC8942B97000700291FC3 /* CustomAcknowListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomAcknowListViewController.swift; path = "../New Group/CustomAcknowListViewController.swift"; sourceTree = "<group>"; };
 		701FC8962B97127500291FC3 /* EditBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardViewController.swift; sourceTree = "<group>"; };
 		701FC8982B9736B900291FC3 /* EditBoardBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardBottomSheetViewController.swift; sourceTree = "<group>"; };
 		701FC89A2B97565F00291FC3 /* EditBoardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBoardCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -614,7 +647,6 @@
 		70A24EC22BBC7F1A00572FAE /* InquireRothemNoticeDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireRothemNoticeDetailResponse.swift; sourceTree = "<group>"; };
 		70A24EC42BBC7FAA00572FAE /* RothemNoticeDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemNoticeDetailViewModel.swift; sourceTree = "<group>"; };
 		70A24EC62BBD717100572FAE /* EmptyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCollectionViewCell.swift; sourceTree = "<group>"; };
-		70A24EC82BBD89FF00572FAE /* HomeNoticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNoticeViewController.swift; sourceTree = "<group>"; };
 		70A24ECA2BBEBC1900572FAE /* InquireBibleDetailInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBibleDetailInfoResponse.swift; sourceTree = "<group>"; };
 		70A24ECC2BBED36000572FAE /* ZoomImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomImageViewController.swift; sourceTree = "<group>"; };
 		70A24ED22BC44C4F00572FAE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -686,6 +718,40 @@
 		70AED7A32CDB6AE800AB22C5 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		70AED7A62CDB804200AB22C5 /* LectureScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureScheduleViewController.swift; sourceTree = "<group>"; };
 		70AED7A82CDB805A00AB22C5 /* LectureScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureScheduleViewModel.swift; sourceTree = "<group>"; };
+		70AED7AB2CDDF99000AB22C5 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
+		70AED7AD2CDDFA0200AB22C5 /* BoardCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCoordinator.swift; sourceTree = "<group>"; };
+		70AED7AF2CDDFA0C00AB22C5 /* MyPageCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCoordinator.swift; sourceTree = "<group>"; };
+		70AED7B12CDDFD8800AB22C5 /* MainTabCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabCoordinator.swift; sourceTree = "<group>"; };
+		70AED7B32CE9DA4400AB22C5 /* NewAccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAccountCoordinator.swift; sourceTree = "<group>"; };
+		70AED7B52CE9E01000AB22C5 /* FindAccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountCoordinator.swift; sourceTree = "<group>"; };
+		70AED7B72CE9E67400AB22C5 /* FindPasswordCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordCoordinator.swift; sourceTree = "<group>"; };
+		70AED7BA2CE9E97D00AB22C5 /* CheckEmailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckEmailCoordinator.swift; sourceTree = "<group>"; };
+		70AED7BD2CE9EC7D00AB22C5 /* FindIDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDViewModel.swift; sourceTree = "<group>"; };
+		70AED7BF2CE9ECBC00AB22C5 /* FindIDCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDCoordinator.swift; sourceTree = "<group>"; };
+		70AED7C22CE9EEA600AB22C5 /* VerifyEmailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyEmailCoordinator.swift; sourceTree = "<group>"; };
+		70AED7C52CE9F39800AB22C5 /* CheckAuthCodeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckAuthCodeCoordinator.swift; sourceTree = "<group>"; };
+		70AED7CA2CEB2A8C00AB22C5 /* TermsOfUseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseCoordinator.swift; sourceTree = "<group>"; };
+		70AED7CE2CEB3FEA00AB22C5 /* LibraryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCoordinator.swift; sourceTree = "<group>"; };
+		70AED7D02CEB737E00AB22C5 /* LectureListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureListCoordinator.swift; sourceTree = "<group>"; };
+		70AED7D22CEB74C800AB22C5 /* LectureScheduleCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureScheduleCoordinator.swift; sourceTree = "<group>"; };
+		70AED7D52CEE109800AB22C5 /* ChapelCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelCoordinator.swift; sourceTree = "<group>"; };
+		70AED7D72CEE3DC100AB22C5 /* NoticeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCoordinator.swift; sourceTree = "<group>"; };
+		70AED7D92CEE3F3E00AB22C5 /* CoursePlanCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursePlanCoordinator.swift; sourceTree = "<group>"; };
+		70AED7DB2CEE3F6200AB22C5 /* AffiliatedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedCoordinator.swift; sourceTree = "<group>"; };
+		70AED7DE2CEE3F9D00AB22C5 /* ScheduleCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCoordinator.swift; sourceTree = "<group>"; };
+		70AED7E02CEE3FD200AB22C5 /* RothemRoomCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RothemRoomCoordinator.swift; sourceTree = "<group>"; };
+		70AED7E32CEF603B00AB22C5 /* CheckReservationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReservationCoordinator.swift; sourceTree = "<group>"; };
+		70AED7E72CEF70DC00AB22C5 /* StudyRoomDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyRoomDetailCoordinator.swift; sourceTree = "<group>"; };
+		70AED7E92CEF9D2F00AB22C5 /* AffiliatedDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedDetailCoordinator.swift; sourceTree = "<group>"; };
+		70AED7FE2CEFA78D00AB22C5 /* NoticeDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailCoordinator.swift; sourceTree = "<group>"; };
+		70AED8002CEFA7A000AB22C5 /* SelectedCategoryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryCoordinator.swift; sourceTree = "<group>"; };
+		70AED8022CF0B16A00AB22C5 /* LectureInfoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureInfoCoordinator.swift; sourceTree = "<group>"; };
+		70AED8042CF1CEFB00AB22C5 /* BannerDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerDetailCoordinator.swift; sourceTree = "<group>"; };
+		70AED8062CF230EF00AB22C5 /* MoreCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCategoryViewModel.swift; sourceTree = "<group>"; };
+		70AED8082CF2312F00AB22C5 /* MoreCategoryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCategoryCoordinator.swift; sourceTree = "<group>"; };
+		70AED80A2CF33FA100AB22C5 /* AnimationCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationCollectionView.swift; sourceTree = "<group>"; };
+		70AED8112CF47A2E00AB22C5 /* BoardListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardListCoordinator.swift; sourceTree = "<group>"; };
+		70AED8132CF5D08400AB22C5 /* BoardDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCoordinator.swift; sourceTree = "<group>"; };
 		70B310912BA1798200EF21CE /* Ex + UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIButton.swift"; sourceTree = "<group>"; };
 		70B310932BA1DAFD00EF21CE /* MoreCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCategoryViewController.swift; sourceTree = "<group>"; };
 		70B310952BA73C7D00EF21CE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -787,89 +853,6 @@
 			path = Image;
 			sourceTree = "<group>";
 		};
-		7031E3CC2ABA74520027DC0A /* Board */ = {
-			isa = PBXGroup;
-			children = (
-				7031E3D12ABA80BA0027DC0A /* CommentAuthorInfoView.swift */,
-				70864F312AF9502600CD4124 /* CommentInputView.swift */,
-				701FC8982B9736B900291FC3 /* EditBoardBottomSheetViewController.swift */,
-			);
-			path = Board;
-			sourceTree = "<group>";
-		};
-		7032FD5C2B594A7800B8481C /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				708ED79C2A8E817F00107CDF /* EmptyView.swift */,
-				708312B72A77E36900F7E283 /* HaramTextField.swift */,
-				708312BF2A7A448300F7E283 /* TermsOfUseCheckView.swift */,
-				708312AB2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift */,
-				708312C12A7A6F2900F7E283 /* PaddingLabel.swift */,
-				708ED7D32A9228D200107CDF /* BottomSheetViewController.swift */,
-				70375F152AB1B0500032F6B8 /* HaramToast.swift */,
-				701FC89E2B9B5FA700291FC3 /* CheckBoxControl.swift */,
-				70A24EC62BBD717100572FAE /* EmptyCollectionViewCell.swift */,
-				70A24ECC2BBED36000572FAE /* ZoomImageViewController.swift */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
-		70375EFF2AAA024A0032F6B8 /* Library */ = {
-			isa = PBXGroup;
-			children = (
-				70375EFD2AAA022A0032F6B8 /* LibraryRentalView.swift */,
-				705FD2BE2A1A4D2E00F353FE /* LibraryDetailMainView.swift */,
-				708312472A2F7EC300F7E283 /* LibraryDetailSubView.swift */,
-				708312492A2F856700F7E283 /* LibraryDetailInfoView.swift */,
-				708312652A398C0D00F7E283 /* LibraryRentalListView.swift */,
-				70DC8F5A2C9C8B77006DDAF7 /* LibraryRecommendedView.swift */,
-			);
-			path = Library;
-			sourceTree = "<group>";
-		};
-		70375F002AAA02570032F6B8 /* Chapel */ = {
-			isa = PBXGroup;
-			children = (
-				70C9CCAD2A066B8F00BEB5F2 /* ChapelDetailInfoView.swift */,
-				70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */,
-				70AD2A972B93837300CB9791 /* IntranetAlertView.swift */,
-				70DC8F5E2C9F3DE2006DDAF7 /* ChapelListView.swift */,
-				70DC8F602CA16EF4006DDAF7 /* ChapelAlertView.swift */,
-			);
-			path = Chapel;
-			sourceTree = "<group>";
-		};
-		70375F012AAA02660032F6B8 /* Rothem */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7D52A9230FF00107CDF /* BibleBottomSheetViewController.swift */,
-				708ED79E2A8F65A100107CDF /* CheckReservationInfoView.swift */,
-				708ED7B02A90CC0C00107CDF /* StudyRoomInfoView.swift */,
-				708ED7B42A90D61000107CDF /* StudyRoomDetailView.swift */,
-				70912FF92B15EF2C005B88B4 /* RothemReservationInfoView.swift */,
-			);
-			path = Rothem;
-			sourceTree = "<group>";
-		};
-		70375F0C2AB1AA8F0032F6B8 /* Bible */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7CE2A91F13600107CDF /* BibleSearchView.swift */,
-				70375F0D2AB1AA9F0032F6B8 /* BibleTitleView.swift */,
-			);
-			path = Bible;
-			sourceTree = "<group>";
-		};
-		70375F0F2AB1AAC20032F6B8 /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				705FD29E2A15F21F00F353FE /* LoginButton.swift */,
-				705FD2A02A15F75900F353FE /* LoginAlertView.swift */,
-				70903C952ADFA8FE00C6FEF0 /* RerequestAlertView.swift */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
 		7051E4FE2ADAB74700C2134B /* Board */ = {
 			isa = PBXGroup;
 			children = (
@@ -881,25 +864,6 @@
 				70A24ED72BCCE6E000572FAE /* ReportBoardRequest.swift */,
 			);
 			path = Board;
-			sourceTree = "<group>";
-		};
-		705E70B429E1C79500156B1F /* Component */ = {
-			isa = PBXGroup;
-			children = (
-				70AED72F2CB33C5400AB22C5 /* EmptyClass */,
-				70B310A42BB2F09800EF21CE /* Affiliated */,
-				7032FD5C2B594A7800B8481C /* Common */,
-				7031E3CC2ABA74520027DC0A /* Board */,
-				70375F0F2AB1AAC20032F6B8 /* Auth */,
-				70375F0C2AB1AA8F0032F6B8 /* Bible */,
-				70375F012AAA02660032F6B8 /* Rothem */,
-				70375F002AAA02570032F6B8 /* Chapel */,
-				70375EFF2AAA024A0032F6B8 /* Library */,
-				70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */,
-				7032FD5D2B594AC500B8481C /* CheckChapelDayView.swift */,
-				70DC8F582C9C7271006DDAF7 /* HaramDividerView.swift */,
-			);
-			path = Component;
 			sourceTree = "<group>";
 		};
 		705FD2772A10D3BD00F353FE /* Foundation */ = {
@@ -1013,7 +977,6 @@
 				70A24ED22BC44C4F00572FAE /* GoogleService-Info.plist */,
 				70B310BF2BB7231500EF21CE /* Configuration */,
 				701FC8922B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist */,
-				705E70B429E1C79500156B1F /* Component */,
 				708DACF52B35A44D00E3AD45 /* Presentation */,
 				7095D3882AD67C85008DAA39 /* Constants */,
 				708ED7792A7E7B4500107CDF /* HaramRelease.entitlements */,
@@ -1136,7 +1099,6 @@
 		708DACF52B35A44D00E3AD45 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */,
 				70AED73C2CB5631F00AB22C5 /* Common */,
 				708ED7A22A8F942500107CDF /* Auth */,
 				708DACF62B35A45700E3AD45 /* CoreTab */,
@@ -1147,6 +1109,8 @@
 		708DACF62B35A45700E3AD45 /* CoreTab */ = {
 			isa = PBXGroup;
 			children = (
+				705FD2AA2A160C1800F353FE /* HaramTabbarController.swift */,
+				70AED7B12CDDFD8800AB22C5 /* MainTabCoordinator.swift */,
 				708DACF72B35A47600E3AD45 /* Home */,
 				708DACF82B35A48000E3AD45 /* Board */,
 				708DACF92B35A48400E3AD45 /* MyPage */,
@@ -1157,8 +1121,13 @@
 		708DACF72B35A47600E3AD45 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				708DACFF2B35A63600E3AD45 /* ViewModel */,
-				708DACFB2B35A54C00E3AD45 /* View */,
+				708DACFD2B35A5AE00E3AD45 /* CustomView */,
+				708E1E632B0778CD0030FAA0 /* PDFViewController.swift */,
+				70727A9429D889C6003DE956 /* HomeViewController.swift */,
+				70AED7AB2CDDF99000AB22C5 /* HomeCoordinator.swift */,
+				708ED7932A8E671200107CDF /* HomeViewModel.swift */,
+				70AED7F52CEFA52000AB22C5 /* BannerDetail */,
+				708DAD012B35A7B800E3AD45 /* Shortcut */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1166,8 +1135,13 @@
 		708DACF82B35A48000E3AD45 /* Board */ = {
 			isa = PBXGroup;
 			children = (
-				708DAD002B35A6B200E3AD45 /* ViewModel */,
-				708DACFC2B35A57300E3AD45 /* View */,
+				70AED81A2CFB3BCD00AB22C5 /* CustomView */,
+				70AD2A6E2B889B1C00CB9791 /* BoardViewModel.swift */,
+				70AED7AD2CDDFA0200AB22C5 /* BoardCoordinator.swift */,
+				70727A9E29D88AAA003DE956 /* BoardViewController.swift */,
+				70AED8182CFB3B6B00AB22C5 /* EditBoard */,
+				70AED8172CFB3B5500AB22C5 /* BoardDetail */,
+				70AED8162CFB3B4400AB22C5 /* BoardList */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -1175,51 +1149,19 @@
 		708DACF92B35A48400E3AD45 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				708DAD122B35ACB900E3AD45 /* ViewModel */,
-				708DACFA2B35A53300E3AD45 /* View */,
+				70AED7FA2CEFA62200AB22C5 /* CustomView */,
+				70AED7AF2CDDFA0C00AB22C5 /* MyPageCoordinator.swift */,
+				70727AA029D88AD0003DE956 /* MoreViewController.swift */,
+				708312922A65638200F7E283 /* MoreViewModel.swift */,
+				70AED7F92CEFA5FB00AB22C5 /* HaramProvision */,
+				70AED7F82CEFA5F300AB22C5 /* MoreCategory */,
+				70AED7F72CEFA5DB00AB22C5 /* CustomAcknowList */,
+				70AED7F62CEFA5C200AB22C5 /* UpdatePassword */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
 		};
-		708DACFA2B35A53300E3AD45 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				708DAD1A2B35AE5C00E3AD45 /* Cells */,
-				70727AA029D88AD0003DE956 /* MoreViewController.swift */,
-				701FC8942B97000700291FC3 /* CustomAcknowListViewController.swift */,
-				70B310932BA1DAFD00EF21CE /* MoreCategoryViewController.swift */,
-				70B310AF2BB3087700EF21CE /* MoreUpdatePasswordViewController.swift */,
-				70A24EB32BB8277C00572FAE /* HaramProvisionViewController.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		708DACFB2B35A54C00E3AD45 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				708DACFD2B35A5AE00E3AD45 /* Cells */,
-				708DAD012B35A7B800E3AD45 /* Shortcut */,
-				70727A9429D889C6003DE956 /* HomeViewController.swift */,
-				708E1E632B0778CD0030FAA0 /* PDFViewController.swift */,
-				70A24EBA2BBC684B00572FAE /* BannerDetailViewController.swift */,
-				70A24EC82BBD89FF00572FAE /* HomeNoticeViewController.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		708DACFC2B35A57300E3AD45 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				708DACFE2B35A5E300E3AD45 /* Cells */,
-				70727A9E29D88AAA003DE956 /* BoardViewController.swift */,
-				708312B12A76940600F7E283 /* BoardListViewController.swift */,
-				7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */,
-				701FC8962B97127500291FC3 /* EditBoardViewController.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		708DACFD2B35A5AE00E3AD45 /* Cells */ = {
+		708DACFD2B35A5AE00E3AD45 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
 				708312552A31975C00F7E283 /* HomeBannerCollectionViewCell.swift */,
@@ -1227,105 +1169,33 @@
 				70727AA729D93F24003DE956 /* HomeNewsCollectionViewCell.swift */,
 				70727AA929D94482003DE956 /* HomeCollectionHeaderView.swift */,
 			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		708DACFE2B35A5E300E3AD45 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */,
-				708312B32A76945000F7E283 /* BoardListCollectionViewCell.swift */,
-				708312B52A779D1A00F7E283 /* BoardTableHeaderView.swift */,
-				7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */,
-				7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */,
-				7031E3D32ABA89160027DC0A /* BoardDetailCommentHeaderView.swift */,
-				709AB6442B77E19B004B0F59 /* BoardImageCollectionViewCell.swift */,
-				701FC89A2B97565F00291FC3 /* EditBoardCollectionViewCell.swift */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		708DACFF2B35A63600E3AD45 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7932A8E671200107CDF /* HomeViewModel.swift */,
-				70A24EBC2BBC6A0600572FAE /* HomeBannerDetailViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		708DAD002B35A6B200E3AD45 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7812A8CC70700107CDF /* BoardListViewModel.swift */,
-				7051E5052ADAF4EF00C2134B /* BoardDetailViewModel.swift */,
-				70AD2A6E2B889B1C00CB9791 /* BoardViewModel.swift */,
-				701FC8A02B9C990200291FC3 /* EditBoardViewModel.swift */,
-			);
-			path = ViewModel;
+			path = CustomView;
 			sourceTree = "<group>";
 		};
 		708DAD012B35A7B800E3AD45 /* Shortcut */ = {
 			isa = PBXGroup;
 			children = (
-				708DAD032B35A7C300E3AD45 /* ViewModel */,
-				708DAD022B35A7BE00E3AD45 /* View */,
-			);
-			path = Shortcut;
-			sourceTree = "<group>";
-		};
-		708DAD022B35A7BE00E3AD45 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				70AED7A52CDB803400AB22C5 /* LectureSchedule */,
-				70AED7542CBAA50B00AB22C5 /* LectureInfo */,
-				70AED74D2CB8083200AB22C5 /* LectureList */,
+				70AED8152CFB3AAB00AB22C5 /* Mileage */,
 				70AED7462CB5989700AB22C5 /* CoursePlan */,
+				70AED7EB2CEFA10600AB22C5 /* Lecture */,
+				70AED7DD2CEE3F8E00AB22C5 /* Schedule */,
+				70AED7D42CEE101200AB22C5 /* Chapel */,
 				70AED72A2CB336D700AB22C5 /* EmptyClass */,
-				708DAD0B2B35AB8800E3AD45 /* Cells */,
 				708DAD102B35AC6D00E3AD45 /* Notice */,
 				708DAD082B35AAC000E3AD45 /* Bible */,
 				708DAD062B35AA3100E3AD45 /* Rothem */,
 				708DAD042B35A9A800E3AD45 /* Library */,
 				708DAD0E2B35AC0A00E3AD45 /* Affiliated */,
-				70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */,
-				70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */,
-				70727AA229D88AEE003DE956 /* ScheduleViewController.swift */,
 			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		708DAD032B35A7C300E3AD45 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				708DAD132B35ACD100E3AD45 /* Affiliated */,
-				708DAD112B35AC8000E3AD45 /* Notice */,
-				708DAD092B35AAD400E3AD45 /* Bible */,
-				708DAD072B35AA4200E3AD45 /* Rothem */,
-				708DAD052B35AA1000E3AD45 /* Library */,
-				7083125F2A388D8B00F7E283 /* ScheduleViewModel.swift */,
-				708312982A691D1700F7E283 /* MileageViewModel.swift */,
-				7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */,
-			);
-			path = ViewModel;
+			path = Shortcut;
 			sourceTree = "<group>";
 		};
 		708DAD042B35A9A800E3AD45 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				705FD2AC2A16160100F353FE /* LibraryViewController.swift */,
-				705FD2AE2A16246F00F353FE /* LibraryResultsViewController.swift */,
-				705FD2BC2A1A4CEE00F353FE /* LibraryDetailViewController.swift */,
-			);
-			path = Library;
-			sourceTree = "<group>";
-		};
-		708DAD052B35AA1000E3AD45 /* Library */ = {
-			isa = PBXGroup;
-			children = (
-				705FD2D02A24DEFC00F353FE /* LibraryViewModel.swift */,
-				708312632A3977B500F7E283 /* LibraryDetailViewModel.swift */,
-				70375EFB2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift */,
+				70AED7F42CEFA40100AB22C5 /* SearchResult */,
+				70AED7F32CEFA3FB00AB22C5 /* LibraryDetail */,
+				70AED7F22CEFA3F500AB22C5 /* LibraryList */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -1333,22 +1203,10 @@
 		708DAD062B35AA3100E3AD45 /* Rothem */ = {
 			isa = PBXGroup;
 			children = (
-				708ED7832A8E017A00107CDF /* RothemRoomListViewController.swift */,
-				708ED7A02A8F922900107CDF /* CheckReservationViewController.swift */,
-				708ED7A62A8FA1C500107CDF /* StudyReservationViewController.swift */,
-				708ED7B22A90D4ED00107CDF /* StudyRoomDetailViewController.swift */,
-			);
-			path = Rothem;
-			sourceTree = "<group>";
-		};
-		708DAD072B35AA4200E3AD45 /* Rothem */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7902A8E0AED00107CDF /* RothemRoomListViewModel.swift */,
-				701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */,
-				701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */,
-				708E1E652B09E0330030FAA0 /* StudyReservationViewModel.swift */,
-				70A24EC42BBC7FAA00572FAE /* RothemNoticeDetailViewModel.swift */,
+				70AED7F02CEFA37900AB22C5 /* RothemReservation */,
+				70AED7E62CEF70B600AB22C5 /* RoomDetail */,
+				70AED7E52CEF6E1B00AB22C5 /* RoomList */,
+				70AED7E22CEF602300AB22C5 /* CheckReservation */,
 			);
 			path = Rothem;
 			sourceTree = "<group>";
@@ -1356,69 +1214,20 @@
 		708DAD082B35AAC000E3AD45 /* Bible */ = {
 			isa = PBXGroup;
 			children = (
+				70AED80E2CF373F600AB22C5 /* CustomView */,
+				708ED7DA2A923B2A00107CDF /* BibleViewModel.swift */,
+				70375F0A2AB055360032F6B8 /* BibleSearchResultViewModel.swift */,
 				708ED7C22A911B4800107CDF /* BibleViewController.swift */,
 				708ED7D12A9203DF00107CDF /* BibleSearchResultViewController.swift */,
 			);
 			path = Bible;
 			sourceTree = "<group>";
 		};
-		708DAD092B35AAD400E3AD45 /* Bible */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7DA2A923B2A00107CDF /* BibleViewModel.swift */,
-				70375F0A2AB055360032F6B8 /* BibleSearchResultViewModel.swift */,
-			);
-			path = Bible;
-			sourceTree = "<group>";
-		};
-		708DAD0B2B35AB8800E3AD45 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				708DAD192B35AE2700E3AD45 /* Notice */,
-				708DAD0F2B35AC3000E3AD45 /* Affiliated */,
-				708ED7872A8E01DC00107CDF /* Rothem */,
-				708ED78B2A8E036700107CDF /* Library */,
-				708ED78C2A8E036F00107CDF /* Chapel */,
-				708DAD0D2B35ABCB00E3AD45 /* Mileage */,
-				708DAD0C2B35ABB000E3AD45 /* Bible */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		708DAD0C2B35ABB000E3AD45 /* Bible */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7C52A911E6C00107CDF /* TodayPrayCollectionViewCell.swift */,
-				708ED7C82A911E8700107CDF /* BibleCollectionHeaderView.swift */,
-				708ED7CA2A91224B00107CDF /* TodayBibleWordCollectionViewCell.swift */,
-				708ED7CC2A9122F900107CDF /* BibleNoticeCollectionViewCell.swift */,
-				708ED7D72A92357600107CDF /* BibleCollectionViewCell.swift */,
-			);
-			path = Bible;
-			sourceTree = "<group>";
-		};
-		708DAD0D2B35ABCB00E3AD45 /* Mileage */ = {
-			isa = PBXGroup;
-			children = (
-				70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */,
-				708312892A655BD900F7E283 /* MileageTableHeaderView.swift */,
-			);
-			path = Mileage;
-			sourceTree = "<group>";
-		};
 		708DAD0E2B35AC0A00E3AD45 /* Affiliated */ = {
 			isa = PBXGroup;
 			children = (
-				708E1E612B044E0F0030FAA0 /* AffiliatedViewController.swift */,
-				70B310A22BB2E8A100EF21CE /* AffiliatedDetailViewController.swift */,
-			);
-			path = Affiliated;
-			sourceTree = "<group>";
-		};
-		708DAD0F2B35AC3000E3AD45 /* Affiliated */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7EC2A9E1D7400107CDF /* AffiliatedCollectionViewCell.swift */,
+				70AED7EE2CEFA1B700AB22C5 /* AffiliatedDetail */,
+				70AED7ED2CEFA1B200AB22C5 /* AffiliatedList */,
 			);
 			path = Affiliated;
 			sourceTree = "<group>";
@@ -1426,151 +1235,21 @@
 		708DAD102B35AC6D00E3AD45 /* Notice */ = {
 			isa = PBXGroup;
 			children = (
-				705FD2C22A2337C800F353FE /* NoticeViewController.swift */,
-				708ED7AE2A8FDA7700107CDF /* NoticeDetailViewController.swift */,
-				7032FD5A2B57E9CE00B8481C /* SelectedCategoryNoticeViewController.swift */,
+				70AED7FD2CEFA75E00AB22C5 /* SelectedCategory */,
+				70AED7FC2CEFA75B00AB22C5 /* NoticeDetail */,
+				70AED7FB2CEFA75700AB22C5 /* NoticeList */,
 			);
 			path = Notice;
-			sourceTree = "<group>";
-		};
-		708DAD112B35AC8000E3AD45 /* Notice */ = {
-			isa = PBXGroup;
-			children = (
-				708312AF2A73E07300F7E283 /* NoticeViewModel.swift */,
-				70A731C42B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift */,
-				70AD2A682B86014100CB9791 /* NoticeDetailViewModel.swift */,
-			);
-			path = Notice;
-			sourceTree = "<group>";
-		};
-		708DAD122B35ACB900E3AD45 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				708312922A65638200F7E283 /* MoreViewModel.swift */,
-				70B310B32BB3F96F00EF21CE /* MoreUpdatePasswordViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		708DAD132B35ACD100E3AD45 /* Affiliated */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7EE2A9E232A00107CDF /* AffiliatedViewModel.swift */,
-				70B310AD2BB2F93400EF21CE /* AffiliatedDetailViewModel.swift */,
-			);
-			path = Affiliated;
 			sourceTree = "<group>";
 		};
 		708DAD142B35AD3F00E3AD45 /* Intranet */ = {
 			isa = PBXGroup;
 			children = (
-				708DAD182B35ADB900E3AD45 /* ViewModel */,
-				708DAD152B35AD4300E3AD45 /* View */,
-			);
-			path = Intranet;
-			sourceTree = "<group>";
-		};
-		708DAD152B35AD4300E3AD45 /* View */ = {
-			isa = PBXGroup;
-			children = (
+				708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */,
 				708312452A2F34DB00F7E283 /* IntranetLoginViewController.swift */,
 				70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */,
 			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		708DAD162B35AD9400E3AD45 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				70AED7882CD4B13100AB22C5 /* NewAccount */,
-				70AED77F2CD42E4900AB22C5 /* FindAccount */,
-				70B3109B2BAB2ED700EF21CE /* Cells */,
-				7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */,
-				70727A9829D88A22003DE956 /* RegisterViewController.swift */,
-				70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */,
-				70727A9129D889AE003DE956 /* LoginViewController.swift */,
-				70AD2A952B93738000CB9791 /* VerifyEmailViewController.swift */,
-				70AED79B2CDA266500AB22C5 /* CheckAuthCodeViewController.swift */,
-				70AED79D2CDA281900AB22C5 /* CheckAuthCodeViewModel.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		708DAD172B35AD9D00E3AD45 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				708312BB2A79247500F7E283 /* RegisterViewModel.swift */,
-				705FD2A82A16031900F353FE /* LoginViewModel.swift */,
-				70AD2A802B8CB8B400CB9791 /* FindPasswordViewModel.swift */,
-				70AD2A842B8CE16C00CB9791 /* UpdatePasswordViewModel.swift */,
-				70AD2A912B90DBEA00CB9791 /* CheckEmailViewModel.swift */,
-				70AD2A992B93908A00CB9791 /* VerifyEmailViewModel.swift */,
-				70B310992BAB02C100EF21CE /* TermsOfUseViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		708DAD182B35ADB900E3AD45 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		708DAD192B35AE2700E3AD45 /* Notice */ = {
-			isa = PBXGroup;
-			children = (
-				708312AD2A73936E00F7E283 /* CategoryCollectionViewCell.swift */,
-				708312A92A723B4D00F7E283 /* NoticeCollectionHeaderView.swift */,
-				705FD2C42A2338DE00F353FE /* NoticeCollectionViewCell.swift */,
-				70AED6632CA9E0A500AB22C5 /* NoticeListView.swift */,
-			);
-			path = Notice;
-			sourceTree = "<group>";
-		};
-		708DAD1A2B35AE5C00E3AD45 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */,
-				708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		708ED7872A8E01DC00107CDF /* Rothem */ = {
-			isa = PBXGroup;
-			children = (
-				708ED7852A8E01CC00107CDF /* StudyListCollectionViewCell.swift */,
-				708ED7882A8E02B800107CDF /* StudyListCollectionHeaderView.swift */,
-				708ED7A82A8FA41300107CDF /* SelectedTimeCollectionViewCell.swift */,
-				708ED7AA2A8FA53F00107CDF /* SelectedTimeCollectionHeaderView.swift */,
-				708ED7AC2A8FAAF600107CDF /* SelectedDayCollectionViewCell.swift */,
-				708ED7DC2A93490E00107CDF /* PopularAmenityCollectionViewCell.swift */,
-			);
-			path = Rothem;
-			sourceTree = "<group>";
-		};
-		708ED78B2A8E036700107CDF /* Library */ = {
-			isa = PBXGroup;
-			children = (
-				705FD2B02A1625EF00F353FE /* LibraryCollectionViewCell.swift */,
-				705FD2B22A16278700F353FE /* LibraryCollectionHeaderView.swift */,
-				705FD2B82A1A3CFB00F353FE /* LibraryResultsCollectionViewCell.swift */,
-				705FD2BA2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift */,
-				70AED77B2CD33FC300AB22C5 /* LibraryBannerCollectionViewCell.swift */,
-			);
-			path = Library;
-			sourceTree = "<group>";
-		};
-		708ED78C2A8E036F00107CDF /* Chapel */ = {
-			isa = PBXGroup;
-			children = (
-				70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */,
-				70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */,
-				70DC8F5C2C9F2B60006DDAF7 /* ChapelDetailCell.swift */,
-			);
-			path = Chapel;
+			path = Intranet;
 			sourceTree = "<group>";
 		};
 		708ED7992A8E6FD100107CDF /* Rothem */ = {
@@ -1592,9 +1271,10 @@
 		708ED7A22A8F942500107CDF /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				70AED7432CB57FD700AB22C5 /* Coordinator */,
-				708DAD172B35AD9D00E3AD45 /* ViewModel */,
-				708DAD162B35AD9400E3AD45 /* View */,
+				70AED7CC2CEB3AD400AB22C5 /* UpdatePassword */,
+				70AED77F2CD42E4900AB22C5 /* FindAccount */,
+				70AED7882CD4B13100AB22C5 /* NewAccount */,
+				70AED7AA2CDCC6A500AB22C5 /* Login */,
 				708DAD142B35AD3F00E3AD45 /* Intranet */,
 			);
 			path = Auth;
@@ -1665,21 +1345,11 @@
 		70AED72A2CB336D700AB22C5 /* EmptyClass */ = {
 			isa = PBXGroup;
 			children = (
+				70AED81B2CFC29C300AB22C5 /* CustomView */,
 				70AED72B2CB336E500AB22C5 /* EmptyClassViewController.swift */,
 				70AED72D2CB3372700AB22C5 /* EmptyClassViewHolder.swift */,
 				70AED7382CB3470700AB22C5 /* EmptyClassViewModel.swift */,
 				70AED73F2CB56A6300AB22C5 /* EmptyClassCoordinator.swift */,
-			);
-			path = EmptyClass;
-			sourceTree = "<group>";
-		};
-		70AED72F2CB33C5400AB22C5 /* EmptyClass */ = {
-			isa = PBXGroup;
-			children = (
-				70AED7302CB33CA200AB22C5 /* AlertInfoViewCell.swift */,
-				70AED7322CB33F7800AB22C5 /* AlertInfoListView.swift */,
-				70AED7342CB3417C00AB22C5 /* ClassListView.swift */,
-				70AED7362CB341CD00AB22C5 /* ClassCollectionViewCell.swift */,
 			);
 			path = EmptyClass;
 			sourceTree = "<group>";
@@ -1696,20 +1366,13 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		70AED7432CB57FD700AB22C5 /* Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-				70AED7442CB57FE100AB22C5 /* LoginCoordinator.swift */,
-			);
-			path = Coordinator;
-			sourceTree = "<group>";
-		};
 		70AED7462CB5989700AB22C5 /* CoursePlan */ = {
 			isa = PBXGroup;
 			children = (
 				70AED7472CB598A200AB22C5 /* CoursePlanViewController.swift */,
 				70AED7492CB598DA00AB22C5 /* CoursePlanViewModel.swift */,
 				70AED74B2CB599D600AB22C5 /* CoursePlanViewHolder.swift */,
+				70AED7D92CEE3F3E00AB22C5 /* CoursePlanCoordinator.swift */,
 			);
 			path = CoursePlan;
 			sourceTree = "<group>";
@@ -1720,6 +1383,7 @@
 				70AED74E2CB8092800AB22C5 /* LectureListViewController.swift */,
 				70AED7502CB8093100AB22C5 /* LectureListViewModel.swift */,
 				70AED7522CB8093800AB22C5 /* LectureListViewHolder.swift */,
+				70AED7D02CEB737E00AB22C5 /* LectureListCoordinator.swift */,
 			);
 			path = LectureList;
 			sourceTree = "<group>";
@@ -1731,6 +1395,7 @@
 				70AED7572CBAA56C00AB22C5 /* LectureInfoViewModel.swift */,
 				70AED7592CBAA57400AB22C5 /* LectureInfoViewHolder.swift */,
 				70AED75B2CBAA7F300AB22C5 /* LectureInfoCollectionViewCell.swift */,
+				70AED8022CF0B16A00AB22C5 /* LectureInfoCoordinator.swift */,
 			);
 			path = LectureInfo;
 			sourceTree = "<group>";
@@ -1747,11 +1412,13 @@
 		70AED77F2CD42E4900AB22C5 /* FindAccount */ = {
 			isa = PBXGroup;
 			children = (
+				70AED7BC2CE9EC6000AB22C5 /* CheckID */,
 				70AED7902CD87CE000AB22C5 /* FindID */,
 				70AED78F2CD87CD600AB22C5 /* FindPassword */,
 				70AED7802CD42E5600AB22C5 /* FindAccountViewController.swift */,
 				70AED7822CD42E9300AB22C5 /* FindAccountViewHolder.swift */,
 				70AED7842CD434D900AB22C5 /* FindAccountViewModel.swift */,
+				70AED7B52CE9E01000AB22C5 /* FindAccountCoordinator.swift */,
 			);
 			path = FindAccount;
 			sourceTree = "<group>";
@@ -1759,9 +1426,12 @@
 		70AED7882CD4B13100AB22C5 /* NewAccount */ = {
 			isa = PBXGroup;
 			children = (
+				70AED7C92CEB290C00AB22C5 /* TermsOfUse */,
+				70AED7C12CE9ED6E00AB22C5 /* SchoolEmail */,
 				70AED7892CD4B14100AB22C5 /* NewAccountViewController.swift */,
 				70AED78B2CD4B14C00AB22C5 /* NewAccountViewHolder.swift */,
 				70AED78D2CD4B15B00AB22C5 /* NewAccountViewModel.swift */,
+				70AED7B32CE9DA4400AB22C5 /* NewAccountCoordinator.swift */,
 			);
 			path = NewAccount;
 			sourceTree = "<group>";
@@ -1769,8 +1439,10 @@
 		70AED78F2CD87CD600AB22C5 /* FindPassword */ = {
 			isa = PBXGroup;
 			children = (
+				70AED7B92CE9E96D00AB22C5 /* CheckEmail */,
+				70AD2A802B8CB8B400CB9791 /* FindPasswordViewModel.swift */,
 				70727A9A29D88A3A003DE956 /* FindPasswordViewController.swift */,
-				70AD2A822B8CBA7200CB9791 /* CheckEmailViewController.swift */,
+				70AED7B72CE9E67400AB22C5 /* FindPasswordCoordinator.swift */,
 			);
 			path = FindPassword;
 			sourceTree = "<group>";
@@ -1779,10 +1451,8 @@
 			isa = PBXGroup;
 			children = (
 				70AED7912CD87CFC00AB22C5 /* FindIDViewController.swift */,
-				70AED7932CD8806600AB22C5 /* CheckIDViewController.swift */,
-				70AED7952CD8813C00AB22C5 /* CheckIDViewModel.swift */,
-				70AED79F2CDB52DE00AB22C5 /* FindIDResultViewController.swift */,
-				70AED7A12CDB548C00AB22C5 /* FindIDResultViewModel.swift */,
+				70AED7BD2CE9EC7D00AB22C5 /* FindIDViewModel.swift */,
+				70AED7BF2CE9ECBC00AB22C5 /* FindIDCoordinator.swift */,
 			);
 			path = FindID;
 			sourceTree = "<group>";
@@ -1792,19 +1462,479 @@
 			children = (
 				70AED7A62CDB804200AB22C5 /* LectureScheduleViewController.swift */,
 				70AED7A82CDB805A00AB22C5 /* LectureScheduleViewModel.swift */,
+				70AED7D22CEB74C800AB22C5 /* LectureScheduleCoordinator.swift */,
 			);
 			path = LectureSchedule;
 			sourceTree = "<group>";
 		};
-		70B3109B2BAB2ED700EF21CE /* Cells */ = {
+		70AED7AA2CDCC6A500AB22C5 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				70AED81F2CFC2B1200AB22C5 /* CustomView */,
+				70727A9129D889AE003DE956 /* LoginViewController.swift */,
+				705FD2A82A16031900F353FE /* LoginViewModel.swift */,
+				70AED7442CB57FE100AB22C5 /* LoginCoordinator.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		70AED7B92CE9E96D00AB22C5 /* CheckEmail */ = {
+			isa = PBXGroup;
+			children = (
+				70AD2A912B90DBEA00CB9791 /* CheckEmailViewModel.swift */,
+				70AD2A822B8CBA7200CB9791 /* CheckEmailViewController.swift */,
+				70AED7BA2CE9E97D00AB22C5 /* CheckEmailCoordinator.swift */,
+			);
+			path = CheckEmail;
+			sourceTree = "<group>";
+		};
+		70AED7BC2CE9EC6000AB22C5 /* CheckID */ = {
+			isa = PBXGroup;
+			children = (
+				70AED7932CD8806600AB22C5 /* CheckIDViewController.swift */,
+				70AED7952CD8813C00AB22C5 /* CheckIDViewModel.swift */,
+				70AED79F2CDB52DE00AB22C5 /* FindIDResultViewController.swift */,
+				70AED7A12CDB548C00AB22C5 /* FindIDResultViewModel.swift */,
+			);
+			path = CheckID;
+			sourceTree = "<group>";
+		};
+		70AED7C12CE9ED6E00AB22C5 /* SchoolEmail */ = {
+			isa = PBXGroup;
+			children = (
+				70AED7C82CE9F9E300AB22C5 /* Register */,
+				70AED7C72CE9F9CE00AB22C5 /* VerifyEmail */,
+				70AED7C42CE9F20F00AB22C5 /* CheckAuthCode */,
+			);
+			path = SchoolEmail;
+			sourceTree = "<group>";
+		};
+		70AED7C42CE9F20F00AB22C5 /* CheckAuthCode */ = {
+			isa = PBXGroup;
+			children = (
+				70AED79B2CDA266500AB22C5 /* CheckAuthCodeViewController.swift */,
+				70AED79D2CDA281900AB22C5 /* CheckAuthCodeViewModel.swift */,
+				70AED7C52CE9F39800AB22C5 /* CheckAuthCodeCoordinator.swift */,
+			);
+			path = CheckAuthCode;
+			sourceTree = "<group>";
+		};
+		70AED7C72CE9F9CE00AB22C5 /* VerifyEmail */ = {
+			isa = PBXGroup;
+			children = (
+				70AD2A992B93908A00CB9791 /* VerifyEmailViewModel.swift */,
+				70AD2A952B93738000CB9791 /* VerifyEmailViewController.swift */,
+				70AED7C22CE9EEA600AB22C5 /* VerifyEmailCoordinator.swift */,
+			);
+			path = VerifyEmail;
+			sourceTree = "<group>";
+		};
+		70AED7C82CE9F9E300AB22C5 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				70727A9829D88A22003DE956 /* RegisterViewController.swift */,
+				708312BB2A79247500F7E283 /* RegisterViewModel.swift */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
+		70AED7C92CEB290C00AB22C5 /* TermsOfUse */ = {
 			isa = PBXGroup;
 			children = (
 				70B3109C2BAB2EE400EF21CE /* TermsOfUseTableViewCell.swift */,
+				7083129E2A6D25E100F7E283 /* TermsOfUseViewController.swift */,
+				70B310992BAB02C100EF21CE /* TermsOfUseViewModel.swift */,
+				70AED7CA2CEB2A8C00AB22C5 /* TermsOfUseCoordinator.swift */,
 			);
-			path = Cells;
+			path = TermsOfUse;
 			sourceTree = "<group>";
 		};
-		70B310A42BB2F09800EF21CE /* Affiliated */ = {
+		70AED7CC2CEB3AD400AB22C5 /* UpdatePassword */ = {
+			isa = PBXGroup;
+			children = (
+				70727A9C29D88A7F003DE956 /* UpdatePasswordViewController.swift */,
+				70AD2A842B8CE16C00CB9791 /* UpdatePasswordViewModel.swift */,
+			);
+			path = UpdatePassword;
+			sourceTree = "<group>";
+		};
+		70AED7D42CEE101200AB22C5 /* Chapel */ = {
+			isa = PBXGroup;
+			children = (
+				70AED7EC2CEFA18F00AB22C5 /* CustomView */,
+				7083129A2A6A909C00F7E283 /* ChapelViewModel.swift */,
+				70C9CCAF2A06700400BEB5F2 /* ChapelViewController.swift */,
+				70AED7D52CEE109800AB22C5 /* ChapelCoordinator.swift */,
+			);
+			path = Chapel;
+			sourceTree = "<group>";
+		};
+		70AED7DD2CEE3F8E00AB22C5 /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
+				7083125F2A388D8B00F7E283 /* ScheduleViewModel.swift */,
+				70727AA229D88AEE003DE956 /* ScheduleViewController.swift */,
+				70AED7DE2CEE3F9D00AB22C5 /* ScheduleCoordinator.swift */,
+			);
+			path = Schedule;
+			sourceTree = "<group>";
+		};
+		70AED7E22CEF602300AB22C5 /* CheckReservation */ = {
+			isa = PBXGroup;
+			children = (
+				70912FF92B15EF2C005B88B4 /* RothemReservationInfoView.swift */,
+				708ED7A02A8F922900107CDF /* CheckReservationViewController.swift */,
+				701F29DD2AEBB7FF00E3E68B /* CheckReservationViewModel.swift */,
+				70AED7E32CEF603B00AB22C5 /* CheckReservationCoordinator.swift */,
+			);
+			path = CheckReservation;
+			sourceTree = "<group>";
+		};
+		70AED7E52CEF6E1B00AB22C5 /* RoomList */ = {
+			isa = PBXGroup;
+			children = (
+				70AED7EF2CEFA32500AB22C5 /* CustomView */,
+				70AED7E02CEE3FD200AB22C5 /* RothemRoomCoordinator.swift */,
+				708ED7902A8E0AED00107CDF /* RothemRoomListViewModel.swift */,
+				708ED7832A8E017A00107CDF /* RothemRoomListViewController.swift */,
+			);
+			path = RoomList;
+			sourceTree = "<group>";
+		};
+		70AED7E62CEF70B600AB22C5 /* RoomDetail */ = {
+			isa = PBXGroup;
+			children = (
+				70AED81E2CFC2A8E00AB22C5 /* CustomView */,
+				70A24EC42BBC7FAA00572FAE /* RothemNoticeDetailViewModel.swift */,
+				701F29D82AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift */,
+				708ED7B22A90D4ED00107CDF /* StudyRoomDetailViewController.swift */,
+				70AED7E72CEF70DC00AB22C5 /* StudyRoomDetailCoordinator.swift */,
+			);
+			path = RoomDetail;
+			sourceTree = "<group>";
+		};
+		70AED7EB2CEFA10600AB22C5 /* Lecture */ = {
+			isa = PBXGroup;
+			children = (
+				70AED7A52CDB803400AB22C5 /* LectureSchedule */,
+				70AED7542CBAA50B00AB22C5 /* LectureInfo */,
+				70AED74D2CB8083200AB22C5 /* LectureList */,
+			);
+			path = Lecture;
+			sourceTree = "<group>";
+		};
+		70AED7EC2CEFA18F00AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				70C9CCAD2A066B8F00BEB5F2 /* ChapelDetailInfoView.swift */,
+				70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */,
+				70AD2A972B93837300CB9791 /* IntranetAlertView.swift */,
+				70DC8F5E2C9F3DE2006DDAF7 /* ChapelListView.swift */,
+				70DC8F602CA16EF4006DDAF7 /* ChapelAlertView.swift */,
+				70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */,
+				70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */,
+				70DC8F5C2C9F2B60006DDAF7 /* ChapelDetailCell.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED7ED2CEFA1B200AB22C5 /* AffiliatedList */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7EE2A9E232A00107CDF /* AffiliatedViewModel.swift */,
+				708ED7EC2A9E1D7400107CDF /* AffiliatedCollectionViewCell.swift */,
+				70AED7DB2CEE3F6200AB22C5 /* AffiliatedCoordinator.swift */,
+				708E1E612B044E0F0030FAA0 /* AffiliatedViewController.swift */,
+			);
+			path = AffiliatedList;
+			sourceTree = "<group>";
+		};
+		70AED7EE2CEFA1B700AB22C5 /* AffiliatedDetail */ = {
+			isa = PBXGroup;
+			children = (
+				70AED81C2CFC29E500AB22C5 /* CustomView */,
+				70B310AD2BB2F93400EF21CE /* AffiliatedDetailViewModel.swift */,
+				70AED7E92CEF9D2F00AB22C5 /* AffiliatedDetailCoordinator.swift */,
+				70B310A22BB2E8A100EF21CE /* AffiliatedDetailViewController.swift */,
+			);
+			path = AffiliatedDetail;
+			sourceTree = "<group>";
+		};
+		70AED7EF2CEFA32500AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				708ED79E2A8F65A100107CDF /* CheckReservationInfoView.swift */,
+				708ED7852A8E01CC00107CDF /* StudyListCollectionViewCell.swift */,
+				708ED7882A8E02B800107CDF /* StudyListCollectionHeaderView.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED7F02CEFA37900AB22C5 /* RothemReservation */ = {
+			isa = PBXGroup;
+			children = (
+				70AED7F12CEFA38300AB22C5 /* CustomView */,
+				708E1E652B09E0330030FAA0 /* StudyReservationViewModel.swift */,
+				708ED7A62A8FA1C500107CDF /* StudyReservationViewController.swift */,
+			);
+			path = RothemReservation;
+			sourceTree = "<group>";
+		};
+		70AED7F12CEFA38300AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7A82A8FA41300107CDF /* SelectedTimeCollectionViewCell.swift */,
+				708ED7AA2A8FA53F00107CDF /* SelectedTimeCollectionHeaderView.swift */,
+				708ED7AC2A8FAAF600107CDF /* SelectedDayCollectionViewCell.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED7F22CEFA3F500AB22C5 /* LibraryList */ = {
+			isa = PBXGroup;
+			children = (
+				70AED80F2CF375C500AB22C5 /* CustomView */,
+				705FD2AC2A16160100F353FE /* LibraryViewController.swift */,
+				705FD2D02A24DEFC00F353FE /* LibraryViewModel.swift */,
+				70AED7CE2CEB3FEA00AB22C5 /* LibraryCoordinator.swift */,
+			);
+			path = LibraryList;
+			sourceTree = "<group>";
+		};
+		70AED7F32CEFA3FB00AB22C5 /* LibraryDetail */ = {
+			isa = PBXGroup;
+			children = (
+				70AED81D2CFC2A1800AB22C5 /* CustomView */,
+				708312632A3977B500F7E283 /* LibraryDetailViewModel.swift */,
+				705FD2BC2A1A4CEE00F353FE /* LibraryDetailViewController.swift */,
+			);
+			path = LibraryDetail;
+			sourceTree = "<group>";
+		};
+		70AED7F42CEFA40100AB22C5 /* SearchResult */ = {
+			isa = PBXGroup;
+			children = (
+				70AED8102CF375DC00AB22C5 /* CustomView */,
+				70375EFB2AA5F29D0032F6B8 /* LibraryResultsViewModel.swift */,
+				705FD2AE2A16246F00F353FE /* LibraryResultsViewController.swift */,
+			);
+			path = SearchResult;
+			sourceTree = "<group>";
+		};
+		70AED7F52CEFA52000AB22C5 /* BannerDetail */ = {
+			isa = PBXGroup;
+			children = (
+				70A24EBA2BBC684B00572FAE /* BannerDetailViewController.swift */,
+				70A24EBC2BBC6A0600572FAE /* HomeBannerDetailViewModel.swift */,
+				70AED8042CF1CEFB00AB22C5 /* BannerDetailCoordinator.swift */,
+			);
+			path = BannerDetail;
+			sourceTree = "<group>";
+		};
+		70AED7F62CEFA5C200AB22C5 /* UpdatePassword */ = {
+			isa = PBXGroup;
+			children = (
+				70B310AF2BB3087700EF21CE /* MoreUpdatePasswordViewController.swift */,
+				70B310B32BB3F96F00EF21CE /* MoreUpdatePasswordViewModel.swift */,
+			);
+			path = UpdatePassword;
+			sourceTree = "<group>";
+		};
+		70AED7F72CEFA5DB00AB22C5 /* CustomAcknowList */ = {
+			isa = PBXGroup;
+			children = (
+				701FC8942B97000700291FC3 /* CustomAcknowListViewController.swift */,
+			);
+			path = CustomAcknowList;
+			sourceTree = "<group>";
+		};
+		70AED7F82CEFA5F300AB22C5 /* MoreCategory */ = {
+			isa = PBXGroup;
+			children = (
+				70B310932BA1DAFD00EF21CE /* MoreCategoryViewController.swift */,
+				70AED8062CF230EF00AB22C5 /* MoreCategoryViewModel.swift */,
+				70AED8082CF2312F00AB22C5 /* MoreCategoryCoordinator.swift */,
+			);
+			path = MoreCategory;
+			sourceTree = "<group>";
+		};
+		70AED7F92CEFA5FB00AB22C5 /* HaramProvision */ = {
+			isa = PBXGroup;
+			children = (
+				70A24EB32BB8277C00572FAE /* HaramProvisionViewController.swift */,
+			);
+			path = HaramProvision;
+			sourceTree = "<group>";
+		};
+		70AED7FA2CEFA62200AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				708ED77C2A8239B700107CDF /* MoreTableViewCell.swift */,
+				708ED77E2A823B2900107CDF /* SettingTableViewCell.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED7FB2CEFA75700AB22C5 /* NoticeList */ = {
+			isa = PBXGroup;
+			children = (
+				70AED80D2CF373C600AB22C5 /* CustomView */,
+				708312AF2A73E07300F7E283 /* NoticeViewModel.swift */,
+				70AED7D72CEE3DC100AB22C5 /* NoticeCoordinator.swift */,
+				705FD2C22A2337C800F353FE /* NoticeViewController.swift */,
+			);
+			path = NoticeList;
+			sourceTree = "<group>";
+		};
+		70AED7FC2CEFA75B00AB22C5 /* NoticeDetail */ = {
+			isa = PBXGroup;
+			children = (
+				70AD2A682B86014100CB9791 /* NoticeDetailViewModel.swift */,
+				708ED7AE2A8FDA7700107CDF /* NoticeDetailViewController.swift */,
+				70AED7FE2CEFA78D00AB22C5 /* NoticeDetailCoordinator.swift */,
+			);
+			path = NoticeDetail;
+			sourceTree = "<group>";
+		};
+		70AED7FD2CEFA75E00AB22C5 /* SelectedCategory */ = {
+			isa = PBXGroup;
+			children = (
+				70AED80C2CF373AF00AB22C5 /* CustomView */,
+				70A731C42B84E3E5007EA1B4 /* SelectedCategoryNoticeViewModel.swift */,
+				7032FD5A2B57E9CE00B8481C /* SelectedCategoryNoticeViewController.swift */,
+				70AED8002CEFA7A000AB22C5 /* SelectedCategoryCoordinator.swift */,
+			);
+			path = SelectedCategory;
+			sourceTree = "<group>";
+		};
+		70AED80C2CF373AF00AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				708312AD2A73936E00F7E283 /* CategoryCollectionViewCell.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED80D2CF373C600AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				70AED6632CA9E0A500AB22C5 /* NoticeListView.swift */,
+				708312A92A723B4D00F7E283 /* NoticeCollectionHeaderView.swift */,
+				705FD2C42A2338DE00F353FE /* NoticeCollectionViewCell.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED80E2CF373F600AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7CE2A91F13600107CDF /* BibleSearchView.swift */,
+				70375F0D2AB1AA9F0032F6B8 /* BibleTitleView.swift */,
+				708ED7C52A911E6C00107CDF /* TodayPrayCollectionViewCell.swift */,
+				708ED7C82A911E8700107CDF /* BibleCollectionHeaderView.swift */,
+				708ED7CA2A91224B00107CDF /* TodayBibleWordCollectionViewCell.swift */,
+				708ED7CC2A9122F900107CDF /* BibleNoticeCollectionViewCell.swift */,
+				708ED7D72A92357600107CDF /* BibleCollectionViewCell.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED80F2CF375C500AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				70AED77B2CD33FC300AB22C5 /* LibraryBannerCollectionViewCell.swift */,
+				705FD2B02A1625EF00F353FE /* LibraryCollectionViewCell.swift */,
+				705FD2B22A16278700F353FE /* LibraryCollectionHeaderView.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED8102CF375DC00AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				705FD2B82A1A3CFB00F353FE /* LibraryResultsCollectionViewCell.swift */,
+				705FD2BA2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED8152CFB3AAB00AB22C5 /* Mileage */ = {
+			isa = PBXGroup;
+			children = (
+				708312982A691D1700F7E283 /* MileageViewModel.swift */,
+				708312892A655BD900F7E283 /* MileageTableHeaderView.swift */,
+				70C9CCA92A054D4600BEB5F2 /* MileageTableViewCell.swift */,
+				70C9CCA72A054CB500BEB5F2 /* MileageViewController.swift */,
+			);
+			path = Mileage;
+			sourceTree = "<group>";
+		};
+		70AED8162CFB3B4400AB22C5 /* BoardList */ = {
+			isa = PBXGroup;
+			children = (
+				708312B32A76945000F7E283 /* BoardListCollectionViewCell.swift */,
+				708ED7812A8CC70700107CDF /* BoardListViewModel.swift */,
+				70AED8112CF47A2E00AB22C5 /* BoardListCoordinator.swift */,
+				708312B12A76940600F7E283 /* BoardListViewController.swift */,
+			);
+			path = BoardList;
+			sourceTree = "<group>";
+		};
+		70AED8172CFB3B5500AB22C5 /* BoardDetail */ = {
+			isa = PBXGroup;
+			children = (
+				70AED8192CFB3B9400AB22C5 /* CustomView */,
+				70AED8132CF5D08400AB22C5 /* BoardDetailCoordinator.swift */,
+				7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */,
+				7051E5052ADAF4EF00C2134B /* BoardDetailViewModel.swift */,
+			);
+			path = BoardDetail;
+			sourceTree = "<group>";
+		};
+		70AED8182CFB3B6B00AB22C5 /* EditBoard */ = {
+			isa = PBXGroup;
+			children = (
+				701FC89A2B97565F00291FC3 /* EditBoardCollectionViewCell.swift */,
+				701FC8962B97127500291FC3 /* EditBoardViewController.swift */,
+				701FC8A02B9C990200291FC3 /* EditBoardViewModel.swift */,
+			);
+			path = EditBoard;
+			sourceTree = "<group>";
+		};
+		70AED8192CFB3B9400AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				7031E3D12ABA80BA0027DC0A /* CommentAuthorInfoView.swift */,
+				70864F312AF9502600CD4124 /* CommentInputView.swift */,
+				709AB6442B77E19B004B0F59 /* BoardImageCollectionViewCell.swift */,
+				7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */,
+				7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */,
+				7031E3D32ABA89160027DC0A /* BoardDetailCommentHeaderView.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED81A2CFB3BCD00AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				70C9CC9C2A039DFD00BEB5F2 /* BoardTableViewCell.swift */,
+				708312B52A779D1A00F7E283 /* BoardTableHeaderView.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED81B2CFC29C300AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				70AED7302CB33CA200AB22C5 /* AlertInfoViewCell.swift */,
+				70AED7322CB33F7800AB22C5 /* AlertInfoListView.swift */,
+				70AED7342CB3417C00AB22C5 /* ClassListView.swift */,
+				70AED7362CB341CD00AB22C5 /* ClassCollectionViewCell.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED81C2CFC29E500AB22C5 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
 				70B310A52BB2F0A800EF21CE /* AffiliatedLocationView.swift */,
@@ -1812,7 +1942,79 @@
 				70B310A92BB2F29A00EF21CE /* AffiliatedBenefitView.swift */,
 				70B310AB2BB2F4C600EF21CE /* AffiliatedMapView.swift */,
 			);
-			path = Affiliated;
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED81D2CFC2A1800AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				70375EFD2AAA022A0032F6B8 /* LibraryRentalView.swift */,
+				705FD2BE2A1A4D2E00F353FE /* LibraryDetailMainView.swift */,
+				708312472A2F7EC300F7E283 /* LibraryDetailSubView.swift */,
+				708312492A2F856700F7E283 /* LibraryDetailInfoView.swift */,
+				708312652A398C0D00F7E283 /* LibraryRentalListView.swift */,
+				70DC8F5A2C9C8B77006DDAF7 /* LibraryRecommendedView.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED81E2CFC2A8E00AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7B02A90CC0C00107CDF /* StudyRoomInfoView.swift */,
+				708ED7B42A90D61000107CDF /* StudyRoomDetailView.swift */,
+				708ED7DC2A93490E00107CDF /* PopularAmenityCollectionViewCell.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED81F2CFC2B1200AB22C5 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				705FD29E2A15F21F00F353FE /* LoginButton.swift */,
+				705FD2A02A15F75900F353FE /* LoginAlertView.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		70AED8202CFC2B8700AB22C5 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				70903C952ADFA8FE00C6FEF0 /* RerequestAlertView.swift */,
+				70C9CC982A0383BF00BEB5F2 /* ProfileInfoView.swift */,
+				7032FD5D2B594AC500B8481C /* CheckChapelDayView.swift */,
+				70DC8F582C9C7271006DDAF7 /* HaramDividerView.swift */,
+				70AED80A2CF33FA100AB22C5 /* AnimationCollectionView.swift */,
+				708ED79C2A8E817F00107CDF /* EmptyView.swift */,
+				708312B72A77E36900F7E283 /* HaramTextField.swift */,
+				708312BF2A7A448300F7E283 /* TermsOfUseCheckView.swift */,
+				708312C12A7A6F2900F7E283 /* PaddingLabel.swift */,
+				70375F152AB1B0500032F6B8 /* HaramToast.swift */,
+				701FC89E2B9B5FA700291FC3 /* CheckBoxControl.swift */,
+				70A24EC62BBD717100572FAE /* EmptyCollectionViewCell.swift */,
+				70A24ECC2BBED36000572FAE /* ZoomImageViewController.swift */,
+				70AED8222CFC2BAC00AB22C5 /* Layout */,
+				70AED8212CFC2B8B00AB22C5 /* BottomSheet */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		70AED8212CFC2B8B00AB22C5 /* BottomSheet */ = {
+			isa = PBXGroup;
+			children = (
+				708ED7D32A9228D200107CDF /* BottomSheetViewController.swift */,
+				701FC8982B9736B900291FC3 /* EditBoardBottomSheetViewController.swift */,
+				708ED7D52A9230FF00107CDF /* BibleBottomSheetViewController.swift */,
+			);
+			path = BottomSheet;
+			sourceTree = "<group>";
+		};
+		70AED8222CFC2BAC00AB22C5 /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				708312AB2A7392C900F7E283 /* LeftAlignedCollectionViewFlowLayout.swift */,
+			);
+			path = Layout;
 			sourceTree = "<group>";
 		};
 		70B310BF2BB7231500EF21CE /* Configuration */ = {
@@ -1826,6 +2028,7 @@
 		70DC8F4F2C99F81E006DDAF7 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				70AED8202CFC2B8700AB22C5 /* UI */,
 				70DC8F522C99F930006DDAF7 /* Protocol */,
 				70727AB629D95E2A003DE956 /* Extension */,
 				708312942A691A8200F7E283 /* Util */,
@@ -2208,12 +2411,15 @@
 				7031E3D02ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift in Sources */,
 				705FD2C72A23B9AD00F353FE /* LibraryRouter.swift in Sources */,
 				70727AA129D88AD0003DE956 /* MoreViewController.swift in Sources */,
+				70AED7D32CEB74C800AB22C5 /* LectureScheduleCoordinator.swift in Sources */,
 				708312482A2F7EC300F7E283 /* LibraryDetailSubView.swift in Sources */,
 				708312992A691D1700F7E283 /* MileageViewModel.swift in Sources */,
+				70AED7B62CE9E01000AB22C5 /* FindAccountCoordinator.swift in Sources */,
 				708312402A2CA79D00F7E283 /* IntranetLoginRequest.swift in Sources */,
 				708E1E682B09E1A70030FAA0 /* CheckTimeAvailableForRothemReservationResponse.swift in Sources */,
 				701F29DC2AEBB29C00E3E68B /* BibleNoticeResponse.swift in Sources */,
 				70AED7392CB3470700AB22C5 /* EmptyClassViewModel.swift in Sources */,
+				70AED8142CF5D08400AB22C5 /* BoardDetailCoordinator.swift in Sources */,
 				705FD2BD2A1A4CEE00F353FE /* LibraryDetailViewController.swift in Sources */,
 				701FC89B2B97565F00291FC3 /* EditBoardCollectionViewCell.swift in Sources */,
 				7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */,
@@ -2243,10 +2449,12 @@
 				708ED7BC2A9119CC00107CDF /* InquireTodayWordsRequest.swift in Sources */,
 				70375F0B2AB055360032F6B8 /* BibleSearchResultViewModel.swift in Sources */,
 				70B310A32BB2E8A100EF21CE /* AffiliatedDetailViewController.swift in Sources */,
+				70AED7D62CEE109800AB22C5 /* ChapelCoordinator.swift in Sources */,
 				70AD2A792B8B1B4F00CB9791 /* LogHelper.swift in Sources */,
 				7083124C2A2F88EE00F7E283 /* RequestBookInfoResponse.swift in Sources */,
 				708312C22A7A6F2900F7E283 /* PaddingLabel.swift in Sources */,
 				708312642A3977B500F7E283 /* LibraryDetailViewModel.swift in Sources */,
+				70AED7B82CE9E67400AB22C5 /* FindPasswordCoordinator.swift in Sources */,
 				701FC8B02B9DB61800291FC3 /* Ex + UIResponder.swift in Sources */,
 				708ED7E62A94B61100107CDF /* RevisionOfTranslation+CoreDataClass.swift in Sources */,
 				70AED7582CBAA56C00AB22C5 /* LectureInfoViewModel.swift in Sources */,
@@ -2275,15 +2483,19 @@
 				708ED7C92A911E8700107CDF /* BibleCollectionHeaderView.swift in Sources */,
 				708ED7B12A90CC0C00107CDF /* StudyRoomInfoView.swift in Sources */,
 				70AED79E2CDA281900AB22C5 /* CheckAuthCodeViewModel.swift in Sources */,
+				70AED7D12CEB737E00AB22C5 /* LectureListCoordinator.swift in Sources */,
 				708312602A388D8B00F7E283 /* ScheduleViewModel.swift in Sources */,
 				708ED7982A8E6F8F00107CDF /* RothemRepositoryImpl.swift in Sources */,
 				708ED7B52A90D61100107CDF /* StudyRoomDetailView.swift in Sources */,
 				70AD2A612B85205500CB9791 /* InquireMainNoticeListResponse.swift in Sources */,
 				70A24ECD2BBED36000572FAE /* ZoomImageViewController.swift in Sources */,
+				70AED7CF2CEB3FEA00AB22C5 /* LibraryCoordinator.swift in Sources */,
 				7083128A2A655BD900F7E283 /* MileageTableHeaderView.swift in Sources */,
 				70AD2A962B93738000CB9791 /* VerifyEmailViewController.swift in Sources */,
 				70AED7962CD8813C00AB22C5 /* CheckIDViewModel.swift in Sources */,
+				70AED7B02CDDFA0C00AB22C5 /* MyPageCoordinator.swift in Sources */,
 				7051E4FB2ADAB6C700C2134B /* BoardRouter.swift in Sources */,
+				70AED7FF2CEFA78D00AB22C5 /* NoticeDetailCoordinator.swift in Sources */,
 				7083128C2A6561CD00F7E283 /* MyPageRouter.swift in Sources */,
 				70AED75E2CBBABB800AB22C5 /* LectureRouter.swift in Sources */,
 				70AED7A42CDB6AE800AB22C5 /* NavigationController.swift in Sources */,
@@ -2291,12 +2503,14 @@
 				705FD29B2A13C19A00F353FE /* SignupUserRequest.swift in Sources */,
 				70B310942BA1DAFD00EF21CE /* MoreCategoryViewController.swift in Sources */,
 				70375F052AAD804C0032F6B8 /* SearchBookRequest.swift in Sources */,
+				70AED7EA2CEF9D2F00AB22C5 /* AffiliatedDetailCoordinator.swift in Sources */,
 				708ED7C32A911B4800107CDF /* BibleViewController.swift in Sources */,
 				70A24EBB2BBC684B00572FAE /* BannerDetailViewController.swift in Sources */,
 				7032FD5B2B57E9CE00B8481C /* SelectedCategoryNoticeViewController.swift in Sources */,
 				7051E4F92AD924BC00C2134B /* InquireAllRothemNoticeResponse.swift in Sources */,
 				708312B42A76945000F7E283 /* BoardListCollectionViewCell.swift in Sources */,
 				708ED7E92A94BADD00107CDF /* RevisionOfTranslationModel.swift in Sources */,
+				70AED7BE2CE9EC7D00AB22C5 /* FindIDViewModel.swift in Sources */,
 				70AED7852CD434D900AB22C5 /* FindAccountViewModel.swift in Sources */,
 				708312422A2CAA1800F7E283 /* RequestIntranetTokenResponse.swift in Sources */,
 				70AED75C2CBAA7F300AB22C5 /* LectureInfoCollectionViewCell.swift in Sources */,
@@ -2311,10 +2525,12 @@
 				705FD2792A10D3C500F353FE /* Router.swift in Sources */,
 				7083129F2A6D25E100F7E283 /* TermsOfUseViewController.swift in Sources */,
 				70375F0E2AB1AA9F0032F6B8 /* BibleTitleView.swift in Sources */,
+				70AED7B22CDDFD8800AB22C5 /* MainTabCoordinator.swift in Sources */,
 				708ED77F2A823B2900107CDF /* SettingTableViewCell.swift in Sources */,
 				7083123E2A2CA62A00F7E283 /* InquireChapelListResponse.swift in Sources */,
 				701FC8A12B9C990200291FC3 /* EditBoardViewModel.swift in Sources */,
 				70375F072AB04F7B0032F6B8 /* InquireChapterToBibleRequest.swift in Sources */,
+				70AED7AC2CDDF99000AB22C5 /* HomeCoordinator.swift in Sources */,
 				708ED77B2A80C79D00107CDF /* RequestBookLoanStatusResponse.swift in Sources */,
 				708ED79B2A8E6FE600107CDF /* InquireAllRoomInfoResponse.swift in Sources */,
 				70C9CCAA2A054D4600BEB5F2 /* MileageTableViewCell.swift in Sources */,
@@ -2322,6 +2538,7 @@
 				70AED7A02CDB52DE00AB22C5 /* FindIDResultViewController.swift in Sources */,
 				708ED7E72A94B61100107CDF /* RevisionOfTranslation+CoreDataProperties.swift in Sources */,
 				7032FD822B656AEE00B8481C /* InquireBibleHomeInfoResponse.swift in Sources */,
+				70AED7DC2CEE3F6200AB22C5 /* AffiliatedCoordinator.swift in Sources */,
 				705FD2922A13B9E600F353FE /* AuthRepositoryImpl.swift in Sources */,
 				701F29C42AE6750100E3E68B /* InquireBoardDetailResponse.swift in Sources */,
 				705FD2B12A1625EF00F353FE /* LibraryCollectionViewCell.swift in Sources */,
@@ -2329,18 +2546,21 @@
 				70AED7372CB341CD00AB22C5 /* ClassCollectionViewCell.swift in Sources */,
 				70AED78C2CD4B14C00AB22C5 /* NewAccountViewHolder.swift in Sources */,
 				708312372A2CA50300F7E283 /* IntranetRouter.swift in Sources */,
+				70AED7C62CE9F39800AB22C5 /* CheckAuthCodeCoordinator.swift in Sources */,
 				70727AA329D88AEE003DE956 /* ScheduleViewController.swift in Sources */,
 				708ED7E02A94B2E700107CDF /* RevisionOfTranslation.xcdatamodeld in Sources */,
+				70AED7AE2CDDFA0200AB22C5 /* BoardCoordinator.swift in Sources */,
 				705FD2BB2A1A46A400F353FE /* LibraryResultsCollectionHeaderView.swift in Sources */,
 				70B310A82BB2F25A00EF21CE /* AffiliatedIntroduceView.swift in Sources */,
 				708ED7E22A94B49000107CDF /* CoreDataManager.swift in Sources */,
+				70AED7E82CEF70DC00AB22C5 /* StudyRoomDetailCoordinator.swift in Sources */,
 				70AED77C2CD33FC300AB22C5 /* LibraryBannerCollectionViewCell.swift in Sources */,
 				705FD2822A10E2A800F353FE /* BaseEntity.swift in Sources */,
+				70AED7BB2CE9E97D00AB22C5 /* CheckEmailCoordinator.swift in Sources */,
 				708312C42A7BF7BD00F7E283 /* APIEventLogger.swift in Sources */,
 				708ED7862A8E01CC00107CDF /* StudyListCollectionViewCell.swift in Sources */,
 				708ED7A92A8FA41300107CDF /* SelectedTimeCollectionViewCell.swift in Sources */,
 				70AED7632CBBBFE000AB22C5 /* InquireEmptyClassDetailResponse.swift in Sources */,
-				70A24EC92BBD89FF00572FAE /* HomeNoticeViewController.swift in Sources */,
 				70AED78A2CD4B14100AB22C5 /* NewAccountViewController.swift in Sources */,
 				70B310B02BB3087800EF21CE /* MoreUpdatePasswordViewController.swift in Sources */,
 				708312932A65638200F7E283 /* MoreViewModel.swift in Sources */,
@@ -2353,6 +2573,7 @@
 				701F29D92AE7C9CB00E3E68B /* StudyRoomDetailViewModel.swift in Sources */,
 				705FD28A2A10F6C300F353FE /* UserDefaultsWrapper.swift in Sources */,
 				70AED7482CB598A200AB22C5 /* CoursePlanViewController.swift in Sources */,
+				70AED7DF2CEE3F9D00AB22C5 /* ScheduleCoordinator.swift in Sources */,
 				70B310B22BB3F85800EF21CE /* UpdateUserPasswordRequest.swift in Sources */,
 				708312B22A76940600F7E283 /* BoardListViewController.swift in Sources */,
 				70B310AC2BB2F4C600EF21CE /* AffiliatedMapView.swift in Sources */,
@@ -2373,6 +2594,7 @@
 				70AD2A692B86014100CB9791 /* NoticeDetailViewModel.swift in Sources */,
 				70DC8F592C9C7271006DDAF7 /* HaramDividerView.swift in Sources */,
 				70B310AE2BB2F93400EF21CE /* AffiliatedDetailViewModel.swift in Sources */,
+				70AED7E42CEF603B00AB22C5 /* CheckReservationCoordinator.swift in Sources */,
 				70C9CCA82A054CB500BEB5F2 /* MileageViewController.swift in Sources */,
 				70A24EC32BBC7F1A00572FAE /* InquireRothemNoticeDetailResponse.swift in Sources */,
 				70DC8F572C9C6F78006DDAF7 /* Ex + UIStackView.swift in Sources */,
@@ -2384,21 +2606,26 @@
 				70AD2A5E2B851F0E00CB9791 /* NoticeRepositoryImpl.swift in Sources */,
 				708ED7F12A9E24D000107CDF /* InquireAffiliatedListResponse.swift in Sources */,
 				70AED6642CA9E0A500AB22C5 /* NoticeListView.swift in Sources */,
+				70AED7CB2CEB2A8C00AB22C5 /* TermsOfUseCoordinator.swift in Sources */,
 				705FD2C92A23BA3000F353FE /* LibraryRepositoryImpl.swift in Sources */,
 				708312B02A73E07300F7E283 /* NoticeViewModel.swift in Sources */,
 				708312A32A6EC9D700F7E283 /* IntranetLoginViewModel.swift in Sources */,
 				70AD2A832B8CBA7200CB9791 /* CheckEmailViewController.swift in Sources */,
 				70864F322AF9502600CD4124 /* CommentInputView.swift in Sources */,
 				70AED72C2CB336E500AB22C5 /* EmptyClassViewController.swift in Sources */,
+				70AED7C02CE9ECBC00AB22C5 /* FindIDCoordinator.swift in Sources */,
 				70C9CCB02A06700400BEB5F2 /* ChapelViewController.swift in Sources */,
 				705FD2D12A24DEFC00F353FE /* LibraryViewModel.swift in Sources */,
 				70AED7312CB33CA200AB22C5 /* AlertInfoViewCell.swift in Sources */,
 				705FD2902A10FD6D00F353FE /* Interceptor.swift in Sources */,
 				705FD2A32A15FD8100F353FE /* LoginResponse.swift in Sources */,
+				70AED8032CF0B16A00AB22C5 /* LectureInfoCoordinator.swift in Sources */,
 				70AED73B2CB3E93000AB22C5 /* ViewModelType.swift in Sources */,
 				70AD2A632B85211D00CB9791 /* NoticeRouter.swift in Sources */,
+				70AED7C32CE9EEA600AB22C5 /* VerifyEmailCoordinator.swift in Sources */,
 				7001DA892B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift in Sources */,
 				708ED7DB2A923B2A00107CDF /* BibleViewModel.swift in Sources */,
+				70AED80B2CF33FA100AB22C5 /* AnimationCollectionView.swift in Sources */,
 				70727A9B29D88A3A003DE956 /* FindPasswordViewController.swift in Sources */,
 				70AED7532CB8093800AB22C5 /* LectureListViewHolder.swift in Sources */,
 				70AED7422CB57C4800AB22C5 /* AppCoordinator.swift in Sources */,
@@ -2423,6 +2650,7 @@
 				70AED7332CB33F7800AB22C5 /* AlertInfoListView.swift in Sources */,
 				701FC8992B9736B900291FC3 /* EditBoardBottomSheetViewController.swift in Sources */,
 				70A24EB92BBC679F00572FAE /* InquireBannerInfoResponse.swift in Sources */,
+				70AED8072CF230EF00AB22C5 /* MoreCategoryViewModel.swift in Sources */,
 				70912FFA2B15EF2C005B88B4 /* RothemReservationInfoView.swift in Sources */,
 				70727A5729D87B25003DE956 /* SceneDelegate.swift in Sources */,
 				70AED7A92CDB805A00AB22C5 /* LectureScheduleViewModel.swift in Sources */,
@@ -2431,8 +2659,11 @@
 				708ED7892A8E02B800107CDF /* StudyListCollectionHeaderView.swift in Sources */,
 				70B310B42BB3F96F00EF21CE /* MoreUpdatePasswordViewModel.swift in Sources */,
 				708312442A2F1E6500F7E283 /* InquireChapelInfoResponse.swift in Sources */,
+				70AED8012CEFA7A000AB22C5 /* SelectedCategoryCoordinator.swift in Sources */,
+				70AED7D82CEE3DC100AB22C5 /* NoticeCoordinator.swift in Sources */,
 				705FD2D32A2645D200F353FE /* SearchBookResponse.swift in Sources */,
 				701FC8972B97127500291FC3 /* EditBoardViewController.swift in Sources */,
+				70AED7DA2CEE3F3E00AB22C5 /* CoursePlanCoordinator.swift in Sources */,
 				70B310962BA73C7D00EF21CE /* NetworkManager.swift in Sources */,
 				70AED72E2CB3372700AB22C5 /* EmptyClassViewHolder.swift in Sources */,
 				705FD29F2A15F21F00F353FE /* LoginButton.swift in Sources */,
@@ -2444,10 +2675,12 @@
 				70C9CCB22A067D8000BEB5F2 /* ChapelDayView.swift in Sources */,
 				70C9CC992A0383BF00BEB5F2 /* ProfileInfoView.swift in Sources */,
 				701FC89F2B9B5FA700291FC3 /* CheckBoxControl.swift in Sources */,
+				70AED8122CF47A2E00AB22C5 /* BoardListCoordinator.swift in Sources */,
 				708ED7CF2A91F13600107CDF /* BibleSearchView.swift in Sources */,
 				705FD2842A10E47F00F353FE /* HaramError.swift in Sources */,
 				70C9CCB62A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift in Sources */,
 				708ED7AF2A8FDA7700107CDF /* NoticeDetailViewController.swift in Sources */,
+				70AED7E12CEE3FD200AB22C5 /* RothemRoomCoordinator.swift in Sources */,
 				70AD2A922B90DBEA00CB9791 /* CheckEmailViewModel.swift in Sources */,
 				705FD2C32A2337C800F353FE /* NoticeViewController.swift in Sources */,
 				7083129B2A6A909C00F7E283 /* ChapelViewModel.swift in Sources */,
@@ -2456,9 +2689,11 @@
 				70B310A62BB2F0A800EF21CE /* AffiliatedLocationView.swift in Sources */,
 				70909A862B0D9F1F00049265 /* InquireRothemReservationInfoResponse.swift in Sources */,
 				70AED7352CB3417C00AB22C5 /* ClassListView.swift in Sources */,
+				70AED8052CF1CEFB00AB22C5 /* BannerDetailCoordinator.swift in Sources */,
 				70A24EC52BBC7FAA00572FAE /* RothemNoticeDetailViewModel.swift in Sources */,
 				70AED7402CB56A6300AB22C5 /* EmptyClassCoordinator.swift in Sources */,
 				70AD2A6F2B889B1C00CB9791 /* BoardViewModel.swift in Sources */,
+				70AED8092CF2312F00AB22C5 /* MoreCategoryCoordinator.swift in Sources */,
 				705FD2BF2A1A4D2E00F353FE /* LibraryDetailMainView.swift in Sources */,
 				70375F162AB1B0500032F6B8 /* HaramToast.swift in Sources */,
 				70B310982BAB022700EF21CE /* InquireTermsSignUpResponse.swift in Sources */,
@@ -2487,6 +2722,7 @@
 				70903C962ADFA8FE00C6FEF0 /* RerequestAlertView.swift in Sources */,
 				7051E5062ADAF4EF00C2134B /* BoardDetailViewModel.swift in Sources */,
 				708ED7D62A9230FF00107CDF /* BibleBottomSheetViewController.swift in Sources */,
+				70AED7B42CE9DA4400AB22C5 /* NewAccountCoordinator.swift in Sources */,
 				70A24EB42BB8277C00572FAE /* HaramProvisionViewController.swift in Sources */,
 				70AED7602CBBBE9F00AB22C5 /* LectureRepositoryImpl.swift in Sources */,
 				708ED7942A8E671200107CDF /* HomeViewModel.swift in Sources */,
