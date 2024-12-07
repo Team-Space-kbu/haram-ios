@@ -10,18 +10,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol LibraryViewModelType {
-  
-  func inquireLibrary()
-  
-  var newBookModel: Driver<[LibraryCollectionViewCellModel]> { get }
-  var bestBookModel: Driver<[LibraryCollectionViewCellModel]> { get }
-  var rentalBookModel: Driver<[LibraryCollectionViewCellModel]> { get }
-  var bannerImageModel: Driver<[URL?]> { get }
-  var isLoading: Driver<Bool> { get }
-  var errorMessage: Signal<HaramError> { get }
-}
-
 final class LibraryViewModel: ViewModelType {
   
   private let disposeBag = DisposeBag()
@@ -31,13 +19,6 @@ final class LibraryViewModel: ViewModelType {
   private(set) var bestBookModel: [LibraryCollectionViewCellModel] = []
   private(set) var rentalBookModel: [LibraryCollectionViewCellModel] = []
   private(set) var bannerModel: [URL?] = []
-  
-//  private let currentNewBookModel    = BehaviorRelay<[LibraryCollectionViewCellModel]>(value: [])
-//  private let currentBestBookModel   = BehaviorRelay<[LibraryCollectionViewCellModel]>(value: [])
-//  private let currentRentalBookModel = BehaviorRelay<[LibraryCollectionViewCellModel]>(value: [])
-//  private let bannerImageRelay       = BehaviorRelay<[URL?]>(value: [])
-//  private let isLoadingSubject       = BehaviorSubject<Bool>(value: true)
-//  private let errorMessageRelay      = BehaviorRelay<HaramError?>(value: nil)
   
   struct Payload {
     

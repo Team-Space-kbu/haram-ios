@@ -13,10 +13,7 @@ import Then
 
 final class LibraryResultsViewController: BaseViewController {
   
-  private let viewModel: LibraryResultsViewModelType
-  private let searchQuery: String
-  
-  private var model: [LibraryResultsCollectionViewCellModel] = []
+  private let viewModel: LibraryResultsViewModel
   
   private lazy var searchResultsCollectionView = UICollectionView(
     frame: .zero,
@@ -34,9 +31,8 @@ final class LibraryResultsViewController: BaseViewController {
   
   private lazy var emptyView = EmptyView(text: "검색정보가 없습니다.")
   
-  init(viewModel: LibraryResultsViewModelType = LibraryResultsViewModel(), searchQuery: String) {
+  init(viewModel: LibraryResultsViewModel) {
     self.viewModel = viewModel
-    self.searchQuery = searchQuery
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -46,32 +42,40 @@ final class LibraryResultsViewController: BaseViewController {
   
   override func bind() {
     super.bind()
+    let didScrollToBottom = searchResultsCollectionView.rx.contentOffset
+      .map { [weak self] offset -> Bool in
+        guard let self = self else { return false }
+        let offSetY = offset.y
+        let contentHeight = self.searchResultsCollectionView.contentSize.height
+        let frameHeight = self.searchResultsCollectionView.frame.size.height
+        return offSetY > (contentHeight - frameHeight - (112 + 15 + 1) * 3)
+      }
+      .filter { $0 }
+      .map { _ in Void() }
     
-    viewModel.whichSearchText.onNext(searchQuery)
+    let input = LibraryResultsViewModel.Input(
+      viewDidLoad: .just(()),
+      didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable(),
+      didScrollToBottom: didScrollToBottom, 
+      didTapBookResultCell: searchResultsCollectionView.rx.itemSelected.asObservable()
+    )
+    let output = viewModel.transform(input: input)
     
-    viewModel.searchResults
-      .drive(with: self) { owner, model in
-        owner.emptyView.isHidden = !model.isEmpty
-        owner.model = model
-        
+    
+    output.reloadData
+      .subscribe(with: self) { owner, _ in
         owner.view.hideSkeleton()
         owner.searchResultsCollectionView.reloadData()
       }
       .disposed(by: disposeBag)
     
-    searchResultsCollectionView.rx.didScroll
-      .subscribe(with: self, onNext: { owner, _ in
-        let offSetY = owner.searchResultsCollectionView.contentOffset.y
-        let contentHeight = owner.searchResultsCollectionView.contentSize.height
-        
-        if offSetY > (contentHeight - owner.searchResultsCollectionView.frame.size.height - (112 + 15 + 1) * 3) {
-          owner.viewModel.fetchMoreDatas.onNext(())
-        }
-      })
+    output.isBookResultEmpty
+      .map { !$0 }
+      .bind(to: emptyView.rx.isHidden)
       .disposed(by: disposeBag)
     
-    viewModel.errorMessage
-      .emit(with: self) { owner, error in
+    output.errorMessage
+      .subscribe(with: self) { owner, error in
         if error == .networkError {
           AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
@@ -81,12 +85,6 @@ final class LibraryResultsViewController: BaseViewController {
             owner.navigationController?.popViewController(animated: true)
           }
         }
-      }
-      .disposed(by: disposeBag)
-    
-    navigationItem.leftBarButtonItem!.rx.tap
-      .subscribe(with: self) { owner, _ in
-        owner.navigationController?.popViewController(animated: true)
       }
       .disposed(by: disposeBag)
   }
@@ -124,12 +122,12 @@ final class LibraryResultsViewController: BaseViewController {
 
 extension LibraryResultsViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return model.count
+    return viewModel.searchResults.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(LibraryResultsCollectionViewCell.self, for: indexPath) ?? LibraryResultsCollectionViewCell()
-    cell.configureUI(with: model[indexPath.row])
+    cell.configureUI(with: viewModel.searchResults[indexPath.row])
     return cell
   }
   
@@ -147,19 +145,6 @@ extension LibraryResultsViewController: SkeletonCollectionViewDelegate, Skeleton
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
     return CGSize(width: collectionView.frame.width - 30, height: 23 + 15)
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let path = model[indexPath.row].path
-    let vc = LibraryDetailViewController(path: path)
-    let cell = collectionView.cellForItem(at: indexPath) as? LibraryResultsCollectionViewCell ?? LibraryResultsCollectionViewCell()
-    vc.navigationItem.largeTitleDisplayMode = .never
-    self.navigationController?.pushViewController(vc, animated: true)
-//    cell.showAnimation(scale: 0.9) { [weak self] in
-//      guard let self = self else { return }
-//      vc.navigationItem.largeTitleDisplayMode = .never
-//      self.navigationController?.pushViewController(vc, animated: true)
-//    }
   }
   
   func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {

@@ -61,6 +61,7 @@ final class ApiService: BaseService {
               observer.onNext(.failure(HaramError.unknownedError))
               return
             }
+            
             guard let decodedData = try? JSONDecoder().decode(BaseEntity<T>.self, from: data) else {
               LogHelper.log("Decoding Error: \(router.urlRequest!)", level: .error)
               return observer.onNext(.failure(HaramError.decodedError))
@@ -105,7 +106,7 @@ final class ApiService: BaseService {
       self.session.request(router)
         .validate({ request, response, data in
           let statusCode = response.statusCode
-          
+    
           if ![401, 402, 499].contains(statusCode) {
             return .success(Void())
           }
@@ -121,6 +122,7 @@ final class ApiService: BaseService {
               observer(.failure(HaramError.unknownedError))
               return
             }
+            
             guard let decodedData = try? JSONDecoder().decode(BaseEntity<T>.self, from: data) else {
               LogHelper.log("Decoding Error: \(response.request!)", level: .error)
               return observer(.failure(HaramError.decodedError))

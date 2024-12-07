@@ -1,24 +1,28 @@
 //
-//  LibraryCoordinator.swift
+//  LibraryDetailCoordinator.swift
 //  Haram
 //
-//  Created by 이건준 on 11/18/24.
+//  Created by 이건준 on 12/2/24.
 //
 
 import UIKit
 
-final class LibraryCoordinator: NavigationCoordinator {
+final class LibraryDetailCoordinator: NavigationCoordinator {
   var navigationController: UINavigationController
   var parentCoordinator: Coordinator?
   var childCoordinators: [Coordinator] = []
   
-  init(navigationController: UINavigationController) {
+  private let path: Int
+  
+  init(path: Int, navigationController: UINavigationController) {
+    self.path = path
     self.navigationController = navigationController
   }
   
   func start() {
-    let viewController: LibraryViewController = LibraryViewController(
-      viewModel: LibraryViewModel(
+    let viewController: LibraryDetailViewController = LibraryDetailViewController(
+      viewModel: LibraryDetailViewModel(
+        payload: .init(path: path),
         dependency: .init(
           libraryRepository: LibraryRepositoryImpl(),
           coordinator: self
@@ -30,15 +34,9 @@ final class LibraryCoordinator: NavigationCoordinator {
   }
 }
 
-extension LibraryCoordinator {
+extension LibraryDetailCoordinator {
   func showLibraryDetailViewController(path: Int) {
     let coordinator = LibraryDetailCoordinator(path: path, navigationController: self.navigationController)
-    coordinator.start()
-    self.childCoordinators.append(coordinator)
-  }
-  
-  func showLibraryResultViewController(searchQuery: String) {
-    let coordinator = LibraryResultsCoordinator(searchQuery: searchQuery, navigationController: self.navigationController)
     coordinator.start()
     self.childCoordinators.append(coordinator)
   }
@@ -58,3 +56,4 @@ extension LibraryCoordinator {
     self.navigationController.popViewController(animated: true)
   }
 }
+

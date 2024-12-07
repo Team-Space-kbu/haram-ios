@@ -5,55 +5,97 @@
 //  Created by 이건준 on 2023/06/14.
 //
 
+import Foundation
 import RxSwift
 import RxCocoa
 
-protocol LibraryDetailViewModelType {
-  
-  func requestBookInfo(path: Int)
-  
-  var detailBookInfo: Driver<[LibraryRentalViewModel]> { get }
-  var detailMainModel: Driver<LibraryDetailMainViewModel> { get }
-  var detailSubModel: Driver<LibraryDetailSubViewModel> { get }
-  var detailInfoModel: Driver<[LibraryInfoViewModel]> { get }
-  var detailRentalModel: Driver<[LibraryRentalViewModel]> { get }
-  var relatedBookModel: Driver<[LibraryCollectionViewCellModel]> { get }
-  var isLoading: Driver<Bool> { get }
-  var errorMessage: Signal<HaramError> { get }
-}
-
-final class LibraryDetailViewModel {
+final class LibraryDetailViewModel: ViewModelType {
   
   private let disposeBag = DisposeBag()
-  private let libraryRepository: LibraryRepository
+  private let payload: Payload
+  private let dependency: Dependency
   
-  private let currentDetailBookInfo    = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
-  private let currentDetailMainModel   = BehaviorRelay<LibraryDetailMainViewModel?>(value: nil)
-  private let currentDetailSubModel    = BehaviorRelay<LibraryDetailSubViewModel?>(value: nil)
-  private let currentDetailInfoModel   = BehaviorRelay<[LibraryInfoViewModel]>(value: [])
-  private let currentDetailRentalModel = BehaviorRelay<[LibraryRentalViewModel]>(value: [])
-  private let currentRelatedBookModel  = BehaviorRelay<[LibraryCollectionViewCellModel]>(value: [])
-  private let isLoadingSubject         = BehaviorSubject<Bool>(value: false)
-  private let errorMessageRelay        = BehaviorRelay<HaramError?>(value: nil)
+  private(set) var mainModel: LibraryDetailMainViewModel?
+  private(set) var subModel: LibraryDetailSubViewModel?
+  private(set) var rentalModel: [LibraryRentalViewModel] = []
+  private(set) var bookInfoModel: [LibraryInfoViewModel] = []
+  private(set) var relatedBookModel: [LibraryCollectionViewCellModel] = []
   
-  init(libraryRepository: LibraryRepository = LibraryRepositoryImpl()) {
-    self.libraryRepository = libraryRepository
+  struct Payload {
+    let path: Int
   }
   
+  struct Dependency {
+    let libraryRepository: LibraryRepository
+    let coordinator: LibraryDetailCoordinator
+  }
+  
+  struct Input {
+    let viewDidLoad: Observable<Void>
+    let didTapBackButton: Observable<Void>
+    let didTapRecommendedBookCell: Observable<IndexPath>
+    let didTapBookThumbnail: Observable<Void>
+  }
+  
+  struct Output {
+    let reloadData = PublishRelay<Void>()
+    let isLoadingSubject         = BehaviorRelay<Bool>(value: false)
+    let errorMessageRelay        = PublishRelay<HaramError>()
+  }
+  
+  init(payload: Payload, dependency: Dependency) {
+    self.payload = payload
+    self.dependency = dependency
+  }
+  
+  func transform(input: Input) -> Output {
+    let output = Output()
+    
+    input.viewDidLoad
+      .subscribe(with: self) { owner, _ in
+        owner.requestBookInfo(output: output)
+        owner.requestBookLoanStatus(output: output)
+      }
+      .disposed(by: disposeBag)
+    
+    input.didTapBackButton
+      .subscribe(with: self) { owner, _ in
+        owner.dependency.coordinator.popViewController()
+      }
+      .disposed(by: disposeBag)
+    
+    input.didTapBookThumbnail
+      .subscribe(with: self) { owner, _ in
+        guard let bookThumbnailURL = owner.mainModel?.bookImageURL else {
+          owner.dependency.coordinator.showAlert(message: "해당 이미지는 확대할 수 없습니다")
+          return
+        }
+        owner.dependency.coordinator.showZoomImageViewController(imageURL: bookThumbnailURL)
+      }
+      .disposed(by: disposeBag)
+    
+    input.didTapRecommendedBookCell
+      .subscribe(with: self) { owner, indexPath in
+        let path = owner.relatedBookModel[indexPath.row].path
+        owner.dependency.coordinator.showLibraryDetailViewController(path: path)
+      }
+      .disposed(by: disposeBag)
+    
+    return output
+  }
 }
 
-extension LibraryDetailViewModel: LibraryDetailViewModelType {
+extension LibraryDetailViewModel {
   
-  func requestBookInfo(path: Int) {
+  func requestBookInfo(output: Output) {
     
-    self.isLoadingSubject.onNext(true)
+    output.isLoadingSubject.accept(true)
     
-    libraryRepository.requestBookInfo(text: path)
+    dependency.libraryRepository.requestBookInfo(text: payload.path)
       .subscribe(with: self, onSuccess: { owner, response in
-        
-        owner.currentDetailMainModel.accept(LibraryDetailMainViewModel(response: response))
-        owner.currentDetailSubModel.accept(LibraryDetailSubViewModel(response: response))
-        owner.currentDetailInfoModel.accept(LibraryDetailInfoViewType.allCases.map { type in
+        owner.mainModel = LibraryDetailMainViewModel(response: response)
+        owner.subModel = LibraryDetailSubViewModel(response: response)
+        owner.bookInfoModel = LibraryDetailInfoViewType.allCases.map { type in
           let content: String
           switch type {
           case .author:
@@ -72,64 +114,61 @@ extension LibraryDetailViewModel: LibraryDetailViewModelType {
             content = trimDiscount != "정보없음" ? filterDiscount + "원" : trimDiscount
           }
           return LibraryInfoViewModel(title: type.title, content: content)
-        })
-        
+        }
+        output.reloadData.accept(())
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
-        owner.errorMessageRelay.accept(error)
+        output.errorMessageRelay.accept(error)
       })
       .disposed(by: disposeBag)
-    
-    libraryRepository.requestBookLoanStatus(path: path)
-      .subscribe(with: self) { owner, response in
-        
-        owner.currentDetailRentalModel.accept(
-          response.keepBooks.keepBooks.map { .init(keepBook: $0) }
-        )
-        owner.currentRelatedBookModel.accept(
-          response.relateBooks.relatedBooks.map { LibraryCollectionViewCellModel(relatedBook: $0) }
-        )
-        
-      }
+  }
+  
+  func requestBookLoanStatus(output: Output) {
+    dependency.libraryRepository.requestBookLoanStatus(path: payload.path)
+      .subscribe(with: self, onSuccess: { owner, response in
+        owner.rentalModel = response.keepBooks.keepBooks.map { .init(keepBook: $0) }
+        owner.relatedBookModel = response.relateBooks.relatedBooks.map { LibraryCollectionViewCellModel(relatedBook: $0) }
+        output.reloadData.accept(())
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        output.errorMessageRelay.accept(error)
+      })
       .disposed(by: disposeBag)
-    
-    self.isLoadingSubject.onNext(false)
-    
   }
-  
-  var detailBookInfo: RxCocoa.Driver<[LibraryRentalViewModel]> {
-    currentDetailBookInfo.asDriver()
-  }
-  
-  var detailMainModel: RxCocoa.Driver<LibraryDetailMainViewModel> {
-    currentDetailMainModel.compactMap { $0 }.asDriver(onErrorDriveWith: .empty())
-  }
-  
-  var detailSubModel: RxCocoa.Driver<LibraryDetailSubViewModel> {
-    currentDetailSubModel.compactMap { $0 }.asDriver(onErrorDriveWith: .empty())
-  }
-  
-  var detailInfoModel: RxCocoa.Driver<[LibraryInfoViewModel]> {
-    currentDetailInfoModel.filter { !$0.isEmpty }.asDriver(onErrorJustReturn: [])
-  }
-  
-  var detailRentalModel: RxCocoa.Driver<[LibraryRentalViewModel]> {
-    currentDetailRentalModel.asDriver()
-  }
-  
-  var relatedBookModel: RxCocoa.Driver<[LibraryCollectionViewCellModel]> {
-    currentRelatedBookModel.asDriver()
-  }
-  
-  var isLoading: RxCocoa.Driver<Bool> {
-    isLoadingSubject.distinctUntilChanged().asDriver(onErrorJustReturn: false)
-  }
-  
-  var errorMessage: RxCocoa.Signal<HaramError> {
-    errorMessageRelay
-      .compactMap { $0 }
-      .asSignal(onErrorSignalWith: .empty())
-  }
-  
-  
+//
+//  var detailBookInfo: RxCocoa.Driver<[LibraryRentalViewModel]> {
+//    currentDetailBookInfo.asDriver()
+//  }
+//  
+//  var detailMainModel: RxCocoa.Driver<LibraryDetailMainViewModel> {
+//    currentDetailMainModel.compactMap { $0 }.asDriver(onErrorDriveWith: .empty())
+//  }
+//  
+//  var detailSubModel: RxCocoa.Driver<LibraryDetailSubViewModel> {
+//    currentDetailSubModel.compactMap { $0 }.asDriver(onErrorDriveWith: .empty())
+//  }
+//  
+//  var detailInfoModel: RxCocoa.Driver<[LibraryInfoViewModel]> {
+//    currentDetailInfoModel.filter { !$0.isEmpty }.asDriver(onErrorJustReturn: [])
+//  }
+//  
+//  var detailRentalModel: RxCocoa.Driver<[LibraryRentalViewModel]> {
+//    currentDetailRentalModel.asDriver()
+//  }
+//  
+//  var relatedBookModel: RxCocoa.Driver<[LibraryCollectionViewCellModel]> {
+//    currentRelatedBookModel.asDriver()
+//  }
+//  
+//  var isLoading: RxCocoa.Driver<Bool> {
+//    isLoadingSubject.distinctUntilChanged().asDriver(onErrorJustReturn: false)
+//  }
+//  
+//  var errorMessage: RxCocoa.Signal<HaramError> {
+//    errorMessageRelay
+//      .compactMap { $0 }
+//      .asSignal(onErrorSignalWith: .empty())
+//  }
+//  
+//  
 }

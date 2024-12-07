@@ -35,6 +35,7 @@ final class LibraryDetailMainView: UIView {
     $0.spacing = 16
     $0.alignment = .center
     $0.backgroundColor = .clear
+    $0.distribution = .fill
   }
   
   private let outerView = UIView().then {
@@ -62,7 +63,7 @@ final class LibraryDetailMainView: UIView {
     $0.textColor = .black
     $0.numberOfLines = 3
     $0.lineBreakMode = .byTruncatingTail
-    $0.skeletonTextNumberOfLines = 3
+    $0.skeletonTextNumberOfLines = 2
     $0.textAlignment = .center
   }
   
@@ -70,6 +71,7 @@ final class LibraryDetailMainView: UIView {
     $0.font = .regular16
     $0.textColor = .black
     $0.skeletonTextNumberOfLines = 1
+    $0.textAlignment = .center
   }
   
   override init(frame: CGRect) {
@@ -112,9 +114,10 @@ final class LibraryDetailMainView: UIView {
       $0.directionalEdges.equalToSuperview()
     }
     
-    titleLabel.snp.makeConstraints {
-      $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-      $0.bottom.equalToSuperview().inset(10)
+    [titleLabel, subLabel].forEach {
+      $0.snp.makeConstraints {
+        $0.directionalHorizontalEdges.equalToSuperview()
+      }
     }
     
     containerView.setCustomSpacing(31, after: subLabel)

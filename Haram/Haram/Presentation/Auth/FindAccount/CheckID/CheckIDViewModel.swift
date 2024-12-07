@@ -41,14 +41,14 @@ final class CheckIDViewModel: ViewModelType {
     let output = Output()
     
     input.didTappedContinueButton
-      .throttle(.milliseconds(500), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
+      .throttle(.milliseconds(500), latest: false, scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .subscribe(with: self) { owner, authCode in
         owner.verifyEmailAuthCode(output: output, authCode: authCode)
       }
       .disposed(by: disposeBag)
     
     input.didTappedRerequestButton
-      .throttle(.milliseconds(500), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
+      .throttle(.milliseconds(500), latest: false, scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .subscribe(with: self) { owner, _ in
         owner.requestEmailAuthCode(output: output)
       }

@@ -44,8 +44,11 @@ final class HaramDividerView: UIView {
 }
 
 extension UIStackView {
-  
   func addArrangedDividerSubViews(_ views: [UIView], exclude: [Int]? = [], thickness: CGFloat = 1.0, isVertical: Bool = false) {
     self.addArrangedSubviews(views, exclude ?? [], divier: { HaramDividerView(thickness: thickness, isVertical: isVertical) })
+  }
+  
+  func insertArrangedDividerSubView(_ view: UIView, index: Int, thickness: CGFloat = 1.0, isVertical: Bool = false) {
+    self.insertArrangedSubview(view, at: index, divider: { HaramDividerView(thickness: thickness, isVertical: isVertical) })
   }
 }

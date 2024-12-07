@@ -11,7 +11,7 @@ final class AlertManager {
   
   private init() {}
   
-  static func showAlert(title: String, message: String? = nil, viewController: BaseViewController, confirmHandler: (() -> Void)?, cancelHandler: (() -> Void)?) {
+  static func showAlert(title: String, message: String? = nil, viewController: UIViewController, confirmHandler: (() -> Void)?, cancelHandler: (() -> Void)?) {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "아니오", style: .cancel, handler: { _ in
       cancelHandler?()
@@ -26,7 +26,7 @@ final class AlertManager {
     viewController.present(alert, animated: true)
   }
   
-  static func showAlert(title: String, message: String? = nil, viewController: BaseViewController?, confirmHandler: (() -> Void)?) {
+  static func showAlert(title: String, message: String? = nil, viewController: UIViewController?, confirmHandler: (() -> Void)?) {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     
     alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in

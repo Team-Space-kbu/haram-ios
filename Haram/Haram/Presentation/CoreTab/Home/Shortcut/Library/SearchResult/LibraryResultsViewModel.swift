@@ -1,91 +1,118 @@
+import Foundation
+
 import RxSwift
 import RxCocoa
 
-protocol LibraryResultsViewModelType {
-  var whichSearchText: AnyObserver<String> { get }
-  var fetchMoreDatas: AnyObserver<Void> { get }
-  
-  var searchResults: Driver<[LibraryResultsCollectionViewCellModel]> { get }
-  var isLoading: Driver<Bool> { get }
-  var errorMessage: Signal<HaramError> { get }
-}
-
-final class LibraryResultsViewModel: LibraryResultsViewModelType {
+final class LibraryResultsViewModel: ViewModelType {
   
   private let disposeBag = DisposeBag()
-  private let libraryRepository: LibraryRepository
+  private let dependency: Dependency
+  private let payload: Payload
   
-  let whichSearchText: AnyObserver<String>
-  let searchResults:Driver<[LibraryResultsCollectionViewCellModel]>
-  let isLoading: Driver<Bool>
-  let fetchMoreDatas: AnyObserver<Void>
-  let errorMessage: Signal<HaramError>
+  private var isLoading = false
   
-  init(libraryRepository: LibraryRepository = LibraryRepositoryImpl()) {
-    self.libraryRepository = libraryRepository
+  /// 요청한 페이지
+  private var startPage = 1
+  
+  /// 마지막 페이지
+  private var endPage = 2
+  
+  private(set) var searchResults: [LibraryResultsCollectionViewCellModel] = []
+  
+  struct Payload {
+    let searchQuery: String
+  }
+  
+  struct Dependency {
+    let libraryRepository: LibraryRepository
+    let coordinator: LibraryResultsCoordinator
+  }
+  
+  struct Input {
+    let viewDidLoad: Observable<Void>
+    let didTapBackButton: Observable<Void>
+    let didScrollToBottom: Observable<Void>
+    let didTapBookResultCell: Observable<IndexPath>
+  }
+  
+  struct Output {
+    let reloadData = PublishRelay<Void>()
+    let errorMessage = PublishRelay<HaramError>()
+    let isBookResultEmpty = PublishRelay<Bool>()
+  }
+  
+  init(payload: Payload, dependency: Dependency) {
+    self.payload = payload
+    self.dependency = dependency
+  }
+  
+  func transform(input: Input) -> Output {
+    let output = Output()
     
-    let whichSearchingText = PublishSubject<String>()
-    let isLoadingRelay     = BehaviorRelay<Bool>(value: false)
-    let searchBookResults  = BehaviorRelay<[LibraryResultsCollectionViewCellModel]>(value: [])
-    let currentPageSubject = BehaviorRelay<Int>(value: 1)
-    let fetchingDatas      = PublishSubject<Void>()
-    let isLastPage         = BehaviorRelay<Int>(value: 1)
-    let errorMessageRelay  = BehaviorRelay<HaramError?>(value: nil)
-    
-    whichSearchText = whichSearchingText.asObserver()
-    fetchMoreDatas = fetchingDatas.asObserver()
-    errorMessage = errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
-    
-    let requestSearchBook = Observable.combineLatest(
-      whichSearchingText,
-      currentPageSubject
+    Observable.merge(
+      input.viewDidLoad,
+      input.didScrollToBottom
     )
-      .do(onNext: { _ in isLoadingRelay.accept(true) })
-      .flatMapLatest(libraryRepository.searchBook)
+    .subscribe(with: self) { owner, _ in
+      owner.searchBook(output: output)
+    }
+    .disposed(by: disposeBag)
     
-    requestSearchBook.subscribe(onNext: { response in
+    input.didTapBackButton
+      .subscribe(with: self) { owner, _ in
+        owner.dependency.coordinator.popViewController()
+      }
+      .disposed(by: disposeBag)
+    
+    input.didTapBookResultCell
+      .subscribe(with: self) { owner, indexPath in
+        let path = owner.searchResults[indexPath.row].path
+        owner.dependency.coordinator.showLibraryDetailViewController(path: path)
+      }
+      .disposed(by: disposeBag)
+    return output
+  }
+}
+
+extension LibraryResultsViewModel {
+  private func searchBook(output: Output) {
+    guard startPage <= endPage && !isLoading else { return }
+    
+    isLoading = true
+    
+    dependency.libraryRepository.searchBook(
+      query: payload.searchQuery,
+      page: startPage
+    )
+    .subscribe(with: self, onSuccess: { owner, response in
+      let model = response.result.map { LibraryResultsCollectionViewCellModel(
+        result: $0,
+        isLast: false
+      ) }
       
-      
-      let model = response.result.map { LibraryResultsCollectionViewCellModel(result: $0, isLast: false) }
-      
-      var currentResultModel = searchBookResults.value
+      var currentResultModel = owner.searchResults
       currentResultModel.append(contentsOf: model)
       
-      searchBookResults.accept(currentResultModel.enumerated().map { index, result in
+      owner.searchResults = currentResultModel.enumerated().map { index, result in
         var result = result
         result.isLast = currentResultModel.count - 1 == index
         return result
-      })
-      isLastPage.accept(response.end)
+      }
       
-      
-      isLoadingRelay.accept(false)
-    }, onError: { error in
+      owner.startPage = response.start + 1
+      owner.endPage = response.end
+      output.isBookResultEmpty.accept(response.result.isEmpty)
+    }, onFailure: { owner, error in
       guard let error = error as? HaramError else { return }
       if error == .networkError {
-        errorMessageRelay.accept(.networkError)
+        output.errorMessage.accept(.networkError)
         return
       }
-      searchBookResults.accept([])
-      isLoadingRelay.accept(false)
+      output.isBookResultEmpty.accept(true)
+    }, onDisposed: { owner in
+      output.reloadData.accept(())
+      owner.isLoading = false
     })
     .disposed(by: disposeBag)
-    
-    fetchingDatas
-      .filter { _ in currentPageSubject.value < isLastPage.value && !isLoadingRelay.value }
-      .subscribe(onNext: { _ in
-        let currentPage = currentPageSubject.value
-        currentPageSubject.accept(currentPage + 1)
-      })
-      .disposed(by: disposeBag)
-    
-    // Output
-    searchResults = searchBookResults
-      .skip(1)
-      .asDriver(onErrorDriveWith: .empty())
-    
-    isLoading = isLoadingRelay
-      .distinctUntilChanged()
-      .asDriver(onErrorJustReturn: false)
   }
 }

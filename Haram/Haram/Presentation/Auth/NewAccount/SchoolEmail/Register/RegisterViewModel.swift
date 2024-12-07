@@ -10,48 +10,26 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol RegisterViewModelType {
-  
-  var registerID: AnyObserver<String> { get }
-  var registerPassword: AnyObserver<String> { get }
-  var registerRePassword: AnyObserver<String> { get }
-  var registerNickname: AnyObserver<String> { get }
-  func registerMember(id: String, email: String, password: String, nickname: String, authCode: String)
-  func checkUserIDIsValid(id: String)
-  func checkPasswordIsValid(password: String)
-  func checkNicknameIsValid(nickname: String)
-  func checkRepasswordIsEqual(password: String, repassword: String)
-  
-  var isRegisterButtonEnabled: Driver<Bool> { get }
-  var errorMessage: Signal<HaramError> { get }
-  var successMessage: Signal<HaramError> { get }
-  var signupSuccessMessage: Signal<String> { get }
-  var isLoading: Driver<Bool> { get }
-}
-
 final class RegisterViewModel: ViewModelType {
   private let disposeBag = DisposeBag()
   private let dependency: Dependency
   private let payload: Payload
-  
-  private let isSuccessRequestAuthCodeSubject = BehaviorSubject<Bool>(value: false)
-  private let registerIDSubject            = BehaviorSubject<String>(value: "")
-  private let registerPasswordSubject            = BehaviorSubject<String>(value: "")
-  private let registerNicknameSubject            = BehaviorSubject<String>(value: "")
-  private let registerRepasswordSubject            = BehaviorSubject<String>(value: "")
-  private let registerAuthcodeSubject            = BehaviorSubject<String>(value: "")
   
   struct Payload {
     let authCode: String
     let email: String
   }
   
+  var verifiedEmail: String {
+    payload.email.replacingOccurrences(of: "@bible.ac.kr", with: "")
+  }
+  
   struct Dependency {
     let authRepository: AuthRepository
+    let coordinator: RegisterCoordinator
   }
   
   struct Input {
-    let viewDidLoad: Observable<Void>
     let didEditID: Observable<String>
     let didEditNickname: Observable<String>
     let didEditPassword: Observable<String>
@@ -65,7 +43,6 @@ final class RegisterViewModel: ViewModelType {
     let successMessageRelay            = PublishRelay<HaramError>()
     let signupSuccessMessageRelay      = PublishRelay<String>()
     let isLoadingSubject               = PublishSubject<Bool>()
-    let verifiedEmail                  = PublishRelay<String>()
   }
   
   init(payload: Payload, dependency: Dependency) {
@@ -73,22 +50,11 @@ final class RegisterViewModel: ViewModelType {
     self.dependency = dependency
   }
   
-  /*
-    1. 회원가입 로직 구현
-    2. 비밀번호, 비밀번호 확인 체크
-    3. 각각 입력값에 대한 에러처리
-   */
-  
   func transform(input: Input) -> Output {
     let output = Output()
     
-    input.viewDidLoad
-      .subscribe(with: self) { owner, _ in
-        output.verifiedEmail.accept(owner.payload.email)
-      }
-      .disposed(by: disposeBag)
-    
     input.didTapRegisterButton
+      .throttle(.milliseconds(500), latest: false, scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .withLatestFrom(
         Observable.combineLatest(
           input.didEditID,
@@ -99,6 +65,12 @@ final class RegisterViewModel: ViewModelType {
       )
       .subscribe(with: self) { owner, result in
         let (id, nickname, password, repassword) = result
+        
+        guard owner.isValid(output: output, id: id) && owner.isValid(output: output, nickname: nickname) && owner.isValid(output: output, password: password) && owner.isEqual(output: output, password: password, repassword: repassword) else {
+          print("회원가입 유효하지않은 값 존재")
+          return
+        }
+        
         owner.registerMember(
           output: output,
           id: id,
@@ -116,11 +88,11 @@ final class RegisterViewModel: ViewModelType {
   func registerMember(output: Output, id: String, email: String, password: String, nickname: String, authCode: String) {
     
     output.isLoadingSubject.onNext(true)
-    // TODO: - 회원가입 시 약관정책에 대한 정보 반환
+    
     dependency.authRepository.signupUser(
       request: .init(
         userID: id,
-        email: email + "@bible.ac.kr",
+        email: email,
         password: password,
         nickname: nickname,
         emailAuthCode: authCode,
@@ -128,11 +100,13 @@ final class RegisterViewModel: ViewModelType {
       )
     )
     .subscribe(with: self, onSuccess: { owner, _ in
-      output.signupSuccessMessageRelay.accept("회원가입 성공")
-      output.isLoadingSubject.onNext(false)
+      owner.dependency.coordinator.showAlert(message: "회원가입 성공\n로그인 화면으로 이동합니다.") {
+        owner.dependency.coordinator.popToRootViewController()
+      }
     }, onFailure: { owner, error in
       guard let error = error as? HaramError else { return }
       output.errorMessageRelay.accept(error)
+    }, onDisposed: { _ in
       output.isLoadingSubject.onNext(false)
     })
     .disposed(by: disposeBag)
@@ -168,102 +142,56 @@ final class RegisterViewModel: ViewModelType {
 }
 
 extension RegisterViewModel {
-  //  var registerID: RxSwift.AnyObserver<String> {
-  //    registerIDSubject.asObserver()
-  //  }
-  //
-  //  var registerPassword: RxSwift.AnyObserver<String> {
-  //    registerPasswordSubject.asObserver()
-  //  }
-  //
-  //  var registerRePassword: RxSwift.AnyObserver<String> {
-  //    registerRepasswordSubject.asObserver()
-  //  }
-  //
-  //  var registerNickname: RxSwift.AnyObserver<String> {
-  //    registerNicknameSubject.asObserver()
-  //  }
+  func isEqual(output: Output, password: String, repassword: String) -> Bool {
+    
+    let isEqual = password == repassword
+    if isEqual {
+      output.successMessageRelay.accept(.noEqualPassword)
+    } else {
+      output.errorMessageRelay.accept(.noEqualPassword)
+    }
+    
+    return isEqual
+  }
   
-  //  func checkRepasswordIsEqual(password: String, repassword: String) {
-  //
-  //    let isValid = password == repassword
-  //    if isValid {
-  //      successMessageRelay.accept(.noEqualPassword)
-  //    } else {
-  //      errorMessageRelay.accept(.noEqualPassword)
-  //    }
-  //  }
+  func isValid(output: Output, id: String) -> Bool {
+    // userId가 4~30자, 영어 or 숫자만 가능
+
+    let isUnValid = 4 > id.count || 30 < id.count || !isValidAlphanumeric(id)
+    LogHelper.log("아이디 유효안함 \(isUnValid)", level: .debug)
+    if isUnValid {
+      output.errorMessageRelay.accept(.unvalidUserIDFormat)
+    } else {
+      output.successMessageRelay.accept(.unvalidUserIDFormat)
+    }
+    
+    return !isUnValid
+  }
   
-  //  var successMessage: RxCocoa.Signal<HaramError> {
-  //    successMessageRelay.asSignal()
-  //  }
+    func isValid(output: Output, password: String) -> Bool {
   
-  //  func checkUserIDIsValid(id: String) {
-  //
-  //    // userId가 4~30자, 영어 or 숫자만 가능
-  //
-  //    let isUnValid = 4 > id.count || 30 < id.count || !isValidAlphanumeric(id)
-  //    LogHelper.log("아이디 유효안함 \(isUnValid)", level: .debug)
-  //    if isUnValid {
-  //      errorMessageRelay.accept(.unvalidUserIDFormat)
-  //    } else {
-  //      successMessageRelay.accept(.unvalidUserIDFormat)
-  //    }
-  //  }
-  //
-  //  func checkPasswordIsValid(password: String) {
-  //
-  //    let isUnValid = !isValidPassword(password)
-  //    LogHelper.log("비번 유효안함 \(isUnValid)", level: .debug)
-  //    if isUnValid {
-  //      errorMessageRelay.accept(.unvalidpasswordFormat)
-  //    } else {
-  //      successMessageRelay.accept(.unvalidpasswordFormat)
-  //    }
-  //  }
-  //
-  //  func checkNicknameIsValid(nickname: String) {
-  //
-  //    let isUnValid = 0..<2 ~= nickname.count || 15 < nickname.count || !isValidKoreanAlphanumeric(nickname)
-  //
-  //    LogHelper.log("닉네임 유효안함 \(isUnValid)", level: .debug)
-  //    if isUnValid {
-  //      errorMessageRelay.accept(.unvalidNicknameFormat)
-  //    } else {
-  //      successMessageRelay.accept(.unvalidNicknameFormat)
-  //    }
-  //  }
+      let isUnValid = !isValidPassword(password)
+      LogHelper.log("비번 유효안함 \(isUnValid)", level: .debug)
+      if isUnValid {
+        output.errorMessageRelay.accept(.unvalidpasswordFormat)
+      } else {
+        output.successMessageRelay.accept(.unvalidpasswordFormat)
+      }
+      
+      return !isUnValid
+    }
   
-  //  var errorMessage: RxCocoa.Signal<HaramError> {
-  //    errorMessageRelay.asSignal()
-  //  }
-  //
-  //  var isRegisterButtonEnabled: RxCocoa.Driver<Bool> {
-  //    Observable.combineLatest(
-  //      registerIDSubject,
-  //      registerNicknameSubject,
-  //      registerPasswordSubject,
-  //      registerRepasswordSubject
-  //    )
-  //    .withUnretained(self)
-  //    .map { owner, result in
-  //      let (id, nickname, password, repassword) = result
-  //
-  //      let isIDUnValid = 4 > id.count || 30 < id.count || !owner.isValidAlphanumeric(id)
-  //      let isPWDUnValid = !owner.isValidPassword(password)
-  //      let isNicknameUnValid = 0..<2 ~= nickname.count || 15 < nickname.count || !owner.isValidKoreanAlphanumeric(nickname)
-  //
-  //      return !isIDUnValid && !isPWDUnValid && !isNicknameUnValid && password == repassword
-  //    }
-  //    .distinctUntilChanged()
-  //    .asDriver(onErrorJustReturn: false)
-  //  }
-  //
-  //  var signupSuccessMessage: Signal<String> {
-  //    signupSuccessMessageRelay.asSignal()
-  //  }
-  //
-  //  var isLoading: Driver<Bool> {
-  //    isLoadingSubject.asDriver(onErrorJustReturn: false)
-  //  }
+    func isValid(output: Output, nickname: String) -> Bool {
+  
+      let isUnValid = 0..<2 ~= nickname.count || 15 < nickname.count || !isValidKoreanAlphanumeric(nickname)
+  
+      LogHelper.log("닉네임 유효안함 \(isUnValid)", level: .debug)
+      if isUnValid {
+        output.errorMessageRelay.accept(.unvalidNicknameFormat)
+      } else {
+        output.successMessageRelay.accept(.unvalidNicknameFormat)
+      }
+      
+      return !isUnValid
+    }
 }
