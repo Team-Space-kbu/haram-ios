@@ -57,7 +57,7 @@ final class MainTabCoordinator: Coordinator {
     
     tabbarController.viewControllers = viewControllers
     
-    self.navigationController.pushViewController(tabbarController, animated: true)
+    navigationController.setViewControllers([tabbarController], animated: true)
   }
 }
 

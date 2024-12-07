@@ -256,8 +256,10 @@ extension IntranetLoginViewController {
     // Y축으로 키보드의 상단 위치
     let keyboardTopY = keyboardFrame.cgRectValue.origin.y
     // 현재 선택한 텍스트 필드의 Frame 값
-    let convertedTextFieldFrame = view.convert(currentTextField.frame,
-                                               from: currentTextField.superview)
+    let convertedTextFieldFrame = view.convert(
+      currentTextField.frame,
+      from: currentTextField.superview
+    )
     // Y축으로 현재 텍스트 필드의 하단 위치
     let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
     
@@ -266,7 +268,6 @@ extension IntranetLoginViewController {
       let textFieldTopY = convertedTextFieldFrame.origin.y
       // 노가다를 통해서 모든 기종에 적절한 크기를 설정함.
       let newFrame = textFieldTopY - keyboardTopY/1.6
-      
       
       UIView.animate(withDuration: 0.1, animations: {
         self.containerStackView.transform = CGAffineTransform(translationX: 0, y: -newFrame)

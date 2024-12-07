@@ -17,12 +17,7 @@ final class LibraryDetailViewController: BaseViewController {
   
   // MARK: - Properties
   
-  private let viewModel: LibraryDetailViewModelType
-  private let path: Int
-  
-  // MARK: - UI Models
-  
-  private var relatedBookModel: [LibraryCollectionViewCellModel] = []
+  private let viewModel: LibraryDetailViewModel
   
   // MARK: - UI Components
   
@@ -31,6 +26,7 @@ final class LibraryDetailViewController: BaseViewController {
     $0.backgroundColor = .clear
     $0.showsVerticalScrollIndicator = false
     $0.showsHorizontalScrollIndicator = false
+    $0.isSkeletonable = true
   }
   
   private let containerView = UIStackView().then {
@@ -41,20 +37,19 @@ final class LibraryDetailViewController: BaseViewController {
     $0.alignment = .fill
     $0.distribution = .fill
     $0.spacing = 18
+    $0.isSkeletonable = true
   }
   
   private let libraryDetailMainView = LibraryDetailMainView()
   private let libraryDetailSubView = LibraryDetailSubView()
   private let libraryDetailInfoView = LibraryDetailInfoView()
   private let libraryRentalListView = LibraryRentalListView()
-  private let libraryRecommendedView = LibraryRecommendedView()
-  
+  private lazy var libraryRecommendedView = LibraryRecommendedView()
   
   // MARK: - Initializations
   
-  init(viewModel: LibraryDetailViewModelType = LibraryDetailViewModel(), path: Int) {
+  init(viewModel: LibraryDetailViewModel) {
     self.viewModel = viewModel
-    self.path = path
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -79,7 +74,7 @@ final class LibraryDetailViewController: BaseViewController {
     title = "도서 상세"
     setupBackButton()
     
-    _ = [view, scrollView, containerView, libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, libraryRecommendedView].map { $0.isSkeletonable = true }
+    containerView.subviews.forEach { $0.isSkeletonable = true }
 
     libraryRecommendedView.relatedBookCollectionView.delegate = self
     libraryRecommendedView.relatedBookCollectionView.dataSource = self
@@ -91,7 +86,7 @@ final class LibraryDetailViewController: BaseViewController {
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
     
-    let subViews = [libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView, libraryRecommendedView]
+    let subViews = [libraryDetailMainView, libraryDetailSubView, libraryDetailInfoView, libraryRentalListView]
     containerView.addArrangedDividerSubViews(subViews, thickness: 10)
   }
   
@@ -109,38 +104,38 @@ final class LibraryDetailViewController: BaseViewController {
   
   override func bind() {
     super.bind()
-    
-    viewModel.requestBookInfo(path: path)
-    
-    Driver.combineLatest(
-      viewModel.detailMainModel,
-      viewModel.detailSubModel,
-      viewModel.detailInfoModel,
-      viewModel.detailRentalModel,
-      viewModel.relatedBookModel.skip(1)
+    let input = LibraryDetailViewModel.Input(
+      viewDidLoad: .just(()),
+      didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable(),
+      didTapRecommendedBookCell: libraryRecommendedView.relatedBookCollectionView.rx.itemSelected.asObservable(), 
+      didTapBookThumbnail: libraryDetailMainView.button.rx.tap.asObservable()
     )
-    .drive(with: self) { owner, result in
-      let (mainModel, subModel, infoModel, rentalModel, relatedBookModel) = result
-      
-      if relatedBookModel.isEmpty {
-        owner.libraryRecommendedView.removeFromSuperview()
-      }
-      
-      owner.relatedBookModel = relatedBookModel
-      
-      owner.view.hideSkeleton()
-      
-      owner.libraryDetailMainView.configureUI(with: mainModel)
-      owner.libraryDetailSubView.configureUI(with: subModel)
-      owner.libraryDetailInfoView.configureUI(with: infoModel)
-      owner.libraryRentalListView.configureUI(with: rentalModel)
-      owner.libraryRecommendedView.relatedBookCollectionView.reloadData()
-    }
-    .disposed(by: disposeBag)
+    let output = viewModel.transform(input: input)
     
-    viewModel.errorMessage
-      .emit(with: self) { owner, error in
-        if error == .noEnglishRequest || error == .noRequestFromNaver {
+    output.reloadData
+      .skip(1)
+      .subscribe(with: self) { owner, _ in
+        guard let mainModel = owner.viewModel.mainModel,
+              let subModel = owner.viewModel.subModel else { return }
+        
+        owner.view.hideSkeleton()
+        
+        owner.libraryDetailMainView.configureUI(with: mainModel)
+        owner.libraryDetailSubView.configureUI(with: subModel)
+        owner.libraryDetailInfoView.configureUI(with: owner.viewModel.bookInfoModel)
+        owner.libraryRentalListView.configureUI(with: owner.viewModel.rentalModel)
+        owner.libraryRecommendedView.relatedBookCollectionView.reloadData()
+        
+        if !owner.viewModel.relatedBookModel.isEmpty {
+          let lastIndex = owner.containerView.subviews.count - 1
+          owner.containerView.insertArrangedDividerSubView(owner.libraryRecommendedView, index: lastIndex + 1, thickness: 10)
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    output.errorMessageRelay
+      .subscribe(with: self) { owner, error in
+        if error == .noEnglishRequest || error == .noRequestFromNaver || error == .noExistSearchInfo {
           AlertManager.showAlert(title: "Space 알림", message: error.description!, viewController: owner) {
             self.navigationController?.popViewController(animated: true)
           }
@@ -154,25 +149,6 @@ final class LibraryDetailViewController: BaseViewController {
         }
       }
       .disposed(by: disposeBag)
-    
-    libraryDetailMainView.button.rx.tap
-      .subscribe(with: self) { owner, _ in
-        if let zoomImage = owner.libraryDetailMainView.mainImage {
-          let modal = ZoomImageViewController(zoomImage: zoomImage)
-          modal.modalPresentationStyle = .fullScreen
-          owner.present(modal, animated: true)
-        } else {
-          AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: owner, confirmHandler: nil)
-        }
-        
-      }
-      .disposed(by: disposeBag)
-    
-    navigationItem.leftBarButtonItem!.rx.tap
-      .subscribe(with: self) { owner, _ in
-        owner.navigationController?.popViewController(animated: true)
-      }
-      .disposed(by: disposeBag)
   }
 }
 
@@ -180,24 +156,13 @@ final class LibraryDetailViewController: BaseViewController {
 
 extension LibraryDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return relatedBookModel.count
+    return viewModel.relatedBookModel.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(LibraryCollectionViewCell.self, for: indexPath) ?? LibraryCollectionViewCell()
-    cell.configureUI(with: relatedBookModel[indexPath.row])
+    cell.configureUI(with: viewModel.relatedBookModel[indexPath.row])
     return cell
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let path = relatedBookModel[indexPath.row].path
-    let vc = LibraryDetailViewController(path: path)
-    let cell = collectionView.cellForItem(at: indexPath) as? LibraryCollectionViewCell ?? LibraryCollectionViewCell()
-    cell.showAnimation(scale: 0.9) { [weak self] in
-      guard let self = self else { return }
-      vc.navigationItem.largeTitleDisplayMode = .never
-      self.navigationController?.pushViewController(vc, animated: true)
-    }
   }
 }
 
@@ -222,16 +187,12 @@ extension LibraryDetailViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource
 
 extension LibraryDetailViewController: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource {
-  func numSections(in collectionSkeletonView: UICollectionView) -> Int {
-    1
-  }
-  
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
     skeletonView.dequeueReusableCell(LibraryCollectionViewCell.self, for: indexPath)
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    relatedBookModel.count
+    viewModel.relatedBookModel.count
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
@@ -250,6 +211,6 @@ extension LibraryDetailViewController {
   
   @objc
   private func refreshWhenNetworkConnected() {
-    viewModel.requestBookInfo(path: path)
+//    viewModel.requestBookInfo(path: path)
   }
 }

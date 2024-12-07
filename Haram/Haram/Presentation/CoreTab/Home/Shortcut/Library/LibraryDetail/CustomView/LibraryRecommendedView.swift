@@ -41,7 +41,6 @@ final class LibraryRecommendedView: UIView {
   }
   
   private func setupView() {
-    
     [relatedBookLabel, relatedBookCollectionView].forEach { addSubview($0) }
     
     relatedBookLabel.snp.makeConstraints {

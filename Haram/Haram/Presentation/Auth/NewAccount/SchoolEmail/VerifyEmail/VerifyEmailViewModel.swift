@@ -41,6 +41,7 @@ final class VerifyEmailViewModel: ViewModelType {
     let output = Output()
     
     input.didTapContinueButton
+      .throttle(.milliseconds(500), latest: false, scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .withLatestFrom(input.didEditSchoolEmail)
       .subscribe(with: self) { owner, email in
         owner.requestEmailAuthCode(output: output, email: email)

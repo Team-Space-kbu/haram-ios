@@ -125,6 +125,7 @@ final class RegisterViewController: BaseViewController {
     registerNotifications()
     
     scrollView.delegate = self
+    emailTextField.textField.text = viewModel.verifiedEmail
   }
   
   override func setupLayouts() {
@@ -170,7 +171,6 @@ final class RegisterViewController: BaseViewController {
   override func bind() {
     super.bind()
     let input = RegisterViewModel.Input(
-      viewDidLoad: .just(()),
       didEditID: idTextField.rx.text.orEmpty.asObservable(),
       didEditNickname: nicknameTextField.rx.text.orEmpty.asObservable(),
       didEditPassword: pwdTextField.rx.text.orEmpty.asObservable(),
@@ -178,11 +178,6 @@ final class RegisterViewController: BaseViewController {
       didTapRegisterButton: registerButton.rx.tap.asObservable()
     )
     let output = viewModel.transform(input: input)
-    output.verifiedEmail
-      .subscribe(with: self) { owner, email in
-        owner.emailTextField.textField.text = email
-      }
-      .disposed(by: disposeBag)
     
     output.errorMessageRelay
       .subscribe(with: self) { owner, error in
@@ -209,7 +204,7 @@ final class RegisterViewController: BaseViewController {
           }
         } else if error == .containProhibitedWord || error == .alreadyUseNickName {
           AlertManager.showAlert(title: "회원가입 알림", message: error.description!, viewController: owner, confirmHandler: nil)
-        } else if error == .failedRegisterError {
+        } else if error == .alreadyUseUserID {
           AlertManager.showAlert(title: "회원가입 알림", message: "해당 아이디는 이미 사용중입니다\n다른 아이디로 수정해주세요.", viewController: owner, confirmHandler: nil)
         } else {
           AlertManager.showAlert(title: "회원가입 알림", message: "서버측에서 알 수 없는 에러가 발생하였습니다\n다음에 다시 시도해주세요.", viewController: owner, confirmHandler: nil)
@@ -217,149 +212,32 @@ final class RegisterViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    //    idTextField.textField.rx.controlEvent(.editingDidEnd)
-    //      .subscribe(with: self) { owner, _ in
-    //        guard let id = owner.idTextField.textField.text else { return }
-    //        owner.viewModel.checkUserIDIsValid(id: id)
-    //      }
-    //      .disposed(by: disposeBag)
-    //
-    //    pwdTextField.textField.rx.controlEvent(.editingDidEnd)
-    //      .subscribe(with: self) { owner, _ in
-    //        guard let password = owner.pwdTextField.textField.text else { return }
-    //        owner.viewModel.checkPasswordIsValid(password: password)
-    //      }
-    //      .disposed(by: disposeBag)
-    //
-    //    nicknameTextField.textField.rx.controlEvent(.editingDidEnd)
-    //      .subscribe(with: self) { owner, _ in
-    //        guard let nickname = owner.nicknameTextField.textField.text else { return }
-    //        owner.viewModel.checkNicknameIsValid(nickname: nickname)
-    //      }
-    //      .disposed(by: disposeBag)
-    //
-    //    repwdTextField.textField.rx.controlEvent(.editingDidEnd)
-    //      .subscribe(with: self) { owner, _ in
-    //        guard let password = owner.pwdTextField.textField.text,
-    //              let repassword = owner.repwdTextField.textField.text else { return }
-    //        owner.viewModel.checkRepasswordIsEqual(password: password, repassword: repassword)
-    //      }
-    //      .disposed(by: disposeBag)
-    //
-    //    registerButton.rx.tap
-    //      .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
-    //      .subscribe(with: self) { owner, _ in
-    //
-    //        guard let id = owner.idTextField.textField.text,
-    //              let email = owner.emailTextField.textField.text,
-    //              let password = owner.pwdTextField.textField.text,
-    //              let nickname = owner.nicknameTextField.textField.text else { return }
-    //        owner.viewModel.registerMember(id: id, email: email, password: password, nickname: nickname, authCode: owner.authCode)
-    //      }
-    //      .disposed(by: disposeBag)
-    //
-    //    viewModel.errorMessage
-    //      .emit(with: self) { owner, error in
-    //        if error == .noEqualPassword {
-    //          owner.repwdTextField.setError(description: error.description!)
-    //        } else if error == .existSameUserError {
-    //          owner.idTextField.setError(description: error.description!)
-    //        } else if error == .unvalidpasswordFormat {
-    //          owner.pwdTextField.setError(description: error.description!)
-    //        } else if error == .unvalidNicknameFormat {
-    //          owner.nicknameTextField.setError(description: error.description!)
-    //        } else if error == .unvalidUserIDFormat {
-    //          owner.idTextField.setError(description: error.description!)
-    //        }  else if error == .unvalidAuthCode || error == .expireAuthCode || error == .emailAlreadyUse {
-    //          AlertManager.showAlert(title: "회원가입 알림", message: error.description!, viewController: owner) {
-    //            owner.navigationController?.popViewController(animated: true)
-    //          }
-    //        } else if error == .networkError {
-    //          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
-    //            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-    //            if UIApplication.shared.canOpenURL(url) {
-    //              UIApplication.shared.open(url)
-    //            }
-    //          }
-    //        } else if error == .containProhibitedWord || error == .alreadyUseNickName {
-    //          AlertManager.showAlert(title: "회원가입 알림", message: error.description!, viewController: owner, confirmHandler: nil)
-    //        } else if error == .failedRegisterError {
-    //          AlertManager.showAlert(title: "회원가입 알림", message: "해당 아이디는 이미 사용중입니다\n다른 아이디로 수정해주세요.", viewController: owner, confirmHandler: nil)
-    //        } else {
-    //          AlertManager.showAlert(title: "회원가입 알림", message: "서버측에서 알 수 없는 에러가 발생하였습니다\n다음에 다시 시도해주세요.", viewController: owner, confirmHandler: nil)
-    //        }
-    //      }
-    //      .disposed(by: disposeBag)
-    //
-    //    viewModel.successMessage
-    //      .emit(with: self) { owner, success in
-    //        if success == .noEqualPassword {
-    //          owner.repwdTextField.removeError()
-    //        } else if success == .existSameUserError {
-    //          owner.idTextField.removeError()
-    //        } else if success == .unvalidpasswordFormat {
-    //          owner.pwdTextField.removeError()
-    //        } else if success == .unvalidNicknameFormat {
-    //          owner.nicknameTextField.removeError()
-    //        } else if success == .unvalidUserIDFormat {
-    //          owner.idTextField.removeError()
-    //        }
-    //      }
-    //      .disposed(by: disposeBag)
-    //
-    //    viewModel.signupSuccessMessage
-    //      .emit(with: self) { owner, _ in
-    //        AlertManager.showAlert(title: "회원가입 성공", message: "로그인 화면으로 이동합니다.", viewController: owner) {
-    ////          let vc = LoginViewController()
-    ////          (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController = vc
-    //        }
-    //      }
-    //      .disposed(by: disposeBag)
-    //
-    //    tapGesture.rx.event
-    //      .asDriver()
-    //      .drive(with: self) { owner, _ in
-    //        owner.view.endEditing(true)
-    //      }
-    //      .disposed(by: disposeBag)
-    //
-    //    viewModel.isLoading
-    //      .drive(indicatorView.rx.isAnimating)
-    //      .disposed(by: disposeBag)
-    //
-    //    viewModel.isRegisterButtonEnabled
-    //      .drive(with: self) { owner, isEnabled in
-    //        owner.registerButton.isEnabled = isEnabled
-    //      }
-    //      .disposed(by: disposeBag)
-    //
-    //    nicknameTextField.rx.text.orEmpty
-    //      .skip(1)
-    //      .subscribe(with: self) { owner, nickname in
-    //        owner.viewModel.registerNickname.onNext(nickname)
-    //      }
-    //      .disposed(by: disposeBag)
-    //
-    //    idTextField.rx.text.orEmpty
-    //      .skip(1)
-    //      .subscribe(with: self) { owner, id in
-    //        owner.viewModel.registerID.onNext(id)
-    //      }
-    //      .disposed(by: disposeBag)
-    //
-    //    pwdTextField.rx.text.orEmpty
-    //      .skip(1)
-    //      .subscribe(with: self) { owner, password in
-    //        owner.viewModel.registerPassword.onNext(password)
-    //      }
-    //      .disposed(by: disposeBag)
-    //
-    //    repwdTextField.rx.text.orEmpty
-    //      .skip(1)
-    //      .subscribe(with: self) { owner, repassword in
-    //        owner.viewModel.registerRePassword.onNext(repassword)
-    //      }
-    //      .disposed(by: disposeBag)
+    output.successMessageRelay
+      .subscribe(with: self) { owner, success in
+        if success == .noEqualPassword {
+          owner.repwdTextField.removeError()
+        } else if success == .existSameUserError {
+          owner.idTextField.removeError()
+        } else if success == .unvalidpasswordFormat {
+          owner.pwdTextField.removeError()
+        } else if success == .unvalidNicknameFormat {
+          owner.nicknameTextField.removeError()
+        } else if success == .unvalidUserIDFormat {
+          owner.idTextField.removeError()
+        }
+      }
+      .disposed(by: disposeBag)
+    
+    tapGesture.rx.event
+      .asDriver()
+      .drive(with: self) { owner, _ in
+        owner.view.endEditing(true)
+      }
+      .disposed(by: disposeBag)
+
+    output.isLoadingSubject
+      .bind(to: indicatorView.rx.isAnimating)
+      .disposed(by: disposeBag)
   }
 }
 

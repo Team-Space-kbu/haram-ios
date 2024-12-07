@@ -18,6 +18,9 @@ enum HaramError: Error, CaseIterable {
   case retryError // 네트워크 연결이 안되어 재시도
   case timeoutError
   
+  case unvalidRefreshToken // 상태코드 402가 떨어진 경우
+  case multipleLoginUser // 상태코드 499가 떨어진 경우
+  
   /// 로그인 시 에러
   case notFindUserError // 사용자를 찾을 수 없는 상태입니다.
   case wrongPasswordError // 패스워드가 틀렸을 때 발생하는 에러입니다.
@@ -34,17 +37,19 @@ enum HaramError: Error, CaseIterable {
   /// 회원가입 시 에러
   case existSameUserError // 동일한 아이디로 회원가입한 사용자가 존재할 때 발생하는 에러
   case wrongEmailAuthcodeError // 이메일 인증코드가 틀렸을 때 발생하는 에러
-  case failedRegisterError // 회원가입에 실패했을 때 발생하는 에러
+  case alreadyUseUserID // 회원가입에 실패했을 때 발생하는 에러
   case noEqualPassword // 비밀번호와 비밀번호확인이 동일하지않을 때 발생하는 에러
   case unvalidEmailFormat // 옳지않은 이메일 형식일 경우
   case unvalidNicknameFormat // 옳지않은 닉네임 형식일 경우
   case unvalidpasswordFormat // 옳지않은 비밀번호 형식일 경우
   case unvalidUserIDFormat // 옳지않은 유저 아이디 형식일 경우
   case unvalidAuthCode // 옳지않은 인증코드 형식일 경우
+  case unvalidAuthCodeFormat // 인증코드는 6글자여야만 함
   case emailAlreadyUse // 이미 사용중인 이메일로 회원가입 시도할 경우
   case requestTimeOut // 메일 요청은 30초 지난 후에 재요청 가능
   case alreadyUseNickName // 이미 사용중인 이메일 경우
   case containProhibitedWord // 금칙어를 사용한 경우
+  case unvalidRegisterEmailFormat
   
   /// 비밀번호변경 시 에러
   case expireAuthCode
@@ -104,7 +109,7 @@ extension HaramError {
 extension HaramError {
   var code: String? { // 하람 서버에서 제공하는 code, Notion 참고
     switch self {
-    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .unvalidpasswordFormat, .unvalidNicknameFormat, .unvalidUserIDFormat, .titleIsEmpty, .contentsIsEmpty, .uploadingImage, .maxReservationCount, .nonConsecutiveReservations, .networkError, .retryError, .timeoutError:
+    case .decodedError, .unknownedError, .requestError, .serverError, .noEqualPassword, .titleIsEmpty, .contentsIsEmpty, .uploadingImage, .maxReservationCount, .nonConsecutiveReservations, .networkError, .retryError, .timeoutError, .unvalidRefreshToken, .multipleLoginUser:
       return nil
     case .unvalidAuthCode:
       return "MAIL01"
@@ -120,7 +125,7 @@ extension HaramError {
       return "USER02"
     case .existSameUserError:
       return "USER03"
-    case .failedRegisterError:
+    case .alreadyUseUserID:
       return "USER04"
     case .wrongEmailAuthcodeError:
       return "USER05"
@@ -132,6 +137,16 @@ extension HaramError {
       return "USER09"
     case .emailAlreadyUse:
       return "USER13"
+    case .unvalidUserIDFormat:
+      return "USER14"
+    case .unvalidRegisterEmailFormat:
+      return "USER15"
+    case .unvalidpasswordFormat:
+      return "USER16"
+    case .unvalidNicknameFormat:
+      return "USER17"
+    case .unvalidAuthCodeFormat:
+      return "USER18"
     case .containProhibitedWord:
       return "USER23"
     case .noExistTodayBibleWord:
@@ -193,7 +208,7 @@ extension HaramError {
       return "이미 동일한 아이디가 존재합니다."
     case .wrongEmailAuthcodeError:
       return "이메일 인증코드가 다릅니다."
-    case .failedRegisterError:
+    case .alreadyUseUserID:
       return "회원가입에 실패했습니다, 다시 시도해주세요."
     case .noExistSearchInfo:
       return "검색된 정보가 존재하지않습니다."
@@ -211,6 +226,8 @@ extension HaramError {
       return "게시글이 존재하지 않습니다."
     case .failedAuth:
       return "올바른 비밀번호가 아닙니다, 다시 확인해주세요."
+    case .unvalidAuthCodeFormat:
+      return "email code는 6글자여야 합니다."
     case .noEqualPassword:
       return "비밀번호가 다릅니다."
     case .requiredStudentID:
@@ -263,7 +280,7 @@ extension HaramError {
       return "이미 예약할 수 있는 최대개수를 선택하였습니다."
     case .nonConsecutiveReservations:
       return "연속된 시간만 예약할 수 있습니다."
-    case .networkError, .retryError:
+    case .networkError, .retryError, .unvalidRefreshToken, .multipleLoginUser:
       return nil
     case .equalUpdatePasswordWithOldPassword:
       return "기존 비밀번호와 변경할 비밀번호가 일치합니다\n 수정 후 다시 시도해주세요."
@@ -275,6 +292,8 @@ extension HaramError {
       return "해당 게시글은 이미 신고한 게시글입니다."
     case .timeoutError:
       return "서버 응답이 지연되고 있습니다, 재시도해주세요."
+    case .unvalidRegisterEmailFormat:
+      return "email 는 @bible.ac.kr 만 가능합니다(2 ~ 255)"
     }
   }
 }

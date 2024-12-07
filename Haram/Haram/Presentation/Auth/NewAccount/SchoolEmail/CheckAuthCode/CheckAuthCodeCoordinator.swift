@@ -33,11 +33,14 @@ final class CheckAuthCodeCoordinator: Coordinator {
 }
 
 extension CheckAuthCodeCoordinator {
-  func showRegisterViewController() {
-    print("회원가입화면 이동")
-    //    let coordinator = CheckAuthCodeCoordinator(navigationController: self.navigationController)
-    //    coordinator.start()
-    //    self.childCoordinators.append(coordinator)
+  func showRegisterViewController(authCode: String) {
+    let coordinator = RegisterCoordinator(
+      authCode: authCode,
+      email: userMail,
+      navigationController: self.navigationController
+    )
+    coordinator.start()
+    self.childCoordinators.append(coordinator)
   }
   
   func popViewController() {

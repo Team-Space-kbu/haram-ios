@@ -89,25 +89,25 @@ final class LoginViewController: BaseViewController {
   
   // MARK: - Life Cycle
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    
-    guard UserManager.shared.hasToken else {
-      registerNotifications()
-      return
-    }
-    
-    removeNotifications()
-    
-    guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else { return }
-    
-    window.rootViewController = HaramTabbarController()
-  }
+//  override func viewWillAppear(_ animated: Bool) {
+//    super.viewWillAppear(animated)
+//    
+//    guard UserManager.shared.hasToken else {
+////      registerNotifications()
+//      return
+//    }
+//    
+////    removeNotifications()
+//    
+//    guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else { return }
+//    
+//    window.rootViewController = HaramTabbarController()
+//  }
   
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
-  }
+//  override func viewWillDisappear(_ animated: Bool) {
+//    super.viewWillDisappear(animated)
+////    removeNotifications()
+//  }
   
   // MARK: - Configurations
   
@@ -205,28 +205,6 @@ final class LoginViewController: BaseViewController {
   }
 }
 
-// MARK: - LoginButtonDelegate
-
-//extension LoginViewController: LoginButtonDelegate {
-//  func didTappedLoginButton() {
-//    guard let userID = emailTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-//          let password = passwordTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
-//    
-//    view.endEditing(true)
-////    viewModel.loginMember(userID: userID, password: password)
-//  }
-//  
-//  func didTappedFindPasswordButton() {
-//    let vc = UINavigationController(rootViewController: FindAccountViewController(viewModel: .init()))
-//    vc.modalPresentationStyle = .fullScreen
-//    
-//    present(vc, animated: true) {
-//      self.errorMessageLabel.removeFromSuperview()
-//      self.errorMessageLabel.text = nil
-//    }
-//  }
-//}
-
 // MARK: - UITextFieldDelegate
 
 extension LoginViewController: UITextFieldDelegate {
@@ -235,11 +213,6 @@ extension LoginViewController: UITextFieldDelegate {
       passwordTextField.textField.becomeFirstResponder()
     } else if textField == passwordTextField.textField {
       passwordTextField.resignFirstResponder()
-      guard let userID = emailTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-            let password = passwordTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else { return true }
-      
-      view.endEditing(true)
-//      viewModel.loginMember(userID: userID, password: password)
     }
     return true
   }
@@ -247,48 +220,36 @@ extension LoginViewController: UITextFieldDelegate {
 
 // MARK: - Keyboard Notification
 
-extension LoginViewController {
-  
-  func registerNotifications() {
-    NotificationCenter.default.addObserver(
-      forName: UIResponder.keyboardWillShowNotification,
-      object: nil,
-      queue: nil
-    ) { [weak self] notification in
-      self?.keyboardWillShow(notification)
-    }
-    
-    NotificationCenter.default.addObserver(
-      forName: UIResponder.keyboardWillHideNotification,
-      object: nil,
-      queue: nil
-    ) { [weak self] notification in
-      self?.keyboardWillHide(notification)
-    }
-  }
-  
-  func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  func keyboardWillShow(_ notification: Notification) {
-    
-    guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-      return
-    }
-    
-    let keyboardHeight = keyboardSize.height
-    
-    if self.containerView.transform == .init(translationX: 0, y: 0) {
-      UIView.animate(withDuration: 0.1, animations: {
-        self.containerView.transform = CGAffineTransform(translationX: 0, y: -keyboardHeight + 16 + 25)
-      })
-    }
-  }
-  
-  func keyboardWillHide(_ notification: Notification) {
-    UIView.animate(withDuration: 0.1, animations: {
-      self.containerView.transform = .identity
-    })
-  }
-}
+//extension LoginViewController {
+//  func registerNotifications() {
+//    NotificationCenter.default.addObserver(
+//      forName: UIResponder.keyboardWillShowNotification,
+//      object: nil,
+//      queue: nil
+//    ) { [weak self] notification in
+//      self?.keyboardWillShow(notification)
+//    }
+//    
+//    NotificationCenter.default.addObserver(
+//      forName: UIResponder.keyboardWillHideNotification,
+//      object: nil,
+//      queue: nil
+//    ) { [weak self] notification in
+//      self?.keyboardWillHide(notification)
+//    }
+//  }
+//  
+//  func removeNotifications() {
+//    NotificationCenter.default.removeObserver(self)
+//  }
+//  
+//  func keyboardWillShow(_ notification: Notification) {
+// 
+//  }
+//  
+//  func keyboardWillHide(_ notification: Notification) {
+//    UIView.animate(withDuration: 0.1, animations: {
+//      self.containerView.transform = .identity
+//    })
+//  }
+//}

@@ -108,6 +108,7 @@ class BaseViewController: UIViewController {
   
   func setupSkeletonView() {
     /// Configure Skeleton UI
+    view.isUserInteractionDisabledWhenSkeletonIsActive = true
     view.isSkeletonable = true
     
     let skeletonAnimation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)

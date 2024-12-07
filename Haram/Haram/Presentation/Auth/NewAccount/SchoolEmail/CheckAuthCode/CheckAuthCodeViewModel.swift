@@ -44,6 +44,7 @@ final class CheckAuthCodeViewModel: ViewModelType {
     let output = Output()
     
     input.didTapContinueButton
+      .throttle(.milliseconds(500), latest: false, scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .withLatestFrom(input.didEditAuthCode)
       .subscribe(with: self) { owner, authCode in
         owner.verifyEmailAuthCode(output: output, authCode: authCode)
@@ -86,7 +87,7 @@ extension CheckAuthCodeViewModel {
     
     dependency.authRepository.verifyMailAuthCode(userMail: userMail, authCode: authCode)
       .subscribe(with: self, onSuccess: { owner, _ in
-        owner.dependency.coordinator.showRegisterViewController()
+        owner.dependency.coordinator.showRegisterViewController(authCode: authCode)
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         output.errorMessageRelay.accept(error)
