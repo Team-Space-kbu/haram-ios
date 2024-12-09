@@ -144,6 +144,11 @@ DerivedData/
 *.dSYM.zip
 *.dSYM
 
+*.p12
+*.mobileprovision
+*.entitlements
+*.cer
+
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
