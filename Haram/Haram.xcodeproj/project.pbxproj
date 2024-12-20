@@ -46,7 +46,6 @@
 		70375F052AAD804C0032F6B8 /* SearchBookRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375F042AAD804C0032F6B8 /* SearchBookRequest.swift */; };
 		70375F072AB04F7B0032F6B8 /* InquireChapterToBibleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375F062AB04F7B0032F6B8 /* InquireChapterToBibleRequest.swift */; };
 		70375F092AB050E00032F6B8 /* InquireChapterToBibleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375F082AB050E00032F6B8 /* InquireChapterToBibleResponse.swift */; };
-		70375F162AB1B0500032F6B8 /* HaramToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70375F152AB1B0500032F6B8 /* HaramToast.swift */; };
 		703C5C0D29E6A1ED00B5D091 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 703C5C0C29E6A1ED00B5D091 /* SnapKit */; };
 		70430A822B7E29D200B64545 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70430A812B7E29D200B64545 /* Device.swift */; };
 		7051E4F12AD6A75800C2134B /* space_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7051E4EA2AD6A75800C2134B /* space_2x.png */; };
@@ -440,7 +439,6 @@
 		70375F042AAD804C0032F6B8 /* SearchBookRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBookRequest.swift; sourceTree = "<group>"; };
 		70375F062AB04F7B0032F6B8 /* InquireChapterToBibleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireChapterToBibleRequest.swift; sourceTree = "<group>"; };
 		70375F082AB050E00032F6B8 /* InquireChapterToBibleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireChapterToBibleResponse.swift; sourceTree = "<group>"; };
-		70375F152AB1B0500032F6B8 /* HaramToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramToast.swift; sourceTree = "<group>"; };
 		70430A812B7E29D200B64545 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		7051E4EA2AD6A75800C2134B /* space_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = space_2x.png; sourceTree = "<group>"; };
 		7051E4EB2AD6A75800C2134B /* space_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = space_3x.png; sourceTree = "<group>"; };
@@ -1940,7 +1938,6 @@
 				708ED79C2A8E817F00107CDF /* EmptyView.swift */,
 				708312B72A77E36900F7E283 /* HaramTextField.swift */,
 				708312C12A7A6F2900F7E283 /* PaddingLabel.swift */,
-				70375F152AB1B0500032F6B8 /* HaramToast.swift */,
 				701FC89E2B9B5FA700291FC3 /* CheckBoxControl.swift */,
 				70A24EC62BBD717100572FAE /* EmptyCollectionViewCell.swift */,
 				70A24ECC2BBED36000572FAE /* ZoomImageViewController.swift */,
@@ -2156,12 +2153,9 @@
 				706BA0C129E6A32700AF12D4 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				705FD27A2A10D3EA00F353FE /* XCRemoteSwiftPackageReference "Alamofire" */,
 				705FD2CD2A24DE5B00F353FE /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				708312A42A7028B400F7E283 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				70375EF62AA5B6110032F6B8 /* XCRemoteSwiftPackageReference "SkeletonView" */,
-				70375F122AB1ADDC0032F6B8 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				708E1E5E2B038A6E0030FAA0 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
 				70912FFB2B15F463005B88B4 /* XCRemoteSwiftPackageReference "QRCode" */,
-				70AD2A702B89CC1F00CB9791 /* XCRemoteSwiftPackageReference "SVGKit" */,
 				70AD2A8C2B90AF4900CB9791 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */,
 			);
 			productRefGroup = 70727A5229D87B25003DE956 /* Products */;
@@ -2641,7 +2635,6 @@
 				70AD2A6F2B889B1C00CB9791 /* BoardViewModel.swift in Sources */,
 				70AED8092CF2312F00AB22C5 /* MoreCategoryCoordinator.swift in Sources */,
 				705FD2BF2A1A4D2E00F353FE /* LibraryDetailMainView.swift in Sources */,
-				70375F162AB1B0500032F6B8 /* HaramToast.swift in Sources */,
 				70B310982BAB022700EF21CE /* InquireTermsSignUpResponse.swift in Sources */,
 				701FC8952B97000700291FC3 /* CustomAcknowListViewController.swift in Sources */,
 				70909A822B0D8B4E00049265 /* ReserveStudyRoomRequest.swift in Sources */,
@@ -3054,14 +3047,6 @@
 				minimumVersion = 1.7.0;
 			};
 		};
-		70375F122AB1ADDC0032F6B8 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/scalessec/Toast-Swift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
 		703C5C0B29E6A1ED00B5D091 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -3102,14 +3087,6 @@
 				kind = branch;
 			};
 		};
-		708312A42A7028B400F7E283 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/scinfu/SwiftSoup";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
 		708E1E5E2B038A6E0030FAA0 /* XCRemoteSwiftPackageReference "FloatingPanel" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scenee/FloatingPanel";
@@ -3124,14 +3101,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.1.0;
-			};
-		};
-		70AD2A702B89CC1F00CB9791 /* XCRemoteSwiftPackageReference "SVGKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SVGKit/SVGKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
 			};
 		};
 		70AD2A8C2B90AF4900CB9791 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */ = {
