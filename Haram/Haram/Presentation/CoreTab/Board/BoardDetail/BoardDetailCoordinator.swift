@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class BoardDetailCoordinator: Coordinator {
+final class BoardDetailCoordinator: NavigationCoordinator {
   var navigationController: UINavigationController
   var parentCoordinator: Coordinator?
   var childCoordinators: [Coordinator] = []
@@ -56,8 +56,8 @@ final class BoardDetailCoordinator: Coordinator {
 }
 
 extension BoardDetailCoordinator {
-  func showAlert(title: String = "Space 알림", message: String, completion: (() -> Void)? = nil) {
-    AlertManager.showAlert(title: title, message: message, viewController: self.navigationController, confirmHandler: completion) 
+  func showAlert(title: String = "Space 알림", message: String, confirmHandler: (() -> Void)? = nil) {
+    AlertManager.showAlert(on: self.navigationController, message: .custom(message), confirmHandler: confirmHandler)
   }
   
   func popViewController() {

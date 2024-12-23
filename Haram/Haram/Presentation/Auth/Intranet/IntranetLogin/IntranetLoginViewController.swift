@@ -11,17 +11,11 @@ import RxSwift
 import SnapKit
 import Then
 
-enum IntranetLoginType {
-  case shortcut
-  case noShortcut
-}
-
 final class IntranetLoginViewController: BaseViewController {
   
   // MARK: - Property
   
-  private let viewModel: IntranetLoginViewModelType
-  private let type: IntranetLoginType
+  private let viewModel: IntranetLoginViewModel
   
   // MARK: - UI Components
   
@@ -76,9 +70,8 @@ final class IntranetLoginViewController: BaseViewController {
   
   // MARK: - Initialization
   
-  init(type: IntranetLoginType = .noShortcut, viewModel: IntranetLoginViewModelType = IntranetLoginViewModel()) {
+  init(viewModel: IntranetLoginViewModel) {
     self.viewModel = viewModel
-    self.type = type
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -105,7 +98,7 @@ final class IntranetLoginViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     navigationController?.interactivePopGestureRecognizer?.delegate = self
-
+    
     /// Set Delegate
     idTextField.textField.delegate = self
     pwTextField.textField.delegate = self
@@ -160,58 +153,66 @@ final class IntranetLoginViewController: BaseViewController {
   override func bind() {
     super.bind()
     
-    loginButton.rx.tap
-      .subscribe(with: self) { owner, _ in
-        guard let intranetID = owner.idTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-              let intranetPWD = owner.pwTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else {
-          return
-        }
-        let isContain = owner.containerStackView.subviews.contains(owner.errorMessageLabel)
-        
-        if isContain {
-          owner.errorMessageLabel.text = nil
-          owner.errorMessageLabel.removeFromSuperview()
-        }
-        
-        owner.view.endEditing(true)
-        owner.viewModel.whichIntranetInfo(intranetID: intranetID, intranetPassword: intranetPWD)
-      }
+    let input = IntranetLoginViewModel.Input(
+      didEditIntranetID: idTextField.rx.text.orEmpty.asObservable(),
+      didEditIntranetPassword: pwTextField.rx.text.orEmpty.asObservable(),
+      didTapLoginButton: loginButton.rx.tap.asObservable(),
+      didTapLastAuthButton: lastAuthButton.rx.tap.asObservable()
+    )
+    let output = viewModel.transform(input: input)
+    
+    //    loginButton.rx.tap
+    //      .subscribe(with: self) { owner, _ in
+    //        guard let intranetID = owner.idTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+    //              let intranetPWD = owner.pwTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else {
+    //          return
+    //        }
+    //        let isContain = owner.containerStackView.subviews.contains(owner.errorMessageLabel)
+    //
+    //        if isContain {
+    //          owner.errorMessageLabel.text = nil
+    //          owner.errorMessageLabel.removeFromSuperview()
+    //        }
+    //
+    //        owner.view.endEditing(true)
+    //        owner.viewModel.whichIntranetInfo(intranetID: intranetID, intranetPassword: intranetPWD)
+    //      }
+    //      .disposed(by: disposeBag)
+    
+    //    lastAuthButton.rx.tap
+    //      .asDriver()
+    //      .drive(with: self) { owner, _ in
+    //        owner.removeNotifications()
+    //        owner.navigationController?.setNavigationBarHidden(false, animated: true)
+    //        owner.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    //        owner.navigationController?.popToRootViewController(animated: true)
+    //      }
+    //      .disposed(by: disposeBag)
+    
+    //    viewModel.successIntranetLogin
+    //      .emit(with: self) { owner, message in
+    //        AlertManager.showAlert(title: "인트라넷인증 성공", message: "지금부터 마일리지, 채플, 시간표같은 정보를\n편하게 이용해보세요, 홈으로 이동합니다.", viewController: owner) {
+    //          owner.navigationController?.setNavigationBarHidden(false, animated: true)
+    //          owner.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    //          owner.navigationController?.popToRootViewController(animated: true)
+    //        }
+    //      }
+    //      .disposed(by: disposeBag)
+    
+    output.isLoading
+      .bind(to: indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
     
-    lastAuthButton.rx.tap
-      .asDriver()
-      .drive(with: self) { owner, _ in
-        owner.removeNotifications()
-        owner.navigationController?.setNavigationBarHidden(false, animated: true)
-        owner.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        owner.navigationController?.popToRootViewController(animated: true)
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.successIntranetLogin
-      .emit(with: self) { owner, message in
-        AlertManager.showAlert(title: "인트라넷인증 성공", message: "지금부터 마일리지, 채플, 시간표같은 정보를\n편하게 이용해보세요, 홈으로 이동합니다.", viewController: owner) {
-          owner.navigationController?.setNavigationBarHidden(false, animated: true)
-          owner.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-          owner.navigationController?.popToRootViewController(animated: true)
-        }
-      }
-      .disposed(by: disposeBag)
-    
-    viewModel.isLoading
-      .drive(indicatorView.rx.isAnimating)
-      .disposed(by: disposeBag)
-    
-    viewModel.errorMessage
-      .emit(with: self) { owner, error in
-        
+    output.errorMessage
+      .subscribe(with: self) { owner, error in
         if error == .networkError {
-          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+          AlertManager.showAlert(on: self.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-          }
+            self.navigationController?.popViewController(animated: true)
+          })
         } else {
           let isContain = owner.containerStackView.subviews.contains(owner.errorMessageLabel)
           if !isContain {
@@ -291,18 +292,11 @@ extension IntranetLoginViewController: UITextFieldDelegate {
     } else if textField == pwTextField.textField {
       pwTextField.textField.resignFirstResponder()
       
-      guard let intranetID = self.idTextField.textField.text,
-            let intranetPWD = self.pwTextField.textField.text else {
-        return true
-      }
-      
       let isContain = self.containerStackView.subviews.contains(self.errorMessageLabel)
       
       if isContain {
         self.errorMessageLabel.removeFromSuperview()
       }
-      
-      viewModel.whichIntranetInfo(intranetID: intranetID, intranetPassword: intranetPWD)
     }
     return true
   }

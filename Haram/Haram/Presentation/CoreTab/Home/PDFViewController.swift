@@ -49,13 +49,13 @@ final class PDFViewController: BaseViewController, PDFDocumentDelegate {
     setupBackButton()
    
     guard NetworkManager.shared.isConnected else {
-      AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: self) {
+      AlertManager.showAlert(on: self.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
         guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
         if UIApplication.shared.canOpenURL(url) {
           UIApplication.shared.open(url)
         }
         self.navigationController?.popViewController(animated: true)
-      }
+      })
       return
     }
     

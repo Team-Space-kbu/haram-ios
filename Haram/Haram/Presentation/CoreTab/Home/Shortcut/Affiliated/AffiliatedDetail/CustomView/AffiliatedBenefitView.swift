@@ -47,7 +47,6 @@ final class AffiliatedBenefitView: UIView {
     _ = [benefitTitleLabel, benefitContentLabel].map { addSubview($0) }
     benefitTitleLabel.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo(22)
     }
     
     benefitContentLabel.snp.makeConstraints {

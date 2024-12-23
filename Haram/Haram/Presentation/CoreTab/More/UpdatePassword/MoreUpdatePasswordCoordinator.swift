@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MoreUpdatePasswordCoordinator: Coordinator {
+final class MoreUpdatePasswordCoordinator: NavigationCoordinator {
   var navigationController: UINavigationController
   var parentCoordinator: Coordinator?
   var childCoordinators: [Coordinator] = []
@@ -48,6 +48,6 @@ extension MoreUpdatePasswordCoordinator {
   }
   
   func showAlert(title: String = "Space 알림", message: String, confirmHandler: (() -> Void)? = nil) {
-    AlertManager.showAlert(title: title, message: message, viewController: self.navigationController, confirmHandler: confirmHandler)
+    AlertManager.showAlert(on: self.navigationController, message: .custom(message), confirmHandler: confirmHandler)
   }
 }

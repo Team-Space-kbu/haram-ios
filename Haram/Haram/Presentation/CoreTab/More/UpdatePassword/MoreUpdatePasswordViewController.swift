@@ -189,16 +189,16 @@ final class MoreUpdatePasswordViewController: BaseViewController {
     output.errorMessage
       .subscribe(with: self) { owner, error in
         if error == .networkError {
-          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+          AlertManager.showAlert(on: self.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-          }
+          })
         } else if error == .noEqualPassword {
           owner.checkUpdatePasswordTextField.setError(description: error.description!)
         } else {
-          AlertManager.showAlert(title: "비밀번호 변경 알림", message: error.description!, viewController: owner, confirmHandler: nil)
+          AlertManager.showAlert(on: self.navigationController, message: .custom(error.description!))
         }
       }
       .disposed(by: disposeBag)
@@ -252,17 +252,6 @@ extension MoreUpdatePasswordViewController {
     }
   }
 }
-
-//extension MoreUpdatePasswordViewController: UIGestureRecognizerDelegate {
-//  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-//    return true // or false
-//  }
-//  
-//  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-//    // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
-//    return true
-//  }
-//}
 
 extension MoreUpdatePasswordViewController: UIScrollViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {

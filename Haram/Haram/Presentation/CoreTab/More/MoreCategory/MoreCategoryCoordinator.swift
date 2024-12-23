@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MoreCategoryCoordinator: Coordinator {
+final class MoreCategoryCoordinator: NavigationCoordinator {
   var navigationController: UINavigationController
   var parentCoordinator: Coordinator?
   var childCoordinators: [Coordinator] = []

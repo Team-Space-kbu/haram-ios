@@ -23,9 +23,9 @@ final class BoardDetailViewController: BaseViewController {
       UIAction(
         title: reportType.title,
         handler: { [unowned self] _ in
-          AlertManager.showAlert(title: reportType.title, message: "신고 사유에 맞지 않은 신고를 했을경우 신고가 처리되지 않을 수 있습니다", viewController: self, confirmHandler: {
+          AlertManager.showAlert(on: self.navigationController, title: reportType.title, message: .custom("신고 사유에 맞지 않은 신고를 했을경우 신고가 처리되지 않을 수 있습니다"), actions: [.confirm(), .cancel()], confirmHandler:  {
             self.tapReportButton.onNext(reportType)
-          }, cancelHandler: nil)
+          })
         })
     }
   }
@@ -144,22 +144,18 @@ final class BoardDetailViewController: BaseViewController {
     
     output.errorMessage
       .subscribe(with: self) { owner, error in
-        if error == .networkError {
-          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+        if error == .networkError || error == .retryError {
+          AlertManager.showAlert(on: self.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-          }
-        } else if error == .retryError {
-          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
-            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-            if UIApplication.shared.canOpenURL(url) {
-              UIApplication.shared.open(url)
-            }
-          }
-        } else if error == .internalServerError || error == .alreadyReportBoard {
-          AlertManager.showAlert(title: "Space 알림", message: error.description!, viewController: owner, confirmHandler: nil)
+            self.navigationController?.popViewController(animated: true)
+          })
+
+        } 
+        else if error == .internalServerError || error == .alreadyReportBoard {
+          AlertManager.showAlert(on: self.navigationController, message: .custom(error.description!))
         }
       }
       .disposed(by: disposeBag)
@@ -211,9 +207,9 @@ final class BoardDetailViewController: BaseViewController {
     let banAction = UIAction(
       title: "차단",
       handler: { [unowned self] _ in
-        AlertManager.showAlert(title: "이 작성자의 게시물이\n목록에 노출되지 않으며,\n다시 해제하실 수 없습니다.", viewController: self, confirmHandler: {
+        AlertManager.showAlert(on: self.navigationController, message: .custom("이 작성자의 게시물이\n목록에 노출되지 않으며,\n다시 해제하실 수 없습니다."), actions: [.confirm(), .cancel()], confirmHandler:  {
           self.tapBannedButton.onNext(())
-        }, cancelHandler: nil)
+        })
       })
     
     let mainMenu = UIMenu(children: [reportMenu, banAction])

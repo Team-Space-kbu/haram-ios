@@ -135,12 +135,13 @@ final class RothemRoomDetailViewController: BaseViewController {
     output.errorMessage
       .subscribe(with: self) { owner, error in
         if error == .networkError {
-          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+          AlertManager.showAlert(on: self.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-          }
+            self.navigationController?.popViewController(animated: true)
+          })
         }
       }
       .disposed(by: disposeBag)
@@ -153,7 +154,7 @@ final class RothemRoomDetailViewController: BaseViewController {
             modal.modalPresentationStyle = .fullScreen
             owner.present(modal, animated: true)
           } else {
-            AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: owner, confirmHandler: nil)
+            AlertManager.showAlert(on: self.navigationController, message: .custom("해당 이미지는 확대할 수 없습니다"))
           }
         }
       }

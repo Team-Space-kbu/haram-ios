@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class BannerDetailCoordinator: Coordinator {
+final class BannerDetailCoordinator: NavigationCoordinator {
   var navigationController: UINavigationController
   var parentCoordinator: Coordinator?
   var childCoordinators: [Coordinator] = []

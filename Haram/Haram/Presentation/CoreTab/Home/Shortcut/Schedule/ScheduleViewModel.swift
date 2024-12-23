@@ -115,6 +115,9 @@ extension ScheduleViewModel {
         output.schedulingInfo.accept(scheduleModel)
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
+        if error == .requiredStudentID {
+          owner.dependency.coordinator.showIntranetAlertViewController()
+        }
         output.errorMessage.accept(error)
       })
       .disposed(by: disposeBag)

@@ -274,7 +274,9 @@ extension HaramError {
       return "이미 사용중인 닉네임입니다."
     case .uploadingImage:
       return "이미지가 업로드중이니 잠시만 기다려주세요."
-    case .networkError, .retryError, .unvalidRefreshToken, .multipleLoginUser:
+    case .networkError:
+      return "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."
+    case .retryError, .unvalidRefreshToken, .multipleLoginUser:
       return nil
     case .equalUpdatePasswordWithOldPassword:
       return "기존 비밀번호와 변경할 비밀번호가 일치합니다\n 수정 후 다시 시도해주세요."

@@ -117,18 +117,16 @@ final class IntranetAlertView: UIView {
   }
 }
 
-struct IntranetAlertViewModel {
-  let mainTitle: String
-  let mainColor: UIColor
-  let title: String
-  let description: String
-}
-
 extension IntranetAlertView {
-  func configureUI(with model: IntranetAlertViewModel) {
-    mainView.text = model.mainTitle
-    mainView.backgroundColor = model.mainColor
-    alertTitleLabel.text = model.title
-    alertDescriptionLabel.text = model.description
+  func configureUI(
+    mainTitle: String,
+    mainColor: UIColor,
+    alertTitle: String,
+    alertDescription: String
+  ) {
+    mainView.text = mainTitle
+    mainView.backgroundColor = mainColor
+    alertTitleLabel.text = alertTitle
+    alertDescriptionLabel.text = alertDescription
   }
 }

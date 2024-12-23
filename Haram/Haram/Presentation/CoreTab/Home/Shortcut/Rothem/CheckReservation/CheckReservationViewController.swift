@@ -93,12 +93,12 @@ final class CheckReservationViewController: BaseViewController {
     output.errorMessage
       .subscribe(with: self) { owner, error in
         if error == .networkError {
-          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+          AlertManager.showAlert(on: self.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-          }
+          })
         }
       }
       .disposed(by: disposeBag)
@@ -113,15 +113,9 @@ final class CheckReservationViewController: BaseViewController {
     reservationCancelButton.rx.tap
       .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
       .subscribe(with: self) { owner, _ in
-        AlertManager.showAlert(
-          title: "로뎀예약취소 알림",
-          message: "정말 로뎀방 예약을 취소하시겠습니까 ?",
-          viewController: owner,
-          confirmHandler: {
-            owner.requestCancelReservation.onNext(())
-          },
-          cancelHandler: nil
-        )
+        AlertManager.showAlert(on: self.navigationController, message: .custom("정말 로뎀방 예약을 취소하시겠습니까 ?"), actions: [.confirm(), .cancel()], confirmHandler: {
+          owner.requestCancelReservation.onNext(())
+        })
       }
       .disposed(by: disposeBag)
   }
@@ -156,7 +150,7 @@ extension CheckReservationViewController: RothemReservationInfoViewDelegate {
       modal.modalPresentationStyle = .fullScreen
       present(modal, animated: true)
     } else {
-      AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: self, confirmHandler: nil)
+      AlertManager.showAlert(on: self.navigationController, message: .custom("해당 이미지는 확대할 수 없습니다"))
     }
   }
 }

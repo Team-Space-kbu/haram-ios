@@ -31,8 +31,8 @@ final class HomeBannerDetailViewModel: ViewModelType {
   }
   
   struct Output {
-    let bannerInfoRelay = PublishRelay<(title: String, content: String, writerInfo: String)>()
-    let errorMessageRelay = PublishRelay<HaramError>()
+    let bannerInfo = PublishRelay<(title: String, content: String, writerInfo: String)>()
+    let errorMessage = PublishRelay<HaramError>()
   }
   
   init(payload: Payload, dependency: Dependency) {
@@ -65,7 +65,7 @@ extension HomeBannerDetailViewModel {
       .subscribe(with: self, onSuccess: { owner, response in
         let iso8607Date = DateformatterFactory.dateForISO8601LocalTimeZone.date(from: response.createdAt)!
         
-        output.bannerInfoRelay.accept(
+        output.bannerInfo.accept(
           (
             title: response.title,
             content: response.content,
@@ -74,7 +74,7 @@ extension HomeBannerDetailViewModel {
         )
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
-        output.errorMessageRelay.accept(error)
+        output.errorMessage.accept(error)
       })
       .disposed(by: disposeBag)
   }

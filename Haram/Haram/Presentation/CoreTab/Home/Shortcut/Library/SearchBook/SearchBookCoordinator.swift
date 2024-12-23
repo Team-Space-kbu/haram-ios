@@ -42,7 +42,7 @@ extension SearchBookCoordinator {
   }
   
   func showAlert(title: String = "Space 알림", message: String, confirmHandler: (() -> Void)? = nil) {
-    AlertManager.showAlert(title: title, message: message, viewController: self.navigationController, confirmHandler: confirmHandler)
+    AlertManager.showAlert(on: self.navigationController, message: .custom(message), confirmHandler: confirmHandler)
   }
   
   func popViewController() {

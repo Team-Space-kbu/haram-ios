@@ -24,3 +24,20 @@ protocol NavigationCoordinator: Coordinator {
   var navigationController: UINavigationController { get }
 }
 
+//extension NavigationCoordinator {
+//  func showAlert(message: String, actions: [AlertButtonType] = [.confirm()], confirmHandler: (() -> Void)? = nil) {
+//    AlertManager.showAlert(
+//      on: self.navigationController,
+//      message: .custom(message),
+//      actions: actions,
+//      confirmHandler: confirmHandler
+//    )
+//  }
+//  
+//  func openSettings() {
+//    guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+//    if UIApplication.shared.canOpenURL(url) {
+//      UIApplication.shared.open(url)
+//    }
+//  }
+//}

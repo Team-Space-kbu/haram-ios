@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class BoardListCoordinator: Coordinator {
+final class BoardListCoordinator: NavigationCoordinator {
   var navigationController: UINavigationController
   var parentCoordinator: Coordinator?
   var childCoordinators: [Coordinator] = []

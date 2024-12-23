@@ -218,19 +218,6 @@ final class HomeViewController: BaseViewController {
       didTapNewsCell: newsCollectionView.rx.itemSelected.asObservable()
     )
     let output = viewModel.transform(input: input)
-    output.errorMessage
-      .subscribe(with: self) { owner, error in
-        if error == .networkError {
-          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터 연결 후 다시 시도해주세요.", viewController: owner) {
-            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-            if UIApplication.shared.canOpenURL(url) {
-              UIApplication.shared.open(url)
-            }
-          }
-        }
-      }
-      .disposed(by: disposeBag)
-    
     output.isAvailableSimpleChapelModal
       .subscribe(with: self) { owner, modalModel in
         let (isAvailableSimpleChapelModal, checkChapelDayViewModel) = modalModel

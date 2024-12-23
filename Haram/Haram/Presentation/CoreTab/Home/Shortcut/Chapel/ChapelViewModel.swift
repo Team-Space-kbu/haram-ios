@@ -30,7 +30,7 @@ final class ChapelViewModel: ViewModelType {
   struct Output {
     let chapelListModel   = PublishRelay<[ChapelCollectionViewCellModel]>()
     let chapelDetailModel = PublishRelay<[ChapelDetailInfoViewModel]>()
-    let chapelHeaderModel = PublishRelay<ChapelCollectionHeaderViewModel?>()
+    let chapelConfirmationDays = PublishRelay<String>()
     let isLoading       = BehaviorRelay<Bool>(value: true)
     let errorMessage      = PublishRelay<HaramError>()
   }
@@ -67,12 +67,7 @@ extension ChapelViewModel {
         let regulatedDays = Int(response.regulateDays) ?? -1
         let remainDays = regulatedDays - confirmationDays
         
-        output.chapelHeaderModel.accept(
-          ChapelCollectionHeaderViewModel(
-            chapelDayViewModel: response.confirmationDays,
-            chapelInfoViewModel: []
-          )
-        )
+        output.chapelConfirmationDays.accept(response.confirmationDays)
         output.chapelDetailModel.accept([
           .init(title: "규정일수", day: response.regulateDays + "일"),
           .init(title: "남은일수", day: "\(remainDays < 0 ? 0 : remainDays)" + "일"),
@@ -82,6 +77,9 @@ extension ChapelViewModel {
         ])
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
+        if error == .requiredStudentID {
+          owner.dependency.coordinator.showIntranetAlertViewController()
+        }
         output.errorMessage.accept(error)
       }, onDisposed: { _ in
         output.isLoading.accept(false)

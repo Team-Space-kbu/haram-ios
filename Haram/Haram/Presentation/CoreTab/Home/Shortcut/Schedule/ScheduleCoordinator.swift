@@ -35,6 +35,12 @@ extension ScheduleCoordinator {
     self.parentCoordinator?.removeChildCoordinator(child: self)
     self.navigationController.popViewController(animated: true)
   }
+  
+  func showIntranetAlertViewController() {
+    let coordinator = IntranetAlertCoordinator(navigationController: self.navigationController)
+    coordinator.start()
+    self.childCoordinators.append(coordinator)
+  }
 }
 
 

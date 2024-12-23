@@ -19,7 +19,6 @@ final class AffiliatedDetailViewController: BaseViewController {
     $0.alwaysBounceVertical = true
     $0.showsVerticalScrollIndicator = false
     $0.isSkeletonable = true
-    $0.contentInsetAdjustmentBehavior = .never
   }
   
   private let containerView = UIView().then {
@@ -96,26 +95,29 @@ final class AffiliatedDetailViewController: BaseViewController {
     super.setupConstraints()
     
     scrollView.snp.makeConstraints {
-      $0.directionalEdges.size.equalToSuperview()
+      $0.directionalEdges.width.equalToSuperview()
     }
     
     containerView.snp.makeConstraints {
-      $0.directionalEdges.size.equalToSuperview()
-    }
-    
-    backgroundView.snp.makeConstraints {
-      $0.bottom.equalToSuperview()
-      $0.directionalHorizontalEdges.equalToSuperview()
-      $0.height.equalTo((((UIScreen.main.bounds.height - UINavigationController().navigationBar.frame.height) / 3) * 2))
-    }
-    
-    affiliatedDetailView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.top.directionalHorizontalEdges.width.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
+//      $0.directionalEdges.size.equalToSuperview()
     }
     
     detailImageView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
-      $0.bottom.equalTo(affiliatedDetailView.snp.top).offset(40)
+      $0.height.equalTo((((UIScreen.main.bounds.height - UINavigationController().navigationBar.frame.height) / 3) * 1))
+//      $0.bottom.equalTo(affiliatedDetailView.snp.top).offset(40)
+    }
+    
+    backgroundView.snp.makeConstraints {
+      $0.top.equalTo(detailImageView.snp.bottom).offset(-40)
+      $0.directionalHorizontalEdges.bottom.equalToSuperview()
+//      $0.height.equalTo((((UIScreen.main.bounds.height - UINavigationController().navigationBar.frame.height) / 3) * 2))
+    }
+    
+    affiliatedDetailView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
     button.snp.makeConstraints {
@@ -143,12 +145,13 @@ final class AffiliatedDetailViewController: BaseViewController {
     output.errorMessage
       .subscribe(with: self) { owner, error in
         if error == .networkError {
-          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+          AlertManager.showAlert(on: self.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-          }
+            owner.navigationController?.popViewController(animated: true)
+          })
         }
       }
       .disposed(by: disposeBag)
@@ -160,7 +163,7 @@ final class AffiliatedDetailViewController: BaseViewController {
           modal.modalPresentationStyle = .fullScreen
           owner.present(modal, animated: true)
         } else {
-          AlertManager.showAlert(title: "이미지 확대 알림", message: "해당 이미지는 확대할 수 없습니다", viewController: owner, confirmHandler: nil)
+          AlertManager.showAlert(on: self.navigationController, message: .custom("해당 이미지는 확대할 수 없습니다"))
         }
       }
       .disposed(by: disposeBag)

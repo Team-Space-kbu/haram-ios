@@ -1,13 +1,13 @@
 //
-//  ChapelCoordinator.swift
+//  IntranetAlertCoordinator.swift
 //  Haram
 //
-//  Created by 이건준 on 11/20/24.
+//  Created by 이건준 on 12/21/24.
 //
 
 import UIKit
 
-final class ChapelCoordinator: Coordinator {
+final class IntranetAlertCoordinator: Coordinator {
   var navigationController: UINavigationController
   var parentCoordinator: Coordinator?
   var childCoordinators: [Coordinator] = []
@@ -17,12 +17,9 @@ final class ChapelCoordinator: Coordinator {
   }
   
   func start() {
-    let viewController: ChapelViewController = ChapelViewController(
-      viewModel: ChapelViewModel(
-        dependency: .init(
-          intranetRepository: IntranetRepositoryImpl(),
-          coordinator: self
-        )
+    let viewController: IntranetAlertViewController = IntranetAlertViewController(
+      viewModel: IntranetAlertViewModel(
+        dependency: .init(coordinator: self)
       )
     )
     viewController.hidesBottomBarWhenPushed = true
@@ -30,16 +27,20 @@ final class ChapelCoordinator: Coordinator {
   }
 }
 
-extension ChapelCoordinator {
+extension IntranetAlertCoordinator {
   func popViewController() {
     self.parentCoordinator?.removeChildCoordinator(child: self)
     self.navigationController.popViewController(animated: true)
   }
   
-  func showIntranetAlertViewController() {
-    let coordinator = IntranetAlertCoordinator(navigationController: self.navigationController)
+  func popToRootViewController() {
+    self.parentCoordinator?.removeChildCoordinator(child: self)
+    self.navigationController.popToRootViewController(animated: true)
+  }
+  
+  func showIntranetLoginViewController() {
+    let coordinator = IntranetLoginCoordinator(navigationController: self.navigationController)
     coordinator.start()
     self.childCoordinators.append(coordinator)
   }
 }
-

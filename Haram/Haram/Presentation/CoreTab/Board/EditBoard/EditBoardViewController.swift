@@ -218,24 +218,25 @@ final class EditBoardViewController: BaseViewController {
       .emit(with: self) { owner, _ in
         NotificationCenter.default.post(name: .refreshBoardModel, object: nil)
         
-        AlertManager.showAlert(title: "게시글작성 성공", message: "메인화면으로 이동합니다.", viewController: owner) {
+        AlertManager.showAlert(on: self.navigationController, message: .custom("게시글 작성에 성공하였습니다.\n메인화면으로 이동합니다."), confirmHandler: {
           owner.navigationController?.popViewController(animated: true)
-        }
+        })
       }
       .disposed(by: disposeBag)
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
         if error == .networkError {
-          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+          AlertManager.showAlert(on: self.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-          }
+            self.navigationController?.popViewController(animated: true)
+          })
           return
         }
-        AlertManager.showAlert(title: "Space 알림", message: error.description!, viewController: owner, confirmHandler: nil)
+        AlertManager.showAlert(on: self.navigationController, message: .custom(error.description!))
       }
       .disposed(by: disposeBag)
   }
@@ -439,7 +440,7 @@ extension EditBoardViewController: PHPickerViewControllerDelegate {
     
     // 만약에 삽입한 이미지 갯수가 최대갯수인 8개를 넘어선 경우
     if itemProviders.count + imageModel.count > 8 {
-      AlertManager.showAlert(title: "이미지 등록은 최대 8개입니다.", viewController: self, confirmHandler: nil)
+      AlertManager.showAlert(on: self.navigationController, message: .custom("이미지 등록은 최대 8개입니다."))
       return
     }
     var newSelections = [String: PHPickerResult]()

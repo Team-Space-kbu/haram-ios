@@ -68,28 +68,25 @@ final class ChapelViewController: BaseViewController {
     let output = viewModel.transform(input: input)
     output.errorMessage
       .subscribe(with: self) { owner, error in
-        if error == .requiredStudentID {
-          let vc = IntranetCheckViewController()
-          vc.navigationItem.largeTitleDisplayMode = .never
-          owner.navigationController?.pushViewController(vc, animated: true)
-        } else if error == .networkError {
-          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
+        if error == .networkError {
+          AlertManager.showAlert(on: self.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-          }
+            self.navigationController?.popViewController(animated: true)
+          })
         }
       }
       .disposed(by: disposeBag)
     
     Observable.combineLatest(
-      output.chapelHeaderModel,
+      output.chapelConfirmationDays,
       output.chapelListModel,
       output.chapelDetailModel
     )
     .subscribe(with: self) { owner, result in
-      let (chapelHeaderModel, listModel, detailModel) = result
+      let (confirmationDays, listModel, detailModel) = result
       owner.chapelListModel = listModel
       owner.chapelDetailModel = detailModel
       
@@ -98,9 +95,7 @@ final class ChapelViewController: BaseViewController {
       owner.chapelListView.chapelCollectionView.reloadData()
       owner.chapelInfoView.chapelDetailInfoView.reloadData()
       
-      guard let headerModel = chapelHeaderModel else { return }
-      
-      owner.chapelDayView.configureUI(with: headerModel.chapelDayViewModel)
+      owner.chapelDayView.configureUI(with: confirmationDays)
     }
     .disposed(by: disposeBag)
   }

@@ -123,10 +123,10 @@ extension BoardListViewModel {
         // 다음 페이지 요청을 위해 +1
         owner.startPage = response.startPage + 1
         owner.endPage = response.endPage
-        owner.isLoading = false
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         output.errorMessage.accept(error)
+      }, onDisposed: { owner in
         owner.isLoading = false
       })
       .disposed(by: disposeBag)
@@ -153,7 +153,6 @@ extension BoardListViewModel {
         }
         output.currentBoardList.accept(addBoardList)
         output.writeableBoard.accept(response.writeableBoard)
-        owner.isLoading = false
         
         // 다음 페이지 요청을 위해 +1
         owner.startPage = response.startPage + 1
@@ -161,6 +160,7 @@ extension BoardListViewModel {
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         output.errorMessage.accept(error)
+      }, onDisposed: { owner in
         owner.isLoading = false
       })
       .disposed(by: disposeBag)

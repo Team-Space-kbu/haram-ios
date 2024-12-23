@@ -7,45 +7,90 @@
 
 import UIKit
 
-final class AlertManager {
+/// 메시지 타입 정의
+public enum MessageType: CustomStringConvertible, Equatable {
+  case needSignIn
+  case custom(String)
   
-  private init() {}
+  public var description: String {
+    switch self {
+    case .needSignIn:
+      return "로그인이 필요합니다."
+    case .custom(let string):
+      return string
+    }
+  }
+}
+
+/// 버튼 타입 정의
+public enum AlertButtonType {
+  case confirm(title: String = "확인")
+  case cancel(title: String = "취소")
+}
+
+/// AlertManager 정의
+public final class AlertManager {
   
-  static func showAlert(title: String, message: String? = nil, viewController: UIViewController, confirmHandler: (() -> Void)?, cancelHandler: (() -> Void)?) {
-    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "아니오", style: .cancel, handler: { _ in
-      cancelHandler?()
-    }))
+  // MARK: - Public API
+  
+  /// Show a common alert
+  public static func showAlert(
+    on viewController: UIViewController? = nil,
+    title: String = "Space 알림",
+    message: MessageType,
+    actions: [AlertButtonType] = [.confirm()],
+    confirmHandler: (() -> Void)? = nil,
+    cancelHandler: (() -> Void)? = nil
+  ) {
+    let alertController = UIAlertController(
+      title: title,
+      message: message.description,
+      preferredStyle: .alert
+    )
     
-    if let confirmHandler = confirmHandler {
-      alert.addAction(UIAlertAction(title: "네", style: .destructive, handler: { _ in
-        confirmHandler()
-      }))
+    actions.forEach { actionType in
+      let action = createAction(type: actionType, confirmHandler: confirmHandler, cancelHandler: cancelHandler)
+      alertController.addAction(action)
     }
     
-    viewController.present(alert, animated: true)
+    present(alertController, on: viewController)
   }
   
-  static func showAlert(title: String, message: String? = nil, viewController: UIViewController?, confirmHandler: (() -> Void)?) {
-    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    
-    alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
-      confirmHandler?()
-    }))
-    
-    DispatchQueue.main.async {
-      if let viewController = viewController {
-        viewController.present(alert, animated: true)
-      } else {
-        let viewController = UIApplication.getTopViewController()
-        viewController?.present(alert, animated: true)
+  // MARK: - Private Methods
+  
+  /// Create an alert action based on type
+  private static func createAction(
+    type: AlertButtonType,
+    confirmHandler: (() -> Void)?,
+    cancelHandler: (() -> Void)?
+  ) -> UIAlertAction {
+    switch type {
+    case .confirm(let title):
+      return UIAlertAction(title: title, style: .default) { _ in
+        confirmHandler?()
+      }
+    case .cancel(let title):
+      return UIAlertAction(title: title, style: .cancel) { _ in
+        cancelHandler?()
       }
     }
   }
   
+  /// Present alert on the given view controller
+  private static func present(_ alert: UIAlertController, on viewController: UIViewController?) {
+    DispatchQueue.main.async {
+      if let viewController = viewController {
+        viewController.present(alert, animated: true)
+      } else {
+        UIApplication.getTopViewController()?.present(alert, animated: true)
+      }
+    }
+  }
 }
 
-public extension UIApplication {
+// MARK: - UIApplication Extension
+
+extension UIApplication {
   static var keyWindow: UIWindow? {
     return UIApplication
       .shared
@@ -59,16 +104,16 @@ public extension UIApplication {
   class func getTopViewController(
     base: UIViewController? = UIApplication.keyWindow?.rootViewController
   ) -> UIViewController? {
-
-      if let nav = base as? UINavigationController {
-          return getTopViewController(base: nav.visibleViewController)
-
-      } else if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
-          return getTopViewController(base: selected)
-
-      } else if let presented = base?.presentedViewController {
-          return getTopViewController(base: presented)
-      }
-      return base
+    
+    if let nav = base as? UINavigationController {
+      return getTopViewController(base: nav.visibleViewController)
+      
+    } else if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
+      return getTopViewController(base: selected)
+      
+    } else if let presented = base?.presentedViewController {
+      return getTopViewController(base: presented)
+    }
+    return base
   }
 }

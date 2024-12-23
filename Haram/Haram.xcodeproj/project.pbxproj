@@ -126,6 +126,9 @@
 		70727AB329D955AC003DE956 /* Spoqa Han Sans Neo Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 70727AB229D955AC003DE956 /* Spoqa Han Sans Neo Regular.otf */; };
 		70727AB529D95637003DE956 /* Spoqa Han Sans Neo Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 70727AB429D95637003DE956 /* Spoqa Han Sans Neo Thin.otf */; };
 		70727AB829D95E32003DE956 /* Ex + UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70727AB729D95E32003DE956 /* Ex + UIFont.swift */; };
+		707C37512D159E98005945A6 /* IntranetLoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707C37502D159E98005945A6 /* IntranetLoginCoordinator.swift */; };
+		707C37552D15C056005945A6 /* IntranetAlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707C37542D15C056005945A6 /* IntranetAlertViewModel.swift */; };
+		707C37572D15C20D005945A6 /* IntranetAlertCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707C37562D15C20D005945A6 /* IntranetAlertCoordinator.swift */; };
 		7082D0BD2D084EAF00238AAC /* CheckIDCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7082D0BC2D084EAF00238AAC /* CheckIDCoordinator.swift */; };
 		7082D0C02D0858F900238AAC /* FindIDResultCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7082D0BF2D0858F900238AAC /* FindIDResultCoordinator.swift */; };
 		7082D0C22D0ABF0C00238AAC /* MoreUpdatePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7082D0C12D0ABF0C00238AAC /* MoreUpdatePasswordCoordinator.swift */; };
@@ -176,7 +179,7 @@
 		70864F322AF9502600CD4124 /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F312AF9502600CD4124 /* CommentInputView.swift */; };
 		70864F362AFE1F3600CD4124 /* InquireMileageInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F352AFE1F3600CD4124 /* InquireMileageInfoResponse.swift */; };
 		70864F382B014A2D00CD4124 /* CreateCommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F372B014A2D00CD4124 /* CreateCommentRequest.swift */; };
-		70864F3C2B021FA900CD4124 /* IntranetCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */; };
+		70864F3C2B021FA900CD4124 /* IntranetAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70864F3B2B021FA900CD4124 /* IntranetAlertViewController.swift */; };
 		708DAD1C2B36DE6C00E3AD45 /* Ex + UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708DAD1B2B36DE6C00E3AD45 /* Ex + UIViewController.swift */; };
 		708E1E602B038A6E0030FAA0 /* FloatingPanel in Frameworks */ = {isa = PBXBuildFile; productRef = 708E1E5F2B038A6E0030FAA0 /* FloatingPanel */; };
 		708E1E622B044E0F0030FAA0 /* AffiliatedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708E1E612B044E0F0030FAA0 /* AffiliatedListViewController.swift */; };
@@ -517,6 +520,9 @@
 		70727AB229D955AC003DE956 /* Spoqa Han Sans Neo Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Spoqa Han Sans Neo Regular.otf"; sourceTree = "<group>"; };
 		70727AB429D95637003DE956 /* Spoqa Han Sans Neo Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Spoqa Han Sans Neo Thin.otf"; sourceTree = "<group>"; };
 		70727AB729D95E32003DE956 /* Ex + UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIFont.swift"; sourceTree = "<group>"; };
+		707C37502D159E98005945A6 /* IntranetLoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetLoginCoordinator.swift; sourceTree = "<group>"; };
+		707C37542D15C056005945A6 /* IntranetAlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetAlertViewModel.swift; sourceTree = "<group>"; };
+		707C37562D15C20D005945A6 /* IntranetAlertCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetAlertCoordinator.swift; sourceTree = "<group>"; };
 		7082D0BC2D084EAF00238AAC /* CheckIDCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckIDCoordinator.swift; sourceTree = "<group>"; };
 		7082D0BF2D0858F900238AAC /* FindIDResultCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDResultCoordinator.swift; sourceTree = "<group>"; };
 		7082D0C12D0ABF0C00238AAC /* MoreUpdatePasswordCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreUpdatePasswordCoordinator.swift; sourceTree = "<group>"; };
@@ -567,7 +573,7 @@
 		70864F312AF9502600CD4124 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		70864F352AFE1F3600CD4124 /* InquireMileageInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireMileageInfoResponse.swift; sourceTree = "<group>"; };
 		70864F372B014A2D00CD4124 /* CreateCommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommentRequest.swift; sourceTree = "<group>"; };
-		70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetCheckViewController.swift; sourceTree = "<group>"; };
+		70864F3B2B021FA900CD4124 /* IntranetAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetAlertViewController.swift; sourceTree = "<group>"; };
 		708DAD1B2B36DE6C00E3AD45 /* Ex + UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIViewController.swift"; sourceTree = "<group>"; };
 		708E1E612B044E0F0030FAA0 /* AffiliatedListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AffiliatedListViewController.swift; sourceTree = "<group>"; };
 		708E1E632B0778CD0030FAA0 /* PDFViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
@@ -1028,6 +1034,26 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		707C37522D15C023005945A6 /* IntranetLogin */ = {
+			isa = PBXGroup;
+			children = (
+				707C37502D159E98005945A6 /* IntranetLoginCoordinator.swift */,
+				708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */,
+				708312452A2F34DB00F7E283 /* IntranetLoginViewController.swift */,
+			);
+			path = IntranetLogin;
+			sourceTree = "<group>";
+		};
+		707C37532D15C033005945A6 /* IntranetAlert */ = {
+			isa = PBXGroup;
+			children = (
+				70864F3B2B021FA900CD4124 /* IntranetAlertViewController.swift */,
+				707C37542D15C056005945A6 /* IntranetAlertViewModel.swift */,
+				707C37562D15C20D005945A6 /* IntranetAlertCoordinator.swift */,
+			);
+			path = IntranetAlert;
+			sourceTree = "<group>";
+		};
 		7082D0BE2D0854A200238AAC /* FindIDResult */ = {
 			isa = PBXGroup;
 			children = (
@@ -1231,9 +1257,8 @@
 		708DAD142B35AD3F00E3AD45 /* Intranet */ = {
 			isa = PBXGroup;
 			children = (
-				708312A22A6EC9D700F7E283 /* IntranetLoginViewModel.swift */,
-				708312452A2F34DB00F7E283 /* IntranetLoginViewController.swift */,
-				70864F3B2B021FA900CD4124 /* IntranetCheckViewController.swift */,
+				707C37532D15C033005945A6 /* IntranetAlert */,
+				707C37522D15C023005945A6 /* IntranetLogin */,
 			);
 			path = Intranet;
 			sourceTree = "<group>";
@@ -2370,6 +2395,7 @@
 				705FD2BD2A1A4CEE00F353FE /* BookDetailViewController.swift in Sources */,
 				701FC89B2B97565F00291FC3 /* EditBoardCollectionViewCell.swift in Sources */,
 				7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */,
+				707C37572D15C20D005945A6 /* IntranetAlertCoordinator.swift in Sources */,
 				708ED7A12A8F922900107CDF /* CheckReservationViewController.swift in Sources */,
 				70AED74A2CB598DA00AB22C5 /* DepartmentListViewModel.swift in Sources */,
 				701F29C62AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift in Sources */,
@@ -2412,6 +2438,7 @@
 				70375EFC2AA5F29D0032F6B8 /* SearchBookViewModel.swift in Sources */,
 				705FD2A92A16031900F353FE /* LoginViewModel.swift in Sources */,
 				70AD2A652B85FF7000CB9791 /* InquireNoticeDetailInfoRequest.swift in Sources */,
+				707C37552D15C056005945A6 /* IntranetAlertViewModel.swift in Sources */,
 				70C9CCAE2A066B8F00BEB5F2 /* ChapelDetailInfoView.swift in Sources */,
 				70903C942ADEB1F500C6FEF0 /* Ex + Array.swift in Sources */,
 				70AED7562CBAA56600AB22C5 /* CourseListViewController.swift in Sources */,
@@ -2581,9 +2608,10 @@
 				708ED7822A8CC70700107CDF /* BoardListViewModel.swift in Sources */,
 				70C9CC972A037D1E00BEB5F2 /* Ex + UIColor.swift in Sources */,
 				7083128E2A65626E00F7E283 /* MyPageRepositoryImpl.swift in Sources */,
+				707C37512D159E98005945A6 /* IntranetLoginCoordinator.swift in Sources */,
 				70727A9529D889C6003DE956 /* HomeViewController.swift in Sources */,
 				70B3109A2BAB02C100EF21CE /* TermsOfUseViewModel.swift in Sources */,
-				70864F3C2B021FA900CD4124 /* IntranetCheckViewController.swift in Sources */,
+				70864F3C2B021FA900CD4124 /* IntranetAlertViewController.swift in Sources */,
 				708312662A398C0D00F7E283 /* LibraryRentalListView.swift in Sources */,
 				70AD2A9A2B93908A00CB9791 /* VerifyEmailViewModel.swift in Sources */,
 				70375EFE2AAA022A0032F6B8 /* LibraryRentalView.swift in Sources */,

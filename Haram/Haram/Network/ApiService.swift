@@ -34,16 +34,20 @@ final class ApiService: BaseService {
   private lazy var session = Session(configuration: configuration, interceptor: Interceptor(), eventMonitors: [monitor])
   
   func request<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Single<T> where T : Decodable {
-    
-    guard NetworkManager.shared.isConnected else {
-      return .error(HaramError.networkError)
-    }
-    
     return Single.create { observer in
+      
+      // 네트워크 연결 확인
+      //      guard NetworkManager.shared.isConnected else {
+      //        observer(.failure(HaramError.networkError))
+      //        return Disposables.create()
+      //      }
+      
+      // Alamofire 요청
       self.session.request(router)
         .validate({ request, response, data in
           let statusCode = response.statusCode
-    
+          
+          // 특정 상태 코드 처리
           if ![401, 402, 499].contains(statusCode) {
             return .success(Void())
           }
@@ -54,45 +58,60 @@ final class ApiService: BaseService {
         .responseData { response in
           switch response.result {
           case .success(let data):
-            guard let statusCode = response.response?.statusCode
-            else {
+            guard let statusCode = response.response?.statusCode else {
               observer(.failure(HaramError.unknownedError))
               return
             }
             
             guard let decodedData = try? JSONDecoder().decode(BaseEntity<T>.self, from: data) else {
               LogHelper.log("Decoding Error: \(response.request!)", level: .error)
-              return observer(.failure(HaramError.decodedError))
+              observer(.failure(HaramError.decodedError))
+              return
             }
             
             let code = decodedData.code
             
             if HaramError.isExist(with: code) {
-              return observer(.failure(HaramError.getError(with: code)))
+              observer(.failure(HaramError.getError(with: code)))
+              return
             }
             
             switch statusCode {
             case 200..<300:
-              if decodedData.data != nil {
-                return observer(.success(decodedData.data!))
+              if let data = decodedData.data {
+                observer(.success(data))
+              } else {
+                observer(.success(EmptyModel() as! T))
               }
-              return observer(.success(EmptyModel() as! T))
             case 400..<500:
-              return observer(.failure(HaramError.requestError))
+              observer(.failure(HaramError.requestError))
             case 500..<600:
-              return observer(.failure(HaramError.serverError))
+              observer(.failure(HaramError.serverError))
             default:
-              return observer(.failure(HaramError.unknownedError))
+              observer(.failure(HaramError.unknownedError))
             }
             
           case .failure(let error):
-            if let afError = error.asAFError, afError.isRequestRetryError {
-              observer(.failure(HaramError.timeoutError))
+            if let afError = error.asAFError {
+              switch afError {
+              case .sessionTaskFailed(let underlyingError as NSError):
+                switch underlyingError.code {
+                case NSURLErrorNotConnectedToInternet:
+                  observer(.failure(HaramError.networkError)) // 네트워크 연결 안됨
+                case NSURLErrorTimedOut:
+                  observer(.failure(HaramError.timeoutError)) // 타임아웃 에러
+                default:
+                  observer(.failure(HaramError.unknownedError)) // 기타 에러
+                }
+              default:
+                observer(.failure(HaramError.unknownedError)) // Alamofire의 다른 에러 처리
+              }
             } else {
-              observer(.failure(error))
+              observer(.failure(error)) // Alamofire 외의 에러 처리
             }
           }
         }
+      
       return Disposables.create()
     }
   }

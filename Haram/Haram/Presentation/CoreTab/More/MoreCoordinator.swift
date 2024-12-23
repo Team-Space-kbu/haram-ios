@@ -69,7 +69,12 @@ extension MoreCoordinator {
     self.childCoordinators.append(coordinator)
   }
   
-  func showAlert(title: String = "Space 알림", message: String, confirmHandler: (() -> Void)? = nil) {
-    AlertManager.showAlert(title: title, message: message, viewController: self.navigationController, confirmHandler: confirmHandler, cancelHandler: nil)
+  func showAlert(message: String, actions: [AlertButtonType] = [.confirm()], confirmHandler: (() -> Void)? = nil) {
+    AlertManager.showAlert(
+      on: self.navigationController,
+      message: .custom(message),
+      actions: actions,
+      confirmHandler: confirmHandler
+    )
   }
 }
