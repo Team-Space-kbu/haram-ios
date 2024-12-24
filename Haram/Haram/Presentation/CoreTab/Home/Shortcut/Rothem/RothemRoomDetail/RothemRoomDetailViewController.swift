@@ -109,7 +109,8 @@ final class RothemRoomDetailViewController: BaseViewController {
     let input = RothemRoomDetailViewModel.Input(
       viewDidLoad: .just(()),
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable(),
-      didTapReservationButton: studyRoomDetailView.reservationButton.rx.tap.asObservable()
+      didTapReservationButton: studyRoomDetailView.reservationButton.rx.tap.asObservable(), 
+      didTapRothemThumbnail: button.rx.tap.asObservable()
     )
     let output = viewModel.transform(input: input)
     
@@ -142,20 +143,6 @@ final class RothemRoomDetailViewController: BaseViewController {
             }
             self.navigationController?.popViewController(animated: true)
           })
-        }
-      }
-      .disposed(by: disposeBag)
-    
-    button.rx.tap
-      .subscribe(with: self) { owner, _ in
-        owner.studyRoomImageView.showAnimation(scale: 0.98) {
-          if let zoomImage = owner.studyRoomImageView.image {
-            let modal = ZoomImageViewController(zoomImage: zoomImage)
-            modal.modalPresentationStyle = .fullScreen
-            owner.present(modal, animated: true)
-          } else {
-            AlertManager.showAlert(on: self.navigationController, message: .custom("해당 이미지는 확대할 수 없습니다"))
-          }
         }
       }
       .disposed(by: disposeBag)

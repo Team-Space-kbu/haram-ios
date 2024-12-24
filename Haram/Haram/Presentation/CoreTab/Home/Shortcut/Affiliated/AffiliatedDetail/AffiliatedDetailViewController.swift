@@ -101,19 +101,16 @@ final class AffiliatedDetailViewController: BaseViewController {
     containerView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.width.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
-//      $0.directionalEdges.size.equalToSuperview()
     }
     
     detailImageView.snp.makeConstraints {
       $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.height.equalTo((((UIScreen.main.bounds.height - UINavigationController().navigationBar.frame.height) / 3) * 1))
-//      $0.bottom.equalTo(affiliatedDetailView.snp.top).offset(40)
     }
     
     backgroundView.snp.makeConstraints {
       $0.top.equalTo(detailImageView.snp.bottom).offset(-40)
       $0.directionalHorizontalEdges.bottom.equalToSuperview()
-//      $0.height.equalTo((((UIScreen.main.bounds.height - UINavigationController().navigationBar.frame.height) / 3) * 2))
     }
     
     affiliatedDetailView.snp.makeConstraints {
@@ -129,7 +126,8 @@ final class AffiliatedDetailViewController: BaseViewController {
     super.bind()
     let input = AffiliatedDetailViewModel.Input(
       viewDidLoad: .just(()),
-      didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable()
+      didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable(), 
+      didTapThumbnail: button.rx.tap.asObservable()
     )
     let output = viewModel.transform(input: input)
     
@@ -152,18 +150,6 @@ final class AffiliatedDetailViewController: BaseViewController {
             }
             owner.navigationController?.popViewController(animated: true)
           })
-        }
-      }
-      .disposed(by: disposeBag)
-    
-    button.rx.tap
-      .subscribe(with: self) { owner, _ in
-        if let zoomImage = owner.detailImageView.image {
-          let modal = ZoomImageViewController(zoomImage: zoomImage)
-          modal.modalPresentationStyle = .fullScreen
-          owner.present(modal, animated: true)
-        } else {
-          AlertManager.showAlert(on: self.navigationController, message: .custom("해당 이미지는 확대할 수 없습니다"))
         }
       }
       .disposed(by: disposeBag)

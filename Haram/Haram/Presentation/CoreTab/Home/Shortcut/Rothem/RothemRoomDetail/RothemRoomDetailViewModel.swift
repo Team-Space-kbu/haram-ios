@@ -31,6 +31,7 @@ final class RothemRoomDetailViewModel: ViewModelType {
     let viewDidLoad: Observable<Void>
     let didTapBackButton: Observable<Void>
     let didTapReservationButton: Observable<Void>
+    let didTapRothemThumbnail: Observable<Void>
   }
   
   struct Output {
@@ -62,6 +63,17 @@ final class RothemRoomDetailViewModel: ViewModelType {
     input.didTapReservationButton
       .subscribe(with: self) { owner, _ in
         owner.dependency.coordinator.showStudyReservationViewController()
+      }
+      .disposed(by: disposeBag)
+    
+    input.didTapRothemThumbnail
+      .withLatestFrom(output.currentRothemRoomThubnailImage)
+      .subscribe(with: self) { owner, imageURL in
+        guard let imageURL = imageURL else {
+          owner.dependency.coordinator.showAlert(message: "해당 이미지는 확대할 수 없습니다")
+          return
+        }
+        owner.dependency.coordinator.showZoomImageViewController(imageURL: imageURL)
       }
       .disposed(by: disposeBag)
     

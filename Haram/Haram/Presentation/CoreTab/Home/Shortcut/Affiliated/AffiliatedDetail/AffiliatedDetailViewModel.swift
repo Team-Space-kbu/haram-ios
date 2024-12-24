@@ -28,6 +28,7 @@ final class AffiliatedDetailViewModel: ViewModelType {
   struct Input {
     let viewDidLoad: Observable<Void>
     let didTapBackButton: Observable<Void>
+    let didTapThumbnail: Observable<Void>
   }
   
   struct Output {
@@ -52,6 +53,18 @@ final class AffiliatedDetailViewModel: ViewModelType {
     input.didTapBackButton
       .subscribe(with: self) { owner, _ in
         owner.dependency.coordinator.popViewController()
+      }
+      .disposed(by: disposeBag)
+    
+    input.didTapThumbnail
+      .withLatestFrom(output.affiliatedDetailModel)
+      .map { $0.imageURL }
+      .subscribe(with: self) { owner, imageURL in
+        guard let imageURL = imageURL else {
+          owner.dependency.coordinator.showAlert(message: "해당 이미지는 확대할 수 없습니다")
+          return
+        }
+        owner.dependency.coordinator.showZoomImageViewController(imageURL: imageURL)
       }
       .disposed(by: disposeBag)
     

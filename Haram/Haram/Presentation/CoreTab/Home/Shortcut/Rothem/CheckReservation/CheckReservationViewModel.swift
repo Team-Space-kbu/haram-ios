@@ -42,7 +42,6 @@ final class CheckReservationViewModel: ViewModelType {
   
   struct Output {
     let rothemReservationInfoView  = PublishRelay<RothemReservationInfoViewModel>()
-    let successCancelReservation = PublishSubject<Void>()
     let errorMessage               = PublishRelay<HaramError>()
   }
   
@@ -60,8 +59,11 @@ final class CheckReservationViewModel: ViewModelType {
       .disposed(by: disposeBag)
     
     input.didRequestCancelReservation
+      .throttle(.milliseconds(500), latest: false, scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .subscribe(with: self) { owner, _ in
-        owner.cancelReservation(output: output)
+        owner.dependency.coordinator.showAlert(message: "정말 로뎀방 예약을 취소하시겠습니까 ?") {
+          owner.cancelReservation(output: output)
+        }
       }
       .disposed(by: disposeBag)
     
@@ -104,7 +106,6 @@ extension CheckReservationViewModel {
     )
     .subscribe(with: self) { owner, _ in
       owner.dependency.coordinator.popViewController()
-//      output.successCancelReservationSubject.onNext(())
     }
     .disposed(by: disposeBag)
   }

@@ -30,16 +30,7 @@ struct RothemReservationInfoViewModel {
   }
 }
 
-protocol RothemReservationInfoViewDelegate: AnyObject {
-  func didTappedQrCode(data: Data)
-  func didTappedBarCode(image: UIImage?)
-}
-
 final class RothemReservationInfoView: UIView {
-  
-  weak var delegate: RothemReservationInfoViewDelegate?
-  private let disposeBag = DisposeBag()
-  
   private let rothemRoomNameLabel = UILabel().then {
     $0.font = .bold25
     $0.textColor = .white
@@ -75,46 +66,28 @@ final class RothemReservationInfoView: UIView {
     $0.text = "2024-07-01"
   }
   
-  private let qrCodeView = QRCodeView().then {
+  let qrCodeView = QRCodeView().then {
     $0.backgroundColor = .clear
     $0.isSkeletonable = true
     $0.isUserInteractionEnabled = true
   }
   
-  private let barCodeView = UIImageView().then {
+  let barCodeView = UIImageView().then {
     $0.contentMode = .scaleAspectFit
     $0.isSkeletonable = true
     $0.isUserInteractionEnabled = true
   }
   
-  private let barCodeButton = UIButton()
-  private let qrCodeButton = UIButton()
+  let barCodeButton = UIButton()
+  let qrCodeButton = UIButton()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
-    bind()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-
-  private func bind() {
-    
-    barCodeButton.rx.tap
-      .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedBarCode(image: owner.barCodeView.image)
-      }
-      .disposed(by: disposeBag)
-    
-    qrCodeButton.rx.tap
-      .subscribe(with: self) { owner, _ in
-        guard let data = owner.qrCodeView.qrCode?.data else { return }
-        owner.delegate?.didTappedQrCode(data: data)
-      }
-      .disposed(by: disposeBag)
-    
   }
   
   private func configureUI() {

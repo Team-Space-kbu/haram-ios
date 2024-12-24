@@ -15,7 +15,6 @@ import RxSwift
 final class CheckReservationViewController: BaseViewController {
   
   private let viewModel: CheckReservationViewModel
-  private let requestCancelReservation = PublishSubject<Void>()
   
   private let rothemReservationInfoView = RothemReservationInfoView().then {
     $0.isSkeletonable = true
@@ -58,7 +57,7 @@ final class CheckReservationViewController: BaseViewController {
     title = "예약정보"
     setupBackButton()
     setupSkeletonView()
-    rothemReservationInfoView.delegate = self
+//    rothemReservationInfoView.delegate = self
   }
   
   override func setupLayouts() {
@@ -86,7 +85,7 @@ final class CheckReservationViewController: BaseViewController {
     super.bind()
     let input = CheckReservationViewModel.Input(
       viewDidLoad: .just(()),
-      didRequestCancelReservation: requestCancelReservation.asObservable(),
+      didRequestCancelReservation: reservationCancelButton.rx.tap.asObservable(),
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable()
     )
     let output = viewModel.transform(input: input)
@@ -110,12 +109,26 @@ final class CheckReservationViewController: BaseViewController {
       }
       .disposed(by: disposeBag)
     
-    reservationCancelButton.rx.tap
-      .throttle(.seconds(1), scheduler: ConcurrentDispatchQueueScheduler(qos: .default))
+    rothemReservationInfoView.qrCodeButton.rx.tap
       .subscribe(with: self) { owner, _ in
-        AlertManager.showAlert(on: self.navigationController, message: .custom("정말 로뎀방 예약을 취소하시겠습니까 ?"), actions: [.confirm(), .cancel()], confirmHandler: {
-          owner.requestCancelReservation.onNext(())
-        })
+        guard let data = owner.rothemReservationInfoView.qrCodeView.qrCode?.data,
+              let zoomImage = UIImage(data: data) else { return }
+        let modal = ZoomImageViewController(zoomImage: zoomImage)
+        modal.modalPresentationStyle = .fullScreen
+        owner.present(modal, animated: true)
+      }
+      .disposed(by: disposeBag)
+    
+    rothemReservationInfoView.barCodeButton.rx.tap
+      .subscribe(with: self) { owner, _ in
+        let zoomImage = owner.rothemReservationInfoView.barCodeView.image
+        if let zoomImage = zoomImage {
+          let modal = ZoomImageViewController(zoomImage: zoomImage)
+          modal.modalPresentationStyle = .fullScreen
+          owner.present(modal, animated: true)
+        } else {
+          AlertManager.showAlert(on: self.navigationController, message: .custom("해당 이미지는 확대할 수 없습니다"))
+        }
       }
       .disposed(by: disposeBag)
   }
@@ -133,24 +146,5 @@ extension CheckReservationViewController {
   @objc
   private func refreshWhenNetworkConnected() {
     //    viewModel.inquireRothemReservationInfo()
-  }
-}
-
-extension CheckReservationViewController: RothemReservationInfoViewDelegate {
-  func didTappedQrCode(data: Data) {
-    guard let zoomImage = UIImage(data: data) else { return }
-    let modal = ZoomImageViewController(zoomImage: zoomImage)
-    modal.modalPresentationStyle = .fullScreen
-    present(modal, animated: true)
-  }
-  
-  func didTappedBarCode(image: UIImage?) {
-    if let zoomImage = image {
-      let modal = ZoomImageViewController(zoomImage: zoomImage)
-      modal.modalPresentationStyle = .fullScreen
-      present(modal, animated: true)
-    } else {
-      AlertManager.showAlert(on: self.navigationController, message: .custom("해당 이미지는 확대할 수 없습니다"))
-    }
   }
 }
