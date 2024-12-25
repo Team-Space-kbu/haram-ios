@@ -208,17 +208,11 @@ extension BoardListViewController: SkeletonCollectionViewDataSource {
 
 extension BoardListViewController {
   private func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshBoardModel), name: .refreshBoardModel, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
   }
   
   private func removeNotifications() {
     NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshBoardModel() {
-//    viewModel.refreshBoardList(categorySeq: categorySeq)
   }
   
   @objc

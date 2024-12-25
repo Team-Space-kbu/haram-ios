@@ -216,8 +216,6 @@ final class EditBoardViewController: BaseViewController {
     
     viewModel.successCreateBoard
       .emit(with: self) { owner, _ in
-        NotificationCenter.default.post(name: .refreshBoardModel, object: nil)
-        
         AlertManager.showAlert(on: self.navigationController, message: .custom("게시글 작성에 성공하였습니다.\n메인화면으로 이동합니다."), confirmHandler: {
           owner.navigationController?.popViewController(animated: true)
         })
