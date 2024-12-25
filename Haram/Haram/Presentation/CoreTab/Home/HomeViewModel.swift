@@ -27,6 +27,7 @@ final class HomeViewModel: ViewModelType {
   }
   
   struct Input {
+    let viewWillAppear: Observable<Void>
     let viewDidLoad: Observable<Void>
     let didTapBannerCell: Observable<IndexPath>
     let didTapShortcutCell: Observable<IndexPath>
@@ -94,6 +95,12 @@ final class HomeViewModel: ViewModelType {
       }
       .disposed(by: disposeBag)
     
+    input.viewWillAppear
+      .subscribe(with: self) { owner, _ in
+        owner.inquireSimpleChapelInfo(output: output)
+      }
+      .disposed(by: disposeBag)
+    
     return output
   }
 }
@@ -124,66 +131,43 @@ extension HomeViewModel {
 }
 
 extension HomeViewModel {
-//  var errorMessage: RxCocoa.Signal<HaramError> {
-//    errorMessageRelay.compactMap { $0 }.asSignal(onErrorSignalWith: .empty())
-//  }
-//  
-//  var shortcutModel: RxCocoa.Driver<[HomeShortcutCollectionViewCellModel]> {
-//    shortcutModelRelay.asDriver(onErrorJustReturn: [])
-//  }
-//  
-//  var newsModel: Driver<[HomeNewsCollectionViewCellModel]> {
-//    newsModelRelay.asDriver(onErrorJustReturn: [])
-//  }
-//  var bannerModel: Driver<[HomebannerCollectionViewCellModel]> {
-//    bannerModelRelay.asDriver(onErrorJustReturn: [])
-//  }
-//  
-//  var isLoading: RxCocoa.Driver<Bool> {
-//    isLoadingSubject
-//      .distinctUntilChanged()
-//      .asDriver(onErrorJustReturn: false)
-//  }
-//  
-//  var isAvailableSimpleChapelModal: Driver<(Bool, CheckChapelDayViewModel?)> {
-//    isAvailableSimpleChapelModalSubject
-//      .distinctUntilChanged({ $0.0 == $1.0 })
-//      .asDriver(onErrorJustReturn: (false, nil))
-//  }
-//  
-//  func inquireSimpleChapelInfo() {
-//    // 현재 날짜 및 시간 가져오기
-//    let currentDate = Date()
-//    
-//    // Calendar 및 DateComponents를 사용하여 현재 시간에서 시간 구성 요소 추출
-//    let calendar = Calendar.current
-//    
-//    // 시작 시간 설정 (예: 오전 10시00분)
-//    var startComponents = DateComponents()
-//    startComponents.hour = 10
-//    startComponents.minute = 00
-//    
-//    // 끝 시간 설정 (예: 오후 1시)
-//    var endComponents = DateComponents()
-//    endComponents.hour = 13
-//    endComponents.minute = 00
-//    
-//    // 특정 시간과 현재 시간 비교
-//    if let startDate = calendar.date(bySettingHour: startComponents.hour!, minute: startComponents.minute!, second: 0, of: currentDate),
-//       let endDate = calendar.date(bySettingHour: endComponents.hour!, minute: endComponents.minute!, second: 0, of: currentDate) {
-//      // 현재 시간이 오전 11시30분 ~ 오후 1시일 경우 (startDate, endDate일때는 해당 안됨)
-//      
-//      if currentDate >= startDate && currentDate <= endDate {
-//        intranetRepository.inquireChapelInfo()
-//          .subscribe(with: self, onSuccess: { owner, response in
-//            owner.isAvailableSimpleChapelModalSubject.onNext((true, .init(regulatedDay: response.regulateDays, chapelDay: response.confirmationDays)))
-//          }, onFailure: { owner, _ in
-//            owner.isAvailableSimpleChapelModalSubject.onNext((false, nil))
-//          }) 
-//          .disposed(by: disposeBag)
-//      } else {
-//        isAvailableSimpleChapelModalSubject.onNext((false, nil))
-//      }
-//    }
-//  }
+  private func inquireSimpleChapelInfo(output: Output) {
+    /*
+     홈 화면 채플 정보 배너 정보
+     1. 오전 10:00 ~ 오후 13:00 시 배너 보임 (이외 시간 배너 안보임)
+     */
+    
+    let startComponents = DateComponents(hour: 10, minute: 0)
+    let endComponents = DateComponents(hour: 13, minute: 0)
+    
+    guard isWithinTimeRange(startComponents: startComponents, endComponents: endComponents) else {
+      output.isAvailableSimpleChapelModal.accept((false, nil))
+      return
+    }
+    
+    dependency.intranetRepository.inquireChapelInfo()
+      .subscribe(with: self, onSuccess: { owner, response in
+        let chapelInfo = CheckChapelDayViewModel(regulatedDay: response.regulateDays, chapelDay: response.confirmationDays)
+        output.isAvailableSimpleChapelModal.accept((true, chapelInfo))
+      }, onFailure: { owner, _ in
+        output.isAvailableSimpleChapelModal.accept((false, nil))
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func isWithinTimeRange(
+    currentDate: Date = Date(),
+    startComponents: DateComponents,
+    endComponents: DateComponents
+  ) -> Bool {
+    let calendar = Calendar.current
+    let startOfDay = calendar.startOfDay(for: currentDate)
+    
+    guard let startDate = calendar.date(byAdding: startComponents, to: startOfDay),
+          let endDate = calendar.date(byAdding: endComponents, to: startOfDay) else {
+      return false
+    }
+    
+    return currentDate >= startDate && currentDate <= endDate
+  }
 }

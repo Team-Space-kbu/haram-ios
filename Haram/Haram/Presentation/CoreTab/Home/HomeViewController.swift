@@ -212,6 +212,7 @@ final class HomeViewController: BaseViewController {
   override func bind() {
     super.bind()
     let input = HomeViewModel.Input(
+      viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear)).map { _ in Void() },
       viewDidLoad: .just(()),
       didTapBannerCell: bannerCollectionView.rx.itemSelected.asObservable(),
       didTapShortcutCell: shortcutCollectionView.rx.itemSelected.asObservable(),
@@ -255,19 +256,19 @@ final class HomeViewController: BaseViewController {
     }
     .disposed(by: disposeBag)
   
-//    viewModel.isAvailableSimpleChapelModal
-//      .drive(with: self) { owner, modalModel in
-//        let (isAvailableSimpleChapelModal, checkChapelDayViewModel) = modalModel
-//        
-//        let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
-//        if isAvailableSimpleChapelModal && !isContain {
-//          owner.checkChapelDayView.configureUI(with: checkChapelDayViewModel!)
-//          owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 2)
-//        } else if !isAvailableSimpleChapelModal && isContain {
-//          owner.checkChapelDayView.removeFromSuperview()
-//        }
-//      }
-//      .disposed(by: disposeBag)
+    output.isAvailableSimpleChapelModal
+      .subscribe(with: self) { owner, modalModel in
+        let (isAvailableSimpleChapelModal, checkChapelDayViewModel) = modalModel
+        
+        let isContain = owner.scrollContainerView.contains(owner.checkChapelDayView)
+        if isAvailableSimpleChapelModal && !isContain {
+          owner.checkChapelDayView.configureUI(with: checkChapelDayViewModel!)
+          owner.scrollContainerView.insertArrangedSubview(owner.checkChapelDayView, at: 2)
+        } else if !isAvailableSimpleChapelModal && isContain {
+          owner.checkChapelDayView.removeFromSuperview()
+        }
+      }
+      .disposed(by: disposeBag)
     
     pageControl.rx.controlEvent(.valueChanged)
       .subscribe(with: self) { owner,  _ in
