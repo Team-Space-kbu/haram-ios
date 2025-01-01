@@ -23,7 +23,7 @@ final class BoardDetailViewModel: ViewModelType {
   }
   
   private(set) var commentModel: [BoardDetailCollectionViewCellModel] = []
-  private(set) var boardModel: [BoardDetailHeaderViewModel] = []
+  private(set) var boardImageModel: [BoardImageCollectionViewCellModel] = []
   
   struct Payload {
     let boardSeq: Int
@@ -47,12 +47,14 @@ final class BoardDetailViewModel: ViewModelType {
     let didTapBannedButton: Observable<Void>
     let didTapReportButton: Observable<ReportTitleType>
     let didTapAnonymousButton: Observable<Void>
+    let didTapImageCell: Observable<IndexPath>
   }
   
   struct Output {
     let reloadBoardData = PublishRelay<Void>()
     let errorMessage = PublishRelay<HaramError>()
     let isAnonymous = BehaviorRelay<Bool>(value: false)
+    let boardModel = PublishRelay<BoardDetailHeaderViewModel>()
   }
   
   init(payload: Payload, dependency: Dependency) {
@@ -78,7 +80,7 @@ final class BoardDetailViewModel: ViewModelType {
     input.didTapDeleteBoardButton
       .throttle(.milliseconds(500), latest: false, scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .subscribe(with: self) { owner, _ in
-        owner.dependency.coordinator.showAlert(message: "정말 해당 게시글을 삭제하시겠습니까 ?") {
+        owner.dependency.coordinator.showAlert(message: "정말 해당 게시글을 삭제하시겠습니까 ?", actions: [.confirm(), .cancel()]) {
           owner.deleteBoard(output: output)
         }
       }
@@ -90,7 +92,7 @@ final class BoardDetailViewModel: ViewModelType {
         print("삭제시도하는 인덱스: \(indexPath)")
         let boardList = owner.commentModel[indexPath.row]
         let commentSeq = boardList.commentSeq
-        owner.dependency.coordinator.showAlert(message: "정말 해당 댓글을 삭제하시겠습니까 ?") {
+        owner.dependency.coordinator.showAlert(message: "정말 해당 댓글을 삭제하시겠습니까 ?", actions: [.confirm(), .cancel()]) {
           owner.deleteComment(output: output, commentSeq: commentSeq)
         }
       }
@@ -131,6 +133,16 @@ final class BoardDetailViewModel: ViewModelType {
     input.didTapBannedButton
       .subscribe(with: self) { owner, _ in
         owner.bannedUser(output: output)
+      }
+      .disposed(by: disposeBag)
+    
+    input.didTapImageCell
+      .subscribe(with: self) { owner, indexPath in
+        guard let imageURL = owner.boardImageModel[indexPath.row].imageURL else {
+          owner.dependency.coordinator.showAlert(message: "해당 이미지는 확대할 수 없습니다")
+          return
+        }
+        owner.dependency.coordinator.showZoomImageViewController(imageURL: imageURL)
       }
       .disposed(by: disposeBag)
     
@@ -211,32 +223,31 @@ extension BoardDetailViewModel {
     
     inquireBoard
       .subscribe(with: self, onSuccess: { owner, response in
-        owner.boardModel = [
-          BoardDetailHeaderViewModel(
-            boardSeq: response.boardSeq, boardTitle: response.title,
-            boardContent: response.contents,
-            boardDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: response.createdAt) ?? Date(),
-            boardAuthorName: response.createdBy,
-            boardImageCollectionViewCellModel: response.files.map {
-              BoardImageCollectionViewCellModel(imageURL: URL(string: $0.fileUrl))
-            },
-            isUpdatable: response.isUpdatable
-          )
-        ]
+        output.boardModel.accept(BoardDetailHeaderViewModel(
+          boardSeq: response.boardSeq, boardTitle: response.title,
+          boardContent: response.contents,
+          boardDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: response.createdAt) ?? Date(),
+          boardAuthorName: response.createdBy,
+          isUpdatable: response.isUpdatable
+        ))
+        owner.boardImageModel = response.files.map {
+          BoardImageCollectionViewCellModel(imageURL: URL(string: $0.fileUrl))
+        }
         
         guard let comments = response.comments else {
           owner.commentModel = []
+          output.reloadBoardData.accept(())
           return
         }
-        owner.commentModel = comments.enumerated()
-          .map { index, comment in
+        owner.commentModel = comments
+          .map { comment in
           return BoardDetailCollectionViewCellModel(
             commentSeq: comment.seq, commentAuthorInfoModel: .init(
               commentAuthorName: comment.createdBy ?? "",
               commentDate: DateformatterFactory.dateForISO8601LocalTimeZone.date(from: comment.createdAt) ?? Date(),
               isUpdatable: comment.isUpdatable
             ),
-            comment: comment.contents, isLastComment: comments.count - 1 == index ? true : false
+            comment: comment.contents
           )
         }
         output.reloadBoardData.accept(())

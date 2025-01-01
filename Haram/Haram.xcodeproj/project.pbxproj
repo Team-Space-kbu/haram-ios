@@ -33,7 +33,7 @@
 		701FC8AE2B9DA92600291FC3 /* Ex + Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8AD2B9DA92600291FC3 /* Ex + Notification.Name.swift */; };
 		701FC8B02B9DB61800291FC3 /* Ex + UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701FC8AF2B9DB61800291FC3 /* Ex + UIResponder.swift */; };
 		7031E3C82ABA72C10027DC0A /* BoardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */; };
-		7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */; };
+		7031E3CB2ABA73910027DC0A /* BoardDetailTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CA2ABA73910027DC0A /* BoardDetailTopView.swift */; };
 		7031E3D02ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */; };
 		7031E3D22ABA80BA0027DC0A /* CommentAuthorInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3D12ABA80BA0027DC0A /* CommentAuthorInfoView.swift */; };
 		7031E3D42ABA89160027DC0A /* BoardDetailCommentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7031E3D32ABA89160027DC0A /* BoardDetailCommentHeaderView.swift */; };
@@ -129,6 +129,7 @@
 		707C37512D159E98005945A6 /* IntranetLoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707C37502D159E98005945A6 /* IntranetLoginCoordinator.swift */; };
 		707C37552D15C056005945A6 /* IntranetAlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707C37542D15C056005945A6 /* IntranetAlertViewModel.swift */; };
 		707C37572D15C20D005945A6 /* IntranetAlertCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707C37562D15C20D005945A6 /* IntranetAlertCoordinator.swift */; };
+		707C375B2D1C6CD2005945A6 /* BoardCommentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707C375A2D1C6CD2005945A6 /* BoardCommentListView.swift */; };
 		7082D0BD2D084EAF00238AAC /* CheckIDCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7082D0BC2D084EAF00238AAC /* CheckIDCoordinator.swift */; };
 		7082D0C02D0858F900238AAC /* FindIDResultCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7082D0BF2D0858F900238AAC /* FindIDResultCoordinator.swift */; };
 		7082D0C22D0ABF0C00238AAC /* MoreUpdatePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7082D0C12D0ABF0C00238AAC /* MoreUpdatePasswordCoordinator.swift */; };
@@ -430,7 +431,7 @@
 		701FC8AD2B9DA92600291FC3 /* Ex + Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + Notification.Name.swift"; sourceTree = "<group>"; };
 		701FC8AF2B9DB61800291FC3 /* Ex + UIResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIResponder.swift"; sourceTree = "<group>"; };
 		7031E3C72ABA72C10027DC0A /* BoardDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailViewController.swift; sourceTree = "<group>"; };
-		7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailHeaderView.swift; sourceTree = "<group>"; };
+		7031E3CA2ABA73910027DC0A /* BoardDetailTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailTopView.swift; sourceTree = "<group>"; };
 		7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		7031E3D12ABA80BA0027DC0A /* CommentAuthorInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentAuthorInfoView.swift; sourceTree = "<group>"; };
 		7031E3D32ABA89160027DC0A /* BoardDetailCommentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailCommentHeaderView.swift; sourceTree = "<group>"; };
@@ -523,6 +524,7 @@
 		707C37502D159E98005945A6 /* IntranetLoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetLoginCoordinator.swift; sourceTree = "<group>"; };
 		707C37542D15C056005945A6 /* IntranetAlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetAlertViewModel.swift; sourceTree = "<group>"; };
 		707C37562D15C20D005945A6 /* IntranetAlertCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntranetAlertCoordinator.swift; sourceTree = "<group>"; };
+		707C375A2D1C6CD2005945A6 /* BoardCommentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCommentListView.swift; sourceTree = "<group>"; };
 		7082D0BC2D084EAF00238AAC /* CheckIDCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckIDCoordinator.swift; sourceTree = "<group>"; };
 		7082D0BF2D0858F900238AAC /* FindIDResultCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIDResultCoordinator.swift; sourceTree = "<group>"; };
 		7082D0C12D0ABF0C00238AAC /* MoreUpdatePasswordCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreUpdatePasswordCoordinator.swift; sourceTree = "<group>"; };
@@ -1882,9 +1884,10 @@
 				7031E3D12ABA80BA0027DC0A /* CommentAuthorInfoView.swift */,
 				70864F312AF9502600CD4124 /* CommentInputView.swift */,
 				709AB6442B77E19B004B0F59 /* BoardImageCollectionViewCell.swift */,
-				7031E3CA2ABA73910027DC0A /* BoardDetailHeaderView.swift */,
+				7031E3CA2ABA73910027DC0A /* BoardDetailTopView.swift */,
 				7031E3CF2ABA7E620027DC0A /* BoardDetailCollectionViewCell.swift */,
 				7031E3D32ABA89160027DC0A /* BoardDetailCommentHeaderView.swift */,
+				707C375A2D1C6CD2005945A6 /* BoardCommentListView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -2394,6 +2397,7 @@
 				70AED8142CF5D08400AB22C5 /* BoardDetailCoordinator.swift in Sources */,
 				705FD2BD2A1A4CEE00F353FE /* BookDetailViewController.swift in Sources */,
 				701FC89B2B97565F00291FC3 /* EditBoardCollectionViewCell.swift in Sources */,
+				707C375B2D1C6CD2005945A6 /* BoardCommentListView.swift in Sources */,
 				7083123A2A2CA59400F7E283 /* InquireChapelListRequest.swift in Sources */,
 				707C37572D15C20D005945A6 /* IntranetAlertCoordinator.swift in Sources */,
 				708ED7A12A8F922900107CDF /* CheckReservationViewController.swift in Sources */,
@@ -2408,7 +2412,7 @@
 				70AD2A6D2B88976500CB9791 /* InquireBoardCategoryResponse.swift in Sources */,
 				70AED7A72CDB804200AB22C5 /* LectureScheduleViewController.swift in Sources */,
 				709AB6452B77E19B004B0F59 /* BoardImageCollectionViewCell.swift in Sources */,
-				7031E3CB2ABA73910027DC0A /* BoardDetailHeaderView.swift in Sources */,
+				7031E3CB2ABA73910027DC0A /* BoardDetailTopView.swift in Sources */,
 				708312AE2A73936E00F7E283 /* CategoryCollectionViewCell.swift in Sources */,
 				70A24ECB2BBEBC1900572FAE /* InquireBibleDetailInfoResponse.swift in Sources */,
 				70DC8F5F2C9F3DE2006DDAF7 /* ChapelListView.swift in Sources */,

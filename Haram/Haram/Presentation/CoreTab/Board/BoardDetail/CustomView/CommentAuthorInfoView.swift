@@ -55,7 +55,6 @@ final class CommentAuthorInfoView: UIView {
     commentDateLabel.snp.makeConstraints {
       $0.directionalVerticalEdges.equalToSuperview()
       $0.leading.equalTo(commentNameLabel.snp.trailing).offset(44 - 15 - 25)
-//      $0.trailing.lessThanOrEqualToSuperview()
     }
     
     boardDeleteButton.snp.makeConstraints {

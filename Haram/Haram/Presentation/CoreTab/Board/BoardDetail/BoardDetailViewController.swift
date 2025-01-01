@@ -16,7 +16,7 @@ import Then
 final class BoardDetailViewController: BaseViewController {
   
   // MARK: - Property
-  
+  private let currentBannerPage = PublishSubject<Int>()
   private let viewModel: BoardDetailViewModel
   private var items: [UIAction] {
     return ReportTitleType.allCases.map { reportType in
@@ -30,27 +30,39 @@ final class BoardDetailViewController: BaseViewController {
     }
   }
   
+//  private var boardImageCollectionViewCellModel: [BoardImageCollectionViewCellModel] = [] {
+//      didSet {
+//        boardDetailTopView.boardImageCollectionView.reloadData()
+//      }
+//    }
+  
   private let tapBannedButton = PublishSubject<Void>()
   private let tapReportButton = PublishSubject<ReportTitleType>()
   private let tapDeleteCommentButton = PublishSubject<IndexPath>()
-  private let tapDeleteBoardButton = PublishSubject<Void>()
   
   // MARK: - UI Component
   
-  private lazy var commentInputView = CommentInputView(writeableAnonymous: viewModel.writeableAnonymous).then {
+  private let scrollView = UIScrollView().then {
+    $0.alwaysBounceVertical = true
+    $0.backgroundColor = .clear
+    $0.showsVerticalScrollIndicator = false
+    $0.showsHorizontalScrollIndicator = false
     $0.isSkeletonable = true
   }
   
-  private lazy var boardDetailCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { [weak self] sec, env -> NSCollectionLayoutSection? in
-    guard let self = self else { return nil }
-    return type(of: self).createCollectionViewLayout(sec: sec)
-  }).then {
-    $0.register(BoardDetailCollectionViewCell.self)
-    $0.register(BoardDetailHeaderView.self, of: UICollectionView.elementKindSectionHeader)
-    $0.register(BoardDetailCommentHeaderView.self, of: UICollectionView.elementKindSectionHeader)
-    $0.dataSource = self
-    $0.delegate = self
-    $0.alwaysBounceVertical = true
+  private let containerView = UIStackView().then {
+    $0.backgroundColor = .clear
+    $0.axis = .vertical
+    $0.alignment = .fill
+    $0.distribution = .fill
+    $0.spacing = 15
+    $0.isSkeletonable = true
+  }
+  
+  private let boardDetailTopView = BoardDetailTopView()
+  private let boardCommentListView = BoardCommentListView()
+  
+  private lazy var commentInputView = CommentInputView(writeableAnonymous: viewModel.writeableAnonymous).then {
     $0.isSkeletonable = true
   }
   
@@ -80,17 +92,31 @@ final class BoardDetailViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+    scrollView.delegate = self
+    
+    boardDetailTopView.boardImageCollectionView.delegate = self
+    boardDetailTopView.boardImageCollectionView.dataSource = self
+    
+    boardCommentListView.boardDetailCollectionView.delegate = self
+    boardCommentListView.boardDetailCollectionView.dataSource = self
     
     /// Set NavigationBar
     setupBackButton()
     setupRightBarButtonItem()
+    
+    containerView.subviews.forEach { $0.isSkeletonable = true }
     
     setupSkeletonView()
   }
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(boardDetailCollectionView)
+    view.addSubview(scrollView)
+    scrollView.addSubview(containerView)
+    
+    let subViews = [boardDetailTopView, boardCommentListView]
+    containerView.addArrangedDividerSubViews(subViews)
+
     if viewModel.writeableComment {
       view.addSubview(commentInputView)
     }
@@ -98,21 +124,22 @@ final class BoardDetailViewController: BaseViewController {
   
   override func setupConstraints() {
     super.setupConstraints()
+    
     if viewModel.writeableComment {
-      boardDetailCollectionView.snp.makeConstraints {
-        $0.top.directionalHorizontalEdges.equalToSuperview()
+      scrollView.snp.makeConstraints {
+        $0.top.directionalHorizontalEdges.width.equalToSuperview()
       }
       
       commentInputView.snp.makeConstraints {
-        $0.top.equalTo(boardDetailCollectionView.snp.bottom)
+        $0.top.equalTo(scrollView.snp.bottom)
         $0.directionalHorizontalEdges.equalToSuperview()
         $0.height.greaterThanOrEqualTo(Device.isNotch ? 91 - 20 : 91 - 20 - 15)
         $0.bottom.equalToSuperview()
       }
-    } else {
-      boardDetailCollectionView.snp.makeConstraints {
-        $0.directionalEdges.equalToSuperview()
-      }
+    }
+    
+    containerView.snp.makeConstraints {
+      $0.directionalEdges.width.equalToSuperview()
     }
   }
   
@@ -121,20 +148,27 @@ final class BoardDetailViewController: BaseViewController {
     let input = BoardDetailViewModel.Input(
       viewDidLoad: .just(()),
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable(),
-      didTapDeleteBoardButton: tapDeleteBoardButton.asObservable(),
+      didTapDeleteBoardButton: boardDetailTopView.postingInfoView.boardDeleteButton.rx.tap.asObservable(),
       didTapDeleteCommentButton: tapDeleteCommentButton.asObservable(),
       didTapSendButton: commentInputView.sendButton.rx.tap.asObservable(),
       didEditComment: commentInputView.commentTextView.rx.text.orEmpty.asObservable(),
       didTapBannedButton: tapBannedButton.asObservable(),
       didTapReportButton: tapReportButton.asObservable(),
-      didTapAnonymousButton: commentInputView.checkBoxControl.rx.controlEvent(.touchUpInside).asObservable()
+      didTapAnonymousButton: commentInputView.checkBoxControl.rx.controlEvent(.touchUpInside).asObservable(), 
+      didTapImageCell: boardDetailTopView.boardImageCollectionView.rx.itemSelected.asObservable()
     )
     let output = viewModel.transform(input: input)
     
     output.reloadBoardData
-      .subscribe(with: self) { owner, _ in
+      .withLatestFrom(output.boardModel)
+      .subscribe(with: self) { owner, model in
         owner.view.hideSkeleton()
-        owner.boardDetailCollectionView.reloadData()
+        owner.boardDetailTopView.postingTitleLabel.text = model.boardTitle
+        owner.boardDetailTopView.postingDescriptionLabel.addLineSpacing(lineSpacing: 2, string: model.boardContent)
+        owner.boardDetailTopView.postingInfoView.configureUI(isUpdatable: model.isUpdatable, content: DateformatterFactory.dateWithSlash.string(from: model.boardDate) + " | " + model.boardAuthorName)
+        owner.boardDetailTopView.pageControl.numberOfPages = owner.viewModel.boardImageModel.count
+        owner.boardCommentListView.boardDetailCollectionView.reloadData()
+        owner.boardDetailTopView.boardImageCollectionView.reloadData()
       }
       .disposed(by: disposeBag)
     
@@ -159,42 +193,11 @@ final class BoardDetailViewController: BaseViewController {
         }
       }
       .disposed(by: disposeBag)
-  }
-  
-  // MARK: - UICompositonalLayout Function
-  
-  static private func createCollectionViewLayout(sec: Int) -> NSCollectionLayoutSection? {
-    let item = NSCollectionLayoutItem(
-      layoutSize: NSCollectionLayoutSize(
-        widthDimension: .fractionalWidth(1),
-        heightDimension: .estimated(35 + 3 + 18 + 16 + 1)
-      )
-    )
     
-    let verticalGroup = NSCollectionLayoutGroup.vertical(
-      layoutSize: NSCollectionLayoutSize(
-        widthDimension: .fractionalWidth(1),
-        heightDimension: .estimated(35 + 3 + 18 + 16 + 1)
-      ),
-      subitems: [item]
-    )
-    
-    let header = NSCollectionLayoutBoundarySupplementaryItem(
-      layoutSize: NSCollectionLayoutSize(
-        widthDimension: .fractionalWidth(1),
-        heightDimension: .estimated(18 + 3 + 18 + 16 + 18 + 18)
-      ),
-      elementKind: UICollectionView.elementKindSectionHeader,
-      alignment: .top
-    )
-    
-    let section = NSCollectionLayoutSection(group: verticalGroup)
-    if sec == 1 {
-      section.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 16, bottom: 16, trailing: 16)
-    }
-    section.interGroupSpacing = 16
-    section.boundarySupplementaryItems = [header]
-    return section
+    currentBannerPage
+      .asDriver(onErrorDriveWith: .empty())
+      .drive(boardDetailTopView.pageControl.rx.currentPage)
+      .disposed(by: disposeBag)
   }
   
   private func setupRightBarButtonItem() {
@@ -225,48 +228,39 @@ final class BoardDetailViewController: BaseViewController {
 // MARK: - UICollectionDataSource
 
 extension BoardDetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-  func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return viewModel.writeableComment ? 2 : 1
-  }
-  
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    guard section == 1 else { return 0 }
-    return viewModel.commentModel.count
+    if collectionView == boardDetailTopView.boardImageCollectionView {
+      return viewModel.boardImageModel.count
+    } else if collectionView == boardCommentListView.boardDetailCollectionView {
+      return viewModel.commentModel.count
+    }
+    return .zero
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard indexPath.section == 1 else { return UICollectionViewCell() }
-    let cell = collectionView.dequeueReusableCell(BoardDetailCollectionViewCell.self, for: indexPath) ?? BoardDetailCollectionViewCell()
-    cell.configureUI(with: viewModel.commentModel[indexPath.row])
-    cell.commentAuthorInfoView.boardDeleteButton.rx.tap
-      .compactMap { [weak collectionView] in
-        collectionView?.indexPath(for: cell)
-      }
-      .bind(to: tapDeleteCommentButton)
-      .disposed(by: disposeBag)
-    return cell
+    if collectionView == boardDetailTopView.boardImageCollectionView {
+      let cell = collectionView.dequeueReusableCell(BoardImageCollectionViewCell.self, for: indexPath) ?? BoardImageCollectionViewCell()
+      cell.configureUI(with: viewModel.boardImageModel[indexPath.row])
+      return cell
+    } else if collectionView == boardCommentListView.boardDetailCollectionView {
+      let cell = collectionView.dequeueReusableCell(BoardDetailCollectionViewCell.self, for: indexPath) ?? BoardDetailCollectionViewCell()
+      cell.configureUI(with: viewModel.commentModel[indexPath.row])
+      cell.commentAuthorInfoView.boardDeleteButton.rx.tap
+        .compactMap { [weak collectionView] in
+          collectionView?.indexPath(for: cell)
+        }
+        .bind(to: tapDeleteCommentButton)
+        .disposed(by: disposeBag)
+      return cell
+    }
+    return UICollectionViewCell()
   }
   
-  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    if indexPath.section == 0 {
-      let header = collectionView.dequeueReusableSupplementaryView(
-        ofKind: kind,
-        withReuseIdentifier: BoardDetailHeaderView.reuseIdentifier,
-        for: indexPath
-      ) as? BoardDetailHeaderView ?? BoardDetailHeaderView()
-      header.configureUI(with: viewModel.boardModel.first)
-      header.postingInfoView.boardDeleteButton.rx.tap
-        .bind(to: tapDeleteBoardButton)
-        .disposed(by: disposeBag)
-      header.delegate = self
-      return header
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    if collectionView == boardDetailTopView.boardImageCollectionView {
+      return CGSize(width: collectionView.frame.width, height: 188)
     }
-    let header = collectionView.dequeueReusableSupplementaryView(
-      ofKind: kind,
-      withReuseIdentifier: BoardDetailCommentHeaderView.reuseIdentifier,
-      for: indexPath
-    ) as? BoardDetailCommentHeaderView ?? BoardDetailCommentHeaderView()
-    return header
+    return .zero
   }
 }
 
@@ -339,32 +333,28 @@ extension BoardDetailViewController {
 
 extension BoardDetailViewController: SkeletonCollectionViewDataSource, SkeletonCollectionViewDelegate {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
-    guard indexPath.section == 1 else { return "" }
-    return BoardDetailCollectionViewCell.reuseIdentifier
+    if skeletonView == boardDetailTopView.boardImageCollectionView {
+      return BoardImageCollectionViewCell.reuseIdentifier
+    } else if skeletonView == boardCommentListView.boardDetailCollectionView {
+      return BoardDetailCollectionViewCell.reuseIdentifier
+    }
+    return ""
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    guard section == 1 else { return 0 }
-    return 10
+    3
   }
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, skeletonCellForItemAt indexPath: IndexPath) -> UICollectionViewCell? {
-    guard indexPath.section == 1 else { return nil }
-    let cell = skeletonView.dequeueReusableCell(BoardDetailCollectionViewCell.self, for: indexPath) ?? BoardDetailCollectionViewCell()
-    cell.configureUI(with: .init(comment: "안녕하세요, 스켈레톤을 위한 목데이터입니다.", createdAt: "2023/11/10", isUpdatable: false, commentSeq: 0))
-    return cell
-  }
-  
-  func collectionSkeletonView(_ skeletonView: UICollectionView, supplementaryViewIdentifierOfKind: String, at indexPath: IndexPath) -> ReusableCellIdentifier? {
-    if indexPath.section == 0 {
-      return BoardDetailHeaderView.reuseIdentifier
-    } else  {
-      return BoardDetailCommentHeaderView.reuseIdentifier
+    if skeletonView == boardCommentListView.boardDetailCollectionView {
+      let cell = skeletonView.dequeueReusableCell(BoardDetailCollectionViewCell.self, for: indexPath) ?? BoardDetailCollectionViewCell()
+      cell.configureUI(with: .init(comment: "안녕하세요, 스켈레톤을 위한 목데이터입니다.", createdAt: "2023/11/10", isUpdatable: false, commentSeq: 0))
+      return cell
+    } else if skeletonView == boardDetailTopView.boardImageCollectionView {
+      let cell = skeletonView.dequeueReusableCell(BoardImageCollectionViewCell.self, for: indexPath) ?? BoardImageCollectionViewCell()
+      return cell
     }
-  }
-  
-  func numSections(in collectionSkeletonView: UICollectionView) -> Int {
-    2
+    return nil
   }
 }
 
@@ -374,14 +364,12 @@ extension BoardDetailViewController: UIScrollViewDelegate {
       // 위에서 아래로 스크롤하는 경우
       view.endEditing(true)
     }
-  }
-}
-
-extension BoardDetailViewController: BoardDetailHeaderViewDelegate {
-  func didTappedBoardImage(url: URL?) {
-    let modal = ZoomImageViewController(zoomImageURL: url)
-    modal.modalPresentationStyle = .fullScreen
-    present(modal, animated: true)
+    
+    guard scrollView == boardDetailTopView.boardImageCollectionView else { return }
+    let contentOffset = scrollView.contentOffset
+    let bannerIndex = Int(max(0, round(contentOffset.x / scrollView.bounds.width)))
+    
+    self.currentBannerPage.onNext(bannerIndex)
   }
 }
 
