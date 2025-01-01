@@ -162,7 +162,7 @@ final class RothemRoomReservationViewModel: ViewModelType {
         guard let selectedDaySeq = dayModel.first(where: { $0.isSelected })?.calendarSeq else {
           return
         }
-        var timeModel = amModel + pmModel
+        let timeModel = amModel + pmModel
         let selectedTimeSeqList = timeModel.filter { $0.isTimeSelected }
         owner.reserveRothemStudyRoom(
           output: output,
@@ -182,9 +182,8 @@ final class RothemRoomReservationViewModel: ViewModelType {
     let currentAMModel = output.amModel.value
     let currentPMModel = output.pmModel.value
     
-    let selectedAMTimeSeqList = currentAMModel.filter { $0.isTimeSelected }.map { $0.timeSeq }
-    let selectedPMTimeSeqList = currentPMModel.filter { $0.isTimeSelected }.map { $0.timeSeq }
-    let selectedTimeSeqList = selectedAMTimeSeqList + selectedPMTimeSeqList
+    let sortedModel = (currentAMModel + currentPMModel).sorted(by: { $0.timeSeq < $1.timeSeq })
+    let selectedTimeSeqList = sortedModel.filter { $0.isTimeSelected }.map { $0.timeSeq }
     
     guard !selectedTimeSeqList.isEmpty else {
       return true
@@ -205,9 +204,21 @@ final class RothemRoomReservationViewModel: ViewModelType {
       return true
     }
     
-    let isSelectedTimeContinuous = !selectedTimeSeqList.filter { currentSelectedTimeSeq == $0 - 1 || currentSelectedTimeSeq == $0 + 1 }.isEmpty
+    let updatedSelectedTimeSeqList = (selectedTimeSeqList + [currentSelectedTimeSeq]).sorted()
+    var isContinuous = true
     
-    return isSelectedTimeContinuous
+    updatedSelectedTimeSeqList.enumerated().forEach { index, timeSeq in
+      if index > 0 {
+        let previousTimeSeq = updatedSelectedTimeSeqList[index - 1]
+        if let currentIndex = sortedModel.firstIndex(where: { $0.timeSeq == timeSeq }),
+           let previousIndex = sortedModel.firstIndex(where: { $0.timeSeq == previousTimeSeq }),
+           currentIndex - previousIndex != 1 {
+          isContinuous = false
+        }
+      }
+    }
+    
+    return isContinuous
   }
   
   private func isSelectedMaxCount(output: Output) -> Bool {
@@ -240,7 +251,7 @@ final class RothemRoomReservationViewModel: ViewModelType {
   
   private func selectReservationDay(output: Output, indexPath: IndexPath) {
     var dayModel = output.selectedDayCollectionViewCellModel.value
-    var selectedDayModel = dayModel[indexPath.row]
+    let selectedDayModel = dayModel[indexPath.row]
     let isSelected = selectedDayModel.isSelected
     
     guard !isSelected else {

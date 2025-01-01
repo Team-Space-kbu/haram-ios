@@ -8,6 +8,7 @@
 import UIKit
 
 import RxSwift
+import RxCocoa
 import SnapKit
 import SkeletonView
 import Then
@@ -15,6 +16,7 @@ import Then
 final class RothemRoomReservationViewController: BaseViewController {
   
   private let viewModel: RothemRoomReservationViewModel
+  private let tapTermsOfUseCell = PublishRelay<IndexPath>()
   
   private var policyModel: [TermsOfUseTableViewCellModel] = [] {
     didSet {
@@ -180,10 +182,11 @@ final class RothemRoomReservationViewController: BaseViewController {
       didEditReservationPhoneNumber: phoneNumberTextField.rx.text.orEmpty.asObservable(),
       didTapReservationDayCell: selectedDayCollectionView.rx.itemSelected.asObservable(),
       didTapReservationTimeCell: selectedTimeCollectionView.rx.itemSelected.asObservable(),
-      didTapTermsOfUseCell: termsOfUseTableView.rx.itemSelected.asObservable(),
+      didTapTermsOfUseCell: tapTermsOfUseCell.asObservable(),
       didTapReservationButton: reservationButton.rx.tap.asObservable(),
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable()
     )
+    
     let output = viewModel.transform(input: input)
     output.studyRoomInfoViewModel
       .subscribe(with: self) { owner, model in
@@ -443,6 +446,12 @@ extension RothemRoomReservationViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(TermsOfUseTableViewCell.self, for: indexPath) ?? TermsOfUseTableViewCell()
     cell.configureUI(with: policyModel[indexPath.row])
+    cell.checkboxControl.rx.controlEvent(.touchUpInside)
+      .compactMap { [weak tableView] in
+        tableView?.indexPath(for: cell)
+      }
+      .bind(to: tapTermsOfUseCell)
+      .disposed(by: disposeBag)
     return cell
   }
   
