@@ -93,7 +93,7 @@ extension EditBoardBottomSheetViewController {
       $0.contentMode = .scaleAspectFill
     }
     
-    private lazy var checkBoxControl = CheckBoxButton(type: .none)
+    private lazy var checkBoxControl = CheckBoxControl(type: .none)
     
     init(type: EditBoardMenuViewType) {
       self.type = type

@@ -38,29 +38,7 @@ struct TermsOfUseTableViewCellModel {
 }
 
 final class TermsOfUseTableViewCell: UITableViewCell, ReusableView {
-  
-  private var seq: Int?
-  private var isChecked = false {
-    willSet {
-      UIView.transition(with: checkImage, duration: 0.15, options: .transitionCrossDissolve) {
-        self.checkImage.layer.borderColor  = newValue ? UIColor.hex3B8686.cgColor : UIColor.lightGray.cgColor
-        self.checkImage.image = newValue ? Image.checkShape?.withTintColor(.hex3B8686, renderingMode: .alwaysOriginal) :  nil
-      }
-    }
-  }
-  
-  private let checkImage = UIImageView().then {
-    $0.contentMode = .scaleAspectFill
-    $0.layer.masksToBounds = true
-    $0.layer.cornerRadius = 3
-    $0.isSkeletonable = true
-    $0.skeletonCornerRadius = 3
-  }
-  
-  private let alertLabel = UILabel().then {
-    $0.font = .regular14
-    $0.textColor = .hex545E6A
-    $0.textAlignment = .left
+  let checkboxControl = CheckBoxControl(type: .none).then {
     $0.isSkeletonable = true
   }
   
@@ -92,10 +70,7 @@ final class TermsOfUseTableViewCell: UITableViewCell, ReusableView {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    seq = nil
-    alertLabel.text = nil
-    isChecked = false
-    checkImage.backgroundColor = nil
+    checkboxControl.initializeUI()
     webView.stopLoading()
     webView.loadHTMLString("", baseURL: nil)
   }
@@ -106,25 +81,16 @@ final class TermsOfUseTableViewCell: UITableViewCell, ReusableView {
     contentView.isSkeletonable = true
     
     selectionStyle = .none
-    self.checkImage.backgroundColor = .white
-    self.checkImage.layer.borderWidth = 2
-    self.checkImage.layer.borderColor = UIColor.lightGray.cgColor
     
-    _ = [checkImage, alertLabel, webView].map { contentView.addSubview($0) }
+    _ = [checkboxControl, webView].map { contentView.addSubview($0) }
     
-    checkImage.snp.makeConstraints {
-      $0.leading.top.equalToSuperview()
-      $0.size.equalTo(18)
-    }
-    
-    alertLabel.snp.makeConstraints {
-      $0.centerY.equalTo(checkImage)
-      $0.leading.equalTo(checkImage.snp.trailing).offset(5)
-      $0.trailing.equalToSuperview()
+    checkboxControl.snp.makeConstraints {
+      $0.directionalHorizontalEdges.top.equalToSuperview()
+      $0.height.equalTo(18)
     }
     
     webView.snp.makeConstraints {
-      $0.top.equalTo(checkImage.snp.bottom).offset(10)
+      $0.top.equalTo(checkboxControl.snp.bottom).offset(10)
       $0.height.equalTo(124)
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.equalToSuperview().inset(21)
@@ -132,13 +98,8 @@ final class TermsOfUseTableViewCell: UITableViewCell, ReusableView {
   }
   
   func configureUI(with model: TermsOfUseTableViewCellModel) {
-    alertLabel.text = model.title
-    self.isChecked = model.isChecked
-    seq = model.seq
+    checkboxControl.setTitle(model.title)
+    checkboxControl.isChecked = model.isChecked
     webView.loadHTMLString(model.content, baseURL: nil)
-  }
-  
-  private enum Image {
-    static let checkShape = UIImage(systemName: "checkmark.square.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 24, weight: .heavy))
   }
 }

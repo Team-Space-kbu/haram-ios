@@ -15,6 +15,7 @@ import Then
 final class TermsOfUseViewController: BaseViewController {
   
   private let viewModel: TermsOfUseViewModel
+  private let tapTermsOfUseCell = PublishRelay<IndexPath>()
   
   private let titleLabel = UILabel().then {
     $0.text = "이용약관📄"
@@ -101,7 +102,7 @@ final class TermsOfUseViewController: BaseViewController {
       viewDidLoad: .just(()),
       didTapCancelButton: cancelButton.rx.tap.asObservable(),
       didTapContinueButton: applyButton.rx.tap.asObservable(),
-      didTapCheckBox: termsOfUseTableView.rx.itemSelected.asObservable(),
+      didTapCheckBox: tapTermsOfUseCell.asObservable(),
       didTapAllCheckButton: checkAllButton.rx.controlEvent(.touchUpInside).asObservable()
     )
     let output = viewModel.transform(input: input)
@@ -170,7 +171,7 @@ final class TermsOfUseViewController: BaseViewController {
     checkAllButton.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(21 - 5)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
-      $0.height.equalTo(28)
+      $0.height.equalTo(18)
     }
     
     termsOfUseTableView.snp.makeConstraints {
@@ -197,6 +198,12 @@ extension TermsOfUseViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(TermsOfUseTableViewCell.self, for: indexPath) ?? TermsOfUseTableViewCell()
     cell.configureUI(with: viewModel.output.termsOfModel.value[indexPath.row])
+    cell.checkboxControl.rx.controlEvent(.touchUpInside)
+      .compactMap { [weak tableView] in
+        tableView?.indexPath(for: cell)
+      }
+      .bind(to: tapTermsOfUseCell)
+      .disposed(by: disposeBag)
     return cell
   }
   
