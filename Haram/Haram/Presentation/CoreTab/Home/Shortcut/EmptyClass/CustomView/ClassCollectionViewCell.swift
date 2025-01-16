@@ -59,6 +59,8 @@ final class ClassCollectionViewCell: UICollectionViewCell, ReusableView {
 // MARK: - Data Configuration
 extension ClassCollectionViewCell {
   func configureUI(title: String) {
-    classLabel.text = title
+    DispatchQueue.main.async {
+      self.classLabel.text = title
+    }
   }
 }

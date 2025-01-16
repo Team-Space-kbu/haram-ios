@@ -78,9 +78,11 @@ struct AlertInfoViewCellModel {
 
 extension AlertInfoViewCell {
   func configureUI(with model: AlertInfoViewCellModel) {
-    mainView.text = model.mainTitle
-    mainView.backgroundColor = model.mainColor
-    alertTitleLabel.text = model.title
-    alertDescriptionLabel.text = model.description
+    DispatchQueue.main.async {
+      self.mainView.text = model.mainTitle
+      self.mainView.backgroundColor = model.mainColor
+      self.alertTitleLabel.text = model.title
+      self.alertDescriptionLabel.text = model.description
+    }
   }
 }
