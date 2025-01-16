@@ -28,6 +28,7 @@ final class ApiService: BaseService {
   
   private let configuration = URLSessionConfiguration.af.default.then {
     $0.timeoutIntervalForRequest = 30
+    $0.timeoutIntervalForResource = 60 * 60
   }
   
   private let monitor = APIEventLogger()
@@ -35,14 +36,11 @@ final class ApiService: BaseService {
   
   func request<T>(router: Alamofire.URLRequestConvertible, type: T.Type) -> Single<T> where T : Decodable {
     return Single.create { observer in
+      guard NetworkManager.shared.isConnected else {
+        observer(.failure(HaramError.networkError))
+        return Disposables.create()
+      }
       
-      // 네트워크 연결 확인
-      //      guard NetworkManager.shared.isConnected else {
-      //        observer(.failure(HaramError.networkError))
-      //        return Disposables.create()
-      //      }
-      
-      // Alamofire 요청
       self.session.request(router)
         .validate({ request, response, data in
           let statusCode = response.statusCode
@@ -96,18 +94,16 @@ final class ApiService: BaseService {
               switch afError {
               case .sessionTaskFailed(let underlyingError as NSError):
                 switch underlyingError.code {
-                case NSURLErrorNotConnectedToInternet:
-                  observer(.failure(HaramError.networkError)) // 네트워크 연결 안됨
-                case NSURLErrorTimedOut:
-                  observer(.failure(HaramError.timeoutError)) // 타임아웃 에러
+                case NSURLErrorNotConnectedToInternet, NSURLErrorTimedOut:
+                  observer(.failure(HaramError.networkError))
                 default:
-                  observer(.failure(HaramError.unknownedError)) // 기타 에러
+                  observer(.failure(HaramError.unknownedError))
                 }
               default:
-                observer(.failure(HaramError.unknownedError)) // Alamofire의 다른 에러 처리
+                observer(.failure(HaramError.unknownedError))
               }
             } else {
-              observer(.failure(error)) // Alamofire 외의 에러 처리
+              observer(.failure(error))
             }
           }
         }
@@ -121,12 +117,12 @@ final class ApiService: BaseService {
     _ router: Router,
     type: T.Type = EmptyModel.self
   ) -> Single<T> where T : Decodable {
-    
-    guard NetworkManager.shared.isConnected else {
-      return .error(HaramError.networkError)
-    }
-    
     return Single.create { observer in
+      guard NetworkManager.shared.isConnected else {
+        observer(.failure(HaramError.networkError))
+        return Disposables.create()
+      }
+      
       self.session.upload(multipartFormData: formData, with: router)
         .validate({ request, response, data in
           let statusCode = response.statusCode
