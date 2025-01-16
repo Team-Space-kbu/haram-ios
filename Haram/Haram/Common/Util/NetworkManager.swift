@@ -12,10 +12,46 @@ final class NetworkManager {
   static let shared = NetworkManager()
   private let queue = DispatchQueue.global()
   private let monitor: NWPathMonitor
-  public private(set) var isConnected: Bool = false
+  
+  public private(set) var isConnected: Bool = true {
+    didSet {
+      if oldValue != isConnected {
+        if isConnected {
+          NotificationCenter.default.post(name: .refreshWhenNetworkConnected, object: nil)
+        }
+      }
+    }
+  }
   public private(set) var connectionType: ConnectionType = .unknown
   
-  // 연결타입
+  private init() {
+    monitor = NWPathMonitor()
+  }
+  
+  public func startMonitoring() {
+    monitor.pathUpdateHandler = { [weak self] path in
+      guard let self = self else { return }
+      
+      let currentStatus = path.status == .satisfied
+      self.getConnectionType(path)
+      
+      if currentStatus {
+        self.isInternetAvailable { isInternetAvailable in
+          self.isConnected = isInternetAvailable
+        }
+      } else {
+        self.isConnected = false
+      }
+    }
+    monitor.start(queue: queue)
+  }
+  
+  public func stopMonitoring() {
+    monitor.cancel()
+  }
+}
+
+extension NetworkManager {
   enum ConnectionType {
     case wifi
     case cellular
@@ -23,31 +59,6 @@ final class NetworkManager {
     case unknown
   }
   
-  // monotior 초기화
-  private init() {
-    monitor = NWPathMonitor()
-  }
-  
-  // Network Monitoring 시작
-  public func startMonitoring() {
-    monitor.start(queue: queue)
-    monitor.pathUpdateHandler = { [weak self] path in
-      
-      self?.isConnected = path.status == .satisfied
-      self?.getConnectionType(path)
-      
-//      if self?.isConnected == true {
-//        NotificationCenter.default.post(name: .refreshWhenNetworkConnected, object: nil)
-//      } 
-    }
-  }
-  
-  // Network Monitoring 종료
-  public func stopMonitoring() {
-    monitor.cancel()
-  }
-  
-  // Network 연결 타입
   private func getConnectionType(_ path: NWPath) {
     if path.usesInterfaceType(.wifi) {
       connectionType = .wifi
@@ -58,5 +69,20 @@ final class NetworkManager {
     } else {
       connectionType = .unknown
     }
+  }
+  
+  private func isInternetAvailable(completion: @escaping (Bool) -> Void) {
+    let url = URL(string: "https://www.google.com")!
+    var request = URLRequest(url: url)
+    request.timeoutInterval = 5.0 // 타임아웃 설정
+    
+    let task = URLSession.shared.dataTask(with: request) { _, response, _ in
+      if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+        completion(true)
+      } else {
+        completion(false)
+      }
+    }
+    task.resume()
   }
 }
