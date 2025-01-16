@@ -52,12 +52,6 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell, ReusableView {
     $0.textAlignment = .center
   }
   
-  //  override var isSelected: Bool {
-  //    didSet {
-  //      updateIfNeeded()
-  //    }
-  //  }
-  
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
@@ -120,22 +114,4 @@ final class SelectedDayCollectionViewCell: UICollectionViewCell, ReusableView {
     titleLabel.textColor = model.isSelected ? .hexF2F3F5 : .black
     dayLabel.textColor = model.isSelected ? .hexF2F3F5 : .black
   }
-  
-  func setHighlighted(isHighlighted: Bool) {
-    
-    if isHighlighted {
-      let pressedDownTransform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-      UIView.transition(with: entireView, duration: 0.1) {
-        self.entireView.alpha = 0.5
-        self.entireView.transform = pressedDownTransform
-      }
-    } else {
-      let pressedDownTransform = CGAffineTransform(scaleX: 1, y: 1)
-      UIView.transition(with: entireView, duration: 0.1) {
-        self.entireView.alpha = 1
-        self.entireView.transform = pressedDownTransform
-      }
-    }
-  }
-  
 }

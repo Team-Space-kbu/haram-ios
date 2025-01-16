@@ -147,17 +147,10 @@ extension RothemRoomListViewController: UICollectionViewDelegateFlowLayout {
 extension RothemRoomListViewController: StudyListCollectionHeaderViewDelegate {
   func didTappedRothemNotice() {
     tapBannerButton.onNext(())
-//    guard let mainNoticeSeq = mainNoticeSeq else { return }
-//    let vc = BannerDetailViewController(bannerSeq: mainNoticeSeq)
-//    vc.title = "스터디 공지사항"
-//    navigationController?.pushViewController(vc, animated: true)
   }
   
   func didTappedCheckButton() {
     tapCheckReservationButton.onNext(())
-//    let vc = CheckReservationViewController()
-//    vc.navigationItem.largeTitleDisplayMode = .never
-//    navigationController?.pushViewController(vc, animated: true)
   }
 }
 

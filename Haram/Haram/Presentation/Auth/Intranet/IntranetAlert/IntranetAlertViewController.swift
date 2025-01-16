@@ -55,23 +55,6 @@ final class IntranetAlertViewController: BaseViewController {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
-//  override func viewWillAppear(_ animated: Bool) {
-//    super.viewWillAppear(animated)
-//    navigationController?.setNavigationBarHidden(true, animated: false)
-//    let startIdx = navigationController?.viewControllers.startIndex
-//    navigationController?.viewControllers.remove(at: startIdx! + 1)
-//  }
-//  
-//  override func viewWillDisappear(_ animated: Bool) {
-//    super.viewWillDisappear(animated)
-//    navigationController?.setNavigationBarHidden(false, animated: false)
-//  }
-  
-//  override func setupStyles() {
-//    super.setupStyles()
-//    navigationController?.interactivePopGestureRecognizer?.delegate = self
-//  }
 
   override func setupLayouts() {
     super.setupLayouts()
@@ -111,33 +94,5 @@ final class IntranetAlertViewController: BaseViewController {
       didTapConfirmButton: loginButton.rx.tap.asObservable()
     )
     _ = viewModel.transform(input: input)
-    
-//    lastButton.rx.tap
-//      .subscribe(with: self) { owner, _ in
-//        owner.navigationController?.setNavigationBarHidden(false, animated: true)
-//        owner.navigationController?.popToRootViewController(animated: true)
-//      }
-//      .disposed(by: disposeBag)
-//    
-//    loginButton.rx.tap
-//      .throttle(.seconds(1), scheduler: MainScheduler.instance)
-//      .subscribe(with: self) { owner, _ in
-//        let vc = IntranetLoginViewController(viewModel: IntranetLoginViewModel(dependency: .init(authRepository: AuthRepositoryImpl(), coordinator: IntranetLoginCoordinator(navigationController: self.navigationController!))))
-//        vc.hidesBottomBarWhenPushed = true
-//        vc.navigationItem.largeTitleDisplayMode = .never
-//        owner.navigationController?.pushViewController(vc, animated: true)
-//      }
-//      .disposed(by: disposeBag)
   }
 }
-
-//extension IntranetAlertViewController: UIGestureRecognizerDelegate {
-//  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-//    return true // or false
-//  }
-//  
-//  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-//    // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
-//    return true
-//  }
-//}

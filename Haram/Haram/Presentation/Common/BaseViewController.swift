@@ -30,7 +30,7 @@ typealias ViewController = BaseViewController & BaseViewControllerPorotocol
 class BaseViewController: UIViewController {
   
   /// A dispose bag. 각 ViewController에 종속적이다.
-  final let disposeBag = DisposeBag()
+  final var disposeBag = DisposeBag()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -107,7 +107,6 @@ class BaseViewController: UIViewController {
   }
   
   func setupSkeletonView() {
-    /// Configure Skeleton UI
     view.isUserInteractionDisabledWhenSkeletonIsActive = true
     view.isSkeletonable = true
     
@@ -121,4 +120,3 @@ class BaseViewController: UIViewController {
     )
   }
 }
-

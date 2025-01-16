@@ -42,14 +42,12 @@ final class ChapelDetailCell: UICollectionViewCell, ReusableView {
       $0.top.greaterThanOrEqualToSuperview()
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.equalTo(contentView.snp.centerY).offset(-1)
-//      $0.centerX.equalToSuperview()
     }
     
     dayLabel.snp.makeConstraints {
       $0.top.equalTo(titleLabel.snp.bottom).offset(2)
       $0.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
-//      $0.centerX.equalToSuperview()
     }
     
     contentView.backgroundColor = .hexF4F4F4

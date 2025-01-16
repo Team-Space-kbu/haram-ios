@@ -23,10 +23,7 @@ final class MainTabController: UITabBarController {
     // tab bar appearance
     tabBar.standardAppearance = UITabBarAppearance().then {
       $0.stackedLayoutAppearance = UITabBarItemAppearance().then {
-        // Deselected state
         $0.normal.titleTextAttributes = [.font: UIFont.medium10, .foregroundColor: UIColor.hex95989A]
-        
-        // Selected State
         $0.selected.titleTextAttributes = [.font: UIFont.regular10, .foregroundColor: UIColor.hex79BD9A]
       }
     }

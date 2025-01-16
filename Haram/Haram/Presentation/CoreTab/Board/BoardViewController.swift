@@ -139,20 +139,6 @@ extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
     return 46 + 10
   }
   
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
-//    let boardModel = boardModel[indexPath.row]
-//    let vc = BoardListViewController(
-//      categorySeq: boardModel.categorySeq,
-//      writeableBoard: boardModel.writeableBoard, 
-//      writeableComment: boardModel.writeableComment
-//    )
-//    vc.title = boardModel.title
-//    vc.navigationItem.largeTitleDisplayMode = .never
-//    vc.hidesBottomBarWhenPushed = true
-//    navigationController?.pushViewController(vc, animated: true)
-  }
-  
   func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
     if tableView == boardTableView {
       let cell = tableView.cellForRow(at: indexPath) as? BoardTableViewCell ?? BoardTableViewCell()

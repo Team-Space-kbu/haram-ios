@@ -24,7 +24,6 @@ final class ChapelListView: UIView {
   }).then {
     $0.register(ChapelCollectionViewCell.self)
     $0.backgroundColor = .white
-//    $0.isSkeletonable = true
     $0.isScrollEnabled = false
   }
   

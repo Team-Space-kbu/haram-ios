@@ -30,12 +30,6 @@ final class BoardDetailViewController: BaseViewController {
     }
   }
   
-//  private var boardImageCollectionViewCellModel: [BoardImageCollectionViewCellModel] = [] {
-//      didSet {
-//        boardDetailTopView.boardImageCollectionView.reloadData()
-//      }
-//    }
-  
   private let tapBannedButton = PublishSubject<Void>()
   private let tapReportButton = PublishSubject<ReportTitleType>()
   private let tapDeleteCommentButton = PublishSubject<IndexPath>()

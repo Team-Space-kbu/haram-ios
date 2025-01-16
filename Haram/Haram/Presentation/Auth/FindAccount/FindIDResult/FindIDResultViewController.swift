@@ -107,32 +107,6 @@ final class FindIDResultViewController: BaseViewController {
     output.foundUserID
       .bind(to: myIDLabel.rx.text)
       .disposed(by: disposeBag)
-//    viewModel.errorMessage
-//      .emit(with: self) { owner, error in
-//        if error == .networkError {
-//          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요.", viewController: owner) {
-//            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-//            if UIApplication.shared.canOpenURL(url) {
-//              UIApplication.shared.open(url)
-//            }
-//          }
-//          return
-//        }
-//        
-//        if error == .notFindUserError {
-//          AlertManager.showAlert(title: "Space 알림", message: "해당 이메일에 대한 사용자가 존재하지않습니다\n다른 이메일로 시도해주세요.", viewController: owner) {
-//            owner.navigationController?.popViewController(animated: true)
-//          }
-//        }
-//      }
-//      .disposed(by: disposeBag)
-    
-//    viewModel.successSendAuthCode
-//      .emit(with: self) { owner, _ in
-//        AlertManager.showAlert(title: "인증번호발송 알림", message: "해당 메일로 인증코드를 보내는데 성공했습니다.", viewController: owner, confirmHandler: nil)
-//      }
-//      .disposed(by: disposeBag)
-    
   }
 }
 

@@ -120,7 +120,6 @@ extension BoardListViewModel {
         output.writeableBoard.accept(response.writeableBoard)
         output.currentBoardList.accept(currentBoardList)
         
-        // 다음 페이지 요청을 위해 +1
         owner.startPage = response.startPage + 1
         owner.endPage = response.endPage
       }, onFailure: { owner, error in
@@ -154,7 +153,6 @@ extension BoardListViewModel {
         output.currentBoardList.accept(addBoardList)
         output.writeableBoard.accept(response.writeableBoard)
         
-        // 다음 페이지 요청을 위해 +1
         owner.startPage = response.startPage + 1
         owner.endPage = response.endPage
       }, onFailure: { owner, error in

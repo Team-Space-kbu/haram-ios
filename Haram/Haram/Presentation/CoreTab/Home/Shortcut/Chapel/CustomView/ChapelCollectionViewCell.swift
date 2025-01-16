@@ -28,9 +28,9 @@ struct ChapelCollectionViewCellModel {
 }
 
 enum ChapelResultType: CaseIterable {
-  case attendance // 출석
-  case late // 지각
-  case absence // 결석
+  case attendance
+  case late
+  case absence 
   
   var title: String {
     switch self {

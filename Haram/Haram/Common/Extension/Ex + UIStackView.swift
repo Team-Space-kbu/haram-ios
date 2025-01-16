@@ -37,16 +37,12 @@ extension UIStackView {
    - divider: UIView를 반환하는 클로저. Divider로 사용할 UIView를 생성
    */
   func insertArrangedSubview(_ view: UIView, at index: Int, divider: (() -> UIView)) {
-    // index가 유효한지 검사
     guard index >= 0 && index <= arrangedSubviews.count else {
-      print("Invalid index: \(index)")
       return
     }
     
-    // 지정된 위치에 View 삽입
     self.insertArrangedSubview(view, at: index)
     
-    // View 위에 Divider 삽입
     if index < arrangedSubviews.count {
       self.insertArrangedSubview(divider(), at: index)
     }

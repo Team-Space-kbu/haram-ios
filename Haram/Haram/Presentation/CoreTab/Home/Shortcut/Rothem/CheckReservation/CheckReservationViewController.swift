@@ -57,7 +57,6 @@ final class CheckReservationViewController: BaseViewController {
     title = "예약정보"
     setupBackButton()
     setupSkeletonView()
-//    rothemReservationInfoView.delegate = self
   }
   
   override func setupLayouts() {

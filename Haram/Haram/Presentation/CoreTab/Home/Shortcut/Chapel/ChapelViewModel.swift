@@ -73,7 +73,7 @@ extension ChapelViewModel {
           .init(title: "남은일수", day: "\(remainDays < 0 ? 0 : remainDays)" + "일"),
           .init(title: "지각", day: response.lateDays + "일"),
           .init(title: "이수일수", day: response.attendanceDays + "일"),
-          .init(title: "확정일수", day: response.confirmationDays + "일") // 이게 뭐지
+          .init(title: "확정일수", day: response.confirmationDays + "일") 
         ])
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }

@@ -160,45 +160,6 @@ final class IntranetLoginViewController: BaseViewController {
       didTapLastAuthButton: lastAuthButton.rx.tap.asObservable()
     )
     let output = viewModel.transform(input: input)
-    
-    //    loginButton.rx.tap
-    //      .subscribe(with: self) { owner, _ in
-    //        guard let intranetID = owner.idTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-    //              let intranetPWD = owner.pwTextField.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) else {
-    //          return
-    //        }
-    //        let isContain = owner.containerStackView.subviews.contains(owner.errorMessageLabel)
-    //
-    //        if isContain {
-    //          owner.errorMessageLabel.text = nil
-    //          owner.errorMessageLabel.removeFromSuperview()
-    //        }
-    //
-    //        owner.view.endEditing(true)
-    //        owner.viewModel.whichIntranetInfo(intranetID: intranetID, intranetPassword: intranetPWD)
-    //      }
-    //      .disposed(by: disposeBag)
-    
-    //    lastAuthButton.rx.tap
-    //      .asDriver()
-    //      .drive(with: self) { owner, _ in
-    //        owner.removeNotifications()
-    //        owner.navigationController?.setNavigationBarHidden(false, animated: true)
-    //        owner.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-    //        owner.navigationController?.popToRootViewController(animated: true)
-    //      }
-    //      .disposed(by: disposeBag)
-    
-    //    viewModel.successIntranetLogin
-    //      .emit(with: self) { owner, message in
-    //        AlertManager.showAlert(title: "인트라넷인증 성공", message: "지금부터 마일리지, 채플, 시간표같은 정보를\n편하게 이용해보세요, 홈으로 이동합니다.", viewController: owner) {
-    //          owner.navigationController?.setNavigationBarHidden(false, animated: true)
-    //          owner.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-    //          owner.navigationController?.popToRootViewController(animated: true)
-    //        }
-    //      }
-    //      .disposed(by: disposeBag)
-    
     output.isLoading
       .bind(to: indicatorView.rx.isAnimating)
       .disposed(by: disposeBag)
