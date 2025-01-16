@@ -83,11 +83,11 @@ extension CheckIDViewModel {
   }
   
   func verifyEmailAuthCode(output: Output, authCode: String) {
-    dependency.authRepository.verifyFindPassword(
+    dependency.authRepository.verifyMailAuthCode(
       userMail: payload.userMail,
       authCode: authCode
     )
-      .subscribe(with: self, onSuccess: { owner, authCode in
+      .subscribe(with: self, onSuccess: { owner, _ in
         owner.dependency.coordinator.showFindIDResultViewController(authCode: authCode)
         output.verifyEmailAuthCodeRelay.accept(authCode)
       }, onFailure: { owner, error in
