@@ -151,12 +151,11 @@ final class CheckIDViewController: BaseViewController {
     output.errorMessageRelay
       .subscribe(with: self) { owner, error in
         if error == .networkError {
-          AlertManager.showAlert(on: self.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
+          AlertManager.showAlert(on: owner.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            self.navigationController?.popViewController(animated: true)
           })
           return
         }
@@ -166,7 +165,7 @@ final class CheckIDViewController: BaseViewController {
         }
         
         if error == .notFindUserError {
-          AlertManager.showAlert(on: self.navigationController, message: .custom("해당 이메일에 대한 사용자가 존재하지않습니다\n다른 이메일로 시도해주세요."), confirmHandler: {
+          AlertManager.showAlert(on: owner.navigationController, message: .custom("해당 이메일에 대한 사용자가 존재하지않습니다\n다른 이메일로 시도해주세요."), confirmHandler: {
             owner.navigationController?.popViewController(animated: true)
           })
         } else {
