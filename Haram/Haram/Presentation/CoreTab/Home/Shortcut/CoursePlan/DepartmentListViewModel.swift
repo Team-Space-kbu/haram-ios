@@ -44,7 +44,10 @@ final class DepartmentListViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     input.viewDidLoad
       .subscribe(with: self) { owner, _ in
-        owner.requestMajorList()
+        owner.requestMajorList(output: owner.output)
+      }
+      .disposed(by: disposeBag)
+    
     input.didConnectNetwork
       .subscribe(with: self) { owner, _ in
         owner.requestMajorList(output: owner.output)
@@ -71,15 +74,18 @@ final class DepartmentListViewModel: ViewModelType {
 }
 
 extension DepartmentListViewModel {
-  private func requestMajorList() {
+  private func requestMajorList(output: Output) {
     output.isLoading.accept(true)
     
     dependency.lectureRepository.inquireCoursePlanList()
       .subscribe(with: self, onSuccess: { owner, response in
-        owner.output.majorList.accept(response.map {
+        output.majorList.accept(response.map {
           .init(type: MajorType(rawValue: $0.title) ?? .other, courseKey: $0.key)
         })
-        owner.output.isLoading.accept(false)
+        output.isLoading.accept(false)
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        output.errorMessage.accept(error)
       })
       .disposed(by: disposeBag)
   }

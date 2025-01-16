@@ -47,7 +47,10 @@ final class LectureListViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     input.viewDidLoad
       .subscribe(with: self) { owner, _ in
-        owner.requestLectureList(classRoom: owner.payload.classRoom)
+        owner.requestLectureList(output: owner.output, classRoom: owner.payload.classRoom)
+      }
+      .disposed(by: disposeBag)
+    
     input.didConnectNetwork
       .subscribe(with: self) { owner, _ in
         owner.requestLectureList(output: owner.output, classRoom: owner.payload.classRoom)
@@ -75,13 +78,16 @@ final class LectureListViewModel: ViewModelType {
 }
 
 extension LectureListViewModel {
-  private func requestLectureList(classRoom: String) {
+  private func requestLectureList(output: Output, classRoom: String) {
     output.isLoading.accept(true)
     
     dependency.lectureRepository.inquireEmptyClassList(classRoom: classRoom)
       .subscribe(with: self, onSuccess: { owner, response in
-        owner.output.lectureList.accept(response)
-        owner.output.isLoading.accept(false)
+        output.lectureList.accept(response)
+        output.isLoading.accept(false)
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        output.errorMessage.accept(error)
       })
       .disposed(by: disposeBag)
   }

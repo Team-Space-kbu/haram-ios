@@ -109,6 +109,7 @@ extension SearchBookViewModel {
       owner.startPage = response.start + 1
       owner.endPage = response.end
       output.isBookResultEmpty.accept(response.result.isEmpty)
+      output.reloadData.accept(())
     }, onFailure: { owner, error in
       guard let error = error as? HaramError else { return }
       if error == .networkError {
@@ -117,7 +118,6 @@ extension SearchBookViewModel {
       }
       output.isBookResultEmpty.accept(true)
     }, onDisposed: { owner in
-      output.reloadData.accept(())
       owner.isLoading = false
     })
     .disposed(by: disposeBag)
