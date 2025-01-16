@@ -74,6 +74,8 @@ final class BannerDetailViewController: BaseViewController {
       viewDidLoad: .just(()),
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     
     output.bannerInfo
@@ -133,6 +135,15 @@ final class BannerDetailViewController: BaseViewController {
     
     setupSkeletonView()
     setupBackButton()
+  }
+}
+
+extension BannerDetailViewController {
+  private func bindNotificationCenter(input: HomeBannerDetailViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
   }
 }
 

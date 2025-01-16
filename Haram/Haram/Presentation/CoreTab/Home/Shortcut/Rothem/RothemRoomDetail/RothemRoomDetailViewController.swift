@@ -54,16 +54,6 @@ final class RothemRoomDetailViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotification()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotification()
-  }
-  
   override func setupStyles() {
     super.setupStyles()
     
@@ -112,6 +102,8 @@ final class RothemRoomDetailViewController: BaseViewController {
       didTapReservationButton: studyRoomDetailView.reservationButton.rx.tap.asObservable(), 
       didTapRothemThumbnail: button.rx.tap.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     
     Observable.combineLatest(
@@ -144,6 +136,15 @@ final class RothemRoomDetailViewController: BaseViewController {
           })
         }
       }
+      .disposed(by: disposeBag)
+  }
+}
+
+extension RothemRoomDetailViewController {
+  private func bindNotificationCenter(input: RothemRoomDetailViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
       .disposed(by: disposeBag)
   }
 }
@@ -185,20 +186,5 @@ extension RothemRoomDetailViewController: SkeletonCollectionViewDataSource {
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     viewModel.amenityModel.count
-  }
-}
-
-extension RothemRoomDetailViewController {
-  private func registerNotification() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotification() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-    //    viewModel.inquireRothemRoomInfo(roomSeq: roomSeq)
   }
 }

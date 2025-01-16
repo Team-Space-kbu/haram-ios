@@ -37,10 +37,11 @@ final class MoreViewModel: ViewModelType {
   }
   
   struct Input {
-    let viewDidLoad: Observable<Void>
+    let viewWillAppear: Observable<Void>
     let didTappedMenuCell: Observable<IndexPath>
     let didTappedSettingCell: Observable<IndexPath>
     let didTappedMoreButton: Observable<Void>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
@@ -58,7 +59,7 @@ final class MoreViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     let output = Output()
     
-    input.viewDidLoad
+    input.viewWillAppear
       .subscribe(with: self) { owner, _ in
         owner.inquireUserInfo(output: output)
       }
@@ -97,6 +98,12 @@ final class MoreViewModel: ViewModelType {
     input.didTappedMoreButton
       .subscribe(with: self) { owner, _ in
         owner.dependency.coordinator.showUpdatePasswordViewController()
+      }
+      .disposed(by: disposeBag)
+    
+    input.didConnectNetwork
+      .subscribe(with: self) { owner, _ in
+        owner.inquireUserInfo(output: output)
       }
       .disposed(by: disposeBag)
     

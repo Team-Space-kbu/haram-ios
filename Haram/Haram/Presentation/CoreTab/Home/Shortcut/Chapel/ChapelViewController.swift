@@ -49,22 +49,14 @@ final class ChapelViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotifications()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
-  }
-  
   override func bind() {
     super.bind()
     let input = ChapelViewModel.Input(
       viewDidLoad: .just(()),
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     output.errorMessage
       .subscribe(with: self) { owner, error in
@@ -129,6 +121,15 @@ final class ChapelViewController: BaseViewController {
     chapelListView.chapelCollectionView.delegate = self
     chapelListView.chapelCollectionView.dataSource = self
     chapelInfoView.chapelDetailInfoView.dataSource = self
+  }
+}
+
+extension ChapelViewController {
+  private func bindNotificationCenter(input: ChapelViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
   }
 }
 
@@ -198,20 +199,5 @@ extension ChapelViewController: UIGestureRecognizerDelegate {
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true
-  }
-}
-
-extension ChapelViewController {
-  private func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-    //    viewModel.inquireChapelInfo()
   }
 }

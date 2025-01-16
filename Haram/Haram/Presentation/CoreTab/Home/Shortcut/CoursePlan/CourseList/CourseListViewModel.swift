@@ -29,11 +29,13 @@ final class CourseListViewModel: ViewModelType {
     let viewDidLoad: Observable<Void>
     let didTapBackButton: Observable<Void>
     let didTapLectureCell: Observable<IndexPath>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
     let lectureList = BehaviorRelay<[LectureInfo]>(value: [])
     let isLoading = BehaviorRelay<Bool>(value: true)
+    let errorMessage = BehaviorRelay<HaramError?>(value: nil)
   }
   
   init(payload: Payload, dependency: Dependency) {

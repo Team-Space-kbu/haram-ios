@@ -28,10 +28,10 @@ final class HomeViewModel: ViewModelType {
   
   struct Input {
     let viewWillAppear: Observable<Void>
-    let viewDidLoad: Observable<Void>
     let didTapBannerCell: Observable<IndexPath>
     let didTapShortcutCell: Observable<IndexPath>
     let didTapNewsCell: Observable<IndexPath>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
@@ -49,12 +49,6 @@ final class HomeViewModel: ViewModelType {
   
   func transform(input: Input) -> Output {
     let output = Output()
-    
-    input.viewDidLoad
-      .subscribe(with: self) { owner, _ in
-        owner.inquireHomeInfo(output: output)
-      }
-      .disposed(by: disposeBag)
     
     input.didTapBannerCell
       .withLatestFrom(output.bannerModel) { ($0, $1) }
@@ -97,7 +91,14 @@ final class HomeViewModel: ViewModelType {
     
     input.viewWillAppear
       .subscribe(with: self) { owner, _ in
+        owner.inquireHomeInfo(output: output)
         owner.inquireSimpleChapelInfo(output: output)
+      }
+      .disposed(by: disposeBag)
+    
+    input.didConnectNetwork
+      .subscribe(with: self) { owner, _ in
+        owner.inquireHomeInfo(output: output)
       }
       .disposed(by: disposeBag)
     

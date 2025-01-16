@@ -30,11 +30,13 @@ final class LectureListViewModel: ViewModelType {
     let viewDidLoad: Observable<Void>
     let didTappedLecture: Observable<IndexPath>
     let didTapBackButton: Observable<Void>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
     let lectureList = BehaviorRelay<[String]>(value: [])
     let isLoading = BehaviorRelay<Bool>(value: true)
+    let errorMessage = BehaviorRelay<HaramError?>(value: nil)
   }
   
   init(payload: Payload, dependency: Dependency) {
@@ -46,6 +48,9 @@ final class LectureListViewModel: ViewModelType {
     input.viewDidLoad
       .subscribe(with: self) { owner, _ in
         owner.requestLectureList(classRoom: owner.payload.classRoom)
+    input.didConnectNetwork
+      .subscribe(with: self) { owner, _ in
+        owner.requestLectureList(output: owner.output, classRoom: owner.payload.classRoom)
       }
       .disposed(by: disposeBag)
     

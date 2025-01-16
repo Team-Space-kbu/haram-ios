@@ -151,6 +151,8 @@ final class BoardDetailViewController: BaseViewController {
       didTapAnonymousButton: commentInputView.checkBoxControl.rx.controlEvent(.touchUpInside).asObservable(), 
       didTapImageCell: boardDetailTopView.boardImageCollectionView.rx.itemSelected.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     
     output.reloadBoardData
@@ -219,6 +221,15 @@ final class BoardDetailViewController: BaseViewController {
   }
 }
 
+extension BoardDetailViewController {
+  private func bindNotificationCenter(input: BoardDetailViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
+  }
+}
+
 // MARK: - UICollectionDataSource
 
 extension BoardDetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -267,14 +278,6 @@ extension BoardDetailViewController: UIGestureRecognizerDelegate {
   }
 }
 
-// MARK: - Keyboard Notifications
-extension BoardDetailViewController {
-  @objc
-  private func refreshWhenNetworkConnected() {
-    //    viewModel.inquireBoardDetail(categorySeq: categorySeq, boardSeq: boardSeq)
-  }
-}
-
 extension BoardDetailViewController {
   func registerNotifications() {
     NotificationCenter.default.addObserver(
@@ -288,8 +291,6 @@ extension BoardDetailViewController {
       name: UIResponder.keyboardWillHideNotification,
       object: nil
     )
-    
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
   }
   
   func removeNotifications() {

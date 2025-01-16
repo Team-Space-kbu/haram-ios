@@ -25,6 +25,7 @@ final class ChapelViewModel: ViewModelType {
   struct Input {
     let viewDidLoad: Observable<Void>
     let didTapBackButton: Observable<Void>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
@@ -43,6 +44,13 @@ final class ChapelViewModel: ViewModelType {
     let output = Output()
     
     input.viewDidLoad
+      .subscribe(with: self) { owner, _ in
+        owner.inquireChapelInfo(output: output)
+        owner.inquireChapelDetail(output: output)
+      }
+      .disposed(by: disposeBag)
+    
+    input.didConnectNetwork
       .subscribe(with: self) { owner, _ in
         owner.inquireChapelInfo(output: output)
         owner.inquireChapelDetail(output: output)

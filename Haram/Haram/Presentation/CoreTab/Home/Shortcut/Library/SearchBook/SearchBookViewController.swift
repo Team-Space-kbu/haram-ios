@@ -59,6 +59,8 @@ final class SearchBookViewController: BaseViewController {
       didScrollToBottom: didScrollToBottom, 
       didTapBookResultCell: searchResultsCollectionView.rx.itemSelected.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     
     
@@ -71,7 +73,10 @@ final class SearchBookViewController: BaseViewController {
     
     output.isBookResultEmpty
       .map { !$0 }
-      .bind(to: emptyView.rx.isHidden)
+      .subscribe(with: self) { owner, isEmpty in
+        owner.emptyView.isHidden = isEmpty
+        owner.view.hideSkeleton()
+      }
       .disposed(by: disposeBag)
     
     output.errorMessage
@@ -114,6 +119,15 @@ final class SearchBookViewController: BaseViewController {
     emptyView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
+  }
+}
+
+extension SearchBookViewController {
+  private func bindNotificationCenter(input: SearchBookViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
   }
 }
 

@@ -163,16 +163,6 @@ final class RothemRoomReservationViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotification()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotification()
-  }
-  
   override func bind() {
     super.bind()
     
@@ -186,6 +176,7 @@ final class RothemRoomReservationViewController: BaseViewController {
       didTapReservationButton: reservationButton.rx.tap.asObservable(),
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable()
     )
+    bindNotificationCenter(input: input)
     
     let output = viewModel.transform(input: input)
     output.studyRoomInfoViewModel
@@ -330,6 +321,15 @@ final class RothemRoomReservationViewController: BaseViewController {
     containerView.setCustomSpacing(26, after: selectedDayCollectionView)
     containerView.setCustomSpacing(26, after: selectedTimeCollectionView)
     containerView.setCustomSpacing(89 - 15 - 49, after: phoneNumberTextField)
+  }
+}
+
+extension RothemRoomReservationViewController {
+  private func bindNotificationCenter(input: RothemRoomReservationViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
   }
 }
 
@@ -487,20 +487,5 @@ extension RothemRoomReservationViewController: UIGestureRecognizerDelegate {
 extension RothemRoomReservationViewController: KeyboardResponder {
   public var targetView: UIView {
     view
-  }
-}
-
-extension RothemRoomReservationViewController {
-  private func registerNotification() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotification() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-    //    viewModel.inquireReservationInfo()
   }
 }

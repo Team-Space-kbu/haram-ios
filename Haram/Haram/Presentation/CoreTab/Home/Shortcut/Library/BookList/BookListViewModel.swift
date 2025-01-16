@@ -35,12 +35,13 @@ final class BookListViewModel: ViewModelType {
     let didTapBannerCell: Observable<IndexPath>
     let didTapBackButton: Observable<Void>
     let didSearchBook: Observable<String>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
     let reloadData   = PublishRelay<Void>()
     let isLoading    = BehaviorRelay<Bool>(value: true)
-    let errorMessage = PublishRelay<HaramError>()
+    let errorMessage = BehaviorRelay<HaramError?>(value: nil)
   }
   
   init(dependency: Dependency) {
@@ -50,7 +51,10 @@ final class BookListViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     let output = Output()
     
-    input.viewDidLoad
+    Observable.merge(
+      input.viewDidLoad,
+      input.didConnectNetwork.asObservable()
+    )
       .subscribe(with: self) { owner, _ in
         owner.inquireLibrary(output: output)
       }

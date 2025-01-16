@@ -68,6 +68,8 @@ final class LectureScheduleViewController: BaseViewController {
       viewDidLoad: .just(()),
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     output.schedulingInfo
       .subscribe(with: self) { owner, model in
@@ -87,6 +89,15 @@ final class LectureScheduleViewController: BaseViewController {
           })
         }
       }
+      .disposed(by: disposeBag)
+  }
+}
+
+extension LectureScheduleViewController {
+  private func bindNotificationCenter(input: LectureScheduleViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
       .disposed(by: disposeBag)
   }
 }

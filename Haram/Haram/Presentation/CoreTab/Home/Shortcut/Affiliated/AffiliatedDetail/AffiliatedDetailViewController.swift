@@ -23,6 +23,7 @@ final class AffiliatedDetailViewController: BaseViewController {
   
   private let containerView = UIView().then {
     $0.backgroundColor = .clear
+    $0.isSkeletonable = true
   }
   
   private let detailImageView = UIImageView().then {
@@ -61,16 +62,6 @@ final class AffiliatedDetailViewController: BaseViewController {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotifications()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
   }
   
   override func setupStyles() {
@@ -129,6 +120,8 @@ final class AffiliatedDetailViewController: BaseViewController {
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable(), 
       didTapThumbnail: button.rx.tap.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     
     output.affiliatedDetailModel
@@ -151,6 +144,15 @@ final class AffiliatedDetailViewController: BaseViewController {
           })
         }
       }
+      .disposed(by: disposeBag)
+  }
+}
+
+extension AffiliatedDetailViewController {
+  private func bindNotificationCenter(input: AffiliatedDetailViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
       .disposed(by: disposeBag)
   }
 }
@@ -221,20 +223,5 @@ extension AffiliatedDetailViewController {
       affiliatedBenefitView.configureUI(with: model.affiliatedBenefitModel)
       affiliatedMapView.configureUI(with: model.affiliatedMapViewModel)
     }
-  }
-}
-
-extension AffiliatedDetailViewController {
-  private func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-//    viewModel.inquireAffiliatedDetail(id: id)
   }
 }

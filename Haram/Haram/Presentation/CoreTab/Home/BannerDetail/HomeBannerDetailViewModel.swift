@@ -28,11 +28,12 @@ final class HomeBannerDetailViewModel: ViewModelType {
   struct Input {
     let viewDidLoad: Observable<Void>
     let didTapBackButton: Observable<Void>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
     let bannerInfo = PublishRelay<(title: String, content: String, writerInfo: String)>()
-    let errorMessage = PublishRelay<HaramError>()
+    let errorMessage = BehaviorRelay<HaramError?>(value: nil)
   }
   
   init(payload: Payload, dependency: Dependency) {
@@ -43,7 +44,10 @@ final class HomeBannerDetailViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     let output = Output()
     
-    input.viewDidLoad
+    Observable.merge(
+      input.viewDidLoad,
+      input.didConnectNetwork.asObservable()
+    )
       .subscribe(with: self) { owner, _ in
         owner.inquireBannerInfo(output: output)
       }

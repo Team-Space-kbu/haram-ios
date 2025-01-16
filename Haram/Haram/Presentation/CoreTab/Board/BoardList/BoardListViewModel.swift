@@ -42,6 +42,7 @@ final class BoardListViewModel: ViewModelType {
     let didTapBackButton: Observable<Void>
     let didTapEditButton: Observable<Void>
     let didScrollToBottom: Observable<Void>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
@@ -61,6 +62,12 @@ final class BoardListViewModel: ViewModelType {
     input.viewWillAppear
       .subscribe(with: self) { owner, _ in
         owner.refreshBoardList(output: output)
+      }
+      .disposed(by: disposeBag)
+    
+    input.didConnectNetwork
+      .subscribe(with: self) { owner, _ in
+        owner.inquireBoardList(output: output)
       }
       .disposed(by: disposeBag)
     

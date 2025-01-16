@@ -56,16 +56,6 @@ final class BookDetailViewController: BaseViewController {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotifications()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
-  }
 
   // MARK: - Configurations
   
@@ -110,6 +100,8 @@ final class BookDetailViewController: BaseViewController {
       didTapRecommendedBookCell: libraryRecommendedView.relatedBookCollectionView.rx.itemSelected.asObservable(), 
       didTapBookThumbnail: libraryDetailMainView.button.rx.tap.asObservable()
     )
+    
+    bindNotificationCenter(input: input)
     let output = viewModel.transform(input: input)
     
     output.reloadData
@@ -149,6 +141,13 @@ final class BookDetailViewController: BaseViewController {
           })
         }
       }
+      .disposed(by: disposeBag)
+  }
+  
+  private func bindNotificationCenter(input: BookDetailViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.refreshNetworkConnected)
       .disposed(by: disposeBag)
   }
 }
@@ -198,20 +197,5 @@ extension BookDetailViewController: SkeletonCollectionViewDelegate, SkeletonColl
   
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
     LibraryCollectionViewCell.reuseIdentifier
-  }
-}
-
-extension BookDetailViewController {
-  private func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-//    viewModel.requestBookInfo(path: path)
   }
 }

@@ -28,11 +28,13 @@ final class DepartmentListViewModel: ViewModelType {
     let viewDidLoad: Observable<Void>
     let didTapBackButton: Observable<Void>
     let didTapMajorCell: Observable<IndexPath>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
     let majorList = BehaviorRelay<[MajorInfo]>(value: [])
     let isLoading = BehaviorRelay<Bool>(value: true)
+    let errorMessage = BehaviorRelay<HaramError?>(value: nil)
   }
   
   init(dependency: Dependency) {
@@ -43,6 +45,9 @@ final class DepartmentListViewModel: ViewModelType {
     input.viewDidLoad
       .subscribe(with: self) { owner, _ in
         owner.requestMajorList()
+    input.didConnectNetwork
+      .subscribe(with: self) { owner, _ in
+        owner.requestMajorList(output: owner.output)
       }
       .disposed(by: disposeBag)
     

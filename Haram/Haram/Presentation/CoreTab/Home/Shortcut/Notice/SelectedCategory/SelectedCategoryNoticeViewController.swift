@@ -50,6 +50,8 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable(), 
       didTapNoticeCell: noticeCollectionView.rx.itemSelected.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     
     output.noticeCollectionViewCellModel
@@ -103,6 +105,15 @@ final class SelectedCategoryNoticeViewController: BaseViewController {
     noticeCollectionView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
     }
+  }
+}
+
+extension SelectedCategoryNoticeViewController {
+  private func bindNotificationCenter(input: SelectedCategoryNoticeViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
   }
 }
 

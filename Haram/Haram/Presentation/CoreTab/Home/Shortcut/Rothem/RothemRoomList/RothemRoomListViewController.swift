@@ -67,13 +67,14 @@ final class RothemRoomListViewController: BaseViewController {
   override func bind() {
     super.bind()
     let input = RothemRoomListViewModel.Input(
-      viewDidLoad: .just(()),
       viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear)).map { _ in Void() }, 
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable(),
       didTapCheckReservationButton: tapCheckReservationButton.asObservable(),
       didTapBanner: tapBannerButton.asObservable(), 
       didTapRoomListCell: studyListCollectionView.rx.itemSelected.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     
     output.reloadData
@@ -140,6 +141,15 @@ extension RothemRoomListViewController: UICollectionViewDelegateFlowLayout {
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     CGSize(width: collectionView.frame.width - 30, height: 98)
+  }
+}
+
+extension RothemRoomListViewController {
+  private func bindNotificationCenter(input: RothemRoomListViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
   }
 }
 

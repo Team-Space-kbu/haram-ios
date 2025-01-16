@@ -35,11 +35,12 @@ final class MoreCategoryViewModel: ViewModelType {
     let fetchMoreDatas = PublishSubject<Void>()
     let didTapBackButton: Observable<Void>
     let didTapNoticeCell: Observable<IndexPath>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
     let noticeCollectionViewCellModel = BehaviorRelay<[NoticeCollectionViewCellModel]>(value: [])
-    let errorMessage = PublishRelay<HaramError>()
+    let errorMessage = BehaviorRelay<HaramError?>(value: nil)
   }
   
   init(dependency: Dependency, payload: Payload) {
@@ -50,7 +51,10 @@ final class MoreCategoryViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     let output = Output()
     
-    input.viewDidLoad
+    Observable.merge(
+      input.viewDidLoad,
+      input.didConnectNetwork.asObservable()
+    )
       .subscribe(with: self) { owner, _ in
         owner.inquireNoticeList(output: output)
       }

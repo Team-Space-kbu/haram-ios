@@ -34,8 +34,9 @@ final class BoardViewModel: ViewModelType {
   }
   
   struct Input {
-    let viewDidLoad: Observable<Void>
+    let viewWillAppear: Observable<Void>
     let didTapBoardCell: Observable<IndexPath>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
@@ -51,7 +52,7 @@ final class BoardViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     let output = Output()
     
-    input.viewDidLoad
+    input.viewWillAppear
       .subscribe(with: self) { owner, _ in
         owner.inquireBoardCategory(output: output)
       }
@@ -67,6 +68,12 @@ final class BoardViewModel: ViewModelType {
           writeableAnonymous: boardModel.writeableAnonymous,
           writeableComment: boardModel.writeableComment
         )
+      }
+      .disposed(by: disposeBag)
+    
+    input.didConnectNetwork
+      .subscribe(with: self) { owner, _ in
+        owner.inquireBoardCategory(output: output)
       }
       .disposed(by: disposeBag)
     

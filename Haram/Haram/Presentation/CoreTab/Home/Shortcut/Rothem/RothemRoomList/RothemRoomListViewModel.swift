@@ -29,12 +29,12 @@ final class RothemRoomListViewModel: ViewModelType {
   }
   
   struct Input {
-    let viewDidLoad: Observable<Void>
     let viewWillAppear: Observable<Void>
     let didTapBackButton: Observable<Void>
     let didTapCheckReservationButton: Observable<Void>
     let didTapBanner: Observable<Void>
     let didTapRoomListCell: Observable<IndexPath>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
@@ -50,7 +50,7 @@ final class RothemRoomListViewModel: ViewModelType {
     let output = Output()
     
     Observable.merge(
-      input.viewDidLoad,
+      input.didConnectNetwork.asObservable(),
       input.viewWillAppear
     )
       .subscribe(with: self) { owner, _ in

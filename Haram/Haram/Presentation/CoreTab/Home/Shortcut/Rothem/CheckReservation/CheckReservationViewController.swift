@@ -42,16 +42,6 @@ final class CheckReservationViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotification()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotification()
-  }
-  
   override func setupStyles() {
     super.setupStyles()
     title = "예약정보"
@@ -87,6 +77,8 @@ final class CheckReservationViewController: BaseViewController {
       didRequestCancelReservation: reservationCancelButton.rx.tap.asObservable(),
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     output.errorMessage
       .subscribe(with: self) { owner, error in
@@ -134,16 +126,10 @@ final class CheckReservationViewController: BaseViewController {
 }
 
 extension CheckReservationViewController {
-  private func registerNotification() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotification() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-    //    viewModel.inquireRothemReservationInfo()
+  private func bindNotificationCenter(input: CheckReservationViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
   }
 }

@@ -136,19 +136,6 @@ final class HomeViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  // MARK: - Life Cycle
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-//    viewModel.inquireSimpleChapelInfo()
-    registerNotifications()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
-  }
-  
   // MARK: - Configurations
   
   override func setupStyles() {
@@ -213,11 +200,12 @@ final class HomeViewController: BaseViewController {
     super.bind()
     let input = HomeViewModel.Input(
       viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear)).map { _ in Void() },
-      viewDidLoad: .just(()),
       didTapBannerCell: bannerCollectionView.rx.itemSelected.asObservable(),
       didTapShortcutCell: shortcutCollectionView.rx.itemSelected.asObservable(),
       didTapNewsCell: newsCollectionView.rx.itemSelected.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     output.isAvailableSimpleChapelModal
       .subscribe(with: self) { owner, modalModel in
@@ -281,18 +269,25 @@ final class HomeViewController: BaseViewController {
       .drive(pageControl.rx.currentPage)
       .disposed(by: disposeBag)
     
-//    viewModel.errorMessage
-//      .emit(with: self) { owner, error in
-//        if error == .networkError {
-//          AlertManager.showAlert(title: "네트워크 연결 알림", message: "네트워크가 연결되있지않습니다\n Wifi혹은 데이터 연결 후 다시 시도해주세요.", viewController: owner) {
-//            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-//            if UIApplication.shared.canOpenURL(url) {
-//              UIApplication.shared.open(url)
-//            }
-//          }
-//        }
-//      }
-//      .disposed(by: disposeBag)
+    output.errorMessage
+      .subscribe(with: self) { owner, error in
+        if error == .networkError {
+          AlertManager.showAlert(on: owner.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(url) {
+              UIApplication.shared.open(url)
+            }
+          })
+        }
+      }
+      .disposed(by: disposeBag)
+  }
+  
+  private func bindNotificationCenter(input: HomeViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
   }
   
   private func pageControlValueChanged(currentPage: Int) {
@@ -409,22 +404,5 @@ extension HomeViewController: UIScrollViewDelegate {
     let bannerIndex = Int(max(0, round(contentOffset.x / scrollView.bounds.width)))
     
     self.currentBannerPage.onNext(bannerIndex)
-  }
-}
-
-extension HomeViewController {
-  private func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-//    DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-//      self.viewModel.inquireHomeInfo()
-//    }
   }
 }

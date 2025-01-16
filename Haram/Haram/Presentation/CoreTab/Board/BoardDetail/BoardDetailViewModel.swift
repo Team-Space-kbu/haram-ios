@@ -48,11 +48,12 @@ final class BoardDetailViewModel: ViewModelType {
     let didTapReportButton: Observable<ReportTitleType>
     let didTapAnonymousButton: Observable<Void>
     let didTapImageCell: Observable<IndexPath>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
     let reloadBoardData = PublishRelay<Void>()
-    let errorMessage = PublishRelay<HaramError>()
+    let errorMessage = BehaviorRelay<HaramError?>(value: nil)
     let isAnonymous = BehaviorRelay<Bool>(value: false)
     let boardModel = PublishRelay<BoardDetailHeaderViewModel>()
   }
@@ -65,7 +66,10 @@ final class BoardDetailViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     let output = Output()
     
-    input.viewDidLoad
+    Observable.merge(
+      input.viewDidLoad,
+      input.didConnectNetwork.asObservable()
+    )
       .subscribe(with: self) { owner, _ in
         owner.inquireBoardDetail(output: output)
       }

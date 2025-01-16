@@ -33,6 +33,7 @@ final class SearchBookViewModel: ViewModelType {
     let didTapBackButton: Observable<Void>
     let didScrollToBottom: Observable<Void>
     let didTapBookResultCell: Observable<IndexPath>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
@@ -57,6 +58,12 @@ final class SearchBookViewModel: ViewModelType {
       owner.searchBook(output: output)
     }
     .disposed(by: disposeBag)
+    
+    input.didConnectNetwork
+      .subscribe(with: self) { owner, _ in
+        owner.searchBook(output: output)
+      }
+      .disposed(by: disposeBag)
     
     input.didTapBackButton
       .subscribe(with: self) { owner, _ in

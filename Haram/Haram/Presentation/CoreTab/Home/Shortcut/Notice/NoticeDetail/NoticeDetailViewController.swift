@@ -86,6 +86,8 @@ final class NoticeDetailViewController: BaseViewController {
       viewDidLoad: .just(()),
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     
     output.noticeDetailModel
@@ -116,7 +118,7 @@ final class NoticeDetailViewController: BaseViewController {
   override func setupStyles() {
     super.setupStyles()
     title = "공지사항"
-//    registerNotifications()
+
     setupBackButton()
     _ = [scrollView, containerView, titleLabel, writerInfoLabel, webView].map { $0.isSkeletonable = true }
     setupSkeletonView()
@@ -148,8 +150,16 @@ final class NoticeDetailViewController: BaseViewController {
   }
 }
 
+extension NoticeDetailViewController {
+  private func bindNotificationCenter(input: NoticeDetailViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
+  }
+}
+
 extension NoticeDetailViewController: WKNavigationDelegate {
-  
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
     webView.evaluateJavaScript("document.readyState") { complete, error in
       if complete != nil {
@@ -167,18 +177,3 @@ extension NoticeDetailViewController: WKNavigationDelegate {
     }
   }
 }
-
-//extension NoticeDetailViewController {
-//  private func registerNotifications() {
-//    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-//  }
-//  
-//  private func removeNotifications() {
-//    NotificationCenter.default.removeObserver(self)
-//  }
-//  
-//  @objc
-//  private func refreshWhenNetworkConnected() {
-//    viewModel.inquireNoticeDetailInfo(type: type, path: path)
-//  }
-//}

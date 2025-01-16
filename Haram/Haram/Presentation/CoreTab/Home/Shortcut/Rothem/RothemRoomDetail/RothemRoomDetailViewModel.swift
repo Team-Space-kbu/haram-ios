@@ -32,6 +32,7 @@ final class RothemRoomDetailViewModel: ViewModelType {
     let didTapBackButton: Observable<Void>
     let didTapReservationButton: Observable<Void>
     let didTapRothemThumbnail: Observable<Void>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
@@ -48,7 +49,10 @@ final class RothemRoomDetailViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     let output = Output()
     
-    input.viewDidLoad
+    Observable.merge(
+      input.viewDidLoad,
+      input.didConnectNetwork.asObservable()
+    )
       .subscribe(with: self) { owner, _ in
         owner.inquireRothemRoomInfo(output: output)
       }

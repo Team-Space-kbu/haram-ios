@@ -29,11 +29,12 @@ final class AffiliatedListViewModel: ViewModelType {
     let viewDidLoad: Observable<Void>
     let didTapBackButton: Observable<Void>
     let didTapAffiliatedCell: Observable<IndexPath>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
     let reloadData   = PublishRelay<Void>()
-    let errorMessage = PublishRelay<HaramError>()
+    let errorMessage = BehaviorRelay<HaramError?>(value: nil)
   }
   
   init(dependency: Dependency) {
@@ -44,6 +45,12 @@ final class AffiliatedListViewModel: ViewModelType {
     let output = Output()
     
     input.viewDidLoad
+      .subscribe(with: self) { owner, _ in
+        owner.inquireAffiliated(output: output)
+      }
+      .disposed(by: disposeBag)
+    
+    input.didConnectNetwork
       .subscribe(with: self) { owner, _ in
         owner.inquireAffiliated(output: output)
       }

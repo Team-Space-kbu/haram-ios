@@ -57,12 +57,13 @@ final class NoticeListViewController: BaseViewController {
     super.bind()
     
     let input = NoticeListViewModel.Input(
-      viewDidLoad: .just(()),
       viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear)).map { _ in Void() }, 
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable(), 
       didTapNoticeCell: noticeListView.noticeCollectionView.rx.itemSelected.asObservable(), 
       didTapCategoryCell: noticeCategoryView.categoryCollectionView.rx.itemSelected.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     
     Observable.combineLatest(
@@ -120,6 +121,15 @@ final class NoticeListViewController: BaseViewController {
     containerView.snp.makeConstraints {
       $0.directionalEdges.width.equalToSuperview()
     }
+  }
+}
+
+extension NoticeListViewController {
+  private func bindNotificationCenter(input: NoticeListViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
   }
 }
 

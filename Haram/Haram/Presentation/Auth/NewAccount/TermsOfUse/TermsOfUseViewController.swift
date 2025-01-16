@@ -81,16 +81,6 @@ final class TermsOfUseViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotifications()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
-  }
-  
   override func setupStyles() {
     super.setupStyles()
     setupSkeletonView()
@@ -105,6 +95,8 @@ final class TermsOfUseViewController: BaseViewController {
       didTapCheckBox: tapTermsOfUseCell.asObservable(),
       didTapAllCheckButton: checkAllButton.rx.controlEvent(.touchUpInside).asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     output.termsOfModel
       .filter { !$0.isEmpty }
@@ -190,6 +182,15 @@ final class TermsOfUseViewController: BaseViewController {
   }
 }
 
+extension TermsOfUseViewController {
+  private func bindNotificationCenter(input: TermsOfUseViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
+  }
+}
+
 extension TermsOfUseViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return viewModel.output.termsOfModel.value.count
@@ -223,20 +224,5 @@ extension TermsOfUseViewController: SkeletonTableViewDataSource {
   
   func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
     2
-  }
-}
-
-extension TermsOfUseViewController {
-  private func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-//    viewModel.inquireTermsSignUp()
   }
 }

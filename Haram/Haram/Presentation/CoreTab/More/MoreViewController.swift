@@ -151,16 +151,6 @@ final class MoreViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotifications()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
-  }
-  
   // MARK: - Configurations
   
   override func setupStyles() {
@@ -179,11 +169,13 @@ final class MoreViewController: BaseViewController {
   override func bind() {
     super.bind()
     let input = MoreViewModel.Input(
-      viewDidLoad: .just(()),
+      viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear)).map { _ in Void() },
       didTappedMenuCell: moreTableView.rx.itemSelected.asObservable(),
       didTappedSettingCell: settingTableView.rx.itemSelected.asObservable(),
       didTappedMoreButton: profileInfoView.button.rx.tap.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     output.currentUserInfo
       .compactMap { $0 }
@@ -257,10 +249,14 @@ final class MoreViewController: BaseViewController {
       $0.bottom.equalToSuperview().inset(13)
     }
   }
-  
-  @objc
-  private func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
+}
+
+extension MoreViewController {
+  private func bindNotificationCenter(input: MoreViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
   }
 }
 
@@ -329,20 +325,5 @@ extension MoreViewController: SkeletonTableViewDataSource {
       return MoreType.allCases.count
     }
     return SettingType.allCases.count
-  }
-}
-
-extension MoreViewController {
-  private func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-//    viewModel.inquireUserInfo()
   }
 }

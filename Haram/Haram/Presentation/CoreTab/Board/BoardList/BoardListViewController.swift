@@ -56,16 +56,6 @@ final class BoardListViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotifications()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
-  }
-  
   override func setupStyles() {
     super.setupStyles()
     
@@ -118,6 +108,8 @@ final class BoardListViewController: BaseViewController {
       didTapEditButton: editBoardButton.rx.tap.asObservable(), 
       didScrollToBottom: didScrollToBottom
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     
     output.currentBoardList
@@ -156,6 +148,15 @@ final class BoardListViewController: BaseViewController {
           })
         }
       }
+      .disposed(by: disposeBag)
+  }
+}
+
+extension BoardListViewController {
+  private func bindNotificationCenter(input: BoardListViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
       .disposed(by: disposeBag)
   }
 }
@@ -204,21 +205,6 @@ extension BoardListViewController: SkeletonCollectionViewDataSource {
     10
   }
   
-}
-
-extension BoardListViewController {
-  private func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-//    viewModel.refreshBoardList(categorySeq: categorySeq)
-  }
 }
 
 extension BoardListViewController: UIGestureRecognizerDelegate {

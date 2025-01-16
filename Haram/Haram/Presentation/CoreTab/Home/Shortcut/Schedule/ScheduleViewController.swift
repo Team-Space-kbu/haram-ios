@@ -73,16 +73,6 @@ final class ScheduleViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-//  override func viewWillAppear(_ animated: Bool) {
-//    super.viewWillAppear(animated)
-//    registerNotifications()
-//  }
-//  
-//  override func viewWillDisappear(_ animated: Bool) {
-//    super.viewWillDisappear(animated)
-//    removeNotifications()
-//  }
-  
   override func setupStyles() {
     super.setupStyles()
     
@@ -119,6 +109,8 @@ final class ScheduleViewController: BaseViewController {
       viewDidLoad: .just(()),
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     output.schedulingInfo
       .subscribe(with: self) { owner, model in
@@ -138,6 +130,15 @@ final class ScheduleViewController: BaseViewController {
           })
         }
       }
+      .disposed(by: disposeBag)
+  }
+}
+
+extension ScheduleViewController {
+  private func bindNotificationCenter(input: ScheduleViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
       .disposed(by: disposeBag)
   }
 }

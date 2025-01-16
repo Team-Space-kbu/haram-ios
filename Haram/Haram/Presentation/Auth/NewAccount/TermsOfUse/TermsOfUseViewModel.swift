@@ -44,12 +44,13 @@ final class TermsOfUseViewModel: ViewModelType {
     let didTapContinueButton: Observable<Void>
     let didTapCheckBox: Observable<IndexPath>
     let didTapAllCheckButton: Observable<Void>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
     let termsOfModel = BehaviorRelay<[TermsOfUseTableViewCellModel]>(value: [])
     let isEnabledContinueButton = BehaviorRelay<Bool>(value: false)
-    let errorMessage = PublishRelay<HaramError>()
+    let errorMessage = BehaviorRelay<HaramError?>(value: nil)
     let isCheckedAllCheckButton = BehaviorRelay<Bool>(value: false)
   }
   
@@ -58,7 +59,10 @@ final class TermsOfUseViewModel: ViewModelType {
   }
   
   func transform(input: Input) -> Output {
-    input.viewDidLoad
+    Observable.merge(
+      input.viewDidLoad,
+      input.didConnectNetwork.asObservable()
+    )
       .subscribe(with: self) { owner, _ in
         owner.inquireTermsSignUp(output: owner.output)
       }

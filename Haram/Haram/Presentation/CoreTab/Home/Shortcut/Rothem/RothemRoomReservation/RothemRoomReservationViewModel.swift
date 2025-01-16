@@ -34,14 +34,15 @@ final class RothemRoomReservationViewModel: ViewModelType {
     let didTapTermsOfUseCell: Observable<IndexPath>
     let didTapReservationButton: Observable<Void>
     let didTapBackButton: Observable<Void>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
     let studyRoomInfoViewModel             = PublishRelay<StudyRoomInfoViewModel>()
     let selectedDayCollectionViewCellModel = BehaviorRelay<[SelectedDayCollectionViewCellModel]>(value: [])
     let policyModel                        = BehaviorRelay<[TermsOfUseTableViewCellModel]>(value: [])
-    let errorMessage                       = PublishRelay<HaramError>()
-    let isLoading                          = PublishSubject<Bool>()
+    let errorMessage                     = BehaviorRelay<HaramError?>(value: nil)
+    let isLoading                          = PublishRelay<Bool>()
     let amModel = BehaviorRelay<[SelectedTimeCollectionViewCellModel]>(value: [])
     let pmModel = BehaviorRelay<[SelectedTimeCollectionViewCellModel]>(value: [])
     let isEnabledReservationButton = BehaviorRelay<Bool>(value: false)
@@ -68,7 +69,10 @@ final class RothemRoomReservationViewModel: ViewModelType {
     .bind(to: output.isEnabledReservationButton)
     .disposed(by: disposeBag)
     
-    input.viewDidLoad
+    Observable.merge(
+      input.viewDidLoad,
+      input.didConnectNetwork.asObservable()
+    )
       .subscribe(with: self) { owner, _ in
         owner.inquireReservationInfo(output: output)
       }
@@ -321,10 +325,9 @@ final class RothemRoomReservationViewModel: ViewModelType {
 extension RothemRoomReservationViewModel {
   /// 예약하기위한 정보를 조회하는 함수, 맨 처음에만 호출
   func inquireReservationInfo(output: Output) {
+    output.isLoading.accept(true)
+    
     let inquireReservationInfo = dependency.rothemRepository.checkTimeAvailableForRothemReservation(roomSeq: payload.roomSeq)
-      .do(onSuccess: { _ in
-        output.isLoading.onNext(true)
-      })
     
     inquireReservationInfo
       .subscribe(with: self, onSuccess: { owner, response in
@@ -337,7 +340,7 @@ extension RothemRoomReservationViewModel {
         if let availableIndex = response.calendarResponses.firstIndex(where: (\.isAvailable)) {
           owner.selectReservationDay(output: output, indexPath: IndexPath(row: availableIndex, section: 0))
         }
-        output.isLoading.onNext(false)
+        output.isLoading.accept(false)
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         output.errorMessage.accept(error)

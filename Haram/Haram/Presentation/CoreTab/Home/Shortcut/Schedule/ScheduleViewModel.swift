@@ -56,11 +56,12 @@ final class ScheduleViewModel: ViewModelType {
   struct Input {
     let viewDidLoad: Observable<Void>
     let didTapBackButton: Observable<Void>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
     let schedulingInfo    = PublishRelay<[ElliottEvent]>()
-    let errorMessage = PublishRelay<HaramError>()
+    let errorMessage = BehaviorRelay<HaramError?>(value: nil)
   }
   
   init(dependency: Dependency) {
@@ -71,6 +72,12 @@ final class ScheduleViewModel: ViewModelType {
     let output = Output()
     
     input.viewDidLoad
+      .subscribe(with: self) { owner, _ in
+        owner.inquireTimeSchedule(output: output)
+      }
+      .disposed(by: disposeBag)
+    
+    input.didConnectNetwork
       .subscribe(with: self) { owner, _ in
         owner.inquireTimeSchedule(output: output)
       }

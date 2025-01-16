@@ -32,6 +32,7 @@ final class BookDetailViewModel: ViewModelType {
   
   struct Input {
     let viewDidLoad: Observable<Void>
+    let refreshNetworkConnected = PublishRelay<Void>()
     let didTapBackButton: Observable<Void>
     let didTapRecommendedBookCell: Observable<IndexPath>
     let didTapBookThumbnail: Observable<Void>
@@ -40,7 +41,7 @@ final class BookDetailViewModel: ViewModelType {
   struct Output {
     let reloadData   = PublishRelay<Void>()
     let isLoading    = BehaviorRelay<Bool>(value: false)
-    let errorMessage = PublishRelay<HaramError>()
+    let errorMessage = BehaviorRelay<HaramError?>(value: nil)
   }
   
   init(payload: Payload, dependency: Dependency) {
@@ -50,13 +51,6 @@ final class BookDetailViewModel: ViewModelType {
   
   func transform(input: Input) -> Output {
     let output = Output()
-    
-    input.viewDidLoad
-      .subscribe(with: self) { owner, _ in
-        owner.requestBookInfo(output: output)
-        owner.requestBookLoanStatus(output: output)
-      }
-      .disposed(by: disposeBag)
     
     input.didTapBackButton
       .subscribe(with: self) { owner, _ in
@@ -80,6 +74,16 @@ final class BookDetailViewModel: ViewModelType {
         owner.dependency.coordinator.showLibraryDetailViewController(path: path)
       }
       .disposed(by: disposeBag)
+    
+    Observable.merge(
+      input.viewDidLoad,
+      input.refreshNetworkConnected.asObservable()
+    )
+    .subscribe(with: self) { owner, _ in
+      owner.requestBookInfo(output: output)
+      owner.requestBookLoanStatus(output: output)
+    }
+    .disposed(by: disposeBag)
     
     return output
   }

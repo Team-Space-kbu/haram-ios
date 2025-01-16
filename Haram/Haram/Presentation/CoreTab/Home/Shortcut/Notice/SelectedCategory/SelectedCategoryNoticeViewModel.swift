@@ -35,6 +35,7 @@ final class SelectedCategoryNoticeViewModel: ViewModelType {
     let fetchMoreDatas = PublishSubject<Void>()
     let didTapBackButton: Observable<Void>
     let didTapNoticeCell: Observable<IndexPath>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
@@ -51,6 +52,12 @@ final class SelectedCategoryNoticeViewModel: ViewModelType {
     let output = Output()
     
     input.viewDidLoad
+      .subscribe(with: self) { owner, _ in
+        owner.inquireNoticeList(output: output)
+      }
+      .disposed(by: disposeBag)
+    
+    input.didConnectNetwork
       .subscribe(with: self) { owner, _ in
         owner.inquireNoticeList(output: output)
       }

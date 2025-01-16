@@ -27,11 +27,12 @@ final class NoticeDetailViewModel: ViewModelType {
   struct Input {
     let viewDidLoad: Observable<Void>
     let didTapBackButton: Observable<Void>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
     let noticeDetailModel = PublishRelay<NoticeDetailModel>()
-    let errorMessage = PublishRelay<HaramError>()
+    let errorMessage = BehaviorRelay<HaramError?>(value: nil)
   }
   
   init(dependency: Dependency, payload: Payload) {
@@ -48,9 +49,9 @@ final class NoticeDetailViewModel: ViewModelType {
       }
       .disposed(by: disposeBag)
     
-    input.didTapBackButton
+    input.didConnectNetwork
       .subscribe(with: self) { owner, _ in
-        owner.dependency.coordinator.popViewController()
+        owner.inquireNoticeDetailInfo(output: output)
       }
       .disposed(by: disposeBag)
     

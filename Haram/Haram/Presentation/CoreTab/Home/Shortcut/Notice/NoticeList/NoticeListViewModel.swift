@@ -26,11 +26,11 @@ final class NoticeListViewModel: ViewModelType {
   }
   
   struct Input {
-    let viewDidLoad: Observable<Void>
     let viewWillAppear: Observable<Void>
     let didTapBackButton: Observable<Void>
     let didTapNoticeCell: Observable<IndexPath>
     let didTapCategoryCell: Observable<IndexPath>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
@@ -46,10 +46,13 @@ final class NoticeListViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     let output = Output()
     
-    Observable.merge(
-      input.viewDidLoad,
-      input.viewWillAppear
-    )
+    input.viewWillAppear
+      .subscribe(with: self) { owner, _ in
+        owner.inquireMainNoticeList(output: output)
+      }
+      .disposed(by: disposeBag)
+    
+    input.didConnectNetwork
       .subscribe(with: self) { owner, _ in
         owner.inquireMainNoticeList(output: output)
       }

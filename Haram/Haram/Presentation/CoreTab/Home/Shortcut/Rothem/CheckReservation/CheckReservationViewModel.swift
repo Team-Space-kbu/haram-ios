@@ -38,11 +38,12 @@ final class CheckReservationViewModel: ViewModelType {
     let viewDidLoad: Observable<Void>
     let didRequestCancelReservation: Observable<Void>
     let didTapBackButton: Observable<Void>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
     let rothemReservationInfoView  = PublishRelay<RothemReservationInfoViewModel>()
-    let errorMessage               = PublishRelay<HaramError>()
+    let errorMessage = BehaviorRelay<HaramError?>(value: nil)
   }
   
   init(dependency: Dependency) {
@@ -52,7 +53,10 @@ final class CheckReservationViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     let output = Output()
     
-    input.viewDidLoad
+    Observable.merge(
+      input.viewDidLoad,
+      input.didConnectNetwork.asObservable()
+    )
       .subscribe(with: self) { owner, _ in
         owner.inquireRothemReservationInfo(output: output)
       }

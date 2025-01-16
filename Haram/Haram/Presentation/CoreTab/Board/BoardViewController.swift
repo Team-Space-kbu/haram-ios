@@ -41,22 +41,14 @@ final class BoardViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotifications()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
-  }
-  
   override func bind() {
     super.bind()
     let input = BoardViewModel.Input(
-      viewDidLoad: .just(()),
+      viewWillAppear: self.rx.methodInvoked(#selector(UIViewController.viewWillAppear)).map { _ in Void() },
       didTapBoardCell: boardTableView.rx.itemSelected.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     
     Observable.combineLatest(
@@ -118,6 +110,15 @@ final class BoardViewController: BaseViewController {
   }
 }
 
+extension BoardViewController {
+  private func bindNotificationCenter(input: BoardViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
+  }
+}
+
 extension BoardViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     boardModel.count
@@ -169,20 +170,5 @@ extension BoardViewController: SkeletonTableViewDataSource {
   
   func collectionSkeletonView(_ skeletonView: UITableView, identifierForHeaderInSection section: Int) -> ReusableHeaderFooterIdentifier? {
     BoardTableHeaderView.reuseIdentifier
-  }
-}
-
-extension BoardViewController {
-  private func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-//    viewModel.inquireBoardCategory()
   }
 }

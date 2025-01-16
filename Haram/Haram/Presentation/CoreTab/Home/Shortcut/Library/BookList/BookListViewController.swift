@@ -124,17 +124,7 @@ final class BookListViewController: BaseViewController {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotifications()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
-  }
-  
+
   // MARK: - Configurations
   
   override func bind() {
@@ -146,6 +136,8 @@ final class BookListViewController: BaseViewController {
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable(), 
       didSearchBook: searchBar.rx.searchButtonClicked.withLatestFrom(searchBar.rx.text.orEmpty).asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     
     output.reloadData
@@ -263,6 +255,13 @@ final class BookListViewController: BaseViewController {
     section.boundarySupplementaryItems = [header]
     return section
   }
+  
+  private func bindNotificationCenter(input: BookListViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
+      .disposed(by: disposeBag)
+  }
 }
 
 // MARK: - UICollectionViewDelegate & UICollectionViewDataSource
@@ -376,20 +375,5 @@ extension BookListViewController: UIGestureRecognizerDelegate {
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true
-  }
-}
-
-extension BookListViewController {
-  private func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-    //    viewModel.inquireLibrary()
   }
 }

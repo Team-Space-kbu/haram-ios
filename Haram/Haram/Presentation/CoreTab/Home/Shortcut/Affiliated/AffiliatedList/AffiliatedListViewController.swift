@@ -26,16 +26,6 @@ final class AffiliatedListViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotifications()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
-  }
-  
   private lazy var affiliatedListView = UITableView(frame: .zero, style: .plain).then {
     $0.register(AffiliatedTableViewCell.self)
     $0.dataSource = self
@@ -83,6 +73,8 @@ final class AffiliatedListViewController: BaseViewController {
       didTapBackButton: navigationItem.leftBarButtonItem!.rx.tap.asObservable(), 
       didTapAffiliatedCell: affiliatedListView.rx.itemSelected.asObservable()
     )
+    bindNotificationCenter(input: input)
+    
     let output = viewModel.transform(input: input)
     output.reloadData
       .subscribe(with: self) { owner, _ in
@@ -102,6 +94,15 @@ final class AffiliatedListViewController: BaseViewController {
           })
         }
       }
+      .disposed(by: disposeBag)
+  }
+}
+
+extension AffiliatedListViewController {
+  private func bindNotificationCenter(input: AffiliatedListViewModel.Input) {
+    NotificationCenter.default.rx.notification(.refreshWhenNetworkConnected)
+      .map { _ in Void() }
+      .bind(to: input.didConnectNetwork)
       .disposed(by: disposeBag)
   }
 }
@@ -150,20 +151,5 @@ extension AffiliatedListViewController: UIGestureRecognizerDelegate {
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true
-  }
-}
-
-extension AffiliatedListViewController {
-  private func registerNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(refreshWhenNetworkConnected), name: .refreshWhenNetworkConnected, object: nil)
-  }
-  
-  private func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  private func refreshWhenNetworkConnected() {
-//    viewModel.tryInquireAffiliated()
   }
 }
