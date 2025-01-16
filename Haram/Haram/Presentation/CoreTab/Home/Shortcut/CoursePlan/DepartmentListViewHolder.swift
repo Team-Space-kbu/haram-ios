@@ -16,6 +16,7 @@ final class DepartmentListViewHolder {
     $0.backgroundColor = .clear
     $0.showsVerticalScrollIndicator = false
     $0.showsHorizontalScrollIndicator = false
+    $0.isSkeletonable = true
   }
   
   private let containerView = UIStackView().then {
@@ -26,6 +27,7 @@ final class DepartmentListViewHolder {
     $0.alignment = .fill
     $0.distribution = .fill
     $0.spacing = 15
+    $0.isSkeletonable = true
   }
   
   private let titleLabel = UILabel().then {
@@ -49,7 +51,10 @@ extension DepartmentListViewHolder: ViewHolderType {
   func place(in view: UIView) {
     view.addSubview(scrollView)
     scrollView.addSubview(containerView)
-    [titleLabel, majorListView].forEach { containerView.addArrangedSubview($0) }
+    [titleLabel, majorListView].forEach {
+      $0.isSkeletonable = true
+      containerView.addArrangedSubview($0)
+    }
   }
   
   func configureConstraints(for view: UIView) {

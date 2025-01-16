@@ -74,6 +74,7 @@ final class AffiliatedTableViewCell: UITableViewCell, ReusableView {
     selectionStyle = .none
     isSkeletonable = true
     contentView.isSkeletonable = true
+    containerView.isSkeletonable = true
     contentView.backgroundColor = .white
     
     contentView.addSubview(containerView)
