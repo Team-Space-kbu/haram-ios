@@ -25,6 +25,7 @@ final class CheckEmailViewModel: ViewModelType {
   struct Input {
     let didTappedContinueButton: Observable<String>
     let didTappedRerequestButton: Observable<Void>
+    let didTapCancelButton: Observable<Void>
   }
   
   struct Output {
@@ -39,6 +40,12 @@ final class CheckEmailViewModel: ViewModelType {
   
   func transform(input: Input) -> Output {
     let output = Output()
+    
+    input.didTapCancelButton
+      .subscribe(with: self) { owner, _ in
+        owner.dependency.coordinator.popViewController()
+      }
+      .disposed(by: disposeBag)
     
     input.didTappedContinueButton
       .throttle(.milliseconds(500), scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))

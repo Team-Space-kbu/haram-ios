@@ -76,11 +76,6 @@ final class CheckEmailViewController: BaseViewController {
     removeKeyboardNotification()
   }
   
-  override func setupStyles() {
-    super.setupStyles()
-    navigationController?.navigationBar.isHidden = true
-  }
-  
   override func setupLayouts() {
     super.setupLayouts()
     [containerView, buttonStackView].forEach { view.addSubview($0) }
@@ -135,7 +130,8 @@ final class CheckEmailViewController: BaseViewController {
       didTappedContinueButton: continueButton.rx.tap
         .withLatestFrom(checkEmailTextField.rx.text.orEmpty)
         .asObservable(),
-      didTappedRerequestButton: reRequestAlertView.reRequestButton.rx.tap.asObservable()
+      didTappedRerequestButton: reRequestAlertView.reRequestButton.rx.tap.asObservable(), 
+      didTapCancelButton: cancelButton.rx.tap.asObservable()
     )
     let output = viewModel.transform(input: input)
     output.verifyEmailAuthCodeRelay
@@ -155,7 +151,6 @@ final class CheckEmailViewController: BaseViewController {
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           })
 
           return

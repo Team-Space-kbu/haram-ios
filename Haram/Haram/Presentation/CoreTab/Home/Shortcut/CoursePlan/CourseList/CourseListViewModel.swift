@@ -46,7 +46,13 @@ final class CourseListViewModel: ViewModelType {
   func transform(input: Input) -> Output {
     input.viewDidLoad
       .subscribe(with: self) { owner, _ in
-        owner.inquireCoursePlanDetail(course: owner.payload.course)
+        owner.inquireCoursePlanDetail(output: owner.output, course: owner.payload.course)
+      }
+      .disposed(by: disposeBag)
+    
+    input.didConnectNetwork
+      .subscribe(with: self) { owner, _ in
+        owner.inquireCoursePlanDetail(output: owner.output, course: owner.payload.course)
       }
       .disposed(by: disposeBag)
     
@@ -69,12 +75,12 @@ final class CourseListViewModel: ViewModelType {
 }
 
 extension CourseListViewModel {
-  private func inquireCoursePlanDetail(course: String) {
+  private func inquireCoursePlanDetail(output: Output, course: String) {
     output.isLoading.accept(true)
     
     dependency.lectureRepository.inquireCoursePlanDetail(course: course)
       .subscribe(with: self, onSuccess: { owner, response in
-        owner.output.lectureList.accept(response.map {
+        output.lectureList.accept(response.map {
           .init(
             pdfFile: $0.lectureFile,
             title: $0.subject,
@@ -85,7 +91,10 @@ extension CourseListViewModel {
               $0.lectureDay
             ])
         })
-        owner.output.isLoading.accept(false)
+        output.isLoading.accept(false)
+      }, onFailure: { owner, error in
+        guard let error = error as? HaramError else { return }
+        output.errorMessage.accept(error)
       })
       .disposed(by: disposeBag)
   }

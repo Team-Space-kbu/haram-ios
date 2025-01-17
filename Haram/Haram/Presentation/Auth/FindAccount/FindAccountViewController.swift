@@ -25,7 +25,6 @@ final class FindAccountViewController: ViewController {
   override func setupStyles() {
     super.setupStyles()
     viewHolderConfigure()
-    navigationController?.navigationBar.isHidden = true
   }
   
   override func bind() {

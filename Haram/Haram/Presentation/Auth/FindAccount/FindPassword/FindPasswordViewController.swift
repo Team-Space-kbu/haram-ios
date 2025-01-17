@@ -73,11 +73,6 @@ final class FindPasswordViewController: BaseViewController {
     removeKeyboardNotification()
   }
   
-  override func setupStyles() {
-    super.setupStyles()
-    navigationController?.navigationBar.isHidden = true
-  }
-  
   override func setupLayouts() {
     super.setupLayouts()
     [containerView].forEach { view.addSubview($0) }
@@ -135,7 +130,6 @@ final class FindPasswordViewController: BaseViewController {
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           })
           return
         }

@@ -42,6 +42,12 @@ final class NoticeDetailViewModel: ViewModelType {
   
   func transform(input: Input) -> Output {
     let output = Output()
+
+    input.didTapBackButton
+      .subscribe(with: self) { owner, _ in
+        owner.dependency.coordinator.popViewController()
+      }
+      .disposed(by: disposeBag)
     
     input.viewDidLoad
       .subscribe(with: self) { owner, _ in

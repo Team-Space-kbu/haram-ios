@@ -92,13 +92,11 @@ final class UpdatePasswordViewController: BaseViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     registerKeyboardNotification()
-    navigationController?.setNavigationBarHidden(true, animated: false)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     removeKeyboardNotification()
-    navigationController?.setNavigationBarHidden(false, animated: false)
   }
   
   override func setupStyles() {
