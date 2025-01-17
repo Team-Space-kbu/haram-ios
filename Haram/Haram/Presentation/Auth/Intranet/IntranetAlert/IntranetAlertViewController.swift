@@ -17,6 +17,7 @@ final class IntranetAlertViewController: BaseViewController {
   private let backgroudImageView = UIImageView(image: UIImage(resource: .intranetCheck)).then {
     $0.contentMode = .scaleAspectFill
     $0.isUserInteractionEnabled = true
+    $0.layer.masksToBounds = true
   }
   
   private let titleLabel = UILabel().then {
@@ -54,6 +55,18 @@ final class IntranetAlertViewController: BaseViewController {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  // MARK: - Life Cycles
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    navigationController?.setNavigationBarHidden(true, animated: false)
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    navigationController?.setNavigationBarHidden(false, animated: false)
   }
 
   override func setupLayouts() {

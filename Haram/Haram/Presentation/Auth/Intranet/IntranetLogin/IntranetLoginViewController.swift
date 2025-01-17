@@ -85,8 +85,6 @@ final class IntranetLoginViewController: BaseViewController {
     super.viewWillAppear(animated)
     registerNotifications()
     navigationController?.setNavigationBarHidden(true, animated: false)
-    let startIdx = navigationController?.viewControllers.startIndex
-    navigationController?.viewControllers.remove(at: startIdx! + 1)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -97,7 +95,6 @@ final class IntranetLoginViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
-    navigationController?.interactivePopGestureRecognizer?.delegate = self
     
     /// Set Delegate
     idTextField.textField.delegate = self
@@ -263,10 +260,6 @@ extension IntranetLoginViewController: UITextFieldDelegate {
 }
 
 extension IntranetLoginViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-    return true // or false
-  }
-  
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true
