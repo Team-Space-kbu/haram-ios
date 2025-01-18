@@ -26,6 +26,7 @@ final class FindIDResultViewModel: ViewModelType {
   struct Input {
     let viewDidLoad: Observable<Void>
     let didTapBackButton: Observable<Void>
+    let didConnectNetwork = PublishRelay<Void>()
   }
   
   struct Output {
@@ -47,7 +48,10 @@ final class FindIDResultViewModel: ViewModelType {
       }
       .disposed(by: disposeBag)
     
-    input.viewDidLoad
+    Observable.merge(
+      input.viewDidLoad,
+      input.didConnectNetwork.asObservable()
+    )
       .subscribe(with: self) { owner, _ in
         owner.findID(output: output)
       }
@@ -67,6 +71,13 @@ extension FindIDResultViewModel {
       output.foundUserID.accept(response)
     }, onFailure: { owner, error in
       guard let error = error as? HaramError else { return }
+      if error == .networkError {
+        output.errorMessage.accept(error)
+        return
+      }
+      owner.dependency.coordinator.showAlert(message: "아이디를 찾지 못했어요.\n이전 화면으로 돌아가 다시 진행해 주세요!") {
+        owner.dependency.coordinator.popViewController()
+      }
       output.errorMessage.accept(error)
     })
     .disposed(by: disposeBag)
