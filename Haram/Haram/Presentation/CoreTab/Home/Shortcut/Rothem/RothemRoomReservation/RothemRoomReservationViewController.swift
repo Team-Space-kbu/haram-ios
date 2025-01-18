@@ -61,7 +61,7 @@ final class RothemRoomReservationViewController: BaseViewController {
     $0.isSkeletonable = true
   }
   
-  private lazy var termsOfUseTableView = UITableView(frame: .zero, style: .plain).then {
+  private lazy var termsOfUseTableView = AutoSizingTableView(frame: .zero, style: .plain).then {
     $0.register(TermsOfUseTableViewCell.self)
     $0.dataSource = self
     $0.delegate = self
@@ -282,10 +282,6 @@ final class RothemRoomReservationViewController: BaseViewController {
       $0.height.greaterThanOrEqualTo(98)
     }
     
-    termsOfUseTableView.snp.makeConstraints {
-      $0.height.equalTo((124 + 21 + 28) * 2)
-    }
-    
     selectedDayLabel.snp.makeConstraints {
       $0.height.equalTo(22)
     }
@@ -488,4 +484,20 @@ extension RothemRoomReservationViewController: KeyboardResponder {
   public var targetView: UIView {
     view
   }
+}
+
+final class AutoSizingTableView: UITableView {
+    
+    override var intrinsicContentSize: CGSize {
+        layoutIfNeeded() // 현재 레이아웃을 업데이트
+        return CGSize(width: contentSize.width, height: contentSize.height)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if bounds.size != intrinsicContentSize {
+            invalidateIntrinsicContentSize()
+        }
+    }
 }
