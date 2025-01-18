@@ -1284,8 +1284,8 @@
 		708ED7A22A8F942500107CDF /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				70AED77F2CD42E4900AB22C5 /* FindAccount */,
 				70AED7882CD4B13100AB22C5 /* NewAccount */,
+				70AED77F2CD42E4900AB22C5 /* FindAccount */,
 				70AED7AA2CDCC6A500AB22C5 /* Login */,
 				708DAD142B35AD3F00E3AD45 /* Intranet */,
 			);
