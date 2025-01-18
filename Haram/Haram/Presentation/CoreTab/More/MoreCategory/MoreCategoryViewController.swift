@@ -156,14 +156,6 @@ extension MoreCategoryViewController: UICollectionViewDataSource, UICollectionVi
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     CGSize(width: collectionView.frame.width - 30, height: 92)
   }
-  
-  
-}
-
-extension MoreCategoryViewController: BackButtonHandler {
-  func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
-  }
 }
 
 extension MoreCategoryViewController: SkeletonCollectionViewDataSource {

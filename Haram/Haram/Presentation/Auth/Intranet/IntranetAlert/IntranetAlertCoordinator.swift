@@ -23,7 +23,7 @@ final class IntranetAlertCoordinator: Coordinator {
       )
     )
     viewController.hidesBottomBarWhenPushed = true
-    let startIdx = self.navigationController.viewControllers.startIndex 
+    let startIdx = self.navigationController.viewControllers.startIndex
     self.navigationController.viewControllers.remove(at: startIdx + 1)
     self.navigationController.pushViewController(viewController, animated: true)
   }

@@ -158,12 +158,6 @@ extension SelectedCategoryNoticeViewController: UICollectionViewDataSource, UICo
   
 }
 
-extension SelectedCategoryNoticeViewController: BackButtonHandler {
-  func didTappedBackButton() {
-    navigationController?.popViewController(animated: true)
-  }
-}
-
 extension SelectedCategoryNoticeViewController: SkeletonCollectionViewDataSource {
   func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
     NoticeCollectionViewCell.reuseIdentifier

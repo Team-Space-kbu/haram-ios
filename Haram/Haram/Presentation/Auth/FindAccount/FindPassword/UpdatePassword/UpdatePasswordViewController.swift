@@ -179,7 +179,6 @@ final class UpdatePasswordViewController: BaseViewController {
             if UIApplication.shared.canOpenURL(url) {
               UIApplication.shared.open(url)
             }
-            owner.navigationController?.popViewController(animated: true)
           })
         } else if error == .noEqualPassword {
           owner.checkUpdatePasswordTextField.setError(description: error.description!)
