@@ -24,13 +24,14 @@ struct ReservationRoomResponse: Decodable {
   let createdAt: String
   let modifiedBy: String
   let modifiedAt: String
+  let sortNum: Int
 }
 
 struct PolicyResponse: Decodable {
   let policySeq: Int
-  let title: String
-  let content: String
-  let isRequired: Bool
+  let title: String?
+  let content: String?
+  let isRequired: Bool?
   let createdBy: String
   let createdAt: String
   let modifiedBy: String

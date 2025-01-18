@@ -30,10 +30,10 @@ struct TermsOfUseTableViewCellModel {
   
   init(response: PolicyResponse) {
     seq = response.policySeq
-    title = response.title
+    title = response.title ?? ""
     isChecked = false
-    isRequired = response.isRequired
-    content = "<style>body{background-color:#F2F3F5;padding-top: 4px;padding-right: 6px;padding-bottom: 7px;padding-left: 6px;}</style>" + response.content
+    isRequired = response.isRequired ?? false
+    content = "<style>body{background-color:#F2F3F5;padding-top: 4px;padding-right: 6px;padding-bottom: 7px;padding-left: 6px;}</style>" + (response.content ?? "")
   }
 }
 
