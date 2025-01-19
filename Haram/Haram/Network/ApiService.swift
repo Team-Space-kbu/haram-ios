@@ -62,7 +62,7 @@ final class ApiService: BaseService {
             }
             
             guard let decodedData = try? JSONDecoder().decode(BaseEntity<T>.self, from: data) else {
-              LogHelper.log("Decoding Error: \(response.request!)", level: .error)
+              LogHelper.error("Decoding Error: \(response.request!)")
               observer(.failure(HaramError.decodedError))
               return
             }
@@ -143,7 +143,7 @@ final class ApiService: BaseService {
               return
             }
             guard let decodedData = try? JSONDecoder().decode(BaseEntity<T>.self, from: data) else {
-              LogHelper.log("Decoding Error: \(router.urlRequest!)", level: .error)
+              LogHelper.error("Decoding Error: \(router.urlRequest!)")
               return observer(.failure(HaramError.decodedError))
             }
             
@@ -168,7 +168,7 @@ final class ApiService: BaseService {
             }
             
           case .failure(_):
-            LogHelper.log("API를 호출하는데 문제가 발생하였습니다. 확인해주세요 !!", level: .error)
+            LogHelper.error("API를 호출하는데 문제가 발생하였습니다. 확인해주세요 !!")
           }
         }
       return Disposables.create()

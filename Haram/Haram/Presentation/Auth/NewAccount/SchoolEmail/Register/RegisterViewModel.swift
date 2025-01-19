@@ -158,7 +158,7 @@ extension RegisterViewModel {
     // userId가 4~30자, 영어 or 숫자만 가능
 
     let isUnValid = 4 > id.count || 30 < id.count || !isValidAlphanumeric(id)
-    LogHelper.log("아이디 유효안함 \(isUnValid)", level: .debug)
+    LogHelper.debug("아이디 유효안함 \(isUnValid)")
     if isUnValid {
       output.errorMessageRelay.accept(.unvalidUserIDFormat)
     } else {
@@ -171,7 +171,7 @@ extension RegisterViewModel {
     func isValid(output: Output, password: String) -> Bool {
   
       let isUnValid = !isValidPassword(password)
-      LogHelper.log("비번 유효안함 \(isUnValid)", level: .debug)
+      LogHelper.debug("비번 유효안함 \(isUnValid)")
       if isUnValid {
         output.errorMessageRelay.accept(.unvalidpasswordFormat)
       } else {
@@ -184,8 +184,7 @@ extension RegisterViewModel {
     func isValid(output: Output, nickname: String) -> Bool {
   
       let isUnValid = 0..<2 ~= nickname.count || 15 < nickname.count || !isValidKoreanAlphanumeric(nickname)
-  
-      LogHelper.log("닉네임 유효안함 \(isUnValid)", level: .debug)
+      LogHelper.debug("닉네임 유효안함 \(isUnValid)")
       if isUnValid {
         output.errorMessageRelay.accept(.unvalidNicknameFormat)
       } else {

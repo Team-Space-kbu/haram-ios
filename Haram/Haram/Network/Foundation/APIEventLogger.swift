@@ -14,17 +14,17 @@ final class APIEventLogger: EventMonitor {
   let queue = DispatchQueue(label: "com.space.biblemon")
   
   func requestDidFinish(_ request: Request) {
-    LogHelper.log("⭐️Reqeust LOG\n" + request.description + "\nBody: " + (request.request?.httpBody?.toPrettyPrintedString ?? ""), level: .info)
+    LogHelper.info("⭐️Reqeust LOG\n" + request.description + "\nBody: " + (request.request?.httpBody?.toPrettyPrintedString ?? ""))
   }
   
   func request<Value>(
     _ request: DataRequest,
     didParseResponse response: DataResponse<Value, AFError>
   ) {
-    LogHelper.log("⭐️RESPONSE LOG\n" + "URL: " + (request.request?.url?.absoluteString ?? "") + "\n"
-                  + "Result: " + "\(response.result)" + "\n"
-                  + "StatusCode: " + "\(response.response?.statusCode ?? 0)" + "\n"
-                  + "Data: \(response.data?.toPrettyPrintedString ?? "")", level: .info)
+    LogHelper.info("⭐️RESPONSE LOG\n" + "URL: " + (request.request?.url?.absoluteString ?? "") + "\n"
+                   + "Result: " + "\(response.result)" + "\n"
+                   + "StatusCode: " + "\(response.response?.statusCode ?? 0)" + "\n"
+                   + "Data: \(response.data?.toPrettyPrintedString ?? "")")
   }
 }
 

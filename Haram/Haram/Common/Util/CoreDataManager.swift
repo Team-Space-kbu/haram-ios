@@ -31,7 +31,7 @@ final class CoreDataManager {
           models = fetchResult.map { RevisionOfTranslationModel(revisionOfTranslation: $0) }
         }
       } catch let error as NSError {
-        LogHelper.log("초기개역데이터정보를 가져오는데 문제가 발생하였습니다. \(error.description)", level: .error)
+        LogHelper.error("초기개역데이터정보를 가져오는데 문제가 발생하였습니다. \(error.description)")
       }
     }
     return models
@@ -89,7 +89,7 @@ final class CoreDataManager {
         }
       }
     } catch let error as NSError {
-      LogHelper.log("초기개역데이터정보를 삭제하는데 문제가 발생하였습니다. \(error.description)", level: .error)
+      LogHelper.error("초기개역데이터정보를 삭제하는데 문제가 발생하였습니다. \(error.description)")
       onSuccess(false)
     }
     
@@ -112,7 +112,7 @@ extension CoreDataManager {
       try context?.save()
       onSuccess(true)
     } catch let error as NSError {
-      LogHelper.log("초기개역데이터정보를 저장하는데 문제가 발생하였습니다. \(error.description)", level: .error)
+      LogHelper.error("초기개역데이터정보를 저장하는데 문제가 발생하였습니다. \(error.description)")
       onSuccess(false)
     }
   }

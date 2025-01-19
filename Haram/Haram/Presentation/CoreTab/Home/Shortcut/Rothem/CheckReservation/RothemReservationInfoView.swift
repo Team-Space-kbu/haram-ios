@@ -167,7 +167,7 @@ final class RothemReservationInfoView: UIView {
       guard let image = ZXImage(matrix: result) else { return }
       barCodeView.image = UIImage(cgImage: image.cgimage)
     } catch {
-      LogHelper.log("로뎀 예약을 위한 바코드 생성에 오류가 발생하였습니다.", level: .error)
+      LogHelper.error("로뎀 예약을 위한 바코드 생성에 오류가 발생하였습니다.")
     }
   }
 }

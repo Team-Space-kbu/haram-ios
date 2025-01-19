@@ -33,7 +33,7 @@ class BaseViewController: UIViewController {
   final var disposeBag = DisposeBag()
   
   deinit {
-    LogHelper.log("deinit called: \(self)", level: .debug)
+    LogHelper.debug("deinit called: \(self)")
   }
   
   override func viewDidLoad() {
