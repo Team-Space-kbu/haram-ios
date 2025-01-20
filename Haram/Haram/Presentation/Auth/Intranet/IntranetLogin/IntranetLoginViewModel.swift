@@ -93,9 +93,11 @@ extension IntranetLoginViewModel {
       )
     )
     .subscribe(with: self, onSuccess: { owner, _ in
-      owner.dependency.coordinator.showAlert(message: "마일리지, 채플, 시간표 정보도 이제 간편하게!\n홈 화면으로 이동할게요 😊") {
-        owner.dependency.coordinator.popToRootViewController()
-      }
+      AlertManager.showAlert(message: .custom("마일리지, 채플, 시간표 정보도 이제 간편하게!\n홈 화면으로 이동할게요 😊"), actions: [
+        DefaultAlertButton {
+          owner.dependency.coordinator.popToRootViewController()
+        }
+      ])
     }, onFailure: { owner, error in
       guard let error = error as? HaramError else { return }
       output.errorMessage.accept(error)

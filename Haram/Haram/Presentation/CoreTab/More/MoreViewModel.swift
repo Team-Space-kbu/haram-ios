@@ -78,12 +78,12 @@ final class MoreViewModel: ViewModelType {
       .map { SettingType.allCases[$0.row] }
       .subscribe(with: self) { owner, settingType in
         if settingType == .logout {
-          owner.dependency.coordinator.showAlert(message: "로그아웃 하시겠습니까 ?", actions: [
-            .confirm(title: "확인"),
-            .cancel(title: "취소")
-          ]) {
-            owner.requestLogoutUser(output: output)
-          }
+          AlertManager.showAlert(message: .custom("로그아웃 하시겠습니까 ?"), actions: [
+            DestructiveAlertButton {
+              owner.requestLogoutUser(output: output)
+            },
+            CancelAlertButton()
+          ])
         } else if settingType == .license {
           owner.dependency.coordinator.showCustomAcknowViewController()
         } else {

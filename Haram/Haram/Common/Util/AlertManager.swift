@@ -10,73 +10,36 @@ import UIKit
 /// 메시지 타입 정의
 public enum MessageType: CustomStringConvertible, Equatable {
   case needSignIn
+  case networkUnavailable
+  case zoomUnavailable
   case custom(String)
   
   public var description: String {
     switch self {
     case .needSignIn:
       return "로그인이 필요합니다."
+    case .networkUnavailable:
+      return "네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."
+    case .zoomUnavailable:
+      return "해당 이미지는 확대할 수 없습니다"
     case .custom(let string):
       return string
     }
   }
 }
 
-/// 버튼 타입 정의
-public enum AlertButtonType {
-  case confirm(title: String = "확인")
-  case cancel(title: String = "취소")
-}
-
-/// AlertManager 정의
 public final class AlertManager {
-  
-  // MARK: - Public API
-  
-  /// Show a common alert
-  public static func showAlert(
-    on viewController: UIViewController? = nil,
-    title: String = "Space 알림",
-    message: MessageType,
-    actions: [AlertButtonType] = [.confirm()],
-    confirmHandler: (() -> Void)? = nil,
-    cancelHandler: (() -> Void)? = nil
-  ) {
-    let alertController = UIAlertController(
-      title: title,
-      message: message.description,
-      preferredStyle: .alert
-    )
-    
-    actions.forEach { actionType in
-      let action = createAction(type: actionType, confirmHandler: confirmHandler, cancelHandler: cancelHandler)
-      alertController.addAction(action)
-    }
-    
-    present(alertController, on: viewController)
-  }
   
   // MARK: - Private Methods
   
-  /// Create an alert action based on type
-  private static func createAction(
-    type: AlertButtonType,
-    confirmHandler: (() -> Void)?,
-    cancelHandler: (() -> Void)?
-  ) -> UIAlertAction {
-    switch type {
-    case .confirm(let title):
-      return UIAlertAction(title: title, style: .default) { _ in
-        confirmHandler?()
-      }
-    case .cancel(let title):
-      return UIAlertAction(title: title, style: .cancel) { _ in
-        cancelHandler?()
-      }
-    }
+  private static func createAction(configuration: AlertButtonConfigurable) -> UIAlertAction {
+    return UIAlertAction(
+      title: configuration.title,
+      style: configuration.style,
+      handler: { _ in configuration.handler?() }
+    )
   }
   
-  /// Present alert on the given view controller
   private static func present(_ alert: UIAlertController, on viewController: UIViewController?) {
     DispatchQueue.main.async {
       if let viewController = viewController {
@@ -88,32 +51,33 @@ public final class AlertManager {
   }
 }
 
-// MARK: - UIApplication Extension
+protocol AlertPresentable {
+  static func showAlert(
+    on viewController: UIViewController?,
+    title: String,
+    message: MessageType,
+    actions: [AlertButtonConfigurable]
+  )
+}
 
-extension UIApplication {
-  static var keyWindow: UIWindow? {
-    return UIApplication
-      .shared
-      .connectedScenes
-      .compactMap { $0 as? UIWindowScene }
-      .flatMap(\.windows)
-      .first(where: (\.isKeyWindow))
-  }
-  
-  // https://stackoverflow.com/questions/26667009/get-top-most-uiviewcontroller
-  class func getTopViewController(
-    base: UIViewController? = UIApplication.keyWindow?.rootViewController
-  ) -> UIViewController? {
+extension AlertManager: AlertPresentable {
+  static func showAlert(
+    on viewController: UIViewController? = nil,
+    title: String = "Space 알림",
+    message: MessageType,
+    actions: [AlertButtonConfigurable] = [DefaultAlertButton()]
+  ) {
+    let alertController = UIAlertController(
+      title: title,
+      message: message.description,
+      preferredStyle: .alert
+    )
     
-    if let nav = base as? UINavigationController {
-      return getTopViewController(base: nav.visibleViewController)
-      
-    } else if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
-      return getTopViewController(base: selected)
-      
-    } else if let presented = base?.presentedViewController {
-      return getTopViewController(base: presented)
+    actions.forEach { configuration in
+      let action = createAction(configuration: configuration)
+      alertController.addAction(action)
     }
-    return base
+    
+    present(alertController, on: viewController)
   }
 }

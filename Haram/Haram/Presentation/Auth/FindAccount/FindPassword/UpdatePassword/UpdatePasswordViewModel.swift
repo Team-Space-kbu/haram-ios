@@ -38,7 +38,6 @@ final class UpdatePasswordViewModel: ViewModelType {
     let isContinueButtonEnabled = BehaviorRelay<Bool>(value: false)
     let errorMessageRelay = PublishRelay<HaramError>()
     let successMessageRelay = BehaviorRelay<HaramError?>(value: nil)
-    let successUpdatePasswordRelay = PublishRelay<Void>()
   }
   
   init(dependency: Dependency, payload: Payload) {
@@ -110,10 +109,11 @@ extension UpdatePasswordViewModel {
       userEmail: payload.userMail
     )
     .subscribe(with: self, onSuccess: { owner, _ in
-      output.successUpdatePasswordRelay.accept(())
-      owner.dependency.coordinator.showAlert(message: "성공적으로 비밀번호를 변경하였습니다.") {
-        owner.dependency.coordinator.popToRootViewController()
-      }
+      AlertManager.showAlert(message: .custom("성공적으로 비밀번호를 변경하였습니다."), actions: [
+        DefaultAlertButton {
+          owner.dependency.coordinator.popToRootViewController()
+        }
+      ])
     }, onFailure: { owner, error in
       guard let error = error as? HaramError else { return }
       output.errorMessageRelay.accept(error)

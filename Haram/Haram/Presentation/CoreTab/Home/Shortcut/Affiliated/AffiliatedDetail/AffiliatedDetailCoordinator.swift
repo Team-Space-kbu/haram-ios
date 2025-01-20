@@ -46,8 +46,4 @@ extension AffiliatedDetailCoordinator {
     modal.modalPresentationStyle = .fullScreen
     navigationController.present(modal, animated: true)
   }
-  
-  func showAlert(title: String = "Space 알림", message: String, confirmHandler: (() -> Void)? = nil) {
-    AlertManager.showAlert(on: self.navigationController, message: .custom(message), confirmHandler: confirmHandler)
-  }
 }

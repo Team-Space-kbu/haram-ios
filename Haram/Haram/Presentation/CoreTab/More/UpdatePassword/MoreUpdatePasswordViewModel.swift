@@ -37,7 +37,6 @@ final class MoreUpdatePasswordViewModel: ViewModelType {
     let isContinueButtonEnabled = BehaviorRelay<Bool>(value: false)
     let errorMessage = PublishRelay<HaramError>()
     let successMessage = BehaviorRelay<HaramError?>(value: nil)
-    let successUpdatePassword = PublishRelay<Void>()
   }
   
   init(dependency: Dependency) {
@@ -111,10 +110,11 @@ extension MoreUpdatePasswordViewModel {
       )
     )
     .subscribe(with: self, onSuccess: { owner, _ in
-      output.successUpdatePassword.accept(())
-      owner.dependency.coordinator.showAlert(message: "성공적으로 비밀번호를 변경하였습니다.") {
-        owner.dependency.coordinator.popToRootViewController()
-      }
+      AlertManager.showAlert(message: .custom("성공적으로 비밀번호를 변경하였습니다."), actions: [
+        DefaultAlertButton {
+          owner.dependency.coordinator.popToRootViewController()
+        }
+      ]) 
     }, onFailure: { owner, error in
       guard let error = error as? HaramError else { return }
       output.errorMessage.accept(error)

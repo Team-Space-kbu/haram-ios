@@ -83,12 +83,14 @@ final class CheckReservationViewController: BaseViewController {
     output.errorMessage
       .subscribe(with: self) { owner, error in
         if error == .networkError {
-          AlertManager.showAlert(on: owner.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
-            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-            if UIApplication.shared.canOpenURL(url) {
-              UIApplication.shared.open(url)
+          AlertManager.showAlert(message: .networkUnavailable, actions: [
+            DefaultAlertButton {
+              guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+              if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+              }
             }
-          })
+          ])
         }
       }
       .disposed(by: disposeBag)
@@ -118,7 +120,7 @@ final class CheckReservationViewController: BaseViewController {
           modal.modalPresentationStyle = .fullScreen
           owner.present(modal, animated: true)
         } else {
-          AlertManager.showAlert(on: owner.navigationController, message: .custom("해당 이미지는 확대할 수 없습니다"))
+          AlertManager.showAlert(message: .zoomUnavailable)
         }
       }
       .disposed(by: disposeBag)

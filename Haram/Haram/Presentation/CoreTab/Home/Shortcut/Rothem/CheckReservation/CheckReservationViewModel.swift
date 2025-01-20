@@ -65,9 +65,12 @@ final class CheckReservationViewModel: ViewModelType {
     input.didRequestCancelReservation
       .throttle(.milliseconds(500), latest: false, scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .subscribe(with: self) { owner, _ in
-        owner.dependency.coordinator.showAlert(message: "정말 로뎀방 예약을 취소하시겠습니까 ?") {
-          owner.cancelReservation(output: output)
-        }
+        AlertManager.showAlert(message: .custom("정말 로뎀방 예약을 취소하시겠습니까 ?"), actions: [
+          DestructiveAlertButton {
+            owner.cancelReservation(output: output)
+          },
+          CancelAlertButton()
+        ])
       }
       .disposed(by: disposeBag)
     

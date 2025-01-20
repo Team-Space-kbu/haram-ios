@@ -56,15 +56,6 @@ final class BoardDetailCoordinator: NavigationCoordinator {
 }
 
 extension BoardDetailCoordinator {
-  func showAlert(message: String, actions: [AlertButtonType] = [.confirm()], confirmHandler: (() -> Void)? = nil) {
-    AlertManager.showAlert(
-      on: self.navigationController,
-      message: .custom(message),
-      actions: actions,
-      confirmHandler: confirmHandler
-    )
-  }
-  
   func popViewController() {
     self.parentCoordinator?.removeChildCoordinator(child: self)
     self.navigationController.popViewController(animated: true)

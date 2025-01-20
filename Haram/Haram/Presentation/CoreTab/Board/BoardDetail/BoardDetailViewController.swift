@@ -23,9 +23,12 @@ final class BoardDetailViewController: BaseViewController {
       UIAction(
         title: reportType.title,
         handler: { [unowned self] _ in
-          AlertManager.showAlert(on: self.navigationController, title: reportType.title, message: .custom("신고 사유에 맞지 않은 신고를 했을경우 신고가 처리되지 않을 수 있습니다"), actions: [.confirm(), .cancel()], confirmHandler:  {
-            self.tapReportButton.onNext(reportType)
-          })
+          AlertManager.showAlert(title: reportType.title, message: .custom("신고 사유에 맞지 않은 신고를 했을경우 신고가 처리되지 않을 수 있습니다"), actions: [
+            DestructiveAlertButton {
+              self.tapReportButton.onNext(reportType)
+            },
+            CancelAlertButton()
+          ])
         })
     }
   }
@@ -176,13 +179,14 @@ final class BoardDetailViewController: BaseViewController {
       .compactMap { $0 }
       .subscribe(with: self) { owner, error in
         if error == .networkError || error == .retryError {
-          AlertManager.showAlert(on: owner.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
-            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-            if UIApplication.shared.canOpenURL(url) {
-              UIApplication.shared.open(url)
+          AlertManager.showAlert(message: .networkUnavailable, actions: [
+            DefaultAlertButton {
+              guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+              if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+              }
             }
-          })
-
+          ])
         } 
         else if error == .internalServerError || error == .alreadyReportBoard {
           AlertManager.showAlert(on: owner.navigationController, message: .custom(error.description!))
@@ -206,9 +210,12 @@ final class BoardDetailViewController: BaseViewController {
     let banAction = UIAction(
       title: "차단",
       handler: { [unowned self] _ in
-        AlertManager.showAlert(on: self.navigationController, message: .custom("이 작성자의 게시물이\n목록에 노출되지 않으며,\n다시 해제하실 수 없습니다."), actions: [.confirm(), .cancel()], confirmHandler:  {
-          self.tapBannedButton.onNext(())
-        })
+        AlertManager.showAlert(message: .custom("이 작성자의 게시물이\n목록에 노출되지 않으며,\n다시 해제하실 수 없습니다."), actions: [
+          DestructiveAlertButton {
+            self.tapBannedButton.onNext(())
+          },
+          CancelAlertButton()
+        ])
       })
     
     let mainMenu = UIMenu(children: [reportMenu, banAction])

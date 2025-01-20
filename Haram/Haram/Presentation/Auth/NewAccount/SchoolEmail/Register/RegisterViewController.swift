@@ -192,22 +192,26 @@ final class RegisterViewController: BaseViewController {
         } else if error == .unvalidUserIDFormat {
           owner.idTextField.setError(description: error.description!)
         }  else if error == .unvalidAuthCode || error == .expireAuthCode || error == .emailAlreadyUse {
-          AlertManager.showAlert(on: owner.navigationController, message: .custom(error.description!), confirmHandler:  {
-            owner.navigationController?.popViewController(animated: true)
-          })
-        } else if error == .networkError {
-          AlertManager.showAlert(on: owner.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
-            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-            if UIApplication.shared.canOpenURL(url) {
-              UIApplication.shared.open(url)
+          AlertManager.showAlert(message: .custom(error.description!), actions: [
+            DefaultAlertButton {
+              owner.navigationController?.popViewController(animated: true)
             }
-          })
+          ])
+        } else if error == .networkError {
+          AlertManager.showAlert(message: .networkUnavailable, actions: [
+            DefaultAlertButton {
+              guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+              if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+              }
+            }
+          ])
         } else if error == .containProhibitedWord || error == .alreadyUseNickName {
-          AlertManager.showAlert(on: owner.navigationController, message: .custom(error.description!))
+          AlertManager.showAlert(message: .custom(error.description!))
         } else if error == .alreadyUseUserID {
-          AlertManager.showAlert(on: owner.navigationController, message: .custom("해당 아이디는 이미 사용중입니다\n다른 아이디로 수정해주세요."))
+          AlertManager.showAlert(message: .custom("해당 아이디는 이미 사용중입니다\n다른 아이디로 수정해주세요."))
         } else {
-          AlertManager.showAlert(on: owner.navigationController, message: .custom("서버측에서 알 수 없는 에러가 발생하였습니다\n다음에 다시 시도해주세요."))
+          AlertManager.showAlert(message: .custom("서버측에서 알 수 없는 에러가 발생하였습니다\n다음에 다시 시도해주세요."))
         }
       }
       .disposed(by: disposeBag)

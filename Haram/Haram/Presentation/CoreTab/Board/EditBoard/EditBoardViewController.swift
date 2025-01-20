@@ -216,21 +216,25 @@ final class EditBoardViewController: BaseViewController {
     
     viewModel.successCreateBoard
       .emit(with: self) { owner, _ in
-        AlertManager.showAlert(on: owner.navigationController, message: .custom("게시글 작성에 성공하였습니다.\n메인화면으로 이동합니다."), confirmHandler: {
-          owner.navigationController?.popViewController(animated: true)
-        })
+        AlertManager.showAlert(message: .custom("게시글 작성에 성공하였습니다.\n메인화면으로 이동합니다."), actions: [
+          DefaultAlertButton {
+            owner.navigationController?.popViewController(animated: true)
+          }
+        ])
       }
       .disposed(by: disposeBag)
     
     viewModel.errorMessage
       .emit(with: self) { owner, error in
         if error == .networkError {
-          AlertManager.showAlert(on: owner.navigationController, message: .custom("네트워크가 연결되있지않습니다\n Wifi혹은 데이터를 연결시켜주세요."), confirmHandler:  {
-            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-            if UIApplication.shared.canOpenURL(url) {
-              UIApplication.shared.open(url)
+          AlertManager.showAlert(message: .networkUnavailable, actions: [
+            DefaultAlertButton {
+              guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+              if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+              }
             }
-          })
+          ])
           return
         }
         AlertManager.showAlert(on: owner.navigationController, message: .custom(error.description!))

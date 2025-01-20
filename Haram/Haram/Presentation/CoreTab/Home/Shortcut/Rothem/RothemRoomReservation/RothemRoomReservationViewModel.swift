@@ -90,7 +90,7 @@ final class RothemRoomReservationViewModel: ViewModelType {
         let (indexPath, dayModel) = result
         let selectedDayModel = dayModel[indexPath.row]
         guard selectedDayModel.isAvailable else {
-          owner.dependency.coordinator.showAlert(message: "예약불가한 날짜입니다.\n다른 날짜를 선택해주세요.")
+          AlertManager.showAlert(message: .custom("예약불가한 날짜입니다.\n다른 날짜를 선택해주세요."))
           return
         }
         owner.selectReservationDay(output: output, indexPath: indexPath)
@@ -109,33 +109,33 @@ final class RothemRoomReservationViewModel: ViewModelType {
         if indexPath.section == 0 { // 오전 시간선택
           let selectedAMModel = amModel[indexPath.row]
           guard !selectedAMModel.isReserved else {
-            owner.dependency.coordinator.showAlert(message: "이미 예약된 시간이거나 지난 시간입니다\n다른 시간을 선택해주세요.")
+            AlertManager.showAlert(message: .custom("이미 예약된 시간이거나 지난 시간입니다\n다른 시간을 선택해주세요."))
             return
           }
           
           if !selectedAMModel.isTimeSelected {
             guard !owner.isSelectedMaxCount(output: output) else {
-              owner.dependency.coordinator.showAlert(message: "예약가능한 최대 개수는 2개입니다.")
+              AlertManager.showAlert(message: .custom("예약가능한 최대 개수는 2개입니다."))
               return
             }
           }
         } else { // 오후 시간선택
           let selectedPMModel = pmModel[indexPath.row]
           guard !selectedPMModel.isReserved else {
-            owner.dependency.coordinator.showAlert(message: "이미 예약된 시간이거나 지난 시간입니다\n다른 시간을 선택해주세요.")
+            AlertManager.showAlert(message: .custom("이미 예약된 시간이거나 지난 시간입니다\n다른 시간을 선택해주세요."))
             return
           }
           
           if !selectedPMModel.isTimeSelected {
             guard !owner.isSelectedMaxCount(output: output) else {
-              owner.dependency.coordinator.showAlert(message: "예약가능한 최대 개수는 2개입니다.")
+              AlertManager.showAlert(message: .custom("예약가능한 최대 개수는 2개입니다."))
               return
             }
           }
         }
         
         guard owner.isSelectedTimeContinuous(output: output, indexPath: indexPath) else {
-          owner.dependency.coordinator.showAlert(message: "연속적인 시간대를 선택해주세요!\n예약은 중간에 비는 시간 없이 가능합니다 😊.")
+          AlertManager.showAlert(message: .custom("연속적인 시간대를 선택해주세요!\n예약은 중간에 비는 시간 없이 가능합니다 😊."))
           return
         }
         
@@ -302,9 +302,11 @@ final class RothemRoomReservationViewModel: ViewModelType {
       )
     )
     .subscribe(with: self, onSuccess: { owner, response in
-      owner.dependency.coordinator.showAlert(message: "축하합니다! 예약이 완료되었습니다 🎉\n메인 화면으로 이동할게요!") {
-        owner.dependency.coordinator.popToRothemListViewController()
-      }
+      AlertManager.showAlert(message: .custom("축하합니다! 예약이 완료되었습니다 🎉\n메인 화면으로 이동할게요!"), actions: [
+        DefaultAlertButton {
+          owner.dependency.coordinator.popToRothemListViewController()
+        }
+      ])
     }, onFailure: { owner, error in
       guard let error = error as? HaramError else { return }
       output.errorMessage.accept(error)

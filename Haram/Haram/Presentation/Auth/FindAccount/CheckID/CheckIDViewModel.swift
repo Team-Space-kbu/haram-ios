@@ -74,7 +74,7 @@ extension CheckIDViewModel {
   func requestEmailAuthCode(output: Output) {
     dependency.authRepository.requestEmailAuthCode(userEmail: payload.userMail)
       .subscribe(with: self, onSuccess: { owner, _ in
-        owner.dependency.coordinator.showAlert(message: "인증 코드가 다시 발송되었습니다!\n받은 메시지를 확인해 주세요.")
+        AlertManager.showAlert(message: .custom("인증 코드가 다시 발송되었습니다!\n받은 메시지를 확인해 주세요."))
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         output.errorMessageRelay.accept(error)

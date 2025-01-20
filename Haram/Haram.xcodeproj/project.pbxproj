@@ -374,6 +374,8 @@
 		70C9CCB22A067D8000BEB5F2 /* ChapelDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */; };
 		70C9CCB42A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */; };
 		70C9CCB62A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */; };
+		70DBADE22D3EC9BD007C6687 /* AlertManager + AlertButtonConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DBADE12D3EC9BD007C6687 /* AlertManager + AlertButtonConfigurable.swift */; };
+		70DBADE42D3ECA31007C6687 /* Ex + UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DBADE32D3ECA31007C6687 /* Ex + UIApplication.swift */; };
 		70DC8F542C99F994006DDAF7 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DC8F532C99F994006DDAF7 /* ReusableView.swift */; };
 		70DC8F572C9C6F78006DDAF7 /* Ex + UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DC8F562C9C6F78006DDAF7 /* Ex + UIStackView.swift */; };
 		70DC8F592C9C7271006DDAF7 /* HaramDividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DC8F582C9C7271006DDAF7 /* HaramDividerView.swift */; };
@@ -769,6 +771,8 @@
 		70C9CCB12A067D8000BEB5F2 /* ChapelDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelDayView.swift; sourceTree = "<group>"; };
 		70C9CCB32A06AAB700BEB5F2 /* ChapelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelCollectionViewCell.swift; sourceTree = "<group>"; };
 		70C9CCB52A06B16700BEB5F2 /* ChapelCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapelCollectionHeaderView.swift; sourceTree = "<group>"; };
+		70DBADE12D3EC9BD007C6687 /* AlertManager + AlertButtonConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlertManager + AlertButtonConfigurable.swift"; sourceTree = "<group>"; };
+		70DBADE32D3ECA31007C6687 /* Ex + UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIApplication.swift"; sourceTree = "<group>"; };
 		70DC8F532C99F994006DDAF7 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		70DC8F562C9C6F78006DDAF7 /* Ex + UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + UIStackView.swift"; sourceTree = "<group>"; };
 		70DC8F582C9C7271006DDAF7 /* HaramDividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaramDividerView.swift; sourceTree = "<group>"; };
@@ -1032,6 +1036,7 @@
 				701FC8AF2B9DB61800291FC3 /* Ex + UIResponder.swift */,
 				70B310912BA1798200EF21CE /* Ex + UIButton.swift */,
 				70DC8F562C9C6F78006DDAF7 /* Ex + UIStackView.swift */,
+				70DBADE32D3ECA31007C6687 /* Ex + UIApplication.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -2040,6 +2045,7 @@
 			isa = PBXGroup;
 			children = (
 				70DC8F532C99F994006DDAF7 /* ReusableView.swift */,
+				70DBADE12D3EC9BD007C6687 /* AlertManager + AlertButtonConfigurable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -2489,6 +2495,7 @@
 				70AED7852CD434D900AB22C5 /* FindAccountViewModel.swift in Sources */,
 				708312422A2CAA1800F7E283 /* RequestIntranetTokenResponse.swift in Sources */,
 				70AED75C2CBAA7F300AB22C5 /* LectureInfoCollectionViewCell.swift in Sources */,
+				70DBADE42D3ECA31007C6687 /* Ex + UIApplication.swift in Sources */,
 				70A731C32B84E20B007EA1B4 /* InquireNoticeInfoResponse.swift in Sources */,
 				708312B62A779D1A00F7E283 /* BoardTableHeaderView.swift in Sources */,
 				708312962A691AAD00F7E283 /* FormatterFactory.swift in Sources */,
@@ -2706,6 +2713,7 @@
 				7051E4FD2ADAB71200C2134B /* BoardRepositoryImpl.swift in Sources */,
 				70AED73E2CB5633500AB22C5 /* Coordinator.swift in Sources */,
 				705FD2AF2A16246F00F353FE /* SearchBookViewController.swift in Sources */,
+				70DBADE22D3EC9BD007C6687 /* AlertManager + AlertButtonConfigurable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

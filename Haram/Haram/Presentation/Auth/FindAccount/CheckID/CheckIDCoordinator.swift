@@ -39,10 +39,6 @@ extension CheckIDCoordinator {
     self.navigationController.popViewController(animated: true)
   }
   
-  func showAlert(title: String = "Space 알림", message: String, confirmHandler: (() -> Void)? = nil) {
-    AlertManager.showAlert(on: self.navigationController, message: .custom(message), confirmHandler: confirmHandler)
-  }
-  
   func showFindIDResultViewController(authCode: String) {
     let coordinator = FindIDResultCoordinator(
       userMail: userMail,

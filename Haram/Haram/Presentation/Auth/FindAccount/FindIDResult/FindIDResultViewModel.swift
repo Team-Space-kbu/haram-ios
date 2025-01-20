@@ -75,9 +75,11 @@ extension FindIDResultViewModel {
         output.errorMessage.accept(error)
         return
       }
-      owner.dependency.coordinator.showAlert(message: "아이디를 찾지 못했어요.\n이전 화면으로 돌아가 다시 진행해 주세요!") {
-        owner.dependency.coordinator.popViewController()
-      }
+      AlertManager.showAlert(message: .custom("아이디를 찾지 못했어요.\n이전 화면으로 돌아가 다시 진행해 주세요!"), actions: [
+        DefaultAlertButton {
+          owner.dependency.coordinator.popViewController()
+        }
+      ])
       output.errorMessage.accept(error)
     })
     .disposed(by: disposeBag)

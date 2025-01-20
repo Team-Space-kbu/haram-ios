@@ -84,21 +84,28 @@ final class BoardDetailViewModel: ViewModelType {
     input.didTapDeleteBoardButton
       .throttle(.milliseconds(500), latest: false, scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .subscribe(with: self) { owner, _ in
-        owner.dependency.coordinator.showAlert(message: "정말 해당 게시글을 삭제하시겠습니까 ?", actions: [.confirm(), .cancel()]) {
-          owner.deleteBoard(output: output)
-        }
+        AlertManager.showAlert(
+          message: .custom("정말 해당 게시글을 삭제하시겠습니까 ?"),
+          actions: [
+            DestructiveAlertButton { owner.deleteBoard(output: output) },
+            CancelAlertButton()
+          ]
+        )
       }
       .disposed(by: disposeBag)
     
     input.didTapDeleteCommentButton
       .throttle(.milliseconds(500), latest: false, scheduler: ConcurrentDispatchQueueScheduler.init(qos: .default))
       .subscribe(with: self) { owner, indexPath in
-        print("삭제시도하는 인덱스: \(indexPath)")
         let boardList = owner.commentModel[indexPath.row]
         let commentSeq = boardList.commentSeq
-        owner.dependency.coordinator.showAlert(message: "정말 해당 댓글을 삭제하시겠습니까 ?", actions: [.confirm(), .cancel()]) {
-          owner.deleteComment(output: output, commentSeq: commentSeq)
-        }
+        AlertManager.showAlert(
+          message: .custom("정말 해당 댓글을 삭제하시겠습니까 ?"),
+          actions: [
+            DestructiveAlertButton { owner.deleteComment(output: output, commentSeq: commentSeq) },
+            CancelAlertButton()
+          ]
+        )
       }
       .disposed(by: disposeBag)
     
@@ -111,11 +118,13 @@ final class BoardDetailViewModel: ViewModelType {
       )
       .subscribe(with: self) { owner, result in
         let (boardComment, isAnonymous) = result
-        print("입력한 댓글: \(boardComment)\n익명선택여부: \(isAnonymous)")
         guard boardComment != "댓글추가" else { return }
         
         guard !boardComment.isEmpty else {
-          owner.dependency.coordinator.showAlert(message: "댓글을 반드시 작성해주세요.")
+          AlertManager.showAlert(
+            message: .custom("댓글을 반드시 작성해주세요."),
+            actions: [ DefaultAlertButton() ]
+          )
           return
         }
         owner.createComment(boardComment: boardComment, isAnonymous: isAnonymous, output: output)
@@ -143,7 +152,7 @@ final class BoardDetailViewModel: ViewModelType {
     input.didTapImageCell
       .subscribe(with: self) { owner, indexPath in
         guard let imageURL = owner.boardImageModel[indexPath.row].imageURL else {
-          owner.dependency.coordinator.showAlert(message: "해당 이미지는 확대할 수 없습니다")
+          AlertManager.showAlert(message: .zoomUnavailable)
           return
         }
         owner.dependency.coordinator.showZoomImageViewController(imageURL: imageURL)
@@ -158,9 +167,10 @@ extension BoardDetailViewModel {
   func bannedUser(output: Output) {
     dependency.boardRepository.bannedUser(boardSeq: payload.boardSeq)
       .subscribe(with: self, onSuccess: { owner, _ in
-        owner.dependency.coordinator.showAlert(message: "성공적으로 게시글 작성자를 차단하였습니다.") {
-          owner.dependency.coordinator.popViewController()
-        }
+        AlertManager.showAlert(
+          message: .custom("성공적으로 게시글 작성자를 차단하였습니다."),
+          actions: [ DefaultAlertButton { owner.dependency.coordinator.popViewController() } ]
+        )
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         output.errorMessage.accept(error)
@@ -174,9 +184,10 @@ extension BoardDetailViewModel {
       boardSeq: payload.boardSeq
     )
       .subscribe(with: self, onSuccess: { owner, _ in
-        owner.dependency.coordinator.showAlert(message: "성공적으로 게시글이 삭제되었습니다.") {
-          owner.dependency.coordinator.popViewController()
-        }
+        AlertManager.showAlert(
+          message: .custom("성공적으로 게시글이 삭제되었습니다."),
+          actions: [ DefaultAlertButton { owner.dependency.coordinator.popViewController() } ]
+        )
       }, onFailure: { owner, error in
         guard let error = error as? HaramError else { return }
         output.errorMessage.accept(error)
@@ -208,9 +219,10 @@ extension BoardDetailViewModel {
         content: reportType.title
       )
     ).subscribe(with: self, onSuccess: { owner, _ in
-      owner.dependency.coordinator.showAlert(message: "성공적으로 신고가 접수되었습니다.") {
-        owner.dependency.coordinator.popViewController()
-      }
+      AlertManager.showAlert(
+        message: .custom("성공적으로 신고가 접수되었습니다."),
+        actions: [ DefaultAlertButton { owner.dependency.coordinator.popViewController() } ]
+      )
     }, onFailure: { owner, error in
       guard let error = error as? HaramError else { return }
       output.errorMessage.accept(error)

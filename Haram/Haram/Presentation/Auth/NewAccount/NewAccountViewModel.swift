@@ -44,7 +44,7 @@ final class NewAccountViewModel: ViewModelType {
     
     input.didTapIntranetAccountButton
       .subscribe(with: self) { owner, _ in
-        owner.dependency.coordinator.showAlert(message: "현재 인트라넷 계정 가입 기능은 준비 중입니다.\n 빠른 시일 내에 이용 가능하도록 하겠습니다.")
+        AlertManager.showAlert(message: .custom("현재 인트라넷 계정 가입 기능은 준비 중입니다.\n 빠른 시일 내에 이용 가능하도록 하겠습니다."))
       }
       .disposed(by: disposeBag)
     

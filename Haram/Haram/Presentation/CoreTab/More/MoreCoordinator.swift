@@ -68,13 +68,4 @@ extension MoreCoordinator {
     coordinator.start()
     self.childCoordinators.append(coordinator)
   }
-  
-  func showAlert(message: String, actions: [AlertButtonType] = [.confirm()], confirmHandler: (() -> Void)? = nil) {
-    AlertManager.showAlert(
-      on: self.navigationController,
-      message: .custom(message),
-      actions: actions,
-      confirmHandler: confirmHandler
-    )
-  }
 }

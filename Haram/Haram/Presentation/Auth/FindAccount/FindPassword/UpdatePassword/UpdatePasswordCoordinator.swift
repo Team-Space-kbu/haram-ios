@@ -55,9 +55,5 @@ extension UpdatePasswordCoordinator {
     self.parentCoordinator?.removeChildCoordinator(child: self)
     self.navigationController.popToRootViewController(animated: true)
   }
-  
-  func showAlert(title: String = "Space 알림", message: String, confirmHandler: (() -> Void)? = nil) {
-    AlertManager.showAlert(on: self.navigationController, message: .custom(message), confirmHandler: confirmHandler)
-  }
 }
 

@@ -61,7 +61,7 @@ final class BookDetailViewModel: ViewModelType {
     input.didTapBookThumbnail
       .subscribe(with: self) { owner, _ in
         guard let bookThumbnailURL = owner.mainModel?.bookImageURL else {
-          owner.dependency.coordinator.showAlert(message: "해당 이미지는 확대할 수 없습니다")
+          AlertManager.showAlert(message: .zoomUnavailable)
           return
         }
         owner.dependency.coordinator.showZoomImageViewController(imageURL: bookThumbnailURL)

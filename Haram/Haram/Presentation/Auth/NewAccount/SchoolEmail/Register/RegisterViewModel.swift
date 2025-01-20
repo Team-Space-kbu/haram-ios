@@ -100,9 +100,11 @@ final class RegisterViewModel: ViewModelType {
       )
     )
     .subscribe(with: self, onSuccess: { owner, _ in
-      owner.dependency.coordinator.showAlert(message: "회원가입 성공\n로그인 화면으로 이동합니다.") {
-        owner.dependency.coordinator.popToRootViewController()
-      }
+      AlertManager.showAlert(message: .custom("회원가입 성공\n로그인 화면으로 이동합니다."), actions: [
+        DefaultAlertButton {
+          owner.dependency.coordinator.popToRootViewController()
+        }
+      ])
     }, onFailure: { owner, error in
       guard let error = error as? HaramError else { return }
       output.errorMessageRelay.accept(error)

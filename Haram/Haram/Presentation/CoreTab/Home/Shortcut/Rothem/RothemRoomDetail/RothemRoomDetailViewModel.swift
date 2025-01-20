@@ -74,7 +74,7 @@ final class RothemRoomDetailViewModel: ViewModelType {
       .withLatestFrom(output.currentRothemRoomThubnailImage)
       .subscribe(with: self) { owner, imageURL in
         guard let imageURL = imageURL else {
-          owner.dependency.coordinator.showAlert(message: "해당 이미지는 확대할 수 없습니다")
+          AlertManager.showAlert(message: .zoomUnavailable)
           return
         }
         owner.dependency.coordinator.showZoomImageViewController(imageURL: imageURL)
