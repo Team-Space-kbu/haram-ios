@@ -15,18 +15,10 @@ final class MoreUpdatePasswordViewController: BaseViewController {
   
   private let viewModel: MoreUpdatePasswordViewModel
   
-  private lazy var scrollView = UIScrollView().then {
-    $0.showsVerticalScrollIndicator = false
-    $0.showsHorizontalScrollIndicator = false
-    $0.backgroundColor = .clear
-    $0.alwaysBounceVertical = true
-    $0.delegate = self
-  }
-  
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = UIEdgeInsets(top: 30, left: 15, bottom: 15, right: 15)
+    $0.layoutMargins = UIEdgeInsets(top: 30, left: 15, bottom: .zero, right: 15)
     $0.spacing = 23
     $0.backgroundColor = .clear
   }
@@ -116,42 +108,16 @@ final class MoreUpdatePasswordViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(scrollView)
-    scrollView.addSubview(containerView)
+    [containerView, buttonStackView].forEach { view.addSubview($0) }
     [cancelButton, continueButton].forEach { buttonStackView.addArrangedSubview($0) }
-    [titleLabel, alertLabel, passwordTextField, updatepPasswordTextField, checkUpdatePasswordTextField, buttonStackView].forEach { containerView.addArrangedSubview($0) }
+    [titleLabel, alertLabel, passwordTextField, updatepPasswordTextField, checkUpdatePasswordTextField].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
-    scrollView.snp.makeConstraints {
-      $0.directionalEdges.width.equalToSuperview()
-    }
-    
     containerView.snp.makeConstraints {
-      $0.directionalVerticalEdges.width.equalToSuperview()
-      $0.height.greaterThanOrEqualTo(view.safeAreaLayoutGuide)
-    }
-    
-    titleLabel.snp.makeConstraints {
-      $0.height.equalTo(30)
-    }
-    
-    alertLabel.snp.makeConstraints {
-      $0.height.equalTo(38)
-    }
-    
-    passwordTextField.snp.makeConstraints {
-      $0.height.equalTo(73)
-    }
-
-    updatepPasswordTextField.snp.makeConstraints {
-      $0.height.equalTo(73)
-    }
-    
-    checkUpdatePasswordTextField.snp.makeConstraints {
-      $0.height.greaterThanOrEqualTo(73)
+      $0.top.directionalHorizontalEdges.equalToSuperview()
     }
     
     containerView.setCustomSpacing(7, after: titleLabel)
@@ -159,7 +125,8 @@ final class MoreUpdatePasswordViewController: BaseViewController {
     containerView.setCustomSpacing(10, after: updatepPasswordTextField)
     
     buttonStackView.snp.makeConstraints {
-      $0.bottom.equalToSuperview()
+      $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? Device.bottomInset : 12)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(48)
     }
@@ -235,7 +202,7 @@ extension MoreUpdatePasswordViewController {
     let keyboardHeight = keyboardSize.height
 
     buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(keyboardHeight)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 6 + keyboardHeight : 12 + keyboardHeight)
     }
 
     UIView.animate(withDuration: 0.2) {
@@ -247,19 +214,10 @@ extension MoreUpdatePasswordViewController {
   func keyboardWillHide(_ sender: Notification) {
 
     buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? Device.bottomInset : 12)
     }
     UIView.animate(withDuration: 0.2) {
       self.view.layoutIfNeeded()
-    }
-  }
-}
-
-extension MoreUpdatePasswordViewController: UIScrollViewDelegate {
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
-      // 위에서 아래로 스크롤하는 경우
-      view.endEditing(true)
     }
   }
 }

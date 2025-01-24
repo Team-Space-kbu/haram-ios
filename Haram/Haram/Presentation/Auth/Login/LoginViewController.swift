@@ -51,15 +51,10 @@ final class LoginViewController: BaseViewController {
     $0.textField.returnKeyType = .next
   }
   
-  private lazy var passwordTextField = HaramTextField(placeholder: "비밀번호").then {
+  private lazy var passwordTextField = HaramTextField(placeholder: "비밀번호", options: .errorLabel).then {
     $0.textField.delegate = self
     $0.textField.isSecureTextEntry = true
     $0.textField.returnKeyType = .join
-  }
-  
-  private lazy var errorMessageLabel = UILabel().then {
-    $0.textColor = .red
-    $0.font = .regular14
   }
   
   private let loginButton = LoginButton()
@@ -112,13 +107,7 @@ final class LoginViewController: BaseViewController {
             }
           ])
         } else {
-          let isContain = owner.containerView.subviews.contains(owner.errorMessageLabel)
-          
-          if !isContain {
-            owner.containerView.insertArrangedSubview(owner.errorMessageLabel, at: 4)
-          }
-          owner.errorMessageLabel.text = error.description!
-          
+          owner.passwordTextField.setError(description: error.description!)
         }
       }
       .disposed(by: disposeBag)
@@ -150,24 +139,6 @@ final class LoginViewController: BaseViewController {
     
     indicatorView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
-    }
-    
-    [emailTextField, passwordTextField].forEach {
-      $0.snp.makeConstraints {
-        $0.height.equalTo(45)
-      }
-    }
-    
-    loginLabel.snp.makeConstraints {
-      $0.height.equalTo(30)
-    }
-    
-    schoolLabel.snp.makeConstraints {
-      $0.height.equalTo(18)
-    }
-    
-    errorMessageLabel.snp.makeConstraints {
-      $0.height.equalTo(18)
     }
     
     loginButton.snp.makeConstraints {

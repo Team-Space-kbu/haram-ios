@@ -78,24 +78,12 @@ final class FindIDResultViewController: BaseViewController {
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
-    titleLabel.snp.makeConstraints {
-      $0.height.equalTo(30)
-    }
-    
-    alertLabel.snp.makeConstraints {
-      $0.height.equalTo(38)
-    }
-    
     containerView.setCustomSpacing(7, after: titleLabel)
     
     buttonStackView.snp.makeConstraints {
       $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
       $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
       $0.directionalHorizontalEdges.width.equalToSuperview().inset(15)
-      $0.height.equalTo(48)
-    }
-    
-    backButton.snp.makeConstraints {
       $0.height.equalTo(48)
     }
   }

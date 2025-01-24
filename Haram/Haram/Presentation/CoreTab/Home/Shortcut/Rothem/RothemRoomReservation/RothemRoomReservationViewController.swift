@@ -81,7 +81,7 @@ final class RothemRoomReservationViewController: BaseViewController {
     $0.isSkeletonable = true
   }
   
-  private let selectedDayCollectionView = UICollectionView(
+  private let selectedDayCollectionView = AutoSizingCollectionView(
     frame: .zero,
     collectionViewLayout: UICollectionViewFlowLayout().then {
       $0.scrollDirection = .horizontal
@@ -100,7 +100,7 @@ final class RothemRoomReservationViewController: BaseViewController {
     $0.isSkeletonable = true
   }
   
-  private let selectedTimeCollectionView = UICollectionView(
+  private let selectedTimeCollectionView = AutoSizingCollectionView(
     frame: .zero,
     collectionViewLayout: LeftAlignedCollectionViewFlowLayout().then {
       $0.sectionInset = UIEdgeInsets(top: .zero, left: .zero, bottom: 19, right: .zero)
@@ -284,33 +284,13 @@ final class RothemRoomReservationViewController: BaseViewController {
       $0.height.greaterThanOrEqualTo(98)
     }
     
-    selectedDayLabel.snp.makeConstraints {
-      $0.height.equalTo(22)
-    }
-    
     containerView.setCustomSpacing(16, after: selectedDayLabel)
     
     selectedDayCollectionView.snp.makeConstraints {
       $0.height.equalTo(75)
     }
     
-    selectedTimeLabel.snp.makeConstraints {
-      $0.height.equalTo(22)
-    }
-    
     containerView.setCustomSpacing(16, after: selectedTimeLabel)
-    
-    selectedTimeCollectionView.snp.makeConstraints {
-      $0.height.equalTo(33 * 5 + 3 * 6 + 23 * 2 + 19 * 2)
-    }
-    
-    nameTextField.snp.makeConstraints {
-      $0.height.equalTo(40)
-    }
-    
-    phoneNumberTextField.snp.makeConstraints {
-      $0.height.greaterThanOrEqualTo(40)
-    }
     
     reservationButton.snp.makeConstraints {
       $0.height.equalTo(49)

@@ -80,42 +80,26 @@ final class FindIDViewController: BaseViewController {
   
   override func setupLayouts() {
     super.setupLayouts()
-    [containerView].forEach { view.addSubview($0) }
+    [containerView, buttonStackView].forEach { view.addSubview($0) }
     [cancelButton, continueButton].forEach { buttonStackView.addArrangedSubview($0) }
-    [titleLabel, alertLabel, schoolEmailTextField, buttonStackView].forEach { containerView.addArrangedSubview($0) }
+    [titleLabel, alertLabel, schoolEmailTextField].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
     containerView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
-    }
-    
-    titleLabel.snp.makeConstraints {
-      $0.height.equalTo(30)
-    }
-    
-    alertLabel.snp.makeConstraints {
-      $0.height.equalTo(38)
-    }
-    
-    schoolEmailTextField.snp.makeConstraints {
-      $0.height.greaterThanOrEqualTo(73)
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
     }
     
     containerView.setCustomSpacing(7, after: titleLabel)
     
     buttonStackView.snp.makeConstraints {
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
+      $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? Device.bottomInset : 12)
       $0.directionalHorizontalEdges.width.equalToSuperview().inset(15)
       $0.height.equalTo(48)
-    }
-    
-    [cancelButton, continueButton].forEach {
-      $0.snp.makeConstraints {
-        $0.height.equalTo(48)
-      }
     }
   }
   
@@ -179,7 +163,7 @@ extension FindIDViewController {
     let keyboardHeight = keyboardSize.height
 
     buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 + keyboardHeight : 12 + keyboardHeight)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 6 + keyboardHeight : 12 + keyboardHeight)
     }
 
     UIView.animate(withDuration: 0.2) {
@@ -191,7 +175,7 @@ extension FindIDViewController {
   func keyboardWillHide(_ sender: Notification) {
 
     buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? Device.bottomInset : 12)
     }
     
     UIView.animate(withDuration: 0.2) {

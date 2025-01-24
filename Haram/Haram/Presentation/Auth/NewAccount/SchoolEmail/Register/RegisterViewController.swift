@@ -131,8 +131,7 @@ final class RegisterViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     _ = [scrollView, indicatorView].map { view.addSubview($0) }
-    scrollView.addSubview(stackView)
-    scrollView.addSubview(registerButton)
+    [stackView, registerButton].forEach { scrollView.addSubview($0) }
     [titleLabel, alertLabel, idTextField, nicknameTextField, pwdTextField, repwdTextField, emailTextField].forEach { stackView.addArrangedSubview($0) }
   }
   
@@ -159,12 +158,6 @@ final class RegisterViewController: BaseViewController {
       $0.height.equalTo(48)
       $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
       $0.directionalHorizontalEdges.width.equalToSuperview().inset(15)
-    }
-    
-    [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField].forEach {
-      $0.snp.makeConstraints {
-        $0.height.greaterThanOrEqualTo(46 + 18 + 10)
-      }
     }
   }
   

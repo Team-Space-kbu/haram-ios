@@ -14,15 +14,7 @@ import Then
 final class UpdatePasswordViewController: BaseViewController {
   
   private let viewModel: UpdatePasswordViewModel
-  
-  private lazy var scrollView = UIScrollView().then {
-    $0.showsVerticalScrollIndicator = false
-    $0.showsHorizontalScrollIndicator = false
-    $0.backgroundColor = .clear
-    $0.alwaysBounceVertical = true
-    $0.delegate = self
-  }
-  
+
   private let containerView = UIStackView().then {
     $0.axis = .vertical
     $0.isLayoutMarginsRelativeArrangement = true
@@ -74,12 +66,6 @@ final class UpdatePasswordViewController: BaseViewController {
     $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "변경하기", contentInsets: .zero)
   }
   
-  private let tapGesture = UITapGestureRecognizer(target: MoreUpdatePasswordViewController.self, action: nil).then {
-    $0.numberOfTapsRequired = 1
-    $0.cancelsTouchesInView = false
-    $0.isEnabled = true
-  }
-  
   init(viewModel: UpdatePasswordViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -99,45 +85,19 @@ final class UpdatePasswordViewController: BaseViewController {
     removeKeyboardNotification()
   }
   
-  override func setupStyles() {
-    super.setupStyles()
-    view.addGestureRecognizer(tapGesture)
-  }
-  
   override func setupLayouts() {
     super.setupLayouts()
-    view.addSubview(scrollView)
-    scrollView.addSubview(containerView)
+    [containerView, buttonStackView].forEach { view.addSubview($0) }
     [cancelButton, continueButton].forEach { buttonStackView.addArrangedSubview($0) }
-    [titleLabel, alertLabel, updatepPasswordTextField, checkUpdatePasswordTextField, buttonStackView].forEach { containerView.addArrangedSubview($0) }
+    [titleLabel, alertLabel, updatepPasswordTextField, checkUpdatePasswordTextField].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
-    
-    scrollView.snp.makeConstraints {
-      $0.directionalEdges.width.equalToSuperview()
-    }
-    
-    containerView.snp.makeConstraints {
-      $0.directionalVerticalEdges.width.equalToSuperview()
-      $0.height.greaterThanOrEqualTo(view.safeAreaLayoutGuide)
-    }
-    
-    titleLabel.snp.makeConstraints {
-      $0.height.equalTo(30)
-    }
-    
-    alertLabel.snp.makeConstraints {
-      $0.height.equalTo(38)
-    }
 
-    updatepPasswordTextField.snp.makeConstraints {
-      $0.height.equalTo(73)
-    }
-    
-    checkUpdatePasswordTextField.snp.makeConstraints {
-      $0.height.greaterThanOrEqualTo(73)
+    containerView.snp.makeConstraints {
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.lessThanOrEqualToSuperview()
     }
     
     containerView.setCustomSpacing(7, after: titleLabel)
@@ -145,7 +105,8 @@ final class UpdatePasswordViewController: BaseViewController {
     containerView.setCustomSpacing(10, after: checkUpdatePasswordTextField)
     
     buttonStackView.snp.makeConstraints {
-      $0.bottom.equalToSuperview()
+      $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? Device.bottomInset : 12)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(48)
     }
@@ -160,12 +121,6 @@ final class UpdatePasswordViewController: BaseViewController {
       didTapUpdateButton: continueButton.rx.tap.asObservable()
     )
     let output = viewModel.transform(input: input)
-    
-    tapGesture.rx.event
-      .subscribe(with: self) { owner, _ in
-        owner.view.endEditing(true)
-      }
-      .disposed(by: disposeBag)
  
     output.isContinueButtonEnabled
       .bind(to: continueButton.rx.isEnabled)
@@ -220,7 +175,7 @@ extension UpdatePasswordViewController {
     let keyboardHeight = keyboardSize.height
 
     buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(keyboardHeight)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 6 + keyboardHeight : 12 + keyboardHeight)
     }
 
     UIView.animate(withDuration: 0.2) {
@@ -232,19 +187,10 @@ extension UpdatePasswordViewController {
   func keyboardWillHide(_ sender: Notification) {
 
     buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview()
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? Device.bottomInset : 12)
     }
     UIView.animate(withDuration: 0.2) {
       self.view.layoutIfNeeded()
-    }
-  }
-}
-
-extension UpdatePasswordViewController: UIScrollViewDelegate {
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
-      // 위에서 아래로 스크롤하는 경우
-      view.endEditing(true)
     }
   }
 }

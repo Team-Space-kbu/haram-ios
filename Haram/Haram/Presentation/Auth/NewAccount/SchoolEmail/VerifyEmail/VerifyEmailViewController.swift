@@ -88,22 +88,13 @@ final class VerifyEmailViewController: BaseViewController {
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
-    schoolEmailTextField.snp.makeConstraints {
-      $0.height.greaterThanOrEqualTo(74) // 에러라벨이 없는 경우 높이 74, 있다면 74 + 28
-    }
-    
     containerView.setCustomSpacing(7, after: titleLabel)
     
     buttonStackView.snp.makeConstraints {
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
+      $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? Device.bottomInset : 12)
       $0.directionalHorizontalEdges.width.equalToSuperview().inset(15)
       $0.height.equalTo(48)
-    }
-    
-    [cancelButton, continueButton].forEach {
-      $0.snp.makeConstraints {
-        $0.height.equalTo(48)
-      }
     }
   }
   
@@ -164,7 +155,7 @@ extension VerifyEmailViewController {
     let keyboardHeight = keyboardSize.height
     
     buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 + keyboardHeight : 12 + keyboardHeight)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 6 + keyboardHeight : 12 + keyboardHeight)
     }
     
     UIView.animate(withDuration: 0.2) {
@@ -176,7 +167,7 @@ extension VerifyEmailViewController {
   func keyboardWillHide(_ sender: Notification) {
     
     buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? Device.bottomInset : 12)
     }
     
     UIView.animate(withDuration: 0.2) {

@@ -96,18 +96,6 @@ final class CheckIDViewController: BaseViewController {
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
-    titleLabel.snp.makeConstraints {
-      $0.height.equalTo(30)
-    }
-    
-    alertLabel.snp.makeConstraints {
-      $0.height.equalTo(38)
-    }
-    
-    checkEmailTextField.snp.makeConstraints {
-      $0.height.equalTo(74)
-    }
-    
     reRequestAlertView.snp.makeConstraints {
       $0.height.equalTo(19)
     }
@@ -117,15 +105,9 @@ final class CheckIDViewController: BaseViewController {
     
     buttonStackView.snp.makeConstraints {
       $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? Device.bottomInset : 12)
       $0.directionalHorizontalEdges.width.equalToSuperview().inset(15)
       $0.height.equalTo(48)
-    }
-    
-    [cancelButton, continueButton].forEach {
-      $0.snp.makeConstraints {
-        $0.height.equalTo(48)
-      }
     }
   }
   
@@ -208,7 +190,7 @@ extension CheckIDViewController {
     let keyboardHeight = keyboardSize.height
     
     buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 + keyboardHeight : 12 + keyboardHeight)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? 6 + keyboardHeight : 12 + keyboardHeight)
     }
     
     UIView.animate(withDuration: 0.2) {
@@ -220,7 +202,7 @@ extension CheckIDViewController {
   func keyboardWillHide(_ sender: Notification) {
     
     buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
+      $0.bottom.equalToSuperview().inset(Device.isNotch ? Device.bottomInset : 12)
     }
     
     UIView.animate(withDuration: 0.2) {

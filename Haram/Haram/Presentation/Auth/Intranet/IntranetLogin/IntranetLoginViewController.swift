@@ -23,12 +23,13 @@ final class IntranetLoginViewController: BaseViewController {
     $0.axis = .vertical
     $0.spacing = 10
     $0.isLayoutMarginsRelativeArrangement = true
-    $0.layoutMargins = .init(top: 95, left: 15, bottom: .zero, right: 15)
+    $0.layoutMargins = .init(top: 15, left: 15, bottom: .zero, right: 15)
   }
   
   private let logoImageView = UIImageView().then {
     $0.image = UIImage(resource: .intranetLoginLogo)
     $0.contentMode = .scaleAspectFit
+    $0.layer.masksToBounds = true
   }
   
   private let loginLabel = UILabel().then {
@@ -45,7 +46,7 @@ final class IntranetLoginViewController: BaseViewController {
   
   private let idTextField = HaramTextField(placeholder: "아이디")
   
-  private let pwTextField = HaramTextField(placeholder: "비밀번호").then {
+  private let pwTextField = HaramTextField(placeholder: "비밀번호", options: .errorLabel).then {
     $0.textField.isSecureTextEntry = true
   }
   
@@ -59,11 +60,6 @@ final class IntranetLoginViewController: BaseViewController {
     $0.configuration?.font = .regular14
     $0.configuration?.background.cornerRadius = 10
     $0.configuration?.baseForegroundColor = .hex2F2E41
-  }
-  
-  private lazy var errorMessageLabel = UILabel().then {
-    $0.textColor = .red
-    $0.font = .regular14
   }
   
   private let indicatorView = UIActivityIndicatorView(style: .large)
@@ -110,28 +106,12 @@ final class IntranetLoginViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     containerStackView.snp.makeConstraints {
-      $0.top.equalToSuperview()
-      $0.directionalHorizontalEdges.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
       $0.bottom.lessThanOrEqualToSuperview()
     }
     
     indicatorView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview()
-    }
-    
-    logoImageView.snp.makeConstraints {
-      $0.width.equalTo(300)
-      $0.height.equalTo(210)
-    }
-    
-    errorMessageLabel.snp.makeConstraints {
-      $0.height.equalTo(18)
-    }
-    
-    [idTextField, pwTextField].forEach {
-      $0.snp.makeConstraints {
-        $0.height.equalTo(45)
-      }
     }
     
     loginButton.snp.makeConstraints {
@@ -144,7 +124,7 @@ final class IntranetLoginViewController: BaseViewController {
       $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
     }
     
-    containerStackView.setCustomSpacing(28, after: intranetLabel)
+    containerStackView.setCustomSpacing(20, after: intranetLabel)
   }
   
   override func bind() {
@@ -173,11 +153,7 @@ final class IntranetLoginViewController: BaseViewController {
             }
           ])
         } else {
-          let isContain = owner.containerStackView.subviews.contains(owner.errorMessageLabel)
-          if !isContain {
-            owner.containerStackView.insertArrangedSubview(owner.errorMessageLabel, at: 5)
-            owner.errorMessageLabel.text = error.description
-          }
+          owner.pwTextField.setError(description: error.description ?? "")
         }
       }
       .disposed(by: disposeBag)
@@ -211,6 +187,7 @@ extension IntranetLoginViewController {
   func keyboardWillShow(_ notification: Notification) {
     
     guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+          let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
           let currentTextField = UIResponder.getCurrentResponder() as? UITextField else { return }
     
     // Y축으로 키보드의 상단 위치
@@ -225,14 +202,10 @@ extension IntranetLoginViewController {
     
     // Y축으로 텍스트필드 하단 위치가 키보드 상단 위치보다 클 때 (즉, 텍스트필드가 키보드에 가려질 때가 되겠죠!)
     if textFieldBottomY > keyboardTopY {
-      let textFieldTopY = convertedTextFieldFrame.origin.y
-      // 노가다를 통해서 모든 기종에 적절한 크기를 설정함.
-      let newFrame = textFieldTopY - keyboardTopY/1.6
-      
-      UIView.animate(withDuration: 0.1, animations: {
-        self.containerStackView.transform = CGAffineTransform(translationX: 0, y: -newFrame)
-      })
-      
+      let offset = textFieldBottomY - keyboardTopY
+      UIView.animate(withDuration: duration) {
+        self.containerStackView.transform = CGAffineTransform(translationX: 0, y: -offset)
+      }
     }
   }
   
@@ -250,12 +223,6 @@ extension IntranetLoginViewController: UITextFieldDelegate {
       pwTextField.textField.becomeFirstResponder()
     } else if textField == pwTextField.textField {
       pwTextField.textField.resignFirstResponder()
-      
-      let isContain = self.containerStackView.subviews.contains(self.errorMessageLabel)
-      
-      if isContain {
-        self.errorMessageLabel.removeFromSuperview()
-      }
     }
     return true
   }
