@@ -165,8 +165,14 @@ final class BoardDetailViewController: BaseViewController {
         owner.boardDetailTopView.postingTitleLabel.text = model.boardTitle
         owner.boardDetailTopView.postingDescriptionLabel.addLineSpacing(lineSpacing: 2, string: model.boardContent)
         owner.boardDetailTopView.postingInfoView.configureUI(isUpdatable: model.isUpdatable, content: DateformatterFactory.dateWithSlash.string(from: model.boardDate) + " | " + model.boardAuthorName)
-        owner.boardDetailTopView.pageControl.numberOfPages = owner.viewModel.boardImageModel.count
         owner.boardCommentListView.boardDetailCollectionView.reloadData()
+        
+        guard !owner.viewModel.boardImageModel.isEmpty else {
+          owner.boardDetailTopView.boardImageCollectionView.removeFromSuperview()
+          owner.boardDetailTopView.pageControl.removeFromSuperview()
+          return
+        }
+        owner.boardDetailTopView.pageControl.numberOfPages = owner.viewModel.boardImageModel.count
         owner.boardDetailTopView.boardImageCollectionView.reloadData()
       }
       .disposed(by: disposeBag)
