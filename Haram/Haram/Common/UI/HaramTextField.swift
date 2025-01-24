@@ -12,20 +12,19 @@ import RxCocoa
 import SnapKit
 import Then
 
-protocol HaramTextFieldDelegate: AnyObject {
-  func didTappedButton()
-  func didTappedReturnKey()
-}
-
 final class HaramTextField: UIView {
   
   // MARK: - Property
   
-  weak var delegate: HaramTextFieldDelegate?
-  private let disposeBag = DisposeBag()
   private let options: HaramTextFieldOptions
   
   // MARK: - UI Components
+  
+  private let contentStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.backgroundColor = .clear
+    $0.spacing = 10
+  }
   
   private let titleLabel = UILabel().then {
     $0.font = .regular14
@@ -61,10 +60,6 @@ final class HaramTextField: UIView {
     $0.textAlignment = .left
   }
   
-  private lazy var haramButton = UIButton(configuration: .plain()).then {
-    $0.configurationUpdateHandler = $0.configuration?.haramButton(label: "확인코드발송", contentInsets: .zero)
-  }
-  
   // MARK: - Initializations
   
   init(
@@ -75,7 +70,6 @@ final class HaramTextField: UIView {
     self.options = options
     super.init(frame: .zero)
     configureUI(title: title, placeholder: placeholder)
-    bind()
   }
   
   required init?(coder: NSCoder) {
@@ -84,66 +78,25 @@ final class HaramTextField: UIView {
   
   // MARK: - Configurations
   
-  private func bind() {
-    haramButton.rx.tap
-      .throttle(.seconds(3), scheduler: MainScheduler.instance)
-      .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedButton()
-      }
-      .disposed(by: disposeBag)
-    
-    textField.rx.controlEvent(.editingDidEndOnExit)
-      .subscribe(with: self) { owner, _ in
-        owner.delegate?.didTappedButton()
-      }
-      .disposed(by: disposeBag)
-  }
-  
   private func configureUI(title: String?, placeholder: String) {
     textField.attributedPlaceholder = NSAttributedString(
       string: placeholder,
       attributes: [.font: UIFont.regular14, .foregroundColor: UIColor.hex9F9FA4]
     )
     
-    /// 만약에 타이틀이 존재하는 경우
-    if let title = title {
-      titleLabel.text = title
-      addSubview(titleLabel)
-      addSubview(textField)
-      titleLabel.snp.makeConstraints {
-        $0.top.directionalHorizontalEdges.equalToSuperview()
-        $0.height.equalTo(18)
-      }
-      
-      textField.snp.makeConstraints {
-        $0.top.equalTo(titleLabel.snp.bottom).offset(10)
-        $0.leading.equalToSuperview()
-        $0.width.equalTo(UIScreen.main.bounds.width - 30)
-        $0.height.equalTo(46)
-      }
-    } else {
-      /// 모든 HaramTextField는 textField를 가지고있음
-      addSubview(textField)
-      textField.snp.makeConstraints {
-        $0.top.directionalHorizontalEdges.equalToSuperview()
-        $0.height.equalTo(46)
-      }
+    addSubview(contentStackView)
+    contentStackView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
     }
     
-    
-    if options.contains(.addButton) {
-      addSubview(haramButton)
+    if let title = title {
+      titleLabel.text = title
       
-      textField.snp.updateConstraints {
-        $0.width.equalTo(182)
-      }
-      
-      haramButton.snp.makeConstraints {
-        $0.leading.equalTo(textField.snp.trailing).offset(196 - 15 - 167)
-        $0.centerY.equalTo(textField)
-        $0.trailing.equalToSuperview()
-        $0.height.equalTo(46)
-      }
+      contentStackView.addArrangedSubview(titleLabel)
+    }
+    contentStackView.addArrangedSubview(textField)
+    textField.snp.makeConstraints {
+      $0.height.equalTo(44)
     }
     
     if options.contains(.defaultEmail) {
@@ -158,25 +111,28 @@ final class HaramTextField: UIView {
 extension HaramTextField {
   func removeError() {
     guard options.contains(.errorLabel) else { return }
-    if subviews.contains(errorLabel) {
-      errorLabel.removeFromSuperview()
+    if contentStackView.subviews.contains(errorLabel) {
+      UIView.animate(withDuration: 0.2, animations: {
+        self.errorLabel.alpha = 0
+      }, completion: { _ in
+        self.errorLabel.removeFromSuperview()
+      })
     }
   }
   
   func setError(description: String, textColor: UIColor = .red) {
     guard options.contains(.errorLabel) else { return }
-    addSubview(errorLabel)
-    errorLabel.snp.makeConstraints {
-      $0.top.equalTo(textField.snp.bottom).offset(10)
-      $0.directionalHorizontalEdges.equalToSuperview()
-      $0.bottom.lessThanOrEqualToSuperview()
-    }
     errorLabel.text = description
     errorLabel.textColor = textColor
-  }
-  
-  func setButtonType(isEnabled: Bool) {
-    haramButton.isEnabled = isEnabled
+    
+    if !contentStackView.subviews.contains(errorLabel) {
+      errorLabel.alpha = 0
+      contentStackView.addArrangedSubview(errorLabel)
+      
+      UIView.animate(withDuration: 0.2) {
+        self.errorLabel.alpha = 1
+      }
+    }
   }
 }
 
@@ -184,8 +140,7 @@ struct HaramTextFieldOptions: OptionSet {
   let rawValue: UInt
   
   static let defaultEmail = HaramTextFieldOptions(rawValue: 1 << 0) // 디폴트 이메일
-  static let addButton = HaramTextFieldOptions(rawValue: 1 << 1) // 버튼 추가
-  static let errorLabel = HaramTextFieldOptions(rawValue: 1 << 2) // 에러 라벨 추가
+  static let errorLabel = HaramTextFieldOptions(rawValue: 1 << 1) // 에러 라벨 추가
   
 }
 
