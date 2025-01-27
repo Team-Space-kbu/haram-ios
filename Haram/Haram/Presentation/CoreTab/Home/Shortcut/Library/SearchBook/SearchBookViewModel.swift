@@ -38,7 +38,7 @@ final class SearchBookViewModel: ViewModelType {
   
   struct Output {
     let reloadData = PublishRelay<Void>()
-    let errorMessage = PublishRelay<HaramError>()
+    let errorMessage = BehaviorRelay<HaramError?>(value: nil)
     let isBookResultEmpty = PublishRelay<Bool>()
   }
   
@@ -49,7 +49,7 @@ final class SearchBookViewModel: ViewModelType {
   
   func transform(input: Input) -> Output {
     let output = Output()
-    
+
     Observable.merge(
       input.viewDidLoad,
       input.didScrollToBottom

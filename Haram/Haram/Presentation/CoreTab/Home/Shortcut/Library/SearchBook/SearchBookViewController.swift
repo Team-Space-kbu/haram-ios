@@ -80,9 +80,10 @@ final class SearchBookViewController: BaseViewController {
       .disposed(by: disposeBag)
     
     output.errorMessage
+      .compactMap { $0 }
       .subscribe(with: self) { owner, error in
         if error == .networkError {
-          AlertManager.showAlert(message: .networkUnavailable, actions: [
+          AlertManager.showAlert(on: owner.navigationController, message: .networkUnavailable, actions: [
             DefaultAlertButton {
               guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
               if UIApplication.shared.canOpenURL(url) {
