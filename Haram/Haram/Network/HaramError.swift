@@ -89,16 +89,22 @@ enum HaramError: Error, CaseIterable {
 }
 
 extension HaramError {
+  private static let errorMap: [String: HaramError] = {
+    var map = [String: HaramError]()
+    HaramError.allCases.forEach { error in
+      if let code = error.code {
+        map[code] = error
+      }
+    }
+    return map
+  }()
   
   static func isExist(with code: String) -> Bool {
-    return HaramError.allCases.contains(where: { $0.code == code })
+    errorMap[code] != nil
   }
   
   static func getError(with code: String) -> Self {
-    guard let error = HaramError.allCases.first(where: { $0.code == code }) else {
-      return .unknownedError
-    }
-    return error
+    errorMap[code] ?? .unknownedError
   }
 }
 
