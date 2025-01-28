@@ -11,6 +11,7 @@
 		570A2EA073FBC50BC2D9DF03 /* Pods_Haram_HaramUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A1EC7EFC2BABF1ABF61A9F /* Pods_Haram_HaramUITests.framework */; };
 		7001DA892B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7001DA882B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift */; };
 		7001DA8B2B6E17C10037D599 /* LogoutUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7001DA8A2B6E17C10037D599 /* LogoutUserRequest.swift */; };
+		701936692D48E13000A83E53 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 701936682D48E13000A83E53 /* Swinject */; };
 		701F29C42AE6750100E3E68B /* InquireBoardDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29C32AE6750100E3E68B /* InquireBoardDetailResponse.swift */; };
 		701F29C62AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29C52AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift */; };
 		701F29D72AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29D62AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift */; };
@@ -803,6 +804,7 @@
 				70912FFD2B15F463005B88B4 /* QRCode in Frameworks */,
 				706BA0C029E6A26D00AF12D4 /* Then in Frameworks */,
 				50B6DCB19B5D4253A75CBE3C /* Pods_Haram.framework in Frameworks */,
+				701936692D48E13000A83E53 /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2105,6 +2107,7 @@
 				708E1E5F2B038A6E0030FAA0 /* FloatingPanel */,
 				70912FFC2B15F463005B88B4 /* QRCode */,
 				70AD2A8D2B90AF4900CB9791 /* SDWebImageSVGCoder */,
+				701936682D48E13000A83E53 /* Swinject */,
 			);
 			productName = Haram;
 			productReference = 70727A5129D87B25003DE956 /* Haram.app */;
@@ -2191,6 +2194,7 @@
 				708E1E5E2B038A6E0030FAA0 /* XCRemoteSwiftPackageReference "FloatingPanel" */,
 				70912FFB2B15F463005B88B4 /* XCRemoteSwiftPackageReference "QRCode" */,
 				70AD2A8C2B90AF4900CB9791 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */,
+				701936672D48E13000A83E53 /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			productRefGroup = 70727A5229D87B25003DE956 /* Products */;
 			projectDirPath = "";
@@ -3079,6 +3083,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		701936672D48E13000A83E53 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
+			};
+		};
 		70375EF62AA5B6110032F6B8 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Juanpe/SkeletonView";
@@ -3154,6 +3166,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		701936682D48E13000A83E53 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 701936672D48E13000A83E53 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
 		70375EF72AA5B6110032F6B8 /* SkeletonView */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 70375EF62AA5B6110032F6B8 /* XCRemoteSwiftPackageReference "SkeletonView" */;
