@@ -11,6 +11,7 @@
 		570A2EA073FBC50BC2D9DF03 /* Pods_Haram_HaramUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A1EC7EFC2BABF1ABF61A9F /* Pods_Haram_HaramUITests.framework */; };
 		7001DA892B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7001DA882B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift */; };
 		7001DA8B2B6E17C10037D599 /* LogoutUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7001DA8A2B6E17C10037D599 /* LogoutUserRequest.swift */; };
+		7013FEA22D59E36A006B5EEF /* Ex + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7013FEA12D59E36A006B5EEF /* Ex + String.swift */; };
 		701936692D48E13000A83E53 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 701936682D48E13000A83E53 /* Swinject */; };
 		701F29C42AE6750100E3E68B /* InquireBoardDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29C32AE6750100E3E68B /* InquireBoardDetailResponse.swift */; };
 		701F29C62AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701F29C52AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift */; };
@@ -412,6 +413,7 @@
 		5EC0519CBFDE41E3F4682993 /* Pods-Haram-HaramUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haram-HaramUITests.release.xcconfig"; path = "Target Support Files/Pods-Haram-HaramUITests/Pods-Haram-HaramUITests.release.xcconfig"; sourceTree = "<group>"; };
 		7001DA882B6E170C0037D599 /* ReissuanceAccessTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceAccessTokenRequest.swift; sourceTree = "<group>"; };
 		7001DA8A2B6E17C10037D599 /* LogoutUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutUserRequest.swift; sourceTree = "<group>"; };
+		7013FEA12D59E36A006B5EEF /* Ex + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex + String.swift"; sourceTree = "<group>"; };
 		701F29C32AE6750100E3E68B /* InquireBoardDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireBoardDetailResponse.swift; sourceTree = "<group>"; };
 		701F29C52AE6A06D00E3E68B /* InquireRothemHomeInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireRothemHomeInfoResponse.swift; sourceTree = "<group>"; };
 		701F29D62AE7C95A00E3E68B /* InquireRothemRoomInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquireRothemRoomInfoResponse.swift; sourceTree = "<group>"; };
@@ -1055,6 +1057,7 @@
 				70B310912BA1798200EF21CE /* Ex + UIButton.swift */,
 				70DC8F562C9C6F78006DDAF7 /* Ex + UIStackView.swift */,
 				70DBADE32D3ECA31007C6687 /* Ex + UIApplication.swift */,
+				7013FEA12D59E36A006B5EEF /* Ex + String.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -2453,6 +2456,7 @@
 				70B310A32BB2E8A100EF21CE /* AffiliatedDetailViewController.swift in Sources */,
 				70AED7D62CEE109800AB22C5 /* ChapelCoordinator.swift in Sources */,
 				70AD2A792B8B1B4F00CB9791 /* LogHelper.swift in Sources */,
+				7013FEA22D59E36A006B5EEF /* Ex + String.swift in Sources */,
 				7083124C2A2F88EE00F7E283 /* RequestBookInfoResponse.swift in Sources */,
 				708312C22A7A6F2900F7E283 /* PaddingLabel.swift in Sources */,
 				708312642A3977B500F7E283 /* BookDetailViewModel.swift in Sources */,
