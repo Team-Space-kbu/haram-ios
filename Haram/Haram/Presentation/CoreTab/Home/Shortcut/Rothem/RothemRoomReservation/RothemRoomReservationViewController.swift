@@ -122,18 +122,20 @@ final class RothemRoomReservationViewController: BaseViewController {
     $0.isSkeletonable = true
   }
   
-  private let nameTextField = HaramTextField(placeholder: "이름").then {
+  private lazy var nameTextField = HaramTextField(placeholder: "이름").then {
     $0.isSkeletonable = true
     $0.textField.isSkeletonable = true
+    $0.textField.delegate = self
   }
   
-  private let phoneNumberTextField = HaramTextField(
+  private lazy var phoneNumberTextField = HaramTextField(
     placeholder: "전화번호(- 없이 입력)",
     options: .errorLabel
   ).then {
     $0.textField.keyboardType = .phonePad
     $0.isSkeletonable = true
     $0.textField.isSkeletonable = true
+    $0.textField.delegate = self
   }
   
   private let reservationButton = UIButton(configuration: .plain()).then {
@@ -272,7 +274,8 @@ final class RothemRoomReservationViewController: BaseViewController {
   override func setupConstraints() {
     super.setupConstraints()
     scrollView.snp.makeConstraints {
-      $0.directionalVerticalEdges.width.equalToSuperview()
+      $0.top.width.equalToSuperview()
+      $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
     }
     
     containerView.snp.makeConstraints {
@@ -284,13 +287,9 @@ final class RothemRoomReservationViewController: BaseViewController {
       $0.height.greaterThanOrEqualTo(98)
     }
     
-    containerView.setCustomSpacing(16, after: selectedDayLabel)
-    
     selectedDayCollectionView.snp.makeConstraints {
       $0.height.equalTo(75)
     }
-    
-    containerView.setCustomSpacing(16, after: selectedTimeLabel)
     
     reservationButton.snp.makeConstraints {
       $0.height.equalTo(49)
@@ -462,9 +461,16 @@ extension RothemRoomReservationViewController: UIGestureRecognizerDelegate {
   }
 }
 
-extension RothemRoomReservationViewController: KeyboardResponder {
-  public var targetView: UIView {
-    view
+// MARK: - UITextFieldDelegate
+
+extension RothemRoomReservationViewController: UITextFieldDelegate {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    if textField == nameTextField.textField {
+      phoneNumberTextField.textField.becomeFirstResponder()
+    } else if textField == phoneNumberTextField.textField {
+      phoneNumberTextField.resignFirstResponder()
+    }
+    return true
   }
 }
 
