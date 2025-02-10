@@ -62,16 +62,6 @@ final class CheckAuthCodeViewModel: ViewModelType {
 }
 
 extension CheckAuthCodeViewModel {
-  private func isValidBibleEmail(_ email: String) -> Bool {
-    // 이메일 형식 정규식
-    let emailRegex = "[A-Z0-9a-z._%+-]+@bible\\.ac\\.kr"
-    
-    // NSPredicate를 사용하여 정규식과 매칭되는지 확인
-    let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegex)
-    
-    return emailPredicate.evaluate(with: email)
-  }
-  
   private func isValidAuthCode(authCode: String) -> Bool {
     return authCode.count == 6
   }

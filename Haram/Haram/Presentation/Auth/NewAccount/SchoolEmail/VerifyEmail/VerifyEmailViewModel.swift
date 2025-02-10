@@ -59,16 +59,6 @@ final class VerifyEmailViewModel: ViewModelType {
 }
 
 extension VerifyEmailViewModel {
-  private func isValidBibleEmail(_ email: String) -> Bool {
-      // 이메일 형식 정규식
-      let emailRegex = "[A-Z0-9a-z._%+-]+@bible\\.ac\\.kr"
-      
-      // NSPredicate를 사용하여 정규식과 매칭되는지 확인
-      let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegex)
-      
-      return emailPredicate.evaluate(with: email)
-  }
-  
   private func requestEmailAuthCode(output: Output, email: String) {
     let userEmail = email + "@bible.ac.kr"
     dependency.authRepository.requestEmailAuthCode(userEmail: userEmail)

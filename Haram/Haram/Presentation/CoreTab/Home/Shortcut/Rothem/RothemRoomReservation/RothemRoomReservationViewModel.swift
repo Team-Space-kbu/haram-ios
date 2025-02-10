@@ -64,7 +64,7 @@ final class RothemRoomReservationViewModel: ViewModelType {
       input.didEditReservationName
     ) { [weak self] in
       guard let self = self else { return false }
-      return self.isValidPhoneNumber($0) && $1.filter { !$0.isChecked }.isEmpty && (!$2.isEmpty || !$3.isEmpty) && !$4.isEmpty
+      return $0.isEvaluate(.phoneNumber) && $1.filter { !$0.isChecked }.isEmpty && (!$2.isEmpty || !$3.isEmpty) && !$4.isEmpty
     }
     .bind(to: output.isEnabledReservationButton)
     .disposed(by: disposeBag)
@@ -313,15 +313,6 @@ final class RothemRoomReservationViewModel: ViewModelType {
     })
     .disposed(by: disposeBag)
   }
-  
-  private func isValidPhoneNumber(_ phoneNumber: String) -> Bool {
-    // 전화번호 형식: XXX-XXXX-XXXX 또는 XXXXXXXXXX
-    let phoneRegex = #"^\d{3}-?\d{4}-?\d{4}$"#
-    
-    let phonePredicate = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
-    return phonePredicate.evaluate(with: phoneNumber)
-  }
-  
 }
 
 extension RothemRoomReservationViewModel {

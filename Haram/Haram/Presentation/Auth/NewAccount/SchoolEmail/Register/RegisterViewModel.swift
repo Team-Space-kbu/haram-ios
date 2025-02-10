@@ -113,34 +113,6 @@ final class RegisterViewModel: ViewModelType {
     })
     .disposed(by: disposeBag)
   }
-  
-  private func isValidPassword(_ password: String) -> Bool {
-    // 적어도 하나의 알파벳, 숫자, 특수 문자를 포함하는 정규 표현식
-    let passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$"
-    
-    // 정규 표현식과 매치되는지 확인
-    let regexTest = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
-    return regexTest.evaluate(with: password)
-  }
-  
-  private func isValidAlphanumeric(_ input: String) -> Bool {
-    // 영어 또는 숫자로만 이루어진 정규 표현식
-    let alphanumericRegex = "^[a-zA-Z0-9]*$"
-    
-    // 정규 표현식과 매치되는지 확인
-    let regexTest = NSPredicate(format: "SELF MATCHES %@", alphanumericRegex)
-    return regexTest.evaluate(with: input)
-  }
-  
-  private func isValidKoreanAlphanumeric(_ input: String) -> Bool {
-    // 한글, 영어, 숫자로만 이루어진 정규 표현식
-    let koreanAlphanumericRegex = "^[ㄱ-ㅎ가-힣a-zA-Z0-9]*$"
-    
-    // 정규 표현식과 매치되는지 확인
-    let regexTest = NSPredicate(format: "SELF MATCHES %@", koreanAlphanumericRegex)
-    return regexTest.evaluate(with: input)
-  }
-  
 }
 
 extension RegisterViewModel {
@@ -158,8 +130,8 @@ extension RegisterViewModel {
   
   func isValid(output: Output, id: String) -> Bool {
     // userId가 4~30자, 영어 or 숫자만 가능
-
-    let isUnValid = 4 > id.count || 30 < id.count || !isValidAlphanumeric(id)
+    
+    let isUnValid = 4 > id.count || 30 < id.count || !id.isEvaluate(.alphanumeric)
     LogHelper.debug("아이디 유효안함 \(isUnValid)")
     if isUnValid {
       output.errorMessageRelay.accept(.unvalidUserIDFormat)
@@ -172,7 +144,7 @@ extension RegisterViewModel {
   
     func isValid(output: Output, password: String) -> Bool {
   
-      let isUnValid = !isValidPassword(password)
+      let isUnValid = !password.isEvaluate(.password)
       LogHelper.debug("비번 유효안함 \(isUnValid)")
       if isUnValid {
         output.errorMessageRelay.accept(.unvalidpasswordFormat)
@@ -185,7 +157,7 @@ extension RegisterViewModel {
   
     func isValid(output: Output, nickname: String) -> Bool {
   
-      let isUnValid = 0..<2 ~= nickname.count || 15 < nickname.count || !isValidKoreanAlphanumeric(nickname)
+      let isUnValid = 0..<2 ~= nickname.count || 15 < nickname.count || !nickname.isEvaluate(.koreanAlphanumeric)
       LogHelper.debug("닉네임 유효안함 \(isUnValid)")
       if isUnValid {
         output.errorMessageRelay.accept(.unvalidNicknameFormat)
