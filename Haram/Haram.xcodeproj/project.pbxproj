@@ -843,8 +843,16 @@
 		7013FE952D58E558006B5EEF /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				7013FE962D597F16006B5EEF /* UseCase */,
 			);
 			path = Domain;
+			sourceTree = "<group>";
+		};
+		7013FE962D597F16006B5EEF /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UseCase;
 			sourceTree = "<group>";
 		};
 		701FC8A62B9CAC5800291FC3 /* Image */ = {
