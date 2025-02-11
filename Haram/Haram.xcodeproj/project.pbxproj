@@ -842,21 +842,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		7013FE952D58E558006B5EEF /* Domain */ = {
-			isa = PBXGroup;
-			children = (
-				7013FE962D597F16006B5EEF /* UseCase */,
-			);
-			path = Domain;
-			sourceTree = "<group>";
-		};
-		7013FE962D597F16006B5EEF /* UseCase */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UseCase;
-			sourceTree = "<group>";
-		};
 		701FC8A62B9CAC5800291FC3 /* Image */ = {
 			isa = PBXGroup;
 			children = (
@@ -989,7 +974,6 @@
 				70B310BF2BB7231500EF21CE /* Configuration */,
 				70DC8F4F2C99F81E006DDAF7 /* Common */,
 				708DACF52B35A44D00E3AD45 /* Presentation */,
-				7013FE952D58E558006B5EEF /* Domain */,
 				70727A8629D87DFA003DE956 /* Network */,
 				70A24ED22BC44C4F00572FAE /* GoogleService-Info.plist */,
 				701FC8922B96FA8F00291FC3 /* Pods-Haram-acknowledgements.plist */,
