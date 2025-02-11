@@ -108,7 +108,7 @@ final class EditBoardViewController: BaseViewController {
     $0.spellCheckingType = .no
   }
   
-  private lazy var editBoardCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
+  private lazy var editBoardCollectionView = AutoSizingCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
     $0.minimumLineSpacing = 25
     $0.minimumInteritemSpacing = 25
   }).then {
@@ -137,15 +137,15 @@ final class EditBoardViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotifications()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
-  }
+//  override func viewWillAppear(_ animated: Bool) {
+//    super.viewWillAppear(animated)
+//    registerNotifications()
+//  }
+//  
+//  override func viewWillDisappear(_ animated: Bool) {
+//    super.viewWillDisappear(animated)
+//    removeNotifications()
+//  }
   
   override func setupStyles() {
     super.setupStyles()
@@ -245,14 +245,15 @@ final class EditBoardViewController: BaseViewController {
   override func setupLayouts() {
     super.setupLayouts()
     view.addSubview(scrollView)
-    _ = [containerView].map { scrollView.addSubview($0) }
-    _ = [boardTitleLabel, titleTextField, boardContentLabel, contentTextView, editBoardCollectionView].map { containerView.addArrangedSubview($0) }
+    scrollView.addSubview(containerView)
+    [boardTitleLabel, titleTextField, boardContentLabel, contentTextView, editBoardCollectionView].forEach { containerView.addArrangedSubview($0) }
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     scrollView.snp.makeConstraints {
-      $0.directionalEdges.equalToSuperview()
+      $0.top.directionalHorizontalEdges.equalToSuperview()
+      $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
     }
     
     containerView.snp.makeConstraints {
@@ -274,10 +275,6 @@ final class EditBoardViewController: BaseViewController {
     
     contentTextView.snp.makeConstraints {
       $0.height.equalTo(209)
-    }
-    
-    editBoardCollectionView.snp.makeConstraints {
-      $0.height.equalTo(169)
     }
   }
   
@@ -468,54 +465,6 @@ extension EditBoardViewController: UIScrollViewDelegate {
     if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
       // 위에서 아래로 스크롤하는 경우
       view.endEditing(true)
-    }
-  }
-}
-
-extension EditBoardViewController {
-  func registerNotifications() {
-    NotificationCenter.default.addObserver(
-      self, selector: #selector(keyboardWillShow(_:)),
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil
-    )
-    
-    NotificationCenter.default.addObserver(
-      self, selector: #selector(keyboardWillHide(_:)),
-      name: UIResponder.keyboardWillHideNotification,
-      object: nil
-    )
-  }
-  
-  func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  func keyboardWillShow(_ sender: Notification) {
-    guard let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-      return
-    }
-    
-    let keyboardHeight = keyboardSize.height
-    
-    containerView.snp.updateConstraints {
-      $0.bottom.lessThanOrEqualToSuperview().inset(keyboardHeight)
-    }
-    
-    UIView.animate(withDuration: 0.2) {
-      self.view.layoutIfNeeded()
-    }
-  }
-  
-  @objc
-  func keyboardWillHide(_ sender: Notification) {
-    containerView.snp.updateConstraints {
-      $0.bottom.lessThanOrEqualToSuperview()
-    }
-    
-    UIView.animate(withDuration: 0.2) {
-      self.view.layoutIfNeeded()
     }
   }
 }
