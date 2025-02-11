@@ -75,16 +75,6 @@ final class UpdatePasswordViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerKeyboardNotification()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeKeyboardNotification()
-  }
-  
   override func setupLayouts() {
     super.setupLayouts()
     [containerView, buttonStackView].forEach { view.addSubview($0) }
@@ -106,7 +96,7 @@ final class UpdatePasswordViewController: BaseViewController {
     
     buttonStackView.snp.makeConstraints {
       $0.top.greaterThanOrEqualTo(containerView.snp.bottom)
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? Device.bottomInset : 12)
+      $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(Device.isNotch ? -6 : -12)
       $0.directionalHorizontalEdges.equalToSuperview().inset(15)
       $0.height.equalTo(48)
     }
@@ -146,52 +136,3 @@ final class UpdatePasswordViewController: BaseViewController {
       .disposed(by: disposeBag)
   }
 }
-
-extension UpdatePasswordViewController {
-  func registerKeyboardNotification() {
-    NotificationCenter.default.addObserver(
-      self, selector: #selector(keyboardWillShow(_:)),
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil
-    )
-
-    NotificationCenter.default.addObserver(
-      self, selector: #selector(keyboardWillHide(_:)),
-      name: UIResponder.keyboardWillHideNotification,
-      object: nil
-    )
-  }
-
-  func removeKeyboardNotification() {
-    NotificationCenter.default.removeObserver(self)
-  }
-
-  @objc
-  func keyboardWillShow(_ sender: Notification) {
-    guard let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-      return
-    }
-
-    let keyboardHeight = keyboardSize.height
-
-    buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 6 + keyboardHeight : 12 + keyboardHeight)
-    }
-
-    UIView.animate(withDuration: 0.2) {
-      self.view.layoutIfNeeded()
-    }
-  }
-
-  @objc
-  func keyboardWillHide(_ sender: Notification) {
-
-    buttonStackView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? Device.bottomInset : 12)
-    }
-    UIView.animate(withDuration: 0.2) {
-      self.view.layoutIfNeeded()
-    }
-  }
-}
-
