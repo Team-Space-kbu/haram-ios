@@ -75,16 +75,6 @@ final class BoardDetailViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotifications()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
-  }
-  
   // MARK: - Configurations
   
   override func setupStyles() {
@@ -131,7 +121,7 @@ final class BoardDetailViewController: BaseViewController {
         $0.top.equalTo(scrollView.snp.bottom)
         $0.directionalHorizontalEdges.equalToSuperview()
         $0.height.greaterThanOrEqualTo(Device.isNotch ? 91 - 20 : 91 - 20 - 15)
-        $0.bottom.equalToSuperview()
+        $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
       }
     }
     
@@ -288,54 +278,6 @@ extension BoardDetailViewController: UIGestureRecognizerDelegate {
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true
-  }
-}
-
-extension BoardDetailViewController {
-  func registerNotifications() {
-    NotificationCenter.default.addObserver(
-      self, selector: #selector(keyboardWillShow(_:)),
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil
-    )
-    
-    NotificationCenter.default.addObserver(
-      self, selector: #selector(keyboardWillHide(_:)),
-      name: UIResponder.keyboardWillHideNotification,
-      object: nil
-    )
-  }
-  
-  func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc
-  func keyboardWillShow(_ sender: Notification) {
-    guard let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-      return
-    }
-    
-    let keyboardHeight = keyboardSize.height
-    
-    commentInputView.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(keyboardHeight)
-    }
-    
-    UIView.animate(withDuration: 0.2) {
-      self.view.layoutIfNeeded()
-    }
-  }
-  
-  @objc
-  func keyboardWillHide(_ sender: Notification) {
-    commentInputView.snp.updateConstraints {
-      $0.bottom.equalToSuperview()
-    }
-    
-    UIView.animate(withDuration: 0.2) {
-      self.view.layoutIfNeeded()
-    }
   }
 }
 
