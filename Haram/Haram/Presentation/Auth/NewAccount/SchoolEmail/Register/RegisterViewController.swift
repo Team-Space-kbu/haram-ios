@@ -104,16 +104,6 @@ final class RegisterViewController: BaseViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    registerNotifications()
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    removeNotifications()
-  }
-  
   // MARK: - Configurations
   
   override func setupStyles() {
@@ -121,8 +111,6 @@ final class RegisterViewController: BaseViewController {
     navigationController?.navigationBar.isHidden = true
     view.addGestureRecognizer(tapGesture)
     [idTextField, pwdTextField, repwdTextField, nicknameTextField, emailTextField].forEach { $0.textField.delegate = self }
-    
-    registerNotifications()
     
     scrollView.delegate = self
     emailTextField.textField.text = viewModel.verifiedEmail
@@ -139,7 +127,8 @@ final class RegisterViewController: BaseViewController {
     super.setupConstraints()
     
     scrollView.snp.makeConstraints {
-      $0.directionalEdges.width.equalToSuperview()
+      $0.top.directionalHorizontalEdges.width.equalToSuperview()
+      $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
     }
     
     indicatorView.snp.makeConstraints {
@@ -306,56 +295,6 @@ extension RegisterViewController: UIGestureRecognizerDelegate {
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     // tap gesture과 swipe gesture 두 개를 다 인식시키기 위해 해당 delegate 추가
     return true
-  }
-}
-
-extension RegisterViewController {
-  
-  func registerNotifications() {
-    NotificationCenter.default.addObserver(
-      forName: UIResponder.keyboardWillShowNotification,
-      object: nil,
-      queue: nil
-    ) { [weak self] notification in
-      self?.keyboardWillShow(notification)
-    }
-    
-    NotificationCenter.default.addObserver(
-      forName: UIResponder.keyboardWillHideNotification,
-      object: nil,
-      queue: nil
-    ) { [weak self] notification in
-      self?.keyboardWillHide(notification)
-    }
-  }
-  
-  func removeNotifications() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  func keyboardWillShow(_ notification: Notification) {
-    
-    guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-    
-    let keyboardHeight = keyboardFrame.cgRectValue.height
-    
-    registerButton.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 + keyboardHeight : 12 + keyboardHeight)
-    }
-    
-    UIView.animate(withDuration: 0.2) {
-      self.view.layoutIfNeeded()
-    }
-  }
-  
-  func keyboardWillHide(_ notification: Notification) {
-    registerButton.snp.updateConstraints {
-      $0.bottom.equalToSuperview().inset(Device.isNotch ? 24 : 12)
-    }
-    
-    UIView.animate(withDuration: 0.2) {
-      self.view.layoutIfNeeded()
-    }
   }
 }
 
